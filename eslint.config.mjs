@@ -64,12 +64,7 @@ export default defineConfig(
       'react/no-unknown-property': [
         'error',
         {
-          ignore: [
-            'wds-component',
-            'wds-ignore-first-focus',
-            'wds-ignore-dismissable-layer',
-            'css',
-          ],
+          ignore: ['css'],
         },
       ],
 

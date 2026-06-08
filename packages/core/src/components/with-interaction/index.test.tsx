@@ -26,7 +26,7 @@ describe('when given with-interaction component', () => {
     expect(
       screen
         .getByTestId('element')
-        .querySelector('[wds-component="with-interaction"]'),
+        .querySelector('[data-component="with-interaction"]'),
     ).toBeInTheDocument();
   });
 
@@ -35,7 +35,7 @@ describe('when given with-interaction component', () => {
       await axe(
         screen
           .getByTestId('element')
-          .querySelector('[wds-component="with-interaction"]') as Element,
+          .querySelector('[data-component="with-interaction"]') as Element,
       ),
     ).toHaveNoViolations();
   });
@@ -43,7 +43,7 @@ describe('when given with-interaction component', () => {
   it('should have correct initial styles', () => {
     const element = screen
       .getByTestId('element')
-      .querySelector('[wds-component="with-interaction"]') as HTMLElement;
+      .querySelector('[data-component="with-interaction"]') as HTMLElement;
 
     expect(element).toBeInTheDocument();
     expect(element).toHaveStyle({
@@ -85,7 +85,7 @@ describe('when given with-interaction component with color prop', () => {
 
     const colorElement = screen
       .getByTestId('color-element')
-      .querySelector('[wds-component="with-interaction"]') as HTMLElement;
+      .querySelector('[data-component="with-interaction"]') as HTMLElement;
 
     expect(colorElement).toBeInTheDocument();
     expect(colorElement).toHaveStyle({

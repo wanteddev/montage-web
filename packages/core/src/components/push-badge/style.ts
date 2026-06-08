@@ -16,10 +16,10 @@ export const pushBadgeWrapperStyle =
     position: relative;
     border-radius: inherit;
 
-    --wds-push-badge-offset-x: ${offsetX ?? '0px'};
-    --wds-push-badge-offset-y: ${offsetY ?? '0px'};
+    --push-badge-offset-x: ${offsetX ?? '0px'};
+    --push-badge-offset-y: ${offsetY ?? '0px'};
 
-    & > [wds-component='push-badge'] {
+    & > [data-component='push-badge'] {
       ${pushBadgeSizeStyle({ variant, size })}
     }
 
@@ -30,18 +30,18 @@ export const pushBadgeWrapperStyle =
       (params) => css`
         ${params?.size &&
         css`
-          & > [wds-component='push-badge'] {
+          & > [data-component='push-badge'] {
             ${pushBadgeSizeStyle({ variant, size })}
           }
         `}
 
         ${params?.offsetX !== undefined &&
         css`
-          --wds-push-badge-offset-x: ${params.offsetX};
+          --push-badge-offset-x: ${params.offsetX};
         `}
           ${params?.offsetY !== undefined &&
         css`
-          --wds-push-badge-offset-y: ${params.offsetY};
+          --push-badge-offset-y: ${params.offsetY};
         `}
         ${params?.sx}
       `,
@@ -60,10 +60,10 @@ export const pushBadgeStyle =
     ${pushBadgeVariantStyle({ variant }, theme)}
   `;
 
-// Adjacent sibling can expose `--wds-icon-button-inset` to pull the badge
+// Adjacent sibling can expose `--icon-button-inset` to pull the badge
 // inward by that amount (e.g. IconButton normal variant aligning badge to the
 // icon edge instead of the padded chrome edge). Defaults to 0px → no effect.
-const INSET = 'var(--wds-icon-button-inset, 0px)';
+const INSET = 'var(--icon-button-inset, 0px)';
 
 const pushBadgePositionStyle = ({ position, invisible }: PushBadgeProps) => {
   const transform = `${invisible ? 'scale(0)' : 'scale(1)'} translate(-50%, -50%)`;
@@ -71,58 +71,58 @@ const pushBadgePositionStyle = ({ position, invisible }: PushBadgeProps) => {
   switch (position) {
     case 'top-left':
       return css`
-        top: calc(0px + var(--wds-push-badge-offset-y) + ${INSET});
-        left: calc(0px + var(--wds-push-badge-offset-x) + ${INSET});
+        top: calc(0px + var(--push-badge-offset-y) + ${INSET});
+        left: calc(0px + var(--push-badge-offset-x) + ${INSET});
         transform: ${transform};
       `;
     case 'top-center':
       return css`
-        top: calc(0px + var(--wds-push-badge-offset-y) + ${INSET});
-        left: calc(50% + var(--wds-push-badge-offset-x));
+        top: calc(0px + var(--push-badge-offset-y) + ${INSET});
+        left: calc(50% + var(--push-badge-offset-x));
         transform: ${transform};
       `;
     case 'top-right':
       return css`
-        top: calc(0px + var(--wds-push-badge-offset-y) + ${INSET});
-        left: calc(100% + var(--wds-push-badge-offset-x) - ${INSET});
+        top: calc(0px + var(--push-badge-offset-y) + ${INSET});
+        left: calc(100% + var(--push-badge-offset-x) - ${INSET});
         transform: ${transform};
       `;
 
     case 'middle-left':
       return css`
-        top: calc(50% + var(--wds-push-badge-offset-y));
-        left: calc(0px + var(--wds-push-badge-offset-x) + ${INSET});
+        top: calc(50% + var(--push-badge-offset-y));
+        left: calc(0px + var(--push-badge-offset-x) + ${INSET});
         transform: ${transform};
       `;
     case 'middle-center':
       return css`
-        top: calc(50% + var(--wds-push-badge-offset-y));
-        left: calc(50% + var(--wds-push-badge-offset-x));
+        top: calc(50% + var(--push-badge-offset-y));
+        left: calc(50% + var(--push-badge-offset-x));
         transform: ${transform};
       `;
     case 'middle-right':
       return css`
-        top: calc(50% + var(--wds-push-badge-offset-y));
-        left: calc(100% + var(--wds-push-badge-offset-x) - ${INSET});
+        top: calc(50% + var(--push-badge-offset-y));
+        left: calc(100% + var(--push-badge-offset-x) - ${INSET});
         transform: ${transform};
       `;
 
     case 'bottom-left':
       return css`
-        top: calc(100% + var(--wds-push-badge-offset-y) - ${INSET});
-        left: calc(0px + var(--wds-push-badge-offset-x) + ${INSET});
+        top: calc(100% + var(--push-badge-offset-y) - ${INSET});
+        left: calc(0px + var(--push-badge-offset-x) + ${INSET});
         transform: ${transform};
       `;
     case 'bottom-center':
       return css`
-        top: calc(100% + var(--wds-push-badge-offset-y) - ${INSET});
-        left: calc(50% + var(--wds-push-badge-offset-x));
+        top: calc(100% + var(--push-badge-offset-y) - ${INSET});
+        left: calc(50% + var(--push-badge-offset-x));
         transform: ${transform};
       `;
     case 'bottom-right':
       return css`
-        top: calc(100% + var(--wds-push-badge-offset-y) - ${INSET});
-        left: calc(100% + var(--wds-push-badge-offset-x) - ${INSET});
+        top: calc(100% + var(--push-badge-offset-y) - ${INSET});
+        left: calc(100% + var(--push-badge-offset-x) - ${INSET});
         transform: ${transform};
       `;
   }

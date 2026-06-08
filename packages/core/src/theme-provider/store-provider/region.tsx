@@ -36,20 +36,20 @@ const RegionArea = () => {
   return (
     <>
       <Box
-        wds-ignore-dismissable-layer="true"
+        data-ignore-dismissable-layer="true"
         style={
           {
-            '--wds-region-viewport-max-width': `calc(${config.viewportMaxWidth})`,
-            '--wds-region-viewport-bottom': `calc(env(safe-area-inset-bottom, 0px) + ${config.viewportBottom})`,
+            '--region-viewport-max-width': `calc(${config.viewportMaxWidth})`,
+            '--region-viewport-bottom': `calc(env(safe-area-inset-bottom, 0px) + ${config.viewportBottom})`,
           } as CSSProperties
         }
         role="region"
         aria-live="polite"
-        id="wds-region-manager"
+        id="montage-region-manager"
         aria-label="Notifications"
       >
         <Box
-          id="wds-region-manager-bottom"
+          id="montage-region-manager-bottom"
           sx={(theme) => ({
             position: 'fixed',
             zIndex: 5500,
@@ -60,11 +60,11 @@ const RegionArea = () => {
             alignItems: 'center',
             display: 'flex',
             flexDirection: 'column',
-            maxWidth: 'var(--wds-region-viewport-max-width, 100%)',
+            maxWidth: 'var(--region-viewport-max-width, 100%)',
             padding: '20px',
             left: '50%',
             transform: 'translateX(-50%)',
-            bottom: 'var(--wds-region-viewport-bottom, 0px)',
+            bottom: 'var(--region-viewport-bottom, 0px)',
             paddingBottom: '40px',
             [`@media (max-width: ${theme.breakpoint.sm})`]: {
               minWidth: '100%',

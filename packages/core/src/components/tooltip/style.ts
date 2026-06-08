@@ -75,7 +75,7 @@ export const tooltipWrapperSizeStyle = ({
         [data-role='tooltip-content-close-button'] {
           font-size: 10px;
 
-          & > [wds-component='with-interaction'] {
+          & > [data-component='with-interaction'] {
             width: calc(100% + 8px);
             height: calc(100% + 8px);
           }
@@ -113,7 +113,7 @@ export const tooltipWrapperSizeStyle = ({
         [data-role='tooltip-content-close-button'] {
           font-size: 16px;
 
-          & > [wds-component='with-interaction'] {
+          & > [data-component='with-interaction'] {
             width: calc(100% + 16px);
             height: calc(100% + 16px);
           }
@@ -161,7 +161,7 @@ export const tooltipContentStyle = (theme: Theme) => css`
     )} !important;
   }
 
-  [wds-component='with-interaction'] {
+  [data-component='with-interaction'] {
     background: ${theme.semantic.inverse.label};
   }
 `;

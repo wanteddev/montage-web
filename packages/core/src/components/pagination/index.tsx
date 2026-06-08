@@ -373,7 +373,7 @@ const PaginationField = forwardRef<
   } = usePaginationContext(PAGINATION_FIELD_NAME);
 
   return (
-    <FlexBox wds-component="pagination-field" alignItems="center" gap="8px">
+    <FlexBox data-component="pagination-field" alignItems="center" gap="8px">
       <Label
         variant="label2"
         weight="medium"

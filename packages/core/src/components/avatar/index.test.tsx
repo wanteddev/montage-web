@@ -13,7 +13,7 @@ describe('when given avatar component', () => {
   it('should render fallback when src is absent and render image after src is provided', () => {
     const { container, rerender } = render(<Avatar />);
 
-    const root = container.querySelector('[wds-component="avatar"]')!;
+    const root = container.querySelector('[data-component="avatar"]')!;
     expect(root).toHaveAttribute('data-state', 'idle');
     expect(container.querySelector('img')).not.toBeInTheDocument();
     expect(
@@ -47,7 +47,7 @@ describe('when given avatar component', () => {
 
     const { container, rerender } = render(<Avatar src="/broken.png" />);
 
-    const root = container.querySelector('[wds-component="avatar"]')!;
+    const root = container.querySelector('[data-component="avatar"]')!;
 
     // img first, then effect rejects and Avatar switches to fallback
     expect(container.querySelector('img')).toBeInTheDocument();

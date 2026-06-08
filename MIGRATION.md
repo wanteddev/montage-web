@@ -97,6 +97,44 @@ style={{ zIndex: `calc(${theme.zIndex.modal} + 1)` }}
 
 > **breakpoint 토큰은 var 변환에서 제외되었습니다.** `@media (min-width: ...)` 쿼리에는 CSS variable을 사용할 수 없기 때문입니다.
 
+### CSS Variable 네이밍 변경 (`--wds-` prefix 제거)
+
+컴포넌트 내부에서 사용하는 CSS 변수의 `--wds-` 브랜드 prefix가 제거되었습니다. 대부분 컴포넌트명으로 시작하므로 prefix만 떨어지며(`--wds-modal-translate` → `--modal-translate`), grid의 두 변수는 이름이 지나치게 일반적이어서 컴포넌트 스코프를 붙였습니다.
+
+| 기존                       | 변경                    |
+| -------------------------- | ----------------------- |
+| `--wds-modal-translate`    | `--modal-translate`     |
+| `--wds-switch-width`       | `--switch-width`        |
+| `--wds-table-border-color` | `--table-border-color`  |
+| _그 외 모든 `--wds-*`_     | _`--wds-` 제거_         |
+| `--wds-column-spacing`     | `--grid-column-spacing` |
+| `--wds-row-spacing`        | `--grid-row-spacing`    |
+
+이 변수들은 대부분 라이브러리 내부 전용(element-scoped)이지만, `css\`\``·인라인 style·scss에서 직접 참조하거나 오버라이드한 코드가 있다면 codemod로 자동 변환하세요:
+
+```sh
+npx @montage-ui/codemod@latest css-variable-migration src
+```
+
+codemod는 `.ts`/`.tsx`/`.js`/`.jsx`의 문자열·template literal과 `.css`/`.scss`/`.sass`/`.less` 스타일시트를 함께 변환합니다.
+
+### DOM 식별자(attribute / id) 변경
+
+컴포넌트 식별용 marker attribute와 portal container id가 변경되었습니다.
+
+| 기존                                                | 변경                               | 참조 케이스                    |
+| --------------------------------------------------- | ---------------------------------- | ------------------------------ |
+| `wds-component` (attribute)                         | `data-component`                   | `[wds-component="..."]` 셀렉터 |
+| `wds-ignore-first-focus` (attribute)                | `data-ignore-first-focus`          | focus 제어 attribute           |
+| `wds-ignore-dismissable-layer` (attribute)          | `data-ignore-dismissable-layer`    | dismiss 제어 attribute         |
+| `#wds-region-manager`, `#wds-region-manager-bottom` | `#montage-region-manager(-bottom)` | `querySelector` 참조           |
+
+`[wds-component="..."]` 셀렉터(css/scss), `querySelector('#wds-region-manager-bottom')`, `closest('[wds-ignore-dismissable-layer]')` 등을 직접 사용했다면 codemod로 자동 변환하세요:
+
+```sh
+npx @montage-ui/codemod@latest dom-identifier-migration src
+```
+
 ### Modal
 
 `variant="bottom"`, `handle={true}`의 기본 동작이 변경되었습니다.

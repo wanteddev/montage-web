@@ -82,7 +82,7 @@ export const wrapperStyle = css`
 `;
 
 export const navigationStyle = (theme: Theme) => css`
-  --wds-top-navigation-padding-x: 24px;
+  --top-navigation-padding-x: 24px;
   position: relative;
   background-color: transparent;
   backdrop-filter: none;

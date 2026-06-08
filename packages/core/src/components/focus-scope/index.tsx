@@ -267,7 +267,7 @@ const FocusScopeWrapper = forwardRef<
           onKeyDown={composeEventHandlers(props.onKeyDown, handleKeyDown)}
         />
         <span
-          wds-component="focus-guard"
+          data-component="focus-guard"
           tabIndex={trapped ? 0 : -1}
           style={{
             outline: 'none',

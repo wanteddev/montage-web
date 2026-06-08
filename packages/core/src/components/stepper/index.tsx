@@ -57,7 +57,7 @@ const Stepper = forwardRef<
         )}
       >
         <FlexBox
-          wds-component="stepper"
+          data-component="stepper"
           aria-label="progress"
           ref={ref}
           {...props}
@@ -101,7 +101,7 @@ const StepperItem = forwardRef<
       <FlexBox
         as="li"
         ref={ref}
-        wds-component="stepper-item"
+        data-component="stepper-item"
         aria-current={isActive ? 'step' : undefined}
         aria-label={`Step ${index}`}
         alignItems="center"

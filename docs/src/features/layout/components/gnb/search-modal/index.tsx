@@ -86,8 +86,8 @@ export const DocSearchModal = ({
         aria-haspopup="listbox"
         style={
           {
-            '--wds-modal-content-margin': '16px',
-            '--wds-action-area-margin-y': '16px',
+            '--modal-content-margin': '16px',
+            '--action-area-margin-y': '16px',
           } as CSSProperties
         }
       >

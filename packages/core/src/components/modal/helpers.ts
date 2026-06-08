@@ -101,7 +101,7 @@ type ApplySnapOptions = {
  * drag cycle.
  *
  * - `peek`: keeps the sheet at its natural (full) height and slides the whole
- *   thing down via `--wds-modal-translate: calc(100% - peekHeight)`, leaving
+ *   thing down via `--modal-translate: calc(100% - peekHeight)`, leaving
  *   exactly `peekHeight` visible at the bottom. Holding height steady avoids
  *   reflowing the content (and resetting scroll position) every time peek
  *   toggles.
@@ -126,17 +126,17 @@ export const applySnap = (
   // order would let the CSS transition catch the handoff frame and animate
   // the drag→CSS jump even when the values are visually identical.
   container.style.removeProperty('box-shadow');
-  container.style.removeProperty('--wds-modal-max-height');
+  container.style.removeProperty('--modal-max-height');
 
   dimmer?.style.removeProperty('opacity');
 
   if (snap === 'peek') {
     container.style.setProperty(
-      '--wds-modal-translate',
+      '--modal-translate',
       `calc(100% - ${peekHeight}px)`,
     );
   } else {
-    container.style.removeProperty('--wds-modal-translate');
+    container.style.removeProperty('--modal-translate');
   }
 
   container.style.removeProperty('transition');
@@ -228,7 +228,7 @@ export const rubberBand = (
  * Resolve the sheet's **snap-independent** full max-height — i.e. what the
  * sheet's height would be at `data-snap='full'` regardless of the current snap.
  *
- * Mirrors the CSS `--wds-modal-default-max-height` calc directly:
+ * Mirrors the CSS `--modal-default-max-height` calc directly:
  *   `100% (≈ viewport) - safe-area-inset-top - 40px`
  *
  * Computing this in JS instead of probing the DOM avoids the cascade /
@@ -258,7 +258,7 @@ export const computeFullMaxHeight = (): number => {
 /**
  * Pick which visual technique drives the in-flight drag.
  *
- * - `translate`: only `--wds-modal-translate` is updated; the sheet slides
+ * - `translate`: only `--modal-translate` is updated; the sheet slides
  *   downward as a whole while its `height` stays fixed.
  * - `height`: inline `height` is updated, growing or shrinking the sheet
  *   from its top edge.
@@ -477,9 +477,9 @@ export const resolveNonFlexibleReleaseSnap = ({
  * Compute the inline style values needed to render the in-flight drag.
  *
  * Returns one of:
- * - `mode='height'`: set `--wds-modal-max-height` to `height`, clear translate.
- * - `mode='translate'`: set `--wds-modal-translate` to `translate` (and
- *   optionally fix `--wds-modal-max-height` so the sheet doesn't reflow as it
+ * - `mode='height'`: set `--modal-max-height` to `height`, clear translate.
+ * - `mode='translate'`: set `--modal-translate` to `translate` (and
+ *   optionally fix `--modal-max-height` so the sheet doesn't reflow as it
  *   slides). `peek` start derives translate from the live `visualHeight` so
  *   re-grabs mid-settle pick up at the actual current visible position.
  */

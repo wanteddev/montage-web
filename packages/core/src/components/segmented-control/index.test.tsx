@@ -16,7 +16,7 @@ describe('when given segmented control component', () => {
 
   function getItem(container: HTMLElement, value: string) {
     return container.querySelector(
-      `[wds-component="segmented-control-item"][data-value="${value}"]`,
+      `[data-component="segmented-control-item"][data-value="${value}"]`,
     );
   }
 

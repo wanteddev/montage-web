@@ -94,7 +94,7 @@ const FallbackViewImage = forwardRef(
     return (
       <FlexBox
         ref={ref}
-        wds-component="fallback-view-image"
+        data-component="fallback-view-image"
         justifyContent="center"
         alignItems="center"
         {...props}
@@ -116,7 +116,7 @@ const FallbackViewContent = forwardRef(
     return (
       <FlexBox
         ref={ref}
-        wds-component="fallback-view-content"
+        data-component="fallback-view-content"
         flexDirection="column"
         alignItems="center"
         gap="24px"
@@ -165,7 +165,7 @@ const FallbackViewButton = forwardRef(
       <Button
         as={(as || 'button') as ElementType}
         ref={ref}
-        wds-component="fallback-view-button"
+        data-component="fallback-view-button"
         variant="outlined"
         color="assistive"
         {...props}

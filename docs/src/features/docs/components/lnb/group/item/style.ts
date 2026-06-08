@@ -4,19 +4,19 @@ import type { Theme } from '@montage-ui/core';
 
 export const lnbItemStyle = (theme: Theme) => css`
   && {
-    --wds-list-cell-horizontal-padding: 0px;
-    --wds-list-cell-vertical-padding: 7px;
+    --list-cell-horizontal-padding: 0px;
+    --list-cell-vertical-padding: 7px;
   }
 
   &[data-depth='0'] {
     && {
-      --wds-list-cell-vertical-padding: 8px;
+      --list-cell-vertical-padding: 8px;
     }
   }
 
   border-radius: 12px;
 
-  & > [wds-component='with-interaction'] {
+  & > [data-component='with-interaction'] {
     width: calc(100% + var(--lnb-padding) * 2);
   }
 
@@ -40,7 +40,7 @@ export const lnbItemStyle = (theme: Theme) => css`
         transform: translateX(0px);
       }
 
-      &[aria-current='page'] > [wds-component='with-interaction'] {
+      &[aria-current='page'] > [data-component='with-interaction'] {
         opacity: ${theme.opacity[5]};
       }
     }
@@ -56,12 +56,12 @@ export const lnbItemStyle = (theme: Theme) => css`
       color: ${theme.semantic.label.normal};
     }
 
-    & > [wds-component='with-interaction'] {
+    & > [data-component='with-interaction'] {
       opacity: 0.02;
     }
 
     &:active {
-      & > [wds-component='with-interaction'] {
+      & > [data-component='with-interaction'] {
         opacity: ${theme.opacity[12]};
       }
     }

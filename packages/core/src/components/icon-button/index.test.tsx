@@ -4,7 +4,7 @@ import { theme } from '@montage-ui/engine';
 import { IconButton } from '.';
 
 const getButton = (container: HTMLElement) =>
-  container.querySelector('[wds-component="icon-button"]') as HTMLElement;
+  container.querySelector('[data-component="icon-button"]') as HTMLElement;
 
 const getSvg = (container: HTMLElement) =>
   container.querySelector('svg') as unknown as HTMLElement;

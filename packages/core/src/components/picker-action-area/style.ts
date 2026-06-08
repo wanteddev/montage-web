@@ -3,8 +3,8 @@ import { css } from '@montage-ui/engine';
 import type { Theme } from '@montage-ui/engine';
 
 export const pickerActionAreaStyle = (theme: Theme) => css`
-  --wds-action-area-margin-x: 12px;
-  --wds-action-area-margin-y: 10px;
+  --action-area-margin-x: 12px;
+  --action-area-margin-y: 10px;
 
   border-top: 1px solid ${theme.semantic.line.solid.alternative};
   background-color: ${theme.semantic.background.elevated.normal};

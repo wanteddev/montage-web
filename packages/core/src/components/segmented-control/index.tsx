@@ -91,10 +91,10 @@ const SegmentedControl = forwardRef<
       const targetElement = motionThumbRef.current;
 
       const currentElement = parentElement?.querySelector<HTMLDivElement>(
-        `[wds-component="segmented-control-item"][data-value="${prevValue}"]`,
+        `[data-component="segmented-control-item"][data-value="${prevValue}"]`,
       );
       const nextElement = parentElement?.querySelector<HTMLDivElement>(
-        `[wds-component="segmented-control-item"][data-value="${value}"]`,
+        `[data-component="segmented-control-item"][data-value="${value}"]`,
       );
 
       if (variant === 'outlined') {
@@ -162,7 +162,7 @@ const SegmentedControl = forwardRef<
             alignItems="stretch"
             role="radiogroup"
             {...props}
-            wds-component="segmented-control"
+            data-component="segmented-control"
             sx={[
               segmentedControlStyle({ variant, size, xs, sm, md, lg, xl }),
               props.sx,
@@ -248,7 +248,7 @@ const SegmentedControlItem = forwardRef<any, SegmentedControlItemProps>(
           aria-labelledby={id}
           {...props}
           disabled={disabled}
-          wds-component="segmented-control-item"
+          data-component="segmented-control-item"
           data-active={active}
           data-ssr-motion={active}
           sx={[
