@@ -20,6 +20,10 @@ vi.mock('../animation-presence', () => ({
   useAnimationPresence: (open: boolean) => ({ isPresent: open, ref: vi.fn() }),
 }));
 
+// radix DismissableLayer attaches its document `pointerdown` listener in a
+// setTimeout(0); flush it before simulating an outside pointer-down.
+const tick = () => new Promise<void>((resolve) => setTimeout(resolve, 0));
+
 describe('when given modal component', () => {
   beforeEach(() => {
     render(
@@ -58,7 +62,7 @@ describe('when given modal component', () => {
     expect(await axe(screen.getByTestId('modal-content'))).toHaveNoViolations();
   });
 
-  it('should open and close via dimmer click (popup variant)', () => {
+  it('should open and close via dimmer click (popup variant)', async () => {
     render(
       <Modal>
         <ModalTrigger>
@@ -86,7 +90,8 @@ describe('when given modal component', () => {
 
     const dimmer = document.querySelector('[data-role="modal-dimmer"]');
     expect(dimmer).toBeTruthy();
-    if (dimmer) fireEvent.click(dimmer);
+    await tick();
+    if (dimmer) fireEvent.pointerDown(dimmer);
 
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
   });
@@ -97,7 +102,7 @@ describe('when given bottom sheet variant', () => {
     cleanup();
   });
 
-  it('should render handle and hide to peek height when dimmer is clicked (not fully close)', () => {
+  it('should render handle and hide to peek height when dimmer is clicked (not fully close)', async () => {
     render(
       <Modal>
         <ModalTrigger>
@@ -129,7 +134,8 @@ describe('when given bottom sheet variant', () => {
 
     const dimmer = document.querySelector('[data-role="modal-dimmer"]');
     expect(dimmer).toBeTruthy();
-    if (dimmer) fireEvent.click(dimmer);
+    await tick();
+    if (dimmer) fireEvent.pointerDown(dimmer);
 
     // should still exist but be at the peek snap
     expect(screen.getByRole('dialog')).toBeInTheDocument();
@@ -191,7 +197,7 @@ describe('when given flexible bottom sheet', () => {
     expect(screen.getByRole('dialog')).toHaveAttribute('data-snap', 'full');
   });
 
-  it('collapses to peek on dimmer click when peekHeight is set', () => {
+  it('collapses to peek on dimmer click when peekHeight is set', async () => {
     render(
       <Modal>
         <ModalTrigger>
@@ -217,11 +223,12 @@ describe('when given flexible bottom sheet', () => {
 
     fireEvent.click(screen.getByTestId('trigger'));
     const dimmer = document.querySelector('[data-role="modal-dimmer"]');
-    if (dimmer) fireEvent.click(dimmer);
+    await tick();
+    if (dimmer) fireEvent.pointerDown(dimmer);
     expect(screen.getByRole('dialog')).toHaveAttribute('data-snap', 'peek');
   });
 
-  it('closes on dimmer click when peekHeight is not set', () => {
+  it('closes on dimmer click when peekHeight is not set', async () => {
     render(
       <Modal>
         <ModalTrigger>
@@ -242,11 +249,12 @@ describe('when given flexible bottom sheet', () => {
     fireEvent.click(screen.getByTestId('trigger'));
     expect(screen.getByRole('dialog')).toBeInTheDocument();
     const dimmer = document.querySelector('[data-role="modal-dimmer"]');
-    if (dimmer) fireEvent.click(dimmer);
+    await tick();
+    if (dimmer) fireEvent.pointerDown(dimmer);
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
   });
 
-  it('fires onSnapChange when the snap transitions', () => {
+  it('fires onSnapChange when the snap transitions', async () => {
     const onSnapChange = vi.fn();
     render(
       <Modal>
@@ -276,7 +284,8 @@ describe('when given flexible bottom sheet', () => {
     onSnapChange.mockClear();
 
     const dimmer = document.querySelector('[data-role="modal-dimmer"]');
-    if (dimmer) fireEvent.click(dimmer);
+    await tick();
+    if (dimmer) fireEvent.pointerDown(dimmer);
 
     expect(onSnapChange).toHaveBeenCalledWith('peek');
   });
@@ -414,7 +423,7 @@ describe('when dismiss is disabled', () => {
     cleanup();
   });
 
-  it('should not close when dimmer is clicked if disableOutsideClickClose is true', () => {
+  it('should not close when dimmer is clicked if disableOutsideClickClose is true', async () => {
     render(
       <Modal>
         <ModalTrigger>
@@ -437,7 +446,8 @@ describe('when dismiss is disabled', () => {
 
     const dimmer = document.querySelector('[data-role="modal-dimmer"]');
     expect(dimmer).toBeTruthy();
-    if (dimmer) fireEvent.click(dimmer);
+    await tick();
+    if (dimmer) fireEvent.pointerDown(dimmer);
 
     expect(screen.getByRole('dialog')).toBeInTheDocument();
   });
