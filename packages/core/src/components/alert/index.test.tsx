@@ -171,7 +171,7 @@ describe('when dismiss is disabled', () => {
     cleanup();
   });
 
-  it('should not close when dimmer is clicked if disableOutsideClickClose is true', () => {
+  it('should not close when dimmer is clicked if disableOutsideClickClose is true', async () => {
     render(
       <Alert>
         <AlertTrigger>
@@ -191,7 +191,8 @@ describe('when dismiss is disabled', () => {
 
     const dimmer = document.querySelector('[data-role="alert-dimmer"]');
     expect(dimmer).toBeTruthy();
-    if (dimmer) fireEvent.click(dimmer);
+    await tick();
+    if (dimmer) fireEvent.pointerDown(dimmer);
 
     expect(screen.getByTestId('alert-content')).toBeInTheDocument();
   });
