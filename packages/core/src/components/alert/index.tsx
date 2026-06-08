@@ -51,12 +51,7 @@ import type {
   AlertProps,
   AlertTriggerProps,
 } from './types';
-import type {
-  ElementType,
-  ForwardedRef,
-  MouseEvent,
-  PointerEvent,
-} from 'react';
+import type { ElementType, ForwardedRef } from 'react';
 import type {
   DefaultComponentPropsInternal,
   PolymorphicComponentInternal,
@@ -103,38 +98,16 @@ const AlertDimmer = forwardRef(
     { as, ...props }: PolymorphicPropsInternal<AlertDimmerProps, T>,
     ref: ForwardedRef<T>,
   ) => {
-    const { disableOutsideClickClose, onDismiss, dimmerRef } =
-      useAlertContainerContext(ALERT_DIMMER_NAME);
-    const { open, setOpen } = useAlertContext(ALERT_DIMMER_NAME);
+    const { dimmerRef } = useAlertContainerContext(ALERT_DIMMER_NAME);
+    const { open } = useAlertContext(ALERT_DIMMER_NAME);
 
     return (
       <Box
         ref={composeRefs(ref, dimmerRef as ForwardedRef<T>)}
         as={(as || 'div') as T}
         {...props}
-        data-ignore-dismissable-layer="true"
         data-role="alert-dimmer"
         data-status={open ? 'open' : 'close'}
-        onClick={composeEventHandlers(
-          props.onClick,
-          (e: MouseEvent<HTMLElement>) => {
-            e.preventDefault();
-            if (!disableOutsideClickClose) {
-              setOpen(false);
-              onDismiss?.();
-            }
-          },
-        )}
-        onPointerDown={composeEventHandlers(
-          props.onPointerDown,
-          (e: PointerEvent<HTMLElement>) => {
-            const target = e.target as HTMLElement;
-
-            if (target.hasPointerCapture(e.pointerId)) {
-              target.releasePointerCapture(e.pointerId);
-            }
-          },
-        )}
         sx={[alertDimmerStyle, props.sx]}
       />
     );
@@ -224,15 +197,12 @@ const AlertContainer = forwardRef(
           disablePortal={disablePortal}
           ref={ref}
         >
-          <FlexBox
-            {...wrapperProps}
-            sx={[alertWrapperStyle, wrapperProps?.sx]}
-            data-ignore-dismissable-layer="true"
-          >
+          <FlexBox {...wrapperProps} sx={[alertWrapperStyle, wrapperProps?.sx]}>
             {dimmer}
 
             <FocusScope loop trapped disableFocusScope={disableFocusScope}>
               <DismissableLayer
+                disableOutsidePointerEvents={!disableAriaHiddenOthers}
                 onPointerDownOutside={(e) => {
                   const originalEvent = e.detail.originalEvent;
                   const ctrlLeftClick =
@@ -244,11 +214,7 @@ const AlertContainer = forwardRef(
                   if (isRightClick || disableOutsideClickClose)
                     e.preventDefault();
                 }}
-                onFocusOutside={(e) => {
-                  if (disableOutsideClickClose) {
-                    e.preventDefault();
-                  }
-                }}
+                onFocusOutside={(e) => e.preventDefault()}
                 onEscapeKeyDown={(e: KeyboardEvent) => {
                   if (disableEscapeKeyDownClose) {
                     e.preventDefault();
@@ -269,7 +235,7 @@ const AlertContainer = forwardRef(
                   <Box
                     ref={composedRef}
                     role="alertdialog"
-                    aria-modal={!disableRemoveScroll || !disableFocusScope}
+                    aria-modal={!disableAriaHiddenOthers}
                     aria-describedby={descriptionId}
                     aria-labelledby={headingId}
                     id={containerId}
