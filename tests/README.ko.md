@@ -5,7 +5,9 @@
 [English](./README.md) | [한국어](./README.ko.md)
 
 commonjs test와 tree-shaking test는 추가로 작성할 필요가 없습니다.
-unit test와 visual test만 작성하는 것을 권장합니다.
+기본적으로 unit test와 visual test를 작성하고, 실제 브라우저에 의존하는
+상호작용(pointer-events 히트테스트, z-index 스태킹, 포털, 포커스 트랩)은
+E2E (interaction) test를 추가합니다 (아래 E2E 섹션 참고).
 
 ## Unit test
 

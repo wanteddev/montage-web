@@ -5,7 +5,9 @@ You can find instructions on how to write tests in this document.
 [English](./README.md) | [한국어](./README.ko.md)
 
 There is no need to write commonjs tests or tree-shaking tests separately.
-We recommend writing only unit tests and visual tests.
+By default, write unit tests and visual tests. Add an E2E (interaction) test
+when the behavior depends on a real browser — pointer-events hit-testing,
+z-index stacking, portals, focus traps (see the E2E section below).
 
 ## Unit test
 
