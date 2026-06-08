@@ -21,9 +21,9 @@ export const sectionHeaderStyle =
     }
 
     [data-role='section-header-trailing-content']
-      [wds-component='icon-button'][data-variant='normal'],
+      [data-component='icon-button'][data-variant='normal'],
     [data-role='section-header-heading-content']
-      [wds-component='icon-button'][data-variant='normal'] {
+      [data-component='icon-button'][data-variant='normal'] {
       color: ${theme.semantic.label.assistive};
     }
 

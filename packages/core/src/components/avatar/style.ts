@@ -82,8 +82,8 @@ const avatarSizeStyle = (
         return css`
           border-radius: 9999px;
 
-          & > [wds-component='with-interaction'],
-          & + [wds-component='with-interaction'] {
+          & > [data-component='with-interaction'],
+          & + [data-component='with-interaction'] {
             border-radius: 9999px;
           }
         `;
@@ -92,8 +92,8 @@ const avatarSizeStyle = (
         return css`
           border-radius: ${rounded}px;
 
-          & > [wds-component='with-interaction'],
-          & + [wds-component='with-interaction'] {
+          & > [data-component='with-interaction'],
+          & + [data-component='with-interaction'] {
             border-radius: ${rounded + 8}px;
           }
 

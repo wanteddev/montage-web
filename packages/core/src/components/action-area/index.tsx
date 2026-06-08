@@ -44,7 +44,7 @@ const ActionArea = forwardRef<
     return (
       <ActionAreaProvider variant={variant}>
         <FlexBox
-          wds-component="action-area"
+          data-component="action-area"
           ref={ref}
           flexShrink={0}
           flexDirection="column"
@@ -65,8 +65,7 @@ const ActionArea = forwardRef<
               alignItems="center"
               data-role="action-area-extra-content"
               sx={{
-                marginBottom:
-                  'calc(4px + var(--wds-action-area-margin-y, 20px))',
+                marginBottom: 'calc(4px + var(--action-area-margin-y, 20px))',
               }}
             >
               {extraContent}

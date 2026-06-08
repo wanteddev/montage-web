@@ -22,15 +22,15 @@ export const modalContainerStyle = (theme: Theme) => css`
 `;
 
 export const modalNavigationStyle = (theme: Theme) => css`
-  --wds-top-navigation-padding-x: 16px;
-  --wds-top-navigation-padding-y: 16px;
+  --top-navigation-padding-x: 16px;
+  --top-navigation-padding-y: 16px;
 
   [data-role='top-navigation-wrapper'] {
     gap: 0px;
   }
 
   ${respondTo(theme.breakpoint.sm)} {
-    --wds-top-navigation-padding-y: 12px;
+    --top-navigation-padding-y: 12px;
   }
 `;
 
@@ -48,8 +48,8 @@ export const searchFieldStyle = (theme: Theme) => css`
 `;
 
 export const actionAreaStyle = (theme: Theme) => css`
-  --wds-action-area-margin-x: 16px;
-  --wds-action-area-margin-y: 16px;
+  --action-area-margin-x: 16px;
+  --action-area-margin-y: 16px;
 
   background-color: ${addOpacity(
     theme.semantic.background.normal.normal,
@@ -59,7 +59,7 @@ export const actionAreaStyle = (theme: Theme) => css`
   border-top: 1px solid ${theme.semantic.line.normal.alternative};
 
   ${respondTo(theme.breakpoint.sm)} {
-    --wds-action-area-margin-x: 20px;
+    --action-area-margin-x: 20px;
   }
 `;
 

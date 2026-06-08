@@ -36,7 +36,7 @@ export const iconButtonStyle =
       cursor: not-allowed;
     }
 
-    & > [wds-component='with-interaction'] {
+    & > [data-component='with-interaction'] {
       width: auto;
       aspect-ratio: 1 / 1;
     }
@@ -59,13 +59,13 @@ export const iconButtonStyle =
   `;
 
 // Exposes the gap between the box edge and the icon edge as
-// `--wds-icon-button-inset` on the adjacent PushBadge sibling so it can align to
+// `--icon-button-inset` on the adjacent PushBadge sibling so it can align to
 // the icon edge (not the chrome edge). Only normal variant has invisible chrome,
 // so this compensation is scoped to 'normal' — other variants keep the badge at
 // the visible chrome corner.
 const badgeInsetStyle = (inset: string) => css`
-  & + [wds-component='push-badge'] {
-    --wds-icon-button-inset: ${inset};
+  & + [data-component='push-badge'] {
+    --icon-button-inset: ${inset};
   }
 `;
 
@@ -179,7 +179,7 @@ const iconButtonColorStyle = (
 
         ${Boolean(interactionColor) &&
         css`
-          & > [wds-component='with-interaction'] {
+          & > [data-component='with-interaction'] {
             background-color: ${getColorByToken(theme, interactionColor!)};
           }
         `}

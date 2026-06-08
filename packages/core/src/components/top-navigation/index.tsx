@@ -50,7 +50,7 @@ const TopNavigation = forwardRef<
   ) => {
     return (
       <FlexBox
-        wds-component="top-navigation"
+        data-component="top-navigation"
         ref={ref}
         flexDirection="column"
         data-background={background}
@@ -189,7 +189,7 @@ const TopNavigationButton = forwardRef(
           variant="normal"
           size={24}
           {...props}
-          wds-component="top-navigation-button"
+          data-component="top-navigation-button"
           ref={ref}
         >
           {children}
@@ -204,7 +204,7 @@ const TopNavigationButton = forwardRef(
           size="medium"
           {...props}
           sx={[topNavigationButtonTextStyle, props.sx]}
-          wds-component="top-navigation-button"
+          data-component="top-navigation-button"
           ref={ref}
         >
           {children}

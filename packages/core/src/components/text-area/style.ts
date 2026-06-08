@@ -108,7 +108,7 @@ export const textAreaWrapperStyle =
     }
 
     [data-radix-scroll-area-viewport] {
-      height: var(--wds-text-area-scroll-height);
+      height: var(--text-area-scroll-height);
     }
 
     ${createResponsiveStyle(
@@ -127,7 +127,7 @@ export const textAreaWrapperStyle =
 export const textAreaStyle =
   ({ xs, sm, md, lg, xl }: TextAreaProps) =>
   (theme: Theme) => css`
-    height: var(--wds-text-area-height);
+    height: var(--text-area-height);
     display: flex;
     flex-direction: column;
     width: 100%;
