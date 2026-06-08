@@ -62,13 +62,7 @@ import type {
   PolymorphicComponentInternal,
   PolymorphicPropsInternal,
 } from '@montage-ui/engine';
-import type {
-  ElementType,
-  ForwardedRef,
-  MouseEvent,
-  PointerEvent,
-  RefObject,
-} from 'react';
+import type { ElementType, ForwardedRef, RefObject } from 'react';
 import type {
   ModalCloseProps,
   ModalContainerProps,
@@ -277,6 +271,11 @@ const ModalContainer = forwardRef(
       isPeek || (snap === 'half' && largestUndimmedSnap === 'half');
     const isVisible = !isUndimmed;
 
+    // Single "modal barrier" predicate: the overlay owns the screen (blocks
+    // pointer + AT). Undimmed sheets (map UIs) intentionally are NOT a barrier.
+    // `disableOutsideClickClose` is orthogonal and only affects dismissal.
+    const isModal = open && isVisible;
+
     useEffect(() => {
       const content = containerRef.current;
 
@@ -346,6 +345,7 @@ const ModalContainer = forwardRef(
           >
             <DismissableLayer
               asChild
+              disableOutsidePointerEvents={isModal && !disableAriaHiddenOthers}
               onPointerDownOutside={(e: PointerDownOutsideEvent) => {
                 const originalEvent = e.detail.originalEvent;
                 const ctrlLeftClick =
@@ -361,11 +361,7 @@ const ModalContainer = forwardRef(
                   e.preventDefault();
                 }
               }}
-              onFocusOutside={(e) => {
-                if (disableOutsideClickClose || isUndimmed) {
-                  e.preventDefault();
-                }
-              }}
+              onFocusOutside={(e) => e.preventDefault()}
               onDismiss={() => {
                 if (!isBottomSheetWithHandle) {
                   onOpenChange(false);
@@ -382,16 +378,11 @@ const ModalContainer = forwardRef(
               >
                 <Box
                   role="dialog"
-                  aria-modal={
-                    open &&
-                    isVisible &&
-                    (!disableRemoveScroll || !disableFocusScope)
-                  }
+                  aria-modal={isModal && !disableAriaHiddenOthers}
                   id={context.containerId}
                   aria-describedby={`${context.descriptionId} ${context.summaryId}`}
                   aria-labelledby={`${context.titleId} ${context.headingId}`}
                   {...props}
-                  data-ignore-dismissable-layer="true"
                   data-snap={snap}
                   data-largest-undimmed-snap={largestUndimmedSnap}
                   data-status={open ? 'open' : 'close'}
@@ -479,16 +470,10 @@ const ModalDimmer = forwardRef(
     { as, ...props }: PolymorphicPropsInternal<ModalDimmerProps, T>,
     ref: ForwardedRef<T>,
   ) => {
-    const { open, onOpenChange } = useModalContext(MODAL_DIMMER_NAME);
+    const { open } = useModalContext(MODAL_DIMMER_NAME);
 
-    const {
-      isBottomSheetWithHandle,
-      dimmerRef,
-      collapseToPeekOrClose,
-      disableOutsideClickClose,
-      snap,
-      largestUndimmedSnap,
-    } = useModalDimmerContext(MODAL_DIMMER_NAME);
+    const { isBottomSheetWithHandle, dimmerRef, snap, largestUndimmedSnap } =
+      useModalDimmerContext(MODAL_DIMMER_NAME);
 
     return (
       <Box
@@ -500,31 +485,7 @@ const ModalDimmer = forwardRef(
         }
         as={as || 'div'}
         {...props}
-        data-ignore-dismissable-layer="true"
         ref={useComposedRefs(ref, dimmerRef as ForwardedRef<T>)}
-        onPointerDown={composeEventHandlers(
-          props.onPointerDown,
-          (e: PointerEvent) => {
-            const target = e.target as HTMLElement;
-
-            if (target.hasPointerCapture(e.pointerId)) {
-              target.releasePointerCapture(e.pointerId);
-            }
-          },
-        )}
-        onClick={composeEventHandlers(props.onClick, (e: MouseEvent) => {
-          if (disableOutsideClickClose) {
-            e.preventDefault();
-            return;
-          }
-
-          if (!isBottomSheetWithHandle) {
-            onOpenChange(false);
-          } else if (snap !== 'peek') {
-            e.preventDefault();
-            collapseToPeekOrClose();
-          }
-        })}
         sx={[modalDimmerStyle, props.sx]}
       />
     );

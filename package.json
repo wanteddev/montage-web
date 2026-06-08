@@ -22,6 +22,7 @@
     "test:visual": "pnpm -F @montage-ui/test-visual test",
     "test:visual:watch": "pnpm -F @montage-ui/test-visual test:watch",
     "test:commonjs": "pnpm -F @montage-ui/test-commonjs test",
+    "test:e2e": "pnpm -F @montage-ui/test-e2e test",
     "test:treeshaking": "pnpm -F @montage-ui/test-tree-shaking test",
     "lerna-deploy": "lerna publish --include-merged-tags",
     "deploy": "node scripts/deploy.mjs",

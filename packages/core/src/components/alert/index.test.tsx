@@ -16,6 +16,10 @@ vi.mock('../animation-presence', () => ({
   useAnimationPresence: (open: boolean) => ({ isPresent: open, ref: vi.fn() }),
 }));
 
+// radix DismissableLayer attaches its document `pointerdown` listener in a
+// setTimeout(0); flush it before simulating an outside pointer-down.
+const tick = () => new Promise<void>((resolve) => setTimeout(resolve, 0));
+
 describe('when given alert component', () => {
   beforeEach(() => {
     render(
@@ -54,13 +58,14 @@ describe('when given alert component', () => {
     expect(screen.queryByTestId('alert-content')).not.toBeInTheDocument();
   });
 
-  it('should close when dimmer is clicked', () => {
+  it('should close when dimmer is clicked', async () => {
     fireEvent.click(screen.getByTestId('alert-trigger'));
     expect(screen.getByTestId('alert-content')).toBeInTheDocument();
 
     const dimmer = document.querySelector('[data-role="alert-dimmer"]');
     expect(dimmer).toBeTruthy();
-    if (dimmer) fireEvent.click(dimmer);
+    await tick();
+    if (dimmer) fireEvent.pointerDown(dimmer);
 
     expect(screen.queryByTestId('alert-content')).not.toBeInTheDocument();
   });
@@ -112,7 +117,7 @@ describe('when two alerts are open simultaneously', () => {
     expect(screen.queryByTestId('alert-content-2')).not.toBeInTheDocument();
   });
 
-  it('should close only the topmost alert when clicking the top dimmer', () => {
+  it('should close only the topmost alert when clicking the top dimmer', async () => {
     render(
       <>
         <Alert>
@@ -153,7 +158,8 @@ describe('when two alerts are open simultaneously', () => {
     expect(dimmers.length).toBeGreaterThanOrEqual(2);
 
     const topmost = dimmers.at(-1);
-    if (topmost) fireEvent.click(topmost);
+    await tick();
+    if (topmost) fireEvent.pointerDown(topmost);
 
     expect(screen.getByTestId('alert-content-1')).toBeInTheDocument();
     expect(screen.queryByTestId('alert-content-2')).not.toBeInTheDocument();
@@ -165,7 +171,7 @@ describe('when dismiss is disabled', () => {
     cleanup();
   });
 
-  it('should not close when dimmer is clicked if disableOutsideClickClose is true', () => {
+  it('should not close when dimmer is clicked if disableOutsideClickClose is true', async () => {
     render(
       <Alert>
         <AlertTrigger>
@@ -185,7 +191,8 @@ describe('when dismiss is disabled', () => {
 
     const dimmer = document.querySelector('[data-role="alert-dimmer"]');
     expect(dimmer).toBeTruthy();
-    if (dimmer) fireEvent.click(dimmer);
+    await tick();
+    if (dimmer) fireEvent.pointerDown(dimmer);
 
     expect(screen.getByTestId('alert-content')).toBeInTheDocument();
   });
