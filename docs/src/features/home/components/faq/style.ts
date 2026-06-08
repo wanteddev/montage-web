@@ -4,9 +4,9 @@ import type { Theme } from '@montage-ui/core';
 
 export const accordionSummaryStyle = (theme: Theme) => css`
   && {
-    --wds-list-cell-vertical-padding: 28px;
-    --wds-list-cell-horizontal-padding: 0px;
-    --wds-list-cell-interaction-padding: 12px;
+    --list-cell-vertical-padding: 28px;
+    --list-cell-horizontal-padding: 0px;
+    --list-cell-interaction-padding: 12px;
   }
 
   border-radius: 0px;
@@ -15,10 +15,10 @@ export const accordionSummaryStyle = (theme: Theme) => css`
   @media (pointer: fine) {
     &:hover {
       ${respondMore('500px')} {
-        --wds-list-cell-horizontal-padding: 10px;
+        --list-cell-horizontal-padding: 10px;
       }
 
-      [wds-component='list-cell-content'] {
+      [data-component='list-cell-content'] {
         color: ${theme.semantic.label.normal};
       }
     }
@@ -26,11 +26,11 @@ export const accordionSummaryStyle = (theme: Theme) => css`
 
   ${respondTo(theme.breakpoint.md)} {
     && {
-      --wds-list-cell-vertical-padding: 28px;
+      --list-cell-vertical-padding: 28px;
     }
   }
 
-  [wds-component='list-cell-content'] {
+  [data-component='list-cell-content'] {
     color: ${theme.semantic.label.assistive};
     transition: color 0.3s ease;
   }

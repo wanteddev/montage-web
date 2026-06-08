@@ -93,7 +93,7 @@ const IconButton = forwardRef(
         <Box
           as={(as || 'button') as ElementType}
           ref={ref}
-          wds-component="icon-button"
+          data-component="icon-button"
           data-variant={variant}
           disabled={disabled}
           type="button"

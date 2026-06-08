@@ -18,17 +18,17 @@ export const switchStyle =
     cursor: pointer;
     height: fit-content;
     flex-shrink: 0;
-    padding: var(--wds-switch-padding, 4px);
-    width: var(--wds-switch-width, 52px);
+    padding: var(--switch-padding, 4px);
+    width: var(--switch-width, 52px);
     transition: background-color 200ms cubic-bezier(0.4, 0, 0.2, 1);
 
-    & > [wds-component='with-interaction'] {
+    & > [data-component='with-interaction'] {
       transition:
         opacity 200ms cubic-bezier(0.4, 0, 0.2, 1),
         background-color 200ms cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    &:active > [wds-component='with-interaction'] {
+    &:active > [data-component='with-interaction'] {
       ${hoverInteractionStyle(theme, 'normal')}
     }
 
@@ -43,8 +43,8 @@ export const switchStyle =
         width 200ms cubic-bezier(0.4, 0, 0.2, 1);
       display: block;
       transform-origin: 100%;
-      width: var(--wds-switch-thumb-size, 24px);
-      height: var(--wds-switch-thumb-size, 24px);
+      width: var(--switch-thumb-size, 24px);
+      height: var(--switch-thumb-size, 24px);
       margin-left: 0px;
     }
 
@@ -53,7 +53,7 @@ export const switchStyle =
     &:hover:active {
       span {
         width: calc(
-          var(--wds-switch-thumb-size, 24px) + var(--wds-switch-padding, 4px)
+          var(--switch-thumb-size, 24px) + var(--switch-padding, 4px)
         );
       }
     }
@@ -64,19 +64,19 @@ export const switchStyle =
 
       span {
         margin-left: calc(
-          var(--wds-switch-width, 52px) - var(--wds-switch-thumb-size, 24px) -
-            (var(--wds-switch-padding, 4px) * 2)
+          var(--switch-width, 52px) - var(--switch-thumb-size, 24px) -
+            (var(--switch-padding, 4px) * 2)
         );
       }
 
       &:hover:active {
         span {
           width: calc(
-            var(--wds-switch-thumb-size, 24px) + var(--wds-switch-padding, 4px)
+            var(--switch-thumb-size, 24px) + var(--switch-padding, 4px)
           );
           margin-left: calc(
-            var(--wds-switch-width, 52px) - var(--wds-switch-thumb-size, 24px) -
-              (var(--wds-switch-padding, 4px) * 3)
+            var(--switch-width, 52px) - var(--switch-thumb-size, 24px) -
+              (var(--switch-padding, 4px) * 3)
           );
         }
       }
@@ -107,18 +107,18 @@ const switchSizeStyle = ({ size }: Pick<SwitchProps, 'size'>) => {
       return css`
         border-radius: 100px;
 
-        --wds-switch-width: 52px;
-        --wds-switch-padding: 4px;
-        --wds-switch-thumb-size: 24px;
+        --switch-width: 52px;
+        --switch-padding: 4px;
+        --switch-thumb-size: 24px;
       `;
 
     case 'small':
       return css`
         border-radius: 75px;
 
-        --wds-switch-width: 39px;
-        --wds-switch-padding: 3px;
-        --wds-switch-thumb-size: 18px;
+        --switch-width: 39px;
+        --switch-padding: 3px;
+        --switch-thumb-size: 18px;
       `;
   }
 };

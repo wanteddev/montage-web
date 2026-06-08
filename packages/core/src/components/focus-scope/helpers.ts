@@ -64,9 +64,9 @@ export const getTabbableCandidates = (container: HTMLElement) => {
 export const getTabbableForFirstFocus = (nodes: Array<HTMLElement>) => {
   return nodes.sort((a, b) => {
     const aIgnoreFirstFocus =
-      a.getAttribute('wds-ignore-first-focus') === 'true';
+      a.getAttribute('data-ignore-first-focus') === 'true';
     const bIgnoreFirstFocus =
-      b.getAttribute('wds-ignore-first-focus') === 'true';
+      b.getAttribute('data-ignore-first-focus') === 'true';
 
     if (aIgnoreFirstFocus && !bIgnoreFirstFocus) {
       return 1;

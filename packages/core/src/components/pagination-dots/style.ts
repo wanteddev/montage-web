@@ -43,13 +43,12 @@ export const paginationDotsWrapperStyle =
 
     &:hover, &:has(*:focus-visible) {
       [data-role='pagination-dot-button'] {
-        width: var(--wds-pagination-dot-size, 10px);
-        height: var(--wds-pagination-dot-size, 10px);
-        margin-left: var(--wds-pagination-dot-size, 10px);
+        width: var(--pagination-dot-size, 10px);
+        height: var(--pagination-dot-size, 10px);
+        margin-left: var(--pagination-dot-size, 10px);
 
         &::after {
-          --wds-pagination-dot-border-color: ${theme.semantic.line.normal
-            .neutral};
+          --pagination-dot-border-color: ${theme.semantic.line.normal.neutral};
         }
 
         &:first-of-type {
@@ -113,7 +112,7 @@ const paginationDotsWrapperColorStyle = (
               opacity ease 0.2s;
             border: 1px solid
               var(
-                --wds-pagination-dot-border-color,
+                --pagination-dot-border-color,
                 ${theme.semantic.line.normal.neutral}
               );
           }
@@ -137,21 +136,21 @@ const paginationDotsWrapperSizeStyle = ({
       return css`
         height: 10px;
 
-        --wds-pagination-dot-size: 10px;
+        --pagination-dot-size: 10px;
       `;
     case 'small':
       return css`
         height: 8px;
 
-        --wds-pagination-dot-size: 8px;
+        --pagination-dot-size: 8px;
       `;
   }
 };
 
 export const paginationDotsStyle = (scale: number, isFirst: boolean) => css`
   transition: all ease 0.2s;
-  width: calc(var(--wds-pagination-dot-size, 10px) * ${scale});
-  height: calc(var(--wds-pagination-dot-size, 10px) * ${scale});
+  width: calc(var(--pagination-dot-size, 10px) * ${scale});
+  height: calc(var(--pagination-dot-size, 10px) * ${scale});
   margin: 0px;
   padding: 0px;
   border-radius: 1000px;
@@ -159,11 +158,11 @@ export const paginationDotsStyle = (scale: number, isFirst: boolean) => css`
   ${scale === 0 &&
   css`
     &::after {
-      --wds-pagination-dot-border-color: transparent;
+      --pagination-dot-border-color: transparent;
     }
   `}
 
   margin-left: ${scale === 0 || isFirst
     ? 0
-    : 'var(--wds-pagination-dot-size, 10px)'};
+    : 'var(--pagination-dot-size, 10px)'};
 `;

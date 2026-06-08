@@ -13,16 +13,16 @@ const mountKeyframes = keyframes`
   }
   to {
     opacity: 1;
-    height: var(--wds-toast-animation-height);
-    margin-top: var(--wds-toast-animation-margin-top);
+    height: var(--toast-animation-height);
+    margin-top: var(--toast-animation-margin-top);
   }
 `;
 
 const unmountKeyframes = keyframes`
   from {
     opacity: 1;
-    height: var(--wds-toast-animation-height);
-    margin-top: var(--wds-toast-animation-margin-top);
+    height: var(--toast-animation-height);
+    margin-top: var(--toast-animation-margin-top);
   }
   to {
     opacity: 0;
@@ -37,7 +37,7 @@ export const wrapperStyle =
     backdrop-filter: blur(32px);
     will-change: backdrop-filter;
     border-radius: 12px;
-    margin-top: var(--wds-toast-animation-margin-top);
+    margin-top: var(--toast-animation-margin-top);
     max-width: 100%;
 
     ${respondMore(theme.breakpoint.sm)} {

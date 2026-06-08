@@ -46,36 +46,36 @@ export const getWrapperStyle =
 
     ${!disabled &&
     css`
-      &:hover > [wds-component='with-interaction'] {
+      &:hover > [data-component='with-interaction'] {
         ${hoverInteractionStyle(theme, variant)}
       }
 
       @media not (pointer: fine) {
-        &:hover > [wds-component='with-interaction'] {
+        &:hover > [data-component='with-interaction'] {
           opacity: ${theme.opacity[0]};
         }
       }
 
-      &:focus-visible > [wds-component='with-interaction'] {
+      &:focus-visible > [data-component='with-interaction'] {
         opacity: ${theme.opacity[0]};
       }
-      &:active > [wds-component='with-interaction'] {
+      &:active > [data-component='with-interaction'] {
         ${activeInteractionStyle(theme, variant)}
       }
 
       ${scale &&
       css`
-        & > [wds-component='with-interaction'] {
+        & > [data-component='with-interaction'] {
           will-change: transform;
           transform: translate(-50%, -50%) scale(0.95);
         }
 
-        &:hover > [wds-component='with-interaction'] {
+        &:hover > [data-component='with-interaction'] {
           transform: translate(-50%, -50%) scale(1);
         }
 
         @media not (pointer: fine) {
-          & > [wds-component='with-interaction'] {
+          & > [data-component='with-interaction'] {
             transform: translate(-50%, -50%) scale(1);
           }
         }

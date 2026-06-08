@@ -9,8 +9,7 @@ export const actionAreaStyle =
   ({ divider, background, extra }: ActionAreaProps) =>
   (theme: Theme) => css`
     width: 100%;
-    padding: var(--wds-action-area-margin-y, 20px)
-      var(--wds-action-area-margin-x, 20px);
+    padding: var(--action-area-margin-y, 20px) var(--action-area-margin-x, 20px);
     position: relative;
 
     ${actionAreaBackgroundStyle({ divider, background, extra }, theme)}
@@ -39,10 +38,10 @@ const actionAreaBackgroundStyle = (
                 ${gradient(
                   theme.semantic.background.elevated.normal,
                   'top',
-                  'calc(var(--wds-action-area-margin-y, 20px) * 2)',
+                  'calc(var(--action-area-margin-y, 20px) * 2)',
                   'mask',
                 )}
-                height: calc(100% + var(--wds-action-area-margin-y, 20px));
+                height: calc(100% + var(--action-area-margin-y, 20px));
                 content: '';
                 z-index: 0;
                 position: absolute;

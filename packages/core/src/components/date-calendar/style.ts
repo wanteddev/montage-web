@@ -38,7 +38,7 @@ export const dateCalendarHeaderLabelButtonStyle = (theme: Theme) => css`
   padding-top: 0px;
   padding-bottom: 0px;
 
-  & > [wds-component='with-interaction'] {
+  & > [data-component='with-interaction'] {
     height: calc(100% + 8px);
   }
 `;
@@ -117,14 +117,14 @@ export const dayItemButtonStyle = (theme: Theme) => css`
     }
   }
 
-  &:not(:hover):not(:active) > [wds-component='with-interaction'] {
+  &:not(:hover):not(:active) > [data-component='with-interaction'] {
     transition: none;
   }
 
   &:focus-visible {
     outline: none;
 
-    & > [wds-component='with-interaction'] {
+    & > [data-component='with-interaction'] {
       transition: none;
       opacity: 0.06;
     }

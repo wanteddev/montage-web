@@ -33,9 +33,9 @@ export const framedStyle = (params?: FramedStyleParams) => (theme: Theme) => {
 
     background-color: transparent;
     display: flex;
-    padding: var(--wds-framed-style-vertical-padding)
-      var(--wds-framed-style-horizontal-padding);
-    border-radius: var(--wds-framed-style-border-radius);
+    padding: var(--framed-style-vertical-padding)
+      var(--framed-style-horizontal-padding);
+    border-radius: var(--framed-style-border-radius);
     position: relative;
     width: fit-content;
     height: fit-content;
@@ -71,28 +71,28 @@ const getSizeStyle = (size: FramedStyleParams['size']) => {
   switch (size) {
     case 'small':
       return css`
-        --wds-framed-style-border-radius: 12px;
-        --wds-framed-style-vertical-padding: 4px;
-        --wds-framed-style-horizontal-padding: 12px;
+        --framed-style-border-radius: 12px;
+        --framed-style-vertical-padding: 4px;
+        --framed-style-horizontal-padding: 12px;
       `;
     case 'medium':
     default:
       return css`
-        --wds-framed-style-border-radius: 14px;
-        --wds-framed-style-vertical-padding: 4px;
-        --wds-framed-style-horizontal-padding: 16px;
+        --framed-style-border-radius: 14px;
+        --framed-style-vertical-padding: 4px;
+        --framed-style-horizontal-padding: 16px;
       `;
     case 'large':
       return css`
-        --wds-framed-style-border-radius: 16px;
-        --wds-framed-style-vertical-padding: 4px;
-        --wds-framed-style-horizontal-padding: 20px;
+        --framed-style-border-radius: 16px;
+        --framed-style-vertical-padding: 4px;
+        --framed-style-horizontal-padding: 20px;
       `;
     case 'xlarge':
       return css`
-        --wds-framed-style-border-radius: 20px;
-        --wds-framed-style-vertical-padding: 8px;
-        --wds-framed-style-horizontal-padding: 24px;
+        --framed-style-border-radius: 20px;
+        --framed-style-vertical-padding: 8px;
+        --framed-style-horizontal-padding: 24px;
       `;
   }
 };

@@ -34,24 +34,24 @@ export const topNavigationWrapperStyle = (
     case 'normal':
       return css`
         width: 100%;
-        padding: var(--wds-top-navigation-padding-y, 16px)
-          var(--wds-top-navigation-padding-x, 16px);
+        padding: var(--top-navigation-padding-y, 16px)
+          var(--top-navigation-padding-x, 16px);
         justify-content: center;
-        min-height: var(--wds-top-navigation-min-height, 56px);
+        min-height: var(--top-navigation-min-height, 56px);
         position: relative;
       `;
     case 'display':
       return css`
-        padding: var(--wds-top-navigation-padding-y, 16px)
-          var(--wds-top-navigation-padding-x, 16px);
+        padding: var(--top-navigation-padding-y, 16px)
+          var(--top-navigation-padding-x, 16px);
         gap: 20px;
         width: 100%;
         position: relative;
       `;
     case 'floating':
       return css`
-        padding: var(--wds-top-navigation-padding-y, 16px)
-          var(--wds-top-navigation-padding-x, 16px);
+        padding: var(--top-navigation-padding-y, 16px)
+          var(--top-navigation-padding-x, 16px);
         top: 0px;
         left: 0px;
         position: absolute;
@@ -60,8 +60,8 @@ export const topNavigationWrapperStyle = (
       `;
     case 'search':
       return css`
-        padding: var(--wds-top-navigation-padding-y, 16px)
-          var(--wds-top-navigation-padding-x, 16px);
+        padding: var(--top-navigation-padding-y, 16px)
+          var(--top-navigation-padding-x, 16px);
         gap: 12px;
         width: 100%;
         position: relative;
@@ -192,7 +192,7 @@ export const topNavigationTitleStyle = (
         padding: 0px 4px;
 
         h2 {
-          width: var(--wds-top-navigation-title-width, 80%);
+          width: var(--top-navigation-title-width, 80%);
           text-align: center;
           ${ellipsisTypographyStyle(2)}
           -webkit-line-clamp: 1;
@@ -206,7 +206,7 @@ export const topNavigationTitleStyle = (
         flex: 1 1 auto;
         padding: 0px;
 
-        [wds-component='search-field'] {
+        [data-component='search-field'] {
           width: 100%;
         }
       `;
@@ -238,8 +238,8 @@ export const topNavigationRightIconStyle = (
     case 'floating':
       return css`
         position: absolute;
-        right: var(--wds-top-navigation-padding-x, 16px);
-        top: var(--wds-top-navigation-padding-y, 16px);
+        right: var(--top-navigation-padding-x, 16px);
+        top: var(--top-navigation-padding-y, 16px);
       `;
     case 'display':
       return undefined;
@@ -254,8 +254,8 @@ export const topNavigationLeftIconStyle = (
     case 'floating':
       return css`
         position: absolute;
-        left: var(--wds-top-navigation-padding-x, 16px);
-        top: var(--wds-top-navigation-padding-y, 16px);
+        left: var(--top-navigation-padding-x, 16px);
+        top: var(--top-navigation-padding-y, 16px);
       `;
     case 'display':
       return undefined;
@@ -270,7 +270,7 @@ export const topNavigationButtonTextStyle = css`
     ${typographyStyle('headline2', 'regular')}
   }
 
-  [wds-component='with-interaction'] {
+  [data-component='with-interaction'] {
     height: calc(100% + 8px);
   }
 `;

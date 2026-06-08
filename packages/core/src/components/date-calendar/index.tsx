@@ -202,7 +202,7 @@ const DateCalendar = forwardRef<
       >
         <FlexBox
           ref={composedRefs}
-          wds-component="date-calendar"
+          data-component="date-calendar"
           flexDirection="column"
           alignItems="flex-start"
           {...props}
@@ -223,7 +223,7 @@ const DateCalendar = forwardRef<
                 <FlexBox sx={dateCalendarHeaderStyle} alignItems="center">
                   <FlexBox sx={dateCalendarHeaderLabelStyle} flex="1">
                     <TextButton
-                      wds-ignore-first-focus="true"
+                      data-ignore-first-focus="true"
                       onClick={() => {
                         if (isOnlySelectDay || isOnlySelectMonth) return;
 
@@ -264,7 +264,7 @@ const DateCalendar = forwardRef<
                     {views.includes('day') && (
                       <>
                         <IconButton
-                          wds-ignore-first-focus="true"
+                          data-ignore-first-focus="true"
                           size={18}
                           aria-label="Previous month"
                           disabled={
@@ -293,7 +293,7 @@ const DateCalendar = forwardRef<
                         </IconButton>
 
                         <IconButton
-                          wds-ignore-first-focus="true"
+                          data-ignore-first-focus="true"
                           size={18}
                           aria-label="Next month"
                           disabled={

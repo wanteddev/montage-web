@@ -141,7 +141,7 @@ const AccordionSummary = forwardRef<
     return (
       <ListCell
         ref={ref}
-        wds-component="accordion-summary"
+        data-component="accordion-summary"
         as="div"
         role="button"
         verticalPadding={verticalPadding}
@@ -258,7 +258,7 @@ const AccordionDetails = forwardRef(
           const currentTabIndex = elm.getAttribute('tabindex');
           const prevTabIndex = elm.getAttribute('data-prev-tabindex');
 
-          const details = elm.closest('[wds-component="accordion-details"]');
+          const details = elm.closest('[data-component="accordion-details"]');
 
           if (details !== ref.current) {
             return;
@@ -288,7 +288,7 @@ const AccordionDetails = forwardRef(
       <AnimationPresence present={expanded || forceMount}>
         <Box
           ref={composedRefs}
-          wds-component="accordion-details"
+          data-component="accordion-details"
           aria-labelledby={summaryId}
           aria-hidden={!expanded}
           id={detailsId}
@@ -303,7 +303,7 @@ const AccordionDetails = forwardRef(
           ]}
           style={
             {
-              '--wds-accordion-height': `${height}px`,
+              '--accordion-height': `${height}px`,
               ...props.style,
             } as CSSProperties
           }
@@ -348,7 +348,7 @@ const AccordionContent = forwardRef(
   ) => {
     return (
       <Box
-        wds-component="accordion-content"
+        data-component="accordion-content"
         ref={ref}
         {...props}
         sx={[accordionContentStyle, sx]}

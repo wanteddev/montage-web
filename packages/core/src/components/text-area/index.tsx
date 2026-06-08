@@ -113,7 +113,7 @@ const TextArea = forwardRef<
           outerHeight,
         );
 
-        parent.style.setProperty('--wds-text-area-height', outerHeight + 'px');
+        parent.style.setProperty('--text-area-height', outerHeight + 'px');
       }
 
       outerHeight = maxRows
@@ -126,10 +126,7 @@ const TextArea = forwardRef<
           )
         : outerHeight;
 
-      parent.style.setProperty(
-        '--wds-text-area-scroll-height',
-        `${outerHeight}px`,
-      );
+      parent.style.setProperty('--text-area-scroll-height', `${outerHeight}px`);
     }, [maxRows, minRows, props.placeholder]);
 
     useResizeObserver(textAreaRef.current, syncTextAreaHeight);
@@ -182,7 +179,7 @@ const TextArea = forwardRef<
         <FlexBox
           ref={parentRef}
           flexDirection="column"
-          wds-component="text-area"
+          data-component="text-area"
           className={className}
           style={{
             ...getTextAreaDefaultHeight({ minRows }),
@@ -299,7 +296,7 @@ const TextAreaContent = forwardRef<
       return (
         <Typography
           as="div"
-          wds-component="text-area-content"
+          data-component="text-area-content"
           variant="label2"
           weight="medium"
           ref={ref}
@@ -322,7 +319,7 @@ const TextAreaContent = forwardRef<
     case 'badge':
       return (
         <FlexBox
-          wds-component="text-area-content"
+          data-component="text-area-content"
           ref={ref}
           sx={[textAreaContentStyle, sx]}
           {...props}
@@ -333,7 +330,7 @@ const TextAreaContent = forwardRef<
     case 'button':
       return (
         <FlexBox
-          wds-component="text-area-content"
+          data-component="text-area-content"
           ref={ref}
           alignItems="center"
           sx={[
@@ -349,7 +346,7 @@ const TextAreaContent = forwardRef<
     case 'icon':
       return (
         <FlexBox
-          wds-component="text-area-content"
+          data-component="text-area-content"
           ref={ref}
           sx={[
             textAreaContentStyle,
@@ -368,7 +365,7 @@ const TextAreaContent = forwardRef<
     case 'icon-button':
       return (
         <FlexBox
-          wds-component="text-area-content"
+          data-component="text-area-content"
           ref={ref}
           sx={[textAreaContentStyle, sx]}
           {...props}
@@ -382,7 +379,7 @@ const TextAreaContent = forwardRef<
     default:
       return (
         <FlexBox
-          wds-component="text-area-content"
+          data-component="text-area-content"
           ref={ref}
           sx={[textAreaContentStyle, sx]}
           {...props}

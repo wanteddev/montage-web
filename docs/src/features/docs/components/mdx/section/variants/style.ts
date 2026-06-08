@@ -47,7 +47,7 @@ export const sectionVariantsControlMobileTriggerStyle = (theme: Theme) => css`
   z-index: 1;
 
   &[aria-expanded='true'] {
-    & > [wds-component='with-interaction'] {
+    & > [data-component='with-interaction'] {
       opacity: 0.0375;
     }
   }

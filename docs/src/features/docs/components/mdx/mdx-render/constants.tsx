@@ -133,7 +133,7 @@ export const MDX_COMPONENTS: { [key: string]: (props: any) => ReactNode } = {
       data-role="table"
       sx={(theme) => ({
         marginBottom: 40,
-        '--wds-table-border-color': theme.semantic.line.solid.alternative,
+        '--table-border-color': theme.semantic.line.solid.alternative,
       })}
     />
   ),
