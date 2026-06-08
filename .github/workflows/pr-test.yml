@@ -62,6 +62,27 @@ jobs:
       - name: Run Unit Test
         run: pnpm run test:unit --silent --no-cache
 
+  e2e-test:
+    if: "${{ github.event.pull_request.draft == false && github.event_name == 'pull_request' && !contains(github.event.pull_request.labels.*.name, 'ci: skip test') }}"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        uses: ./.github/actions/pnpm-install
+
+      - name: Build packages
+        uses: ./.github/actions/package-build
+        with:
+          cache: false
+
+      - name: Install playwright
+        run: pnpm dlx playwright@1.56.1 install chromium
+
+      - name: Run E2E Test
+        run: pnpm run test:e2e
+
   visual-test:
     if: "${{ github.event.pull_request.draft == false && github.event_name == 'pull_request' && !contains(github.event.pull_request.labels.*.name, 'ci: skip test') }}"
     runs-on: ubuntu-latest
