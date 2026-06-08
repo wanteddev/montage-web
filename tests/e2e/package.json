@@ -1,0 +1,13 @@
+{
+  "name": "@montage-ui/test-e2e",
+  "private": true,
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "devDependencies": {
+    "@montage-ui/core": "workspace:*",
+    "@montage-ui/icon": "workspace:*",
+    "typescript": "^5.9.3"
+  }
+}

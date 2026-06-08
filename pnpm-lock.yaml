@@ -673,6 +673,18 @@ importers:
         specifier: ^5.9.3
         version: 5.9.3
 
+  tests/e2e:
+    devDependencies:
+      '@montage-ui/core':
+        specifier: workspace:*
+        version: link:../../packages/core
+      '@montage-ui/icon':
+        specifier: workspace:*
+        version: link:../../packages/icon
+      typescript:
+        specifier: ^5.9.3
+        version: 5.9.3
+
   tests/tree-shaking:
     dependencies:
       react:
