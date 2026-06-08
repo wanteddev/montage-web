@@ -46,11 +46,11 @@ export const autocompleteOptionStyle = (theme: Theme) => css`
     color: ${theme.semantic.primary.normal};
   }
 
-  &[data-focus='true'] > [wds-component='with-interaction'] {
+  &[data-focus='true'] > [data-component='with-interaction'] {
     opacity: ${theme.opacity[0]};
   }
 
-  &[data-focus-visible='true'] > [wds-component='with-interaction'] {
+  &[data-focus-visible='true'] > [data-component='with-interaction'] {
     opacity: 0.06;
   }
 `;

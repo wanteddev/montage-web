@@ -429,7 +429,7 @@ const MenuActionAreaContent = forwardRef<
     case 'icon':
       return (
         <FlexBox
-          wds-component="menu-action-area-content"
+          data-component="menu-action-area-content"
           ref={ref}
           {...props}
           sx={[
@@ -451,7 +451,7 @@ const MenuActionAreaContent = forwardRef<
     case 'chip-filter':
       return (
         <FlexBox
-          wds-component="menu-bottom-content"
+          data-component="menu-bottom-content"
           ref={ref}
           {...props}
           sx={[menuActionAreaContentStyle(variant), sx]}
@@ -465,7 +465,7 @@ const MenuActionAreaContent = forwardRef<
     default:
       return (
         <FlexBox
-          wds-component="menu-bottom-content"
+          data-component="menu-bottom-content"
           ref={ref}
           {...props}
           sx={[menuActionAreaContentStyle(variant), sx]}
