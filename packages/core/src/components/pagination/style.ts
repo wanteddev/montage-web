@@ -32,7 +32,7 @@ export const pageButtonStyle = (theme: Theme) => css`
   }
 
   // TextButton Interaction
-  [wds-component='with-interaction'] {
+  [data-component='with-interaction'] {
     width: calc(100% + 10px);
   }
 
@@ -47,7 +47,7 @@ export const pageButtonStyle = (theme: Theme) => css`
         color: ${theme.semantic.label.normal};
       }
 
-      [wds-component='with-interaction'] {
+      [data-component='with-interaction'] {
         ${activeInteractionStyle(theme, 'light')}
       }
     }

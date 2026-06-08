@@ -32,10 +32,10 @@ export const listCellStyle =
   }: ListCellProps) =>
   (theme: Theme) => css`
     width: 100%;
-    padding-top: var(--wds-list-cell-vertical-padding);
-    padding-bottom: var(--wds-list-cell-vertical-padding);
-    padding-left: var(--wds-list-cell-horizontal-padding);
-    padding-right: var(--wds-list-cell-horizontal-padding);
+    padding-top: var(--list-cell-vertical-padding);
+    padding-bottom: var(--list-cell-vertical-padding);
+    padding-left: var(--list-cell-horizontal-padding);
+    padding-right: var(--list-cell-horizontal-padding);
 
     ${disabled
       ? css`
@@ -75,9 +75,9 @@ export const listCellStyle =
     ${listCellFillWidthStyle({ fillWidth })}
     ${listCellInteractionPaddingStyle({ fillWidth, interactionPadding })}
 
-    & > [wds-component='with-interaction'] {
+    & > [data-component='with-interaction'] {
       border-radius: inherit;
-      display: var(--wds-list-cell-interaction-display, block);
+      display: var(--list-cell-interaction-display, block);
     }
 
     ${createResponsiveStyle(
@@ -138,17 +138,17 @@ const listCellInteractionPaddingStyle = ({
 }: Pick<ListCellProps, 'fillWidth' | 'interactionPadding'>) => {
   if (fillWidth) {
     return css`
-      & > [wds-component='with-interaction'] {
+      & > [data-component='with-interaction'] {
         width: 100%;
       }
     `;
   }
   return css`
-    --wds-list-cell-interaction-padding: ${toCssValue(interactionPadding) ??
+    --list-cell-interaction-padding: ${toCssValue(interactionPadding) ??
     '12px'};
 
-    & > [wds-component='with-interaction'] {
-      width: calc(100% + (var(--wds-list-cell-interaction-padding, 0px) * 2));
+    & > [data-component='with-interaction'] {
+      width: calc(100% + (var(--list-cell-interaction-padding, 0px) * 2));
     }
   `;
 };
@@ -157,29 +157,29 @@ const listCellPaddingStyle = ({
   verticalPadding,
 }: Pick<ListCellProps, 'verticalPadding'>) => css`
   &,
-  & ~ [wds-component='accordion-details'] {
+  & ~ [data-component='accordion-details'] {
     ${(() => {
       switch (verticalPadding) {
         case 'none':
           return css`
-            --wds-list-cell-vertical-padding: 0px;
-            --wds-list-cell-interaction-display: none;
+            --list-cell-vertical-padding: 0px;
+            --list-cell-interaction-display: none;
           `;
 
         case 'small':
           return css`
-            --wds-list-cell-vertical-padding: 8px;
-            --wds-list-cell-interaction-display: block;
+            --list-cell-vertical-padding: 8px;
+            --list-cell-interaction-display: block;
           `;
         case 'large':
           return css`
-            --wds-list-cell-vertical-padding: 16px;
-            --wds-list-cell-interaction-display: block;
+            --list-cell-vertical-padding: 16px;
+            --list-cell-interaction-display: block;
           `;
         case 'medium':
           return css`
-            --wds-list-cell-vertical-padding: 12px;
-            --wds-list-cell-interaction-display: block;
+            --list-cell-vertical-padding: 12px;
+            --list-cell-interaction-display: block;
           `;
       }
     })()}
@@ -193,17 +193,17 @@ const listCellFillWidthStyle = ({
     case true:
       return css`
         &,
-        & ~ [wds-component='accordion-details'],
+        & ~ [data-component='accordion-details'],
         & ~ [data-role='accordion-divider'] {
-          --wds-list-cell-horizontal-padding: 20px;
+          --list-cell-horizontal-padding: 20px;
         }
       `;
     case false:
       return css`
         &,
-        & ~ [wds-component='accordion-details'],
+        & ~ [data-component='accordion-details'],
         & ~ [data-role='accordion-divider'] {
-          --wds-list-cell-horizontal-padding: 0px;
+          --list-cell-horizontal-padding: 0px;
         }
         border-radius: 12px;
       `;
@@ -216,7 +216,7 @@ export const listCellDividerStyle = css`
   left: 50%;
   transform: translate(-50%, 0px);
   transition: opacity 0.15s ease;
-  width: calc(100% - (var(--wds-list-cell-horizontal-padding) * 2));
+  width: calc(100% - (var(--list-cell-horizontal-padding) * 2));
 `;
 
 const listCellContentVariantStyle =
@@ -267,7 +267,7 @@ const listCellContentVariantStyle =
       case 'checkbox':
         return css`
           &:not([data-role='list-item-trailing-content']):has(
-              [wds-component='checkbox'][data-tight='true']
+              [data-component='checkbox'][data-tight='true']
             ) {
             padding-right: 2px;
           }
@@ -275,7 +275,7 @@ const listCellContentVariantStyle =
       case 'radio':
         return css`
           &:not([data-role='list-item-trailing-content']):has(
-              [wds-component='radio'][data-tight='true']
+              [data-component='radio'][data-tight='true']
             ) {
             padding-right: 2px;
           }
@@ -293,7 +293,7 @@ export const listCellContentStyle =
       justify-content: flex-end;
     }
 
-    [wds-component='with-interaction'] {
+    [data-component='with-interaction'] {
       z-index: 1;
     }
 

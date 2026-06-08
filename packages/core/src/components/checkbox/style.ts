@@ -39,7 +39,7 @@ export const checkboxStyle =
       cursor: pointer;
     }
 
-    & > [wds-component='with-interaction'] {
+    & > [data-component='with-interaction'] {
       border-radius: 9999px;
     }
 
@@ -176,7 +176,7 @@ const checkboxSizeStyle = ({
           padding-right: 1px;
           width: 20px;
 
-          [wds-component='with-interaction'] {
+          [data-component='with-interaction'] {
             width: calc(100% + 12px);
           }
         `}
@@ -199,7 +199,7 @@ const checkboxSizeStyle = ({
           padding-right: 0px;
           width: 16px;
 
-          [wds-component='with-interaction'] {
+          [data-component='with-interaction'] {
             width: calc(100% + 12px);
           }
         `}
