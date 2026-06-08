@@ -172,10 +172,10 @@ const TabList = forwardRef<
       const motionElement = motionDividerRef.current;
 
       const currentElement = target.querySelector<HTMLDivElement>(
-        `[wds-component="tab-list-item"][data-value="${prevValue}"]`,
+        `[data-component="tab-list-item"][data-value="${prevValue}"]`,
       );
       const nextElement = target.querySelector<HTMLDivElement>(
-        `[wds-component="tab-list-item"][data-value="${context.value}"]`,
+        `[data-component="tab-list-item"][data-value="${context.value}"]`,
       );
 
       const nextTextElement = nextElement?.querySelector<HTMLSpanElement>(
@@ -212,7 +212,7 @@ const TabList = forwardRef<
     return (
       <RovingFocusGroup.Root asChild orientation="horizontal" loop dir="ltr">
         <FlexBox
-          wds-component="tab-list"
+          data-component="tab-list"
           role="tablist"
           ref={composedRef}
           dir={dir || 'ltr'}
@@ -363,7 +363,7 @@ const TabListItem = forwardRef<any, TabListItemProps>(
           role="tab"
           ref={composedRefs}
           {...props}
-          wds-component="tab-list-item"
+          data-component="tab-list-item"
           disabled={disabled}
           aria-selected={isActive}
           aria-labelledby={`${context.id}-${value}`}
@@ -468,7 +468,7 @@ const TabPanel = forwardRef<
     <Box
       {...props}
       ref={ref}
-      wds-component="tab-panel"
+      data-component="tab-panel"
       id={`${context.id}-${value}-panel`}
       aria-labelledby={`${context.id}-${value}`}
       role="tabpanel"

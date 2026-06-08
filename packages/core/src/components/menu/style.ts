@@ -51,7 +51,7 @@ export const menuItemStyle = (theme: Theme) => css`
   &:focus-visible {
     outline: none;
 
-    > [wds-component='with-interaction'] {
+    > [data-component='with-interaction'] {
       opacity: 0.06;
     }
   }

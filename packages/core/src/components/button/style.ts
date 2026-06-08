@@ -36,7 +36,7 @@ export const buttonStyle =
       cursor: wait;
       &
         > *:not([data-role='button-loading']):not(
-          [wds-component='with-interaction']
+          [data-component='with-interaction']
         ) {
         visibility: hidden;
       }

@@ -39,7 +39,7 @@ export const textButtonStyle =
       cursor: wait;
       &
         > *:not([data-role='text-button-loading']):not(
-          [wds-component='with-interaction']
+          [data-component='with-interaction']
         ) {
         visibility: hidden;
       }
@@ -123,7 +123,7 @@ const textButtonSizeStyle = ({ size }: TextButtonProps, theme: Theme) => {
           height: ${theme.dimension[14]};
         }
 
-        & > [wds-component='with-interaction'] {
+        & > [data-component='with-interaction'] {
           width: calc(100% + (${theme.spacing[8]} * 2));
           height: 100%;
         }
@@ -147,7 +147,7 @@ const textButtonSizeStyle = ({ size }: TextButtonProps, theme: Theme) => {
           height: ${theme.dimension[12]};
         }
 
-        & > [wds-component='with-interaction'] {
+        & > [data-component='with-interaction'] {
           width: calc(100% + (${theme.spacing[6]} * 2));
           height: 100%;
         }

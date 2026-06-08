@@ -17,15 +17,15 @@ const cardListPlatformStyle = ({ platform }: Pick<CardProps, 'platform'>) => {
         gap: 16px;
 
         // thumbnail
-        [wds-component='thumbnail'],
-        [wds-component='thumbnail-skeleton'] {
+        [data-component='thumbnail'],
+        [data-component='thumbnail-skeleton'] {
           width: 120px;
         }
         // text
-        [wds-component='card-title'] {
+        [data-component='card-title'] {
           ${typographyStyle('body1', 'bold')}
         }
-        [wds-component='card-caption'] {
+        [data-component='card-caption'] {
           ${typographyStyle('label2', 'medium')}
         }
       `;
@@ -34,15 +34,15 @@ const cardListPlatformStyle = ({ platform }: Pick<CardProps, 'platform'>) => {
         gap: 12px;
 
         // thumbnail
-        [wds-component='thumbnail'],
-        [wds-component='thumbnail-skeleton'] {
+        [data-component='thumbnail'],
+        [data-component='thumbnail-skeleton'] {
           width: 96px;
         }
         // text
-        [wds-component='card-title'] {
+        [data-component='card-title'] {
           ${typographyStyle('body2', 'bold')}
         }
-        [wds-component='card-caption'] {
+        [data-component='card-caption'] {
           ${typographyStyle('label2', 'medium')}
         }
       `;
@@ -57,21 +57,21 @@ export const cardListStyle =
     ${cardListPlatformStyle({ platform })}
 
     &:hover {
-      [wds-component='thumbnail'] img {
+      [data-component='thumbnail'] img {
         transform: scale(1.025);
       }
     }
 
     // thumbnail
-    [wds-component='thumbnail'],
-    [wds-component='thumbnail-skeleton'] {
+    [data-component='thumbnail'],
+    [data-component='thumbnail-skeleton'] {
       aspect-ratio: 3 / 2;
     }
     // text
-    [wds-component='card-title'] {
+    [data-component='card-title'] {
       ${ellipsisTypographyStyle(1)}
     }
-    [wds-component='card-caption'] {
+    [data-component='card-caption'] {
       ${ellipsisTypographyStyle(1)}
     }
 
@@ -112,12 +112,12 @@ const cardListSkeletonPlatformStyle = ({
         padding-right: ${hasTrailingContent ? '40px' : '0'};
 
         // thumbnail
-        [wds-component='thumbnail'],
-        [wds-component='thumbnail-skeleton'] {
+        [data-component='thumbnail'],
+        [data-component='thumbnail-skeleton'] {
           width: 120px;
         }
         // skeleton
-        [wds-component='card-title-skeleton'] {
+        [data-component='card-title-skeleton'] {
           width: 75%;
           height: 24px;
         }
@@ -129,12 +129,12 @@ const cardListSkeletonPlatformStyle = ({
         padding-right: ${hasTrailingContent ? '36px' : '0'};
 
         // thumbnail
-        [wds-component='thumbnail'],
-        [wds-component='thumbnail-skeleton'] {
+        [data-component='thumbnail'],
+        [data-component='thumbnail-skeleton'] {
           width: 96px;
         }
         // skeleton
-        [wds-component='card-title-skeleton'] {
+        [data-component='card-title-skeleton'] {
           width: 75%;
           height: 22px;
         }
@@ -165,7 +165,7 @@ export const cardListSkeletonStyle =
     })}
 
     // thumbnail
-    [wds-component='thumbnail'], [wds-component='thumbnail-skeleton'] {
+    [data-component='thumbnail'], [data-component='thumbnail-skeleton'] {
       aspect-ratio: 3 / 2;
     }
 

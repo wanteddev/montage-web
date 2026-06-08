@@ -66,13 +66,13 @@ export const gnbActionsStyle = (theme: Theme) => css`
   font-size: 22px;
   color: ${theme.semantic.label.normal};
 
-  & > [wds-component='with-interaction'] {
+  & > [data-component='with-interaction'] {
     width: calc(100% + 16px);
     height: calc(100% + 16px);
   }
 
   &[aria-expanded='true'] {
-    & > [wds-component='with-interaction'] {
+    & > [data-component='with-interaction'] {
       opacity: ${theme.opacity[8]};
     }
   }

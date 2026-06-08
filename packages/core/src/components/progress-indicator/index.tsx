@@ -13,7 +13,7 @@ const ProgressIndicator = forwardRef<
 >(({ percent = 0, ...props }, ref) => {
   return (
     <Box
-      wds-component="progress-indicator"
+      data-component="progress-indicator"
       role="progressbar"
       aria-valuemax={100}
       aria-valuemin={0}
@@ -26,7 +26,7 @@ const ProgressIndicator = forwardRef<
       style={
         {
           ...props.style,
-          '--wds-progress-indicator-transform': `translateX(${-100 + percent}%)`,
+          '--progress-indicator-transform': `translateX(${-100 + percent}%)`,
         } as CSSProperties
       }
     />

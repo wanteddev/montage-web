@@ -112,7 +112,7 @@ const AlertDimmer = forwardRef(
         ref={composeRefs(ref, dimmerRef as ForwardedRef<T>)}
         as={(as || 'div') as T}
         {...props}
-        wds-ignore-dismissable-layer="true"
+        data-ignore-dismissable-layer="true"
         data-role="alert-dimmer"
         data-status={open ? 'open' : 'close'}
         onClick={composeEventHandlers(
@@ -227,7 +227,7 @@ const AlertContainer = forwardRef(
           <FlexBox
             {...wrapperProps}
             sx={[alertWrapperStyle, wrapperProps?.sx]}
-            wds-ignore-dismissable-layer="true"
+            data-ignore-dismissable-layer="true"
           >
             {dimmer}
 
@@ -318,7 +318,7 @@ const AlertHeading = forwardRef<
 
   return (
     <Typography
-      wds-component="alert-title"
+      data-component="alert-title"
       variant="headline1"
       weight="bold"
       color="semantic.label.normal"
@@ -345,7 +345,7 @@ const AlertDescription = forwardRef<
       variant="body2"
       weight="regular"
       color="semantic.label.alternative"
-      wds-component="alert-description"
+      data-component="alert-description"
       ref={ref}
       as="p"
       id={descriptionId}
@@ -373,7 +373,7 @@ const AlertActionArea = forwardRef<
     <FlexBox
       flexDirection="row"
       alignItems="center"
-      wds-component="alert-action-area"
+      data-component="alert-action-area"
       justifyContent="flex-end"
       gap="24px"
       ref={ref}
@@ -411,7 +411,7 @@ const AlertActionAreaButton = forwardRef(
             ? [
                 (theme) => ({
                   color: getColorByToken(theme, 'semantic.status.negative'),
-                  ['[wds-component="with-interaction"]']: {
+                  ['[data-component="with-interaction"]']: {
                     backgroundColor: getColorByToken(
                       theme,
                       'semantic.status.negative',

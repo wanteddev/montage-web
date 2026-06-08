@@ -54,7 +54,7 @@ const Thumbnail = forwardRef<
     return imageLoadingStatus !== 'error' && Boolean(props.src) ? (
       <FlexBox
         as="figure"
-        wds-component="thumbnail"
+        data-component="thumbnail"
         className={className}
         style={style}
         data-status={imageLoadingStatus}
@@ -94,7 +94,7 @@ const Thumbnail = forwardRef<
     ) : (
       <FlexBox
         as="figure"
-        wds-component="thumbnail"
+        data-component="thumbnail"
         className={className}
         style={style}
         aria-label={props.alt}
@@ -149,7 +149,7 @@ const ThumbnailSkeleton = forwardRef(
     return (
       <Skeleton
         ref={ref}
-        wds-component="thumbnail-skeleton"
+        data-component="thumbnail-skeleton"
         as="figure"
         variant="rectangle"
         aria-hidden
