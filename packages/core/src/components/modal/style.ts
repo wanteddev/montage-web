@@ -487,6 +487,15 @@ const modalContainerVariant = (variant: ModalContainerProps['variant']) => {
         }
 
         &[data-status='close'] {
+          /*
+           * Cancel the mount keyframe so the close transition can take over the
+           * \`transform\`. If the sheet is dismissed (e.g. Esc) while the rising
+           * keyframe is still running, the keyframe keeps owning \`transform\`
+           * and the close transition never plays — the container would snap
+           * while the dimmer fades. Dropping the animation hands \`transform\`
+           * back to the transitioned base value (\`translateY(100%)\`).
+           */
+          animation: none;
           transform: translateY(100%);
         }
 
