@@ -18,16 +18,16 @@ const mountKeyframes = keyframes`
   }
   to {
     opacity: 1;
-    height: var(--wds-snackbar-animation-height);
-    margin-top: var(--wds-snackbar-animation-margin-top);
+    height: var(--snackbar-animation-height);
+    margin-top: var(--snackbar-animation-margin-top);
   }
 `;
 
 const unmountKeyframes = keyframes`
   from {
     opacity: 1;
-    height: var(--wds-snackbar-animation-height);
-    margin-top: var(--wds-snackbar-animation-margin-top);
+    height: var(--snackbar-animation-height);
+    margin-top: var(--snackbar-animation-margin-top);
   }
   to {
     opacity: 0;
@@ -42,7 +42,7 @@ export const wrapperStyle =
     backdrop-filter: blur(32px);
     will-change: backdrop-filter;
     border-radius: 12px;
-    margin-top: var(--wds-snackbar-animation-margin-top);
+    margin-top: var(--snackbar-animation-margin-top);
     max-width: 100%;
 
     ${respondMore(theme.breakpoint.sm)} {
@@ -115,7 +115,7 @@ export const snackbarActionStyle = (theme: Theme) => css`
     ${typographyStyle('body2', 'bold')}
   }
 
-  & [wds-component='with-interaction'] {
+  & [data-component='with-interaction'] {
     background-color: ${theme.semantic.background.normal.normal};
   }
 `;
@@ -140,7 +140,7 @@ export const snackbarCloseButtonStyle = (theme: Theme) => css`
     opacity: ${theme.opacity[61]};
   }
 
-  & [wds-component='with-interaction'] {
+  & [data-component='with-interaction'] {
     background-color: ${theme.semantic.background.normal.normal};
   }
 `;

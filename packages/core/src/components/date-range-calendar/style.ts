@@ -151,14 +151,14 @@ export const rangeDayItemStyle = (theme: Theme) => css`
     }
   }
 
-  &:not(:hover):not(:active) > [wds-component='with-interaction'] {
+  &:not(:hover):not(:active) > [data-component='with-interaction'] {
     transition: none;
   }
 
   &:focus-visible {
     outline: none;
 
-    & > [wds-component='with-interaction'] {
+    & > [data-component='with-interaction'] {
       transition: none;
       opacity: 0.06;
     }

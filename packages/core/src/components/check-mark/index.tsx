@@ -11,7 +11,7 @@ const CheckMark = forwardRef<HTMLButtonElement, CheckMarkProps>(
     return (
       <Checkbox
         ref={ref}
-        wds-component="check-mark"
+        data-component="check-mark"
         tight={false}
         {...props}
         sx={[

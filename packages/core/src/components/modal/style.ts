@@ -102,7 +102,7 @@ const modalContainerWrapperVariant = (
         }
 
         [data-role='modal-container-scroll-area']:has(
-          [wds-component='top-navigation'][data-variant='floating']
+          [data-component='top-navigation'][data-variant='floating']
         ) {
           background: initial;
           will-change: unset;
@@ -121,7 +121,7 @@ const modalContainerWrapperVariant = (
         }
 
         [data-role='modal-container-scroll-area']:has(
-          [wds-component='top-navigation'][data-variant='floating']
+          [data-component='top-navigation'][data-variant='floating']
         ) {
           background: initial;
           will-change: unset;
@@ -140,7 +140,7 @@ const modalContainerWrapperVariant = (
         }
 
         [data-role='modal-container-scroll-area']:has(
-          [wds-component='top-navigation'][data-variant='floating']
+          [data-component='top-navigation'][data-variant='floating']
         ) {
           background: inherit;
           will-change: backdrop-filter;
@@ -154,7 +154,7 @@ const modalBottomMountKeyframes = keyframes`
     transform: translateY(100%);
   }
   100% {
-    transform: translateY(var(--wds-modal-translate, 0px));
+    transform: translateY(var(--modal-translate, 0px));
   }
 `;
 
@@ -167,14 +167,14 @@ export const modalContainerStyle =
     outline: none;
     background-color: ${theme.semantic.background.elevated.normal};
 
-    [wds-component='top-navigation'] {
+    [data-component='top-navigation'] {
       z-index: 5;
       position: sticky;
-      top: var(--wds-modal-grabber-height-guard, 0px);
+      top: var(--modal-grabber-height-guard, 0px);
       left: 0px;
     }
 
-    [wds-component='action-area'] {
+    [data-component='action-area'] {
       position: sticky;
       z-index: 5;
       bottom: 0;
@@ -248,25 +248,25 @@ const modalContainerSize = (
           height: 400px;
         `}
 
-        --wds-modal-popup-border-radius: 12px;
-        --wds-modal-content-margin: 20px;
-        --wds-top-navigation-padding-x: 16px;
-        --wds-top-navigation-padding-y: 16px;
-        --wds-top-navigation-padding: var(--wds-top-navigation-padding-y)
-          var(--wds-top-navigation-padding-x);
-        --wds-top-navigation-min-height: 56px;
-        --wds-action-area-margin-x: var(--wds-modal-content-margin);
-        --wds-action-area-margin-y: var(--wds-modal-content-margin);
+        --modal-popup-border-radius: 12px;
+        --modal-content-margin: 20px;
+        --top-navigation-padding-x: 16px;
+        --top-navigation-padding-y: 16px;
+        --top-navigation-padding: var(--top-navigation-padding-y)
+          var(--top-navigation-padding-x);
+        --top-navigation-min-height: 56px;
+        --action-area-margin-x: var(--modal-content-margin);
+        --action-area-margin-y: var(--modal-content-margin);
 
-        [wds-component='top-navigation'] {
-          --wds-tab-list-padding: var(--wds-modal-content-margin);
+        [data-component='top-navigation'] {
+          --tab-list-padding: var(--modal-content-margin);
         }
 
         [data-role='action-area-extra-content'] {
           margin-top: calc(
-            var(--wds-action-area-margin-x) - var(--wds-action-area-margin-y)
+            var(--action-area-margin-x) - var(--action-area-margin-y)
           );
-          margin-bottom: calc(4px + var(--wds-action-area-margin-y, 20px));
+          margin-bottom: calc(4px + var(--action-area-margin-y, 20px));
         }
 
         [data-role='navigation-title'] {
@@ -286,25 +286,25 @@ const modalContainerSize = (
           height: 480px;
         `}
 
-        --wds-modal-popup-border-radius: 12px;
-        --wds-modal-content-margin: 20px;
-        --wds-top-navigation-padding-x: 16px;
-        --wds-top-navigation-padding-y: 20px;
-        --wds-top-navigation-padding: var(--wds-top-navigation-padding-y)
-          var(--wds-top-navigation-padding-x);
-        --wds-top-navigation-min-height: 64px;
-        --wds-action-area-margin-x: var(--wds-modal-content-margin);
-        --wds-action-area-margin-y: var(--wds-modal-content-margin);
+        --modal-popup-border-radius: 12px;
+        --modal-content-margin: 20px;
+        --top-navigation-padding-x: 16px;
+        --top-navigation-padding-y: 20px;
+        --top-navigation-padding: var(--top-navigation-padding-y)
+          var(--top-navigation-padding-x);
+        --top-navigation-min-height: 64px;
+        --action-area-margin-x: var(--modal-content-margin);
+        --action-area-margin-y: var(--modal-content-margin);
 
-        [wds-component='top-navigation'] {
-          --wds-tab-list-padding: var(--wds-modal-content-margin);
+        [data-component='top-navigation'] {
+          --tab-list-padding: var(--modal-content-margin);
         }
 
         [data-role='action-area-extra-content'] {
           margin-top: calc(
-            var(--wds-action-area-margin-x) - var(--wds-action-area-margin-y)
+            var(--action-area-margin-x) - var(--action-area-margin-y)
           );
-          margin-bottom: calc(4px + var(--wds-action-area-margin-y, 20px));
+          margin-bottom: calc(4px + var(--action-area-margin-y, 20px));
         }
 
         [data-role='navigation-title'] {
@@ -324,25 +324,25 @@ const modalContainerSize = (
           height: 560px;
         `}
 
-        --wds-modal-popup-border-radius: 20px;
-        --wds-modal-content-margin: 24px;
-        --wds-top-navigation-padding-x: 20px;
-        --wds-top-navigation-padding-y: 20px;
-        --wds-top-navigation-padding: var(--wds-top-navigation-padding-y)
-          var(--wds-top-navigation-padding-x);
-        --wds-top-navigation-min-height: 64px;
-        --wds-action-area-margin-x: var(--wds-modal-content-margin);
-        --wds-action-area-margin-y: var(--wds-modal-content-margin);
+        --modal-popup-border-radius: 20px;
+        --modal-content-margin: 24px;
+        --top-navigation-padding-x: 20px;
+        --top-navigation-padding-y: 20px;
+        --top-navigation-padding: var(--top-navigation-padding-y)
+          var(--top-navigation-padding-x);
+        --top-navigation-min-height: 64px;
+        --action-area-margin-x: var(--modal-content-margin);
+        --action-area-margin-y: var(--modal-content-margin);
 
-        [wds-component='top-navigation'] {
-          --wds-tab-list-padding: var(--wds-modal-content-margin);
+        [data-component='top-navigation'] {
+          --tab-list-padding: var(--modal-content-margin);
         }
 
         [data-role='action-area-extra-content'] {
           margin-top: calc(
-            var(--wds-action-area-margin-x) - var(--wds-action-area-margin-y)
+            var(--action-area-margin-x) - var(--action-area-margin-y)
           );
-          margin-bottom: var(--wds-action-area-margin-y);
+          margin-bottom: var(--action-area-margin-y);
         }
 
         [data-role='navigation-title'] {
@@ -362,29 +362,26 @@ const modalContainerSize = (
           height: 640px;
         `}
 
-        --wds-modal-popup-border-radius: 20px;
-        --wds-modal-content-margin: 32px;
-        --wds-top-navigation-padding-x: 28px;
-        --wds-top-navigation-padding-y: 24px;
-        --wds-top-navigation-padding: var(--wds-top-navigation-padding-y)
-          var(--wds-top-navigation-padding-x);
-        --wds-top-navigation-min-height: 72px;
-        --wds-action-area-margin-x: var(--wds-modal-content-margin);
-        --wds-action-area-margin-y: 24px;
-        --wds-action-area-extra-content-margin: var(
-          --wds-action-area-margin,
-          20px
-        );
+        --modal-popup-border-radius: 20px;
+        --modal-content-margin: 32px;
+        --top-navigation-padding-x: 28px;
+        --top-navigation-padding-y: 24px;
+        --top-navigation-padding: var(--top-navigation-padding-y)
+          var(--top-navigation-padding-x);
+        --top-navigation-min-height: 72px;
+        --action-area-margin-x: var(--modal-content-margin);
+        --action-area-margin-y: 24px;
+        --action-area-extra-content-margin: var(--action-area-margin, 20px);
 
-        [wds-component='top-navigation'] {
-          --wds-tab-list-padding: var(--wds-modal-content-margin);
+        [data-component='top-navigation'] {
+          --tab-list-padding: var(--modal-content-margin);
         }
 
         [data-role='action-area-extra-content'] {
           margin-top: calc(
-            var(--wds-action-area-margin-x) - var(--wds-action-area-margin-y)
+            var(--action-area-margin-x) - var(--action-area-margin-y)
           );
-          margin-bottom: var(--wds-action-area-margin-y);
+          margin-bottom: var(--action-area-margin-y);
         }
 
         [data-role='navigation-title'] {
@@ -434,7 +431,7 @@ const modalContainerVariant = (variant: ModalContainerProps['variant']) => {
       `;
     case 'popup':
       return css`
-        border-radius: var(--wds-modal-popup-border-radius, 12px);
+        border-radius: var(--modal-popup-border-radius, 12px);
         animation: none;
         max-height: min(760px, 100%);
         padding: initial;
@@ -466,15 +463,12 @@ const modalContainerVariant = (variant: ModalContainerProps['variant']) => {
       `;
     case 'bottom':
       return css`
-        --wds-modal-default-max-height: calc(
+        --modal-default-max-height: calc(
           100% - env(safe-area-inset-top, 0px) - 40px
         );
         padding: 0px 0px env(safe-area-inset-bottom, 0px) 0px;
-        height: var(--wds-modal-max-height, auto);
-        max-height: var(
-          --wds-modal-max-height,
-          var(--wds-modal-default-max-height)
-        );
+        height: var(--modal-max-height, auto);
+        max-height: var(--modal-max-height, var(--modal-default-max-height));
         border-radius: 12px 12px 0px 0px;
         max-width: 480px;
         width: 100%;
@@ -484,12 +478,12 @@ const modalContainerVariant = (variant: ModalContainerProps['variant']) => {
           transform ${BOTTOM_SHEET_SETTLE_TRANSITION},
           box-shadow ${BOTTOM_SHEET_SETTLE_TRANSITION};
         pointer-events: auto;
-        transform: translateY(var(--wds-modal-translate, 0px));
+        transform: translateY(var(--modal-translate, 0px));
         animation: ${BOTTOM_SHEET_SETTLE_DURATION_MS}ms ease
           ${modalBottomMountKeyframes};
 
         &[data-status='open'] {
-          transform: translateY(var(--wds-modal-translate, 0px));
+          transform: translateY(var(--modal-translate, 0px));
         }
 
         &[data-status='close'] {
@@ -524,10 +518,7 @@ const modalContainerBottomResize = (
   switch (resize) {
     case 'fill':
       return css`
-        height: var(
-          --wds-modal-max-height,
-          var(--wds-modal-default-max-height)
-        );
+        height: var(--modal-max-height, var(--modal-default-max-height));
       `;
     case 'flexible':
       /**
@@ -550,17 +541,14 @@ const modalContainerBottomResize = (
           box-shadow ${BOTTOM_SHEET_SETTLE_TRANSITION};
 
         &[data-snap='full'] {
-          height: var(
-            --wds-modal-max-height,
-            var(--wds-modal-default-max-height)
-          );
+          height: var(--modal-max-height, var(--modal-default-max-height));
         }
 
         &[data-snap='half'],
         &[data-snap='peek'] {
           height: var(
-            --wds-modal-max-height,
-            calc(var(--wds-modal-default-max-height) * 0.5)
+            --modal-max-height,
+            calc(var(--modal-default-max-height) * 0.5)
           );
         }
       `;
@@ -576,9 +564,9 @@ export const modalNavigationStyle = ({ variant }: ModalNavigationProps) => {
     case 'emphasized':
       return css`
         [data-role='top-navigation-wrapper'] {
-          padding: var(--wds-top-navigation-padding-y, 16px)
-            var(--wds-top-navigation-padding-x, 16px);
-          min-height: var(--wds-top-navigation-min-height, 64px);
+          padding: var(--top-navigation-padding-y, 16px)
+            var(--top-navigation-padding-x, 16px);
+          min-height: var(--top-navigation-min-height, 64px);
           gap: 16px;
           width: 100%;
           justify-content: initial;
@@ -650,12 +638,12 @@ export const modalContentStyle =
   ({ gap, xs, sm, md, lg, xl }: ModalContentProps) =>
   (theme: Theme) => css`
     width: 100%;
-    padding-top: var(--wds-modal-content-margin, 20px);
-    padding-bottom: var(--wds-modal-content-margin, 20px);
+    padding-top: var(--modal-content-margin, 20px);
+    padding-bottom: var(--modal-content-margin, 20px);
 
     ${gap !== undefined
       ? css`
-          gap: calc(var(--wds-modal-content-margin, 20px));
+          gap: calc(var(--modal-content-margin, 20px));
         `
       : css`
           gap: ${toCssValue(gap)};
@@ -676,5 +664,5 @@ export const modalContentStyle =
   `;
 
 export const modalContentItemStyle = () => css`
-  padding: 0px calc(var(--wds-modal-content-margin, 20px));
+  padding: 0px calc(var(--modal-content-margin, 20px));
 `;

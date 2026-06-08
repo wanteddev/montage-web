@@ -74,7 +74,7 @@ const Interaction = ({
 }: WithInteractionProps) => {
   return (
     <Box
-      wds-component="with-interaction"
+      data-component="with-interaction"
       role="presentation"
       sx={interactionStyle({ color, width, height })}
     />

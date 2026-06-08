@@ -112,7 +112,7 @@ export const scrollBarThumbStyle = (theme: Theme) => css`
   border-radius: 10px;
   background-color: ${theme.semantic.fill.strong};
 
-  & > [wds-component='with-interaction'] {
+  & > [data-component='with-interaction'] {
     transition: opacity 0.2s ease;
   }
 `;

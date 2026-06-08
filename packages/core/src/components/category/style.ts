@@ -98,12 +98,12 @@ const categoryPaddingStyle = ({
 
         &:not(:has([data-role='category-list-icon-button']))
           [data-radix-scroll-area-content] {
-          padding: 0px var(--wds-category-list-padding, 20px);
+          padding: 0px var(--category-list-padding, 20px);
         }
 
         &:has([data-role='category-list-icon-button'])
           [data-radix-scroll-area-content] {
-          padding: 0px 0px 0px var(--wds-category-list-padding, 20px);
+          padding: 0px 0px 0px var(--category-list-padding, 20px);
         }
 
         ${isScrollableRight
@@ -127,8 +127,8 @@ const categoryPaddingStyle = ({
               }
             `}
 
-        --wds-category-icon-button-padding: 0px
-          calc(var(--wds-category-list-padding, 20px) - 4px) 0px 0px;
+        --category-icon-button-padding: 0px
+          calc(var(--category-list-padding, 20px) - 4px) 0px 0px;
       `;
     case false:
       return css`
@@ -169,7 +169,7 @@ const categoryPaddingStyle = ({
               }
             `}
 
-        --wds-category-icon-button-padding: 0px;
+        --category-icon-button-padding: 0px;
       `;
   }
 };
@@ -355,5 +355,5 @@ export const stickyButtonStyle = css`
   right: 0px;
   height: 100%;
   flex-shrink: 0;
-  padding: var(--wds-category-icon-button-padding, 0px);
+  padding: var(--category-icon-button-padding, 0px);
 `;

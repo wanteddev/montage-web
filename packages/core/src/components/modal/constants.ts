@@ -12,7 +12,7 @@ export const BOTTOM_SHEET_PEEK_PADDING = 12;
 
 /**
  * Top inset (px) reserved above the sheet at its full snap. Mirrors the `- 40px`
- * in the `--wds-modal-default-max-height` CSS calc — keep in sync with style.ts.
+ * in the `--modal-default-max-height` CSS calc — keep in sync with style.ts.
  */
 export const BOTTOM_SHEET_TOP_INSET_PX = 40;
 

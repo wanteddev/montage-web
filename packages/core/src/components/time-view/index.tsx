@@ -104,7 +104,7 @@ const TimeView = forwardRef<
       >
         <FlexBox
           ref={ref}
-          wds-component="time-view"
+          data-component="time-view"
           sx={[timeViewStyle, sx]}
           {...props}
         >
@@ -313,7 +313,7 @@ const TimeItem = forwardRef<
       if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
 
       const timeViewElement = e.currentTarget.closest(
-        '[wds-component="time-view"]',
+        '[data-component="time-view"]',
       );
       const currentTimeListScrollArea = e.currentTarget.closest(
         '[data-role="time-list-scroll-area"]',

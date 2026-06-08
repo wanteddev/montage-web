@@ -72,7 +72,7 @@ const ProgressTracker = forwardRef<
         )}
       >
         <FlexBox
-          wds-component="progress-tracker"
+          data-component="progress-tracker"
           aria-label="progress"
           as="ol"
           ref={ref}
@@ -137,7 +137,7 @@ const ProgressTrackerItemVertical = forwardRef<
     <FlexBox
       as="li"
       ref={ref}
-      wds-component="progress-tracker-item"
+      data-component="progress-tracker-item"
       aria-current={isActive ? 'step' : undefined}
       aria-label={`Step ${index}`}
       gap="20px"
@@ -255,7 +255,7 @@ const ProgressTrackerItemHorizontal = forwardRef<
     <FlexBox
       as="li"
       ref={ref}
-      wds-component="progress-tracker-item"
+      data-component="progress-tracker-item"
       aria-current={isActive ? 'step' : undefined}
       aria-label={`Step ${index}`}
       flexDirection="column"
@@ -371,7 +371,7 @@ const ProgressTrackerLabelContent = forwardRef<
     case 'badge':
       return (
         <FlexBox
-          wds-component="progress-tracker-label-content"
+          data-component="progress-tracker-label-content"
           ref={ref}
           alignItems="center"
           gap="4px"
@@ -382,7 +382,7 @@ const ProgressTrackerLabelContent = forwardRef<
     case 'caption':
       return (
         <FlexBox
-          wds-component="progress-tracker-label-content"
+          data-component="progress-tracker-label-content"
           ref={ref}
           alignItems="center"
           justifyContent="flex-end"
@@ -403,7 +403,7 @@ const ProgressTrackerLabelContent = forwardRef<
     case 'custom':
       return (
         <FlexBox
-          wds-component="progress-tracker-label-content"
+          data-component="progress-tracker-label-content"
           ref={ref}
           flex="1"
           {...props}

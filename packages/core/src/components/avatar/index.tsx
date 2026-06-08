@@ -59,7 +59,7 @@ const Avatar = forwardRef<
       <Box
         ref={ref}
         className={className}
-        wds-component="avatar"
+        data-component="avatar"
         sx={[avatarWrapperStyle({ size, variant, xs, sm, md, lg, xl }), sx]}
         data-state={imageLoadingStatus}
         style={style}

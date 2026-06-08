@@ -17,7 +17,7 @@ const DismissableLayer = forwardRef<HTMLDivElement, DismissableLayerProps>(
       (e: PointerDownOutsideEvent | FocusOutsideEvent) => {
         const target = e.target as HTMLElement;
 
-        if (target.closest('[wds-ignore-dismissable-layer="true"]')) {
+        if (target.closest('[data-ignore-dismissable-layer="true"]')) {
           e.preventDefault();
         }
       },

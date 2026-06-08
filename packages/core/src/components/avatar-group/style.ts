@@ -16,7 +16,7 @@ export const avatarGroupStyle =
 
     ${avatarGroupSizeStyle(size)}
 
-    [wds-component='avatar'] {
+    [data-component='avatar'] {
       flex-shrink: 0;
       position: relative;
 
@@ -50,7 +50,7 @@ const avatarGroupSizeStyle = (size: AvatarGroupProps['size']) => {
     case 'small':
       return css`
         gap: 10px;
-        [wds-component='avatar'] {
+        [data-component='avatar'] {
           margin-left: -8px;
 
           &:last-child {
@@ -61,7 +61,7 @@ const avatarGroupSizeStyle = (size: AvatarGroupProps['size']) => {
     case 'xsmall':
       return css`
         gap: 8px;
-        [wds-component='avatar'] {
+        [data-component='avatar'] {
           margin-left: -6px;
 
           &:last-child {

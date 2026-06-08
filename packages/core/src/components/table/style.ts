@@ -8,19 +8,19 @@ import {
 import type { Theme } from '@montage-ui/engine';
 
 export const tableStyle = (theme: Theme) => css`
-  --wds-table-head-cell-padding-x: 20px;
-  --wds-table-head-cell-padding-y: 8px;
-  --wds-table-head-cell-min-height: 44px;
+  --table-head-cell-padding-x: 20px;
+  --table-head-cell-padding-y: 8px;
+  --table-head-cell-min-height: 44px;
 
-  --wds-table-cell-padding-x: 20px;
-  --wds-table-cell-padding-y: 16px;
-  --wds-table-cell-min-height: 44px;
+  --table-cell-padding-x: 20px;
+  --table-cell-padding-y: 16px;
+  --table-cell-min-height: 44px;
 
-  --wds-table-border-color: ${theme.semantic.line.solid.neutral};
+  --table-border-color: ${theme.semantic.line.solid.neutral};
 
   border-radius: 12px;
   overflow: hidden;
-  border: 1px solid var(--wds-table-border-color);
+  border: 1px solid var(--table-border-color);
 
   table {
     display: table;
@@ -55,24 +55,23 @@ export const scrollAreaStyle = css`
 `;
 
 export const tableHeadCellStyle = css`
-  padding: var(--wds-table-head-cell-padding-y, 8px) 0px
-    var(--wds-table-head-cell-padding-y, 8px)
-    var(--wds-table-head-cell-padding-x, 20px);
-  height: var(--wds-table-head-cell-min-height, 44px);
+  padding: var(--table-head-cell-padding-y, 8px) 0px
+    var(--table-head-cell-padding-y, 8px) var(--table-head-cell-padding-x, 20px);
+  height: var(--table-head-cell-min-height, 44px);
   vertical-align: middle;
   display: table-cell;
   border: none;
-  border-bottom: 1px solid var(--wds-table-border-color);
+  border-bottom: 1px solid var(--table-border-color);
 `;
 
 export const tableCellStyle = css`
-  padding: var(--wds-table-cell-padding-y, 16px) 0px
-    var(--wds-table-cell-padding-y, 16px) var(--wds-table-cell-padding-x, 20px);
+  padding: var(--table-cell-padding-y, 16px) 0px
+    var(--table-cell-padding-y, 16px) var(--table-cell-padding-x, 20px);
   vertical-align: middle;
   display: table-cell;
   border: none;
-  height: var(--wds-table-cell-min-height, 44px);
-  border-bottom: 1px solid var(--wds-table-border-color);
+  height: var(--table-cell-min-height, 44px);
+  border-bottom: 1px solid var(--table-border-color);
 `;
 
 export const tableRowStyle = (interaction?: boolean) => (theme: Theme) => css`
@@ -83,10 +82,10 @@ export const tableRowStyle = (interaction?: boolean) => (theme: Theme) => css`
   border: none;
 
   td:last-child {
-    padding-right: var(--wds-table-head-cell-padding-x, 20px);
+    padding-right: var(--table-head-cell-padding-x, 20px);
   }
   th:last-child {
-    padding-right: var(--wds-table-head-cell-padding-x, 20px);
+    padding-right: var(--table-head-cell-padding-x, 20px);
   }
 
   ${interaction &&
@@ -161,7 +160,6 @@ export const tableFootStyle = css`
 `;
 
 export const paginationWrapperStyle = css`
-  padding: var(--wds-table-cell-padding-y, 16px)
-    var(--wds-table-cell-padding-x, 20px);
-  border-top: 1px solid var(--wds-table-border-color);
+  padding: var(--table-cell-padding-y, 16px) var(--table-cell-padding-x, 20px);
+  border-top: 1px solid var(--table-border-color);
 `;

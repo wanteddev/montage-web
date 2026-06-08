@@ -8,8 +8,8 @@ import type { GridItemProps } from './types';
 export const gridItemStyle =
   ({ xs, sm, md, lg, xl, ...props }: GridItemProps) =>
   (theme: Theme) => css`
-    padding-top: calc(var(--wds-column-spacing));
-    padding-left: calc(var(--wds-row-spacing));
+    padding-top: calc(var(--grid-column-spacing));
+    padding-left: calc(var(--grid-row-spacing));
 
     ${gridItemAlignStyle(props)}
 

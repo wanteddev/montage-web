@@ -117,7 +117,9 @@ const Toast = forwardRef(
           container={
             container ??
             // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-            globalThis?.document?.querySelector('#wds-region-manager-bottom')
+            globalThis?.document?.querySelector(
+              '#montage-region-manager-bottom',
+            )
           }
         >
           <Box

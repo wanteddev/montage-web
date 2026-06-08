@@ -96,7 +96,7 @@ const PaginationDots = forwardRef<
 
             return (
               <RovingFocusGroupItem
-                key={`wds-pagination-dot-${i}`}
+                key={`montage-pagination-dot-${i}`}
                 active={isActive}
                 focusable
                 asChild

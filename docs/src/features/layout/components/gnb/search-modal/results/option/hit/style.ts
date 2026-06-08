@@ -6,13 +6,13 @@ export const wrapperStyle = css`
   position: relative;
 
   &:hover:not(:active):not([aria-selected='true']) {
-    & > a > [wds-component='with-interaction'] {
+    & > a > [data-component='with-interaction'] {
       opacity: 0;
     }
   }
 
   &[aria-selected='true']:not(:active) {
-    & > a > [wds-component='with-interaction'] {
+    & > a > [data-component='with-interaction'] {
       opacity: 0.05;
     }
   }

@@ -66,7 +66,7 @@ const SearchField = forwardRef<
       <Box
         className={className}
         style={style}
-        wds-component="search-field"
+        data-component="search-field"
         ref={useComposedRefs(parentRef, wrapperRef)}
         sx={[
           searchFieldWrapperStyle({

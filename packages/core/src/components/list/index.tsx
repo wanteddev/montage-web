@@ -141,7 +141,7 @@ const ListCell = forwardRef(
             data-disable-interaction={
               disabled || disableInteraction || verticalPadding === 'none'
             }
-            wds-component="list-cell"
+            data-component="list-cell"
             {...props}
             onKeyDown={composeEventHandlers(props.onKeyDown, (e) => {
               if (
@@ -229,7 +229,7 @@ const ListCellContent = forwardRef<
     case 'large-icon':
       return (
         <FlexBox
-          wds-component="list-cell-content"
+          data-component="list-cell-content"
           alignItems={alignItems}
           ref={ref}
           {...props}
@@ -242,7 +242,7 @@ const ListCellContent = forwardRef<
     case 'button':
       return (
         <FlexBox
-          wds-component="list-cell-content"
+          data-component="list-cell-content"
           alignItems={alignItems}
           ref={ref}
           {...props}
@@ -257,7 +257,7 @@ const ListCellContent = forwardRef<
     case 'icon-button':
       return (
         <FlexBox
-          wds-component="list-cell-content"
+          data-component="list-cell-content"
           alignItems={alignItems}
           ref={ref}
           {...props}
@@ -274,7 +274,7 @@ const ListCellContent = forwardRef<
         <FlexBox
           role="button"
           alignItems={alignItems}
-          wds-component="list-cell-content"
+          data-component="list-cell-content"
           gap="8px"
           ref={ref}
           tabIndex={props.onClick ? 0 : -1}
@@ -308,7 +308,7 @@ const ListCellContent = forwardRef<
       return (
         <CheckboxProvider tight>
           <FlexBox
-            wds-component="list-cell-content"
+            data-component="list-cell-content"
             alignItems={alignItems}
             ref={ref}
             {...props}
@@ -322,7 +322,7 @@ const ListCellContent = forwardRef<
       return (
         <RadioProvider tight>
           <FlexBox
-            wds-component="list-cell-content"
+            data-component="list-cell-content"
             alignItems={alignItems}
             ref={ref}
             {...props}
@@ -342,7 +342,7 @@ const ListCellContent = forwardRef<
     default:
       return (
         <FlexBox
-          wds-component="list-cell-content"
+          data-component="list-cell-content"
           alignItems={alignItems}
           ref={ref}
           {...props}

@@ -88,7 +88,7 @@ export const accordionSummaryContentStyle = ({
     }
   `}
 
-  [wds-component='icon-button'] {
+  [data-component='icon-button'] {
     width: 100%;
     height: 100%;
   }
@@ -116,15 +116,15 @@ const mountKeyframes = keyframes`
     overflow: hidden;
   }
   to {
-    height: var(--wds-accordion-height);
-    overflow: var(--wds-accordion-overflow);
+    height: var(--accordion-height);
+    overflow: var(--accordion-overflow);
   }
 `;
 
 const unmountKeyframes = keyframes`
   from {
-    height: var(--wds-accordion-height);
-    overflow: var(--wds-accordion-overflow);
+    height: var(--accordion-height);
+    overflow: var(--accordion-overflow);
   }
 
   to {
@@ -163,10 +163,10 @@ export const accordionDetailsStyle = ({
 
 export const accordionDetailsWrapperStyle = css`
   flex-direction: column;
-  padding-top: calc(16px - var(--wds-list-cell-vertical-padding, 16px));
-  padding-bottom: var(--wds-list-cell-vertical-padding, 16px);
-  padding-left: calc(var(--wds-list-cell-horizontal-padding, 0px));
-  padding-right: calc(var(--wds-list-cell-horizontal-padding, 0px));
+  padding-top: calc(16px - var(--list-cell-vertical-padding, 16px));
+  padding-bottom: var(--list-cell-vertical-padding, 16px);
+  padding-left: calc(var(--list-cell-horizontal-padding, 0px));
+  padding-right: calc(var(--list-cell-horizontal-padding, 0px));
 `;
 
 export const accordionDividerStyle = ({
@@ -175,7 +175,7 @@ export const accordionDividerStyle = ({
   disableAnimation: boolean;
 }) => css`
   margin: 0 auto;
-  width: calc(100% - (var(--wds-list-cell-horizontal-padding, 0px) * 2));
+  width: calc(100% - (var(--list-cell-horizontal-padding, 0px) * 2));
   will-change: opacity;
 
   ${!disableAnimation &&
@@ -185,5 +185,5 @@ export const accordionDividerStyle = ({
 `;
 
 export const accordionContentStyle = css`
-  margin-top: var(--wds-list-cell-vertical-padding, 16px);
+  margin-top: var(--list-cell-vertical-padding, 16px);
 `;

@@ -117,8 +117,8 @@ export const useToastAnimation = ({
     handleMouseEnter,
     handleMouseLeave,
     style: {
-      [`--wds-${component}-animation-height`]: `${height}px`,
-      [`--wds-${component}-animation-margin-top`]: disablePortal ? 0 : '10px',
+      [`--${component}-animation-height`]: `${height}px`,
+      [`--${component}-animation-margin-top`]: disablePortal ? 0 : '10px',
     } as CSSProperties,
   };
 };

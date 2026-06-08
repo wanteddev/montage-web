@@ -14,11 +14,11 @@ export const fallbackViewStyle =
     width: ${toCssValue(width)};
     ${fallbackViewPlatformStyle({ platform })}
     ${fallbackViewPaddingStyle({ padding })}
-    --wds-fallback-view-bottom-space: 0px;
+    --fallback-view-bottom-space: 0px;
 
-    &:has([wds-component='fallback-view-image'])
-      [wds-component='fallback-view-content'] {
-      --wds-fallback-view-bottom-space: 20px;
+    &:has([data-component='fallback-view-image'])
+      [data-component='fallback-view-content'] {
+      --fallback-view-bottom-space: 20px;
     }
 
     [data-role='fallback-view-text-title'] {
@@ -162,12 +162,12 @@ const fallbackViewContentPlatformStyle = ({
     case 'mobile':
       return css`
         padding-top: 8px;
-        padding-bottom: calc(8px + var(--wds-fallback-view-bottom-space));
+        padding-bottom: calc(8px + var(--fallback-view-bottom-space));
       `;
     case 'desktop':
       return css`
         padding-top: 12px;
-        padding-bottom: calc(12px + var(--wds-fallback-view-bottom-space));
+        padding-bottom: calc(12px + var(--fallback-view-bottom-space));
       `;
   }
 };

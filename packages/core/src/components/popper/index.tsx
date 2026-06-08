@@ -112,7 +112,7 @@ const PopperArrow = forwardRef<
   return (
     <FlexBox
       ref={composedRef}
-      wds-component="popper-arrow"
+      data-component="popper-arrow"
       aria-hidden
       {...props}
       sx={[{ width: 'fit-content', height: 'fit-content' }, props.sx]}
@@ -255,7 +255,7 @@ const PopperContent = forwardRef<
     return (
       <PortalOrFragment disablePortal={disablePortal} container={container}>
         <Box
-          wds-ignore-dismissable-layer="true"
+          data-ignore-dismissable-layer="true"
           ref={refs.setFloating}
           {...wrapperProps}
           data-side={side}

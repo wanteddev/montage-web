@@ -20,7 +20,7 @@ describe('when given text field component', () => {
     const { container } = render(<TextField data-testid="text-field" />);
 
     const wrapper = container.querySelector<HTMLElement>(
-      '[wds-component="text-field"]',
+      '[data-component="text-field"]',
     )!;
 
     fireEvent.click(wrapper);

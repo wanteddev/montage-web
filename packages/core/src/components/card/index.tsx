@@ -194,7 +194,7 @@ const CardContent = forwardRef(
   ) => {
     return (
       <FlexBox
-        wds-component="card-content"
+        data-component="card-content"
         ref={ref}
         flexDirection="column"
         flex="1"
@@ -221,7 +221,7 @@ const CardContentItem = forwardRef(
     return (
       <FlexBox
         ref={ref}
-        wds-component="card-content-item"
+        data-component="card-content-item"
         {...props}
         sx={[cardContentItemStyle({ position, variant }), sx]}
       />
@@ -251,7 +251,7 @@ const CardTitle = forwardRef(
       <Typography
         as={as ?? 'p'}
         ref={ref}
-        wds-component="card-title"
+        data-component="card-title"
         {...props}
         sx={[
           cardTitleStyle({ variant, weight, color, xs, sm, md, lg, xl }),
@@ -284,7 +284,7 @@ const CardCaption = forwardRef(
       <Typography
         ref={ref}
         as={as ?? 'p'}
-        wds-component="card-caption"
+        data-component="card-caption"
         {...props}
         sx={[
           cardCaptionStyle({ variant, weight, color, xs, sm, md, lg, xl }),
@@ -364,7 +364,7 @@ const CardContentItemSkeleton = forwardRef(
     return (
       <Skeleton
         ref={ref}
-        wds-component="card-content-item-skeleton"
+        data-component="card-content-item-skeleton"
         variant="rectangle"
         radius="3px"
         width={width}
@@ -394,7 +394,7 @@ const CardTitleSkeleton = forwardRef(
     return (
       <Skeleton
         ref={ref}
-        wds-component="card-title-skeleton"
+        data-component="card-title-skeleton"
         {...props}
         sx={[
           cardTitleSkeletonStyle({ width, height, xs, sm, md, lg, xl }),
@@ -436,7 +436,7 @@ const CardCaptionSkeleton = forwardRef(
       <Skeleton
         ref={ref}
         data-type={type}
-        wds-component="card-caption-skeleton"
+        data-component="card-caption-skeleton"
         width={width}
         height={height}
         {...props}

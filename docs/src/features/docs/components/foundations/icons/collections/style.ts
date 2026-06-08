@@ -32,7 +32,7 @@ export const iconItemStyle = (theme: Theme) => css`
     box-shadow: inset 0 0 0 1px
       ${addOpacity(theme.semantic.primary.normal, theme.opacity[16])};
 
-    & > [wds-component='with-interaction'] {
+    & > [data-component='with-interaction'] {
       background-color: ${theme.semantic.primary.normal};
       opacity: 0.06;
     }
