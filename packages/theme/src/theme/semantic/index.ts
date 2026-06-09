@@ -99,7 +99,7 @@ export const light = {
     strong: addHexOpacity(atomic.coolNeutral[50], opacity[16]),
     alternative: addHexOpacity(atomic.coolNeutral[50], opacity[5]),
     primary: addHexOpacity(atomic.blue[50], opacity[5]),
-    negative: addHexOpacity(atomic.red[50], opacity[5]),
+    negative: addHexOpacity(atomic.red[50], opacity[12]),
   },
   material: {
     dimmer: addHexOpacity(atomic.coolNeutral[10], opacity[52]),
