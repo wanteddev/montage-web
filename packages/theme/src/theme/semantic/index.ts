@@ -42,6 +42,8 @@ export const light = {
   interaction: {
     inactive: atomic.coolNeutral[70],
     disable: atomic.coolNeutral[98],
+    focus: addHexOpacity(atomic.blue[50], opacity[12]),
+    negative: addHexOpacity(atomic.red[50], opacity[12]),
   },
   line: {
     normal: {
@@ -109,6 +111,8 @@ export const light = {
     normal: addHexOpacity(atomic.coolNeutral[50], opacity[8]),
     strong: addHexOpacity(atomic.coolNeutral[50], opacity[16]),
     alternative: addHexOpacity(atomic.coolNeutral[50], opacity[5]),
+    primary: addHexOpacity(atomic.blue[50], opacity[5]),
+    negative: addHexOpacity(atomic.red[50], opacity[12]),
   },
   material: {
     dimmer: addHexOpacity(atomic.coolNeutral[10], opacity[52]),
@@ -177,6 +181,8 @@ export const dark = {
   interaction: {
     inactive: atomic.coolNeutral[40],
     disable: atomic.coolNeutral[22],
+    focus: addHexOpacity(atomic.blue[60], opacity[12]),
+    negative: addHexOpacity(atomic.red[60], opacity[12]),
   },
   line: {
     normal: {
@@ -244,6 +250,8 @@ export const dark = {
     normal: addHexOpacity(atomic.coolNeutral[50], opacity[22]),
     strong: addHexOpacity(atomic.coolNeutral[50], opacity[28]),
     alternative: addHexOpacity(atomic.coolNeutral[50], opacity[12]),
+    primary: addHexOpacity(atomic.blue[60], opacity[5]),
+    negative: addHexOpacity(atomic.red[60], 0.2),
   },
   material: {
     dimmer: addHexOpacity(atomic.coolNeutral[10], opacity[74]),
