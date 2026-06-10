@@ -71,7 +71,7 @@ export const textFieldWrapperStyle =
 
     ${invalid &&
     css`
-      box-shadow: inset 0 0 0 1px ${theme.semantic.line.negative.normal};
+      box-shadow: inset 0 0 0 1px ${theme.semantic.line.status.negative.normal};
     `}
 
     ${disabled
@@ -87,7 +87,8 @@ export const textFieldWrapperStyle =
               ${invalid
                 ? css`
                     box-shadow:
-                      inset 0 0 0 1px ${theme.semantic.line.negative.strong},
+                      inset 0 0 0 1px
+                        ${theme.semantic.line.status.negative.strong},
                       0 0 0 4px ${theme.semantic.interaction.negative};
                   `
                 : css`
@@ -120,7 +121,8 @@ export const textFieldWrapperStyle =
               ${invalid
                 ? css`
                     box-shadow:
-                      inset 0 0 0 1px ${theme.semantic.line.negative.strong},
+                      inset 0 0 0 1px
+                        ${theme.semantic.line.status.negative.strong},
                       0 0 0 4px ${theme.semantic.interaction.negative};
                   `
                 : css`
