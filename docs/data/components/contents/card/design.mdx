@@ -17,7 +17,7 @@ updatedAt: 2026-01-29
   
 
 <SectionVariants
-  components={['FlexBox', 'Card', 'CardThumbnail', 'CardTitle', 'CardCaption', 'CardContent', 'CardThumbnailContent', 'ToggleIcon']}
+  components={['FlexBox', 'Card', 'CardThumbnail', 'CardTitle', 'CardCaption', 'CardBody', 'CardThumbnailContent', 'ToggleIcon']}
   icons={['IconBookmark']}
   render={(value) => {
       const platform = value['Platform'].toLowerCase();
@@ -48,10 +48,10 @@ updatedAt: 2026-01-29
                 </CardThumbnailContent>
               )}
             />
-            <CardContent>
+            <CardBody>
               <CardTitle>Heading</CardTitle>
               <CardCaption>Caption</CardCaption>
-            </CardContent>
+            </CardBody>
           </Card>
         </FlexBox>
       `;

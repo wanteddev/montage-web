@@ -2,7 +2,7 @@
 import { useCallback, useMemo } from 'react';
 import {
   Card,
-  CardContent,
+  CardBody,
   CardThumbnail,
   CardTitle,
   FlexBox,
@@ -106,7 +106,7 @@ const DocsCollection = ({ category }: Props) => {
                       ratio="16:9"
                       width="100%"
                     />
-                    <CardContent>
+                    <CardBody>
                       <CardTitle
                         variant="body1"
                         weight="medium"
@@ -115,7 +115,7 @@ const DocsCollection = ({ category }: Props) => {
                       >
                         {data.title}
                       </CardTitle>
-                    </CardContent>
+                    </CardBody>
                   </Card>
                 </GridItem>
               ))}
