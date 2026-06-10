@@ -148,6 +148,47 @@ npx @montage-ui/codemod@latest dom-identifier-migration src
 
 위 내용에 따라 `onVisibilityChange` 옵션이 제거되었습니다.
 
+### TextField
+
+Figma 스펙에 맞춰 사이즈 체계와 일부 하위 컴포넌트 API가 변경되었습니다.
+
+#### `size` prop 도입 (Large / Medium)
+
+`size` prop이 추가되었으며 기본값은 `'large'`입니다. 기존 단일 사이즈는 Large(높이 48px)에 해당하지만, 토큰 적용으로 radius·typography·아이콘 크기 등 세부 수치가 변경되었습니다.
+
+| 속성            | 기존(단일)   | Large        | Medium        |
+| --------------- | ------------ | ------------ | ------------- |
+| 최소 높이       | 48px         | 48px         | 40px          |
+| Border radius   | 12px         | 14px         | 12px          |
+| 입력 Typography | body1 (16px) | body2 (15px) | label1 (14px) |
+| Icon size       | 22px         | 20px         | 18px          |
+
+높이 40px가 필요했다면 `size="medium"`을 사용하세요. `size`는 반응형 값도 지원합니다.
+
+#### `TextFieldButton`의 `variant` prop 제거
+
+`variant="normal" | "assistive"` 두 형태를 제공하던 것에서 단일 형태로 통일되어 `variant` prop이 제거되었습니다.
+
+- AS-IS: `<TextField.Button variant="normal">`
+- TO-BE: `<TextField.Button>` — `variant` 속성을 제거하세요.
+
+또한 trailing button이 Field 외부가 아닌 Field 내부에 위치하도록 변경되었습니다.
+
+#### `TextFieldContent`의 `'text-button'` variant 제거
+
+`TextFieldContent`의 `variant`에서 `'text-button'`이 제거되었습니다. 해당 값을 사용했다면 다른 variant로 교체하세요.
+
+#### Negative 상태 우측 아이콘 제거
+
+`negative` 상태에서 Field 내부 우측에 표시되던 circle exclamation 아이콘이 제거되었습니다.
+
+#### 내부 DOM 구조 변경 (`[data-role='text-field-wrapper']`)
+
+기존에 `[data-role='text-field-wrapper']`에 적용되던 `padding`·`box-shadow`(inset border)가 TextField 루트 요소로 이동했습니다. `[data-role='text-field-wrapper']`를 직접 타겟해 `padding`이나 `box-shadow: inset ...`으로 커스텀했다면, 이제 TextField 요소(`sx` 또는 루트 셀렉터)에 직접 스타일을 적용해야 합니다.
+
+- AS-IS: `[data-role='text-field-wrapper'] { padding: ...; box-shadow: inset ...; }`
+- TO-BE: TextField 요소에 직접 `sx`로 `padding` / `box-shadow`를 지정
+
 ## 3.0.0 (2025-11-12)
 
 ### Button

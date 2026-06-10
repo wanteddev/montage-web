@@ -32,11 +32,13 @@ export type TextFieldDefaultProps = WithSxProps<{
   onReset?: (prevValue: string) => void;
   /** The children of the text field. */
   children?: ReactNode;
+  /** The size of the text field. */
+  size?: 'large' | 'medium';
   wrapperRef?: Ref<HTMLDivElement>;
 }>;
 
 export type TextFieldResponsiveProps = ResponsiveProps<
-  Pick<TextFieldDefaultProps, 'width' | 'height'>
+  Pick<TextFieldDefaultProps, 'width' | 'height' | 'size'>
 >;
 
 export type TextFieldProps = Merge<
@@ -45,20 +47,12 @@ export type TextFieldProps = Merge<
 >;
 
 export type TextFieldContentProps = WithSxProps<{
-  variant?:
-    | 'custom'
-    | 'text'
-    | 'timer'
-    | 'badge'
-    | 'icon'
-    | 'icon-button'
-    | 'text-button';
+  variant?: 'custom' | 'text' | 'timer' | 'badge' | 'icon' | 'icon-button';
   color?: ThemeColorsToken;
   children?: ReactNode;
 }>;
 
 export type TextFieldButtonProps = WithSxProps<{
-  variant?: 'normal' | 'assistive';
   loading?: boolean;
   /**
    * When `loading=true`, the event blocking action is disabled.
