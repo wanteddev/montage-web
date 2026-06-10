@@ -9,55 +9,54 @@ updatedAt: 2025-06-17
 
 표시할 양이 많은 정보를 묶어 표시할 때 사용합니다.
 
-<Demo code={`import { CardList, CardThumbnail, CardTitle, CardCaption, CardContent } from '@montage-ui/core';
+<Demo code={`import { ListCard, ListCardThumbnail, ListCardTitle, ListCardCaption, ListCardBody } from '@montage-ui/core';
 
 const Demo = () => {
   return (
-    <CardList
-      width="45%" 
+    <ListCard
+      width="45%"
       sx={{ margin: 'auto' }}
     >
-      <CardThumbnail
+      <ListCardThumbnail
         src="https://static.wanted.co.kr/images/company/79/elpzxpmgh94xesrf__1080_790.png"
         alt="Wanted Company Image"
       />
-      <CardContent>
-        <CardTitle>Heading</CardTitle>
-        <CardCaption>Caption</CardCaption>
-        <CardCaption>Extra caption</CardCaption>
-      </CardContent>
-    </CardList>
+      <ListCardBody>
+        <ListCardTitle>Heading</ListCardTitle>
+        <ListCardCaption>Caption</ListCardCaption>
+        <ListCardCaption>Extra caption</ListCardCaption>
+      </ListCardBody>
+    </ListCard>
   );
 }
 
 export default Demo;`}
 />
 
-
 ## Anatomy
 
 아래와 같은 구조로 조합하여 사용합니다.
 
 ```tsx
-<CardList>
-  <CardThumbnail />
-  <CardContent>
-    <CardContentItem position="top" />
-    <CardTitle />
-    <CardCaption />
-    <CardCaption />
-    <CardContentItem position="bottom" />
-  </CardContent>
-</CardList>
+<ListCard>
+  <ListCardThumbnail />
+  <ListCardBody>
+    <ListCardRow position="top" />
+    <ListCardTitle />
+    <ListCardCaption />
+    <ListCardCaption />
+    <ListCardRow position="bottom" />
+  </ListCardBody>
+</ListCard>
 ```
 
 ## With contents
 
 leadingContent, trailingContent로 좌우측 끝에 콘텐츠를 추가할 수 있습니다.
 
-`CardListContent`로 요소를 감싸서 사용합니다.
+`ListCardContent`로 요소를 감싸서 사용합니다.
 
-<Demo code={`import { ToggleIcon, FlexBox, Checkbox, CardList, CardTitle, CardContent, CardCaption, CardThumbnail, CardListContent } from '@montage-ui/core';
+<Demo code={`import { ToggleIcon, FlexBox, Checkbox, ListCard, ListCardTitle, ListCardBody, ListCardCaption, ListCardThumbnail, ListCardContent } from '@montage-ui/core';
 import { IconBookmark, IconBookmarkFill } from '@montage-ui/icon';
 import { useState } from 'react';
 
@@ -66,39 +65,39 @@ const Demo = () => {
   const [isBookmarked, setIsBookmarked] = useState(false);
 
   return (
-    <CardList
+    <ListCard
       sx={{ margin: 'auto' }}
       width="45%"
       leadingContent={(
-        <CardListContent variant="checkbox">
-          <Checkbox 
+        <ListCardContent variant="checkbox">
+          <Checkbox
             checked={checked}
             onCheckedChange={setChecked}
           />
-        </CardListContent>
+        </ListCardContent>
       )}
       trailingContent={(
-        <CardListContent variant="toggle-icon">
-          <ToggleIcon 
+        <ListCardContent variant="toggle-icon">
+          <ToggleIcon
             activeColor="semantic.primary.normal"
             active={isBookmarked}
             onActiveChange={setIsBookmarked}
           >
             {isBookmarked ? <IconBookmarkFill /> : <IconBookmark />}
           </ToggleIcon>
-        </CardListContent>
+        </ListCardContent>
       )}
     >
-      <CardThumbnail
+      <ListCardThumbnail
         src="https://static.wanted.co.kr/images/company/79/elpzxpmgh94xesrf__1080_790.png"
         alt="Wanted Company Image"
         width="240px"
       />
-      <CardContent>
-        <CardTitle>Heading</CardTitle>
-        <CardCaption>Caption</CardCaption>
-      </CardContent>
-    </CardList>
+      <ListCardBody>
+        <ListCardTitle>Heading</ListCardTitle>
+        <ListCardCaption>Caption</ListCardCaption>
+      </ListCardBody>
+    </ListCard>
   );
 }
 
@@ -107,42 +106,41 @@ export default Demo;`}
 
 ### Top/Bottom content
 
-`CardContentItem`의 `position`을 조정하여 상단, 하단에 콘텐츠를 추가할 수 있습니다.
+`ListCardRow`의 `position`을 조정하여 상단, 하단에 콘텐츠를 추가할 수 있습니다.
 
 뱃지나 부가적인 내용을 추가할 때 사용합니다.
 
-<Demo code={`import { FlexBox, CardList, CardTitle, CardCaption, CardContent, CardContentItem, ContentBadge, CardThumbnailSkeleton } from '@montage-ui/core';
+<Demo code={`import { FlexBox, ListCard, ListCardTitle, ListCardCaption, ListCardBody, ListCardRow, ContentBadge, ListCardThumbnailSkeleton } from '@montage-ui/core';
 
 const Demo = () => {
   return (
     <FlexBox gap="24px" flexDirection="column" alignItems="center" sx={{ width: '100%' }}>
-      <CardList width="45%">
-        <CardThumbnailSkeleton animation={false} />
-        <CardContent>
-          <CardContentItem position="top" variant="badge">
+      <ListCard width="45%">
+        <ListCardThumbnailSkeleton animation={false} />
+        <ListCardBody>
+          <ListCardRow position="top" variant="badge">
             <ContentBadge color="neutral">Badge</ContentBadge>
-          </CardContentItem>
-          <CardTitle>Heading</CardTitle>
-          <CardCaption>Caption</CardCaption>
-        </CardContent>
-      </CardList>
-      <CardList width="45%">
-        <CardThumbnailSkeleton animation={false} />
-        <CardContent>
-          <CardTitle>Heading</CardTitle>
-          <CardCaption>Caption</CardCaption>
-          <CardContentItem position="bottom" variant="badge">
+          </ListCardRow>
+          <ListCardTitle>Heading</ListCardTitle>
+          <ListCardCaption>Caption</ListCardCaption>
+        </ListCardBody>
+      </ListCard>
+      <ListCard width="45%">
+        <ListCardThumbnailSkeleton animation={false} />
+        <ListCardBody>
+          <ListCardTitle>Heading</ListCardTitle>
+          <ListCardCaption>Caption</ListCardCaption>
+          <ListCardRow position="bottom" variant="badge">
             <ContentBadge color="neutral">Badge</ContentBadge>
-          </CardContentItem>
-        </CardContent>
-      </CardList>
+          </ListCardRow>
+        </ListCardBody>
+      </ListCard>
     </FlexBox>
   );
 }
 
 export default Demo;`}
 />
-
 
 ## Platform
 
@@ -151,34 +149,34 @@ export default Demo;`}
 - desktop (default)
 - mobile
 
-<Demo code={`import { FlexBox, CardList, CardThumbnail, CardTitle, CardCaption, CardContent } from '@montage-ui/core';
+<Demo code={`import { FlexBox, ListCard, ListCardThumbnail, ListCardTitle, ListCardCaption, ListCardBody } from '@montage-ui/core';
 
 const Demo = () => {
   return (
     <FlexBox gap="24px" flexDirection="column" alignItems="center" sx={{ width: '100%' }}>
-      <CardList width="45%" platform="desktop">
-        <CardThumbnail
+      <ListCard width="45%" platform="desktop">
+        <ListCardThumbnail
           src="https://static.wanted.co.kr/images/company/79/elpzxpmgh94xesrf__1080_790.png"
           alt="Wanted Company Image"
         />
-        <CardContent>
-          <CardTitle>Heading</CardTitle>
-          <CardCaption>platform: desktop</CardCaption>
-          <CardCaption>Extra caption</CardCaption>
-        </CardContent>
-      </CardList>
+        <ListCardBody>
+          <ListCardTitle>Heading</ListCardTitle>
+          <ListCardCaption>platform: desktop</ListCardCaption>
+          <ListCardCaption>Extra caption</ListCardCaption>
+        </ListCardBody>
+      </ListCard>
 
-      <CardList width="45%" platform="mobile">
-        <CardThumbnail
+      <ListCard width="45%" platform="mobile">
+        <ListCardThumbnail
           src="https://static.wanted.co.kr/images/company/79/elpzxpmgh94xesrf__1080_790.png"
           alt="Wanted Company Image"
         />
-        <CardContent>
-          <CardTitle>Heading</CardTitle>
-          <CardCaption>platform: mobile</CardCaption>
-          <CardCaption>Extra caption</CardCaption>
-        </CardContent>
-      </CardList>
+        <ListCardBody>
+          <ListCardTitle>Heading</ListCardTitle>
+          <ListCardCaption>platform: mobile</ListCardCaption>
+          <ListCardCaption>Extra caption</ListCardCaption>
+        </ListCardBody>
+      </ListCard>
     </FlexBox>
   );
 }
@@ -189,27 +187,28 @@ export default Demo;`}
 ## Skeleton
 
 Card의 로딩 상태를 표현할 때 Skeleton 컴포넌트들을 조합해서 사용합니다.
-- CardListSkeleton
-- CardThumbnailSkeleton
-- CardContent
-- CardContentItemSkeleton
-- CardTitleSkeleton
-- CardCaptionSkeleton
 
-<Demo code={`import { CardListSkeleton, CardThumbnailSkeleton, CardContentItemSkeleton, CardTitleSkeleton, CardCaptionSkeleton, CardContent } from '@montage-ui/core';
+- ListCardSkeleton
+- ListCardThumbnailSkeleton
+- ListCardBody
+- ListCardRowSkeleton
+- ListCardTitleSkeleton
+- ListCardCaptionSkeleton
+
+<Demo code={`import { ListCardSkeleton, ListCardThumbnailSkeleton, ListCardRowSkeleton, ListCardTitleSkeleton, ListCardCaptionSkeleton, ListCardBody } from '@montage-ui/core';
 
 const Demo = () => {
   return (
-    <CardListSkeleton width="45%" sx={{ marginInline: 'auto' }}>
-      <CardThumbnailSkeleton />
-      <CardContent>
-        <CardContentItemSkeleton />
-        <CardTitleSkeleton />
-        <CardCaptionSkeleton type="normal" />
-        <CardCaptionSkeleton type="extra" />
-        <CardContentItemSkeleton />
-      </CardContent>
-    </CardListSkeleton>
+    <ListCardSkeleton width="45%" sx={{ marginInline: 'auto' }}>
+      <ListCardThumbnailSkeleton />
+      <ListCardBody>
+        <ListCardRowSkeleton />
+        <ListCardTitleSkeleton />
+        <ListCardCaptionSkeleton type="normal" />
+        <ListCardCaptionSkeleton type="extra" />
+        <ListCardRowSkeleton />
+      </ListCardBody>
+    </ListCardSkeleton>
   );
 }
 
@@ -218,54 +217,59 @@ export default Demo;`}
 
 ## API
 
-### CardList
+### ListCard
 
 정해진 breakpoint에 따라 아래 옵션을 override 할 수 있습니다.
+
 - platform
 - width
 
-<PropsTable component="CardList" />
+<PropsTable component="ListCard" />
 
-### CardThumbnail
+### ListCardContent
 
-<PropsTable component="CardThumbnail" />
+<PropsTable component="ListCardContent" />
 
-### CardThumbnailContent
+### ListCardThumbnail
 
-<PropsTable component="CardThumbnailContent" />
+<PropsTable component="ListCardThumbnail" />
 
-### CardContent
+### ListCardThumbnailContent
 
-<PropsTable component="CardContent" />
+<PropsTable component="ListCardThumbnailContent" />
 
-### CardTitle
+### ListCardBody
 
-<PropsTable component="CardTitle" />
+<PropsTable component="ListCardBody" />
 
-### CardCaption
+### ListCardTitle
 
-<PropsTable component="CardCaption" />
+<PropsTable component="ListCardTitle" />
 
-### CardContentItem
+### ListCardCaption
 
-<PropsTable component="CardContentItem" />
+<PropsTable component="ListCardCaption" />
 
-### CardListSkeleton
+### ListCardRow
 
-<PropsTable component="CardListSkeleton" />
+<PropsTable component="ListCardRow" />
 
-### CardThumbnailSkeleton
+### ListCardSkeleton
 
-<PropsTable component="CardThumbnailSkeleton" />
+<PropsTable component="ListCardSkeleton" />
 
-### CardContentItemSkeleton
+### ListCardThumbnailSkeleton
 
-<PropsTable component="CardContentItemSkeleton" />
+<PropsTable component="ListCardThumbnailSkeleton" />
 
-### CardTitleSkeleton
+### ListCardRowSkeleton
 
-<PropsTable component="CardTitleSkeleton" />
+<PropsTable component="ListCardRowSkeleton" />
 
-### CardCaptionSkeleton
+### ListCardTitleSkeleton
 
-<PropsTable component="CardCaptionSkeleton" />
+<PropsTable component="ListCardTitleSkeleton" />
+
+### ListCardCaptionSkeleton
+
+<PropsTable component="ListCardCaptionSkeleton" />

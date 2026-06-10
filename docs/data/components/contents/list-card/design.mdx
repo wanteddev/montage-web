@@ -17,7 +17,7 @@ updatedAt: 2026-02-02
   
 
 <SectionVariants
-  components={['FlexBox', 'CardList', 'CardThumbnail', 'CardTitle', 'CardCaption', 'CardContent']}
+  components={['FlexBox', 'ListCard', 'ListCardThumbnail', 'ListCardTitle', 'ListCardCaption', 'ListCardBody']}
   icons={[]}
   render={(value) => {
       return `
@@ -29,13 +29,13 @@ updatedAt: 2026-02-02
             backgroundColor: theme.semantic.background.normal.normal
           })}
         >
-          <CardList platform="${value['Platform'].toLowerCase()}">
-            <CardThumbnail />
-            <CardContent>
-              <CardTitle>Heading</CardTitle>
-              <CardCaption>Caption</CardCaption>
-            </CardContent>
-          </CardList>
+          <ListCard platform="${value['Platform'].toLowerCase()}">
+            <ListCardThumbnail />
+            <ListCardBody>
+              <ListCardTitle>Heading</ListCardTitle>
+              <ListCardCaption>Caption</ListCardCaption>
+            </ListCardBody>
+          </ListCard>
         </FlexBox>
       `;
     }}

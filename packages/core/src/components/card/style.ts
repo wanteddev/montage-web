@@ -13,8 +13,8 @@ import type { TypographyProps } from '../typography/types';
 import type { ThumbnailSkeletonProps } from '../thumbnail/types';
 import type { Theme } from '@montage-ui/engine';
 import type {
-  CardContentItemProps,
   CardProps,
+  CardRowProps,
   CardThumbnailProps,
   CardTitleProps,
   CardTitleSkeletonProps,
@@ -25,10 +25,10 @@ const cardPlatformStyle = ({ platform }: Pick<CardProps, 'platform'>) => {
     case 'desktop':
       return css`
         gap: 8px;
-        --card-content-item-top-position-margin-top: 2px;
-        --card-content-item-top-position-margin-bottom: 4px;
+        --card-row-top-position-margin-top: 2px;
+        --card-row-top-position-margin-bottom: 4px;
 
-        --card-content-item-bottom-position-margin-top: 8px;
+        --card-row-bottom-position-margin-top: 8px;
         // thumbnail
         [data-component='thumbnail'],
         [data-component='thumbnail-skeleton'] {
@@ -50,7 +50,7 @@ const cardPlatformStyle = ({ platform }: Pick<CardProps, 'platform'>) => {
           }
         }
         // content
-        [data-component='card-content'] {
+        [data-component='card-body'] {
           padding: 0 6px;
         }
         // text
@@ -66,10 +66,10 @@ const cardPlatformStyle = ({ platform }: Pick<CardProps, 'platform'>) => {
       return css`
         gap: 6px;
 
-        --card-content-item-top-position-margin-top: 2px;
-        --card-content-item-top-position-margin-bottom: 4px;
+        --card-row-top-position-margin-top: 2px;
+        --card-row-top-position-margin-bottom: 4px;
 
-        --card-content-item-bottom-position-margin-top: 6px;
+        --card-row-bottom-position-margin-top: 6px;
         // thumbnail
         [data-component='thumbnail'],
         [data-component='thumbnail-skeleton'] {
@@ -91,7 +91,7 @@ const cardPlatformStyle = ({ platform }: Pick<CardProps, 'platform'>) => {
           }
         }
         // content
-        [data-component='card-content'] {
+        [data-component='card-body'] {
           padding: 0 2px;
         }
         // text
@@ -302,7 +302,7 @@ export const cardTypographyStyle =
     `;
   };
 
-export const cardContentStyle = css`
+export const cardBodyStyle = css`
   overflow: hidden;
 
   [data-component='card-title'],
@@ -311,22 +311,22 @@ export const cardContentStyle = css`
   }
 `;
 
-export const cardContentItemStyle = ({
+export const cardRowStyle = ({
   variant,
   position,
-}: Pick<CardContentItemProps, 'position' | 'variant'>) => css`
+}: Pick<CardRowProps, 'position' | 'variant'>) => css`
   gap: ${variant === 'badge' ? '6px' : 0};
 
   ${(() => {
     switch (position) {
       case 'top':
         return css`
-          margin-top: var(--card-content-item-top-position-margin-top);
-          margin-bottom: var(--card-content-item-top-position-margin-bottom);
+          margin-top: var(--card-row-top-position-margin-top);
+          margin-bottom: var(--card-row-top-position-margin-bottom);
         `;
       case 'bottom':
         return css`
-          margin-top: var(--card-content-item-bottom-position-margin-top);
+          margin-top: var(--card-row-bottom-position-margin-top);
         `;
     }
   })()};
@@ -339,10 +339,10 @@ const cardSkeletonPlatformStyle = ({
     case 'desktop':
       return css`
         gap: 8px;
-        --card-content-item-top-position-margin-top: 4px;
-        --card-content-item-top-position-margin-bottom: 4px;
+        --card-row-top-position-margin-top: 4px;
+        --card-row-top-position-margin-bottom: 4px;
 
-        --card-content-item-bottom-position-margin-top: 8px;
+        --card-row-bottom-position-margin-top: 8px;
 
         // thumbnail
         [data-component='thumbnail'],
@@ -351,7 +351,7 @@ const cardSkeletonPlatformStyle = ({
           aspect-ratio: 3 / 2;
         }
         // content
-        [data-component='card-content'] {
+        [data-component='card-body'] {
           padding: 0 6px;
         }
         // skeleton
@@ -364,10 +364,10 @@ const cardSkeletonPlatformStyle = ({
     case 'mobile':
       return css`
         gap: 6px;
-        --card-content-item-top-position-margin-top: 2px;
-        --card-content-item-top-position-margin-bottom: 4px;
+        --card-row-top-position-margin-top: 2px;
+        --card-row-top-position-margin-bottom: 4px;
 
-        --card-content-item-bottom-position-margin-top: 6px;
+        --card-row-bottom-position-margin-top: 6px;
 
         // thumbnail
         [data-component='thumbnail'],
@@ -376,7 +376,7 @@ const cardSkeletonPlatformStyle = ({
           aspect-ratio: 4 / 3;
         }
         // content
-        [data-component='card-content'] {
+        [data-component='card-body'] {
           padding: 0 2px;
         }
         // skeleton

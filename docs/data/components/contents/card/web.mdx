@@ -9,7 +9,7 @@ updatedAt: 2025-06-17
 
 일반적인 상황에서 정보를 묶어 표시할 때 사용합니다.
 
-<Demo code={`import { Card, CardThumbnail, CardTitle, CardCaption, CardContent } from '@montage-ui/core';
+<Demo code={`import { Card, CardThumbnail, CardTitle, CardCaption, CardBody } from '@montage-ui/core';
 
 const Demo = () => {
   return (
@@ -22,12 +22,12 @@ const Demo = () => {
         alt="Wanted Company Image"
         width="240px"
       />
-      <CardContent>
+      <CardBody>
         <CardTitle>Heading</CardTitle>
         <CardCaption>Caption</CardCaption>
         <CardCaption>Sub caption</CardCaption>
         <CardCaption>Extra caption</CardCaption>
-      </CardContent>
+      </CardBody>
     </Card>
   );
 }
@@ -43,51 +43,51 @@ export default Demo;`}
 ```tsx
 <Card>
   <CardThumbnail />
-  <CardContent>
-    <CardContentItem position="top" />
+  <CardBody>
+    <CardRow position="top" />
     <CardTitle />
     <CardCaption />
     <CardCaption />
     <CardCaption />
-    <CardContentItem position="bottom" />
-  </CardContent>
+    <CardRow position="bottom" />
+  </CardBody>
 </Card>
 ```
 
 ## With content
 
-`CardContentItem`의 `position`을 조정하여 상단, 하단에 콘텐츠를 추가할 수 있습니다.
+`CardRow`의 `position`을 조정하여 상단, 하단에 콘텐츠를 추가할 수 있습니다.
 
 뱃지나 부가적인 내용을 추가할 때 사용합니다.
 
-<Demo code={`import { FlexBox, Card, CardTitle, CardCaption, CardContent, CardContentItem, ContentBadge, CardThumbnailSkeleton } from '@montage-ui/core';
+<Demo code={`import { FlexBox, Card, CardTitle, CardCaption, CardBody, CardRow, ContentBadge, CardThumbnailSkeleton } from '@montage-ui/core';
 
 const Demo = () => {
   return (
     <FlexBox gap="24px" flexDirection="column" alignItems="center">
       <Card width="240px">
         <CardThumbnailSkeleton animation={false} />
-        <CardContent>
-          <CardContentItem position="top" variant="badge">
+        <CardBody>
+          <CardRow position="top" variant="badge">
             {new Array(3).fill(0).map((_, i) => (
               <ContentBadge key={i} color="neutral">Badge</ContentBadge>
             ))}
-          </CardContentItem>
+          </CardRow>
           <CardTitle>Heading</CardTitle>
           <CardCaption>Caption</CardCaption>
-        </CardContent>
+        </CardBody>
       </Card>
       <Card width="240px">
         <CardThumbnailSkeleton animation={false} />
-        <CardContent>
+        <CardBody>
           <CardTitle>Heading</CardTitle>
           <CardCaption>Caption</CardCaption>
-          <CardContentItem position="bottom" variant="badge">
+          <CardRow position="bottom" variant="badge">
             {new Array(3).fill(0).map((_, i) => (
               <ContentBadge key={i} color="neutral">Badge</ContentBadge>
             ))}
-          </CardContentItem>
-        </CardContent>
+          </CardRow>
+        </CardBody>
       </Card>
     </FlexBox>
   );
@@ -103,7 +103,7 @@ CardThumbnail의 leadingContent, trailingContent로 썸네일에 콘텐츠를 �
 
 `CardThumbnailContent`로 요소를 감싸서 사용합니다.
 
-<Demo code={`import { useToast, ToggleIcon, Card, CardThumbnail, CardTitle, CardCaption, CardContent, CardThumbnailContent } from '@montage-ui/core';
+<Demo code={`import { useToast, ToggleIcon, Card, CardThumbnail, CardTitle, CardCaption, CardBody, CardThumbnailContent } from '@montage-ui/core';
 import { IconBookmark, IconBookmarkFill } from '@montage-ui/icon';
 import { useState } from 'react';
 
@@ -152,12 +152,12 @@ const Demo = () => {
           </CardThumbnailContent>
         }
       />
-      <CardContent>
+      <CardBody>
         <CardTitle>Heading</CardTitle>
         <CardCaption>Caption</CardCaption>
         <CardCaption>Sub caption</CardCaption>
         <CardCaption>Extra caption</CardCaption>
-      </CardContent>
+      </CardBody>
     </Card>
   );
 }
@@ -172,7 +172,7 @@ export default Demo;`}
 - desktop (default)
 - mobile
 
-<Demo code={`import { FlexBox, Card, CardThumbnail, CardTitle, CardCaption, CardContent } from '@montage-ui/core';
+<Demo code={`import { FlexBox, Card, CardThumbnail, CardTitle, CardCaption, CardBody } from '@montage-ui/core';
 
 const Demo = () => {
   return (
@@ -182,12 +182,12 @@ const Demo = () => {
           src="https://static.wanted.co.kr/images/company/79/elpzxpmgh94xesrf__1080_790.png"
           alt="Wanted Company Image"
         />
-        <CardContent>
+        <CardBody>
           <CardTitle>Heading</CardTitle>
           <CardCaption>platform: desktop</CardCaption>
           <CardCaption>Sub caption</CardCaption>
           <CardCaption>Extra caption</CardCaption>
-        </CardContent>
+        </CardBody>
       </Card>
 
       <Card width="200px" platform="mobile">
@@ -195,12 +195,12 @@ const Demo = () => {
           src="https://static.wanted.co.kr/images/company/79/elpzxpmgh94xesrf__1080_790.png"
           alt="Wanted Company Image"
         />
-        <CardContent>
+        <CardBody>
           <CardTitle>Heading</CardTitle>
           <CardCaption>platform: mobile</CardCaption>
           <CardCaption>Sub caption</CardCaption>
           <CardCaption>Extra caption</CardCaption>
-        </CardContent>
+        </CardBody>
       </Card>
     </FlexBox>
   );
@@ -214,25 +214,25 @@ export default Demo;`}
 Card의 로딩 상태를 표현할 때 Skeleton 컴포넌트들을 조합해서 사용합니다.
 - CardSkeleton
 - CardThumbnailSkeleton
-- CardContent
-- CardContentItemSkeleton
+- CardBody
+- CardRowSkeleton
 - CardTitleSkeleton
 - CardCaptionSkeleton
 
-<Demo code={`import { CardSkeleton, CardThumbnailSkeleton, CardContentItemSkeleton, CardTitleSkeleton, CardCaptionSkeleton, CardContent } from '@montage-ui/core';
+<Demo code={`import { CardSkeleton, CardThumbnailSkeleton, CardRowSkeleton, CardTitleSkeleton, CardCaptionSkeleton, CardBody } from '@montage-ui/core';
 
 const Demo = () => {
   return (
     <CardSkeleton width="240px" sx={{ marginInline: 'auto' }}>
       <CardThumbnailSkeleton />
-      <CardContent>
-        <CardContentItemSkeleton />
+      <CardBody>
+        <CardRowSkeleton />
         <CardTitleSkeleton />
         <CardCaptionSkeleton type="normal" />
         <CardCaptionSkeleton type="sub" />
         <CardCaptionSkeleton type="extra" />
-        <CardContentItemSkeleton />
-      </CardContent>
+        <CardRowSkeleton />
+      </CardBody>
     </CardSkeleton>
   );
 }
@@ -258,9 +258,9 @@ export default Demo;`}
 
 <PropsTable component="CardThumbnailContent" />
 
-### CardContent
+### CardBody
 
-<PropsTable component="CardContent" />
+<PropsTable component="CardBody" />
 
 ### CardTitle
 
@@ -271,9 +271,9 @@ export default Demo;`}
 <PropsTable component="CardCaption" />
 
 
-### CardContentItem
+### CardRow
 
-<PropsTable component="CardContentItem" />
+<PropsTable component="CardRow" />
 
 ### CardSkeleton
 
@@ -283,9 +283,9 @@ export default Demo;`}
 
 <PropsTable component="CardThumbnailSkeleton" />
 
-### CardContentItemSkeleton
+### CardRowSkeleton
 
-<PropsTable component="CardContentItemSkeleton" />
+<PropsTable component="CardRowSkeleton" />
 
 ### CardTitleSkeleton
 
