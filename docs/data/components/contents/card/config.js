@@ -9,7 +9,7 @@ module.exports = {
       'CardThumbnail',
       'CardTitle',
       'CardCaption',
-      'CardContent',
+      'CardBody',
       'CardThumbnailContent',
       'ToggleIcon',
     ],
@@ -43,10 +43,10 @@ module.exports = {
                 </CardThumbnailContent>
               )}
             />
-            <CardContent>
+            <CardBody>
               <CardTitle>Heading</CardTitle>
               <CardCaption>Caption</CardCaption>
-            </CardContent>
+            </CardBody>
           </Card>
         </FlexBox>
       `;
