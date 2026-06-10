@@ -13,7 +13,9 @@ const ForceTheme = ({ theme: localTheme, children }: ForceThemeProps) => {
       case 'dark':
         return darkOriginTheme;
       default: {
-        console.error('WDS: Please check if the correct Theme value is set.');
+        console.error(
+          '[Montage] Please check if the correct Theme value is set.',
+        );
       }
     }
   }, [localTheme]);

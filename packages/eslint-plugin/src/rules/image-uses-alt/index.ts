@@ -13,7 +13,7 @@ export default {
   meta: {
     docs: {
       url: 'https://github.com/wanteddev/montage-web/tree/main/packages/eslint-plugin/README.md#image-uses-alt',
-      description: 'Required alt prop for wds image components',
+      description: 'Required alt prop for montage image components',
     },
     messages: {
       error: 'For accessibility, please provide an alt attribute.',
