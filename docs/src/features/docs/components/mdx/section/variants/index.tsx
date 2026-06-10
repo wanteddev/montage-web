@@ -16,8 +16,8 @@ import {
   useTheme,
 } from '@montage-ui/core';
 import * as React from 'react';
-import * as Wds from '@montage-ui/core';
-import * as WdsIcon from '@montage-ui/icon';
+import * as Montage from '@montage-ui/core';
+import * as MontageIcon from '@montage-ui/icon';
 import { memo, useEffect, useMemo, useState } from 'react';
 import { IconTune } from '@montage-ui/icon';
 
@@ -264,8 +264,8 @@ const SectionVariantsItemDemo = memo(
       return {
         import: {
           react: React,
-          '@montage-ui/core': Wds,
-          '@montage-ui/icon': WdsIcon,
+          '@montage-ui/core': Montage,
+          '@montage-ui/icon': MontageIcon,
           internal: { Carousel },
         },
       };

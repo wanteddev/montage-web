@@ -2,42 +2,42 @@
 
 ## Project Overview
 
-Montage (formerly WDS) is Wanted Lab's design system for web. It's a Lerna + Nx monorepo containing 9 packages, all published under `@wanteddev/*` to GitHub Package Registry.
+Montage (formerly WDS) is Wanted Lab's design system for web. It's a Lerna + Nx monorepo. Public packages are published under `@montage-ui/*` to the npm registry, while internal packages (e.g., `@wanteddev/montage-mcp`) are published to the GitHub Package Private Registry.
 
 ## Package Dependency Graph
 
 ```text
-wds-theme (design tokens, no React dependency)
+theme (design tokens, no React dependency)
     ↓
-wds-engine (Box, ThemeProvider, polymorphic types — depends on wds-theme + Emotion)
+engine (Box, ThemeProvider, polymorphic types — depends on theme + Emotion)
     ↓
-wds, wds-icon, wds-lottie (UI components — depend on wds-engine)
+core, icon, lottie (UI components — depend on engine)
     ↓
-wds-nextjs (Next.js integration — depends on wds-engine)
+nextjs (Next.js integration — depends on engine)
 ```
 
-Tooling packages (`wds-codemod`, `wds-mcp`, `eslint-plugin-wds`) are standalone.
+Tooling packages (`codemod`, `mcp`, `eslint-plugin`) are standalone.
 
 ## Where to make changes (and where not to)
 
-Day-to-day work — adding components, updating styles, reflecting design changes from Figma — happens in **`wds`** (and occasionally `wds-icon` / `wds-lottie`). The foundation packages should be treated as nearly read-only:
+Day-to-day work — adding components, updating styles, reflecting design changes from Figma — happens in **`core`** (and occasionally `icon` / `lottie`). The foundation packages should be treated as nearly read-only:
 
-| Package      | Modify?                                        | Why                                                                                                                                                                                                     |
-| ------------ | ---------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `wds`        | **Yes** — primary work surface                 | Component implementations, styles, types live here.                                                                                                                                                     |
-| `wds-icon`   | Via `sync-icons` skill, not by hand            | Icon set is generated from Figma. Manual edits get overwritten on the next sync.                                                                                                                        |
-| `wds-lottie` | Yes (rare)                                     | Only when adding/updating Lottie assets.                                                                                                                                                                |
-| `wds-theme`  | **Almost never** — token additions only        | Adding a new semantic token is OK when one is genuinely missing. Renaming/removing tokens, or changing the token shape, is a breaking change for every consumer of `wds`. Coordinate before touching.   |
-| `wds-engine` | **Almost never** — `Box`/types/`sx` are stable | Box, ThemeProvider, polymorphic types, the `sx` prop runtime, `useSxProps`. These are the primitives every component depends on; bugs here ripple through the entire library. Defer to the maintainers. |
-| `wds-nextjs` | **Almost never** — Next.js integration only    | RSC boundaries, `'use client'` injection. Touch only when a Next.js compatibility issue is the actual root cause.                                                                                       |
+| Package  | Modify?                                        | Why                                                                                                                                                                                                     |
+| -------- | ---------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `core`   | **Yes** — primary work surface                 | Component implementations, styles, types live here.                                                                                                                                                     |
+| `icon`   | Via `sync-icons` skill, not by hand            | Icon set is generated from Figma. Manual edits get overwritten on the next sync.                                                                                                                        |
+| `lottie` | Yes (rare)                                     | Only when adding/updating Lottie assets.                                                                                                                                                                |
+| `theme`  | **Almost never** — token additions only        | Adding a new semantic token is OK when one is genuinely missing. Renaming/removing tokens, or changing the token shape, is a breaking change for every consumer of `core`. Coordinate before touching.  |
+| `engine` | **Almost never** — `Box`/types/`sx` are stable | Box, ThemeProvider, polymorphic types, the `sx` prop runtime, `useSxProps`. These are the primitives every component depends on; bugs here ripple through the entire library. Defer to the maintainers. |
+| `nextjs` | **Almost never** — Next.js integration only    | RSC boundaries, `'use client'` injection. Touch only when a Next.js compatibility issue is the actual root cause.                                                                                       |
 
-**Rule of thumb**: if a task can be solved by editing files under `packages/wds/src/components/<name>/`, do it there. If it seems to require touching `wds-engine` / `wds-theme` / `wds-nextjs`, stop and confirm with the user — usually the right fix is in `wds` (compose `Box`/tokens/types differently), not in the foundation. Foundation changes are breaking-change territory and belong on a `feature/<major>.<minor>.<patch>` branch with explicit intent.
+**Rule of thumb**: if a task can be solved by editing files under `packages/core/src/components/<name>/`, do it there. If it seems to require touching `engine` / `theme` / `nextjs`, stop and confirm with the user — usually the right fix is in `core` (compose `Box`/tokens/types differently), not in the foundation. Foundation changes are breaking-change territory and belong on a `feature/<major>.<minor>.<patch>` branch with explicit intent.
 
-The token exception worth knowing: if a designer asks for a color/spacing/typography value that doesn't exist as a `theme.semantic.*` token, the right move is to **add** the token in `wds-theme` (small, additive, non-breaking) rather than inline a hex/px literal in the component. This is the one routine reason to touch `wds-theme`.
+The token exception worth knowing: if a designer asks for a color/spacing/typography value that doesn't exist as a `theme.semantic.*` token, the right move is to **add** the token in `theme` (small, additive, non-breaking) rather than inline a hex/px literal in the component. This is the one routine reason to touch `theme`.
 
 ## Component Type System
 
-`wds-engine` exposes two parallel type families. Both have a public variant (with `sx`) and an `Internal` variant (without `sx`, used inside implementations because `Box` consumes `sx` separately).
+`engine` exposes two parallel type families. Both have a public variant (with `sx`) and an `Internal` variant (without `sx`, used inside implementations because `Box` consumes `sx` separately).
 
 ### Choosing the right pattern
 
@@ -95,7 +95,7 @@ Each component follows this layout:
 
 ```text
 component-name/
-├── index.tsx       # Implementation (uses Box from wds-engine)
+├── index.tsx       # Implementation (uses Box from engine)
 ├── types.ts        # Props defined with WithSxProps<{...}> + ResponsiveProps
 ├── style.ts        # Style functions using theme tokens
 ├── constants.ts    # Optional constants
@@ -106,9 +106,9 @@ component-name/
 
 Three-layer architecture:
 
-1. **wds-theme**: Raw atomic tokens + semantic tokens (light/dark) + design tokens (spacing, opacity, breakpoint, zIndex)
-2. **wds-engine**: Emotion-based runtime (ThemeProvider, Box with `sx` prop, `useSxProps` hook)
-3. **wds**: Components compose styles using theme tokens via style functions
+1. **theme**: Raw atomic tokens + semantic tokens (light/dark) + design tokens (spacing, opacity, breakpoint, zIndex)
+2. **engine**: Emotion-based runtime (ThemeProvider, Box with `sx` prop, `useSxProps` hook)
+3. **core**: Components compose styles using theme tokens via style functions
 
 ## Responsive Props
 
