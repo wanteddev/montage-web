@@ -19,8 +19,8 @@ jobs:
           script: |
             const { data } = await github.rest.pulls.get({
               pull_number: context.issue.number,
-              owner: 'wanteddev',
-              repo: 'wds',
+              owner: context.repo.owner,
+              repo: context.repo.repo,
             });
 
             const title = data.title.replace(/\\/g, '\\\\').

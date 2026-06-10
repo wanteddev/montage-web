@@ -17,7 +17,9 @@ const ThemeProvider = ({
       case 'dark':
         return theme.dark;
       default: {
-        console.error('WDS: Please check if the correct Theme value is set.');
+        console.error(
+          '[Montage] Please check if the correct Theme value is set.',
+        );
       }
     }
   }, [localTheme]);
