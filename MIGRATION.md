@@ -182,6 +182,13 @@ Figma 스펙에 맞춰 사이즈 체계와 일부 하위 컴포넌트 API가 변
 
 `negative` 상태에서 Field 내부 우측에 표시되던 circle exclamation 아이콘이 제거되었습니다.
 
+#### 내부 DOM 구조 변경 (`[data-role='text-field-wrapper']`)
+
+기존에 `[data-role='text-field-wrapper']`에 적용되던 `padding`·`box-shadow`(inset border)가 TextField 루트 요소로 이동했습니다. `[data-role='text-field-wrapper']`를 직접 타겟해 `padding`이나 `box-shadow: inset ...`으로 커스텀했다면, 이제 TextField 요소(`sx` 또는 루트 셀렉터)에 직접 스타일을 적용해야 합니다.
+
+- AS-IS: `[data-role='text-field-wrapper'] { padding: ...; box-shadow: inset ...; }`
+- TO-BE: TextField 요소에 직접 `sx`로 `padding` / `box-shadow`를 지정
+
 ## 3.0.0 (2025-11-12)
 
 ### Button
