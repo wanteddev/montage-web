@@ -56,16 +56,13 @@ export type CardThumbnailContentProps = Merge<
 export type CardTitleProps = TypographyProps;
 export type CardCaptionProps = TypographyProps;
 
-export type CardContentProps = FlexBoxProps;
+export type CardBodyProps = FlexBoxProps;
 
-export type CardContentItemDefaultProps = {
+export type CardRowDefaultProps = {
   variant?: 'badge' | 'custom';
   position?: 'top' | 'bottom';
 };
-export type CardContentItemProps = Merge<
-  CardContentItemDefaultProps,
-  FlexBoxProps
->;
+export type CardRowProps = Merge<CardRowDefaultProps, FlexBoxProps>;
 
 type CardCaptionSkeletonDefaultProps = {
   type?: 'normal' | 'extra' | 'sub';
@@ -75,6 +72,8 @@ export type CardCaptionSkeletonProps = Merge<
   CardCaptionSkeletonDefaultProps,
   SkeletonProps
 >;
+
+export type CardRowSkeletonProps = SkeletonProps;
 
 export type CardTitleSkeletonProps = SkeletonProps;
 

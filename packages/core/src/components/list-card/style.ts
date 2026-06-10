@@ -6,11 +6,11 @@ import {
 } from '../../utils/typography';
 import { createResponsiveStyle } from '../../utils/internal/responsive-props';
 
-import type { CardListSkeletonProps } from './types';
+import type { ListCardSkeletonProps } from './types';
 import type { Theme } from '@montage-ui/engine';
 import type { CardProps } from '../card/types';
 
-const cardListPlatformStyle = ({ platform }: Pick<CardProps, 'platform'>) => {
+const listCardPlatformStyle = ({ platform }: Pick<CardProps, 'platform'>) => {
   switch (platform) {
     case 'desktop':
       return css`
@@ -49,12 +49,12 @@ const cardListPlatformStyle = ({ platform }: Pick<CardProps, 'platform'>) => {
   }
 };
 
-export const cardListStyle =
+export const listCardStyle =
   ({ xs, sm, md, lg, xl, width, platform }: CardProps) =>
   (theme: Theme) => css`
     width: ${width ?? '100%'};
     max-width: 100%;
-    ${cardListPlatformStyle({ platform })}
+    ${listCardPlatformStyle({ platform })}
 
     &:hover {
       [data-component='thumbnail'] img {
@@ -84,24 +84,24 @@ export const cardListStyle =
         css`
           width: ${params.width};
         `}
-        ${cardListPlatformStyle({ platform: params?.platform })}
+        ${listCardPlatformStyle({ platform: params?.platform })}
         ${params?.sx}
       `,
     )}
   `;
 
-export const cardListContentStyle = css`
+export const listCardContentStyle = css`
   width: 24px;
   height: 24px;
   font-size: 24px;
 `;
 
-const cardListSkeletonPlatformStyle = ({
+const listCardSkeletonPlatformStyle = ({
   platform,
   hasLeadingContent,
   hasTrailingContent,
 }: Pick<
-  CardListSkeletonProps,
+  ListCardSkeletonProps,
   'platform' | 'hasLeadingContent' | 'hasTrailingContent'
 >) => {
   switch (platform) {
@@ -142,7 +142,7 @@ const cardListSkeletonPlatformStyle = ({
   }
 };
 
-export const cardListSkeletonStyle =
+export const listCardSkeletonStyle =
   ({
     xs,
     sm,
@@ -153,12 +153,12 @@ export const cardListSkeletonStyle =
     platform,
     hasLeadingContent,
     hasTrailingContent,
-  }: CardListSkeletonProps) =>
+  }: ListCardSkeletonProps) =>
   (theme: Theme) => css`
     width: ${width ?? '100%'};
     max-width: 100%;
 
-    ${cardListSkeletonPlatformStyle({
+    ${listCardSkeletonPlatformStyle({
       platform,
       hasLeadingContent,
       hasTrailingContent,
@@ -178,7 +178,7 @@ export const cardListSkeletonStyle =
         css`
           width: ${params.width};
         `}
-        ${cardListSkeletonPlatformStyle({
+        ${listCardSkeletonPlatformStyle({
           platform: params?.platform,
           hasLeadingContent,
           hasTrailingContent,
