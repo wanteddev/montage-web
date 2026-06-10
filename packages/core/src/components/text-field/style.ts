@@ -2,10 +2,9 @@ import { css } from '@montage-ui/engine';
 
 import { typographyStyle } from '../../utils/typography';
 import { createResponsiveStyle } from '../../utils/internal/responsive-props';
-import { addOpacity } from '../../utils';
 import { toCssValue } from '../../utils/internal/css';
 
-import type { TextFieldButtonProps, TextFieldProps } from './types';
+import type { TextFieldProps } from './types';
 import type { Theme } from '@montage-ui/engine';
 
 const EXCLUDE_TYPE = ['date', 'month', 'week', 'datetime-local', 'time'];
@@ -17,6 +16,7 @@ type TextFieldWrapperStyleProps = TextFieldProps & {
 
 export const textFieldWrapperStyle =
   ({
+    size,
     invalid,
     readOnly,
     type,
@@ -32,34 +32,17 @@ export const textFieldWrapperStyle =
   (theme: Theme) => css`
     display: flex;
     align-items: center;
-    border-radius: 12px;
     border: none;
-    box-shadow: ${theme.semantic.elevation.shadow.normal.xsmall};
     background-color: ${theme.semantic.background.transparent.normal};
     backdrop-filter: blur(32px);
     width: ${toCssValue(width)};
     height: ${toCssValue(height)};
+    cursor: text;
+    box-shadow: inset 0 0 0 1px ${theme.semantic.line.normal.neutral};
+    transition: box-shadow ease 0.2s;
 
-    [data-role='text-field-wrapper'] {
-      padding: 12px;
-      width: 100%;
-      height: 100%;
-      align-items: center;
-      cursor: text;
-      position: relative;
-      transition: box-shadow ease 0.2s;
-      box-shadow: inset 0 0 0 1px ${theme.semantic.line.normal.neutral};
-      border-radius: inherit;
-    }
+    ${textFieldSizeStyle({ size }, theme)}
 
-    &:has([data-role='text-field-button']) {
-      [data-role='text-field-wrapper'] {
-        border-top-right-radius: 0px;
-        border-bottom-right-radius: 0px;
-      }
-    }
-
-    [data-role='text-field-invalid'],
     [data-role='text-field-positive'] {
       display: flex;
     }
@@ -68,13 +51,15 @@ export const textFieldWrapperStyle =
       display: none;
     }
 
+    [data-role='text-field-wrapper'] {
+      padding: ${theme.spacing[0]} ${theme.spacing[4]};
+      align-items: center;
+      width: 100%;
+      height: 100%;
+    }
+
     ${EXCLUDE_TYPE.includes(type || '') &&
     css`
-      input {
-        max-height: 24px;
-      }
-
-      [data-role='text-field-invalid'],
       [data-role='text-field-positive'] {
         display: none !important;
       }
@@ -86,53 +71,31 @@ export const textFieldWrapperStyle =
 
     ${invalid &&
     css`
-      [data-role='text-field-wrapper'] {
-        box-shadow: inset 0 0 0 1px
-          ${addOpacity(theme.semantic.status.negative, theme.opacity[28])};
-      }
+      box-shadow: inset 0 0 0 1px ${theme.semantic.line.negative.normal};
     `}
 
     ${disabled
       ? css`
           background-color: ${theme.semantic.fill.alternative};
           backdrop-filter: none;
-          [data-role='text-field-wrapper'] {
-            box-shadow: inset 0 0 0 1px
-              ${theme.semantic.line.normal.alternative};
-          }
+          box-shadow: inset 0 0 0 1px ${theme.semantic.line.normal.alternative};
           cursor: default;
         `
       : css`
           @supports selector(:has(*)) {
-            &:where(:has(input:focus)),
-            &:where(
-              :has(input[data-role='date-picker-field'][aria-expanded='true']),
-              :has(input[data-role='time-picker-field'][aria-expanded='true']),
-              :has(
-                input[data-role='date-range-picker-field'][aria-expanded='true']
-              )
-            ) {
+            &:where(:has(input:focus)) {
               ${invalid
                 ? css`
-                    [data-role='text-field-wrapper'] {
-                      box-shadow: inset 0 0 0 2px
-                        ${addOpacity(
-                          theme.semantic.status.negative,
-                          theme.opacity[43],
-                        )};
-                    }
+                    box-shadow:
+                      inset 0 0 0 1px ${theme.semantic.line.negative.strong},
+                      0 0 0 4px ${theme.semantic.interaction.negative};
                   `
                 : css`
-                    [data-role='text-field-wrapper'] {
-                      box-shadow: inset 0 0 0 2px
-                        ${addOpacity(
-                          theme.semantic.primary.normal,
-                          theme.opacity[43],
-                        )};
-                    }
+                    box-shadow:
+                      inset 0 0 0 1px ${theme.semantic.line.primary.strong},
+                      0 0 0 4px ${theme.semantic.interaction.focus};
                   `}
 
-              [data-role='text-field-invalid'],
               [data-role='text-field-positive'] {
                 display: none;
               }
@@ -145,7 +108,6 @@ export const textFieldWrapperStyle =
                 [data-role='text-field-reset'] {
                   display: none;
                 }
-                [data-role='text-field-invalid'],
                 [data-role='text-field-positive'] {
                   display: flex;
                 }
@@ -154,32 +116,19 @@ export const textFieldWrapperStyle =
           }
 
           @supports not selector(:has(*)) {
-            &:where(:focus-within),
-            &:where(
-              :has(input[data-role='date-picker-field'][aria-expanded='true']),
-              :has(input[data-role='time-picker-field'][aria-expanded='true'])
-            ) {
+            &:where(:focus-within) {
               ${invalid
                 ? css`
-                    [data-role='text-field-wrapper'] {
-                      box-shadow: inset 0 0 0 2px
-                        ${addOpacity(
-                          theme.semantic.status.negative,
-                          theme.opacity[43],
-                        )};
-                    }
+                    box-shadow:
+                      inset 0 0 0 1px ${theme.semantic.line.negative.strong},
+                      0 0 0 4px ${theme.semantic.interaction.negative};
                   `
                 : css`
-                    [data-role='text-field-wrapper'] {
-                      box-shadow: inset 0 0 0 2px
-                        ${addOpacity(
-                          theme.semantic.primary.normal,
-                          theme.opacity[43],
-                        )};
-                    }
+                    box-shadow:
+                      inset 0 0 0 1px ${theme.semantic.line.primary.strong},
+                      0 0 0 4px ${theme.semantic.interaction.focus};
                   `}
 
-              [data-role='text-field-invalid'],
               [data-role='text-field-positive'] {
                 display: none;
               }
@@ -206,27 +155,35 @@ export const textFieldWrapperStyle =
         :has(input[data-role='date-range-picker-field'])
       ) {
         [data-role='text-field-reset'],
-        [data-role='text-field-invalid'],
         [data-role='text-field-positive'] {
           display: none;
         }
       }
     }
 
+    [data-role='text-field-leading-content'],
+    [data-role='text-field-trailing-content'],
+    [data-role='text-field-wrapper'] {
+      font: inherit;
+    }
+
+    [data-role='text-field-leading-content'],
+    [data-role='text-field-trailing-content'] {
+      flex-shrink: 0;
+    }
+
     input {
-      padding: 0 4px;
       width: 100%;
-      min-height: 24px;
       background-color: transparent;
       caret-color: ${theme.semantic.primary.normal};
       outline: none;
       border: none;
       box-shadow: none;
+      font: inherit;
       color: ${theme.semantic.label.normal};
-      ${typographyStyle('body1', 'regular')}
 
       &::placeholder {
-        ${typographyStyle('body1', 'regular')}
+        font: inherit;
         color: ${theme.semantic.label.assistive};
       }
 
@@ -260,30 +217,50 @@ export const textFieldWrapperStyle =
           height: ${toCssValue(params.height)};
         `}
 
-      ${params?.sx}
+        ${textFieldSizeStyle({ size: params?.size }, theme)}
+        ${params?.sx}
       `,
     )}
   `;
 
-export const invalidIconWrapperStyle = (theme: Theme) => css`
-  position: relative;
+const textFieldSizeStyle = ({ size }: TextFieldProps, theme: Theme) => {
+  switch (size) {
+    case 'large':
+      return css`
+        border-radius: ${theme.radius[14]};
+        padding: ${theme.spacing[12]} ${theme.spacing[8]};
+        ${typographyStyle('body2', 'regular')}
 
-  &::before {
-    position: absolute;
-    content: '';
-    width: 50%;
-    height: 50%;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    background-color: ${theme.semantic.static.white};
-  }
+        input {
+          padding: 1px ${theme.spacing[4]};
+        }
 
-  svg {
-    color: ${theme.semantic.status.negative};
-    z-index: 1;
+        --text-field-content-icon-wrapper-size: ${theme.dimension[24]};
+        --text-field-content-icon-size: ${theme.dimension[20]};
+        --text-field-content-max-height: ${theme.dimension[24]};
+        --text-field-button-padding: ${theme.spacing[8]} ${theme.spacing[12]};
+        --text-field-button-radius: ${theme.radius[10]};
+        --text-field-button-max-height: ${theme.dimension[32]};
+      `;
+    case 'medium':
+      return css`
+        border-radius: ${theme.radius[12]};
+        padding: ${theme.spacing[10]} ${theme.spacing[6]};
+        ${typographyStyle('label1', 'regular')}
+
+        input {
+          padding: ${theme.spacing[0]} ${theme.spacing[4]};
+        }
+
+        --text-field-content-icon-wrapper-size: ${theme.dimension[20]};
+        --text-field-content-icon-size: ${theme.dimension[18]};
+        --text-field-content-max-height: ${theme.dimension[20]};
+        --text-field-button-padding: ${theme.spacing[6]} ${theme.spacing[10]};
+        --text-field-button-radius: ${theme.radius[8]};
+        --text-field-button-max-height: ${theme.dimension[28]};
+      `;
   }
-`;
+};
 
 export const positiveIconWrapperStyle = (theme: Theme) => css`
   position: relative;
@@ -300,55 +277,30 @@ export const positiveIconWrapperStyle = (theme: Theme) => css`
   }
 
   svg {
-    color: ${theme.semantic.primary.normal};
+    color: ${theme.semantic.status.positive};
     z-index: 0;
   }
 `;
 
 export const textFieldContentStyle = css`
   flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: fit-content;
   height: fit-content;
-  max-height: 24px;
+  max-height: var(--text-field-content-max-height);
 `;
 
-export const textFieldButtonStyle =
-  ({ variant, disabled }: TextFieldButtonProps) =>
-  (theme: Theme) => css`
-    box-shadow: none;
-    height: 100%;
-    align-items: center;
-    padding: 12px 16px;
-    min-width: 80px;
-    border-radius: inherit;
-    border-top-left-radius: 0px;
-    border-bottom-left-radius: 0px;
-    overflow: hidden;
-    background-color: transparent;
-    flex-shrink: 0;
-    position: relative;
+export const textFieldButtonStyle = css`
+  min-height: initial;
+  padding: var(--text-field-button-padding);
+  border-radius: var(--text-field-button-radius);
+  background-color: transparent;
+  flex-shrink: 0;
+  position: relative;
 
-    &:disabled {
-      box-shadow: none;
-    }
-
-    &::before {
-      content: '';
-      right: 0px;
-      top: 0px;
-      border-radius: inherit;
-      position: absolute;
-      width: calc(100% + 3px);
-      height: calc(100% + 0px);
-      box-shadow: inset 0 0 0 1px ${theme.semantic.line.normal.neutral};
-
-      ${disabled &&
-      css`
-        box-shadow: inset 0 0 0 1px ${theme.semantic.line.normal.alternative};
-      `}
-    }
-
-    & > span {
-      ${typographyStyle('body1', variant === 'assistive' ? 'medium' : 'bold')};
-    }
-  `;
+  & > span {
+    ${typographyStyle('caption1', 'bold')};
+  }
+`;
