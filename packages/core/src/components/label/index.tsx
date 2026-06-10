@@ -1,4 +1,5 @@
 import { forwardRef } from 'react';
+import { Box } from '@montage-ui/engine';
 
 import { Typography } from '../typography';
 
@@ -21,15 +22,18 @@ const Label = forwardRef<
     >
       {children}
       {required && (
-        <Typography
-          variant="label1"
-          weight="medium"
-          display="inline-block"
-          sx={{ marginLeft: '4px' }}
-          color="semantic.status.negative"
+        <Box
+          as="span"
+          sx={(theme) => ({
+            display: 'inline-block',
+            marginLeft: '4px',
+            font: 'inherit',
+            fontWeight: '500',
+            color: theme.semantic.status.negative,
+          })}
         >
           *
-        </Typography>
+        </Box>
       )}
     </Typography>
   );
