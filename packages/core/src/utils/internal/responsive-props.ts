@@ -154,3 +154,36 @@ export const splitResponsiveProps = <
     rest: hasRest ? (rest as Omit<T, K>) : undefined,
   };
 };
+
+/**
+ * Maps a single key of each breakpoint in responsive props to a new value,
+ * producing responsive props that can be spread into another component.
+ *
+ * Breakpoints whose value is `undefined` are skipped, so the transform never
+ * runs on a missing value (the breakpoint simply stays absent).
+ *
+ * @example
+ * mapResponsiveProps({ xs: { size: 'large' }, sm: { size: 'medium' } }, 'size', (size) =>
+ *   size === 'large' ? 24 : 20,
+ * );
+ * // { xs: { size: 24 }, sm: { size: 20 } }
+ */
+export const mapResponsiveProps = <T extends object, K extends keyof T, R>(
+  responsive: ResponsiveProps<T>,
+  key: K,
+  transform: (value: NonNullable<T[K]>) => R,
+): ResponsiveProps<Record<K, R>> => {
+  const result: Record<string, Record<K, R>> = {};
+
+  for (const breakpoint of order) {
+    const value = (responsive[breakpoint] as T | undefined)?.[key];
+
+    if (value === undefined) continue;
+
+    result[breakpoint] = {
+      [key]: transform(value as NonNullable<T[K]>),
+    } as Record<K, R>;
+  }
+
+  return result;
+};

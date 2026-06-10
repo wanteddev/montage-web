@@ -29,12 +29,16 @@ import {
 import { TextFieldContent } from '../text-field';
 import { FlexBox } from '../flex-box';
 import { Typography } from '../typography';
-import { invalidIconWrapperStyle } from '../text-field/style';
 import { VirtualValueInput } from '../virtual-input';
 import { ListCellContent } from '../list';
 import { ChipProvider } from '../chip/contexts';
 
-import { selectIconStyle, selectStyle, selectTextStyle } from './style';
+import {
+  invalidIconWrapperStyle,
+  selectIconStyle,
+  selectStyle,
+  selectTextStyle,
+} from './style';
 import { convertChildrenToData } from './helpers';
 import {
   OPTION_CONTENT_NAME,
