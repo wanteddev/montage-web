@@ -107,7 +107,10 @@ const PaginationDots = forwardRef<
                   type="button"
                   onClick={() => onClickDot?.(i + 1)}
                   data-role="pagination-dot-button"
-                  sx={paginationDotsStyle(scale, i === visibleArea[0])}
+                  sx={paginationDotsStyle(
+                    scale,
+                    i === Math.max(visibleArea[0], 0),
+                  )}
                   aria-selected={isActive}
                   aria-label={`Slide dot ${i + 1}`}
                   onFocus={(e) => {
