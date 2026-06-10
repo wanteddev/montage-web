@@ -8,7 +8,7 @@ export * from './avatar-group';
 export * from './bottom-navigation';
 export * from './button';
 export * from './card';
-export * from './card-list';
+export * from './list-card';
 export * from './category';
 export * from './checkbox';
 export * from './chip';

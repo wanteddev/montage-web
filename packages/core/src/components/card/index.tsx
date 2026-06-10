@@ -8,12 +8,12 @@ import { Skeleton } from '../skeleton';
 import { Typography } from '../typography';
 
 import {
+  CARD_BODY_NAME,
   CARD_CAPTION_NAME,
   CARD_CAPTION_SKELETON_NAME,
-  CARD_CONTENT_ITEM_NAME,
-  CARD_CONTENT_ITEM_SKELETON_NAME,
-  CARD_CONTENT_NAME,
   CARD_NAME,
+  CARD_ROW_NAME,
+  CARD_ROW_SKELETON_NAME,
   CARD_SKELETON_NAME,
   CARD_THUMBNAIL_CONTENT_NAME,
   CARD_THUMBNAIL_NAME,
@@ -22,9 +22,9 @@ import {
   CARD_TITLE_SKELETON_NAME,
 } from './constants';
 import {
+  cardBodyStyle,
   cardCaptionStyle,
-  cardContentItemStyle,
-  cardContentStyle,
+  cardRowStyle,
   cardSkeletonStyle,
   cardStyle,
   cardThumbnailContentTextStyle,
@@ -40,14 +40,14 @@ import type {
   DefaultComponentPropsInternal,
   PolymorphicPropsInternal,
 } from '@montage-ui/engine';
-import type { SkeletonProps } from '../skeleton/types';
 import type { PolymorphicComponentInternal } from '@montage-ui/engine';
 import type {
+  CardBodyProps,
   CardCaptionProps,
   CardCaptionSkeletonProps,
-  CardContentItemProps,
-  CardContentProps,
   CardProps,
+  CardRowProps,
+  CardRowSkeletonProps,
   CardThumbnailContentProps,
   CardThumbnailProps,
   CardThumbnailSkeletonProps,
@@ -187,49 +187,49 @@ const CardThumbnailContent = forwardRef(
 
 CardThumbnailContent.displayName = CARD_THUMBNAIL_CONTENT_NAME;
 
-const CardContent = forwardRef(
+const CardBody = forwardRef(
   (
-    { sx, ...props }: DefaultComponentPropsInternal<CardContentProps, 'div'>,
+    { sx, ...props }: DefaultComponentPropsInternal<CardBodyProps, 'div'>,
     ref: ForwardedRef<HTMLDivElement>,
   ) => {
     return (
       <FlexBox
-        data-component="card-content"
+        data-component="card-body"
         ref={ref}
         flexDirection="column"
         flex="1"
         gap="2px"
         {...props}
-        sx={[cardContentStyle, sx]}
+        sx={[cardBodyStyle, sx]}
       />
     );
   },
 );
 
-CardContent.displayName = CARD_CONTENT_NAME;
+CardBody.displayName = CARD_BODY_NAME;
 
-const CardContentItem = forwardRef(
+const CardRow = forwardRef(
   (
     {
       sx,
       position = 'top',
       variant,
       ...props
-    }: DefaultComponentPropsInternal<CardContentItemProps, 'div'>,
+    }: DefaultComponentPropsInternal<CardRowProps, 'div'>,
     ref: ForwardedRef<HTMLDivElement>,
   ) => {
     return (
       <FlexBox
         ref={ref}
-        data-component="card-content-item"
+        data-component="card-row"
         {...props}
-        sx={[cardContentItemStyle({ position, variant }), sx]}
+        sx={[cardRowStyle({ position, variant }), sx]}
       />
     );
   },
 );
 
-CardContentItem.displayName = CARD_CONTENT_ITEM_NAME;
+CardRow.displayName = CARD_ROW_NAME;
 
 const CardTitle = forwardRef(
   <T extends ElementType = 'p'>(
@@ -352,19 +352,19 @@ const CardThumbnailSkeleton = forwardRef(
 
 CardThumbnailSkeleton.displayName = CARD_THUMBNAIL_SKELETON_NAME;
 
-const CardContentItemSkeleton = forwardRef(
+const CardRowSkeleton = forwardRef(
   (
     {
       width = '48px',
       height = '20px',
       ...props
-    }: DefaultComponentPropsInternal<SkeletonProps, 'div'>,
+    }: DefaultComponentPropsInternal<CardRowSkeletonProps, 'div'>,
     ref: ForwardedRef<HTMLDivElement>,
   ) => {
     return (
       <Skeleton
         ref={ref}
-        data-component="card-content-item-skeleton"
+        data-component="card-row-skeleton"
         variant="rectangle"
         radius="3px"
         width={width}
@@ -375,7 +375,7 @@ const CardContentItemSkeleton = forwardRef(
   },
 );
 
-CardContentItemSkeleton.displayName = CARD_CONTENT_ITEM_SKELETON_NAME;
+CardRowSkeleton.displayName = CARD_ROW_SKELETON_NAME;
 
 const CardTitleSkeleton = forwardRef(
   (
@@ -451,13 +451,13 @@ export {
   Card,
   CardThumbnail,
   CardThumbnailContent,
-  CardContent,
+  CardBody,
   CardTitle,
   CardCaption,
-  CardContentItem,
+  CardRow,
   CardSkeleton,
   CardThumbnailSkeleton,
-  CardContentItemSkeleton,
+  CardRowSkeleton,
   CardTitleSkeleton,
   CardCaptionSkeleton,
 };
@@ -466,12 +466,13 @@ export type {
   CardProps,
   CardThumbnailProps,
   CardThumbnailContentProps,
-  CardContentProps,
+  CardBodyProps,
   CardTitleProps,
   CardCaptionProps,
-  CardContentItemProps,
+  CardRowProps,
   CardProps as CardSkeletonProps,
   CardThumbnailSkeletonProps,
+  CardRowSkeletonProps,
   CardTitleSkeletonProps,
   CardCaptionSkeletonProps,
 };
