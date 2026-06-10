@@ -56,8 +56,8 @@ export const light = {
       strong: addHexOpacity(atomic.blue[50], opacity[43]),
     },
     negative: {
-      normal: addHexOpacity(atomic.red[50], opacity[28]),
-      strong: addHexOpacity(atomic.red[50], opacity[43]),
+      normal: addHexOpacity(atomic.red[50], opacity[43]),
+      strong: addHexOpacity(atomic.red[50], opacity[52]),
     },
   },
   status: {
@@ -182,8 +182,8 @@ export const dark = {
       strong: addHexOpacity(atomic.blue[60], opacity[43]),
     },
     negative: {
-      normal: addHexOpacity(atomic.red[60], opacity[28]),
-      strong: addHexOpacity(atomic.red[60], opacity[43]),
+      normal: addHexOpacity(atomic.red[60], opacity[43]),
+      strong: addHexOpacity(atomic.red[60], opacity[52]),
     },
   },
   status: {
