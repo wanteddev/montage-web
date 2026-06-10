@@ -60,6 +60,18 @@ describe('when given pagination dots component', () => {
     });
   });
 
+  it('should not add leading margin to the first dot when visibleArea starts below zero', () => {
+    // totalPages(4) < maxDotCount(5) + 마지막 페이지 → visibleArea가 [-1, 3]이 되는 케이스
+    const { container } = render(
+      <PaginationDots totalPages={4} currentPage={4} maxDotCount={5} />,
+    );
+
+    const buttons = container.querySelectorAll(
+      '[data-role="pagination-dot-button"]',
+    );
+    expect(getComputedStyle(buttons[0]!).marginLeft).toBe('0px');
+  });
+
   it('should throw on invalid totalPages in non-production env', () => {
     expect(() => render(<PaginationDots totalPages={-1} />)).toThrow(
       'Invalid totalPages in PaginationDots',
