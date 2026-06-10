@@ -116,7 +116,7 @@ const TextField = forwardRef<
           sx,
         ]}
       >
-        <FlexBox gap="4px" data-role="text-field-wrapper">
+        <FlexBox gap="2px" data-role="text-field-wrapper">
           {leadingContent && (
             <FlexBox
               gap="8px"
