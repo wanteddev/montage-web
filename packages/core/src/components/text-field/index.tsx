@@ -1,20 +1,19 @@
 import { useComposedRefs } from '@radix-ui/react-compose-refs';
-import { Box, type DefaultComponentPropsInternal } from '@montage-ui/engine';
 import {
-  IconCircleCheckFill,
-  IconCircleCloseFill,
-  IconCircleExclamationFill,
-} from '@montage-ui/icon';
+  Box,
+  type DefaultComponentPropsInternal,
+  getColorByToken,
+} from '@montage-ui/engine';
+import { IconCircleCheckFill, IconCircleCloseFill } from '@montage-ui/icon';
 import { forwardRef, useEffect, useRef } from 'react';
 
 import { FlexBox } from '../flex-box';
 import { IconButton } from '../icon-button';
-import { Typography } from '../typography';
 import { Button } from '../button';
 import { IconButtonProvider } from '../icon-button/contexts';
+import { mapResponsiveProps } from '../../utils/internal/responsive-props';
 
 import {
-  invalidIconWrapperStyle,
   positiveIconWrapperStyle,
   textFieldButtonStyle,
   textFieldContentStyle,
@@ -38,6 +37,7 @@ const TextField = forwardRef<
 >(
   (
     {
+      size = 'large',
       invalid,
       leadingContent,
       trailingContent,
@@ -98,6 +98,7 @@ const TextField = forwardRef<
         ref={useComposedRefs(parentRef, wrapperRef)}
         sx={[
           textFieldWrapperStyle({
+            size,
             invalid,
             width,
             height,
@@ -115,8 +116,17 @@ const TextField = forwardRef<
           sx,
         ]}
       >
-        <FlexBox gap="8px" data-role="text-field-wrapper">
-          {leadingContent}
+        <FlexBox gap="4px" data-role="text-field-wrapper">
+          {leadingContent && (
+            <FlexBox
+              gap="8px"
+              alignItems="center"
+              data-role="text-field-leading-content"
+            >
+              {leadingContent}
+            </FlexBox>
+          )}
+
           <input
             ref={composedRefs}
             type={type}
@@ -127,16 +137,13 @@ const TextField = forwardRef<
             aria-disabled={disabled}
             {...props}
           />
-          {invalid ? (
-            <TextFieldContent
-              data-role="text-field-invalid"
-              sx={invalidIconWrapperStyle}
-              variant="icon"
-            >
-              <IconCircleExclamationFill />
-            </TextFieldContent>
-          ) : (
-            positive && (
+
+          <FlexBox
+            gap="8px"
+            alignItems="center"
+            data-role="text-field-trailing-content"
+          >
+            {positive && (
               <TextFieldContent
                 data-role="text-field-positive"
                 sx={positiveIconWrapperStyle}
@@ -144,57 +151,76 @@ const TextField = forwardRef<
               >
                 <IconCircleCheckFill />
               </TextFieldContent>
-            )
-          )}
+            )}
 
-          <TextFieldContent
-            data-role="text-field-reset"
-            variant="icon-button"
-            onPointerDown={(e) => e.preventDefault()}
-            onClick={() => {
-              const input = inputRef.current;
+            <TextFieldContent
+              data-role="text-field-reset"
+              variant="icon-button"
+              onPointerDown={(e) => e.preventDefault()}
+              onClick={() => {
+                const input = inputRef.current;
 
-              if (!input) return;
+                if (!input) return;
 
-              requestAnimationFrame(() => {
-                const prevValue = input.value;
+                requestAnimationFrame(() => {
+                  const prevValue = input.value;
 
-                const event = new Event('change', { bubbles: true });
-                input.value = '';
+                  const event = new Event('change', { bubbles: true });
+                  input.value = '';
 
-                props.onChange?.({
-                  ...event,
-                  target: input as EventTarget & HTMLInputElement,
-                  currentTarget: input as EventTarget & HTMLInputElement,
-                  nativeEvent: {
+                  props.onChange?.({
                     ...event,
-                    target: input as EventTarget,
-                    currentTarget: input as EventTarget,
-                  },
-                  isDefaultPrevented: () => false,
-                  isPropagationStopped: () => false,
-                  persist: (): void => {},
+                    target: input as EventTarget & HTMLInputElement,
+                    currentTarget: input as EventTarget & HTMLInputElement,
+                    nativeEvent: {
+                      ...event,
+                      target: input as EventTarget,
+                      currentTarget: input as EventTarget,
+                    },
+                    isDefaultPrevented: () => false,
+                    isPropagationStopped: () => false,
+                    persist: (): void => {},
+                  });
+
+                  onReset?.(prevValue);
+
+                  input.focus();
                 });
-
-                onReset?.(prevValue);
-
-                input.focus();
-              });
-            }}
-          >
-            <IconButton
-              type="button"
-              size={22}
-              tabIndex={-1}
-              sx={(theme) => ({ color: theme.semantic.label.assistive })}
+              }}
             >
-              <IconCircleCloseFill />
-            </IconButton>
-          </TextFieldContent>
-          {trailingContent}
+              <IconButton
+                type="button"
+                size={size === 'large' ? 32 : 28}
+                {...mapResponsiveProps({ xs, sm, md, lg, xl }, 'size', (s) => {
+                  switch (s) {
+                    case 'large':
+                      return 32;
+                    case 'medium':
+                      return 28;
+                  }
+                })}
+                tabIndex={-1}
+                sx={(theme) => ({ color: theme.semantic.label.assistive })}
+              >
+                <IconCircleCloseFill />
+              </IconButton>
+            </TextFieldContent>
+
+            {trailingContent}
+          </FlexBox>
         </FlexBox>
 
-        {trailingButton}
+        {trailingButton && (
+          <FlexBox
+            alignItems="center"
+            justifyContent="center"
+            sx={{
+              height: 'var(--text-field-content-max-height)',
+            }}
+          >
+            {trailingButton}
+          </FlexBox>
+        )}
       </Box>
     );
   },
@@ -208,19 +234,24 @@ const TextFieldContent = forwardRef<
 >(({ variant = 'text', children, sx, color, ...props }, ref) => {
   switch (variant) {
     case 'text':
+    case 'timer':
       return (
-        <Typography
-          as="div"
+        <FlexBox
+          as="span"
           data-component="text-field-content"
-          variant="body1"
-          weight="medium"
           ref={ref}
-          sx={[textFieldContentStyle, { padding: '0px 4px' }, sx]}
-          color={color ?? 'semantic.label.assistive'}
+          sx={[
+            textFieldContentStyle,
+            (theme) => ({
+              padding: '0px 4px',
+              color: getColorByToken(theme, color ?? 'semantic.label.normal'),
+            }),
+            sx,
+          ]}
           {...props}
         >
           {children}
-        </Typography>
+        </FlexBox>
       );
     case 'badge':
       return (
@@ -233,21 +264,6 @@ const TextFieldContent = forwardRef<
           {children}
         </FlexBox>
       );
-    case 'timer':
-      return (
-        <Typography
-          as="div"
-          variant="label1"
-          weight="bold"
-          data-component="text-field-content"
-          ref={ref}
-          sx={[textFieldContentStyle, { padding: '2px 4px' }, sx]}
-          color={color ?? 'semantic.primary.normal'}
-          {...props}
-        >
-          {children}
-        </Typography>
-      );
     case 'icon':
       return (
         <FlexBox
@@ -256,9 +272,9 @@ const TextFieldContent = forwardRef<
           sx={[
             textFieldContentStyle,
             (theme) => ({
-              padding: '1px',
-              fontSize: '22px',
-              color: theme.semantic.label.alternative,
+              width: 'var(--text-field-content-icon-wrapper-size)',
+              fontSize: 'var(--text-field-content-icon-size)',
+              color: color ?? theme.semantic.label.alternative,
             }),
             sx,
           ]}
@@ -275,7 +291,7 @@ const TextFieldContent = forwardRef<
           sx={[
             textFieldContentStyle,
             {
-              padding: '1px',
+              width: 'var(--text-field-content-icon-wrapper-size)',
             },
             sx,
           ]}
@@ -284,18 +300,6 @@ const TextFieldContent = forwardRef<
           <IconButtonProvider normal="semantic.label.alternative">
             {children}
           </IconButtonProvider>
-        </FlexBox>
-      );
-    case 'text-button':
-      return (
-        <FlexBox
-          data-component="text-field-content"
-          ref={ref}
-          sx={[textFieldContentStyle, sx]}
-          alignItems="center"
-          {...props}
-        >
-          {children}
         </FlexBox>
       );
     case 'custom':
@@ -320,7 +324,6 @@ const TextFieldButton = forwardRef(
     {
       type = 'button',
       as,
-      variant = 'normal',
       disabled,
       ...props
     }: PolymorphicPropsInternal<TextFieldButtonProps, T>,
@@ -331,13 +334,13 @@ const TextFieldButton = forwardRef(
         as={(as || 'button') as ElementType}
         variant="outlined"
         type={type}
-        color={variant === 'normal' ? 'primary' : 'assistive'}
+        color="assistive"
         ref={ref}
         disabled={disabled}
         size="large"
         data-role="text-field-button"
         {...props}
-        sx={[textFieldButtonStyle({ variant, disabled }), props.sx]}
+        sx={[textFieldButtonStyle, props.sx]}
       />
     );
   },
