@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.9.0](https://github.com/wanteddev/montage-web/compare/v3.8.1...v3.9.0) (2026-06-10)
+
+### Features
+
+- **wds,wds-icon:** icon figma sync and new code connect publish ([#582](https://github.com/wanteddev/montage-web/issues/582)) ([1a11b85](https://github.com/wanteddev/montage-web/commit/1a11b850a4c9b17e7d1afbc60cbd440596e9defe))
+
 ## [3.8.1](https://github.com/wanteddev/montage-web/compare/v3.8.0...v3.8.1) (2026-06-02)
 
 **Note:** Version bump only for package @wanteddev/wds-icon
