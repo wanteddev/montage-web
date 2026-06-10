@@ -18,7 +18,7 @@ const AppRouterCacheProvider = (props: AppRouterCacheProviderProps) => {
   const { options, children } = props;
 
   const [registry] = useState(() => {
-    const cache = createCache({ ...options, key: options?.key ?? 'wds' });
+    const cache = createCache({ ...options, key: options?.key ?? 'montage' });
     cache.compat = true;
 
     const prevInsert = cache.insert;
