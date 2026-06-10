@@ -115,7 +115,7 @@ Wait for the user's answer:
 
 **The PR title must be Conventional Commits format** — `<type>(<scope>): <subject>` (or `<type>: <subject>` if no scope, `<type>!:` for breaking). This is non-negotiable: PRs are squash-merged here, so the PR title becomes the merged commit message, which lerna parses to compute the version bump and generate the changelog. A non-conventional title silently breaks both. `commitlint` enforces it on commits but **not** on PR titles, so this skill is the gate.
 
-Allowed types (matching the existing repo history): `feat`, `fix`, `chore`, `docs`, `refactor`, `perf`, `test`, `style`, `build`, `ci`. Common scopes are package names (`wds`, `wds-engine`, `wds-icon`, `wds-mcp`, `ci`) — check `git log --oneline -20` to match what's in use.
+Allowed types (matching the existing repo history): `feat`, `fix`, `chore`, `docs`, `refactor`, `perf`, `test`, `style`, `build`, `ci`. Common scopes are package names (`core`, `engine`, `icon`, `theme`, `ci`) — check `git log --oneline -20` to match what's in use.
 
 How to derive the title:
 

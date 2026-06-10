@@ -172,7 +172,7 @@ const main = async () => {
       ([fileName, fileContents]) =>
         new Promise((resolve, reject) => {
           writeFile(
-            `./packages/wds-icon/src/${fileName}.tsx`,
+            `./packages/icon/src/${fileName}.tsx`,
             fileContents,
             (err) => (err ? reject(err) : resolve()),
           );
@@ -181,7 +181,7 @@ const main = async () => {
   );
 
   writeFileSync(
-    './packages/wds-icon/src/index.ts',
+    './packages/icon/src/index.ts',
     [
       ...data.map(
         ({ name }) =>

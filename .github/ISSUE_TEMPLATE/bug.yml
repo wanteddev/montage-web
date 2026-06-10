@@ -1,6 +1,6 @@
 name: 'Bug Report'
 title: 'Bug: '
-description: Report a bug in WDS
+description: Report a bug in Montage
 labels:
   - 'bug'
 body:
@@ -34,9 +34,9 @@ body:
       required: true
   - type: input
     attributes:
-      label: WDS Version
-      description: Which version of WDS are you using?
-      placeholder: e.g. 3.0.0
+      label: Montage Version
+      description: Which version of Montage are you using?
+      placeholder: e.g. 4.0.0
     validations:
       required: true
   - type: input
