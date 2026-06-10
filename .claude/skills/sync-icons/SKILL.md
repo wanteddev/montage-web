@@ -1,11 +1,11 @@
 ---
 name: sync-icons
-description: Sync icons from the Figma file into `wds-icon` and open a PR by dispatching the `figma-icon-sync-code-connect.yml` GitHub Actions workflow. The workflow pulls the latest icon set from Figma, generates Code Connect bindings, and opens a PR against the branch you dispatched from. Use this skill whenever the user says "아이콘 업데이트해줘", "아이콘 싱크해줘", "Figma에서 아이콘 가져와줘", "sync icons", "update icons from Figma", "code connect publish", or otherwise indicates they want the icon set refreshed from the Figma source of truth.
+description: Sync icons from the Figma file into `icon` and open a PR by dispatching the `figma-icon-sync-code-connect.yml` GitHub Actions workflow. The workflow pulls the latest icon set from Figma, generates Code Connect bindings, and opens a PR against the branch you dispatched from. Use this skill whenever the user says "아이콘 업데이트해줘", "아이콘 싱크해줘", "Figma에서 아이콘 가져와줘", "sync icons", "update icons from Figma", "code connect publish", or otherwise indicates they want the icon set refreshed from the Figma source of truth.
 ---
 
 # sync-icons
 
-Triggers the `figma-icon-sync-code-connect.yml` workflow that does all the actual work — pulls icons from Figma, regenerates `wds-icon`, wires up Code Connect, and opens a PR. This skill just dispatches the workflow with the right inputs against the right branch.
+Triggers the `figma-icon-sync-code-connect.yml` workflow that does all the actual work — pulls icons from Figma, regenerates `icon`, wires up Code Connect, and opens a PR. This skill just dispatches the workflow with the right inputs against the right branch.
 
 ## When to trigger
 
@@ -19,12 +19,12 @@ Triggers the `figma-icon-sync-code-connect.yml` workflow that does all the actua
 You don't run any of this yourself — it's all in the workflow. But knowing the steps helps you set expectations for the user:
 
 1. Pulls the icon set from the Figma file (uses `FIGMA_TOKEN` secret).
-2. Runs `scripts/figma-icon.mjs` to regenerate `packages/wds-icon`.
+2. Runs `scripts/figma-icon.mjs` to regenerate `packages/icon`.
 3. Creates a branch named `feature/code-connect/<run_id>`, commits, pushes.
 4. Opens a PR with that branch as the **head** and the **branch you dispatched from** as the **base**.
 5. If `publish=true`, also publishes Code Connect mappings to Figma (so designers see the codebase ↔ Figma binding).
 
-The PR title is auto-set to `feat(wds,wds-icon): icon figma sync and new code connect publish`.
+The PR title is auto-set to `feat(core,icon): icon figma sync and new code connect publish`.
 
 ## Workflow inputs
 
@@ -91,7 +91,7 @@ Don't poll for completion unless the user asks — the workflow takes minutes, a
 
 When the auto-generated PR shows up, it should be milestoned as a **minor** version bump — adding icons is a non-breaking feature add, so it falls under `feat` in Conventional Commits and bumps the minor version.
 
-The workflow titles the PR `feat(wds,wds-icon): icon figma sync and new code connect publish`, which `create-pr`'s bump-type detection will already classify as minor. But the workflow opens the PR via the `github-actions[bot]` and doesn't attach a milestone, so:
+The workflow titles the PR `feat(core,icon): icon figma sync and new code connect publish`, which `create-pr`'s bump-type detection will already classify as minor. But the workflow opens the PR via the `github-actions[bot]` and doesn't attach a milestone, so:
 
 - After the workflow finishes, attach the next minor milestone (e.g. current `3.5.0` → `3.6.0`) to the PR. The `create-pr` skill's milestone logic explains how to compute and ensure the milestone exists.
 - The only situation where it's _not_ minor: if the sync also removes or renames existing icons in a way that breaks consumers (i.e. the diff has icon deletions). That's a `feat!:` and bumps major — but it should also be on a major branch, not `main`. Surface the deletion to the user and confirm before touching the milestone.

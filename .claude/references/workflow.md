@@ -51,8 +51,8 @@ The `create-pr` skill enforces this: a major bump with `main` as base or a missi
 Conventional Commits are mandatory: `<type>(<scope>): <description>`. `commitlint` enforces this on every commit.
 
 - **Allowed types** (matching repo history): `feat`, `fix`, `chore`, `docs`, `refactor`, `perf`, `test`, `style`, `build`, `ci`
-- **Common scopes**: package names — `wds`, `wds-engine`, `wds-icon`, `wds-mcp`, `ci`. Match what `git log --oneline -20` shows.
-- **Breaking changes**: append `!` after the type/scope (`feat!:`, `feat(wds)!:`) or include a `BREAKING CHANGE:` footer. Either form bumps the major version.
+- **Common scopes**: package names — `core`, `engine`, `icon`, `mcp`, `ci`. Match what `git log --oneline -20` shows.
+- **Breaking changes**: append `!` after the type/scope (`feat!:`, `feat(core)!:`) or include a `BREAKING CHANGE:` footer. Either form bumps the major version.
 - **Body**: focus on the _why_, not the _what_ — the diff already shows the what.
 
 The commit-msg hook (`scripts/commit-msg.mjs`) does extra work for you:

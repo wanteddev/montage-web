@@ -1,5 +1,5 @@
 import * as React from 'react';
-import * as Wds from '@montage-ui/core';
+import * as Montage from '@montage-ui/core';
 import { FlexBox } from '@montage-ui/core';
 import { useMemo } from 'react';
 
@@ -47,7 +47,7 @@ const SectionHierarchyItem = ({
     return {
       import: {
         react: React,
-        '@montage-ui/core': Wds,
+        '@montage-ui/core': Montage,
       },
     };
   }, []);
