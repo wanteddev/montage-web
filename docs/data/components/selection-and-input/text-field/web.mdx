@@ -106,11 +106,50 @@ const Demo = () => {
 export default Demo;`}
 />
 
+## Sizes
+
+2가지 사이즈를 제공합니다.
+- large (default)
+- medium
+
+<Demo code={`import { FlexBox, FormField, FormControl, FormLabel, FormMessage, TextField } from '@montage-ui/core';
+
+const Demo = () => {
+  return (
+    <FlexBox gap="12px" flexDirection="column" alignItems="center">
+      <FormField size="large">
+        <FormLabel required>Large</FormLabel>
+        <FormControl>
+          <TextField width="25ch" placeholder="Large" size="large" />
+        </FormControl>
+        <FormMessage>Helper Message</FormMessage>
+      </FormField>
+
+      <FormField size="medium">
+        <FormLabel required variant="label2">Medium</FormLabel>
+        <FormControl>
+          <TextField width="25ch" placeholder="Medium" size="medium" />
+        </FormControl>
+        <FormMessage>Helper Message</FormMessage>
+      </FormField>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
 ## Contents
 
 `leadingContent`, `trailingContent` prop 을 사용하여 앞/뒤에 컨텐츠를 추가할 수 있습니다.
 
 해당 옵션을 사용할 때에는 `TextFieldContent` 로 감싸서 사용합니다.
+
+`size` 에 따라 사용법이 일부 다릅니다.
+- IconButton의 size
+- ContentBadge의 size
+
+### Large
 
 <Demo code={`import { FlexBox, TextField, TextFieldContent, ContentBadge, IconButton } from '@montage-ui/core';
 import { IconBlank, IconEye } from '@montage-ui/icon';
@@ -146,7 +185,7 @@ const Demo = () => {
         placeholder="Badge"
         trailingContent={(
           <TextFieldContent variant="badge">
-            <ContentBadge>
+            <ContentBadge size="small">
               Badge
             </ContentBadge>
           </TextFieldContent>
@@ -175,7 +214,91 @@ const Demo = () => {
         placeholder="Icon button"
         trailingContent={(
           <TextFieldContent variant="icon-button">
-            <IconButton>
+            <IconButton size={32}>
+              <IconEye />
+            </IconButton>
+          </TextFieldContent>
+        )}
+      />
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+### Medium
+
+<Demo code={`import { FlexBox, TextField, TextFieldContent, ContentBadge, IconButton } from '@montage-ui/core';
+import { IconBlank, IconEye } from '@montage-ui/icon';
+
+const Demo = () => {
+  return (
+    <FlexBox gap="12px" flexDirection="column" alignItems="center" sx={{ width: '100%' }}>
+      <TextField
+        width="45%"
+        placeholder="Icon"
+        size="medium"
+        leadingContent={(
+          <TextFieldContent variant="icon">
+            <IconBlank />
+          </TextFieldContent>
+        )}
+        trailingContent={(
+          <TextFieldContent variant="icon">
+            <IconBlank />
+          </TextFieldContent>
+        )}
+      />
+      <TextField
+        width="45%"
+        placeholder="Text"
+        size="medium"
+        trailingContent={(
+          <TextFieldContent variant="text">
+            텍스트
+          </TextFieldContent>
+        )}
+      />
+      <TextField
+        width="45%"
+        placeholder="Badge"
+        size="medium"
+        trailingContent={(
+          <TextFieldContent variant="badge">
+            <ContentBadge size="xsmall">
+              Badge
+            </ContentBadge>
+          </TextFieldContent>
+        )}
+      />
+      <TextField
+        width="45%"
+        placeholder="Timer"
+        size="medium"
+        trailingContent={(
+          <TextFieldContent variant="timer">
+            4:59
+          </TextFieldContent>
+        )}
+      />
+      <TextField
+        width="45%"
+        placeholder="Timer"
+        size="medium"
+        trailingContent={(
+          <TextFieldContent variant="timer" color="semantic.status.negative">
+            0:00
+          </TextFieldContent>
+        )}
+      />
+      <TextField
+        width="45%"
+        placeholder="Icon button"
+        size="medium"
+        trailingContent={(
+          <TextFieldContent variant="icon-button">
+            <IconButton size={28}>
               <IconEye />
             </IconButton>
           </TextFieldContent>
