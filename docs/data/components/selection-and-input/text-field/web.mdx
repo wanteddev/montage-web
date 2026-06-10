@@ -45,31 +45,6 @@ const Demo = () => {
 export default Demo;`}
 />
 
-## With button
-
-`trailingButton` prop 을 사용하여 버튼을 추가할 수 있습니다.
-
-<Demo code={`import { TextField, FlexBox, TextFieldButton } from '@montage-ui/core';
-
-const Demo = () => {
-  return (
-    <FlexBox flexDirection="column" gap="20px" alignItems="center" sx={{ width: '100%' }}>
-      <TextField
-        placeholder="입력하세요."
-        width="50%"
-        trailingButton={(
-          <TextFieldButton>
-            텍스트
-          </TextFieldButton>
-        )}
-      />
-    </FlexBox>
-  )
-}
-
-export default Demo;`}
-/>
-
 ## Form field
 
 Form과 관련된 컴포넌트와 함께 사용할 수 있습니다.
@@ -303,6 +278,35 @@ const Demo = () => {
             </IconButton>
           </TextFieldContent>
         )}
+      />
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+
+## With button
+
+`trailingButton` prop 을 사용하여 버튼을 추가할 수 있습니다.
+
+<Demo code={`import { TextField, FlexBox, TextFieldButton } from '@montage-ui/core';
+
+const Demo = () => {
+  return (
+    <FlexBox alignItems="center" flexDirection="column" gap="12px">
+      <TextField
+        size="large"
+        placeholder="Large with button"
+        width="25ch"
+        trailingButton={<TextFieldButton>Button</TextFieldButton>}
+      />
+      <TextField
+        size="medium"
+        placeholder="Medium with button"
+        width="25ch"
+        trailingButton={<TextFieldButton>Button</TextFieldButton>}
       />
     </FlexBox>
   )
