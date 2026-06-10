@@ -31,9 +31,9 @@ run({
   invalid: [
     {
       code: `
-        import * as wds from '@montage-ui/core';
+        import * as montage from '@montage-ui/core';
 
-        <wds.Avatar />
+        <montage.Avatar />
       `,
       errors: 1,
     },
