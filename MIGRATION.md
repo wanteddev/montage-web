@@ -135,6 +135,80 @@ codemod는 `.ts`/`.tsx`/`.js`/`.jsx`의 문자열·template literal과 `.css`/`.
 npx @montage-ui/codemod@latest dom-identifier-migration src
 ```
 
+### Card / ListCard 네이밍 변경
+
+`CardList`가 `ListCard`로 변경되고, Card와 ListCard가 각자의 하위 컴포넌트를 갖는 독립된 패밀리로 분리되었습니다. 기존에는 `CardList` 내부에서 Card의 하위 컴포넌트(`CardThumbnail`, `CardContent` 등)를 빌려 썼지만, 이제 `ListCard*` 전용 컴포넌트를 사용합니다.
+
+#### Card 계열
+
+본문 영역과 보조 행의 이름이 역할에 맞게 변경되었습니다.
+
+| 기존                      | 변경              |
+| ------------------------- | ----------------- |
+| `CardContent`             | `CardBody`        |
+| `CardContentItem`         | `CardRow`         |
+| `CardContentItemSkeleton` | `CardRowSkeleton` |
+
+Props 타입도 동일하게 변경됩니다 (`CardContentProps` → `CardBodyProps`, `CardContentItemProps` → `CardRowProps`, `CardContentItemSkeletonProps` → `CardRowSkeletonProps`).
+
+#### ListCard 계열
+
+| 기존               | 변경               |
+| ------------------ | ------------------ |
+| `CardList`         | `ListCard`         |
+| `CardListContent`  | `ListCardContent`  |
+| `CardListSkeleton` | `ListCardSkeleton` |
+
+`CardList`의 children, `leadingContent`, `trailingContent`에서 사용하던 Card 하위 컴포넌트는 ListCard 전용 컴포넌트로 교체합니다.
+
+| 기존 (CardList 내부)      | 변경                        |
+| ------------------------- | --------------------------- |
+| `CardThumbnail`           | `ListCardThumbnail`         |
+| `CardThumbnailContent`    | `ListCardThumbnailContent`  |
+| `CardContent`             | `ListCardBody`              |
+| `CardContentItem`         | `ListCardRow`               |
+| `CardTitle`               | `ListCardTitle`             |
+| `CardCaption`             | `ListCardCaption`           |
+| `CardThumbnailSkeleton`   | `ListCardThumbnailSkeleton` |
+| `CardContentItemSkeleton` | `ListCardRowSkeleton`       |
+| `CardTitleSkeleton`       | `ListCardTitleSkeleton`     |
+| `CardCaptionSkeleton`     | `ListCardCaptionSkeleton`   |
+
+```tsx
+// AS-IS
+<CardList leadingContent={<CardListContent variant="checkbox">...</CardListContent>}>
+  <CardThumbnail src="..." alt="..." />
+  <CardContent>
+    <CardTitle>Heading</CardTitle>
+    <CardCaption>Caption</CardCaption>
+  </CardContent>
+</CardList>
+
+// TO-BE
+<ListCard leadingContent={<ListCardContent variant="checkbox">...</ListCardContent>}>
+  <ListCardThumbnail src="..." alt="..." />
+  <ListCardBody>
+    <ListCardTitle>Heading</ListCardTitle>
+    <ListCardCaption>Caption</ListCardCaption>
+  </ListCardBody>
+</ListCard>
+```
+
+codemod가 JSX 트리에서 가장 가까운 조상(`Card`/`CardSkeleton` vs `CardList`/`CardListSkeleton`)을 기준으로 컨텍스트를 판별해 자동 변환합니다. `leadingContent`/`trailingContent` prop 안의 JSX, 한 파일에서 양쪽 컨텍스트를 혼용하는 경우(import가 `CardBody` + `ListCardBody`로 분리), alias import까지 처리합니다.
+
+```sh
+npx @montage-ui/codemod@latest list-card-migration src
+```
+
+아래 항목은 수동 확인이 필요합니다:
+
+- JSX가 아닌 일반 식별자 참조(예: `component={CardContent}`)는 컨텍스트 판별이 불가능해 Card 계열 이름(`CardBody`)으로 변환됩니다. ListCard 컨텍스트로 쓰인다면 직접 교체하세요.
+- DOM 식별자가 변경되었습니다. `data-component` 셀렉터나 CSS 변수를 직접 참조했다면 함께 수정하세요.
+  - `data-component="card-content"` → `data-component="card-body"`
+  - `data-component="card-content-item"` → `data-component="card-row"`
+  - `data-component="card-content-item-skeleton"` → `data-component="card-row-skeleton"`
+  - `--card-content-item-*` → `--card-row-*`
+
 ### Modal
 
 `variant="bottom"`, `handle={true}`의 기본 동작이 변경되었습니다.

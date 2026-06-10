@@ -5,11 +5,11 @@ module.exports = {
   variants: {
     components: [
       'FlexBox',
-      'CardList',
-      'CardThumbnail',
-      'CardTitle',
-      'CardCaption',
-      'CardContent',
+      'ListCard',
+      'ListCardThumbnail',
+      'ListCardTitle',
+      'ListCardCaption',
+      'ListCardBody',
     ],
     icons: [],
     render: (value) => {
@@ -22,13 +22,13 @@ module.exports = {
             backgroundColor: theme.semantic.background.normal.normal
           })}
         >
-          <CardList platform="${value['Platform'].toLowerCase()}">
-            <CardThumbnail />
-            <CardContent>
-              <CardTitle>Heading</CardTitle>
-              <CardCaption>Caption</CardCaption>
-            </CardContent>
-          </CardList>
+          <ListCard platform="${value['Platform'].toLowerCase()}">
+            <ListCardThumbnail />
+            <ListCardBody>
+              <ListCardTitle>Heading</ListCardTitle>
+              <ListCardCaption>Caption</ListCardCaption>
+            </ListCardBody>
+          </ListCard>
         </FlexBox>
       `;
     },
