@@ -14,7 +14,7 @@ export const DOCS_PAGES = [
   {
     title: 'Web',
     slug: ['getting-started', 'platform', 'web'],
-    url: 'https://github.com/wanteddev/montage-web/blob/main/packages/wds/README.md',
+    url: 'https://github.com/wanteddev/montage-web/blob/main/packages/core/README.md',
     isExternal: true,
   },
   {

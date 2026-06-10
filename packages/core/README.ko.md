@@ -330,3 +330,51 @@ const MyApp = ({
 
 export default MyApp;
 ```
+
+## 다크 모드
+
+다크 모드는 기본적으로 비활성화되어 있으며, 모든 페이지가 라이트 테마로 렌더링됩니다. `ThemeProvider`에 `enableDarkMode` prop을 전달하면 활성화됩니다.
+
+```tsx
+<ThemeProvider enableDarkMode>
+  <App />
+</ThemeProvider>
+```
+
+`enableDarkMode`를 사용하면:
+
+- 기본적으로 OS 설정(`prefers-color-scheme`)을 따라갑니다.
+- 사용자가 선택한 테마는 `localStorage`에 저장됩니다. (key: `theme`, `storageKey` prop으로 변경 가능)
+- 테마 전환 시 CSS transition을 끄고 싶다면 `disableTransitionOnChange`를 전달하세요.
+
+현재 테마를 읽거나 변경하려면 `useThemeControl` 훅을 사용합니다. 서버에서는 테마가 항상 `'light'`로 결정되기 때문에, Next.js 같은 SSR 환경에서 `theme` 값을 그대로 렌더링하면 hydration mismatch가 발생합니다. 테마에 따라 달라지는 출력은 `NoSsr`로 감싸주세요.
+
+```tsx
+import { NoSsr, useThemeControl } from '@montage-ui/core';
+
+const ThemeToggle = () => {
+  const { theme, setTheme } = useThemeControl();
+
+  return (
+    <button onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}>
+      <NoSsr>현재 테마: {theme}</NoSsr>
+    </button>
+  );
+};
+```
+
+- `theme`: 화면에 실제로 적용된 테마 (`'light' | 'dark'`)
+- `themeOriginValue`: 저장된 설정값 (`'light' | 'dark' | 'system'`)
+- `setTheme`: 테마 변경 — `'light'`, `'dark'`, `'system'`을 전달할 수 있습니다.
+
+> **참고 (Next.js):** 테마 감지는 클라이언트에서 동작하므로, 위의 App router 예시처럼 `<html>` 엘리먼트에 `suppressHydrationWarning`을 추가해야 합니다.
+
+현재 테마와 무관하게 특정 영역에 테마를 고정하려면 `ForceTheme`으로 감싸세요.
+
+```tsx
+import { ForceTheme } from '@montage-ui/core';
+
+<ForceTheme theme="dark">
+  <AlwaysDarkSection />
+</ForceTheme>;
+```

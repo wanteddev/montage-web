@@ -56,7 +56,7 @@ const PickerActionAreaButton = forwardRef(
         process.env.NODE_ENV !== 'production'
       ) {
         console.warn(
-          '[WDS] PickerActionAreaButton: "now" variant is not supported in DateRangePicker. Use "accept", "cancel", or "reset" instead.',
+          '[Montage] PickerActionAreaButton: "now" variant is not supported in DateRangePicker. Use "accept", "cancel", or "reset" instead.',
         );
       }
     }, [variant, isRange]);

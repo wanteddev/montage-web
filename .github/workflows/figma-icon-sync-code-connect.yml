@@ -77,7 +77,7 @@ jobs:
           git branch feature/code-connect/${{ github.run_id }}
           git checkout feature/code-connect/${{ github.run_id }}
           git add .
-          git commit -m "feat(wds-icon): add icons synced from figma" --no-verify
+          git commit -m "feat(icon): add icons synced from figma" --no-verify
           git push origin feature/code-connect/${{ github.run_id }}
 
       - name: Extract branch name
@@ -87,7 +87,7 @@ jobs:
 
       - name: Create New PR
         run: |
-          gh pr create -B ${{ steps.extract_branch.outputs.branch }} -H feature/code-connect/${{ github.run_id }} --title "feat(wds,wds-icon): icon figma sync and new code connect publish" --body "add icons synced from figma"
+          gh pr create -B ${{ steps.extract_branch.outputs.branch }} -H feature/code-connect/${{ github.run_id }} --title "feat(core,icon): icon figma sync and new code connect publish" --body "add icons synced from figma"
         env:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
           GH_REPO: ${{ github.repository }}

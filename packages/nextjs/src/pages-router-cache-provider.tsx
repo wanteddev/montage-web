@@ -23,7 +23,7 @@ const createEmotionCache = () => {
     insertionPoint = emotionInsertionPoint ?? undefined;
   }
 
-  return createCache({ key: 'wds', insertionPoint });
+  return createCache({ key: 'montage', insertionPoint });
 };
 
 export type EmotionCacheProviderProps = {

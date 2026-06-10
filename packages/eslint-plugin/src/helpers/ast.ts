@@ -22,7 +22,7 @@ export class WdsImportParser {
             source:
               specifier.imported.type === 'Identifier'
                 ? specifier.imported.name
-                : specifier.imported.value?.toString() ?? '',
+                : (specifier.imported.value?.toString() ?? ''),
           });
         } else if (specifier.type === 'ImportNamespaceSpecifier') {
           this.wdsImportNamespace.push(specifier.local.name);

@@ -12,7 +12,7 @@
 
 ## Component Folder Structure
 
-Every component lives in its own kebab-case directory under `packages/wds/src/components/<component-name>/`. Files are added only when needed — start minimal.
+Every component lives in its own kebab-case directory under `packages/core/src/components/<component-name>/`. Files are added only when needed — start minimal.
 
 ```text
 component-name/
@@ -26,13 +26,13 @@ component-name/
 └── index.test.tsx  # Optional. Vitest + Testing Library unit tests.
 ```
 
-The component is then re-exported from `packages/wds/src/components/index.ts` with `export * from './component-name';` — that one line is the entire registration step.
+The component is then re-exported from `packages/core/src/components/index.ts` with `export * from './component-name';` — that one line is the entire registration step.
 
 ### When to add each optional file
 
 - **`constants.ts`**: as soon as you have a compound component (Accordion, AccordionSummary, ...). Name strings are shared between `displayName` and the Radix context name to keep error messages consistent. Also a good home for non-styling magic numbers.
 - **`contexts.ts`**: whenever a parent component needs to share state with descendants. Use `@radix-ui/react-context`'s `createContext` (returns `[Provider, useContext]` tuple) — never `React.createContext` directly, because the Radix version gives clearer "must be used within X" errors and accepts a name for the message.
-- **`hooks.ts`**: when a hook is component-internal and not reused elsewhere. If it becomes reusable, lift it to `packages/wds/src/hooks/`.
+- **`hooks.ts`**: when a hook is component-internal and not reused elsewhere. If it becomes reusable, lift it to `packages/core/src/hooks/`.
 - **`helpers.ts`**: pure functions (no React, no hooks). Keeps `index.tsx` readable.
 
 ## types.ts — Props Type Patterns
@@ -181,7 +181,7 @@ Note the trailing `as PolymorphicComponentInternal<...>` cast — it's required 
 ### Conventions that apply to both
 
 - **Always `forwardRef`.** Even seemingly leaf components get refs from consumers (focus management, animations, third-party integrations).
-- **Render through `Box`** from `wds-engine` — never a raw `div`/`span`/etc. `Box` handles the `sx` prop, theme access, and the polymorphic `as` plumbing.
+- **Render through `Box`** from `engine` — never a raw `div`/`span`/etc. `Box` handles the `sx` prop, theme access, and the polymorphic `as` plumbing.
 - **Spread `{...props}` _before_ `sx`** so the merged-with-defaults `sx` wins over any incoming `sx` from `props`. Do the same for any prop you intentionally override (`onClick` composed via `composeEventHandlers`, etc).
 - **Compose event handlers, don't replace them.** When you need to add behavior to `onClick` / `onKeyDown`, use `composeEventHandlers(internalHandler, props.onClick)` from `@radix-ui/primitive` so the consumer's handler still runs.
 - **Provide controllable state via `useControllableState`** (`@radix-ui/react-use-controllable-state`) — it gives you the `value`/`defaultValue`/`onChange` triple for free, matching native form-element semantics.
@@ -287,7 +287,7 @@ This expands to the project's breakpoint media queries and applies styles only t
 
 ### Always use theme tokens
 
-Reference `theme.semantic.*` (semantic tokens — light/dark aware) over `theme.color.*` (raw atomic tokens). Never hardcode hex values. If a token doesn't exist, the right move is to add one in `wds-theme`, not to inline a literal.
+Reference `theme.semantic.*` (semantic tokens — light/dark aware) over `theme.color.*` (raw atomic tokens). Never hardcode hex values. If a token doesn't exist, the right move is to add one in `theme`, not to inline a literal.
 
 ## contexts.ts — Compound Component Context
 
@@ -321,7 +321,7 @@ The argument to `useAccordionContext` is the _consumer_ name (used in error mess
 - Unit tests use **Vitest** with **@testing-library/react** and **vitest-axe** for accessibility
 - Test globals are enabled (`describe`, `it`, `expect`, `vi` available without imports)
 - Setup mocks: `matchMedia`, `ResizeObserver`, `HTMLCanvasElement`
-- Bundle size limits enforced via **size-limit** (e.g., wds: 5KB gzipped)
+- Bundle size limits enforced via **size-limit** (e.g., core: 5KB gzipped)
 - Test file lives next to the component as `index.test.tsx` — no separate `__tests__/` directory
 - Always include at least one `vitest-axe` accessibility assertion for interactive components
 

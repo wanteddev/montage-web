@@ -30,7 +30,7 @@ export default {
     docs: {
       url: 'https://github.com/wanteddev/montage-web/tree/main/packages/eslint-plugin/README.md#icon-button-uses-name',
       description:
-        'Required name or aria-label prop for wds icon button components',
+        'Required name or aria-label prop for montage icon button components',
     },
     messages: {
       error:
