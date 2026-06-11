@@ -129,6 +129,42 @@ TextArea(text: $longText)
 </details>
 <details>
 
+<summary>``func inputCharacterLimit(Int?) -> TextArea``</summary>
+
+
+입력 시점에 적용할 최대 글자 수를 설정합니다.
+
+- **Parameters**
+  | Parameter | Description |
+  | --- | --- |
+  | `limit` | 최대 글자 수, nil이면 제한 없음 |
+- **Return Value**
+
+  수정된 텍스트 영역 인스턴스
+- **Discussion**
+
+  하단 문자 수 카운터와 달리 카운터 UI를 표시하지 않고 입력 길이만 제한합니다. 사후 변형이 아닌 입력 단계에서 제한하므로 UITextView의 텍스트와 UndoManager가 일관되게 유지되며, 초과 입력/붙여넣기는 허용분만 잘라서 삽입됩니다.
+</details>
+<details>
+
+<summary>``func inputTransform(((String) -> String)?) -> TextArea``</summary>
+
+
+입력되는 텍스트를 입력 시점에 변환할 클로저를 설정합니다.
+
+- **Parameters**
+  | Parameter | Description |
+  | --- | --- |
+  | `transform` | 입력 조각을 변환하는 클로저, nil이면 변환하지 않음 |
+- **Return Value**
+
+  수정된 텍스트 영역 인스턴스
+- **Discussion**
+
+  사용자가 입력하거나 붙여넣는 텍스트(replacement) 조각에 적용됩니다. emoji 제거 등 도메인별 정규화에 사용합니다. 사후 변형이 아닌 입력 단계에서 적용되므로 UITextView의 텍스트와 UndoManager가 일관되게 유지됩니다.
+</details>
+<details>
+
 <summary>``func negative(Bool) -> TextArea``</summary>
 
 
