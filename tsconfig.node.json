@@ -11,7 +11,7 @@
   "exclude": ["**/node_modules", "./dist", "*.cjs"],
   "include": [
     "scripts/**/*.mjs",
-    ".tsup/**/*.ts",
+    ".tsdown/**/*.ts",
     "vitest.config.ts",
     ".vitest",
     "eslint.config.mjs",
