@@ -31,7 +31,7 @@
     "build": "tsc --noEmit && tsdown",
     "lint": "eslint",
     "lint:fix": "eslint --fix",
-    "watch": "tsup --watch"
+    "watch": "tsdown --watch"
   },
   "devDependencies": {
     "@types/react": "^19.2.14",
