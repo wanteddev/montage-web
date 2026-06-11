@@ -1,4 +1,4 @@
-tsup.config.ts
+tsdown.config.ts
 .eslintrc.cjs
 .eslintignore
 tsconfig.json
