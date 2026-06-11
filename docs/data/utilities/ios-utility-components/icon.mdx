@@ -952,6 +952,11 @@ Button(action: {}) {
 </details>
 <details>
 
+<summary>``case imageFill``</summary>
+
+</details>
+<details>
+
 <summary>``case inbox``</summary>
 
 </details>
@@ -1393,6 +1398,11 @@ Button(action: {}) {
 <details>
 
 <summary>``case plusThick``</summary>
+
+</details>
+<details>
+
+<summary>``case positionReview``</summary>
 
 </details>
 <details>
