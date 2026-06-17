@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.9.1](https://github.com/wanteddev/montage-web/compare/v3.9.0...v3.9.1) (2026-06-17)
+
+### Bug Fixes
+
+- **wds-icon:** 특정 아이콘 채우기가 black 고정으로 들어있는 이슈 ([#595](https://github.com/wanteddev/montage-web/issues/595)) ([9b6cb8b](https://github.com/wanteddev/montage-web/commit/9b6cb8bcfc0f2abd81d30eabc8f1b649da15e4f0))
+
 # [3.9.0](https://github.com/wanteddev/montage-web/compare/v3.8.1...v3.9.0) (2026-06-10)
 
 ### Bug Fixes
