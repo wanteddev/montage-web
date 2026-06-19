@@ -13,7 +13,7 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
  * 키워드: 워닝, Warning, Wait, 기다리기, 주의
  * 속성: Solid
  */
-const IconCircleExclamationFill = forwardRef<SVGSVGElement, Props>(
+const IconCircleExclamationOpaque = forwardRef<SVGSVGElement, Props>(
   (props, ref) => {
     return (
       <Box
@@ -26,6 +26,7 @@ const IconCircleExclamationFill = forwardRef<SVGSVGElement, Props>(
         ref={ref}
         {...props}
       >
+        <rect x="6" y="6" width="12" height="12" fill="white" />
         <path
           fillRule="evenodd"
           clipRule="evenodd"
@@ -37,4 +38,4 @@ const IconCircleExclamationFill = forwardRef<SVGSVGElement, Props>(
   },
 );
 
-export default IconCircleExclamationFill;
+export default IconCircleExclamationOpaque;
