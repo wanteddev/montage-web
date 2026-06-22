@@ -13,7 +13,7 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
  * 키워드: Closed, Delete, 삭제, 제거, 닫기
  * 속성: Solid
  */
-const IconCircleCloseFill = forwardRef<SVGSVGElement, Props>((props, ref) => {
+const IconCircleCloseOpaque = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box
       as="svg"
@@ -25,6 +25,7 @@ const IconCircleCloseFill = forwardRef<SVGSVGElement, Props>((props, ref) => {
       ref={ref}
       {...props}
     >
+      <rect x="6" y="6" width="12" height="12" fill="white" />
       <path
         fillRule="evenodd"
         clipRule="evenodd"
@@ -35,4 +36,4 @@ const IconCircleCloseFill = forwardRef<SVGSVGElement, Props>((props, ref) => {
   );
 });
 
-export default IconCircleCloseFill;
+export default IconCircleCloseOpaque;

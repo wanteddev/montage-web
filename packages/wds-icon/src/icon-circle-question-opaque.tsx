@@ -13,7 +13,7 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
  * 키워드: 물음표, 추가 정보, Question, Additional Information
  * 속성: Solid
  */
-const IconCircleQuestionFill = forwardRef<SVGSVGElement, Props>(
+const IconCircleQuestionOpaque = forwardRef<SVGSVGElement, Props>(
   (props, ref) => {
     return (
       <Box
@@ -26,6 +26,7 @@ const IconCircleQuestionFill = forwardRef<SVGSVGElement, Props>(
         ref={ref}
         {...props}
       >
+        <rect x="6" y="6" width="12" height="12" fill="white" />
         <path
           fillRule="evenodd"
           clipRule="evenodd"
@@ -37,4 +38,4 @@ const IconCircleQuestionFill = forwardRef<SVGSVGElement, Props>(
   },
 );
 
-export default IconCircleQuestionFill;
+export default IconCircleQuestionOpaque;
