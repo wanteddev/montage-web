@@ -6,9 +6,9 @@ import type { SlotProps } from '@radix-ui/react-slot';
 import type { TypographyProps } from '../typography/types';
 
 type FormControlDefaultProps = FlexBoxDefaultProps & {
-  /** The size of the Control. Maps the sibling `FormLabel` to a typography variant. */
+  /** Size propagated to child input components. Defaults to `'large'` */
   size?: 'large' | 'medium';
-
+  /** Label placement direction. `'top'` stacks above, `'start'` aligns inline to the left */
   labelPlacement?: 'top' | 'start';
 };
 

@@ -88,7 +88,7 @@ const formControlLayoutStyle = (
           column-gap: ${toCssValue(columnGap)};
         `}
 
-        & > [data-component='form-label'] {
+        & > [data-component='form-control-label'] {
           display: inline-block;
           max-height: initial;
         }
@@ -112,7 +112,7 @@ const formControlLayoutStyle = (
         & > [data-component='form-control-negative-message'],
         & > [data-component='form-control-positive-message'],
         & > [data-component='text-field'],
-        & > [data-component='form-control-slot'] {
+        & > [data-role='form-control-slot'] {
           grid-column: 2;
         }
 

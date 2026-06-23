@@ -292,7 +292,7 @@ npx @montage-ui/codemod@latest form-control-migration src
 
 #### `FormControl`(구 `FormField`) 신규 props
 
-새 루트 컴포넌트(`FormControl`)에 `size`와 `labelPlacement`가 추가되었습니다. `size`는 하위 `FormControlLabel`의 타이포그래피와, `FormControl` 내부에 배치된 `DatePicker` / `TimePicker`의 크기에도 자동으로 전달됩니다.
+새 루트 컴포넌트(`FormControl`)에 `size`와 `labelPlacement`가 추가되었습니다. `size`는 하위 `FormControlLabel`의 타이포그래피와, `FormControl` 내부에 배치된 `DatePicker` / `TimePicker` / `DateRangePicker`의 크기에도 자동으로 전달됩니다.
 
 | prop             | 타입                  | 기본값    | 설명                           |
 | ---------------- | --------------------- | --------- | ------------------------------ |

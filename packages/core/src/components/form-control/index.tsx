@@ -320,6 +320,7 @@ export {
   FormControlLabel,
   FormControlMessage,
   FormControlNegativeMessage,
+  FormControlPositiveMessage,
   FormControlCharacterCounter,
 };
 

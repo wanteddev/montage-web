@@ -627,11 +627,11 @@ const Demo = () => {
                     <FormControlLabel>라벨</FormControlLabel>
 
                     <FormControlField>
-                      <TextField {...field} width="100%" placeholder="값을 입력하세요." invalid={Boolean(formState.errors.test)} />
+                      <TextField {...field} width="100%" placeholder="값을 입력하세요." invalid={Boolean(formState.errors.value)} />
                     </FormControlField>
 
-                    {Boolean(formState.errors.test) ? (
-                      <FormControlNegativeMessage>{formState.errors.test?.message}</FormControlNegativeMessage>
+                    {Boolean(formState.errors.value) ? (
+                      <FormControlNegativeMessage>{formState.errors.value?.message}</FormControlNegativeMessage>
                     ): (
                       <FormControlMessage>Description</FormControlMessage>
                     )}

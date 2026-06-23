@@ -242,9 +242,15 @@ const DateRangePicker = forwardRef<
                       handleInputValueChange();
                       setOpen((prev) => !prev);
                     }}
-                    size={size === 'medium' ? 28 : 32}
+                    size={resolvedSize === 'medium' ? 28 : 32}
                     {...mapResponsiveProps(
-                      { xs, sm, md, lg, xl },
+                      {
+                        xs: resolvedXs,
+                        sm: resolvedSm,
+                        md: resolvedMd,
+                        lg: resolvedLg,
+                        xl: resolvedXl,
+                      },
                       'size',
                       (s) => {
                         switch (s) {
