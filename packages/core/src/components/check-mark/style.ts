@@ -98,6 +98,7 @@ const checkMarkSizeStyle = ({
 
         & ~ label {
           ${typographyStyle('body2', bold ? 'bold' : 'regular')}
+          padding: 1px 0px;
         }
       `;
     case 'small':
@@ -123,6 +124,7 @@ const checkMarkSizeStyle = ({
 
         & ~ label {
           ${typographyStyle('label1', bold ? 'bold' : 'regular')}
+          padding: 0px;
         }
       `;
   }
