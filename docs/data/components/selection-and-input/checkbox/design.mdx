@@ -17,7 +17,7 @@ updatedAt: 2026-01-30
   
 
 <SectionVariants
-  components={['FormField', 'FlexBox', 'FormControl', 'FormLabel', 'Checkbox']}
+  components={['FormControl', 'FlexBox', 'FormControlField', 'FormControlLabel', 'Checkbox']}
   icons={[]}
   render={(value) => {
       const tight = value['Tight'] === 'True';
@@ -27,16 +27,16 @@ updatedAt: 2026-01-30
       const gap = tight ? '10px' : '8px';
 
       return `
-        <FormField sx={{ width: '75%' }} flexDirection="row" gap="${gap}" alignItems="center" justifyContent="center">
-          <FormControl>
+        <FormControl sx={{ width: '75%' }} flexDirection="row" gap="${gap}" alignItems="center" justifyContent="center">
+          <FormControlField>
             <Checkbox
               size="${size}"
               bold={${bold}}
               tight={${tight}}
             />
-          </FormControl>
-          <FormLabel>Checkbox</FormLabel>
-        </FormField>
+          </FormControlField>
+          <FormControlLabel>Checkbox</FormControlLabel>
+        </FormControl>
       `;
     }}
   variants={[
@@ -86,22 +86,22 @@ updatedAt: 2026-01-30
   <SectionHierarchyItem
     description={`Level.2 → 상위 항목의 동의 및 선택 여부를 표현합니다.`}
     components={[
-  "FormField",
   "FormControl",
-  "FormLabel",
+  "FormControlField",
+  "FormControlLabel",
   "Checkbox"
 ]}
-    render={`<FormField flexDirection="row" gap="8px" sx={{ width:'88px' }}><FormControl><Checkbox defaultChecked /></FormControl><FormLabel sx={{ padding: "1px 0px" }}>Medium</FormLabel></FormField>`}
+    render={`<FormControl flexDirection="row" gap="8px" sx={{ width:'88px' }}><FormControlField><Checkbox defaultChecked /></FormControlField><FormControlLabel sx={{ padding: "1px 0px" }}>Medium</FormControlLabel></FormControl>`}
   />
   <SectionHierarchyItem
     description={`Level.1 → 하위 항목의 동의 및 선택 여부를 표현합니다.`}
     components={[
-  "FormField",
   "FormControl",
-  "FormLabel",
+  "FormControlField",
+  "FormControlLabel",
   "Checkbox"
 ]}
-    render={`<FormField flexDirection="row" gap="8px" sx={{ width:'88px' }}><FormControl><Checkbox size="small" defaultChecked /></FormControl><FormLabel>Small</FormLabel></FormField>`}
+    render={`<FormControl flexDirection="row" gap="8px" sx={{ width:'88px' }}><FormControlField><Checkbox size="small" defaultChecked /></FormControlField><FormControlLabel>Small</FormControlLabel></FormControl>`}
   />
 </SectionHierarchy>
 

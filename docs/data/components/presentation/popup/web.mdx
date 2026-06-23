@@ -583,11 +583,11 @@ Form 구조로 사용하려면 `ModalContainer` 하위에 `<FlexBox as="form" fl
   ModalTrigger,
   TextField,
   FlexBox,
-  FormField,
   FormControl,
-  FormLabel,
-  FormErrorMessage,
-  FormMessage,
+  FormControlField,
+  FormControlLabel,
+  FormControlNegativeMessage,
+  FormControlMessage,
 } from '@montage-ui/core';
 import { useForm, Controller } from 'react-hook-form';
 
@@ -623,19 +623,19 @@ const Demo = () => {
                   }
                 }}
                 render={({ field, formState }) => (
-                  <FormField>
-                    <FormLabel>라벨</FormLabel>
+                  <FormControl>
+                    <FormControlLabel>라벨</FormControlLabel>
 
-                    <FormControl>
+                    <FormControlField>
                       <TextField {...field} width="100%" placeholder="값을 입력하세요." invalid={Boolean(formState.errors.test)} />
-                    </FormControl>
+                    </FormControlField>
 
                     {Boolean(formState.errors.test) ? (
-                      <FormErrorMessage>{formState.errors.test?.message}</FormErrorMessage>
+                      <FormControlNegativeMessage>{formState.errors.test?.message}</FormControlNegativeMessage>
                     ): (
-                      <FormMessage>Description</FormMessage>
+                      <FormControlMessage>Description</FormControlMessage>
                     )}
-                  </FormField>
+                  </FormControl>
                 )} />
             </ModalContentItem>
           </ModalContent>
