@@ -1,4 +1,4 @@
-import { forwardRef, useCallback, useEffect, useMemo, useRef } from 'react';
+import { forwardRef, useCallback, useEffect, useRef } from 'react';
 import { IconCalendar } from '@montage-ui/icon';
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
 import { useCallbackRef } from '@radix-ui/react-use-callback-ref';
@@ -13,9 +13,14 @@ import { DismissableLayer } from '../dismissable-layer';
 import { FocusScope } from '../focus-scope';
 import { FlexBox } from '../flex-box';
 import { extendDayjs } from '../../utils/internal/date';
-import { splitResponsiveProps } from '../../utils/internal/responsive-props';
+import {
+  mapResponsiveProps,
+  mergeResponsiveProps,
+  splitResponsiveBreakpoints,
+} from '../../utils/internal/responsive-props';
 import { DEFAULT_RANGE_VALUE } from '../date-range-calendar/constants';
 import { PickerActionAreaProvider } from '../picker-action-area/contexts';
+import { useFormControlLayoutContext } from '../form-control/contexts';
 
 import { isInvalidDateRange } from './helpers';
 import { dateRangePopperStyle } from './style';
@@ -23,13 +28,15 @@ import { useDateRangeField } from './hooks';
 
 import type { SlotProps } from '@radix-ui/react-slot';
 import type { DefaultComponentPropsInternal } from '@montage-ui/engine';
-import type { DateRangePickerFieldProps, DateRangePickerProps } from './types';
+import type {
+  DateRangePickerFieldInternalProps,
+  DateRangePickerFieldProps,
+  DateRangePickerProps,
+} from './types';
 import type { DateType } from '../date-calendar/types';
 import type { DateRangeType } from '../date-range-calendar/types';
 
 extendDayjs();
-
-const calendarKeys = ['calendars'] as Array<'calendars'>;
 
 const DateRangePicker = forwardRef<
   HTMLDivElement,
@@ -61,6 +68,7 @@ const DateRangePicker = forwardRef<
       invalid: originInvalid,
       disableLastDateClickClose,
       calendars,
+      size,
       xs,
       sm,
       md,
@@ -70,11 +78,8 @@ const DateRangePicker = forwardRef<
     },
     forwardedRef,
   ) => {
-    const xsSplit = useMemo(() => splitResponsiveProps(xs, calendarKeys), [xs]);
-    const smSplit = useMemo(() => splitResponsiveProps(sm, calendarKeys), [sm]);
-    const mdSplit = useMemo(() => splitResponsiveProps(md, calendarKeys), [md]);
-    const lgSplit = useMemo(() => splitResponsiveProps(lg, calendarKeys), [lg]);
-    const xlSplit = useMemo(() => splitResponsiveProps(xl, calendarKeys), [xl]);
+    const { picked: responsiveCalendars, rest: responsiveRest } =
+      splitResponsiveBreakpoints({ xs, sm, md, lg, xl }, ['calendars']);
 
     const ref = useRef<HTMLDivElement>(null);
     const composedRefs = useComposedRefs(forwardedRef, ref);
@@ -131,6 +136,21 @@ const DateRangePicker = forwardRef<
 
     const invalid = originInvalid || (!onChange && isInvalidDateRange(value));
 
+    const { size: formControlSize, responsive } =
+      useFormControlLayoutContext() || {};
+
+    const resolvedSize = size ?? formControlSize ?? 'large';
+
+    const isCustomInput = Boolean(input);
+
+    const {
+      xs: resolvedXs,
+      sm: resolvedSm,
+      md: resolvedMd,
+      lg: resolvedLg,
+      xl: resolvedXl,
+    } = mergeResponsiveProps(responsiveRest ?? {}, responsive, 'size');
+
     const handleChangeCompleteCallback = useCallbackRef(onChangeComplete);
 
     const handleChangeComplete = useCallback(
@@ -182,17 +202,12 @@ const DateRangePicker = forwardRef<
           role="combobox"
           {...props}
           {...({
-            xs: xsSplit.rest,
-            sm: smSplit.rest,
-            md: mdSplit.rest,
-            lg: lgSplit.rest,
-            xl: xlSplit.rest,
+            ...responsiveRest,
             type: 'text',
             autoComplete: 'off',
             readOnly,
             disabled,
             placeholder: resolvedPlaceholder,
-            invalid,
             inputMode: focusedSection?.type,
             onFocus: composeEventHandlers(props.onFocus, handleFocus),
             onClick: composeEventHandlers(props.onClick, handleClick),
@@ -201,6 +216,17 @@ const DateRangePicker = forwardRef<
             onPaste: composeEventHandlers(props.onPaste, handlePaste),
             value: inputValue,
             inputRef: composedInputRef,
+            ...(isCustomInput
+              ? {}
+              : {
+                  invalid,
+                  size: resolvedSize,
+                  xs: resolvedXs,
+                  sm: resolvedSm,
+                  md: resolvedMd,
+                  lg: resolvedLg,
+                  xl: resolvedXl,
+                }),
             trailingContent: (
               <>
                 {props.trailingContent}
@@ -216,6 +242,19 @@ const DateRangePicker = forwardRef<
                       handleInputValueChange();
                       setOpen((prev) => !prev);
                     }}
+                    size={size === 'medium' ? 28 : 32}
+                    {...mapResponsiveProps(
+                      { xs, sm, md, lg, xl },
+                      'size',
+                      (s) => {
+                        switch (s) {
+                          case 'large':
+                            return 32;
+                          case 'medium':
+                            return 28;
+                        }
+                      },
+                    )}
                   >
                     <IconCalendar />
                   </IconButton>
@@ -277,11 +316,7 @@ const DateRangePicker = forwardRef<
                     disabled={disabled}
                     yearsOrder={yearsOrder}
                     calendars={calendars}
-                    xs={xsSplit.picked}
-                    sm={smSplit.picked}
-                    md={mdSplit.picked}
-                    lg={lgSplit.picked}
-                    xl={xlSplit.picked}
+                    {...responsiveCalendars}
                   />
 
                   <PickerActionAreaProvider
@@ -307,7 +342,7 @@ DateRangePicker.displayName = 'DateRangePicker';
 
 const DateRangePickerField = forwardRef<
   HTMLDivElement,
-  DefaultComponentPropsInternal<DateRangePickerFieldProps, 'input'>
+  DefaultComponentPropsInternal<DateRangePickerFieldInternalProps, 'input'>
 >(({ inputRef, ...props }, ref) => (
   <TextField {...props} ref={inputRef} wrapperRef={ref} />
 ));
