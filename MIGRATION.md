@@ -209,6 +209,106 @@ npx @montage-ui/codemod@latest list-card-migration src
   - `data-component="card-content-item-skeleton"` → `data-component="card-row-skeleton"`
   - `--card-content-item-*` → `--card-row-*`
 
+### Form Control 네이밍 변경
+
+Form 관련 컴포넌트의 이름이 역할에 맞게 정비되었습니다. 루트 컨테이너(`FormField`)와 내부 슬롯(`FormControl`)의 이름이 서로 교체되고, 나머지 컴포넌트도 `FormControl` prefix로 통일됩니다.
+
+#### 컴포넌트 이름
+
+| 기존               | 변경                         |
+| ------------------ | ---------------------------- |
+| `FormField`        | `FormControl`                |
+| `FormControl`      | `FormControlField`           |
+| `FormLabel`        | `FormControlLabel`           |
+| `FormMessage`      | `FormControlMessage`         |
+| `FormErrorMessage` | `FormControlNegativeMessage` |
+
+#### Props 타입 이름
+
+| 기존                    | 변경                              |
+| ----------------------- | --------------------------------- |
+| `FormFieldProps`        | `FormControlProps`                |
+| `FormControlProps`      | `FormControlFieldProps`           |
+| `FormLabelProps`        | `FormControlLabelProps`           |
+| `FormMessageProps`      | `FormControlMessageProps`         |
+| `FormErrorMessageProps` | `FormControlNegativeMessageProps` |
+
+```tsx
+// AS-IS
+import {
+  FormField,
+  FormControl,
+  FormLabel,
+  FormMessage,
+  FormErrorMessage,
+} from '@montage-ui/core';
+
+<FormField>
+  <FormLabel>이름</FormLabel>
+  <FormControl>
+    <TextField />
+  </FormControl>
+  <FormMessage>도움말</FormMessage>
+  <FormErrorMessage>오류 메시지</FormErrorMessage>
+</FormField>;
+
+// TO-BE
+import {
+  FormControl,
+  FormControlField,
+  FormControlLabel,
+  FormControlMessage,
+  FormControlNegativeMessage,
+} from '@montage-ui/core';
+
+<FormControl>
+  <FormControlLabel>이름</FormControlLabel>
+  <FormControlField>
+    <TextField />
+  </FormControlField>
+  <FormControlMessage>도움말</FormControlMessage>
+  <FormControlNegativeMessage>오류 메시지</FormControlNegativeMessage>
+</FormControl>;
+```
+
+```sh
+npx @montage-ui/codemod@latest form-control-migration src
+```
+
+#### 신규 컴포넌트
+
+- **`FormControlPositiveMessage`** — 성공 상태 메시지 (`semantic.label.alternative` 색상)
+- **`FormControlCharacterCounter`** — 글자 수 카운터. `length`(현재 글자 수)와 `maxLength`(최대 글자 수) props를 받으며, `FormControlMessage` / `FormControlNegativeMessage` / `FormControlPositiveMessage`의 `characterCounter` prop으로 전달합니다.
+
+```tsx
+<FormControlMessage
+  characterCounter={
+    <FormControlCharacterCounter length={value.length} maxLength={100} />
+  }
+>
+  도움말
+</FormControlMessage>
+```
+
+#### `FormControl`(구 `FormField`) 신규 props
+
+새 루트 컴포넌트(`FormControl`)에 `size`와 `labelPlacement`가 추가되었습니다. `size`는 하위 `FormControlLabel`의 타이포그래피와, `FormControl` 내부에 배치된 `DatePicker` / `TimePicker`의 크기에도 자동으로 전달됩니다.
+
+| prop             | 타입                  | 기본값    | 설명                           |
+| ---------------- | --------------------- | --------- | ------------------------------ |
+| `size`           | `'large' \| 'medium'` | `'large'` | 컨트롤 크기. 반응형 props 지원 |
+| `labelPlacement` | `'top' \| 'start'`    | `'top'`   | 레이블 위치                    |
+
+#### 메시지 컴포넌트 Typography 변경
+
+`FormControlMessage` / `FormControlNegativeMessage` / `FormControlPositiveMessage`의 텍스트 크기가 변경되었습니다.
+
+| 속성      | 기존     | 변경       |
+| --------- | -------- | ---------- |
+| `variant` | `label2` | `caption1` |
+
+메시지 텍스트에 `variant` / `weight`를 직접 지정하던 코드는 수동으로 확인이 필요합니다.
+
 ### Modal
 
 `variant="bottom"`, `handle={true}`의 기본 동작이 변경되었습니다.
@@ -243,8 +343,8 @@ Figma 스펙에 맞춰 사이즈 체계와 일부 하위 컴포넌트 API가 변
 
 `variant="normal" | "assistive"` 두 형태를 제공하던 것에서 단일 형태로 통일되어 `variant` prop이 제거되었습니다.
 
-- AS-IS: `<TextField.Button variant="normal">`
-- TO-BE: `<TextField.Button>` — `variant` 속성을 제거하세요.
+- AS-IS: `<TextFieldButton variant="normal">`
+- TO-BE: `<TextFieldButton>` — `variant` 속성을 제거하세요.
 
 또한 trailing button이 Field 외부가 아닌 Field 내부에 위치하도록 변경되었습니다.
 
