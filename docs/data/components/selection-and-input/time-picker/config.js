@@ -4,10 +4,10 @@
 module.exports = {
   variants: {
     components: [
-      'FormField',
       'FormControl',
-      'FormMessage',
-      'FormLabel',
+      'FormControlField',
+      'FormControlMessage',
+      'FormControlLabel',
       'TimePicker',
       'PickerActionArea',
       'PickerActionAreaButton',
@@ -47,17 +47,17 @@ module.exports = {
       }
 
       return `
-        <FormField sx={{ width: '75%' }}>
-          <FormLabel required>Heading</FormLabel>
-          <FormControl>
+        <FormControl sx={{ width: '75%' }}>
+          <FormControlLabel required>Heading</FormControlLabel>
+          <FormControlField>
             <TimePicker
               width="100%"
               {...${JSON.stringify(props)}}
               actionArea={${actionArea}}
             />
-          </FormControl>
-          <FormMessage>Description</FormMessage>
-        </FormField>
+          </FormControlField>
+          <FormControlMessage>Description</FormControlMessage>
+        </FormControl>
       `;
     },
   },

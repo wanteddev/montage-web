@@ -4,10 +4,10 @@
 module.exports = {
   variants: {
     components: [
-      'FormField',
-      'FlexBox',
       'FormControl',
-      'FormLabel',
+      'FlexBox',
+      'FormControlField',
+      'FormControlLabel',
       'CheckMark',
     ],
     icons: [],
@@ -35,16 +35,16 @@ module.exports = {
       const gap = tight ? '6px' : '4px';
 
       return `
-        <FormField sx={{ width: '75%' }} flexDirection="row" gap="${gap}" alignItems="center" justifyContent="center">
-          <FormControl>
+        <FormControl sx={{ width: '75%' }} flexDirection="row" gap="${gap}" alignItems="center" justifyContent="center">
+          <FormControlField>
             <CheckMark
               defaultChecked
               size="${size}"
               tight={${tight}}
             />
-          </FormControl>
-          <FormLabel>Check mark</FormLabel>
-        </FormField>
+          </FormControlField>
+          <FormControlLabel>Check mark</FormControlLabel>
+        </FormControl>
       `;
     },
   },

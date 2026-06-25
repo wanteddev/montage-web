@@ -38,7 +38,7 @@ export default Demo;`}
 
 또한 `ThemeProvider` 컴포넌트의 `enableSystem` 속성을 `true` 로 설정한 경우 `system` 값으로 테마를 지정할 수 있습니다.
 
-<Demo code={`import { NoSsr, RadioGroup, RadioGroupItem, FormField, FormLabel, FormControl, useThemeControl } from '@montage-ui/core';
+<Demo code={`import { NoSsr, RadioGroup, RadioGroupItem, FormControl, FormControlLabel, FormControlField, useThemeControl } from '@montage-ui/core';
 
 const Demo = () => {
   const { themeOriginValue, setTheme } = useThemeControl();
@@ -49,26 +49,26 @@ const Demo = () => {
         value={themeOriginValue}
         onValueChange={setTheme}
       >
-        <FormField flexDirection="row" gap="12px" alignItems="center">
-          <FormControl>
+        <FormControl flexDirection="row" gap="12px" alignItems="center">
+          <FormControlField>
             <RadioGroupItem value="light" />
-          </FormControl>
-          <FormLabel>Light</FormLabel>
-        </FormField>
+          </FormControlField>
+          <FormControlLabel>Light</FormControlLabel>
+        </FormControl>
 
-        <FormField flexDirection="row" gap="12px" alignItems="center">
-          <FormControl>
+        <FormControl flexDirection="row" gap="12px" alignItems="center">
+          <FormControlField>
             <RadioGroupItem value="dark" />
-          </FormControl>
-          <FormLabel>Dark</FormLabel>
-        </FormField>
+          </FormControlField>
+          <FormControlLabel>Dark</FormControlLabel>
+        </FormControl>
 
-        <FormField flexDirection="row" gap="12px" alignItems="center">
-          <FormControl>
+        <FormControl flexDirection="row" gap="12px" alignItems="center">
+          <FormControlField>
             <RadioGroupItem value="system" />
-          </FormControl>
-          <FormLabel>System</FormLabel>
-        </FormField>
+          </FormControlField>
+          <FormControlLabel>System</FormControlLabel>
+        </FormControl>
       </RadioGroup>
     </NoSsr>
   );

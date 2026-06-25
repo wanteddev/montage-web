@@ -4,10 +4,10 @@
 module.exports = {
   variants: {
     components: [
-      'FormField',
       'FormControl',
-      'FormMessage',
-      'FormLabel',
+      'FormControlField',
+      'FormControlMessage',
+      'FormControlLabel',
       'Select',
       'SelectContent',
       'SelectMultiple',
@@ -90,9 +90,9 @@ module.exports = {
       }
 
       return `
-        <FormField sx={{ width: '75%' }}>
-          <FormLabel required>Heading</FormLabel>
-          <FormControl>
+        <FormControl sx={{ width: '75%' }}>
+          <FormControlLabel required>Heading</FormControlLabel>
+          <FormControlField>
             <${component}
               width="100%"
               ref={ref}
@@ -107,9 +107,9 @@ module.exports = {
               <Option value="Option 4" variant="${optionVariant}">Option 4</Option>
               <Option value="Option 5" variant="${optionVariant}">Option 5</Option>
             </${component}>
-          </FormControl>
-          <FormMessage>Description</FormMessage>
-        </FormField>
+          </FormControlField>
+          <FormControlMessage>Description</FormControlMessage>
+        </FormControl>
       `;
     },
   },

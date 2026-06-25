@@ -1,7 +1,12 @@
 import { cleanup, fireEvent, render, screen } from '@testing-library/react';
 import { axe } from 'vitest-axe';
 
-import { FormControl, FormField, FormLabel, FormMessage } from '../form';
+import {
+  FormControl,
+  FormControlField,
+  FormControlLabel,
+  FormControlMessage,
+} from '../form-control';
 
 import { CheckMark } from '.';
 
@@ -37,15 +42,15 @@ describe('when given check mark component', () => {
     expect(handleReset).toHaveBeenCalled();
   });
 
-  it('should pass accessibility test with form field', async () => {
+  it('should pass accessibility test with form control', async () => {
     render(
-      <FormField>
-        <FormLabel>Label</FormLabel>
-        <FormControl>
+      <FormControl>
+        <FormControlLabel>Label</FormControlLabel>
+        <FormControlField>
           <CheckMark data-testid="check-mark" />
-        </FormControl>
-        <FormMessage>Message</FormMessage>
-      </FormField>,
+        </FormControlField>
+        <FormControlMessage>Message</FormControlMessage>
+      </FormControl>,
     );
 
     expect(await axe(screen.getByTestId('check-mark'))).toHaveNoViolations();

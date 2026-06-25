@@ -16,13 +16,22 @@ import { TimeView } from '../time-view';
 import { FlexBox } from '../flex-box';
 import { PickerActionAreaProvider } from '../picker-action-area/contexts';
 import { extendDayjs } from '../../utils/internal/date';
+import {
+  mapResponsiveProps,
+  mergeResponsiveProps,
+} from '../../utils/internal/responsive-props';
+import { useFormControlLayoutContext } from '../form-control/contexts';
 
-import { TIME_PICKER_INPUT_NAME, TIME_PICKER_NAME } from './constants';
+import { TIME_PICKER_FIELD_NAME, TIME_PICKER_NAME } from './constants';
 import { sectionsToViews } from './helpers';
 import { timePickerStyle } from './style';
 
 import type { SlotProps } from '@radix-ui/react-slot';
-import type { TimePickerFieldProps, TimePickerProps } from './types';
+import type {
+  TimePickerFieldInternalProps,
+  TimePickerFieldProps,
+  TimePickerProps,
+} from './types';
 import type { DateType } from '../date-picker';
 import type { DateRangeType } from '../date-range-calendar/types';
 
@@ -56,6 +65,12 @@ const TimePicker = forwardRef<
       disableLastUnitClickClose,
       actionArea,
       views: originViews,
+      size,
+      xs,
+      sm,
+      md,
+      lg,
+      xl,
       ...props
     },
     forwardedRef,
@@ -90,7 +105,7 @@ const TimePicker = forwardRef<
       ...otherContentProps
     } = contentProps || {};
 
-    const Component = input ?? TimePickerInput;
+    const Component = input ?? TimePickerField;
 
     const {
       sections,
@@ -124,6 +139,21 @@ const TimePicker = forwardRef<
     const invalid =
       originInvalid ||
       (!onChange && Boolean(value) && isNaN(new Date(value!).getTime()));
+
+    const { size: formControlSize, responsive } =
+      useFormControlLayoutContext() || {};
+
+    const resolvedSize = size ?? formControlSize ?? 'large';
+
+    const isCustomInput = Boolean(input);
+
+    const {
+      xs: resolvedXs,
+      sm: resolvedSm,
+      md: resolvedMd,
+      lg: resolvedLg,
+      xl: resolvedXl,
+    } = mergeResponsiveProps({ xs, sm, md, lg, xl }, responsive, 'size');
 
     const handleChangeCompleteCallback = useCallbackRef(onChangeComplete);
 
@@ -171,14 +201,13 @@ const TimePicker = forwardRef<
           aria-expanded={open}
           data-role="time-picker-field"
           role="combobox"
+          {...props}
           {...({
-            ...props,
             autoComplete: 'off',
             type: 'text',
             readOnly,
             disabled,
             placeholder,
-            invalid,
             onFocus: composeEventHandlers(props.onFocus, handleFocus),
             onClick: composeEventHandlers(props.onClick, handleClick),
             onKeyDown: composeEventHandlers(props.onKeyDown, handleKeyDown),
@@ -186,6 +215,17 @@ const TimePicker = forwardRef<
             onPaste: composeEventHandlers(props.onPaste, handlePaste),
             value: inputValue,
             inputRef: composedInputRef,
+            ...(isCustomInput
+              ? {}
+              : {
+                  invalid,
+                  size: resolvedSize,
+                  xs: resolvedXs,
+                  sm: resolvedSm,
+                  md: resolvedMd,
+                  lg: resolvedLg,
+                  xl: resolvedXl,
+                }),
             trailingContent: (
               <>
                 {props.trailingContent}
@@ -194,12 +234,30 @@ const TimePicker = forwardRef<
                   variant="icon-button"
                 >
                   <IconButton
-                    size={22}
                     disabled={disabled || readOnly}
                     onClick={() => {
                       handleInputValueChange();
                       setOpen(!open);
                     }}
+                    size={resolvedSize === 'medium' ? 28 : 32}
+                    {...mapResponsiveProps(
+                      {
+                        xs: resolvedXs,
+                        sm: resolvedSm,
+                        md: resolvedMd,
+                        lg: resolvedLg,
+                        xl: resolvedXl,
+                      },
+                      'size',
+                      (s) => {
+                        switch (s) {
+                          case 'large':
+                            return 32;
+                          case 'medium':
+                            return 28;
+                        }
+                      },
+                    )}
                     aria-label="Toggle time picker"
                   >
                     <IconClock />
@@ -283,14 +341,14 @@ const TimePicker = forwardRef<
 
 TimePicker.displayName = TIME_PICKER_NAME;
 
-const TimePickerInput = forwardRef<
+const TimePickerField = forwardRef<
   HTMLDivElement,
-  DefaultComponentPropsInternal<TimePickerFieldProps, 'input'>
+  DefaultComponentPropsInternal<TimePickerFieldInternalProps, 'input'>
 >(({ inputRef, ...props }, ref) => (
   <TextField {...props} ref={inputRef} wrapperRef={ref} />
 ));
 
-TimePickerInput.displayName = TIME_PICKER_INPUT_NAME;
+TimePickerField.displayName = TIME_PICKER_FIELD_NAME;
 
 export { TimePicker };
 
