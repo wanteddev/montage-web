@@ -1,7 +1,7 @@
 import {
   FormControl,
-  FormField,
-  FormLabel,
+  FormControlField,
+  FormControlLabel,
   RadioGroup,
   RadioGroupItem,
 } from '@montage-ui/core';
@@ -318,23 +318,23 @@ const SectionVariantsItem = ({
     >
       <FlexBox flexDirection="column" gap="16px">
         {options.map((option) => (
-          <FormField
+          <FormControl
             key={option.label}
             flexDirection="row"
             alignItems="center"
             gap="8px"
           >
-            <FormControl>
+            <FormControlField>
               <RadioGroupItem value={option.label} disabled={disabled} />
-            </FormControl>
-            <FormLabel
+            </FormControlField>
+            <FormControlLabel
               sx={sectionVariantsItemRadioStyle}
               data-disabled={disabled}
               data-selected={value === option.label}
             >
               {option.label}
-            </FormLabel>
-          </FormField>
+            </FormControlLabel>
+          </FormControl>
         ))}
       </FlexBox>
     </RadioGroup>
