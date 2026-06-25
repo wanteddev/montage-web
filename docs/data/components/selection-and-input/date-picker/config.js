@@ -4,10 +4,10 @@
 module.exports = {
   variants: {
     components: [
-      'FormField',
       'FormControl',
-      'FormMessage',
-      'FormLabel',
+      'FormControlField',
+      'FormControlMessage',
+      'FormControlLabel',
       'DatePicker',
       'PickerActionArea',
       'PickerActionAreaButton',
@@ -80,12 +80,12 @@ module.exports = {
           case 'Checkbox':
             actionArea = `
             <PickerActionArea>
-              <FormField gap="8px" flexDirection="row" alignItems="center">
-                <FormControl>
+              <FormControl gap="8px" flexDirection="row" alignItems="center">
+                <FormControlField>
                   <Checkbox size="medium" />
-                </FormControl>
-                <FormLabel>휴일 제외</FormLabel>
-              </FormField>
+                </FormControlField>
+                <FormControlLabel>휴일 제외</FormControlLabel>
+              </FormControl>
               <PickerActionAreaButton variant="accept">적용</PickerActionAreaButton>
             </PickerActionArea>`;
             break;
@@ -116,9 +116,9 @@ module.exports = {
       }
 
       return `
-      <FormField sx={{ width: '75%' }}>
-        <FormLabel required>Heading</FormLabel>
-        <FormControl>
+      <FormControl sx={{ width: '75%' }}>
+        <FormControlLabel required>Heading</FormControlLabel>
+        <FormControlField>
           <DatePicker
             width="100%"
             onChange={setValue}
@@ -126,9 +126,9 @@ module.exports = {
             {...${JSON.stringify(props)}}
             actionArea={${actionArea}}
           />
-        </FormControl>
-        <FormMessage>Description</FormMessage>
-      </FormField>
+        </FormControlField>
+        <FormControlMessage>Description</FormControlMessage>
+      </FormControl>
     `;
     },
   },

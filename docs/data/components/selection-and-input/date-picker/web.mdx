@@ -122,7 +122,7 @@ export default Demo;`}
 
 `Checkbox` 컴포넌트와 함께 사용할 때에는 `disableLastUnitClickClose` prop 을 사용하여 더욱 자연스러운 동작을 구현할 수 있습니다.
 
-<Demo code={`import { DatePicker, FlexBox, PickerActionArea, PickerActionAreaButton, FormField, FormControl, FormLabel, Checkbox } from '@montage-ui/core';
+<Demo code={`import { DatePicker, FlexBox, PickerActionArea, PickerActionAreaButton, FormControl, FormControlField, FormControlLabel, Checkbox } from '@montage-ui/core';
 
 const Demo = () => {
   return (
@@ -156,19 +156,19 @@ const Demo = () => {
         disableLastUnitClickClose
         actionArea={
           <PickerActionArea>
-            <FormField
+            <FormControl
               gap="8px"
               flexDirection="row"
             >
-              <FormControl>
+              <FormControlField>
                 <Checkbox size="medium" />
-              </FormControl>
-              <FormLabel
+              </FormControlField>
+              <FormControlLabel
                 sx={{ padding: "1px 0px" }}
               >
                 텍스트
-              </FormLabel>
-            </FormField>
+              </FormControlLabel>
+            </FormControl>
             <PickerActionAreaButton variant="accept">확인</PickerActionAreaButton>
           </PickerActionArea>
         }
@@ -186,7 +186,7 @@ export default Demo;`}
 - 키보드 조작을 통해서는 범위를 벗어나는 값을 입력할 수 있습니다.
 - Invalid date 상태를 가질 수 있습니다.
 
-<Demo code={`import { DatePicker, FlexBox, FormErrorMessage, FormField, FormLabel, FormControl } from '@montage-ui/core';
+<Demo code={`import { DatePicker, FlexBox, FormControlNegativeMessage, FormControl, FormControlLabel, FormControlField } from '@montage-ui/core';
 import { Controller, useForm } from 'react-hook-form';
 
 const minDate = new Date('2000-01-01');
@@ -223,10 +223,10 @@ const Demo = () => {
           },
         }}
         render={({ field, formState }) => (
-          <FormField>
-            <FormLabel>날짜</FormLabel>
+          <FormControl>
+            <FormControlLabel>날짜</FormControlLabel>
 
-            <FormControl>
+            <FormControlField>
               <DatePicker
                 min={minDate}
                 max={maxDate}
@@ -237,10 +237,10 @@ const Demo = () => {
                 onChange={field.onChange}
                 invalid={!!formState.errors.date}
               />
-            </FormControl>
+            </FormControlField>
 
-            <FormErrorMessage>{formState.errors.date?.message}</FormErrorMessage>
-          </FormField>
+            <FormControlNegativeMessage>{formState.errors.date?.message}</FormControlNegativeMessage>
+          </FormControl>
         )}
       />
     </FlexBox>
@@ -250,28 +250,69 @@ const Demo = () => {
 export default Demo;`}
 />
 
-## Form field
+## Form control
 
 Form과 관련된 컴포넌트와 함께 사용할 수 있습니다.
-- `FormField`
 - `FormControl`
-- `FormLabel`
-- `FormMessage`
-- `FormErrorMessage`
+- `FormControlField`
+- `FormControlLabel`
+- `FormControlMessage`
+- `FormControlNegativeMessage`
+- `FormControlPositiveMessage`
+- `FormControlCharacterCounter`
 
 
-<Demo code={`import { FlexBox, FormField, FormControl, FormLabel, FormMessage, FormErrorMessage, DatePicker } from '@montage-ui/core';
+<Demo code={`import { FlexBox, FormControl, FormControlField, FormControlLabel, FormControlMessage, FormControlNegativeMessage, DatePicker } from '@montage-ui/core';
 
 const Demo = () => {
   return (
     <FlexBox justifyContent="center" sx={{ width: '100%' }}>
-      <FormField sx={{ width: '40%' }}>
-        <FormLabel required sx={{ padding: '1px 0px' }}>Label</FormLabel>
-        <FormControl>
+      <FormControl sx={{ width: '40%' }}>
+        <FormControlLabel required>Label</FormControlLabel>
+        <FormControlField>
           <DatePicker width="100%" />
-        </FormControl>
-        <FormMessage>Helper Message</FormMessage>
-      </FormField>
+        </FormControlField>
+        <FormControlMessage>Helper Message</FormControlMessage>
+      </FormControl>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Sizes
+
+`TextField` 기반의 size를 사용할 수 있습니다.
+
+`FormControl` 과 함께 사용한다면 FormControl에 size를 주어 전파할 수 있습니다.
+
+<Demo code={`import { FlexBox, FormControl, FormControlField, FormControlLabel, FormControlMessage, FormControlNegativeMessage, DatePicker, DatePickerField } from '@montage-ui/core';
+
+const Demo = () => {
+  return (
+    <FlexBox alignItems="center" flexDirection="column" gap="12px" sx={{ width: '100%' }}>
+      <FormControl sx={{ width: '40%' }} size="large">
+        <FormControlLabel required>Large</FormControlLabel>
+        <FormControlField>
+          <DatePicker
+            size="large"
+            placeholder="Large date picker field"
+          />
+        </FormControlField>
+        <FormControlMessage>Helper Message</FormControlMessage>
+      </FormControl>
+
+      <FormControl sx={{ width: '40%' }} size="medium">
+        <FormControlLabel required>Medium</FormControlLabel>
+        <FormControlField>
+          <DatePicker
+            size="medium"
+            placeholder="Medium date picker field"
+          />
+        </FormControlField>
+        <FormControlMessage>Helper Message</FormControlMessage>
+      </FormControl>
     </FlexBox>
   )
 }
@@ -289,7 +330,7 @@ export default Demo;`}
 import { forwardRef, useState } from 'react';
 
 const CustomChipField = forwardRef<HTMLDivElement, DatePickerFieldProps>(
-  ({ value, onClick, inputRef, invalid, ...props }, ref) => {
+  ({ value, onClick, inputRef, ...props }, ref) => {
     return (
       <Chip ref={ref} onClick={onClick}>
         {value || 'YYYY.MM.DD'}
@@ -299,7 +340,7 @@ const CustomChipField = forwardRef<HTMLDivElement, DatePickerFieldProps>(
 )
 
 const CustomFieldField = forwardRef<HTMLDivElement, DatePickerFieldProps>(
-  ({ trailingContent, inputRef, invalid, ...props }, ref) => {
+  ({ trailingContent, inputRef, ...props }, ref) => {
     return (
       <FlexBox ref={ref} gap="10px" alignItems="center">
         <input ref={inputRef} {...props} />
@@ -423,7 +464,7 @@ export default Demo;`}
 
 일반 Picker와 같이 `min`, `max` prop 을 사용하여 최소값과 최대값을 설정할 수 있습니다.
 
-<Demo code={`import { DateRangePicker, FlexBox, FormErrorMessage, FormField, FormLabel, FormControl } from '@montage-ui/core';
+<Demo code={`import { DateRangePicker, FlexBox, FormControlNegativeMessage, FormControl, FormControlLabel, FormControlField } from '@montage-ui/core';
 import { Controller, useForm } from 'react-hook-form';
 
 const minDate = new Date('2000-01-01');
@@ -461,10 +502,10 @@ const Demo = () => {
           },
         }}
         render={({ field, formState }) => (
-          <FormField>
-            <FormLabel>날짜</FormLabel>
+          <FormControl>
+            <FormControlLabel>날짜</FormControlLabel>
 
-            <FormControl>
+            <FormControlField>
               <DateRangePicker
                 min={minDate}
                 max={maxDate}
@@ -475,10 +516,10 @@ const Demo = () => {
                 onChange={field.onChange}
                 invalid={!!formState.errors.date}
               />
-            </FormControl>
+            </FormControlField>
 
-            <FormErrorMessage>{formState.errors.date?.message}</FormErrorMessage>
-          </FormField>
+            <FormControlNegativeMessage>{formState.errors.date?.message}</FormControlNegativeMessage>
+          </FormControl>
         )}
       />
     </FlexBox>
@@ -524,7 +565,7 @@ export default Demo;`}
 
 [WAI-ARIA Datepicker dialog](https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/examples/datepicker-dialog/) 패턴 대부분을 지원합니다.
 
-- [Form Field](#form-field) 와 함께 사용할 때 더욱 명확한 접근성 속성을 주입할 수 있습니다.
+- [Form Control](#form-control) 와 함께 사용할 때 더욱 명확한 접근성 속성을 주입할 수 있습니다.
 
 ## API
 
