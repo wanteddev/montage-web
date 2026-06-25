@@ -11,7 +11,11 @@ import { FlexBox } from '../flex-box';
 import { IconButton } from '../icon-button';
 import { Button } from '../button';
 import { IconButtonProvider } from '../icon-button/contexts';
-import { mapResponsiveProps } from '../../utils/internal/responsive-props';
+import {
+  mapResponsiveProps,
+  mergeResponsiveProps,
+} from '../../utils/internal/responsive-props';
+import { useFormControlLayoutContext } from '../form-control/contexts';
 
 import {
   positiveIconWrapperStyle,
@@ -37,7 +41,7 @@ const TextField = forwardRef<
 >(
   (
     {
-      size = 'large',
+      size,
       invalid,
       leadingContent,
       trailingContent,
@@ -65,6 +69,19 @@ const TextField = forwardRef<
     const parentRef = useRef<HTMLDivElement>(null);
     const inputRef = useRef<HTMLInputElement>(null);
     const composedRefs = useComposedRefs(inputRef, ref);
+
+    const { size: formControlSize, responsive } =
+      useFormControlLayoutContext() || {};
+
+    const resolvedSize = size ?? formControlSize ?? 'large';
+
+    const {
+      xs: resolvedXs,
+      sm: resolvedSm,
+      md: resolvedMd,
+      lg: resolvedLg,
+      xl: resolvedXl,
+    } = mergeResponsiveProps({ xs, sm, md, lg, xl }, responsive, 'size');
 
     useEffect(() => {
       const container = parentRef.current;
@@ -98,7 +115,7 @@ const TextField = forwardRef<
         ref={useComposedRefs(parentRef, wrapperRef)}
         sx={[
           textFieldWrapperStyle({
-            size,
+            size: resolvedSize,
             invalid,
             width,
             height,
@@ -106,11 +123,11 @@ const TextField = forwardRef<
             disabled,
             type,
             positive,
-            xs,
-            sm,
-            md,
-            lg,
-            xl,
+            xs: resolvedXs,
+            sm: resolvedSm,
+            md: resolvedMd,
+            lg: resolvedLg,
+            xl: resolvedXl,
             ...props,
           }),
           sx,
@@ -190,15 +207,25 @@ const TextField = forwardRef<
             >
               <IconButton
                 type="button"
-                size={size === 'large' ? 32 : 28}
-                {...mapResponsiveProps({ xs, sm, md, lg, xl }, 'size', (s) => {
-                  switch (s) {
-                    case 'large':
-                      return 32;
-                    case 'medium':
-                      return 28;
-                  }
-                })}
+                size={resolvedSize === 'large' ? 32 : 28}
+                {...mapResponsiveProps(
+                  {
+                    xs: resolvedXs,
+                    sm: resolvedSm,
+                    md: resolvedMd,
+                    lg: resolvedLg,
+                    xl: resolvedXl,
+                  },
+                  'size',
+                  (s) => {
+                    switch (s) {
+                      case 'large':
+                        return 32;
+                      case 'medium':
+                        return 28;
+                    }
+                  },
+                )}
                 tabIndex={-1}
                 sx={(theme) => ({ color: theme.semantic.label.assistive })}
               >

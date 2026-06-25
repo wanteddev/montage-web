@@ -23,7 +23,7 @@ export * from './dismissable-layer';
 export * from './divider';
 export * from './fallback-view';
 export * from './flex-box';
-export * from './form';
+export * from './form-control';
 export * from './focus-scope';
 export * from './grid';
 export * from './grid-item';

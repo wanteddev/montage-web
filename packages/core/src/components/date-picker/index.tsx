@@ -14,13 +14,22 @@ import { FocusScope } from '../focus-scope';
 import { FlexBox } from '../flex-box';
 import { PickerActionAreaProvider } from '../picker-action-area/contexts';
 import { extendDayjs } from '../../utils/internal/date';
+import {
+  mapResponsiveProps,
+  mergeResponsiveProps,
+} from '../../utils/internal/responsive-props';
+import { useFormControlLayoutContext } from '../form-control/contexts';
 
 import { datePopperStyle } from './style';
 import { useDateField } from './hooks';
 
 import type { SlotProps } from '@radix-ui/react-slot';
 import type { DefaultComponentPropsInternal } from '@montage-ui/engine';
-import type { DatePickerFieldProps, DatePickerProps } from './types';
+import type {
+  DatePickerFieldInternalProps,
+  DatePickerFieldProps,
+  DatePickerProps,
+} from './types';
 import type { DateType } from '../date-calendar/types';
 import type { DateRangeType } from '../date-range-calendar/types';
 
@@ -58,6 +67,12 @@ const DatePicker = forwardRef<
       actionArea,
       invalid: originInvalid,
       disableLastUnitClickClose,
+      size,
+      xs,
+      sm,
+      md,
+      lg,
+      xl,
       ...props
     },
     forwardedRef,
@@ -119,6 +134,21 @@ const DatePicker = forwardRef<
       originInvalid ||
       (!onChange && Boolean(value) && isNaN(new Date(value!).getTime()));
 
+    const { size: formControlSize, responsive } =
+      useFormControlLayoutContext() || {};
+
+    const resolvedSize = size ?? formControlSize ?? 'large';
+
+    const isCustomInput = Boolean(input);
+
+    const {
+      xs: resolvedXs,
+      sm: resolvedSm,
+      md: resolvedMd,
+      lg: resolvedLg,
+      xl: resolvedXl,
+    } = mergeResponsiveProps({ xs, sm, md, lg, xl }, responsive, 'size');
+
     const handleChangeCompleteCallback = useCallbackRef(onChangeComplete);
 
     const handleChangeComplete = useCallback(
@@ -174,7 +204,6 @@ const DatePicker = forwardRef<
             readOnly,
             disabled,
             placeholder,
-            invalid,
             onFocus: composeEventHandlers(props.onFocus, handleFocus),
             onClick: composeEventHandlers(props.onClick, handleClick),
             onKeyDown: composeEventHandlers(props.onKeyDown, handleKeyDown),
@@ -182,6 +211,17 @@ const DatePicker = forwardRef<
             onPaste: composeEventHandlers(props.onPaste, handlePaste),
             value: inputValue,
             inputRef: composedInputRef,
+            ...(isCustomInput
+              ? {}
+              : {
+                  invalid,
+                  size: resolvedSize,
+                  xs: resolvedXs,
+                  sm: resolvedSm,
+                  md: resolvedMd,
+                  lg: resolvedLg,
+                  xl: resolvedXl,
+                }),
             trailingContent: (
               <>
                 {props.trailingContent}
@@ -192,6 +232,25 @@ const DatePicker = forwardRef<
                   <IconButton
                     aria-label="Toggle date picker"
                     disabled={disabled || readOnly}
+                    size={resolvedSize === 'medium' ? 28 : 32}
+                    {...mapResponsiveProps(
+                      {
+                        xs: resolvedXs,
+                        sm: resolvedSm,
+                        md: resolvedMd,
+                        lg: resolvedLg,
+                        xl: resolvedXl,
+                      },
+                      'size',
+                      (s) => {
+                        switch (s) {
+                          case 'large':
+                            return 32;
+                          case 'medium':
+                            return 28;
+                        }
+                      },
+                    )}
                     onClick={() => {
                       handleInputValueChange();
                       setOpen((prev) => !prev);
@@ -283,7 +342,7 @@ DatePicker.displayName = 'DatePicker';
 
 const DatePickerField = forwardRef<
   HTMLDivElement,
-  DefaultComponentPropsInternal<DatePickerFieldProps, 'input'>
+  DefaultComponentPropsInternal<DatePickerFieldInternalProps, 'input'>
 >(({ inputRef, ...props }, ref) => (
   <TextField {...props} ref={inputRef} wrapperRef={ref} />
 ));

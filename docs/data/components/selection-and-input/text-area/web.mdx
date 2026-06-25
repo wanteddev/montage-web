@@ -62,35 +62,37 @@ const Demo = () => {
 export default Demo;`}
 />
 
-## Form field
+## Form control
 
 Form과 관련된 컴포넌트와 함께 사용할 수 있습니다.
-- `FormField`
 - `FormControl`
-- `FormLabel`
-- `FormMessage`
-- `FormErrorMessage`
+- `FormControlField`
+- `FormControlLabel`
+- `FormControlMessage`
+- `FormControlNegativeMessage`
+- `FormControlPositiveMessage`
+- `FormControlCharacterCounter`
 
-<Demo code={`import { FlexBox, FormField, FormControl, FormLabel, FormMessage, FormErrorMessage, TextArea } from '@montage-ui/core';
+<Demo code={`import { FlexBox, FormControl, FormControlField, FormControlLabel, FormControlMessage, FormControlNegativeMessage, TextArea } from '@montage-ui/core';
 
 const Demo = () => {
   return (
     <FlexBox gap="12px" flexDirection="column" alignItems="center">
-      <FormField>
-        <FormLabel required>Label</FormLabel>
-        <FormControl>
-          <TextArea width="25ch" placeholder="Form field" />
-        </FormControl>
-        <FormMessage>Helper Message</FormMessage>
-      </FormField>
+      <FormControl>
+        <FormControlLabel required>Label</FormControlLabel>
+        <FormControlField>
+          <TextArea width="25ch" placeholder="Form control" />
+        </FormControlField>
+        <FormControlMessage>Helper Message</FormControlMessage>
+      </FormControl>
 
-      <FormField>
-        <FormLabel required>Label</FormLabel>
-        <FormControl>
-          <TextArea width="25ch" placeholder="Invalid form field" invalid />
-        </FormControl>
-        <FormErrorMessage>Error Message</FormErrorMessage>
-      </FormField>
+      <FormControl>
+        <FormControlLabel required>Label</FormControlLabel>
+        <FormControlField>
+          <TextArea width="25ch" placeholder="Invalid form control" invalid />
+        </FormControlField>
+        <FormControlNegativeMessage>Error Message</FormControlNegativeMessage>
+      </FormControl>
     </FlexBox>
   )
 }
@@ -255,7 +257,7 @@ export default Demo;`}
 
 `react-hook-form` 과 유연하게 조합해서 사용할 수 있습니다.
 
-<Demo code={`import { Button, FlexBox, TextArea, TextAreaContent, FormField, FormControl, FormLabel, FormErrorMessage, FormMessage } from '@montage-ui/core';
+<Demo code={`import { Button, FlexBox, TextArea, TextAreaContent, FormControl, FormControlField, FormControlLabel, FormControlNegativeMessage, FormControlMessage } from '@montage-ui/core';
 import { useForm, Controller } from 'react-hook-form';
 
 const Demo = () => {
@@ -281,10 +283,10 @@ const Demo = () => {
           maxLength: 20,
         }}
         render={({ field, formState }) => (
-          <FormField>
-            <FormLabel required>내용</FormLabel>
+          <FormControl>
+            <FormControlLabel required>내용</FormControlLabel>
 
-            <FormControl>
+            <FormControlField>
               <TextArea
                 {...field}
                 placeholder="입력하세요."
@@ -296,14 +298,14 @@ const Demo = () => {
                   </TextAreaContent>
                 )}
               />
-            </FormControl>
+            </FormControlField>
             
             {!!formState.errors.content ? (
-              <FormErrorMessage>{formState.errors.content?.message?.toString()}</FormErrorMessage>
+              <FormControlNegativeMessage>{formState.errors.content?.message?.toString()}</FormControlNegativeMessage>
             ) : (
-              <FormMessage>내용을 입력하세요.</FormMessage>
+              <FormControlMessage>내용을 입력하세요.</FormControlMessage>
             )}
-          </FormField>
+          </FormControl>
         )}
       />
 

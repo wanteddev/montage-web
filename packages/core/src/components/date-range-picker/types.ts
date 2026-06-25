@@ -66,7 +66,16 @@ export type DateRangePickerProps = Merge<
   DateRangePickerResponsiveProps
 >;
 
-export type DateRangePickerFieldProps = Merge<
+export type DateRangePickerFieldProps = DefaultComponentPropsInternal<
+  {
+    ref?: Ref<HTMLDivElement>;
+    inputRef?: Ref<HTMLInputElement>;
+    trailingContent?: ReactNode;
+  },
+  'input'
+>;
+
+export type DateRangePickerFieldInternalProps = Merge<
   {
     ref?: Ref<HTMLDivElement>;
     inputRef?: Ref<HTMLInputElement>;

@@ -126,7 +126,7 @@ export const getPreviousValue = <T extends object, K extends keyof T>(
  * Splits responsive breakpoint props by specified keys.
  * Returns `picked` containing only the specified keys and `rest` containing everything else.
  */
-export const splitResponsiveProps = <
+const splitResponsiveProps = <
   T extends Record<string, unknown>,
   K extends keyof T,
 >(
@@ -153,6 +153,45 @@ export const splitResponsiveProps = <
     picked: hasPicked ? (picked as Pick<T, K>) : undefined,
     rest: hasRest ? (rest as Omit<T, K>) : undefined,
   };
+};
+
+/**
+ * Splits every breakpoint of responsive props by the specified keys.
+ * Returns `picked` responsive props containing only the specified keys and
+ * `rest` responsive props containing everything else.
+ *
+ * Empty sides are returned as `undefined` (and empty breakpoints are omitted)
+ * so the results can be passed to a context or spread into a component
+ * without producing empty objects.
+ *
+ * @example
+ * splitResponsiveBreakpoints({ xs: { size: 'medium', gap: '4px' } }, ['size']);
+ * // { picked: { xs: { size: 'medium' } }, rest: { xs: { gap: '4px' } } }
+ */
+export const splitResponsiveBreakpoints = <
+  T extends Record<string, unknown>,
+  K extends keyof T,
+>(
+  responsive: ResponsiveProps<T>,
+  keys: Array<K>,
+): {
+  picked: ResponsiveProps<Pick<T, K>> | undefined;
+  rest: ResponsiveProps<Omit<T, K>> | undefined;
+} => {
+  let picked: Record<string, Pick<T, K>> | undefined;
+  let rest: Record<string, Omit<T, K>> | undefined;
+
+  for (const breakpoint of order) {
+    const split = splitResponsiveProps(
+      responsive[breakpoint] as T | undefined,
+      keys,
+    );
+
+    if (split.picked) (picked ??= {})[breakpoint] = split.picked;
+    if (split.rest) (rest ??= {})[breakpoint] = split.rest;
+  }
+
+  return { picked, rest };
 };
 
 /**
@@ -186,4 +225,58 @@ export const mapResponsiveProps = <T extends object, K extends keyof T, R>(
   }
 
   return result;
+};
+
+/**
+ * Merges fallback responsive props into user responsive props for a specific key,
+ * respecting the cascade nature of responsive breakpoints.
+ *
+ * For each breakpoint B in `fallback` that carries `key`:
+ * - If any breakpoint at B or higher in `user` already specifies `key`, the
+ *   fallback at B is dropped — keeping it would cause the lower-breakpoint
+ *   fallback to cascade up and conflict with the user's explicit override.
+ * - Otherwise the fallback value is merged in (user props take precedence on
+ *   any direct conflict within the same breakpoint).
+ *
+ * @example
+ * // FormControl: sm={ size: 'medium' }  /  TextField: md={ size: 'large' }
+ * mergeResponsiveProps({ md: { size: 'large' } }, { sm: { size: 'medium' } }, 'size');
+ * // → { md: { size: 'large' } }  (sm fallback dropped — md user overrides it)
+ *
+ * // FormControl: sm={ size: 'medium' }  /  TextField: xs={ width: '100%' }
+ * mergeResponsiveProps({ xs: { width: '100%' } }, { sm: { size: 'medium' } }, 'size');
+ * // → { xs: { width: '100%' }, sm: { size: 'medium' } }  (no size conflict → fallback applied)
+ */
+export const mergeResponsiveProps = <T extends object, K extends keyof T>(
+  user: ResponsiveProps<T>,
+  fallback: ResponsiveProps<Pick<T, K>> | undefined,
+  key: K,
+): ResponsiveProps<T> => {
+  if (!fallback) return user;
+
+  const merged: Record<string, unknown> = {};
+
+  for (const [i, bp] of order.entries()) {
+    const userBp = user[bp];
+    const fallbackBp = fallback[bp];
+
+    if ((fallbackBp as Pick<T, K> | undefined)?.[key] === undefined) {
+      if (userBp !== undefined) merged[bp] = userBp;
+      continue;
+    }
+
+    const userHasKeyAtOrAbove = order
+      .slice(i)
+      .some(
+        (higherBp) => (user[higherBp] as T | undefined)?.[key] !== undefined,
+      );
+
+    if (userHasKeyAtOrAbove) {
+      if (userBp !== undefined) merged[bp] = userBp;
+    } else {
+      merged[bp] = { ...fallbackBp, ...userBp };
+    }
+  }
+
+  return merged as ResponsiveProps<T>;
 };

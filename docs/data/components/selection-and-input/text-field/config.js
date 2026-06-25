@@ -4,14 +4,14 @@
 module.exports = {
   variants: {
     components: [
-      'FormField',
+      'FormControl',
       'FlexBox',
       'TextField',
       'TextFieldContent',
       'TextFieldButton',
-      'FormControl',
-      'FormMessage',
-      'FormLabel',
+      'FormControlField',
+      'FormControlMessage',
+      'FormControlLabel',
       'ContentBadge',
       'Box',
     ],
@@ -79,9 +79,9 @@ module.exports = {
       }
 
       return `
-      <FormField sx={{ width: '75%' }}>
-        <FormLabel required>Heading</FormLabel>
-        <FormControl>
+      <FormControl sx={{ width: '75%' }}>
+        <FormControlLabel required>Heading</FormControlLabel>
+        <FormControlField>
           <TextField
             placeholder="Placeholder"
             leadingContent={${leadingContent}}
@@ -89,9 +89,9 @@ module.exports = {
             width="100%"
             ${hasButton ? 'trailingButton={<TextFieldButton>Button</TextFieldButton>}' : ''}
           />
-        </FormControl>
-        <FormMessage>Description</FormMessage>
-      </FormField>
+        </FormControlField>
+        <FormControlMessage>Description</FormControlMessage>
+      </FormControl>
     `;
     },
   },

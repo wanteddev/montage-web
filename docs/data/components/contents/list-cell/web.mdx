@@ -421,7 +421,7 @@ Switch를 사용하는 경우 `ListCell` 영역을 클릭해서 토글되지 않
 
 `disableInteraction`과 함께 사용하면 자연스러운 동작으로 사용 가능합니다.
 
-<Demo code={`import { Button, FlexBox, Switch, List, ListCell, ListCellContent, FormField, FormControl, FormLabel } from '@montage-ui/core';
+<Demo code={`import { Button, FlexBox, Switch, List, ListCell, ListCellContent, FormControl, FormControlField, FormControlLabel } from '@montage-ui/core';
 import { useForm, Controller } from 'react-hook-form';
 
 const Demo = () => {
@@ -441,10 +441,10 @@ const Demo = () => {
           name="notification"
           render={({ field, formState }) => (
             <ListCell
-              as={FormField}
+              as={FormControl}
               disableInteraction
               trailingContent={
-                <FormControl>
+                <FormControlField>
                   <ListCellContent variant="switch">
                     <Switch
                       {...field}
@@ -452,7 +452,7 @@ const Demo = () => {
                       onCheckedChange={field.onChange}
                     />
                   </ListCellContent>
-                </FormControl>
+                </FormControlField>
               }
             >
               알림 받기
@@ -464,10 +464,10 @@ const Demo = () => {
           name="darkMode"
           render={({ field, formState }) => (
             <ListCell
-              as={FormField}
+              as={FormControl}
               disableInteraction
               trailingContent={
-                <FormControl>
+                <FormControlField>
                   <ListCellContent variant="switch">
                     <Switch
                       {...field}
@@ -475,7 +475,7 @@ const Demo = () => {
                       onCheckedChange={field.onChange}
                     />
                   </ListCellContent>
-                </FormControl>
+                </FormControlField>
               }
             >
               다크 모드

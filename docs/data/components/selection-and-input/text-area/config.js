@@ -4,13 +4,13 @@
 module.exports = {
   variants: {
     components: [
-      'FormField',
+      'FormControl',
       'TextArea',
       'TextAreaContent',
       'TextFieldButton',
-      'FormControl',
-      'FormMessage',
-      'FormLabel',
+      'FormControlField',
+      'FormControlMessage',
+      'FormControlLabel',
       'ContentBadge',
       'TextButton',
       'FilterButton',
@@ -131,9 +131,9 @@ module.exports = {
       }
 
       return `
-        <FormField sx={{ width: '75%' }}>
-          <FormLabel required>Heading</FormLabel>
-          <FormControl>
+        <FormControl sx={{ width: '75%' }}>
+          <FormControlLabel required>Heading</FormControlLabel>
+          <FormControlField>
             <TextArea
               placeholder="Placeholder"
               leadingContent={${leadingContent}}
@@ -141,9 +141,9 @@ module.exports = {
               width="100%"
               {...${JSON.stringify(rows)}}
             />
-          </FormControl>
-          <FormMessage>Description</FormMessage>
-        </FormField>
+          </FormControlField>
+          <FormControlMessage>Description</FormControlMessage>
+        </FormControl>
       `;
     },
   },

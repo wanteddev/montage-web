@@ -183,6 +183,7 @@ const checkboxSizeStyle = ({
 
         & ~ label {
           ${typographyStyle('body2', bold ? 'bold' : 'regular')}
+          padding: 1px 0px;
         }
       `;
 
@@ -206,6 +207,7 @@ const checkboxSizeStyle = ({
 
         & ~ label {
           ${typographyStyle('label1', bold ? 'bold' : 'regular')}
+          padding: 0px;
         }
       `;
   }

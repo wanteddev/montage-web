@@ -17,7 +17,7 @@ updatedAt: 2026-01-30
   
 
 <SectionVariants
-  components={['FormField', 'FormControl', 'FormMessage', 'FormLabel', 'Select', 'SelectContent', 'SelectMultiple', 'Option', 'Chip']}
+  components={['FormControl', 'FormControlField', 'FormControlMessage', 'FormControlLabel', 'Select', 'SelectContent', 'SelectMultiple', 'Option', 'Chip']}
   icons={['IconGlobe', 'IconCloseThick']}
   states={`const [value, setValue] = React.useState([]);
 const ref = React.useRef(null);`}
@@ -62,9 +62,9 @@ const ref = React.useRef(null);`}
       }
 
       return `
-        <FormField sx={{ width: '75%' }}>
-          <FormLabel required>Heading</FormLabel>
-          <FormControl>
+        <FormControl sx={{ width: '75%' }}>
+          <FormControlLabel required>Heading</FormControlLabel>
+          <FormControlField>
             <${component}
               width="100%"
               ref={ref}
@@ -79,9 +79,9 @@ const ref = React.useRef(null);`}
               <Option value="Option 4" variant="${optionVariant}">Option 4</Option>
               <Option value="Option 5" variant="${optionVariant}">Option 5</Option>
             </${component}>
-          </FormControl>
-          <FormMessage>Description</FormMessage>
-        </FormField>
+          </FormControlField>
+          <FormControlMessage>Description</FormControlMessage>
+        </FormControl>
       `;
     }}
   variants={[

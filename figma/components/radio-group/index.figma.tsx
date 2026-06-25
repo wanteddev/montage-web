@@ -2,8 +2,8 @@ import { figma } from '@figma/code-connect';
 
 import {
   FormControl,
-  FormField,
-  FormLabel,
+  FormControlField,
+  FormControlLabel,
   RadioGroupItem,
 } from '@montage-ui/core';
 
@@ -33,12 +33,12 @@ figma.connect(RadioGroupItem, '<FIGMA_RADIO>', {
     Size: 'Medium',
   },
   example: ({ label, gap, ...props }) => (
-    <FormField flexDirection="row" gap={gap}>
-      <FormControl>
+    <FormControl flexDirection="row" gap={gap}>
+      <FormControlField>
         <RadioGroupItem value="" size="medium" {...props} />
-      </FormControl>
-      <FormLabel sx={{ padding: '1px 0' }}>{label}</FormLabel>
-    </FormField>
+      </FormControlField>
+      <FormControlLabel>{label}</FormControlLabel>
+    </FormControl>
   ),
 });
 
@@ -56,11 +56,11 @@ figma.connect(RadioGroupItem, '<FIGMA_RADIO>', {
     Size: 'Small',
   },
   example: ({ label, gap, ...props }) => (
-    <FormField flexDirection="row" gap={gap}>
-      <FormControl>
+    <FormControl flexDirection="row" gap={gap}>
+      <FormControlField>
         <RadioGroupItem value="" size="small" {...props} />
-      </FormControl>
-      <FormLabel>{label}</FormLabel>
-    </FormField>
+      </FormControlField>
+      <FormControlLabel>{label}</FormControlLabel>
+    </FormControl>
   ),
 });

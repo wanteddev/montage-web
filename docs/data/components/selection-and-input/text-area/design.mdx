@@ -17,7 +17,7 @@ updatedAt: 2026-02-11
   
 
 <SectionVariants
-  components={['FormField', 'TextArea', 'TextAreaContent', 'TextFieldButton', 'FormControl', 'FormMessage', 'FormLabel', 'ContentBadge', 'TextButton', 'FilterButton', 'IconButton']}
+  components={['FormControl', 'TextArea', 'TextAreaContent', 'TextFieldButton', 'FormControlField', 'FormControlMessage', 'FormControlLabel', 'ContentBadge', 'TextButton', 'FilterButton', 'IconButton']}
   icons={['IconBlank']}
   render={(value) => {
       let leadingContent = 'null';
@@ -97,9 +97,9 @@ updatedAt: 2026-02-11
       }
 
       return `
-        <FormField sx={{ width: '75%' }}>
-          <FormLabel required>Heading</FormLabel>
-          <FormControl>
+        <FormControl sx={{ width: '75%' }}>
+          <FormControlLabel required>Heading</FormControlLabel>
+          <FormControlField>
             <TextArea
               placeholder="Placeholder"
               leadingContent={${leadingContent}}
@@ -107,9 +107,9 @@ updatedAt: 2026-02-11
               width="100%"
               {...${JSON.stringify(rows)}}
             />
-          </FormControl>
-          <FormMessage>Description</FormMessage>
-        </FormField>
+          </FormControlField>
+          <FormControlMessage>Description</FormControlMessage>
+        </FormControl>
       `;
     }}
   variants={[

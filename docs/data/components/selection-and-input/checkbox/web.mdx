@@ -26,8 +26,6 @@ export default Demo;`}
 - small
 - medium (default)
 
-medium 사이즈와 함께 Label을 사용할 때는 Label에 padding-y 1px 혹은 alignItems center로 정렬을 맞춰야 합니다.
-
 <Demo code={`import { FlexBox, Checkbox, Label } from '@montage-ui/core';
 
 const Demo = () => {
@@ -40,7 +38,7 @@ const Demo = () => {
 
       <FlexBox gap="8px">
         <Checkbox size="medium" id="medium" />
-        <Label htmlFor="medium" sx={{ padding: '1px 0px' }}>Medium</Label>
+        <Label htmlFor="medium">Medium</Label>
       </FlexBox>
     </FlexBox>
   )
@@ -75,12 +73,12 @@ const Demo = () => {
       <FlexBox flexDirection="column" gap="8px">
         <FlexBox gap="8px">
           <Checkbox id="medium-default" size="medium" value="medium-default" />
-          <Label htmlFor="medium-default" sx={{ padding: '1px 0px' }}>Default</Label>
+          <Label htmlFor="medium-default">Default</Label>
         </FlexBox>
 
         <FlexBox gap="10px">
           <Checkbox id="medium-tight" size="medium" value="medium-tight" tight />
-          <Label htmlFor="medium-tight" sx={{ padding: '1px 0px' }}>Tight</Label>
+          <Label htmlFor="medium-tight">Tight</Label>
         </FlexBox>
       </FlexBox>
     </FlexBox>
@@ -91,29 +89,31 @@ export default Demo;`}
 />
 
 
-## Form field
+## Form control
 
 Form과 관련된 컴포넌트와 함께 사용할 수 있습니다.
-- `FormField`
 - `FormControl`
-- `FormLabel`
-- `FormMessage`
-- `FormErrorMessage`
+- `FormControlField`
+- `FormControlLabel`
+- `FormControlMessage`
+- `FormControlNegativeMessage`
+- `FormControlPositiveMessage`
+- `FormControlCharacterCounter`
 
-<Demo code={`import { FlexBox, FormField, FormControl, FormLabel, FormMessage, FormErrorMessage, Checkbox } from '@montage-ui/core';
+<Demo code={`import { FlexBox, FormControl, FormControlField, FormControlLabel, FormControlMessage, FormControlNegativeMessage, Checkbox } from '@montage-ui/core';
 
 const Demo = () => {
   return (
     <FlexBox flexDirection="column" gap="8px">
-      <FormField>
+      <FormControl>
         <FlexBox flexDirection="row" gap="8px">
-          <FormControl>
+          <FormControlField>
             <Checkbox size="medium" />
-          </FormControl>
-          <FormLabel sx={{ padding: '1px 0px' }}>Label</FormLabel>
+          </FormControlField>
+          <FormControlLabel>Label</FormControlLabel>
         </FlexBox>
-        <FormMessage>Helper Message</FormMessage>
-      </FormField>
+        <FormControlMessage>Helper Message</FormControlMessage>
+      </FormControl>
     </FlexBox>
   )
 }
@@ -129,7 +129,7 @@ export default Demo;`}
 
 또한 `indeterminateIcon` prop 을 사용하여 불확정 상태의 아이콘을 커스텀할 수 있습니다.
 
-<Demo code={`import { FlexBox, Checkbox, FormField, FormControl, FormLabel } from '@montage-ui/core';
+<Demo code={`import { FlexBox, Checkbox, FormControl, FormControlField, FormControlLabel } from '@montage-ui/core';
 import { useState } from 'react';
 
 const Demo = () => {
@@ -141,14 +141,14 @@ const Demo = () => {
       flexDirection="column"
       gap="20px"
     >
-      <FormField>
-        <FormLabel>관심 분야</FormLabel>
+      <FormControl>
+        <FormControlLabel>관심 분야</FormControlLabel>
 
-        <FormField
+        <FormControl
           flexDirection="row"
           gap="8px"
         >
-          <FormControl>
+          <FormControlField>
             <Checkbox
               checked={checked1 && checked2}
               indeterminate={checked1 !== checked2}
@@ -157,38 +157,38 @@ const Demo = () => {
                 setChecked2(checked);
               }}
             />
-          </FormControl>
-          <FormLabel sx={{ padding: '1px 0px' }}>전체 선택</FormLabel>
-        </FormField>
+          </FormControlField>
+          <FormControlLabel>전체 선택</FormControlLabel>
+        </FormControl>
      
        <FlexBox flexDirection="column" gap="8px" sx={{ paddingLeft: 20 }}>
-          <FormField
+          <FormControl
             flexDirection="row"
             gap="8px"
           >
-            <FormControl>
+            <FormControlField>
               <Checkbox
                 checked={checked1}
                 onCheckedChange={setChecked1}
               />
-            </FormControl>
-            <FormLabel sx={{ padding: '1px 0px' }}>개발</FormLabel>
-          </FormField>
+            </FormControlField>
+            <FormControlLabel>개발</FormControlLabel>
+          </FormControl>
 
-          <FormField
+          <FormControl
             flexDirection="row"
             gap="8px"
           >
-            <FormControl>
+            <FormControlField>
               <Checkbox
                 checked={checked2}
                 onCheckedChange={setChecked2}
               />
-            </FormControl>
-            <FormLabel sx={{ padding: '1px 0px' }}>디자인</FormLabel>
-          </FormField>
+            </FormControlField>
+            <FormControlLabel>디자인</FormControlLabel>
+          </FormControl>
         </FlexBox>
-     </FormField>
+     </FormControl>
     </FlexBox>
   )
 }
@@ -241,7 +241,7 @@ export default Demo;`}
 
 `react-hook-form` 과 유연하게 조합해서 사용할 수 있습니다.
 
-<Demo code={`import { Button, FlexBox, Checkbox, FormField, FormControl, FormLabel, FormErrorMessage } from '@montage-ui/core';
+<Demo code={`import { Button, FlexBox, Checkbox, FormControl, FormControlField, FormControlLabel, FormControlNegativeMessage } from '@montage-ui/core';
 import { useForm, Controller } from 'react-hook-form';
 
 const items = [
@@ -273,8 +273,8 @@ const Demo = () => {
         control={form.control}
         name="selected"
         render={({ formState }) => (
-          <FormField>
-            <FormLabel>관심 분야</FormLabel>
+          <FormControl>
+            <FormControlLabel>관심 분야</FormControlLabel>
 
             {items.map((item) => (
               <Controller
@@ -289,12 +289,12 @@ const Demo = () => {
                 }}
                 render={({ field }) => {
                   return (
-                    <FormField
+                    <FormControl
                       key={item.id}
                       flexDirection="row"
                       gap="8px"
                     >
-                      <FormControl>
+                      <FormControlField>
                         <Checkbox
                           {...field}
                           checked={field.value.includes(item.id)}
@@ -308,16 +308,16 @@ const Demo = () => {
                                 );
                           }}
                         />
-                      </FormControl>
-                      <FormLabel sx={{ padding: '1px 0px' }}>{item.label}</FormLabel>
-                    </FormField>
+                      </FormControlField>
+                      <FormControlLabel>{item.label}</FormControlLabel>
+                    </FormControl>
                   );
                 }}
               />
             ))}
 
-            <FormErrorMessage>{formState.errors.selected?.message}</FormErrorMessage>
-          </FormField>
+            <FormControlNegativeMessage>{formState.errors.selected?.message}</FormControlNegativeMessage>
+          </FormControl>
         )}
       />
 
@@ -334,7 +334,7 @@ export default Demo;`}
 
 [WAI-ARIA Checkbox Pattern](https://www.w3.org/WAI/ARIA/apg/patterns/checkbox/) 을 준수합니다.
 
-- [Form Field](#form-field) 와 함께 사용할 때 모든 접근성 속성을 주입할 수 있습니다.
+- [Form Control](#form-control) 와 함께 사용할 때 모든 접근성 속성을 주입할 수 있습니다.
 - 그렇지 않은 경우에는 직접 `aria-label` 등을 사용해서 접근성을 충족시켜야 합니다.
 
 ## API

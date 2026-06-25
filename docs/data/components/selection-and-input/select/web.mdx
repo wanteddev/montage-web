@@ -459,45 +459,47 @@ const Demo = () => {
 export default Demo;`}
 />
 
-## Form field
+## Form control
 
 Form과 관련된 컴포넌트와 함께 사용할 수 있습니다.
-- `FormField`
 - `FormControl`
-- `FormLabel`
-- `FormMessage`
-- `FormErrorMessage`
+- `FormControlField`
+- `FormControlLabel`
+- `FormControlMessage`
+- `FormControlNegativeMessage`
+- `FormControlPositiveMessage`
+- `FormControlCharacterCounter`
 
-<Demo code={`import { FlexBox, FormField, FormControl, FormLabel, FormMessage, FormErrorMessage, Select, Option, OptionGroup } from '@montage-ui/core';
+<Demo code={`import { FlexBox, FormControl, FormControlField, FormControlLabel, FormControlMessage, FormControlNegativeMessage, Select, Option, OptionGroup } from '@montage-ui/core';
 
 const Demo = () => {
   return (
     <FlexBox gap="12px" flexDirection="column" alignItems="center">
-      <FormField>
-        <FormLabel required>Label</FormLabel>
-        <FormControl>
-          <Select width="25ch" placeholder="Form field">
+      <FormControl>
+        <FormControlLabel required>Label</FormControlLabel>
+        <FormControlField>
+          <Select width="25ch" placeholder="Form control">
             <OptionGroup title="그룹 1">
               <Option value="옵션1">옵션1</Option>
               <Option value="옵션2">옵션2</Option>
             </OptionGroup>
           </Select>
-        </FormControl>
-        <FormMessage>Helper Message</FormMessage>
-      </FormField>
+        </FormControlField>
+        <FormControlMessage>Helper Message</FormControlMessage>
+      </FormControl>
 
-      <FormField>
-        <FormLabel required>Label</FormLabel>
-        <FormControl>
-          <Select width="25ch" placeholder="Invalid form field" invalid>
+      <FormControl>
+        <FormControlLabel required>Label</FormControlLabel>
+        <FormControlField>
+          <Select width="25ch" placeholder="Invalid form control" invalid>
             <OptionGroup title="그룹 1">
               <Option value="옵션1">옵션1</Option>
               <Option value="옵션2">옵션2</Option>
             </OptionGroup>
           </Select>
-        </FormControl>
-        <FormErrorMessage>Error Message</FormErrorMessage>
-      </FormField>
+        </FormControlField>
+        <FormControlNegativeMessage>Error Message</FormControlNegativeMessage>
+      </FormControl>
     </FlexBox>
   )
 }
@@ -553,7 +555,7 @@ export default Demo;`}
 
 `react-hook-form`과 유연하게 조합해서 사용할 수 있습니다.
 
-<Demo code={`import { Button, FlexBox, Select, Option, OptionGroup, FormField, FormControl, FormLabel, FormErrorMessage, FormMessage } from '@montage-ui/core';
+<Demo code={`import { Button, FlexBox, Select, Option, OptionGroup, FormControl, FormControlField, FormControlLabel, FormControlNegativeMessage, FormControlMessage } from '@montage-ui/core';
 import { useForm, Controller } from 'react-hook-form';
 
 const Demo = () => {
@@ -578,10 +580,10 @@ const Demo = () => {
           },
         }}
         render={({ field, formState }) => (
-          <FormField>
-            <FormLabel required>선택</FormLabel>
+          <FormControl>
+            <FormControlLabel required>선택</FormControlLabel>
 
-            <FormControl>
+            <FormControlField>
               <Select
                 {...field}
                 placeholder="선택하세요."
@@ -593,14 +595,14 @@ const Demo = () => {
                   <Option value="옵션2">옵션2</Option>
                 </OptionGroup>
               </Select>
-            </FormControl>
+            </FormControlField>
             
             {!!formState.errors.selection ? (
-              <FormErrorMessage>{formState.errors.selection?.message?.toString()}</FormErrorMessage>
+              <FormControlNegativeMessage>{formState.errors.selection?.message?.toString()}</FormControlNegativeMessage>
             ) : (
-              <FormMessage>옵션을 선택하세요.</FormMessage>
+              <FormControlMessage>옵션을 선택하세요.</FormControlMessage>
             )}
-          </FormField>
+          </FormControl>
         )}
       />
 
@@ -616,7 +618,7 @@ export default Demo;`}
 
 [WAI-ARIA Combobox Pattern](https://www.w3.org/WAI/ARIA/apg/patterns/combobox/) 대부분을 준수합니다.
 
-- [Form Field](#form-field) 와 함께 사용할 때 모든 접근성 속성을 주입할 수 있습니다.
+- [Form Control](#form-control) 와 함께 사용할 때 모든 접근성 속성을 주입할 수 있습니다.
 - 그렇지 않은 경우에는 직접 `aria-label` 등을 사용해서 접근성을 충족시켜야 합니다.
 
 ## API

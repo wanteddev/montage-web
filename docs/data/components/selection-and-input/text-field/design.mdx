@@ -17,7 +17,7 @@ updatedAt: 2026-01-29
   
 
 <SectionVariants
-  components={['FormField', 'FlexBox', 'TextField', 'TextFieldContent', 'TextFieldButton', 'FormControl', 'FormMessage', 'FormLabel', 'ContentBadge', 'Box']}
+  components={['FormControl', 'FlexBox', 'TextField', 'TextFieldContent', 'TextFieldButton', 'FormControlField', 'FormControlMessage', 'FormControlLabel', 'ContentBadge', 'Box']}
   icons={['IconBlank']}
   render={(value) => {
       const hasButton = value['Trailing button'] === 'Button';
@@ -55,9 +55,9 @@ updatedAt: 2026-01-29
       }
 
       return `
-      <FormField sx={{ width: '75%' }}>
-        <FormLabel required>Heading</FormLabel>
-        <FormControl>
+      <FormControl sx={{ width: '75%' }}>
+        <FormControlLabel required>Heading</FormControlLabel>
+        <FormControlField>
           <TextField
             placeholder="Placeholder"
             leadingContent={${leadingContent}}
@@ -65,9 +65,9 @@ updatedAt: 2026-01-29
             width="100%"
             ${hasButton ? 'trailingButton={<TextFieldButton>Button</TextFieldButton>}' : ''}
           />
-        </FormControl>
-        <FormMessage>Description</FormMessage>
-      </FormField>
+        </FormControlField>
+        <FormControlMessage>Description</FormControlMessage>
+      </FormControl>
     `;
     }}
   variants={[

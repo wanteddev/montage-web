@@ -4,10 +4,10 @@
 module.exports = {
   variants: {
     components: [
-      'FormField',
-      'FlexBox',
       'FormControl',
-      'FormLabel',
+      'FlexBox',
+      'FormControlField',
+      'FormControlLabel',
       'RadioGroup',
       'RadioGroupItem',
     ],
@@ -36,16 +36,16 @@ module.exports = {
 
       return `
         <RadioGroup name="radio">
-          <FormField flexDirection="row" gap="${gap}" alignItems="center">
-            <FormControl>
+          <FormControl flexDirection="row" gap="${gap}" alignItems="center">
+            <FormControlField>
               <RadioGroupItem
                 value="radio"
                 size="${size}"
                 tight={${tight}}
               />
-            </FormControl>
-            <FormLabel>Radio</FormLabel>
-          </FormField>
+            </FormControlField>
+            <FormControlLabel>Radio</FormControlLabel>
+          </FormControl>
         </RadioGroup>
       `;
     },

@@ -17,7 +17,7 @@ updatedAt: 2026-02-01
   
 
 <SectionVariants
-  components={['FormField', 'FormControl', 'FormMessage', 'FormLabel', 'DatePicker', 'PickerActionArea', 'PickerActionAreaButton', 'ContentBadge', 'Button', 'Checkbox']}
+  components={['FormControl', 'FormControlField', 'FormControlMessage', 'FormControlLabel', 'DatePicker', 'PickerActionArea', 'PickerActionAreaButton', 'ContentBadge', 'Button', 'Checkbox']}
   icons={['IconSparkle', 'IconRefresh']}
   states={`const [value, setValue] = React.useState(null);`}
   render={(value) => {
@@ -55,12 +55,12 @@ updatedAt: 2026-02-01
           case 'Checkbox':
             actionArea = `
             <PickerActionArea>
-              <FormField gap="8px" flexDirection="row" alignItems="center">
-                <FormControl>
+              <FormControl gap="8px" flexDirection="row" alignItems="center">
+                <FormControlField>
                   <Checkbox size="medium" />
-                </FormControl>
-                <FormLabel>휴일 제외</FormLabel>
-              </FormField>
+                </FormControlField>
+                <FormControlLabel>휴일 제외</FormControlLabel>
+              </FormControl>
               <PickerActionAreaButton variant="accept">적용</PickerActionAreaButton>
             </PickerActionArea>`;
             break;
@@ -91,9 +91,9 @@ updatedAt: 2026-02-01
       }
 
       return `
-      <FormField sx={{ width: '75%' }}>
-        <FormLabel required>Heading</FormLabel>
-        <FormControl>
+      <FormControl sx={{ width: '75%' }}>
+        <FormControlLabel required>Heading</FormControlLabel>
+        <FormControlField>
           <DatePicker
             width="100%"
             onChange={setValue}
@@ -101,9 +101,9 @@ updatedAt: 2026-02-01
             {...${JSON.stringify(props)}}
             actionArea={${actionArea}}
           />
-        </FormControl>
-        <FormMessage>Description</FormMessage>
-      </FormField>
+        </FormControlField>
+        <FormControlMessage>Description</FormControlMessage>
+      </FormControl>
     `;
     }}
   variants={[

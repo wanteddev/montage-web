@@ -1,7 +1,12 @@
 import { cleanup, fireEvent, render, screen } from '@testing-library/react';
 import { axe } from 'vitest-axe';
 
-import { FormControl, FormField, FormLabel, FormMessage } from '../form';
+import {
+  FormControl,
+  FormControlField,
+  FormControlLabel,
+  FormControlMessage,
+} from '../form-control';
 
 import {
   Autocomplete,
@@ -97,17 +102,17 @@ describe('when given autocomplete component', () => {
   });
 });
 
-describe('when given autocomplete component with form field', () => {
+describe('when given autocomplete component with form control', () => {
   beforeEach(() => {
     render(
-      <FormField>
-        <FormLabel>Label</FormLabel>
+      <FormControl>
+        <FormControlLabel>Label</FormControlLabel>
         <Autocomplete>
-          <FormControl>
+          <FormControlField>
             <AutocompleteField>
               <input data-testid="autocomplete-field" />
             </AutocompleteField>
-          </FormControl>
+          </FormControlField>
           <AutocompleteList data-testid="autocomplete-list">
             <AutocompleteGroup title="Group 1" data-testid="autocomplete-group">
               <AutocompleteOption
@@ -119,8 +124,8 @@ describe('when given autocomplete component with form field', () => {
             </AutocompleteGroup>
           </AutocompleteList>
         </Autocomplete>
-        <FormMessage>Message</FormMessage>
-      </FormField>,
+        <FormControlMessage>Message</FormControlMessage>
+      </FormControl>,
     );
   });
 
