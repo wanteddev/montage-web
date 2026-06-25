@@ -52,7 +52,16 @@ export type DatePickerProps = Merge<
     Omit<TextFieldProps, 'wrapperRef'>
 >;
 
-export type DatePickerFieldProps = Merge<
+export type DatePickerFieldProps = DefaultComponentPropsInternal<
+  {
+    ref?: Ref<HTMLDivElement>;
+    inputRef?: Ref<HTMLInputElement>;
+    trailingContent?: ReactNode;
+  },
+  'input'
+>;
+
+export type DatePickerFieldInternalProps = Merge<
   {
     ref?: Ref<HTMLDivElement>;
     inputRef?: Ref<HTMLInputElement>;

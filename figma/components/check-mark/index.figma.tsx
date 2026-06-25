@@ -1,6 +1,11 @@
 import { figma } from '@figma/code-connect';
 
-import { CheckMark, FormControl, FormField, FormLabel } from '@montage-ui/core';
+import {
+  CheckMark,
+  FormControl,
+  FormControlField,
+  FormControlLabel,
+} from '@montage-ui/core';
 
 figma.connect(CheckMark, '<FIGMA_CONTROL_CHECK_MARK>', {
   props: {
@@ -47,12 +52,12 @@ figma.connect(CheckMark, '<FIGMA_CHECK_MARK>', {
     Size: 'Medium',
   },
   example: ({ label, gap, ...props }) => (
-    <FormField gap={gap} flexDirection="row">
-      <FormControl>
+    <FormControl gap={gap} flexDirection="row">
+      <FormControlField>
         <CheckMark checked size="medium" {...props} />
-      </FormControl>
-      <FormLabel sx={{ padding: '1px 0px' }}>{label}</FormLabel>
-    </FormField>
+      </FormControlField>
+      <FormControlLabel>{label}</FormControlLabel>
+    </FormControl>
   ),
 });
 
@@ -71,12 +76,12 @@ figma.connect(CheckMark, '<FIGMA_CHECK_MARK>', {
     Size: 'Medium',
   },
   example: ({ label, gap, ...props }) => (
-    <FormField gap={gap} flexDirection="row">
-      <FormControl>
+    <FormControl gap={gap} flexDirection="row">
+      <FormControlField>
         <CheckMark size="medium" {...props} />
-      </FormControl>
-      <FormLabel sx={{ padding: '1px 0px' }}>{label}</FormLabel>
-    </FormField>
+      </FormControlField>
+      <FormControlLabel>{label}</FormControlLabel>
+    </FormControl>
   ),
 });
 
@@ -95,12 +100,12 @@ figma.connect(CheckMark, '<FIGMA_CHECK_MARK>', {
     Size: 'Small',
   },
   example: ({ label, gap, ...props }) => (
-    <FormField gap={gap} flexDirection="row">
-      <FormControl>
+    <FormControl gap={gap} flexDirection="row">
+      <FormControlField>
         <CheckMark checked size="small" {...props} />
-      </FormControl>
-      <FormLabel>{label}</FormLabel>
-    </FormField>
+      </FormControlField>
+      <FormControlLabel>{label}</FormControlLabel>
+    </FormControl>
   ),
 });
 
@@ -119,11 +124,11 @@ figma.connect(CheckMark, '<FIGMA_CHECK_MARK>', {
     Size: 'Small',
   },
   example: ({ label, gap, ...props }) => (
-    <FormField gap={gap} flexDirection="row">
-      <FormControl>
+    <FormControl gap={gap} flexDirection="row">
+      <FormControlField>
         <CheckMark size="small" {...props} />
-      </FormControl>
-      <FormLabel>{label}</FormLabel>
-    </FormField>
+      </FormControlField>
+      <FormControlLabel>{label}</FormControlLabel>
+    </FormControl>
   ),
 });
