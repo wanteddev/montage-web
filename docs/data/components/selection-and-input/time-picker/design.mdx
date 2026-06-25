@@ -17,7 +17,7 @@ updatedAt: 2026-02-01
   
 
 <SectionVariants
-  components={['FormField', 'FormControl', 'FormMessage', 'FormLabel', 'TimePicker', 'PickerActionArea', 'PickerActionAreaButton']}
+  components={['FormControl', 'FormControlField', 'FormControlMessage', 'FormControlLabel', 'TimePicker', 'PickerActionArea', 'PickerActionAreaButton']}
   icons={[]}
   render={(value) => {
       const props = {
@@ -36,17 +36,17 @@ updatedAt: 2026-02-01
       }
 
       return `
-        <FormField sx={{ width: '75%' }}>
-          <FormLabel required>Heading</FormLabel>
-          <FormControl>
+        <FormControl sx={{ width: '75%' }}>
+          <FormControlLabel required>Heading</FormControlLabel>
+          <FormControlField>
             <TimePicker
               width="100%"
               {...${JSON.stringify(props)}}
               actionArea={${actionArea}}
             />
-          </FormControl>
-          <FormMessage>Description</FormMessage>
-        </FormField>
+          </FormControlField>
+          <FormControlMessage>Description</FormControlMessage>
+        </FormControl>
       `;
     }}
   variants={[

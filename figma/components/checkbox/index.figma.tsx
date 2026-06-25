@@ -1,6 +1,11 @@
 import { figma } from '@figma/code-connect';
 
-import { Checkbox, FormControl, FormField, FormLabel } from '@montage-ui/core';
+import {
+  Checkbox,
+  FormControl,
+  FormControlField,
+  FormControlLabel,
+} from '@montage-ui/core';
 
 figma.connect(Checkbox, '<FIGMA_CONTROL_CHECKBOX>', {
   props: {
@@ -60,12 +65,12 @@ figma.connect(Checkbox, '<FIGMA_CHECKBOX>', {
     Size: 'Medium',
   },
   example: ({ label, gap, ...props }) => (
-    <FormField gap={gap} flexDirection="row">
-      <FormControl>
+    <FormControl gap={gap} flexDirection="row">
+      <FormControlField>
         <Checkbox checked size="medium" {...props} />
-      </FormControl>
-      <FormLabel sx={{ padding: '1px 0px' }}>{label}</FormLabel>
-    </FormField>
+      </FormControlField>
+      <FormControlLabel>{label}</FormControlLabel>
+    </FormControl>
   ),
 });
 
@@ -85,12 +90,12 @@ figma.connect(Checkbox, '<FIGMA_CHECKBOX>', {
     Size: 'Medium',
   },
   example: ({ label, gap, ...props }) => (
-    <FormField gap={gap} flexDirection="row">
-      <FormControl>
+    <FormControl gap={gap} flexDirection="row">
+      <FormControlField>
         <Checkbox size="medium" {...props} />
-      </FormControl>
-      <FormLabel sx={{ padding: '1px 0px' }}>{label}</FormLabel>
-    </FormField>
+      </FormControlField>
+      <FormControlLabel>{label}</FormControlLabel>
+    </FormControl>
   ),
 });
 
@@ -110,12 +115,12 @@ figma.connect(Checkbox, '<FIGMA_CHECKBOX>', {
     Size: 'Medium',
   },
   example: ({ label, gap, ...props }) => (
-    <FormField gap={gap} flexDirection="row">
-      <FormControl>
+    <FormControl gap={gap} flexDirection="row">
+      <FormControlField>
         <Checkbox indeterminate size="medium" {...props} />
-      </FormControl>
-      <FormLabel sx={{ padding: '1px 0px' }}>{label}</FormLabel>
-    </FormField>
+      </FormControlField>
+      <FormControlLabel>{label}</FormControlLabel>
+    </FormControl>
   ),
 });
 
@@ -135,12 +140,12 @@ figma.connect(Checkbox, '<FIGMA_CHECKBOX>', {
     Size: 'Small',
   },
   example: ({ label, gap, ...props }) => (
-    <FormField gap={gap} flexDirection="row">
-      <FormControl>
+    <FormControl gap={gap} flexDirection="row">
+      <FormControlField>
         <Checkbox checked size="small" {...props} />
-      </FormControl>
-      <FormLabel>{label}</FormLabel>
-    </FormField>
+      </FormControlField>
+      <FormControlLabel>{label}</FormControlLabel>
+    </FormControl>
   ),
 });
 
@@ -160,12 +165,12 @@ figma.connect(Checkbox, '<FIGMA_CHECKBOX>', {
     Size: 'Small',
   },
   example: ({ label, gap, ...props }) => (
-    <FormField gap={gap} flexDirection="row">
-      <FormControl>
+    <FormControl gap={gap} flexDirection="row">
+      <FormControlField>
         <Checkbox size="small" {...props} />
-      </FormControl>
-      <FormLabel>{label}</FormLabel>
-    </FormField>
+      </FormControlField>
+      <FormControlLabel>{label}</FormControlLabel>
+    </FormControl>
   ),
 });
 
@@ -185,11 +190,11 @@ figma.connect(Checkbox, '<FIGMA_CHECKBOX>', {
     Size: 'Small',
   },
   example: ({ label, gap, ...props }) => (
-    <FormField gap={gap} flexDirection="row">
-      <FormControl>
+    <FormControl gap={gap} flexDirection="row">
+      <FormControlField>
         <Checkbox indeterminate size="small" {...props} />
-      </FormControl>
-      <FormLabel>{label}</FormLabel>
-    </FormField>
+      </FormControlField>
+      <FormControlLabel>{label}</FormControlLabel>
+    </FormControl>
   ),
 });
