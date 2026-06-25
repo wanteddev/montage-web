@@ -8,7 +8,12 @@ import {
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { axe } from 'vitest-axe';
 
-import { FormControl, FormField, FormLabel, FormMessage } from '../form';
+import {
+  FormControl,
+  FormControlField,
+  FormControlLabel,
+  FormControlMessage,
+} from '../form-control';
 
 import { DatePicker } from '.';
 
@@ -77,15 +82,15 @@ describe('when given date picker component', () => {
     expect(await axe(screen.getByTestId('date-picker'))).toHaveNoViolations();
   });
 
-  it('should pass accessibility test with form field', async () => {
+  it('should pass accessibility test with form control', async () => {
     render(
-      <FormField>
-        <FormLabel>Label</FormLabel>
-        <FormControl>
+      <FormControl>
+        <FormControlLabel>Label</FormControlLabel>
+        <FormControlField>
           <DatePicker {...defaultProps} data-testid="date-picker" />
-        </FormControl>
-        <FormMessage>Message</FormMessage>
-      </FormField>,
+        </FormControlField>
+        <FormControlMessage>Message</FormControlMessage>
+      </FormControl>,
     );
 
     expect(await axe(screen.getByTestId('date-picker'))).toHaveNoViolations();

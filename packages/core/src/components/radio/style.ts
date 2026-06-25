@@ -32,6 +32,7 @@ export const radioStyle =
     border-radius: 9999px;
 
     & ~ label {
+      color: ${theme.semantic.label.normal};
       cursor: pointer;
     }
 
@@ -80,7 +81,7 @@ export const radioStyle =
       }
     }
 
-    ${radioSizeStyle({ size, tight }, theme)}
+    ${radioSizeStyle({ size, tight })}
 
     ${checked &&
     css`
@@ -110,16 +111,16 @@ export const radioStyle =
       theme,
     )(
       (params) => css`
-        ${radioSizeStyle({ size: params?.size, tight }, theme)}
+        ${radioSizeStyle({ size: params?.size, tight })}
         ${params?.sx}
       `,
     )}
   `;
 
-const radioSizeStyle = (
-  { size, tight }: Pick<RadioProps, 'size' | 'tight'>,
-  theme: Theme,
-) => {
+const radioSizeStyle = ({
+  size,
+  tight,
+}: Pick<RadioProps, 'size' | 'tight'>) => {
   switch (size) {
     case 'medium':
       return css`
@@ -133,7 +134,7 @@ const radioSizeStyle = (
 
         & ~ label {
           ${typographyStyle('body2', 'regular')}
-          color: ${theme.semantic.label.normal};
+          padding: 1px 0px;
         }
 
         ${tight &&
@@ -158,7 +159,7 @@ const radioSizeStyle = (
 
         & ~ label {
           ${typographyStyle('label1', 'regular')}
-          color: ${theme.semantic.label.normal};
+          padding: 0px;
         }
 
         ${tight &&

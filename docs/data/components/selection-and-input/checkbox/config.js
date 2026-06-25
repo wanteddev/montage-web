@@ -4,10 +4,10 @@
 module.exports = {
   variants: {
     components: [
-      'FormField',
-      'FlexBox',
       'FormControl',
-      'FormLabel',
+      'FlexBox',
+      'FormControlField',
+      'FormControlLabel',
       'Checkbox',
     ],
     icons: [],
@@ -44,27 +44,37 @@ module.exports = {
       const gap = tight ? '10px' : '8px';
 
       return `
-        <FormField sx={{ width: '75%' }} flexDirection="row" gap="${gap}" alignItems="center" justifyContent="center">
-          <FormControl>
+        <FormControl sx={{ width: '75%' }} flexDirection="row" gap="${gap}" alignItems="center" justifyContent="center">
+          <FormControlField>
             <Checkbox
               size="${size}"
               bold={${bold}}
               tight={${tight}}
             />
-          </FormControl>
-          <FormLabel>Checkbox</FormLabel>
-        </FormField>
+          </FormControlField>
+          <FormControlLabel>Checkbox</FormControlLabel>
+        </FormControl>
       `;
     },
   },
   hierarchy: [
     {
-      components: ['FormField', 'FormControl', 'FormLabel', 'Checkbox'],
-      render: `<FormField flexDirection="row" gap="8px" sx={{ width:'88px' }}><FormControl><Checkbox defaultChecked /></FormControl><FormLabel sx={{ padding: "1px 0px" }}>Medium</FormLabel></FormField>`,
+      components: [
+        'FormControl',
+        'FormControlField',
+        'FormControlLabel',
+        'Checkbox',
+      ],
+      render: `<FormControl flexDirection="row" gap="8px" sx={{ width:'88px' }}><FormControlField><Checkbox defaultChecked /></FormControlField><FormControlLabel sx={{ padding: "1px 0px" }}>Medium</FormControlLabel></FormControl>`,
     },
     {
-      components: ['FormField', 'FormControl', 'FormLabel', 'Checkbox'],
-      render: `<FormField flexDirection="row" gap="8px" sx={{ width:'88px' }}><FormControl><Checkbox size="small" defaultChecked /></FormControl><FormLabel>Small</FormLabel></FormField>`,
+      components: [
+        'FormControl',
+        'FormControlField',
+        'FormControlLabel',
+        'Checkbox',
+      ],
+      render: `<FormControl flexDirection="row" gap="8px" sx={{ width:'88px' }}><FormControlField><Checkbox size="small" defaultChecked /></FormControlField><FormControlLabel>Small</FormControlLabel></FormControl>`,
     },
   ],
 };

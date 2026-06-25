@@ -47,5 +47,6 @@ export const MIGRATION_TRANSFORMS = {
     'css-variable-migration': 'CSS Variable Migration',
     'dom-identifier-migration': 'DOM Identifier Migration',
     'list-card-migration': 'ListCard Naming Migration',
+    'form-control-migration': 'Form Control Naming Migration',
   },
 };
