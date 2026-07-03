@@ -243,6 +243,8 @@ export default defineConfig(
 
   globalIgnores([
     '.nx',
+    '.claude',
+    '.claude-plugin',
     '**/node_modules',
     '**/dist',
     'packages/**/bin',

@@ -15,6 +15,8 @@
 | `@wanteddev/wds-codemod`       | `@montage-ui/codemod`       |
 | `@wanteddev/wds-theme`         | `@montage-ui/theme`         |
 | `@wanteddev/wds-engine`        | `@montage-ui/engine`        |
+| `@wanteddev/wds-dummy`         | `@montage-ui/dummy`         |
+| `@wanteddev/wds-brand`         | `@montage-ui/brand`         |
 | `@wanteddev/eslint-plugin-wds` | `@montage-ui/eslint-plugin` |
 
 import 경로를 자동으로 변환하려면 아래 codemod를 실행하세요:
