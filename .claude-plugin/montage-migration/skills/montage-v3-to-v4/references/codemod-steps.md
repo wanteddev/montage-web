@@ -9,6 +9,11 @@ npx -y @montage-ui/codemod@latest <transform> <target>
 
 - One transform per invocation — the CLI has no batch mode. Passing both the transform name
   and the path makes the run fully non-interactive.
+- `@latest` is acceptable for a single-session run, but `npx -y` executes whatever is
+  published at that moment — for a migration that may span multiple sessions (or to
+  reduce supply-chain exposure), pin a specific version
+  (`npx -y @montage-ui/codemod@<x.y.z> ...`, or the `codemodVersion` workflow arg) so
+  every step runs the same codemod build.
 - **One file-or-directory path per invocation.** The CLI reads only the first path
   argument — extra positional paths are silently dropped, and globs are NOT expanded
   (despite the help text; a shell-expanded glob passes only its first match). For multiple

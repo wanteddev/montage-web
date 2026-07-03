@@ -64,6 +64,10 @@ changing a step or M-section, update every row:
 - Codemod steps: a sequential `for` loop of `await agent(...)` — a failed/null result
   aborts the chain and the return carries `aborted: <step id>`. Never `parallel()` the
   codemod steps.
+- Deterministic skip: the script cannot read files, so the orchestrator (main loop)
+  reads the state file at preflight and passes `completedSteps` (step-id array) via
+  args; the loop skips those steps without spawning an agent. The step agent's own
+  state-file check stays as the second layer.
 - Manual scans: `parallel()` read-only agents, one per M-section, reading the section's
   patterns from `referencesDir` (pass it via args, do not duplicate patterns in the
   script).

@@ -42,7 +42,7 @@ of them.
 
 Enumerate the version's transforms from `constants.ts`, then run the analysis Workflow:
 
-```
+```js
 Workflow({
   scriptPath: "<this skill's base directory>/scripts/analyze-codemods.js",
   args: {
@@ -87,16 +87,17 @@ and adapt content — do not invent a new shape.
 
 ### Step 4 — Validate until clean
 
-```
+```js
 Workflow({
-  scriptPath: "<this skill's base directory>/scripts/validate-migration-skill.js",
+  scriptPath:
+    "<this skill's base directory>/scripts/validate-migration-skill.js",
   args: {
-    repoRoot: "<absolute repo root>",
-    skillDir: "<absolute path of the authored skill>",
-    migrationSection: "## <N>.0.0",
-    transformsDir: "<absolute path of packages/codemod/src/transforms/vN>"
-  }
-})
+    repoRoot: '<absolute repo root>',
+    skillDir: '<absolute path of the authored skill>',
+    migrationSection: '## <N>.0.0',
+    transformsDir: '<absolute path of packages/codemod/src/transforms/vN>',
+  },
+});
 ```
 
 Fix every `critical`/`major` finding (and `minor` unless there is a stated reason not

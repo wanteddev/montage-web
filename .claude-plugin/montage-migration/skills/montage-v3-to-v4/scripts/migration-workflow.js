@@ -19,6 +19,9 @@ export const meta = {
 //   autoCommit:    boolean — commit after each completed step
 // Optional args:
 //   codemodVersion: npm dist-tag or version for @montage-ui/codemod (default 'latest')
+//   completedSteps: step ids already marked "completed" in the state file (default []).
+//                   Read the state file in preflight and pass the list so completed
+//                   steps are skipped deterministically, without spawning an agent.
 
 const CODEMOD_STEPS = [
   {
@@ -138,10 +141,27 @@ manual:
   M7: pending
 ---`
 
+const completedSteps = args.completedSteps || []
+
 const stepResults = []
 let aborted = null
 
 for (const step of CODEMOD_STEPS) {
+  if (completedSteps.includes(step.id)) {
+    // Deterministic orchestrator-level skip. The step agent's own state-file check
+    // (procedure step 1) stays as the second layer, guarding runs launched with a
+    // stale completedSteps list.
+    log(`${step.id}: skipped (state file marks it completed)`)
+    stepResults.push({
+      step: step.id,
+      status: 'skipped',
+      filesChanged: 0,
+      committed: false,
+      verifyFindings: [],
+    })
+    continue
+  }
+
   const result = await agent(
     `You are executing ONE step of the Montage v3 → v4 migration in the repo at ${args.repoRoot}.
 Work only on this step. Do not run any other codemod.

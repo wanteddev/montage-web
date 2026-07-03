@@ -98,18 +98,23 @@ Orchestrate the codemod phase with the Workflow tool using the bundled script �
 guarantees deterministic sequencing (each codemod is a sequential `await`; a failure
 aborts the chain) and runs the manual-migration scans in parallel afterwards:
 
-```
+```js
 Workflow({
   scriptPath: "<this skill's base directory>/scripts/migration-workflow.js",
   args: {
-    repoRoot: "<absolute repo root>",
-    targets: ["src"],
-    stateFile: "<absolute path>/.claude/montage-migration-v4.local.md",
+    repoRoot: '<absolute repo root>',
+    targets: ['src'],
+    stateFile: '<absolute path>/.claude/montage-migration-v4.local.md',
     referencesDir: "<this skill's base directory>/references",
-    autoCommit: true
-  }
-})
+    autoCommit: true,
+    completedSteps: [], // step ids already marked completed in the state file
+  },
+});
 ```
+
+Populate `completedSteps` from the state file read in preflight (empty on a first run) —
+the script skips those steps deterministically without spawning an agent, and each step
+agent re-checks the state file as a second layer.
 
 Resolve `<this skill's base directory>` from the "Base directory for this skill" line
 announced when this skill loaded. Optionally pass `codemodVersion` (npm version or
@@ -118,8 +123,8 @@ resumed runs use the same codemod build. The workflow returns per-step results p
 `manualScan` report (assessed occurrences for manual steps M1–M7).
 
 - If the workflow reports `aborted`, surface the failed step's error to the user, fix the
-  cause, and re-run the same Workflow invocation — completed steps are skipped via the
-  state file, so resuming is safe.
+  cause, and re-run the same Workflow invocation with `completedSteps` refreshed from the
+  state file — completed steps are skipped, so resuming is safe.
 - **Fallback without the Workflow tool:** execute the exact per-step procedure embedded in
   `scripts/migration-workflow.js` (read it) inline — one step at a time, same order, same
   state-file checks. Never parallelize the codemod steps.
