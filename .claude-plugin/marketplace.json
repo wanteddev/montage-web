@@ -3,13 +3,18 @@
   "owner": {
     "name": "wanteddev"
   },
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "Wanted Lab Design System for Web",
   "plugins": [
     {
       "name": "montage-web-guide",
       "source": "./.claude-plugin/montage-web-guide",
       "description": "Guide to use Wanted Lab Design System for Web"
+    },
+    {
+      "name": "montage-web-migration",
+      "source": "./.claude-plugin/montage-migration",
+      "description": "Migration tool for Wanted Lab Design System for Web"
     }
   ]
 }
