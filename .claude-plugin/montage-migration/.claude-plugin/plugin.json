@@ -1,7 +1,7 @@
 {
-  "name": "montage-web-guide",
-  "version": "1.0.2",
-  "description": "Wanted Design System Plugin",
+  "name": "montage-web-migration",
+  "version": "1.1.0",
+  "description": "Wanted Design System Migration Plugin",
   "author": {
     "name": "Sh031224"
   },
