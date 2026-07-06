@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.11.0](https://github.com/wanteddev/montage-web/compare/v3.10.0...v3.11.0) (2026-07-06)
+
+### Features
+
+- **theme:** semantic 토큰에 status background·line, primary line 추가 ([#600](https://github.com/wanteddev/montage-web/issues/600)) ([679f4af](https://github.com/wanteddev/montage-web/commit/679f4afc147f387ff019edd71105d7b30202a39e))
+
 # [3.10.0](https://github.com/wanteddev/montage-web/compare/v3.9.1...v3.10.0) (2026-06-22)
 
 **Note:** Version bump only for package @wanteddev/wds-theme
