@@ -33,6 +33,11 @@ export const light = {
       normal: addHexOpacity(atomic.common[100], opacity[8]),
       alternative: addHexOpacity(atomic.common[100], opacity[28]),
     },
+    status: {
+      negative: addHexOpacity(atomic.red[50], opacity[8]),
+      cautionary: addHexOpacity(atomic.orange[50], opacity[8]),
+      positive: addHexOpacity(atomic.green[50], opacity[8]),
+    },
   },
   interaction: {
     inactive: atomic.coolNeutral[70],
@@ -48,6 +53,22 @@ export const light = {
       normal: atomic.coolNeutral[96],
       neutral: atomic.coolNeutral[97],
       alternative: atomic.coolNeutral[98],
+    },
+    primary: {
+      normal: addHexOpacity(atomic.blue[50], opacity[28]),
+      strong: addHexOpacity(atomic.blue[50], opacity[43]),
+    },
+    status: {
+      negative: {
+        normal: addHexOpacity(atomic.red[50], opacity[43]),
+        strong: addHexOpacity(atomic.red[50], opacity[52]),
+      },
+      cautionary: {
+        normal: addHexOpacity(atomic.orange[50], opacity[43]),
+      },
+      positive: {
+        normal: addHexOpacity(atomic.green[50], opacity[43]),
+      },
     },
   },
   status: {
@@ -147,6 +168,11 @@ export const dark = {
       normal: addHexOpacity(atomic.coolNeutral[17], opacity[61]),
       alternative: addHexOpacity(atomic.coolNeutral[17], opacity[61]),
     },
+    status: {
+      negative: addHexOpacity(atomic.red[60], opacity[8]),
+      cautionary: addHexOpacity(atomic.orange[60], opacity[8]),
+      positive: addHexOpacity(atomic.green[60], opacity[8]),
+    },
   },
   interaction: {
     inactive: atomic.coolNeutral[40],
@@ -162,6 +188,22 @@ export const dark = {
       normal: atomic.coolNeutral[25],
       neutral: atomic.coolNeutral[23],
       alternative: atomic.coolNeutral[22],
+    },
+    primary: {
+      normal: addHexOpacity(atomic.blue[60], opacity[28]),
+      strong: addHexOpacity(atomic.blue[60], opacity[43]),
+    },
+    status: {
+      negative: {
+        normal: addHexOpacity(atomic.red[60], opacity[43]),
+        strong: addHexOpacity(atomic.red[60], opacity[52]),
+      },
+      cautionary: {
+        normal: addHexOpacity(atomic.orange[60], opacity[43]),
+      },
+      positive: {
+        normal: addHexOpacity(atomic.green[60], opacity[43]),
+      },
     },
   },
   status: {
