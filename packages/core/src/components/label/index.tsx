@@ -25,14 +25,13 @@ const Label = forwardRef<
         <Box
           as="span"
           sx={(theme) => ({
-            display: 'inline-block',
-            marginLeft: '4px',
+            display: 'contents',
             font: 'inherit',
             fontWeight: '500',
             color: theme.semantic.status.negative,
           })}
         >
-          *
+          {' *'}
         </Box>
       )}
     </Typography>

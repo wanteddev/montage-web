@@ -1,5 +1,6 @@
 import { Slot } from '@radix-ui/react-slot';
 import { forwardRef, useId } from 'react';
+import { Box } from '@montage-ui/engine';
 
 import { FlexBox } from '../flex-box';
 import { Label } from '../label';
@@ -7,9 +8,9 @@ import { Typography } from '../typography';
 import { splitResponsiveBreakpoints } from '../../utils/internal/responsive-props';
 
 import {
-  FORM_CONTROL_CHARACTER_COUNTER,
   FORM_CONTROL_FIELD_NAME,
   FORM_CONTROL_LABEL_NAME,
+  FORM_CONTROL_MESSAGE_ACCESSORY_NAME,
   FORM_CONTROL_MESSAGE_NAME,
   FORM_CONTROL_NAME,
   FORM_CONTROL_NEGATIVE_MESSAGE_NAME,
@@ -35,9 +36,9 @@ import type {
 } from '@montage-ui/engine';
 import type { ElementType, ForwardedRef } from 'react';
 import type {
-  FormControlCharacterCounterProps,
   FormControlFieldProps,
   FormControlLabelProps,
+  FormControlMessageAccessoryProps,
   FormControlMessageProps,
   FormControlNegativeMessageProps,
   FormControlPositiveMessageProps,
@@ -171,7 +172,7 @@ const FormControlMessage = forwardRef(
     {
       as,
       children,
-      characterCounter,
+      accessory,
       ...props
     }: PolymorphicPropsInternal<FormControlMessageProps, T>,
     ref: ForwardedRef<T>,
@@ -196,7 +197,7 @@ const FormControlMessage = forwardRef(
       >
         <span data-role="form-control-message-content">{children}</span>
 
-        {characterCounter}
+        {accessory}
       </Typography>
     );
   },
@@ -209,7 +210,7 @@ const FormControlNegativeMessage = forwardRef(
     {
       as,
       children,
-      characterCounter,
+      accessory,
       ...props
     }: PolymorphicPropsInternal<FormControlNegativeMessageProps, T>,
     ref: ForwardedRef<T>,
@@ -238,7 +239,7 @@ const FormControlNegativeMessage = forwardRef(
           {children}
         </span>
 
-        {characterCounter}
+        {accessory}
       </Typography>
     );
   },
@@ -251,7 +252,7 @@ const FormControlPositiveMessage = forwardRef(
     {
       as,
       children,
-      characterCounter,
+      accessory,
       ...props
     }: PolymorphicPropsInternal<FormControlPositiveMessageProps, T>,
     ref: ForwardedRef<T>,
@@ -280,7 +281,7 @@ const FormControlPositiveMessage = forwardRef(
           {children}
         </span>
 
-        {characterCounter}
+        {accessory}
       </Typography>
     );
   },
@@ -288,31 +289,52 @@ const FormControlPositiveMessage = forwardRef(
 
 FormControlPositiveMessage.displayName = FORM_CONTROL_POSITIVE_MESSAGE_NAME;
 
-const FormControlCharacterCounter = forwardRef<
+const FormControlMessageAccessory = forwardRef<
   HTMLSpanElement,
-  DefaultComponentPropsInternal<FormControlCharacterCounterProps, 'span'>
->(({ length, maxLength, ...props }, ref) => {
-  return (
-    <Typography
-      data-component="form-control-character-counter"
-      variant="label2"
-      weight="medium"
-      ref={ref}
-      data-is-overflow={length > maxLength}
-      {...props}
-      color="semantic.label.alternative"
-      sx={[formCharacterCounterStyle, props.sx]}
-    >
-      <span data-role="form-control-character-counter-length">{length}</span>
-      <span data-role="form-control-character-counter-divider">/</span>
-      <span data-role="form-control-character-counter-max-length">
-        {maxLength}
-      </span>
-    </Typography>
-  );
-});
+  DefaultComponentPropsInternal<FormControlMessageAccessoryProps, 'span'>
+>(
+  (
+    { variant = 'character-counter', length = 0, maxLength = 0, ...props },
+    ref,
+  ) => {
+    switch (variant) {
+      case 'character-counter':
+        return (
+          <Typography
+            data-component="form-control-message-accessory"
+            variant="caption1"
+            weight="regular"
+            ref={ref}
+            data-is-overflow={length > maxLength}
+            {...props}
+            color="semantic.label.alternative"
+            sx={[formCharacterCounterStyle, props.sx]}
+          >
+            <span data-role="form-control-character-counter-length">
+              {length}
+            </span>
+            <span data-role="form-control-character-counter-divider">/</span>
+            <span data-role="form-control-character-counter-max-length">
+              {maxLength}
+            </span>
+          </Typography>
+        );
+      case 'custom':
+        return (
+          <Box
+            ref={ref}
+            as="span"
+            data-component="form-control-message-accessory"
+            {...props}
+          />
+        );
+      default:
+        return null;
+    }
+  },
+);
 
-FormControlCharacterCounter.displayName = FORM_CONTROL_CHARACTER_COUNTER;
+FormControlMessageAccessory.displayName = FORM_CONTROL_MESSAGE_ACCESSORY_NAME;
 
 export {
   FormControl,
@@ -321,7 +343,7 @@ export {
   FormControlMessage,
   FormControlNegativeMessage,
   FormControlPositiveMessage,
-  FormControlCharacterCounter,
+  FormControlMessageAccessory,
 };
 
 export type {
@@ -331,5 +353,5 @@ export type {
   FormControlMessageProps,
   FormControlNegativeMessageProps,
   FormControlPositiveMessageProps,
-  FormControlCharacterCounterProps,
+  FormControlMessageAccessoryProps,
 };

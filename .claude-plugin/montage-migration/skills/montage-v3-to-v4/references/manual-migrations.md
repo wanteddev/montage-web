@@ -191,8 +191,9 @@ ancestor. Two classes of usage need manual review:
   `FormControlNegativeMessage`) may fight the new default — review each occurrence.
   Scan: `FormControl(Message|NegativeMessage)\b[^>]*\b(variant|weight)=`.
 - New API available (informational, no action required): `FormControlPositiveMessage`,
-  `FormControlCharacterCounter`, root `size` (`'large' | 'medium'`) and
-  `labelPlacement` (`'top' | 'start'`) props.
+  `FormControlMessageAccessory` (passed via the message components' `accessory` prop;
+  `variant="character-counter"` by default), root `size` (`'large' | 'medium'`) and
+  `labelPlacement` (`'top' | 'leading'`) props.
 
 ## M6. Modal (bottom sheet) behavior change
 
