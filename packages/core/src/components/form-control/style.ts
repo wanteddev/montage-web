@@ -97,7 +97,7 @@ const formControlLayoutStyle = (
       return css`
         display: grid;
         gap: ${gap === undefined
-          ? `${theme.spacing[8]} ${theme.spacing[20]}`
+          ? `${theme.spacing[8]} ${theme.spacing[16]}`
           : toCssValue(gap)};
 
         ${rowGap !== undefined &&
