@@ -34,10 +34,10 @@ const Demo = () => {
         }}
         render={({ field, formState }) => (
           <FormControl>
-            <FormControlLabel>라벨</FormControlLabel>
+            <FormControlLabel required>라벨</FormControlLabel>
 
             <FormControlField>
-              <TextField {...field} width="300px" placeholder="값을 입력하세요." invalid={Boolean(formState.errors.content)} />
+              <TextField {...field} width="25ch" placeholder="값을 입력하세요." invalid={Boolean(formState.errors.content)} />
             </FormControlField>
 
             {Boolean(formState.errors.content) ? (
@@ -83,16 +83,16 @@ export default Demo;`}/>
 
 `labelPlacement` 를 조절하여 라벨의 위치를 조절할 수 있습니다.
 - top (default)
-- start
+- leading
 
-<Demo code={`import { Button, FlexBox, TextField, FormControl, FormControlField, FormControlLabel, FormControlMessage, FormControlNegativeMessage, FormControlCharacterCounter } from '@montage-ui/core';
+<Demo code={`import { Button, FlexBox, TextField, FormControl, FormControlField, FormControlLabel, FormControlMessage, FormControlNegativeMessage, FormControlMessageAccessory } from '@montage-ui/core';
 import { useForm, Controller } from 'react-hook-form';
 
 const Demo = () => {
   const form = useForm({
     defaultValues: {
       top: '',
-      start: ''
+      leading: ''
     }
   });
 
@@ -109,10 +109,10 @@ const Demo = () => {
         }}
         render={({ field, formState }) => (
           <FormControl>
-            <FormControlLabel>라벨</FormControlLabel>
+            <FormControlLabel required>라벨</FormControlLabel>
 
             <FormControlField>
-              <TextField {...field} width="300px" placeholder="값을 입력하세요." invalid={Boolean(formState.errors.top)} />
+              <TextField {...field} width="25ch" placeholder="값을 입력하세요." invalid={Boolean(formState.errors.top)} />
             </FormControlField>
 
             {Boolean(formState.errors.top) ? (
@@ -128,7 +128,7 @@ const Demo = () => {
 
       <Controller
         control={form.control}
-        name="start"
+        name="leading"
         rules={{
           required: {
             value: true,
@@ -136,16 +136,16 @@ const Demo = () => {
           }
         }}
         render={({ field, formState }) => (
-          <FormControl labelPlacement="start">
-            <FormControlLabel>라벨</FormControlLabel>
+          <FormControl labelPlacement="leading">
+            <FormControlLabel required>라벨</FormControlLabel>
 
             <FormControlField>
-              <TextField {...field} width="300px" placeholder="값을 입력하세요." invalid={Boolean(formState.errors.start)} />
+              <TextField {...field} width="25ch" placeholder="값을 입력하세요." invalid={Boolean(formState.errors.leading)} />
             </FormControlField>
 
-            {Boolean(formState.errors.start) ? (
+            {Boolean(formState.errors.leading) ? (
               <FormControlNegativeMessage>
-                {formState.errors.start?.message}
+                {formState.errors.leading?.message}
               </FormControlNegativeMessage>
             ) : (
              <FormControlMessage>값을 입력해주세요.</FormControlMessage>
@@ -171,13 +171,14 @@ export default Demo;`}/>
 
 ### Medium
 
-<Demo code={`import { Button, FlexBox, TextField, FormControl, FormControlField, FormControlLabel, FormControlMessage, FormControlNegativeMessage, FormControlCharacterCounter } from '@montage-ui/core';
+<Demo code={`import { Button, FlexBox, TextField, FormControl, FormControlField, FormControlLabel, FormControlMessage, FormControlNegativeMessage, FormControlMessageAccessory } from '@montage-ui/core';
 import { useForm, Controller } from 'react-hook-form';
 
 const Demo = () => {
   const form = useForm({
     defaultValues: {
-      content: ''
+      top: '',
+      leading: ''
     }
   });
 
@@ -185,7 +186,7 @@ const Demo = () => {
     <FlexBox as="form" flexDirection="column" gap="12px" onSubmit={form.handleSubmit(v => alert(JSON.stringify(v)))}>
       <Controller
         control={form.control}
-        name="content"
+        name="top"
         rules={{
           required: {
             value: true,
@@ -194,15 +195,43 @@ const Demo = () => {
         }}
         render={({ field, formState }) => (
           <FormControl size="medium">
-            <FormControlLabel>라벨</FormControlLabel>
+            <FormControlLabel required>라벨</FormControlLabel>
 
             <FormControlField>
-              <TextField {...field} width="300px" placeholder="값을 입력하세요." invalid={Boolean(formState.errors.content)} />
+              <TextField {...field} width="25ch" placeholder="값을 입력하세요." invalid={Boolean(formState.errors.top)} />
             </FormControlField>
 
-            {Boolean(formState.errors.content) ? (
+            {Boolean(formState.errors.top) ? (
               <FormControlNegativeMessage>
-                {formState.errors.content?.message}
+                {formState.errors.top?.message}
+              </FormControlNegativeMessage>
+            ) : (
+             <FormControlMessage>값을 입력해주세요.</FormControlMessage>
+            )}
+          </FormControl>
+        )}
+      />
+
+      <Controller
+        control={form.control}
+        name="leading"
+        rules={{
+          required: {
+            value: true,
+            message: '필수 값입니다.'
+          }
+        }}
+        render={({ field, formState }) => (
+          <FormControl labelPlacement="leading" size="medium">
+            <FormControlLabel required>라벨</FormControlLabel>
+
+            <FormControlField>
+              <TextField {...field} width="25ch" placeholder="값을 입력하세요." invalid={Boolean(formState.errors.leading)} />
+            </FormControlField>
+
+            {Boolean(formState.errors.leading) ? (
+              <FormControlNegativeMessage>
+                {formState.errors.leading?.message}
               </FormControlNegativeMessage>
             ) : (
              <FormControlMessage>값을 입력해주세요.</FormControlMessage>
@@ -220,13 +249,14 @@ export default Demo;`}/>
 
 ### Large
 
-<Demo code={`import { Button, FlexBox, TextField, FormControl, FormControlField, FormControlLabel, FormControlMessage, FormControlNegativeMessage, FormControlCharacterCounter } from '@montage-ui/core';
+<Demo code={`import { Button, FlexBox, TextField, FormControl, FormControlField, FormControlLabel, FormControlMessage, FormControlNegativeMessage, FormControlMessageAccessory } from '@montage-ui/core';
 import { useForm, Controller } from 'react-hook-form';
 
 const Demo = () => {
   const form = useForm({
     defaultValues: {
-      content: ''
+      top: '',
+      leading: ''
     }
   });
 
@@ -234,7 +264,7 @@ const Demo = () => {
     <FlexBox as="form" flexDirection="column" gap="12px" onSubmit={form.handleSubmit(v => alert(JSON.stringify(v)))}>
       <Controller
         control={form.control}
-        name="content"
+        name="top"
         rules={{
           required: {
             value: true,
@@ -243,15 +273,43 @@ const Demo = () => {
         }}
         render={({ field, formState }) => (
           <FormControl size="large">
-            <FormControlLabel>라벨</FormControlLabel>
+            <FormControlLabel required>라벨</FormControlLabel>
 
             <FormControlField>
-              <TextField {...field} width="300px" placeholder="값을 입력하세요." invalid={Boolean(formState.errors.content)} />
+              <TextField {...field} width="25ch" placeholder="값을 입력하세요." invalid={Boolean(formState.errors.top)} />
             </FormControlField>
 
-            {Boolean(formState.errors.content) ? (
+            {Boolean(formState.errors.top) ? (
               <FormControlNegativeMessage>
-                {formState.errors.content?.message}
+                {formState.errors.top?.message}
+              </FormControlNegativeMessage>
+            ) : (
+             <FormControlMessage>값을 입력해주세요.</FormControlMessage>
+            )}
+          </FormControl>
+        )}
+      />
+
+      <Controller
+        control={form.control}
+        name="leading"
+        rules={{
+          required: {
+            value: true,
+            message: '필수 값입니다.'
+          }
+        }}
+        render={({ field, formState }) => (
+          <FormControl labelPlacement="leading" size="large">
+            <FormControlLabel required>라벨</FormControlLabel>
+
+            <FormControlField>
+              <TextField {...field} width="25ch" placeholder="값을 입력하세요." invalid={Boolean(formState.errors.leading)} />
+            </FormControlField>
+
+            {Boolean(formState.errors.leading) ? (
+              <FormControlNegativeMessage>
+                {formState.errors.leading?.message}
               </FormControlNegativeMessage>
             ) : (
              <FormControlMessage>값을 입력해주세요.</FormControlMessage>
@@ -268,11 +326,14 @@ const Demo = () => {
 export default Demo;`}/>
 
 
-## With character counter
+## With message accessory
 
-Message 종류 컴포넌트에 character counter를 추가할 수 있습니다.
+Message 종류 컴포넌트에 `FormControlMessageAccessory` 를 사용하여 accessory를 추가할 수 있습니다.
 
-<Demo code={`import { Button, FlexBox, TextField, FormControl, FormControlField, FormControlLabel, FormControlMessage, FormControlNegativeMessage, FormControlCharacterCounter } from '@montage-ui/core';
+- `character-counter` (default)
+- `custom`
+
+<Demo code={`import { Button, FlexBox, TextField, FormControl, FormControlField, FormControlLabel, FormControlMessage, FormControlNegativeMessage, FormControlMessageAccessory } from '@montage-ui/core';
 import { useForm, Controller } from 'react-hook-form';
 
 const Demo = () => {
@@ -299,18 +360,18 @@ const Demo = () => {
         }}
         render={({ field, formState }) => (
           <FormControl>
-            <FormControlLabel>라벨</FormControlLabel>
+            <FormControlLabel required>라벨</FormControlLabel>
 
             <FormControlField>
-              <TextField {...field} width="300px" placeholder="값을 입력하세요." invalid={Boolean(formState.errors.content)} />
+              <TextField {...field} width="25ch" placeholder="값을 입력하세요." invalid={Boolean(formState.errors.content)} />
             </FormControlField>
 
             {Boolean(formState.errors.content) ? (
-              <FormControlNegativeMessage characterCounter={<FormControlCharacterCounter length={field.value.length} maxLength={20} />}>
+              <FormControlNegativeMessage accessory={<FormControlMessageAccessory length={field.value.length} maxLength={20} />}>
                 {formState.errors.content?.message}
               </FormControlNegativeMessage>
             ) : (
-             <FormControlMessage characterCounter={<FormControlCharacterCounter length={field.value.length} maxLength={20} />}>값을 입력해주세요.</FormControlMessage>
+             <FormControlMessage accessory={<FormControlMessageAccessory length={field.value.length} maxLength={20} />}>값을 입력해주세요.</FormControlMessage>
             )}
           </FormControl>
         )}
@@ -362,6 +423,6 @@ children으로 form 요소 컴포넌트를 넣어 사용합니다.
 
 <PropsTable component="FormControlPositiveMessage" />
 
-### FormControlCharacterCounter
+### FormControlMessageAccessory
 
-<PropsTable component="FormControlCharacterCounter" />
+<PropsTable component="FormControlMessageAccessory" />
