@@ -8,8 +8,8 @@ import type { TypographyProps } from '../typography/types';
 type FormControlDefaultProps = FlexBoxDefaultProps & {
   /** Size propagated to child input components. Defaults to `'large'` */
   size?: 'large' | 'medium';
-  /** Label placement direction. `'top'` stacks above, `'start'` aligns inline to the left */
-  labelPlacement?: 'top' | 'start';
+  /** Label placement direction. `'top'` stacks above, `'leading'` aligns inline to the left */
+  labelPlacement?: 'top' | 'leading';
 };
 
 export type FormControlProps = Merge<
@@ -20,24 +20,28 @@ export type FormControlLabelProps = LabelProps;
 export type FormControlMessageProps = Merge<
   TypographyProps,
   {
-    characterCounter?: ReactNode;
+    /** Accessory element to be rendered alongside the message */
+    accessory?: ReactNode;
   }
 >;
 export type FormControlPositiveMessageProps = Merge<
   TypographyProps,
   {
-    characterCounter?: ReactNode;
+    /** Accessory element to be rendered alongside the message */
+    accessory?: ReactNode;
   }
 >;
 export type FormControlNegativeMessageProps = Merge<
   TypographyProps,
   {
-    characterCounter?: ReactNode;
+    /** Accessory element to be rendered alongside the message */
+    accessory?: ReactNode;
   }
 >;
 export type FormControlFieldProps = SlotProps;
 
-export type FormControlCharacterCounterProps = WithSxProps<{
-  length: number;
-  maxLength: number;
+export type FormControlMessageAccessoryProps = WithSxProps<{
+  length?: number;
+  maxLength?: number;
+  variant?: 'character-counter' | 'custom';
 }>;
