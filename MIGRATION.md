@@ -280,12 +280,12 @@ npx @montage-ui/codemod@latest form-control-migration src
 #### 신규 컴포넌트
 
 - **`FormControlPositiveMessage`** — 성공 상태 메시지 (`semantic.label.alternative` 색상)
-- **`FormControlCharacterCounter`** — 글자 수 카운터. `length`(현재 글자 수)와 `maxLength`(최대 글자 수) props를 받으며, `FormControlMessage` / `FormControlNegativeMessage` / `FormControlPositiveMessage`의 `characterCounter` prop으로 전달합니다.
+- **`FormControlMessageAccessory`** — 메시지 우측에 붙는 액세서리. `variant="character-counter"`(기본값)이면 글자 수 카운터로 동작하며 `length`(현재 글자 수)와 `maxLength`(최대 글자 수) props를 받고, `variant="custom"`이면 children으로 임의 콘텐츠를 렌더링합니다. `FormControlMessage` / `FormControlNegativeMessage` / `FormControlPositiveMessage`의 `accessory` prop으로 전달합니다.
 
 ```tsx
 <FormControlMessage
-  characterCounter={
-    <FormControlCharacterCounter length={value.length} maxLength={100} />
+  accessory={
+    <FormControlMessageAccessory length={value.length} maxLength={100} />
   }
 >
   도움말
