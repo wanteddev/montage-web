@@ -326,9 +326,12 @@ const Demo = () => {
 export default Demo;`}/>
 
 
-## With character counter
+## With message accessory
 
-Message 종류 컴포넌트에 character counter를 추가할 수 있습니다.
+Message 종류 컴포넌트에 `FormControlMessageAccessory` 를 사용하여 accessory를 추가할 수 있습니다.
+
+- `character-counter` (default)
+- `custom`
 
 <Demo code={`import { Button, FlexBox, TextField, FormControl, FormControlField, FormControlLabel, FormControlMessage, FormControlNegativeMessage, FormControlMessageAccessory } from '@montage-ui/core';
 import { useForm, Controller } from 'react-hook-form';
