@@ -77,7 +77,7 @@ const formControlLayoutStyle = (
     case 'top':
       return css`
         display: flex;
-        gap: ${gap === undefined ? '8px' : toCssValue(gap)};
+        gap: ${gap === undefined ? theme.spacing[8] : toCssValue(gap)};
 
         ${rowGap !== undefined &&
         css`
@@ -93,11 +93,12 @@ const formControlLayoutStyle = (
           max-height: initial;
         }
       `;
-    case 'start':
+    case 'leading':
       return css`
         display: grid;
-
-        gap: ${gap === undefined ? '8px 20px' : toCssValue(gap)};
+        gap: ${gap === undefined
+          ? `${theme.spacing[8]} ${theme.spacing[16]}`
+          : toCssValue(gap)};
 
         ${rowGap !== undefined &&
         css`
@@ -207,7 +208,7 @@ export const formMessageStyle = (theme: Theme) => css`
   padding: ${theme.spacing[0]} ${theme.spacing[2]};
   display: flex;
   flex-direction: row;
-  gap: 6px;
+  gap: ${theme.spacing[8]};
   justify-content: space-between;
 
   [data-role='form-control-positive-message-content'],
