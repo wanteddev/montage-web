@@ -77,7 +77,7 @@ const formControlLayoutStyle = (
     case 'top':
       return css`
         display: flex;
-        gap: ${gap === undefined ? '8px' : toCssValue(gap)};
+        gap: ${gap === undefined ? theme.spacing[8] : toCssValue(gap)};
 
         ${rowGap !== undefined &&
         css`
@@ -96,8 +96,9 @@ const formControlLayoutStyle = (
     case 'leading':
       return css`
         display: grid;
-
-        gap: ${gap === undefined ? '8px 20px' : toCssValue(gap)};
+        gap: ${gap === undefined
+          ? `${theme.spacing[8]} ${theme.spacing[20]}`
+          : toCssValue(gap)};
 
         ${rowGap !== undefined &&
         css`
