@@ -31,7 +31,7 @@ const Label = forwardRef<
             color: theme.semantic.status.negative,
           })}
         >
-          *
+          {' *'}
         </Box>
       )}
     </Typography>
