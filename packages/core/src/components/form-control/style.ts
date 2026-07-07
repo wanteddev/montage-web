@@ -93,7 +93,7 @@ const formControlLayoutStyle = (
           max-height: initial;
         }
       `;
-    case 'start':
+    case 'leading':
       return css`
         display: grid;
 
@@ -207,7 +207,7 @@ export const formMessageStyle = (theme: Theme) => css`
   padding: ${theme.spacing[0]} ${theme.spacing[2]};
   display: flex;
   flex-direction: row;
-  gap: 6px;
+  gap: ${theme.spacing[8]};
   justify-content: space-between;
 
   [data-role='form-control-positive-message-content'],
