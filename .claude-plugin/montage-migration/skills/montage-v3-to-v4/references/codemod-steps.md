@@ -208,7 +208,7 @@ Cautions:
 - Global identifier rename within gated files — unrelated identifiers named `FormControl`/
   `FormField` (object keys, `styles.FormControl`) get renamed too. Review the diff.
 - Namespace imports (`M.FormField`), re-exports, and subpath imports are skipped → manual.
-- New v4 API adoption (`FormControlPositiveMessage`, `FormControlCharacterCounter`,
+- New v4 API adoption (`FormControlPositiveMessage`, `FormControlMessageAccessory`,
   `size`/`labelPlacement`) must happen only AFTER this step, for the same double-swap reason.
 
 Post-step verification (expect zero hits):
