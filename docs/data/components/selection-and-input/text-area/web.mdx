@@ -50,7 +50,7 @@ validation 을 통해 여러 상태를 표현할 수 있습니다.
 
 const Demo = () => {
   return (
-    <FlexBox gap="12px" flexDirection="column" alignItems="center">
+    <FlexBox gap="12px" flexDirection="column" alignItems="center" sx={{ width: '100%' }}>
       <TextArea width="25ch" placeholder="Default" />
       <TextArea width="25ch" placeholder="Invalid" invalid />
       <TextArea width="25ch" placeholder="Read Only" readOnly />
@@ -77,7 +77,7 @@ Form과 관련된 컴포넌트와 함께 사용할 수 있습니다.
 
 const Demo = () => {
   return (
-    <FlexBox gap="12px" flexDirection="column" alignItems="center">
+    <FlexBox gap="12px" flexDirection="column" alignItems="center" sx={{ width: '100%' }}>
       <FormControl>
         <FormControlLabel required>Label</FormControlLabel>
         <FormControlField>
@@ -100,20 +100,59 @@ const Demo = () => {
 export default Demo;`}
 />
 
+## Sizes
+
+2가지 사이즈를 제공합니다.
+- large (default)
+- medium
+
+<Demo code={`import { FlexBox, FormControl, FormControlField, FormControlLabel, FormControlMessage, TextArea } from '@montage-ui/core';
+
+const Demo = () => {
+  return (
+    <FlexBox gap="12px" flexDirection="column" alignItems="center">
+      <FormControl size="large">
+        <FormControlLabel required>Large</FormControlLabel>
+        <FormControlField>
+          <TextArea width="25ch" placeholder="Large" size="large" />
+        </FormControlField>
+        <FormControlMessage>Helper Message</FormControlMessage>
+      </FormControl>
+
+      <FormControl size="medium">
+        <FormControlLabel required variant="label2">Medium</FormControlLabel>
+        <FormControlField>
+          <TextArea width="25ch" placeholder="Medium" size="medium" />
+        </FormControlField>
+        <FormControlMessage>Helper Message</FormControlMessage>
+      </FormControl>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
 ## Contents
 
 `leadingContent`, `trailingContent` prop 을 사용하여 하단 앞/뒤에 컨텐츠를 추가할 수 있습니다.
 
 해당 옵션을 사용할 때에는 `TextAreaContent` 로 감싸서 사용합니다.
 
-<Demo code={`import { FlexBox, TextArea, TextAreaContent, ContentBadge, FilterButton, IconButton, TextButton } from '@montage-ui/core';
+`size` 에 따라 사용법이 일부 다릅니다.
+- IconButton의 size
+- Button의 size
+
+### Medium
+
+<Demo code={`import { FlexBox, TextArea, TextAreaContent, ContentBadge, Button, IconButton, SegmentedControl, SegmentedControlItem } from '@montage-ui/core';
 import { IconBlank, IconCopy, IconSendFill } from '@montage-ui/icon';
 
 const Demo = () => {
   return (
     <FlexBox gap="12px" flexDirection="column" alignItems="center" sx={{ width: '100%' }}>
       <TextArea
-        width="45%"
+        width="25ch"
         placeholder="Icon"
         leadingContent={(
           <TextAreaContent variant="icon">
@@ -127,35 +166,45 @@ const Demo = () => {
         )}
       />
       <TextArea
-        width="45%"
-        placeholder="Chip"
+        width="25ch"
+        placeholder="Primary icon button"
         leadingContent={(
-          <TextAreaContent variant="chip">
-            <FilterButton size="small">
-              Chip
-            </FilterButton>
+          <TextAreaContent variant="primary-icon-button">
+            <Button
+              variant="solid"
+              color="primary"
+              iconOnly
+              size="xsmall"
+            >
+              <IconBlank />
+            </Button>
           </TextAreaContent>
         )}
         trailingContent={(
-          <TextAreaContent variant="chip">
-            <FilterButton size="small">
-              Chip
-            </FilterButton>
+          <TextAreaContent variant="primary-icon-button">
+            <Button
+              variant="solid"
+              color="primary"
+              iconOnly
+              size="xsmall"
+            >
+              <IconBlank />
+            </Button>
           </TextAreaContent>
         )}
       />
       <TextArea
-        width="45%"
-        placeholder="Badge"
+        width="25ch"
+        placeholder="Content badge"
         leadingContent={(
-          <TextAreaContent variant="badge">
+          <TextAreaContent variant="content-badge">
             <ContentBadge size="small" color="neutral">
               Badge
             </ContentBadge>
           </TextAreaContent>
         )}
         trailingContent={(
-          <TextAreaContent variant="badge">
+          <TextAreaContent variant="content-badge">
             <ContentBadge size="small" color="neutral">
               Badge
             </ContentBadge>
@@ -163,52 +212,169 @@ const Demo = () => {
         )}
       />
       <TextArea
-        width="45%"
-        placeholder="Button"
-        leadingContent={(
-          <TextAreaContent variant="button">
-            <TextButton size="small" color="assistive">
-              Button
-            </TextButton>
-          </TextAreaContent>
-        )}
-        trailingContent={(
-          <TextAreaContent variant="button">
-            <TextButton size="small">
-              Button
-            </TextButton>
-          </TextAreaContent>
-        )}
-      />
-      <TextArea
-        width="45%"
-        placeholder="Character counter"
-        leadingContent={(
-          <TextAreaContent variant="characterCounter">
-            2000
-          </TextAreaContent>
-        )}
-        trailingContent={(
-          <TextAreaContent variant="characterCounter">
-            2000
-          </TextAreaContent>
-        )}
-      />
-      <TextArea
-        width="45%"
+        width="25ch"
         placeholder="Icon button"
         leadingContent={(
           <TextAreaContent variant="icon-button">
-            <IconButton variant="normal">
+            <IconButton variant="normal" size={28}>
               <IconCopy />
             </IconButton>
           </TextAreaContent>
         )}
         trailingContent={(
           <TextAreaContent variant="icon-button">
-            <IconButton variant="solid" size="small">
+            <IconButton variant="normal" size={28}>
               <IconSendFill />
             </IconButton>
+          </TextAreaContent>
+        )}
+      />
+      <TextArea
+        width="25ch"
+        placeholder="Segmented control"
+        leadingContent={(
+          <TextAreaContent variant="segmented-control">
+            <SegmentedControl size="small" defaultValue="1">
+              <SegmentedControlItem value="1" aria-label="Item 1">
+                <IconBlank />
+              </SegmentedControlItem>
+              <SegmentedControlItem value="2" aria-label="Item 2">
+                <IconBlank />
+              </SegmentedControlItem>
+            </SegmentedControl>
+          </TextAreaContent>
+        )}
+        trailingContent={(
+          <TextAreaContent variant="segmented-control">
+            <SegmentedControl size="small" defaultValue="1">
+              <SegmentedControlItem value="1" aria-label="Item 1">
+                <IconBlank />
+              </SegmentedControlItem>
+              <SegmentedControlItem value="2" aria-label="Item 2">
+                <IconBlank />
+              </SegmentedControlItem>
+            </SegmentedControl>
+          </TextAreaContent>
+        )}
+      />
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+### Large
+
+<Demo code={`import { FlexBox, TextArea, TextAreaContent, ContentBadge, Button, IconButton, SegmentedControl, SegmentedControlItem } from '@montage-ui/core';
+import { IconBlank, IconCopy, IconSendFill } from '@montage-ui/icon';
+
+const Demo = () => {
+  return (
+    <FlexBox gap="12px" flexDirection="column" alignItems="center" sx={{ width: '100%' }}>
+      <TextArea
+        width="25ch"
+        placeholder="Icon"
+        leadingContent={(
+          <TextAreaContent variant="icon">
+            <IconBlank />
+          </TextAreaContent>
+        )}
+        trailingContent={(
+          <TextAreaContent variant="icon">
+            <IconBlank />
+          </TextAreaContent>
+        )}
+      />
+      <TextArea
+        width="25ch"
+        placeholder="Primary icon button"
+        leadingContent={(
+          <TextAreaContent variant="primary-icon-button">
+            <Button
+              variant="solid"
+              color="primary"
+              iconOnly
+              size="small"
+            >
+              <IconBlank />
+            </Button>
+          </TextAreaContent>
+        )}
+        trailingContent={(
+          <TextAreaContent variant="primary-icon-button">
+            <Button
+              variant="solid"
+              color="primary"
+              iconOnly
+              size="small"
+            >
+              <IconBlank />
+            </Button>
+          </TextAreaContent>
+        )}
+      />
+      <TextArea
+        width="25ch"
+        placeholder="Content badge"
+        leadingContent={(
+          <TextAreaContent variant="content-badge">
+            <ContentBadge size="small" color="neutral">
+              Badge
+            </ContentBadge>
+          </TextAreaContent>
+        )}
+        trailingContent={(
+          <TextAreaContent variant="content-badge">
+            <ContentBadge size="small" color="neutral">
+              Badge
+            </ContentBadge>
+          </TextAreaContent>
+        )}
+      />
+      <TextArea
+        width="25ch"
+        placeholder="Icon button"
+        leadingContent={(
+          <TextAreaContent variant="icon-button">
+            <IconButton variant="normal" size={32}>
+              <IconCopy />
+            </IconButton>
+          </TextAreaContent>
+        )}
+        trailingContent={(
+          <TextAreaContent variant="icon-button">
+            <IconButton variant="normal" size={32}>
+              <IconSendFill />
+            </IconButton>
+          </TextAreaContent>
+        )}
+      />
+      <TextArea
+        width="25ch"
+        placeholder="Segmented control"
+        leadingContent={(
+          <TextAreaContent variant="segmented-control">
+            <SegmentedControl size="small" defaultValue="1">
+              <SegmentedControlItem value="1" aria-label="Item 1">
+                <IconBlank />
+              </SegmentedControlItem>
+              <SegmentedControlItem value="2" aria-label="Item 2">
+                <IconBlank />
+              </SegmentedControlItem>
+            </SegmentedControl>
+          </TextAreaContent>
+        )}
+        trailingContent={(
+          <TextAreaContent variant="segmented-control">
+            <SegmentedControl size="small" defaultValue="1">
+              <SegmentedControlItem value="1" aria-label="Item 1">
+                <IconBlank />
+              </SegmentedControlItem>
+              <SegmentedControlItem value="2" aria-label="Item 2">
+                <IconBlank />
+              </SegmentedControlItem>
+            </SegmentedControl>
           </TextAreaContent>
         )}
       />
@@ -234,7 +400,7 @@ const Demo = () => {
   const [value, setValue] = useState('');
 
   return (
-    <FlexBox alignItems="center" flexDirection="column" gap="12px">
+    <FlexBox alignItems="center" flexDirection="column" gap="12px" sx={{ width: '100%' }}>
       <TextArea
         defaultValue="Uncontrolled"
         placeholder="Uncontrolled"
@@ -257,11 +423,11 @@ export default Demo;`}
 
 `react-hook-form` 과 유연하게 조합해서 사용할 수 있습니다.
 
-<Demo code={`import { Button, FlexBox, TextArea, TextAreaContent, FormControl, FormControlField, FormControlLabel, FormControlNegativeMessage, FormControlMessage } from '@montage-ui/core';
+<Demo code={`import { Button, FlexBox, TextArea, FormControl, FormControlField, FormControlLabel, FormControlNegativeMessage, FormControlMessage, FormControlMessageAccessory } from '@montage-ui/core';
 import { useForm, Controller } from 'react-hook-form';
 
 const Demo = () => {
-  const form = useForm();
+  const form = useForm({ defaultValues: { content: '' }});
 
   return (
     <FlexBox
@@ -280,7 +446,10 @@ const Demo = () => {
             value: true,
             message: "필수 값입니다.",
           },
-          maxLength: 20,
+          maxLength: {
+            value: 20,
+            message: "최대 20자까지 입력할 수 있습니다.",
+          }
         }}
         render={({ field, formState }) => (
           <FormControl>
@@ -292,18 +461,13 @@ const Demo = () => {
                 placeholder="입력하세요."
                 width="300px"
                 invalid={Boolean(formState.errors.content)}
-                trailingContent={(
-                  <TextAreaContent variant="characterCounter">
-                    20
-                  </TextAreaContent>
-                )}
               />
             </FormControlField>
             
             {!!formState.errors.content ? (
-              <FormControlNegativeMessage>{formState.errors.content?.message?.toString()}</FormControlNegativeMessage>
+              <FormControlNegativeMessage accessory={<FormControlMessageAccessory length={field.value.length} maxLength={20} />}>{formState.errors.content?.message?.toString()}</FormControlNegativeMessage>
             ) : (
-              <FormControlMessage>내용을 입력하세요.</FormControlMessage>
+              <FormControlMessage accessory={<FormControlMessageAccessory length={field.value.length} maxLength={20} />}>내용을 입력하세요.</FormControlMessage>
             )}
           </FormControl>
         )}
