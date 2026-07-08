@@ -35,8 +35,9 @@ Montage(Wanted Design System for Web) 메이저 버전 간 마이그레이션을
    codemod는 순차 실행(단계별 검증·선택적 단계별 커밋), 이후 수동 마이그레이션 대상
    스캔은 병렬로 수행됩니다.
 3. **수동 마이그레이션** — theme 토큰 `var(--...)` 산술 코드, package.json/설정 파일의
-   패키지명 변경, DOM 식별자 잔여물, Modal/TextField 동작 변경 대응.
-4. **최종 검증** — 잔여 패턴 grep, install/typecheck/lint/build, 결과 요약.
+   패키지명 변경, DOM 식별자 잔여물, Card/ListCard·FormControl 후속 작업,
+   Modal/TextField/TextArea 동작 변경 대응.
+4. **최종 검증** — 잔여 패턴 grep, install/typecheck/lint/build/tests, 결과 요약.
 
 codemod는 순서에 민감하고 두 번 실행하면 안 됩니다(`form-control-migration` 재실행 시
 마이그레이션된 코드가 손상됩니다). 진행 상태는 `.claude/montage-migration-v4.local.md`에

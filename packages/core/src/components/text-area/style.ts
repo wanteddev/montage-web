@@ -1,6 +1,6 @@
 import { css } from '@montage-ui/engine';
 
-import { addOpacity, typographyStyle } from '../../utils';
+import { typographyStyle } from '../../utils';
 import { createResponsiveStyle } from '../../utils/internal/responsive-props';
 import { toCssValue } from '../../utils/internal/css';
 
@@ -12,6 +12,7 @@ export const textAreaWrapperStyle =
     disabled,
     invalid,
     width = 'fit-content',
+    size,
     xs,
     sm,
     md,
@@ -21,29 +22,25 @@ export const textAreaWrapperStyle =
   (theme: Theme) => css`
     border: none;
     transition: box-shadow ease 0.2s;
-    box-shadow:
-      inset 0 0 0 1px ${theme.semantic.line.normal.neutral},
-      ${theme.semantic.elevation.shadow.normal.xsmall};
+    box-shadow: inset 0 0 0 1px ${theme.semantic.line.normal.neutral};
     border-radius: 12px;
     background-color: ${theme.semantic.background.transparent.normal};
     backdrop-filter: blur(32px);
     padding: 12px;
+    width: ${toCssValue(width)};
+
+    ${textAreaWrapperSizeStyle({ size }, theme)}
 
     ${invalid &&
     css`
-      box-shadow:
-        inset 0 0 0 1px
-          ${addOpacity(theme.semantic.status.negative, theme.opacity[28])},
-        ${theme.semantic.elevation.shadow.normal.xsmall};
+      box-shadow: inset 0 0 0 1px ${theme.semantic.line.status.negative.normal};
     `}
 
     ${disabled
       ? css`
           background-color: ${theme.semantic.fill.alternative};
           backdrop-filter: none;
-          box-shadow:
-            inset 0 0 0 1px ${theme.semantic.line.normal.alternative},
-            ${theme.semantic.elevation.shadow.normal.xsmall};
+          box-shadow: inset 0 0 0 1px ${theme.semantic.line.normal.alternative};
           cursor: default;
         `
       : css`
@@ -51,54 +48,41 @@ export const textAreaWrapperStyle =
 
           @supports selector(:has(*)) {
             &:where(:has(textarea:focus)) {
-              ${invalid
-                ? css`
-                    box-shadow:
-                      inset 0 0 0 2px
-                        ${addOpacity(
-                          theme.semantic.status.negative,
-                          theme.opacity[43],
-                        )},
-                      ${theme.semantic.elevation.shadow.normal.xsmall};
-                  `
-                : css`
-                    box-shadow:
-                      inset 0 0 0 2px
-                        ${addOpacity(
-                          theme.semantic.primary.normal,
-                          theme.opacity[43],
-                        )},
-                      ${theme.semantic.elevation.shadow.normal.xsmall};
-                  `}
+              ${
+                invalid
+                  ? css`
+                      box-shadow:
+                        inset 0 0 0 1px
+                          ${theme.semantic.line.status.negative.strong},
+                        0 0 0 4px ${theme.semantic.interaction.negative};
+                    `
+                  : css`
+                      box-shadow:
+                        inset 0 0 0 1px ${theme.semantic.line.primary.strong},
+                        0 0 0 4px ${theme.semantic.interaction.focus};
+                    `
+              }
             }
           }
 
           @supports not selector(:has(*)) {
-            &:where(:focus-within) {
-              ${invalid
-                ? css`
-                    box-shadow:
-                      inset 0 0 0 2px
-                        ${addOpacity(
-                          theme.semantic.status.negative,
-                          theme.opacity[43],
-                        )},
-                      ${theme.semantic.elevation.shadow.normal.xsmall};
-                  `
-                : css`
-                    box-shadow:
-                      inset 0 0 0 2px
-                        ${addOpacity(
-                          theme.semantic.primary.normal,
-                          theme.opacity[43],
-                        )},
-                      ${theme.semantic.elevation.shadow.normal.xsmall};
-                  `}
-            }
+           &:where(:focus-within) {
+              ${
+                invalid
+                  ? css`
+                      box-shadow:
+                        inset 0 0 0 1px
+                          ${theme.semantic.line.status.negative.strong},
+                        0 0 0 4px ${theme.semantic.interaction.negative};
+                    `
+                  : css`
+                      box-shadow:
+                        inset 0 0 0 1px ${theme.semantic.line.primary.strong},
+                        0 0 0 4px ${theme.semantic.interaction.focus};
+                    `
+              }
           }
         `}
-
-    width: ${toCssValue(width)};
 
     button {
       flex-shrink: 0;
@@ -120,18 +104,66 @@ export const textAreaWrapperStyle =
         css`
           width: ${toCssValue(params.width)};
         `}
+
+        ${textAreaWrapperSizeStyle({ size: params?.size }, theme)}
+
+        ${params?.sx}
       `,
     )}
   `;
 
+export const textAreaWrapperSizeStyle = (
+  { size }: TextAreaProps,
+  theme: Theme,
+) => {
+  switch (size) {
+    case 'large':
+      return css`
+        border-radius: ${theme.radius[14]};
+
+        --text-area-content-icon-size: ${theme.dimension[20]};
+        --text-area-content-icon-wrapper-width: 22px;
+        --text-area-content-icon-wrapper-height: ${theme.dimension[20]};
+        --text-area-content-button-gap: ${theme.spacing[8]};
+
+        [data-role='text-area-bottom-area'] {
+          gap: ${theme.spacing[8]};
+        }
+
+        [data-role='text-area-bottom-area-leading-content'],
+        [data-role='text-area-bottom-area-trailing-content'] {
+          gap: ${theme.spacing[8]};
+        }
+      `;
+    case 'medium':
+      return css`
+        border-radius: ${theme.radius[12]};
+
+        --text-area-content-icon-size: ${theme.dimension[18]};
+        --text-area-content-icon-wrapper-width: 22px;
+        --text-area-content-icon-wrapper-height: 22px;
+        --text-area-content-button-gap: ${theme.spacing[6]};
+
+        [data-role='text-area-bottom-area'] {
+          gap: ${theme.spacing[8]};
+        }
+
+        [data-role='text-area-bottom-area-leading-content'],
+        [data-role='text-area-bottom-area-trailing-content'] {
+          gap: ${theme.spacing[6]};
+        }
+      `;
+  }
+};
+
 export const textAreaStyle =
-  ({ xs, sm, md, lg, xl }: TextAreaProps) =>
+  ({ size, xs, sm, md, lg, xl }: TextAreaProps) =>
   (theme: Theme) => css`
     height: var(--text-area-height);
     display: flex;
     flex-direction: column;
     width: 100%;
-    padding: 0px 4px;
+    padding: ${theme.spacing[0]} ${theme.spacing[4]};
     flex-shrink: 2;
     background-color: transparent;
     caret-color: ${theme.semantic.primary.normal};
@@ -139,7 +171,6 @@ export const textAreaStyle =
     border: none;
     resize: none;
     color: ${theme.semantic.label.normal};
-    ${typographyStyle('body1-reading', 'regular')}
 
     &::-webkit-scrollbar {
       display: none;
@@ -148,7 +179,6 @@ export const textAreaStyle =
     scrollbar-width: none;
 
     &::placeholder {
-      ${typographyStyle('body1-reading', 'regular')}
       color: ${theme.semantic.label.assistive};
     }
 
@@ -164,6 +194,8 @@ export const textAreaStyle =
       outline: none;
     }
 
+    ${textAreaSizeStyle({ size })}
+
     ${createResponsiveStyle(
       { xs, sm, md, lg, xl },
       theme,
@@ -174,10 +206,31 @@ export const textAreaStyle =
           width: ${params!.width};
         `}
 
-        ${params?.sx}
+        ${textAreaSizeStyle({ size: params?.size })}
       `,
     )}
   `;
+
+export const textAreaSizeStyle = ({ size }: TextAreaProps) => {
+  switch (size) {
+    case 'large':
+      return css`
+        ${typographyStyle('body2-reading', 'regular')}
+
+        &::placeholder, & ~ textarea {
+          ${typographyStyle('body2-reading', 'regular')}
+        }
+      `;
+    case 'medium':
+      return css`
+        ${typographyStyle('label1-reading', 'regular')}
+
+        &::placeholder, & ~ textarea {
+          ${typographyStyle('label1-reading', 'regular')}
+        }
+      `;
+  }
+};
 
 export const textAreaBottomAreaStyle = css`
   width: 100%;
@@ -190,32 +243,12 @@ export const textAreaContentStyle = css`
 `;
 
 export const textAreaCharacterCounterStyle = (theme: Theme) => css`
-  padding: 0px 4px;
+  padding: ${theme.spacing[0]} ${theme.spacing[4]};
   opacity: ${theme.opacity[74]};
 
   &[data-is-overflow='true'] {
     [data-role='text-area-content-character-counter-length'] {
       color: ${theme.semantic.status.negative};
     }
-  }
-`;
-
-export const invalidIconWrapperStyle = (theme: Theme) => css`
-  position: relative;
-
-  &::before {
-    position: absolute;
-    content: '';
-    width: 50%;
-    height: 50%;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    background-color: ${theme.semantic.static.white};
-  }
-
-  svg {
-    color: ${theme.semantic.status.negative};
-    z-index: 1;
   }
 `;
