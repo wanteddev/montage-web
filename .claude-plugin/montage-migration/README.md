@@ -36,8 +36,9 @@ What it does:
    sequential codemod execution with per-step verification and optional per-step commits,
    then parallel scans for the manual-migration worklist.
 3. **Manual migrations** — theme token `var(--...)` arithmetic, package.json/config
-   renames, DOM identifier leftovers, Modal/TextField behavioral changes.
-4. **Verification** — leftover greps, install/typecheck/lint/build, summary.
+   renames, DOM identifier leftovers, Card/ListCard and FormControl follow-ups,
+   Modal/TextField/TextArea behavioral changes.
+4. **Verification** — leftover greps, install/typecheck/lint/build/tests, summary.
 
 The codemods are order-sensitive and must not run twice (re-running
 `form-control-migration` corrupts migrated code), so progress is tracked in

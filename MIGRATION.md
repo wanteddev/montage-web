@@ -4,7 +4,9 @@
 
 ### 패키지명 변경
 
-모든 패키지가 `@wanteddev/*`에서 `@montage-ui/*`로 변경되었습니다.
+패키지 이름이 변경되었습니다. 대부분 `@wanteddev/*`에서 `@montage-ui/*`로 바뀌었고,
+`@wanteddev/wds-mcp`만 예외적으로 `@wanteddev` 스코프에 남습니다(GitHub Package
+Registry 배포 유지).
 
 | 기존                           | 변경                        |
 | ------------------------------ | --------------------------- |
@@ -18,6 +20,7 @@
 | `@wanteddev/wds-dummy`         | `@montage-ui/dummy`         |
 | `@wanteddev/wds-brand`         | `@montage-ui/brand`         |
 | `@wanteddev/eslint-plugin-wds` | `@montage-ui/eslint-plugin` |
+| `@wanteddev/wds-mcp`           | `@wanteddev/montage-mcp`    |
 
 import 경로를 자동으로 변환하려면 아래 codemod를 실행하세요:
 
@@ -155,11 +158,14 @@ Props 타입도 동일하게 변경됩니다 (`CardContentProps` → `CardBodyPr
 
 #### ListCard 계열
 
-| 기존               | 변경               |
-| ------------------ | ------------------ |
-| `CardList`         | `ListCard`         |
-| `CardListContent`  | `ListCardContent`  |
-| `CardListSkeleton` | `ListCardSkeleton` |
+| 기존                    | 변경                    |
+| ----------------------- | ----------------------- |
+| `CardList`              | `ListCard`              |
+| `CardListContent`       | `ListCardContent`       |
+| `CardListSkeleton`      | `ListCardSkeleton`      |
+| `CardListProps`         | `ListCardProps`         |
+| `CardListContentProps`  | `ListCardContentProps`  |
+| `CardListSkeletonProps` | `ListCardSkeletonProps` |
 
 `CardList`의 children, `leadingContent`, `trailingContent`에서 사용하던 Card 하위 컴포넌트는 ListCard 전용 컴포넌트로 교체합니다.
 
@@ -299,7 +305,7 @@ npx @montage-ui/codemod@latest form-control-migration src
 | prop             | 타입                  | 기본값    | 설명                           |
 | ---------------- | --------------------- | --------- | ------------------------------ |
 | `size`           | `'large' \| 'medium'` | `'large'` | 컨트롤 크기. 반응형 props 지원 |
-| `labelPlacement` | `'top' \| 'start'`    | `'top'`   | 레이블 위치                    |
+| `labelPlacement` | `'top' \| 'leading'`  | `'top'`   | 레이블 위치                    |
 
 #### 메시지 컴포넌트 Typography 변경
 
@@ -364,6 +370,73 @@ Figma 스펙에 맞춰 사이즈 체계와 일부 하위 컴포넌트 API가 변
 
 - AS-IS: `[data-role='text-field-wrapper'] { padding: ...; box-shadow: inset ...; }`
 - TO-BE: TextField 요소에 직접 `sx`로 `padding` / `box-shadow`를 지정
+
+### TextArea
+
+Figma 스펙에 맞춰 사이즈 체계와 `TextAreaContent` API가 변경되었습니다.
+
+#### `size` prop 도입 (Large / Medium)
+
+`size` prop이 추가되었으며 기본값은 `'large'`입니다. 기존 단일 사이즈는 Large에 해당하지만 세부 수치가 변경되었습니다. `size`는 반응형 값도 지원합니다.
+
+| 속성            | 기존(단일)           | Large                | Medium                |
+| --------------- | -------------------- | -------------------- | --------------------- |
+| Border radius   | 12px                 | 14px                 | 12px                  |
+| 입력 Typography | body1-reading (16px) | body2-reading (15px) | label1-reading (14px) |
+| Icon size       | 22px                 | 20px                 | 18px                  |
+
+#### `TextAreaContent`의 `variant` 변경
+
+`'characterCounter'`, `'badge'`, `'chip'`이 제거되고 `'content-badge'`, `'primary-icon-button'`, `'segmented-control'`이 추가되었습니다.
+
+| AS-IS              | TO-BE                                                        |
+| ------------------ | ------------------------------------------------------------ |
+| `characterCounter` | 제거 — `FormControlMessageAccessory`로 대체 (아래 항목 참조) |
+| `badge`            | `content-badge`                                              |
+| `chip`             | `custom`                                                     |
+
+또한 `variant`의 기본값이 `'characterCounter'`에서 `'icon-button'`으로 변경되었습니다. `variant`를 지정하지 않고 character counter로 사용하던 `<TextAreaContent>`는 이제 icon-button으로 렌더되므로, 해당 케이스도 `FormControlMessageAccessory`로 마이그레이션해야 합니다.
+
+#### Character counter → `FormControlMessageAccessory`
+
+기존에는 `TextAreaContent`의 children에 최대 글자 수만 넣으면 내부적으로 현재 입력 길이를 추적해 `{length}/{maxLength}`를 렌더했습니다. 이제 character counter는 TextArea 내부가 아닌 `FormControlMessage` / `FormControlNegativeMessage` / `FormControlPositiveMessage`의 `accessory` prop으로 렌더하며, 현재 길이(`length`)를 소비자가 직접 전달해야 합니다. 비제어로 사용 중이었다면 `value` / `onChange`를 사용하는 제어 컴포넌트로 전환해야 합니다.
+
+- AS-IS
+
+```tsx
+<TextArea
+  trailingContent={
+    <TextAreaContent variant="characterCounter">200</TextAreaContent>
+  }
+/>
+```
+
+- TO-BE
+
+```tsx
+const [value, setValue] = useState('');
+
+<FormControl>
+  <FormControlField>
+    <TextArea value={value} onChange={(e) => setValue(e.target.value)} />
+  </FormControlField>
+  <FormControlMessage
+    accessory={
+      <FormControlMessageAccessory length={value.length} maxLength={200} />
+    }
+  >
+    Helper Message
+  </FormControlMessage>
+</FormControl>;
+```
+
+#### Invalid 상태 아이콘 제거
+
+`invalid` 상태에서 하단 영역 우측에 표시되던 아이콘(`[data-role='text-area-invalid']`)이 제거되었습니다.
+
+#### 내부 DOM 구조 변경
+
+하단 영역의 DOM 구조가 재구성되었고, character counter 관련 `data-role`(`text-area-content-character-counter-length` / `-divider` / `-max-length`)이 제거되었습니다. 해당 `data-role`이나 `[data-role='text-area-bottom-area']` 내부 구조를 직접 타겟해 커스텀했다면 새 구조에 맞게 수정해야 합니다.
 
 ## 3.0.0 (2025-11-12)
 
