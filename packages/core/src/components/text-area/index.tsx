@@ -1,27 +1,22 @@
 import { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 import { useComposedRefs } from '@radix-ui/react-compose-refs';
-import { Box, css } from '@montage-ui/engine';
+import { Box } from '@montage-ui/engine';
 import { composeEventHandlers } from '@radix-ui/primitive';
-import { IconCircleExclamationFill } from '@montage-ui/icon';
 
 import { FlexBox } from '../flex-box';
-import { Typography } from '../typography';
 import { ScrollArea } from '../scroll-area';
-import { typographyStyle } from '../../utils/typography';
 import useResizeObserver from '../../hooks/internal/use-resize-observer';
 import { IconButtonProvider } from '../icon-button/contexts';
+import { useFormControlLayoutContext } from '../form-control/contexts';
+import { mergeResponsiveProps } from '../../utils/internal/responsive-props';
 
 import { getTextAreaDefaultHeight } from './helpers';
 import {
-  invalidIconWrapperStyle,
   textAreaBottomAreaStyle,
-  textAreaCharacterCounterStyle,
   textAreaContentStyle,
   textAreaStyle,
   textAreaWrapperStyle,
 } from './style';
-import { TEXT_AREA_CONTENT_NAME, TEXT_AREA_NAME } from './constants';
-import { TextAreaProvider, useTextAreaContext } from './contexts';
 
 import type { DefaultComponentPropsInternal } from '@montage-ui/engine';
 import type { TextAreaContentProps, TextAreaProps } from './types';
@@ -41,6 +36,7 @@ const TextArea = forwardRef<
       minRows = 2,
       className,
       style,
+      size,
       sx,
       xs,
       sm,
@@ -51,7 +47,18 @@ const TextArea = forwardRef<
     },
     ref,
   ) => {
-    const [length, setLength] = useState(value?.length || 0);
+    const { size: formControlSize, responsive } =
+      useFormControlLayoutContext() || {};
+
+    const resolvedSize = size ?? formControlSize ?? 'large';
+
+    const {
+      xs: resolvedXs,
+      sm: resolvedSm,
+      md: resolvedMd,
+      lg: resolvedLg,
+      xl: resolvedXl,
+    } = mergeResponsiveProps({ xs, sm, md, lg, xl }, responsive, 'size');
 
     const parentRef = useRef<HTMLDivElement>(null);
 
@@ -131,11 +138,8 @@ const TextArea = forwardRef<
 
     useResizeObserver(textAreaRef.current, syncTextAreaHeight);
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(() => {
       syncTextAreaHeight();
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-      setLength(textAreaRef.current?.value?.length ?? 0);
     });
 
     useEffect(() => {
@@ -145,14 +149,12 @@ const TextArea = forwardRef<
         const reset = () => {
           requestAnimationFrame(() => {
             syncTextAreaHeight();
-            // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-            setLength(textAreaRef.current?.value?.length ?? 0);
           });
         };
         form.addEventListener('reset', reset);
         return () => form.removeEventListener('reset', reset);
       }
-    }, [node, syncTextAreaHeight, setLength]);
+    }, [node, syncTextAreaHeight]);
 
     useEffect(() => {
       const container = parentRef.current;
@@ -175,148 +177,110 @@ const TextArea = forwardRef<
     }, [disabled]);
 
     return (
-      <TextAreaProvider length={length}>
-        <FlexBox
-          ref={parentRef}
-          flexDirection="column"
-          data-component="text-area"
-          className={className}
-          style={{
-            ...getTextAreaDefaultHeight({ minRows }),
-            ...style,
-          }}
-          gap="12px"
-          sx={[
-            textAreaWrapperStyle({
-              invalid: invalid,
-              disabled,
-              xs,
-              sm,
-              md,
-              lg,
-              xl,
+      <FlexBox
+        ref={parentRef}
+        flexDirection="column"
+        data-component="text-area"
+        className={className}
+        style={{
+          ...getTextAreaDefaultHeight({ minRows }),
+          ...style,
+        }}
+        gap="12px"
+        sx={[
+          textAreaWrapperStyle({
+            invalid: invalid,
+            disabled,
+            size: resolvedSize,
+            xs: resolvedXs,
+            sm: resolvedSm,
+            md: resolvedMd,
+            lg: resolvedLg,
+            xl: resolvedXl,
+            ...props,
+          }),
+          sx,
+        ]}
+      >
+        <ScrollArea>
+          <Box
+            as="textarea"
+            ref={composedRefs}
+            {...props}
+            disabled={disabled}
+            sx={textAreaStyle({
+              size: resolvedSize,
+              xs: resolvedXs,
+              sm: resolvedSm,
+              md: resolvedMd,
+              lg: resolvedLg,
+              xl: resolvedXl,
               ...props,
-            }),
-            sx,
-          ]}
-        >
-          <ScrollArea>
-            <Box
-              as="textarea"
-              ref={composedRefs}
-              {...props}
-              disabled={disabled}
-              sx={textAreaStyle({
-                xs,
-                sm,
-                md,
-                lg,
-                xl,
-                ...props,
-              })}
-              aria-invalid={invalid}
-              value={value}
-              onChange={composeEventHandlers(props.onChange, (e) => {
-                if (value !== undefined) {
-                  syncTextAreaHeight();
-                }
+            })}
+            aria-invalid={invalid}
+            value={value}
+            onChange={composeEventHandlers(props.onChange, () => {
+              if (value !== undefined) {
+                syncTextAreaHeight();
+              }
+            })}
+          />
+          <Box
+            as="textarea"
+            aria-hidden
+            readOnly
+            ref={shadowRef}
+            tabIndex={-1}
+            style={{
+              visibility: 'hidden',
+              position: 'absolute',
+              overflow: 'hidden',
+              height: 0,
+              top: 0,
+              left: 0,
+              transform: 'translateZ(0)',
+              paddingTop: 0,
+            }}
+          />
+        </ScrollArea>
 
-                setLength(e.target.value.length || 0);
-              })}
-            />
-            <Box
-              as="textarea"
-              aria-hidden
-              readOnly
-              ref={shadowRef}
-              tabIndex={-1}
-              sx={css`
-                ${typographyStyle('body1-reading', 'regular')}
-              `}
-              style={{
-                visibility: 'hidden',
-                position: 'absolute',
-                overflow: 'hidden',
-                height: 0,
-                top: 0,
-                left: 0,
-                transform: 'translateZ(0)',
-                paddingTop: 0,
-              }}
-            />
-          </ScrollArea>
-
-          {(invalid || Boolean(leadingContent) || Boolean(trailingContent)) && (
+        {(Boolean(leadingContent) || Boolean(trailingContent)) && (
+          <FlexBox
+            data-role="text-area-bottom-area"
+            sx={textAreaBottomAreaStyle}
+            alignItems="flex-end"
+            justifyContent="flex-end"
+          >
             <FlexBox
-              data-role="text-area-bottom-area"
-              sx={textAreaBottomAreaStyle}
               alignItems="center"
-              justifyContent="space-between"
+              data-role="text-area-bottom-area-leading-content"
+              flex="1 0 0"
             >
-              <FlexBox
-                alignItems="center"
-                data-role="text-area-bottom-area-leading-content"
-              >
-                {leadingContent}
-              </FlexBox>
-
-              <FlexBox
-                alignItems="center"
-                data-role="text-area-bottom-area-trailing-content"
-              >
-                {trailingContent ||
-                  (invalid && (
-                    <TextAreaContent
-                      data-role="text-area-invalid"
-                      sx={invalidIconWrapperStyle}
-                      variant="icon"
-                    >
-                      <IconCircleExclamationFill />
-                    </TextAreaContent>
-                  ))}
-              </FlexBox>
+              {leadingContent}
             </FlexBox>
-          )}
-        </FlexBox>
-      </TextAreaProvider>
+
+            <FlexBox
+              alignItems="center"
+              justifyContent="flex-end"
+              data-role="text-area-bottom-area-trailing-content"
+            >
+              {trailingContent}
+            </FlexBox>
+          </FlexBox>
+        )}
+      </FlexBox>
     );
   },
 );
 
-TextArea.displayName = TEXT_AREA_NAME;
+TextArea.displayName = 'TextArea';
 
 const TextAreaContent = forwardRef<
   HTMLDivElement,
   DefaultComponentPropsInternal<TextAreaContentProps, 'div'>
->(({ variant = 'characterCounter', children, sx, ...props }, ref) => {
-  const { length } = useTextAreaContext(TEXT_AREA_CONTENT_NAME);
-
+>(({ variant = 'icon-button', children, sx, ...props }, ref) => {
   switch (variant) {
-    case 'characterCounter':
-      return (
-        <Typography
-          as="div"
-          data-component="text-area-content"
-          variant="label2"
-          weight="medium"
-          ref={ref}
-          {...props}
-          sx={[textAreaContentStyle, textAreaCharacterCounterStyle, sx]}
-          color="semantic.label.alternative"
-          data-is-overflow={
-            !isNaN(Number(children)) && length > Number(children)
-          }
-        >
-          <span data-role="text-area-content-character-counter-length">
-            {length}
-          </span>
-          <span data-role="text-area-content-character-counter-divider">/</span>
-          <span data-role="text-area-content-character-counter-max-length">
-            {children}
-          </span>
-        </Typography>
-      );
-    case 'badge':
+    case 'content-badge':
       return (
         <FlexBox
           data-component="text-area-content"
@@ -333,36 +297,43 @@ const TextAreaContent = forwardRef<
           data-component="text-area-content"
           ref={ref}
           alignItems="center"
-          sx={[
-            textAreaContentStyle,
-            { maxHeight: '24px', padding: '0px 4px' },
-            sx,
-          ]}
+          gap="var(--text-area-content-button-gap)"
+          sx={[textAreaContentStyle, sx]}
           {...props}
         >
           {children}
         </FlexBox>
       );
     case 'icon':
+    case 'icon-button':
       return (
         <FlexBox
           data-component="text-area-content"
           ref={ref}
+          justifyContent="center"
+          alignItems="center"
           sx={[
             textAreaContentStyle,
             (theme) => ({
-              fontSize: '22px',
-              padding: '1px',
-              color: theme.semantic.label.assistive,
+              fontSize: 'var(--text-area-content-icon-size)',
+              height: 'var(--text-area-content-icon-wrapper-height)',
+              width: 'var(--text-area-content-icon-wrapper-width)',
+              padding: `${theme.spacing[0]} ${theme.spacing[2]}`,
+              color: theme.semantic.label.alternative,
+              ['[data-component="icon-button"]']: {
+                flexShrink: 0,
+              },
             }),
             sx,
           ]}
           {...props}
         >
-          {children}
+          <IconButtonProvider normal="semantic.label.alternative">
+            {children}
+          </IconButtonProvider>
         </FlexBox>
       );
-    case 'icon-button':
+    case 'primary-icon-button':
       return (
         <FlexBox
           data-component="text-area-content"
@@ -370,9 +341,33 @@ const TextAreaContent = forwardRef<
           sx={[textAreaContentStyle, sx]}
           {...props}
         >
-          <IconButtonProvider normal="semantic.label.alternative">
-            {children}
-          </IconButtonProvider>
+          {children}
+        </FlexBox>
+      );
+    case 'segmented-control':
+      return (
+        <FlexBox
+          data-component="text-area-content"
+          ref={ref}
+          sx={[
+            textAreaContentStyle,
+            {
+              ['[data-component="segmented-control"]']: {
+                width: '60px',
+              },
+              ['[data-component="segmented-control-item"]']: {
+                alignItems: 'center',
+                justifyContent: 'center',
+                ['& > [data-role="segmented-control-item-text"]']: {
+                  display: 'inline-flex',
+                },
+              },
+            },
+            sx,
+          ]}
+          {...props}
+        >
+          {children}
         </FlexBox>
       );
     case 'custom':
@@ -390,7 +385,7 @@ const TextAreaContent = forwardRef<
   }
 });
 
-TextAreaContent.displayName = TEXT_AREA_CONTENT_NAME;
+TextAreaContent.displayName = 'TextAreaContent';
 
 export { TextArea, TextAreaContent };
 

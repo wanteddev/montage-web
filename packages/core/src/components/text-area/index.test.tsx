@@ -8,7 +8,7 @@ import {
   FormControlMessage,
 } from '../form-control';
 
-import { TextArea, TextAreaContent } from '.';
+import { TextArea } from '.';
 
 describe('when given text area component', () => {
   afterEach(() => {
@@ -27,26 +27,5 @@ describe('when given text area component', () => {
     );
 
     expect(await axe(screen.getByTestId('text-area'))).toHaveNoViolations();
-  });
-});
-
-describe('when given text area component with characterCounter', () => {
-  it('should render with characterCounter', () => {
-    render(
-      <TextArea
-        data-testid="text-area"
-        value="123456789"
-        leadingContent={
-          <TextAreaContent
-            data-testid="text-area-content"
-            variant="characterCounter"
-          >
-            200
-          </TextAreaContent>
-        }
-      />,
-    );
-
-    expect(screen.getByTestId('text-area-content')).toHaveTextContent('9/200');
   });
 });
