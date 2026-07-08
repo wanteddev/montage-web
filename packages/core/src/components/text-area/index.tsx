@@ -220,9 +220,7 @@ const TextArea = forwardRef<
             aria-invalid={invalid}
             value={value}
             onChange={composeEventHandlers(props.onChange, () => {
-              if (value !== undefined) {
-                syncTextAreaHeight();
-              }
+              syncTextAreaHeight();
             })}
           />
           <Box
