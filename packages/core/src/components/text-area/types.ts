@@ -20,10 +20,12 @@ export type TextAreaDefaultProps = WithSxProps<{
   minRows?: number;
   /** The value of the text area. */
   value?: string;
+  /** The size of the text area. */
+  size?: 'large' | 'medium';
 }>;
 
 export type TextAreaResponsiveProps = ResponsiveProps<
-  Pick<TextAreaDefaultProps, 'width'>
+  Pick<TextAreaDefaultProps, 'width' | 'size'>
 >;
 
 export type TextAreaProps = Merge<
@@ -35,10 +37,10 @@ export type TextAreaContentProps = WithSxProps<{
   variant?:
     | 'custom'
     | 'button'
-    | 'characterCounter'
-    | 'badge'
-    | 'chip'
+    | 'content-badge'
     | 'icon'
-    | 'icon-button';
+    | 'icon-button'
+    | 'primary-icon-button'
+    | 'segmented-control';
   children?: ReactNode;
 }>;
