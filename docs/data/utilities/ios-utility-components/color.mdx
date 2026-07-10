@@ -1593,6 +1593,27 @@ let swiftUIColor = SwiftUI.Color.semantic(.primaryNormal)
 </details>
 <details>
 
+<summary>``case backgroundStatusCautionary``</summary>
+
+
+주의 상태 배경 색상
+</details>
+<details>
+
+<summary>``case backgroundStatusNegative``</summary>
+
+
+부정 상태 배경 색상
+</details>
+<details>
+
+<summary>``case backgroundStatusPositive``</summary>
+
+
+긍정 상태 배경 색상
+</details>
+<details>
+
 <summary>``case backgroundTransparent``</summary>
 
 
@@ -1726,6 +1747,20 @@ let swiftUIColor = SwiftUI.Color.semantic(.primaryNormal)
 </details>
 <details>
 
+<summary>``case linePrimaryNormal``</summary>
+
+
+기본 주요 선 색상
+</details>
+<details>
+
+<summary>``case linePrimaryStrong``</summary>
+
+
+강조된 주요 선 색상
+</details>
+<details>
+
 <summary>``case lineSolidAlternative``</summary>
 
 
@@ -1744,6 +1779,34 @@ let swiftUIColor = SwiftUI.Color.semantic(.primaryNormal)
 
 
 기본 실선 색상
+</details>
+<details>
+
+<summary>``case lineStatusCautionaryNormal``</summary>
+
+
+기본 주의 상태 선 색상
+</details>
+<details>
+
+<summary>``case lineStatusNegativeNormal``</summary>
+
+
+기본 부정 상태 선 색상
+</details>
+<details>
+
+<summary>``case lineStatusNegativeStrong``</summary>
+
+
+강조된 부정 상태 선 색상
+</details>
+<details>
+
+<summary>``case lineStatusPositiveNormal``</summary>
+
+
+기본 긍정 상태 선 색상
 </details>
 <details>
 
