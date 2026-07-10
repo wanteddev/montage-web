@@ -97,7 +97,7 @@ const FormControlGroup = forwardRef(
       </FlexBox>
     );
   },
-);
+) as PolymorphicComponentInternal<FormControlGroupProps, 'div'>;
 
 FormControlGroup.displayName = FORM_CONTROL_GROUP_NAME;
 
