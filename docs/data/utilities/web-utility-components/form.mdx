@@ -161,7 +161,76 @@ const Demo = () => {
 
 export default Demo;`}/>
 
+## Group
 
+`FormControlGroup` 은 여러 개의 `FormControl` 을 나열해서 사용할 때 활용하는 컴포넌트입니다.
+
+주로 `labelPlacement="leading"` 을 사용할 때 유용합니다.
+
+`leading` 라벨은 기본적으로 라벨 텍스트 길이만큼 폭을 차지하기 때문에, 여러 `FormControl` 을 나열하면 라벨과 필드의 시작 위치가 제각각 달라집니다.
+이때 `FormControlGroup` 의 `labelWidth` 를 조정하면 하위 `FormControl` 들의 라벨 영역 폭을 통일성 있게 맞출 수 있습니다.
+
+
+> 각 `FormControl` 이 독립적인 grid이기 때문에 `max-content` 같은 콘텐츠 기반 값은 컨트롤마다 다르게 계산될 수 있습니다.
+> 라벨 폭을 통일하려면 `120px` 처럼 고정된 값을 사용하세요.
+
+<Demo code={`import { Button, TextField, FormControlGroup, FormControl, FormControlField, FormControlLabel, FormControlMessage, FormControlNegativeMessage } from '@montage-ui/core';
+import { useForm, Controller } from 'react-hook-form';
+
+const Demo = () => {
+  const form = useForm({
+    defaultValues: {
+      name: '',
+      email: '',
+      phone: ''
+    }
+  });
+
+  const fields = [
+    { name: 'name', label: '이름' },
+    { name: 'email', label: '이메일 주소' },
+    { name: 'phone', label: '휴대폰 번호' }
+  ];
+
+  return (
+    <FormControlGroup as="form" flexDirection="column" labelWidth="120px" onSubmit={form.handleSubmit(v => alert(JSON.stringify(v)))}>
+      {fields.map(({ name, label }) => (
+        <Controller
+          key={name}
+          control={form.control}
+          name={name}
+          rules={{
+            required: {
+              value: true,
+              message: '필수 값입니다.'
+            }
+          }}
+          render={({ field, formState }) => (
+            <FormControl labelPlacement="leading">
+              <FormControlLabel required>{label}</FormControlLabel>
+
+              <FormControlField>
+                <TextField {...field} width="25ch" placeholder="값을 입력하세요." invalid={Boolean(formState.errors[name])} />
+              </FormControlField>
+
+              {Boolean(formState.errors[name]) ? (
+                <FormControlNegativeMessage>
+                  {formState.errors[name]?.message}
+                </FormControlNegativeMessage>
+              ) : (
+               <FormControlMessage>값을 입력해주세요.</FormControlMessage>
+              )}
+            </FormControl>
+          )}
+        />
+      ))}
+
+      <Button type="submit">제출</Button>
+    </FormControlGroup>
+  )
+}
+
+export default Demo;`}/>
 
 ## Size
 
@@ -398,6 +467,10 @@ export default Demo;`}/>
 - aria-describedby, aria-labelledby를 통해 추가 메시지를 연결합니다.
 
 ## API
+
+### FormControlGroup
+
+<PropsTable component="FormControlGroup" />
 
 ### FormControl
 

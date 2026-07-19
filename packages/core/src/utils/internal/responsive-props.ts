@@ -5,10 +5,18 @@ import { respondMore } from '../media';
 
 import type {
   BreakPoint,
+  CSSInterpolation,
+  Merge,
   ResponsiveProps,
   SerializedStyles,
   Theme,
 } from '@montage-ui/engine';
+
+/**
+ * The actual shape of a single breakpoint value inside `ResponsiveProps<T>` —
+ * `ResponsiveProps` merges `sx` into every breakpoint on top of `T`.
+ */
+type ResponsiveBreakpointValue<T> = Merge<T, { sx?: CSSInterpolation }>;
 
 const order: Array<keyof BreakPoint> = ['xs', 'sm', 'md', 'lg', 'xl'];
 
@@ -170,20 +178,20 @@ const splitResponsiveProps = <
  */
 export const splitResponsiveBreakpoints = <
   T extends Record<string, unknown>,
-  K extends keyof T,
+  K extends keyof ResponsiveBreakpointValue<T>,
 >(
   responsive: ResponsiveProps<T>,
   keys: Array<K>,
 ): {
-  picked: ResponsiveProps<Pick<T, K>> | undefined;
-  rest: ResponsiveProps<Omit<T, K>> | undefined;
+  picked: ResponsiveProps<Pick<ResponsiveBreakpointValue<T>, K>> | undefined;
+  rest: ResponsiveProps<Omit<ResponsiveBreakpointValue<T>, K>> | undefined;
 } => {
-  let picked: Record<string, Pick<T, K>> | undefined;
-  let rest: Record<string, Omit<T, K>> | undefined;
+  let picked: Record<string, Pick<ResponsiveBreakpointValue<T>, K>> | undefined;
+  let rest: Record<string, Omit<ResponsiveBreakpointValue<T>, K>> | undefined;
 
   for (const breakpoint of order) {
     const split = splitResponsiveProps(
-      responsive[breakpoint] as T | undefined,
+      responsive[breakpoint] as ResponsiveBreakpointValue<T> | undefined,
       keys,
     );
 

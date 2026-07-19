@@ -4,15 +4,75 @@ import {
   createResponsiveStyle,
   getPreviousValue,
 } from '../../utils/internal/responsive-props';
-import { typographyStyle } from '../../utils';
+import { ellipsisTypographyStyle, typographyStyle } from '../../utils';
 import { toCssValue } from '../../utils/internal/css';
 
-import type { FormControlLabelProps, FormControlProps } from './types';
+import type {
+  FormControlGroupProps,
+  FormControlLabelProps,
+  FormControlProps,
+} from './types';
 import type { FormControlLayoutContextType } from './contexts';
 import type { Theme } from '@montage-ui/engine';
 
+export const formControlGroupStyle =
+  ({
+    labelWidth,
+    gap,
+    rowGap,
+    columnGap,
+    xs,
+    sm,
+    md,
+    lg,
+    xl,
+  }: FormControlGroupProps) =>
+  (theme: Theme) => css`
+    gap: ${gap === undefined ? theme.spacing[16] : toCssValue(gap)};
+
+    ${rowGap !== undefined &&
+    css`
+      row-gap: ${toCssValue(rowGap)};
+    `}
+    ${columnGap !== undefined &&
+    css`
+      column-gap: ${toCssValue(columnGap)};
+    `}
+    ${labelWidth !== undefined &&
+    css`
+      --form-control-leading-label-width: ${labelWidth};
+    `}
+
+    ${createResponsiveStyle(
+      { xs, sm, md, lg, xl },
+      theme,
+    )(
+      (params) => css`
+        ${params?.gap !== undefined &&
+        css`
+          gap: ${toCssValue(params.gap)};
+        `};
+        ${params?.rowGap !== undefined &&
+        css`
+          row-gap: ${toCssValue(params.rowGap)};
+        `}
+        ${params?.columnGap !== undefined &&
+        css`
+          column-gap: ${toCssValue(params.columnGap)};
+        `}
+        ${params?.labelWidth !== undefined &&
+        css`
+          --form-control-leading-label-width: ${params.labelWidth};
+        `}
+
+        ${params?.sx}
+      `,
+    )}
+  `;
+
 export const formControlStyle =
   ({
+    size,
     gap,
     rowGap,
     columnGap,
@@ -26,11 +86,15 @@ export const formControlStyle =
   (theme: Theme) => css`
     ${formControlLayoutStyle({ labelPlacement, gap, rowGap, columnGap }, theme)}
 
+    ${formControlSizeStyle({ size }, theme)}
+
     ${createResponsiveStyle(
       { xs, sm, md, lg, xl },
       theme,
     )(
       (params, breakpoint) => css`
+        ${formControlSizeStyle({ size: params?.size }, theme)}
+
         ${formControlLayoutStyle(
           {
             labelPlacement: getPreviousValue(
@@ -60,9 +124,27 @@ export const formControlStyle =
           },
           theme,
         )}
+
+        ${params?.sx}
       `,
     )}
   `;
+
+const formControlSizeStyle = (
+  { size }: Pick<FormControlProps, 'size'>,
+  theme: Theme,
+) => {
+  switch (size) {
+    case 'medium':
+      return css`
+        --form-control-leading-label-max-height: ${theme.dimension[40]};
+      `;
+    case 'large':
+      return css`
+        --form-control-leading-label-max-height: ${theme.dimension[48]};
+      `;
+  }
+};
 
 const formControlLayoutStyle = (
   {
@@ -77,6 +159,7 @@ const formControlLayoutStyle = (
     case 'top':
       return css`
         display: flex;
+        grid-template-columns: initial;
         gap: ${gap === undefined ? theme.spacing[8] : toCssValue(gap)};
 
         ${rowGap !== undefined &&
@@ -96,6 +179,9 @@ const formControlLayoutStyle = (
     case 'leading':
       return css`
         display: grid;
+        grid-template-columns:
+          var(--form-control-leading-label-width, minmax(10px, auto))
+          1fr;
         gap: ${gap === undefined
           ? `${theme.spacing[8]} ${theme.spacing[16]}`
           : toCssValue(gap)};
@@ -121,7 +207,7 @@ const formControlLayoutStyle = (
           padding: ${theme.spacing[0]};
           display: flex;
           align-items: center;
-          max-height: ${theme.dimension[48]};
+          max-height: var(--form-control-leading-label-max-height);
         }
       `;
   }
@@ -143,6 +229,20 @@ export const formLabelStyle =
   (theme: Theme) => css`
     padding: ${theme.spacing[0]} ${theme.spacing[2]};
     ${formLabelSizeStyle({ size, variant, weight })}
+
+    & > [data-role='label-content'] {
+      display: inline-flex;
+      max-width: 100%;
+      min-width: 0;
+
+      [data-role='label-content-text'] {
+        ${ellipsisTypographyStyle(1)}
+      }
+
+      [data-role='label-required-mark'] {
+        flex-shrink: 0;
+      }
+    }
 
     ${createResponsiveStyle(
       {

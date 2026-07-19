@@ -9,6 +9,7 @@ import { splitResponsiveBreakpoints } from '../../utils/internal/responsive-prop
 
 import {
   FORM_CONTROL_FIELD_NAME,
+  FORM_CONTROL_GROUP_NAME,
   FORM_CONTROL_LABEL_NAME,
   FORM_CONTROL_MESSAGE_ACCESSORY_NAME,
   FORM_CONTROL_MESSAGE_NAME,
@@ -24,6 +25,7 @@ import {
 import { useFormControl } from './hooks';
 import {
   formCharacterCounterStyle,
+  formControlGroupStyle,
   formControlStyle,
   formLabelStyle,
   formMessageStyle,
@@ -37,6 +39,7 @@ import type {
 import type { ElementType, ForwardedRef } from 'react';
 import type {
   FormControlFieldProps,
+  FormControlGroupProps,
   FormControlLabelProps,
   FormControlMessageAccessoryProps,
   FormControlMessageProps,
@@ -44,6 +47,59 @@ import type {
   FormControlPositiveMessageProps,
   FormControlProps,
 } from './types';
+
+const FormControlGroup = forwardRef(
+  <T extends ElementType = 'div'>(
+    {
+      as,
+      labelWidth,
+      gap,
+      rowGap,
+      columnGap,
+      children,
+      xs,
+      sm,
+      md,
+      lg,
+      xl,
+      ...props
+    }: PolymorphicPropsInternal<FormControlGroupProps, T>,
+    ref: ForwardedRef<T>,
+  ) => {
+    const { picked: responsiveSize, rest: responsiveRest } =
+      splitResponsiveBreakpoints({ xs, sm, md, lg, xl }, [
+        'labelWidth',
+        'gap',
+        'rowGap',
+        'columnGap',
+        'sx',
+      ]);
+
+    return (
+      <FlexBox
+        ref={ref}
+        as={as}
+        data-component="form-control-group"
+        {...responsiveRest}
+        {...props}
+        sx={[
+          formControlGroupStyle({
+            labelWidth,
+            gap,
+            rowGap,
+            columnGap,
+            ...responsiveSize,
+          }),
+          props.sx,
+        ]}
+      >
+        {children}
+      </FlexBox>
+    );
+  },
+) as PolymorphicComponentInternal<FormControlGroupProps, 'div'>;
+
+FormControlGroup.displayName = FORM_CONTROL_GROUP_NAME;
 
 const FormControl = forwardRef(
   <T extends ElementType = 'div'>(
@@ -88,6 +144,7 @@ const FormControl = forwardRef(
             {...props}
             sx={[
               formControlStyle({
+                size,
                 gap,
                 rowGap,
                 columnGap,
@@ -337,6 +394,7 @@ const FormControlMessageAccessory = forwardRef<
 FormControlMessageAccessory.displayName = FORM_CONTROL_MESSAGE_ACCESSORY_NAME;
 
 export {
+  FormControlGroup,
   FormControl,
   FormControlField,
   FormControlLabel,
@@ -347,6 +405,7 @@ export {
 };
 
 export type {
+  FormControlGroupProps,
   FormControlProps,
   FormControlFieldProps,
   FormControlLabelProps,

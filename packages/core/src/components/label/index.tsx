@@ -20,20 +20,24 @@ const Label = forwardRef<
       display={display}
       {...props}
     >
-      {children}
-      {required && (
-        <Box
-          as="span"
-          sx={(theme) => ({
-            display: 'contents',
-            font: 'inherit',
-            fontWeight: '500',
-            color: theme.semantic.status.negative,
-          })}
-        >
-          {' *'}
-        </Box>
-      )}
+      <span data-role="label-content">
+        <span data-role="label-content-text">{children}</span>
+
+        {required && (
+          <Box
+            as="span"
+            data-role="label-required-mark"
+            sx={(theme) => ({
+              font: 'inherit',
+              fontWeight: '500',
+              whiteSpace: 'pre',
+              color: theme.semantic.status.negative,
+            })}
+          >
+            {' *'}
+          </Box>
+        )}
+      </span>
     </Typography>
   );
 });
