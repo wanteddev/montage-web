@@ -1,3 +1,4 @@
+export const FORM_CONTROL_GROUP_NAME = 'FormControlGroup';
 export const FORM_CONTROL_NAME = 'FormControl';
 export const FORM_CONTROL_LABEL_NAME = 'FormControlLabel';
 export const FORM_CONTROL_FIELD_NAME = 'FormControlField';
