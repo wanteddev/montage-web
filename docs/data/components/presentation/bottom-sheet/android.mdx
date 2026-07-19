@@ -9,15 +9,22 @@ Bottom sheet 형태의 모달 컴포넌트입니다.
 
 ```kotlin
 var showSheet by remember { mutableStateOf(false) }
-
-Button(onClick = { showSheet = true }) {
-    Text("시트 열기")
-}
+val listState = rememberLazyListState()
+// Foundation 1.8.x부터 anchoredDraggable이 nestedScroll 체인에 참여하면서, LazyColumn 스크롤 잔여값이 시트로 전달되어 튕김 버그가 발생할 수 있습니다.
+val scrollPolicy = rememberBottomSheetScrollPolicy(listState)
 
 WantedModalBottomSheet(
     isShow = showSheet,
     onDismissRequest = { showSheet = false },
-    content = { Text("시트 내용") }
+    content = {
+        // 목록 스크롤은 LazyColumn이 담당하고, 위로 남는 잔여 스크롤만 정책으로 차단합니다.
+        // LazyColumn 에서만 Modifier.nestedScroll(scrollPolicy.connection) 추가 합니다.
+        Column(modifier = Modifier.nestedScroll(scrollPolicy.connection)) {
+            LazyColumn(state = listState) {
+                // items(...)
+            }
+        }
+    }
 )
 ```
 
