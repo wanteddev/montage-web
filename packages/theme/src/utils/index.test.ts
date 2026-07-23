@@ -21,19 +21,19 @@ describe('addHexOpacity', () => {
 
 describe('getColorByToken', () => {
   it('should return color value for valid token', () => {
-    expect(getColorByToken(theme.light, 'semantic.primary.normal')).toBe(
-      theme.light.semantic.primary.normal,
-    );
-    expect(getColorByToken(theme.dark, 'semantic.label.normal')).toBe(
-      theme.light.semantic.label.normal,
-    );
+    expect(
+      getColorByToken(theme.light, 'semantic.foreground.brand.primary'),
+    ).toBe(theme.light.semantic.foreground.brand.primary);
+    expect(
+      getColorByToken(theme.dark, 'semantic.foreground.neutral.primary'),
+    ).toBe(theme.light.semantic.foreground.neutral.primary);
 
     expect(
-      getColorByToken(theme.light, 'semantic.background.elevated.alternative'),
-    ).toBe(theme.light.semantic.background.elevated.alternative);
+      getColorByToken(theme.light, 'semantic.surface.elevated.secondary'),
+    ).toBe(theme.light.semantic.surface.elevated.secondary);
     expect(
-      getColorByToken(theme.dark, 'semantic.accent.background.redOrange'),
-    ).toBe(theme.light.semantic.accent.background.redOrange);
+      getColorByToken(theme.dark, 'semantic.surface.accent.lightBlue'),
+    ).toBe(theme.light.semantic.surface.accent.lightBlue);
   });
 
   it('should return undefined for invalid token', () => {
