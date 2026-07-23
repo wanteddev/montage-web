@@ -28,7 +28,7 @@ export const avatarGroupStyle =
         position: absolute;
         top: 0px;
         border-radius: inherit;
-        border: 1.5px solid ${theme.semantic.background.normal.normal};
+        border: 1.5px solid ${theme.semantic.background.neutral.primary};
         margin: -1.5px;
         box-sizing: content-box;
       }

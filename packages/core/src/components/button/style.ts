@@ -201,7 +201,7 @@ const buttonColorStyle = (
     case variant === 'solid' && color === 'primary':
       return css`
         color: ${theme.semantic.static.white};
-        background-color: ${theme.semantic.primary.normal};
+        background-color: ${theme.semantic.surface.brand.primary};
         box-shadow: none;
 
         [data-role='button-loading'] {
@@ -210,36 +210,36 @@ const buttonColorStyle = (
 
         &:disabled,
         &[aria-disabled='true'] {
-          color: ${theme.semantic.label.assistive};
-          background-color: ${theme.semantic.interaction.disable};
+          color: ${theme.semantic.foreground.neutral.quaternary};
+          background-color: ${theme.semantic.surface.disable.primary};
           box-shadow: none;
         }
       `;
     case variant === 'solid' && color === 'assistive':
       return css`
-        color: ${theme.semantic.label.neutral};
-        background-color: ${theme.semantic.fill.normal};
+        color: ${theme.semantic.foreground.neutral.secondary};
+        background-color: ${theme.semantic.surface.neutral.secondary};
         box-shadow: none;
         backdrop-filter: blur(32px);
         will-change: backdrop-filter;
 
         [data-role='button-loading'] {
-          color: ${theme.semantic.label.assistive};
+          color: ${theme.semantic.foreground.neutral.quaternary};
         }
 
         &:disabled,
         &[aria-disabled='true'] {
-          color: ${theme.semantic.label.assistive};
-          background-color: ${theme.semantic.interaction.disable};
+          color: ${theme.semantic.foreground.neutral.quaternary};
+          background-color: ${theme.semantic.surface.disable.primary};
           box-shadow: none;
           backdrop-filter: none;
         }
       `;
     case variant === 'solid' && color === 'negative':
       return css`
-        color: ${theme.semantic.accent.foreground.red};
+        color: ${theme.semantic.foreground.negative.strong};
         background-color: ${addOpacity(
-          theme.semantic.status.negative,
+          theme.semantic.foreground.negative.primary,
           theme.opacity[12],
         )};
         box-shadow: none;
@@ -250,16 +250,16 @@ const buttonColorStyle = (
 
         &:disabled,
         &[aria-disabled='true'] {
-          color: ${theme.semantic.label.assistive};
-          background-color: ${theme.semantic.interaction.disable};
+          color: ${theme.semantic.foreground.neutral.quaternary};
+          background-color: ${theme.semantic.surface.disable.primary};
           box-shadow: none;
         }
       `;
     case variant === 'outlined' && color === 'primary':
       return css`
-        color: ${theme.semantic.primary.normal};
+        color: ${theme.semantic.foreground.brand.primary};
         background-color: transparent;
-        box-shadow: inset 0 0 0 1px ${theme.semantic.line.normal.neutral};
+        box-shadow: inset 0 0 0 1px ${theme.semantic.line.neutral.secondary};
 
         [data-role='button-loading'] {
           color: inherit;
@@ -267,26 +267,26 @@ const buttonColorStyle = (
 
         &:disabled,
         &[aria-disabled='true'] {
-          color: ${theme.semantic.label.disable};
+          color: ${theme.semantic.foreground.disable.primary};
           background-color: transparent;
-          box-shadow: inset 0 0 0 1px ${theme.semantic.line.normal.neutral};
+          box-shadow: inset 0 0 0 1px ${theme.semantic.line.neutral.secondary};
         }
       `;
     case variant === 'outlined' && color === 'assistive':
       return css`
-        color: ${theme.semantic.label.normal};
+        color: ${theme.semantic.foreground.neutral.primary};
         background-color: transparent;
-        box-shadow: inset 0 0 0 1px ${theme.semantic.line.normal.neutral};
+        box-shadow: inset 0 0 0 1px ${theme.semantic.line.neutral.secondary};
 
         [data-role='button-loading'] {
-          color: ${theme.semantic.label.assistive};
+          color: ${theme.semantic.foreground.neutral.quaternary};
         }
 
         &:disabled,
         &[aria-disabled='true'] {
-          color: ${theme.semantic.label.disable};
+          color: ${theme.semantic.foreground.disable.primary};
           background-color: transparent;
-          box-shadow: inset 0 0 0 1px ${theme.semantic.line.normal.neutral};
+          box-shadow: inset 0 0 0 1px ${theme.semantic.line.neutral.secondary};
         }
       `;
   }

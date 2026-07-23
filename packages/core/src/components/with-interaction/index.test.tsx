@@ -47,7 +47,7 @@ describe('when given with-interaction component', () => {
 
     expect(element).toBeInTheDocument();
     expect(element).toHaveStyle({
-      backgroundColor: theme.light.semantic.label.normal,
+      backgroundColor: theme.light.semantic.foreground.neutral.primary,
     });
   });
 });
@@ -75,7 +75,7 @@ describe('when given with-interaction component with multiple children', () => {
 describe('when given with-interaction component with color prop', () => {
   it('should handle custom color prop', () => {
     render(
-      <WithInteraction color="semantic.primary.normal">
+      <WithInteraction color="semantic.surface.brand.primary">
         <Box data-testid="color-element">Color Content</Box>
       </WithInteraction>,
       {
@@ -89,7 +89,7 @@ describe('when given with-interaction component with color prop', () => {
 
     expect(colorElement).toBeInTheDocument();
     expect(colorElement).toHaveStyle({
-      backgroundColor: theme.light.semantic.primary.normal,
+      backgroundColor: theme.light.semantic.surface.brand.primary,
     });
   });
 });

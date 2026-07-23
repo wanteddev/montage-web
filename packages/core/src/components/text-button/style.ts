@@ -74,7 +74,7 @@ const getColorTheme = (
       return css`
         color: ${overrideColor
           ? getColorByToken(theme, overrideColor)
-          : theme.semantic.primary.normal};
+          : theme.semantic.foreground.brand.primary};
         background-color: transparent;
         border: none;
         box-shadow: none;
@@ -85,7 +85,7 @@ const getColorTheme = (
 
         &:disabled,
         &[aria-disabled='true'] {
-          color: ${theme.semantic.label.disable};
+          color: ${theme.semantic.foreground.disable.primary};
         }
       `;
     case 'assistive':
@@ -95,15 +95,15 @@ const getColorTheme = (
         box-shadow: none;
         color: ${overrideColor
           ? getColorByToken(theme, overrideColor)
-          : theme.semantic.label.alternative};
+          : theme.semantic.foreground.neutral.tertiary};
 
         [data-role='text-button-loading'] {
-          color: ${theme.semantic.label.assistive};
+          color: ${theme.semantic.foreground.neutral.quaternary};
         }
 
         &:disabled,
         &[aria-disabled='true'] {
-          color: ${theme.semantic.label.disable};
+          color: ${theme.semantic.foreground.disable.primary};
         }
       `;
   }

@@ -33,12 +33,12 @@ export const textFieldWrapperStyle =
     display: flex;
     align-items: center;
     border: none;
-    background-color: ${theme.semantic.background.transparent.normal};
+    background-color: ${theme.semantic.effect.transparent.primary};
     backdrop-filter: blur(32px);
     width: ${toCssValue(width)};
     height: ${toCssValue(height)};
     cursor: text;
-    box-shadow: inset 0 0 0 1px ${theme.semantic.line.normal.neutral};
+    box-shadow: inset 0 0 0 1px ${theme.semantic.line.neutral.secondary};
     transition: box-shadow ease 0.2s;
 
     ${textFieldSizeStyle({ size }, theme)}
@@ -71,14 +71,14 @@ export const textFieldWrapperStyle =
 
     ${invalid &&
     css`
-      box-shadow: inset 0 0 0 1px ${theme.semantic.line.status.negative.normal};
+      box-shadow: inset 0 0 0 1px ${theme.semantic.line.negative.primary};
     `}
 
     ${disabled
       ? css`
-          background-color: ${theme.semantic.fill.alternative};
+          background-color: ${theme.semantic.surface.neutral.tertiary};
           backdrop-filter: none;
-          box-shadow: inset 0 0 0 1px ${theme.semantic.line.normal.alternative};
+          box-shadow: inset 0 0 0 1px ${theme.semantic.line.neutral.tertiary};
           cursor: default;
         `
       : css`
@@ -87,14 +87,13 @@ export const textFieldWrapperStyle =
               ${invalid
                 ? css`
                     box-shadow:
-                      inset 0 0 0 1px
-                        ${theme.semantic.line.status.negative.strong},
-                      0 0 0 4px ${theme.semantic.interaction.negative};
+                      inset 0 0 0 1px ${theme.semantic.line.negative.strong},
+                      0 0 0 4px ${theme.semantic.line.negative.focus};
                   `
                 : css`
                     box-shadow:
-                      inset 0 0 0 1px ${theme.semantic.line.primary.strong},
-                      0 0 0 4px ${theme.semantic.interaction.focus};
+                      inset 0 0 0 1px ${theme.semantic.line.brand.strong},
+                      0 0 0 4px ${theme.semantic.line.brand.focus};
                   `}
 
               [data-role='text-field-positive'] {
@@ -121,14 +120,13 @@ export const textFieldWrapperStyle =
               ${invalid
                 ? css`
                     box-shadow:
-                      inset 0 0 0 1px
-                        ${theme.semantic.line.status.negative.strong},
-                      0 0 0 4px ${theme.semantic.interaction.negative};
+                      inset 0 0 0 1px ${theme.semantic.line.negative.strong},
+                      0 0 0 4px ${theme.semantic.line.negative.focus};
                   `
                 : css`
                     box-shadow:
-                      inset 0 0 0 1px ${theme.semantic.line.primary.strong},
-                      0 0 0 4px ${theme.semantic.interaction.focus};
+                      inset 0 0 0 1px ${theme.semantic.line.brand.strong},
+                      0 0 0 4px ${theme.semantic.line.brand.focus};
                   `}
 
               [data-role='text-field-positive'] {
@@ -143,11 +141,11 @@ export const textFieldWrapperStyle =
 
         
     input:disabled {
-      color: ${theme.semantic.label.alternative};
+      color: ${theme.semantic.foreground.neutral.tertiary};
     }
 
     input:disabled::placeholder {
-      color: ${theme.semantic.label.disable};
+      color: ${theme.semantic.foreground.disable.primary};
     }
 
     @supports selector(:has(*)) {
@@ -177,16 +175,16 @@ export const textFieldWrapperStyle =
     input {
       width: 100%;
       background-color: transparent;
-      caret-color: ${theme.semantic.primary.normal};
+      caret-color: ${theme.semantic.foreground.brand.primary};
       outline: none;
       border: none;
       box-shadow: none;
       font: inherit;
-      color: ${theme.semantic.label.normal};
+      color: ${theme.semantic.foreground.neutral.primary};
 
       &::placeholder {
         font: inherit;
-        color: ${theme.semantic.label.assistive};
+        color: ${theme.semantic.foreground.neutral.quaternary};
       }
 
       [type='number'] {
@@ -279,7 +277,7 @@ export const positiveIconWrapperStyle = (theme: Theme) => css`
   }
 
   svg {
-    color: ${theme.semantic.status.positive};
+    color: ${theme.semantic.foreground.positive.primary};
     z-index: 0;
   }
 `;

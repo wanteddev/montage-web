@@ -227,7 +227,9 @@ const TextField = forwardRef<
                   },
                 )}
                 tabIndex={-1}
-                sx={(theme) => ({ color: theme.semantic.label.assistive })}
+                sx={(theme) => ({
+                  color: theme.semantic.foreground.neutral.quaternary,
+                })}
               >
                 <IconCircleCloseFill />
               </IconButton>
@@ -271,7 +273,10 @@ const TextFieldContent = forwardRef<
             textFieldContentStyle,
             (theme) => ({
               padding: '0px 4px',
-              color: getColorByToken(theme, color ?? 'semantic.label.normal'),
+              color: getColorByToken(
+                theme,
+                color ?? 'semantic.foreground.neutral.primary',
+              ),
             }),
             sx,
           ]}
@@ -301,7 +306,7 @@ const TextFieldContent = forwardRef<
             (theme) => ({
               width: 'var(--text-field-content-icon-wrapper-size)',
               fontSize: 'var(--text-field-content-icon-size)',
-              color: color ?? theme.semantic.label.alternative,
+              color: color ?? theme.semantic.foreground.neutral.tertiary,
             }),
             sx,
           ]}
@@ -324,7 +329,7 @@ const TextFieldContent = forwardRef<
           ]}
           {...props}
         >
-          <IconButtonProvider normal="semantic.label.alternative">
+          <IconButtonProvider normal="semantic.foreground.neutral.tertiary">
             {children}
           </IconButtonProvider>
         </FlexBox>

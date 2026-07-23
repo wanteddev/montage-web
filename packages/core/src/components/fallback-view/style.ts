@@ -23,11 +23,11 @@ export const fallbackViewStyle =
 
     [data-role='fallback-view-text-title'] {
       text-align: center;
-      color: ${theme.semantic.label.normal};
+      color: ${theme.semantic.foreground.neutral.primary};
     }
     [data-role='fallback-view-text-description'] {
       text-align: center;
-      color: ${theme.semantic.label.alternative};
+      color: ${theme.semantic.foreground.neutral.tertiary};
     }
 
     ${createResponsiveStyle(
