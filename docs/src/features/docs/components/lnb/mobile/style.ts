@@ -96,7 +96,7 @@ export const navigationStyle = (theme: Theme) => css`
     width: 100%;
     height: calc(100% + 16px);
     ${gradient(
-      theme.semantic.background.elevated.normal,
+      theme.semantic.surface.elevated.primary,
       'bottom',
       '32px',
       'mask',

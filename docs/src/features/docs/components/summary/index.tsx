@@ -66,7 +66,7 @@ const DocsSummary = () => {
       ) : (
         <Divider
           sx={{ margin: '64px 0px 64px' }}
-          color="semantic.line.normal.neutral"
+          color="semantic.line.neutral.secondary"
         />
       )}
     </>

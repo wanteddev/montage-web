@@ -29,7 +29,7 @@ export const linkStyle = (theme: Theme) => css`
     }
 
     svg {
-      color: ${theme.semantic.label.normal};
+      color: ${theme.semantic.foreground.neutral.primary};
     }
 
     @media (pointer: fine) {
