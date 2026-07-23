@@ -157,8 +157,8 @@ Use mobile-first sizing, then override with `sm`, `md`, `lg`, `xl`. Typically on
 // style.ts
 export const buttonStyle = (isActive: boolean) => (theme: Theme) => css`
   color: ${isActive
-    ? theme.semantic.primary.normal
-    : theme.semantic.label.alternative};
+    ? theme.semantic.foreground.brand.primary
+    : theme.semantic.foreground.neutral.tertiary};
 `;
 
 // index.tsx
@@ -177,11 +177,11 @@ Use utility functions provided by Montage. Look up available utilities via `mcp_
 
 Use Montage design tokens instead of hardcoded values. Look up available tokens via `mcp__montage-mcp-server__list_tokens`.
 
-- **Never use CSS variable (`var(--semantic-...)`) directly.** Always access colors through the `theme` callback (e.g., `sx={theme => ({ color: theme.semantic.label.normal })}`). CSS variable names are internal implementation details and may change without notice.
+- **Never use CSS variable (`var(--semantic-...)`) directly.** Always access colors through the `theme` callback (e.g., `sx={theme => ({ color: theme.semantic.foreground.neutral.primary })}`). CSS variable names are internal implementation details and may change without notice.
 - Colors: use semantic color tokens instead of `#RRGGBB` (fall back to atomic colors if not possible). Use `get_color_usage` to look up which token to use for a given purpose.
 - Typography: use the Typography component or `typographyStyle` utility. Use `get_component({ componentName: "Typography" })` to look up the variant/size table.
 - Shadows: use `theme.semantic.elevation.shadow.normal.*`
-- Opacity: **must** use `addOpacity` utility + `theme.opacity[N]`. Theme color values are CSS variables (e.g. `var(--semantic-primary-normal)`), so appending hex alpha strings directly will **NOT** work. Available opacity keys: `0, 5, 8, 12, 16, 22, 28, 35, 43, 52, 61, 74, 88, 97, 100`.
+- Opacity: **must** use `addOpacity` utility + `theme.opacity[N]`. Theme color values are CSS variables (e.g. `var(--semantic-surface-brand-primary)`), so appending hex alpha strings directly will **NOT** work. Available opacity keys: `0, 5, 8, 12, 16, 22, 28, 35, 43, 52, 61, 74, 88, 97, 100`.
 
   ```ts
   // use addOpacity utility
@@ -191,11 +191,11 @@ Use Montage design tokens instead of hardcoded values. Look up available tokens 
 
   const wrapperStyle = (theme: Theme) => css`
     background-color: addOpacity(
-      theme.semantic.primary.normal,
+      theme.semantic.surface.brand.primary,
       theme.opacity[5]
     );
     border: 1px solid
-      ${addOpacity(theme.semantic.primary.normal, theme.opacity[22])};
+      ${addOpacity(theme.semantic.surface.brand.primary, theme.opacity[22])};
   `;
   ```
 
@@ -218,7 +218,7 @@ Use Montage design tokens instead of hardcoded values. Look up available tokens 
         position: absolute;
         inset: 0;
         border-radius: inherit;
-        background-color: ${theme.semantic.fill.normal};
+        background-color: ${theme.semantic.surface.neutral.secondary};
         opacity: ${theme.opacity[8]};
       }
     `;

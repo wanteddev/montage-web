@@ -167,7 +167,7 @@ import { wrapperStyle } from './style';
 \`\`\`tsx
 <Box sx={theme => ({
   padding: '20px',
-	backgroundColor: theme.semantic.background.normal.normal,
+	backgroundColor: theme.semantic.background.neutral.primary,
 })} />
 \`\`\`
 
@@ -187,7 +187,7 @@ export const wrapperStyle = css\`
 
 // use design system theme
 export const buttonStyle = (theme: Theme) => css\`
-  color: \${theme.semantic.label.normal};
+  color: \${theme.semantic.foreground.neutral.primary};
 \`;
 \`\`\`
 
@@ -212,7 +212,7 @@ import { css } from '@montage-ui/core';
 import type { Theme } from '@montage-ui/core';
 
 export const buttonStyle = (flag: boolean) => (theme: Theme) => css\`
-  color: \${flag ? theme.semantic.label.normal : theme.semantic.label.assistive};
+  color: \${flag ? theme.semantic.foreground.neutral.primary : theme.semantic.foreground.neutral.quaternary};
 \`;
 \`\`\`
 
@@ -234,7 +234,7 @@ When a component provides props to control layout, spacing, or appearance, use t
 
 ## Theme
 
-- Prefer design tokens over hard-coded values. For example, use \`theme.semantic.label.normal\` instead of \`#171717\`. Use the \`list_tokens\` tool to find the design token you need.
+- Prefer design tokens over hard-coded values. For example, use \`theme.semantic.foreground.neutral.primary\` instead of \`#171717\`. Use the \`list_tokens\` tool to find the design token you need.
 - Prefer using semantic theme colors. If not possible, use atomic colors as a fallback.
 - When opacity needs to be applied, import and use the \`addOpacity\` utility from \`@montage-ui/core\`.
 - Do not use spacing tokens.
@@ -350,7 +350,7 @@ The following list of coding guidelines must be followed:
 ${text}
 
 - If the component supports the \`xs\`, \`sm\`, \`md\`, \`lg\`, and \`xl\` props, you can override its props starting from each corresponding breakpoint and above.
-- For information about ThemeColorsToken types, you can use the \`list_tokens\` tool. The token values are strings like \`'semantic.label.normal'\`.
+- For information about ThemeColorsToken types, you can use the \`list_tokens\` tool. The token values are strings like \`'semantic.foreground.neutral.primary'\`.
 - The \`sx\` prop works the same as Emotion's \`css\` prop.
 - For detailed coding guidelines, please use the \`montage_coding_guidelines\` tool.`,
           },
@@ -387,7 +387,7 @@ For example, you can use them like this:
 \`\`\`tsx
 import { IconBlankColor } from '@montage-ui/icon';
 
-<IconBlankColor sx={theme => ({ color: theme.semantic.label.normal })} />
+<IconBlankColor sx={theme => ({ color: theme.semantic.foreground.neutral.primary })} />
 \`\`\`
 `,
           },
@@ -419,14 +419,14 @@ import { css } from '@montage-ui/core';
 import type { Theme } from '@montage-ui/core';
 
 const buttonStyle = (theme: Theme) => css\`
-  color: \${theme.semantic.label.normal};
+  color: \${theme.semantic.foreground.neutral.primary};
 \`;
 \`\`\`
 
 or with the Typography component like:
 
 \`\`\`tsx
-<Typography color="semantic.label.normal" />
+<Typography color="semantic.foreground.neutral.primary" />
 \`\`\`
 `,
           },
