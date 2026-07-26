@@ -50,7 +50,7 @@ const SearchResults = ({
             <Typography
               variant="caption2"
               weight="bold"
-              color="semantic.label.alternative"
+              color="semantic.foreground.neutral.tertiary"
             >
               {title}
             </Typography>

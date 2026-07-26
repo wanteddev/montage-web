@@ -4,13 +4,14 @@ import type { Theme } from '@montage-ui/core';
 
 export const kbdStyle = (theme: Theme) => css`
   ${typographyStyle('caption2', 'medium')}
-  color: ${theme.semantic.label.normal};
-  background-color: ${theme.semantic.fill.alternative};
+  color: ${theme.semantic.foreground.neutral.primary};
+  background-color: ${theme.semantic.surface.neutral.tertiary};
   border-radius: 6px;
   padding: 4px 6px;
   box-shadow:
-    0 0 0 1px ${theme.semantic.line.normal.alternative} inset,
+    0 0 0 1px ${theme.semantic.line.neutral.tertiary} inset,
     2px 2px 3px 0 ${addOpacity(theme.semantic.static.white, theme.opacity[5])}
       inset,
-    1px -1px 3px 0 ${addOpacity(theme.semantic.static.black, theme.opacity[5])} inset;
+    1px -1px 3px 0 ${addOpacity(theme.semantic.static.black, theme.opacity[5])}
+      inset;
 `;

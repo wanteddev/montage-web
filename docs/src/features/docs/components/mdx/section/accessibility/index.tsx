@@ -34,8 +34,10 @@ const SectionAccessibilityTable = ({ contents }: Props) => {
     <Table sx={{ borderRadius: 10 }}>
       <TableHead>
         <TableRow>
-          <TableHeadCell color="semantic.label.normal">Key</TableHeadCell>
-          <TableHeadCell color="semantic.label.normal">
+          <TableHeadCell color="semantic.foreground.neutral.primary">
+            Key
+          </TableHeadCell>
+          <TableHeadCell color="semantic.foreground.neutral.primary">
             Description
           </TableHeadCell>
         </TableRow>
@@ -44,7 +46,7 @@ const SectionAccessibilityTable = ({ contents }: Props) => {
       <TableBody>
         {contents?.map(({ keys, description }, i) => (
           <TableRow key={i}>
-            <TableCell color="semantic.label.alternative">
+            <TableCell color="semantic.foreground.neutral.tertiary">
               {keys.map((key, j) => (
                 <Fragment key={key}>
                   <Box as="kbd" sx={kbdStyle}>
@@ -55,7 +57,7 @@ const SectionAccessibilityTable = ({ contents }: Props) => {
               ))}
             </TableCell>
             <TableCell
-              color="semantic.label.neutral"
+              color="semantic.foreground.neutral.secondary"
               variant="label2"
               weight="regular"
             >

@@ -45,32 +45,33 @@ export const paletteColorStyle = (theme: Theme) => css`
     height: 100%;
     border-radius: inherit;
     border-style: solid;
-    border-color: ${theme.semantic.line.normal.alternative};
+    border-color: ${theme.semantic.line.neutral.tertiary};
     border-left-width: var(--border-left);
     border-right-width: var(--border-right);
     border-top-width: 1px;
     border-bottom-width: 1px;
-    background-color: ${theme.semantic.background.normal.normal};
-    background-image: var(--background-color),
+    background-color: ${theme.semantic.background.neutral.primary};
+    background-image:
+      var(--background-color),
       linear-gradient(
         45deg,
-        ${theme.semantic.background.normal.alternative} 25%,
+        ${theme.semantic.background.neutral.secondary} 25%,
         transparent 25%
       ),
       linear-gradient(
         135deg,
-        ${theme.semantic.background.normal.alternative} 25%,
+        ${theme.semantic.background.neutral.secondary} 25%,
         transparent 25%
       ),
       linear-gradient(
         45deg,
         transparent 75%,
-        ${theme.semantic.background.normal.alternative} 75%
+        ${theme.semantic.background.neutral.secondary} 75%
       ),
       linear-gradient(
         135deg,
         transparent 75%,
-        ${theme.semantic.background.normal.alternative} 75%
+        ${theme.semantic.background.neutral.secondary} 75%
       );
     background-position:
       0 0,
@@ -99,7 +100,7 @@ export const paletteInfoTableStyle = (theme: Theme) => css`
   td {
     border: none;
     padding: 0 0 8px 0;
-    color: ${theme.semantic.label.neutral};
+    color: ${theme.semantic.foreground.neutral.secondary};
     text-align: left;
     vertical-align: top;
     ${typographyStyle('label1', 'medium')}
@@ -122,6 +123,6 @@ export const tokenItemStyle = (theme: Theme) => css`
   margin-top: 3px;
   height: 16px;
   border-radius: 16px;
-  box-shadow: inset 0 0 0 1px ${theme.semantic.label.assistive};
+  box-shadow: inset 0 0 0 1px ${theme.semantic.foreground.neutral.quaternary};
   flex-shrink: 0;
 `;

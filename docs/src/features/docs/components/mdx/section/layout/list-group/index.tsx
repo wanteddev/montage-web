@@ -15,7 +15,7 @@ const ListGroup = ({ items }: ListGroupProps) => {
       variant="body2-reading"
       weight="medium"
       as="ul"
-      color="semantic.label.neutral"
+      color="semantic.foreground.neutral.secondary"
       sx={ulStyle}
     >
       {items.map((item, index) => (

@@ -6,7 +6,7 @@ import type { Theme } from '@montage-ui/engine';
 
 export const dateCalendarStyle = (theme: Theme) => css`
   width: 276px;
-  background-color: ${theme.semantic.background.elevated.normal};
+  background-color: ${theme.semantic.surface.elevated.primary};
 `;
 
 export const stickyDateCalendarStyle = (theme: Theme) => css`
@@ -14,7 +14,7 @@ export const stickyDateCalendarStyle = (theme: Theme) => css`
   z-index: 10;
   position: sticky;
   background: ${addOpacity(
-    theme.semantic.background.elevated.normal,
+    theme.semantic.surface.elevated.primary,
     theme.opacity[88],
   )};
   backdrop-filter: blur(32px);
@@ -34,7 +34,7 @@ export const weekdayCellStyle = css`
 `;
 
 export const dateCalendarHeaderLabelButtonStyle = (theme: Theme) => css`
-  color: ${theme.semantic.label.normal};
+  color: ${theme.semantic.foreground.neutral.primary};
   padding-top: 0px;
   padding-bottom: 0px;
 
@@ -62,7 +62,7 @@ export const dateYearMonthWrapperStyle = css`
 `;
 
 export const dayItemButtonStyle = (theme: Theme) => css`
-  color: ${theme.semantic.label.normal};
+  color: ${theme.semantic.foreground.neutral.primary};
   border: none;
   border-radius: 10000px;
   padding: 7px 0px;
@@ -73,25 +73,25 @@ export const dayItemButtonStyle = (theme: Theme) => css`
 
   &:disabled {
     cursor: initial;
-    color: ${theme.semantic.label.assistive};
+    color: ${theme.semantic.foreground.neutral.quaternary};
   }
 
   &[data-other-month='true'] {
-    color: ${theme.semantic.label.assistive};
+    color: ${theme.semantic.foreground.neutral.quaternary};
   }
 
   &[aria-current='date'] {
-    color: ${theme.semantic.primary.normal};
+    color: ${theme.semantic.foreground.brand.primary};
     background-color: ${addOpacity(
-      theme.semantic.primary.normal,
+      theme.semantic.surface.brand.primary,
       theme.opacity[8],
     )};
 
     &:disabled,
     &[data-other-month='true'] {
-      color: ${theme.semantic.label.disable};
+      color: ${theme.semantic.foreground.disable.primary};
       background-color: ${addOpacity(
-        theme.semantic.primary.normal,
+        theme.semantic.surface.brand.primary,
         theme.opacity[8],
       )};
     }
@@ -99,21 +99,21 @@ export const dayItemButtonStyle = (theme: Theme) => css`
 
   &[aria-selected='true'] {
     color: ${theme.semantic.static.white};
-    background-color: ${theme.semantic.primary.normal};
+    background-color: ${theme.semantic.surface.brand.primary};
     &:disabled,
     &[data-other-month='true'] {
       color: ${addOpacity(theme.semantic.static.white, theme.opacity[43])};
-      background-color: ${theme.semantic.primary.normal};
+      background-color: ${theme.semantic.surface.brand.primary};
     }
   }
 
   &[aria-checked='true'] {
     color: ${theme.semantic.static.white};
-    background-color: ${theme.semantic.primary.normal};
+    background-color: ${theme.semantic.surface.brand.primary};
     &:disabled,
     &[data-other-month='true'] {
       color: ${addOpacity(theme.semantic.static.white, theme.opacity[43])};
-      background-color: ${theme.semantic.primary.normal};
+      background-color: ${theme.semantic.surface.brand.primary};
     }
   }
 

@@ -16,7 +16,7 @@ export const customizeStyle = (theme: Theme) => css`
     left: 0;
     width: 100%;
     height: 1px;
-    background-color: ${theme.semantic.line.normal.alternative};
+    background-color: ${theme.semantic.line.neutral.tertiary};
   }
 
   ${respondTo(theme.breakpoint.sm)} {
@@ -26,6 +26,6 @@ export const customizeStyle = (theme: Theme) => css`
 `;
 
 export const customizeOptionStyle = (theme: Theme) => css`
-  color: ${theme.semantic.label.alternative};
-  background-color: ${theme.semantic.fill.normal};
+  color: ${theme.semantic.foreground.neutral.tertiary};
+  background-color: ${theme.semantic.surface.neutral.secondary};
 `;

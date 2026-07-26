@@ -248,7 +248,7 @@ const ListCellContent = forwardRef<
           {...props}
           sx={[listCellContentStyle({ variant }), sx]}
         >
-          <TextButtonProvider assistive="semantic.label.alternative">
+          <TextButtonProvider assistive="semantic.foreground.neutral.tertiary">
             {children}
           </TextButtonProvider>
         </FlexBox>
@@ -263,7 +263,7 @@ const ListCellContent = forwardRef<
           {...props}
           sx={[listCellContentStyle({ variant }), sx]}
         >
-          <IconButtonProvider normal="semantic.label.alternative">
+          <IconButtonProvider normal="semantic.foreground.neutral.tertiary">
             {children}
           </IconButtonProvider>
         </FlexBox>
@@ -296,7 +296,7 @@ const ListCellContent = forwardRef<
             <FlexBox alignItems="center" sx={{ height: '24px' }}>
               <IconChevronRightTightSmall
                 sx={(theme) => ({
-                  color: theme.semantic.label.assistive,
+                  color: theme.semantic.foreground.neutral.quaternary,
                 })}
               />
             </FlexBox>
@@ -383,13 +383,13 @@ const ListText = forwardRef(
 
     const getTextColor = (): ThemeColorsToken => {
       if (disabled) {
-        return 'semantic.label.alternative';
+        return 'semantic.foreground.neutral.tertiary';
       }
       if (selected) {
-        return 'semantic.primary.normal';
+        return 'semantic.foreground.brand.primary';
       }
 
-      return color ?? 'semantic.label.normal';
+      return color ?? 'semantic.foreground.neutral.primary';
     };
 
     return (
@@ -416,7 +416,7 @@ const ListText = forwardRef(
         {Boolean(caption) && (
           <Typography
             variant="label1"
-            color="semantic.label.alternative"
+            color="semantic.foreground.neutral.tertiary"
             data-role="list-text-caption"
             id={captionId}
             {...captionProps}

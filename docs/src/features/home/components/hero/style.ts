@@ -35,7 +35,7 @@ export const titleStyle = (theme: Theme) => css`
   width: 100%;
   height: fit-content;
   text-align: center;
-  color: ${theme.semantic.label.normal};
+  color: ${theme.semantic.foreground.neutral.primary};
 
   ${respondTo(theme.breakpoint.lg)} {
     font-size: 64px;
@@ -71,11 +71,11 @@ export const descriptionStyle = css`
 
 export const startButtonStyle = (theme: Theme) => css`
   padding: 12px 20px;
-  background-color: ${theme.semantic.fill.normal};
+  background-color: ${theme.semantic.surface.neutral.secondary};
   border-radius: 99px;
   width: fit-content;
   height: fit-content;
-  color: ${theme.semantic.label.normal};
+  color: ${theme.semantic.foreground.neutral.primary};
 
   transition:
     color 0.3s ease,
@@ -83,8 +83,8 @@ export const startButtonStyle = (theme: Theme) => css`
 
   @media (pointer: fine) {
     &:hover {
-      background-color: ${theme.semantic.inverse.background};
-      color: ${theme.semantic.inverse.label};
+      background-color: ${theme.semantic.surface.neutral.inverse};
+      color: ${theme.semantic.foreground.neutral.inverse};
     }
   }
 `;
@@ -144,7 +144,7 @@ export const marqueeBackgroundOverlayStyle =
       position: absolute;
       width: 100%;
       height: 100%;
-      background-color: ${theme.semantic.background.normal.normal};
+      background-color: ${theme.semantic.background.neutral.primary};
       mask-image: linear-gradient(
         ${position === 'left' ? 'to right' : 'to left'},
         #000 10%,

@@ -42,14 +42,14 @@ const Chip = forwardRef(
 
     const interactionColor: ThemeColorsToken = useMemo(() => {
       if (!active) {
-        return 'semantic.label.normal';
+        return 'semantic.foreground.neutral.primary';
       }
 
       if (variant === 'outlined') {
-        return 'semantic.primary.normal';
+        return 'semantic.surface.brand.primary';
       }
 
-      return 'semantic.inverse.label';
+      return 'semantic.foreground.neutral.inverse';
     }, [active, variant]);
 
     const overrideColor = useMemo(() => {

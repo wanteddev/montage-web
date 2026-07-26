@@ -10,7 +10,7 @@ export const switchStyle =
   ({ size, checked, disabled, xs, sm, md, lg, xl }: SwitchProps) =>
   (theme: Theme) => css`
     display: flex;
-    background-color: ${theme.semantic.fill.strong};
+    background-color: ${theme.semantic.surface.neutral.strong};
     border: none;
     box-shadow: none;
     justify-content: center;
@@ -60,7 +60,7 @@ export const switchStyle =
 
     ${checked &&
     css`
-      background-color: ${theme.semantic.primary.normal};
+      background-color: ${theme.semantic.surface.brand.primary};
 
       span {
         margin-left: calc(

@@ -36,7 +36,7 @@ export const lnbItemStyle = (theme: Theme) => css`
   @media (pointer: fine) {
     &:hover {
       [data-role='lnb-group-item-arrow'] {
-        color: ${theme.semantic.label.normal};
+        color: ${theme.semantic.foreground.neutral.primary};
         transform: translateX(0px);
       }
 
@@ -48,12 +48,12 @@ export const lnbItemStyle = (theme: Theme) => css`
 
   &[aria-current='page'] {
     [data-role='lnb-group-item-arrow'] {
-      color: ${theme.semantic.label.normal};
+      color: ${theme.semantic.foreground.neutral.primary};
       transform: translateX(0px);
     }
 
     [data-role='list-text-content'] {
-      color: ${theme.semantic.label.normal};
+      color: ${theme.semantic.foreground.neutral.primary};
     }
 
     & > [data-component='with-interaction'] {

@@ -177,7 +177,7 @@ const SectionVariants = ({
                     <Typography
                       variant="label1"
                       weight="bold"
-                      color="semantic.label.assistive"
+                      color="semantic.foreground.neutral.quaternary"
                     >
                       {variant.key}
                     </Typography>
@@ -210,7 +210,7 @@ const SectionVariants = ({
                 <Typography
                   variant="label1"
                   weight="bold"
-                  color="semantic.label.assistive"
+                  color="semantic.foreground.neutral.quaternary"
                 >
                   {variant.key}
                 </Typography>

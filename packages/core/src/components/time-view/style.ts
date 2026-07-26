@@ -76,11 +76,11 @@ export const timeItemStyle =
     css`
       &,
       p {
-        color: ${theme.semantic.label.normal};
+        color: ${theme.semantic.foreground.neutral.primary};
       }
 
       background-color: ${addOpacity(
-        theme.semantic.primary.normal,
+        theme.semantic.surface.brand.primary,
         theme.opacity[8],
       )};
     `}

@@ -113,7 +113,7 @@ const Sidebar = () => {
                 as="p"
                 variant="body2"
                 weight="bold"
-                color="semantic.label.normal"
+                color="semantic.foreground.neutral.primary"
                 sx={[{ padding: '6px 0px' }]}
               >
                 On this page
@@ -124,7 +124,7 @@ const Sidebar = () => {
                     <Typography
                       variant="label2"
                       weight="bold"
-                      color="semantic.label.assistive"
+                      color="semantic.foreground.neutral.quaternary"
                       as="li"
                       key={id}
                       data-level={getHeadingLevel(nodeName)}
