@@ -18,7 +18,7 @@ module.exports = {
                 ['[data-role="content"]']: {
                   width: 64,
                   height: 64,
-                  boxShadow: `inset 0 0 0 1px ${theme.semantic.line.normal.normal}`,
+                  boxShadow: `inset 0 0 0 1px ${theme.semantic.line.neutral.primary}`,
                 },
               }),
             },
@@ -32,7 +32,7 @@ module.exports = {
                 ['[data-role="content"]']: {
                   width: 64,
                   height: 64,
-                  boxShadow: `inset 0 0 0 1px ${theme.semantic.line.normal.normal}`,
+                  boxShadow: `inset 0 0 0 1px ${theme.semantic.line.neutral.primary}`,
                 },
               }),
             },
@@ -47,7 +47,7 @@ module.exports = {
                 ['[data-role="content"]']: {
                   width: 64,
                   height: 64,
-                  boxShadow: `inset 0 0 0 1px ${theme.semantic.line.normal.normal}`,
+                  boxShadow: `inset 0 0 0 1px ${theme.semantic.line.neutral.primary}`,
                 },
               }),
             },

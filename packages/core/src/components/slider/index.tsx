@@ -188,7 +188,9 @@ const Slider = forwardRef<
             weight="bold"
             alignItems="center"
             color={
-              disabled ? 'semantic.label.disable' : 'semantic.label.normal'
+              disabled
+                ? 'semantic.foreground.disable.primary'
+                : 'semantic.foreground.neutral.primary'
             }
             sx={{ margin: '0 auto 32px auto' }}
           >
@@ -350,8 +352,8 @@ const Slider = forwardRef<
                   }}
                   color={
                     disabled
-                      ? 'semantic.label.disable'
-                      : 'semantic.label.normal'
+                      ? 'semantic.foreground.disable.primary'
+                      : 'semantic.foreground.neutral.primary'
                   }
                 >
                   {render}

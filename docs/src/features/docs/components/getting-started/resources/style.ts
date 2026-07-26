@@ -6,7 +6,7 @@ export const resourceItemStyle = (theme: Theme) => css`
   border-radius: 12px;
   padding: 20px 24px;
   background: transparent;
-  box-shadow: inset 0 0 0 1px ${theme.semantic.line.solid.neutral};
+  box-shadow: inset 0 0 0 1px ${theme.semantic.line.neutral.secondaryOpaque};
 
   [data-role='interaction-arrow'] {
     opacity: 0;

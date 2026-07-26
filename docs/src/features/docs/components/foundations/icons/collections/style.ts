@@ -24,16 +24,16 @@ export const iconItemStyle = (theme: Theme) => css`
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: inset 0 0 0 1px ${theme.semantic.line.normal.alternative};
+  box-shadow: inset 0 0 0 1px ${theme.semantic.line.neutral.tertiary};
   transition: box-shadow 0.15s ease;
-  color: ${theme.semantic.label.normal};
+  color: ${theme.semantic.foreground.neutral.primary};
 
   &[aria-expanded='true'] {
     box-shadow: inset 0 0 0 1px
-      ${addOpacity(theme.semantic.primary.normal, theme.opacity[16])};
+      ${addOpacity(theme.semantic.surface.brand.primary, theme.opacity[16])};
 
     & > [data-component='with-interaction'] {
-      background-color: ${theme.semantic.primary.normal};
+      background-color: ${theme.semantic.surface.brand.primary};
       opacity: 0.06;
     }
   }
@@ -51,7 +51,7 @@ export const iconDetailWrapperStyle = (theme: Theme) => css`
   justify-content: center;
   border-radius: 10px;
   font-size: 24px;
-  box-shadow: inset 0 0 0 1px ${theme.semantic.line.normal.alternative};
+  box-shadow: inset 0 0 0 1px ${theme.semantic.line.neutral.tertiary};
 `;
 
 export const iconPopoverWrapperStyle = css`

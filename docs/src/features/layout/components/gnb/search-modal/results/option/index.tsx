@@ -65,7 +65,7 @@ const SearchOption = ({ item, recentSearchRemove, ...props }: Props) => {
               e.preventDefault();
               recentSearchRemove(item);
             }}
-            color="semantic.label.alternative"
+            color="semantic.foreground.neutral.tertiary"
             sx={{ zIndex: 1 }}
           >
             <IconClose />
@@ -88,7 +88,7 @@ const SearchOption = ({ item, recentSearchRemove, ...props }: Props) => {
     <IconArrowRight
       sx={(theme) => ({
         fontSize: 16,
-        color: theme.semantic.label.neutral,
+        color: theme.semantic.foreground.neutral.secondary,
       })}
     />
   );
@@ -120,7 +120,7 @@ const SearchOption = ({ item, recentSearchRemove, ...props }: Props) => {
           <Typography
             variant="label1"
             weight="regular"
-            color="semantic.label.alternative"
+            color="semantic.foreground.neutral.tertiary"
           >
             • {item.category ?? 'Design'}
           </Typography>

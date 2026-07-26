@@ -50,7 +50,7 @@ const FoundationsOverview = () => {
             <Typography
               variant="body2"
               weight="bold"
-              color="semantic.label.normal"
+              color="semantic.foreground.neutral.primary"
               display="block"
               sx={{
                 width: '120px',
@@ -62,7 +62,7 @@ const FoundationsOverview = () => {
             <Typography
               variant="label1"
               weight="medium"
-              color="semantic.label.neutral"
+              color="semantic.foreground.neutral.secondary"
               sm={{
                 sx: {
                   paddingBlock: '1px',

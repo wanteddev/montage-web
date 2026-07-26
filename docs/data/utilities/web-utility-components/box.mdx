@@ -17,7 +17,7 @@ const Demo = () => {
   return (
     <Box
       sx={theme => ({
-        backgroundColor: theme.semantic.background.elevated.alternative, width: '50px', height: '50px'
+        backgroundColor: theme.semantic.surface.elevated.secondary, width: '50px', height: '50px'
       })}
     />
   );
@@ -47,18 +47,18 @@ const Demo = () => {
       />
       <Box
         sx={theme => ({
-          backgroundColor: theme.semantic.background.elevated.alternative, width: '50px', height: '50px'
+          backgroundColor: theme.semantic.surface.elevated.secondary, width: '50px', height: '50px'
         })}
       />
       <Box sx={theme => css\`
-        background-color: \${theme.semantic.primary.normal};
+        background-color: \${theme.semantic.surface.brand.primary};
         width: 50px;
         height: 50px;
       \`}
       />
       <Box sx={[
         theme => css\`
-          background-color: \${theme.semantic.label.normal};
+          background-color: \${theme.semantic.surface.neutral.inverse};
         \`,
         {
           width: '50px',

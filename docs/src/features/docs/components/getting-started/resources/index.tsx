@@ -27,7 +27,7 @@ const Resources = () => {
               variant="body2"
               weight="bold"
               as="p"
-              color="semantic.label.normal"
+              color="semantic.foreground.neutral.primary"
             >
               Wanted Figma UI Kit
             </Typography>
@@ -36,7 +36,7 @@ const Resources = () => {
               data-role="interaction-arrow"
               aria-hidden
               sx={(theme) => ({
-                color: theme.semantic.label.normal,
+                color: theme.semantic.foreground.neutral.primary,
                 fontSize: '20px',
               })}
             />
@@ -56,7 +56,7 @@ const Resources = () => {
               variant="body2"
               weight="bold"
               as="p"
-              color="semantic.label.normal"
+              color="semantic.foreground.neutral.primary"
             >
               GitHub Repository
             </Typography>

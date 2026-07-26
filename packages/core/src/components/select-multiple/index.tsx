@@ -309,7 +309,7 @@ const SelectMultiple = forwardRef<
                     isScrollableRight,
                   })}
                 >
-                  <ChipProvider solid="semantic.label.alternative">
+                  <ChipProvider solid="semantic.foreground.neutral.tertiary">
                     <FlexBox
                       ref={setRenderWrapperNode}
                       gap="4px"

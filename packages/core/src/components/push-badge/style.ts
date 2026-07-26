@@ -136,7 +136,7 @@ const pushBadgeVariantStyle = ({ variant }: PushBadgeProps, theme: Theme) => {
         justify-content: center;
         flex-shrink: 0;
         align-items: center;
-        color: ${theme.semantic.primary.normal};
+        color: ${theme.semantic.surface.brand.primary};
 
         svg {
           width: 1em !important;
@@ -153,7 +153,7 @@ const pushBadgeVariantStyle = ({ variant }: PushBadgeProps, theme: Theme) => {
         align-items: center;
         flex-shrink: 0;
         color: ${theme.semantic.static.white};
-        background-color: ${theme.semantic.primary.normal};
+        background-color: ${theme.semantic.surface.brand.primary};
         border-radius: 9999px;
 
         & > [data-role='push-badge-text'] {

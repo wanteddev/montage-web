@@ -24,7 +24,7 @@ export const sectionHeaderStyle =
       [data-component='icon-button'][data-variant='normal'],
     [data-role='section-header-heading-content']
       [data-component='icon-button'][data-variant='normal'] {
-      color: ${theme.semantic.label.assistive};
+      color: ${theme.semantic.foreground.neutral.quaternary};
     }
 
     ${sectionHeaderSizeStyle({ size, color, platform }, theme)}
@@ -65,7 +65,10 @@ const sectionHeaderSizeStyle = (
   switch (size) {
     case 'xsmall':
       return css`
-        color: ${getColorByToken(theme, color ?? 'semantic.label.alternative')};
+        color: ${getColorByToken(
+          theme,
+          color ?? 'semantic.foreground.neutral.tertiary',
+        )};
         ${typographyStyle('label1', 'bold')};
 
         [data-role='section-header-heading-content'],
@@ -75,7 +78,10 @@ const sectionHeaderSizeStyle = (
       `;
     case 'small':
       return css`
-        color: ${getColorByToken(theme, color ?? 'semantic.label.strong')};
+        color: ${getColorByToken(
+          theme,
+          color ?? 'semantic.foreground.neutral.strong',
+        )};
         ${typographyStyle(
           platform === 'desktop' ? 'headline1' : 'headline2',
           'bold',
@@ -88,7 +94,10 @@ const sectionHeaderSizeStyle = (
       `;
     case 'medium':
       return css`
-        color: ${getColorByToken(theme, color ?? 'semantic.label.strong')};
+        color: ${getColorByToken(
+          theme,
+          color ?? 'semantic.foreground.neutral.strong',
+        )};
         ${typographyStyle(
           platform === 'desktop' ? 'heading1' : 'heading2',
           'bold',
@@ -101,7 +110,10 @@ const sectionHeaderSizeStyle = (
       `;
     case 'large':
       return css`
-        color: ${getColorByToken(theme, color ?? 'semantic.label.strong')};
+        color: ${getColorByToken(
+          theme,
+          color ?? 'semantic.foreground.neutral.strong',
+        )};
         ${typographyStyle(
           platform === 'desktop' ? 'title2' : 'title3',
           'bold',
@@ -121,11 +133,11 @@ export const sectionHeaderNavigationStyle = (theme: Theme) => css`
   overflow: hidden;
   border-radius: 10px;
   height: 32px;
-  border: 1px solid ${theme.semantic.line.normal.neutral};
+  border: 1px solid ${theme.semantic.line.neutral.secondary};
 `;
 
 export const sectionHeaderNavigationButtonStyle = (theme: Theme) => css`
-  color: ${theme.semantic.label.alternative};
+  color: ${theme.semantic.foreground.neutral.tertiary};
   cursor: pointer;
   justify-content: center;
   align-items: center;
@@ -141,7 +153,7 @@ export const sectionHeaderNavigationButtonStyle = (theme: Theme) => css`
 
   &[aria-disabled='true'],
   &:disabled {
-    color: ${theme.semantic.label.disable};
+    color: ${theme.semantic.foreground.disable.primary};
     cursor: initial;
   }
 `;

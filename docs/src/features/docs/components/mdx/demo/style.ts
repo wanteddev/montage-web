@@ -3,7 +3,7 @@ import { addOpacity, css, gradient } from '@montage-ui/core';
 import type { Theme } from '@montage-ui/core';
 
 export const demoWrapperStyle = (theme: Theme) => css`
-  background-color: ${theme.semantic.background.normal.normal};
+  background-color: ${theme.semantic.background.neutral.primary};
   border-radius: 16px;
   overflow: hidden;
   margin-bottom: 20px;
@@ -20,8 +20,8 @@ export const demoStyle =
     padding: 40px 16px;
     border-top-right-radius: 16px;
     border-top-left-radius: 16px;
-    box-shadow: inset 0 0 0 1px ${theme.semantic.line.normal.normal};
-    background-color: ${theme.semantic.background.normal.normal};
+    box-shadow: inset 0 0 0 1px ${theme.semantic.line.neutral.primary};
+    background-color: ${theme.semantic.background.neutral.primary};
     position: relative;
     display: flex;
     flex-direction: column;
@@ -33,26 +33,27 @@ export const demoStyle =
 
     ${isTransparent &&
     css`
-      background-color: ${theme.semantic.background.normal.normal};
-      background-image: linear-gradient(
+      background-color: ${theme.semantic.background.neutral.primary};
+      background-image:
+        linear-gradient(
           45deg,
-          ${theme.semantic.background.normal.alternative} 25%,
+          ${theme.semantic.background.neutral.secondary} 25%,
           transparent 25%
         ),
         linear-gradient(
           135deg,
-          ${theme.semantic.background.normal.alternative} 25%,
+          ${theme.semantic.background.neutral.secondary} 25%,
           transparent 25%
         ),
         linear-gradient(
           45deg,
           transparent 75%,
-          ${theme.semantic.background.normal.alternative} 75%
+          ${theme.semantic.background.neutral.secondary} 75%
         ),
         linear-gradient(
           135deg,
           transparent 75%,
-          ${theme.semantic.background.normal.alternative} 75%
+          ${theme.semantic.background.neutral.secondary} 75%
         );
       background-position:
         0px 0px,
@@ -86,8 +87,8 @@ export const editorWrapperStyle =
       pointer-events: none;
       transition: box-shadow ease 0.2s;
       box-shadow:
-        inset 0 0 0 1px ${theme.semantic.line.normal.normal},
-        inset 0 0 0 1px ${theme.semantic.background.elevated.normal};
+        inset 0 0 0 1px ${theme.semantic.line.neutral.primary},
+        inset 0 0 0 1px ${theme.semantic.surface.elevated.primary};
     }
 
     ${hasError
@@ -95,8 +96,11 @@ export const editorWrapperStyle =
           &::before {
             box-shadow:
               inset 0 0 0 1px
-                ${addOpacity(theme.semantic.status.negative, theme.opacity[28])},
-              inset 0 0 0 1px ${theme.semantic.background.elevated.normal};
+                ${addOpacity(
+                  theme.semantic.foreground.negative.primary,
+                  theme.opacity[28],
+                )},
+              inset 0 0 0 1px ${theme.semantic.surface.elevated.primary};
           }
 
           &:has(.cm-focused) {
@@ -104,10 +108,10 @@ export const editorWrapperStyle =
               box-shadow:
                 inset 0 0 0 2px
                   ${addOpacity(
-                    theme.semantic.status.negative,
+                    theme.semantic.foreground.negative.primary,
                     theme.opacity[43],
                   )},
-                inset 0 0 0 2px ${theme.semantic.background.elevated.normal};
+                inset 0 0 0 2px ${theme.semantic.surface.elevated.primary};
             }
           }
         `
@@ -117,21 +121,21 @@ export const editorWrapperStyle =
               box-shadow:
                 inset 0 0 0 2px
                   ${addOpacity(
-                    theme.semantic.primary.normal,
+                    theme.semantic.surface.brand.primary,
                     theme.opacity[43],
                   )},
-                inset 0 0 0 2px ${theme.semantic.background.elevated.normal};
+                inset 0 0 0 2px ${theme.semantic.surface.elevated.primary};
             }
           }
         `}
   `;
 
 export const editorFallbackStyle = (theme: Theme) => css`
-  box-shadow: inset 0 0 0 1px ${theme.semantic.line.normal.normal};
+  box-shadow: inset 0 0 0 1px ${theme.semantic.line.neutral.primary};
   border-bottom-right-radius: 16px;
   border-bottom-left-radius: 16px;
   height: var(--demo-editor-height);
-  background-color: ${theme.semantic.background.elevated.normal};
+  background-color: ${theme.semantic.surface.elevated.primary};
   svg {
     z-index: 1;
   }
@@ -146,7 +150,7 @@ export const editorFallbackStyle = (theme: Theme) => css`
     width: calc(100% - 2px);
     border-radius: inherit;
     ${gradient(
-      theme.semantic.background.normal.alternative,
+      theme.semantic.background.neutral.secondary,
       'top',
       '100%',
       'mask',

@@ -7,6 +7,9 @@ export const meta = {
   phases: [{ title: 'Validate', detail: '4 parallel reviewers' }],
 }
 
+// The harness may deliver `args` as a JSON string instead of an object — normalize first.
+const input = typeof args === 'string' ? JSON.parse(args) : (args ?? {})
+
 // Required args:
 //   repoRoot: absolute path of this design-system repo
 //   skillDir: absolute path of the migration skill under validation
@@ -36,7 +39,7 @@ const FINDINGS_SCHEMA = {
   },
 }
 
-const SKILL_FILES = `${args.skillDir}/SKILL.md, ${args.skillDir}/references/codemod-steps.md, ${args.skillDir}/references/manual-migrations.md, ${args.skillDir}/scripts/migration-workflow.js`
+const SKILL_FILES = `${input.skillDir}/SKILL.md, ${input.skillDir}/references/codemod-steps.md, ${input.skillDir}/references/manual-migrations.md, ${input.skillDir}/scripts/migration-workflow.js`
 
 phase('Validate')
 
@@ -46,7 +49,7 @@ const results = await parallel([
       `Adversarially FACT-CHECK migration documentation against source code. Try to refute every checkable claim.
 
 Docs: ${SKILL_FILES}
-Ground truth: ${args.transformsDir}/*.ts, ${args.repoRoot}/packages/codemod/src/cli.ts, ${args.repoRoot}/packages/codemod/src/constants.ts, ${args.repoRoot}/packages/codemod/src/helpers/index.ts, and the "${args.migrationSection}" section of ${args.repoRoot}/MIGRATION.md.
+Ground truth: ${input.transformsDir}/*.ts, ${input.repoRoot}/packages/codemod/src/cli.ts, ${input.repoRoot}/packages/codemod/src/constants.ts, ${input.repoRoot}/packages/codemod/src/helpers/index.ts, and the "${input.migrationSection}" section of ${input.repoRoot}/MIGRATION.md.
 
 Check especially: (1) idempotency claims — trace rename chains in the transform source; (2) CLI invocation claims (positional handling, glob expansion, stylesheet pass registration) — from cli.ts source, not help text; (3) every rename table vs MIGRATION.md and the transform maps, including entries the docs may have MISSED from the maps; (4) every grep pattern — empirically run each one with /usr/bin/grep -E on a synthetic fixture: does it execute without error on BSD grep, does it catch multi-line imports, does it catch *Props/*Skeleton leftovers, does it avoid matching post-migration names? Report only verified findings. Your final output is raw data for the orchestrator.`,
       { label: 'validate:fact-check', phase: 'Validate', schema: FINDINGS_SCHEMA },
@@ -55,7 +58,7 @@ Check especially: (1) idempotency claims — trace rename chains in the transfor
     agent(
       `Check INTERNAL CONSISTENCY of a migration skill package. Try hard to find contradictions.
 
-Files: ${SKILL_FILES}, plus ${args.repoRoot}/.claude-plugin/montage-migration/README.md, README.ko.md, .claude-plugin/plugin.json.
+Files: ${SKILL_FILES}, plus ${input.repoRoot}/.claude-plugin/montage-migration/README.md, README.ko.md, .claude-plugin/plugin.json.
 
 Verify these consistency surfaces are identical everywhere they appear: (1) codemod step order — SKILL.md rules + state template + workflow example, codemod-steps.md table + sections, script CODEMOD_STEPS + STATE_FILE_TEMPLATE, READMEs; (2) M-section numbering/topics — manual-migrations.md headings vs script MANUAL_SCAN_SECTIONS vs SKILL.md mentions vs state template; (3) state file path and YAML schema; (4) Workflow args in SKILL.md example vs what the script reads (every arg the script reads must be documented, and vice versa); (5) npx command shape; (6) ownership of each manual fix (exactly one phase owns it; safety-net scans must say so). Report every mismatch. Your final output is raw data for the orchestrator.`,
       { label: 'validate:consistency', phase: 'Validate', schema: FINDINGS_SCHEMA },
@@ -73,9 +76,9 @@ Check: frontmatter description (third person, Korean AND English triggers, resum
     agent(
       `Validate PLUGIN STRUCTURE and mechanical health.
 
-Skill dir: ${args.skillDir}
-Plugin root: ${args.repoRoot}/.claude-plugin/montage-migration
-Marketplace: ${args.repoRoot}/.claude-plugin/marketplace.json
+Skill dir: ${input.skillDir}
+Plugin root: ${input.repoRoot}/.claude-plugin/montage-migration
+Marketplace: ${input.repoRoot}/.claude-plugin/marketplace.json
 
 Check: plugin.json valid and version bumped for this change; SKILL.md frontmatter parses (name matches directory, kebab-case); every file referenced from SKILL.md exists; any file under references/ or scripts/ NOT referenced from SKILL.md gets flagged (the convention is exactly: references/codemod-steps.md, references/manual-migrations.md, scripts/migration-workflow.js); the workflow script parses — extract the body after the meta export, wrap it in "async function main(){...}" with stub globals (args/agent/parallel/log/phase), write to a temp .mjs and run node --check; meta export is a pure literal with name/description/phases; npx prettier --check on the skill's .md files passes; README.md and README.ko.md both list the skill. Report failures only. Your final output is raw data for the orchestrator.`,
       { label: 'validate:structure', phase: 'Validate', schema: FINDINGS_SCHEMA },

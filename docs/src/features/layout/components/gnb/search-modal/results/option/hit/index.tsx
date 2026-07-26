@@ -63,7 +63,7 @@ const SearchOptionHit = ({
               sx={textStyle}
               variant="label1"
               weight="medium"
-              color="semantic.label.alternative"
+              color="semantic.foreground.neutral.tertiary"
             >
               {children}
             </Typography>
@@ -73,7 +73,7 @@ const SearchOptionHit = ({
                 sx={captionStyle}
                 variant="label2"
                 weight="regular"
-                color="semantic.label.alternative"
+                color="semantic.foreground.neutral.tertiary"
                 noWrap
               >
                 {caption}

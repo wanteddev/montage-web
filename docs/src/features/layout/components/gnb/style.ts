@@ -10,13 +10,13 @@ export const gnbWrapperStyle = (theme: Theme) => css`
   height: var(--gnb-height);
   padding: 12px var(--layout-padding-inline);
   background-color: ${addOpacity(
-    theme.semantic.background.normal.normal,
+    theme.semantic.background.neutral.primary,
     theme.opacity[88],
   )};
   backdrop-filter: blur(32px);
 
   body:has([data-role='route-tab'][data-is-sticky='true']) & {
-    background-color: ${theme.semantic.background.normal.normal};
+    background-color: ${theme.semantic.background.neutral.primary};
     backdrop-filter: none;
   }
 `;
@@ -38,7 +38,7 @@ export const gnbNavigationLinkWrapperStyle = (theme: Theme) => css`
   @media (pointer: fine) {
     &:has([data-role='gnb-navigation-link']:hover) {
       [data-role='gnb-navigation-link']:not(:hover) {
-        color: ${theme.semantic.label.assistive};
+        color: ${theme.semantic.foreground.neutral.quaternary};
       }
     }
   }
@@ -50,12 +50,12 @@ export const gnbNavigationLinkStyle = (theme: Theme) => css`
 
   @media (pointer: fine) {
     &:hover {
-      color: ${theme.semantic.label.normal};
+      color: ${theme.semantic.foreground.neutral.primary};
     }
   }
 
   &[aria-current='page'] {
-    color: ${theme.semantic.label.normal};
+    color: ${theme.semantic.foreground.neutral.primary};
   }
 `;
 
@@ -64,7 +64,7 @@ export const gnbActionsStyle = (theme: Theme) => css`
   border-radius: 12px;
   position: relative;
   font-size: 22px;
-  color: ${theme.semantic.label.normal};
+  color: ${theme.semantic.foreground.neutral.primary};
 
   & > [data-component='with-interaction'] {
     width: calc(100% + 16px);
