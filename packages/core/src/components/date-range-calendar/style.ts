@@ -11,7 +11,7 @@ export const rangeCalendarContainerStyle = css`
 
 export const rangePanelStyle = (theme: Theme) => css`
   width: 276px;
-  background-color: ${theme.semantic.background.elevated.normal};
+  background-color: ${theme.semantic.surface.elevated.primary};
   flex-shrink: 0;
 `;
 
@@ -41,7 +41,7 @@ export const rangeStickyHeaderStyle = (theme: Theme) => css`
   z-index: 10;
   position: sticky;
   background: ${addOpacity(
-    theme.semantic.background.elevated.normal,
+    theme.semantic.surface.elevated.primary,
     theme.opacity[88],
   )};
   backdrop-filter: blur(32px);
@@ -79,14 +79,14 @@ const rangeCellBaseStyle = (theme: Theme) => css`
 
   &[data-in-range='true']::before {
     background-color: ${addOpacity(
-      theme.semantic.primary.normal,
+      theme.semantic.surface.brand.primary,
       theme.opacity[8],
     )};
   }
 
   &[data-range-start='true']::before {
     background-color: ${addOpacity(
-      theme.semantic.primary.normal,
+      theme.semantic.surface.brand.primary,
       theme.opacity[8],
     )};
     left: 50%;
@@ -94,7 +94,7 @@ const rangeCellBaseStyle = (theme: Theme) => css`
 
   &[data-range-end='true']::before {
     background-color: ${addOpacity(
-      theme.semantic.primary.normal,
+      theme.semantic.surface.brand.primary,
       theme.opacity[8],
     )};
     right: 50%;
@@ -113,7 +113,7 @@ export const rangeDayCellStyle = (theme: Theme) => css`
 export const rangeMonthYearCellStyle = rangeCellBaseStyle;
 
 export const rangeDayItemStyle = (theme: Theme) => css`
-  color: ${theme.semantic.label.normal};
+  color: ${theme.semantic.foreground.neutral.primary};
   border: none;
   padding: 7px 0px;
   margin: 2px;
@@ -127,25 +127,25 @@ export const rangeDayItemStyle = (theme: Theme) => css`
 
   &:disabled {
     cursor: initial;
-    color: ${theme.semantic.label.assistive};
+    color: ${theme.semantic.foreground.neutral.quaternary};
   }
 
   &[data-other-month='true'] {
-    color: ${theme.semantic.label.disable};
+    color: ${theme.semantic.foreground.disable.primary};
   }
 
   &[aria-current='date'] {
-    color: ${theme.semantic.primary.normal};
+    color: ${theme.semantic.foreground.brand.primary};
     background-color: ${addOpacity(
-      theme.semantic.primary.normal,
+      theme.semantic.surface.brand.primary,
       theme.opacity[8],
     )};
 
     &:disabled,
     &[data-other-month='true'] {
-      color: ${theme.semantic.label.disable};
+      color: ${theme.semantic.foreground.disable.primary};
       background-color: ${addOpacity(
-        theme.semantic.primary.normal,
+        theme.semantic.surface.brand.primary,
         theme.opacity[8],
       )};
     }
@@ -166,11 +166,11 @@ export const rangeDayItemStyle = (theme: Theme) => css`
 
   &[aria-selected='true'] {
     color: ${theme.semantic.static.white};
-    background-color: ${theme.semantic.primary.normal};
+    background-color: ${theme.semantic.surface.brand.primary};
     &:disabled,
     &[data-other-month='true'] {
       color: ${addOpacity(theme.semantic.static.white, theme.opacity[43])};
-      background-color: ${theme.semantic.primary.normal};
+      background-color: ${theme.semantic.surface.brand.primary};
     }
   }
 `;

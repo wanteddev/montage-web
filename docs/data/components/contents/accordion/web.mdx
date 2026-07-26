@@ -124,8 +124,8 @@ const Demo = () => {
               <IconCircleCheckFill
                 sx={(theme) => ({
                   color: expandedCheckAccordion 
-                    ? theme.semantic.primary.normal 
-                    : theme.semantic.label.alternative,
+                    ? theme.semantic.foreground.brand.primary 
+                    : theme.semantic.foreground.neutral.tertiary,
                 })}
               />
             </AccordionSummaryContent>
@@ -148,7 +148,7 @@ const Demo = () => {
               <IconButton>
                 <IconChevronDown
                   sx={(theme) => ({
-                    color: theme.semantic.label.normal,
+                    color: theme.semantic.foreground.neutral.primary,
                   })}
                 />
               </IconButton>

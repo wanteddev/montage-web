@@ -1,11 +1,11 @@
 export const meta = {
   name: 'montage-v3-to-v4-migration',
   description:
-    'Run the 5 Montage v4 codemods strictly in sequence (never re-running a completed step), then scan for manual migration targets in parallel',
+    'Run the 6 Montage v4 codemods strictly in sequence (never re-running a completed step), then scan for manual migration targets in parallel',
   whenToUse:
     'Invoked by the montage-v3-to-v4 skill to migrate a consumer repo from Montage (WDS) v3 to v4',
   phases: [
-    { title: 'Codemods', detail: '5 v4 codemods, strictly sequential' },
+    { title: 'Codemods', detail: '6 v4 codemods, strictly sequential' },
     { title: 'Scan', detail: 'parallel read-only scans for manual migrations' },
   ],
 }
@@ -28,8 +28,9 @@ export const meta = {
 //                   steps are skipped deterministically, without spawning an agent.
 //   excludeFiles:   repo-relative paths of hand-migrated files the USER confirmed must be
 //                   excluded from form-control-migration (default []). Populated on a
-//                   re-run after step 5's precheck reported them; the step agent performs
-//                   the move-out/move-back exclusion procedure around the codemod run.
+//                   re-run after step 6's (form-control-migration) precheck reported
+//                   them; the step agent performs the move-out/move-back exclusion
+//                   procedure around the codemod run.
 
 const CODEMOD_STEPS = [
   {
@@ -40,11 +41,18 @@ const CODEMOD_STEPS = [
       'grep for "@wanteddev/" in .ts/.tsx/.js/.jsx AND .mjs/.cjs/.mts/.cts inside the targets. Import declarations in .ts/.tsx/.js/.jsx must have zero hits, EXCEPT `@wanteddev/montage-mcp` — that is the codemod\'s own post-migration name for wds-mcp; leave it alone. Import declarations in .mjs/.cjs/.mts/.cts are legitimate leftovers (the CLI runs jscodeshift with --extensions=tsx,ts,jsx,js only) — fix them by hand NOW, they are not codemod failures. Remaining hits in `export ... from`, require(), dynamic import(), jest.mock()/vi.mock(), or `declare module` lines are NOT covered by the codemod — fix those by hand NOW as part of this step (they are code, unlike the config-file work of manual step M1). Hits in package.json/configs belong to manual step M1; leave them.',
   },
   {
+    id: 'semantic-token-migration',
+    title: 'Semantic token migration (v3 semantic color tokens → v4 property/intent/variant structure)',
+    precheck: 'None. (The transform is idempotent and safe on hand-migrated v4 token code — the rename map is prefix-free and no new path matches an old key.)',
+    verify:
+      'Run the two step-2 verification greps from codemod-steps.md: the old dot-path pattern (semantic.(label|status|fill|material|inverse), semantic.interaction, semantic.primary., semantic.accent., semantic.background.(normal|elevated|transparent|status), semantic.line.(normal|solid|primary|status)) over the targets, and the old CSS-variable pattern (--semantic-… equivalents) INCLUDING .css/.scss/.sass/.less. Neither pattern matches any v4 name. Remaining hits should only be group-level references (theme.semantic.label passed/iterated whole), dynamically built names (`--semantic-${x}`, \'semantic.\' + path), or computed access (semantic[\'label\']) — all owned by manual step M9; report them in verifyFindings, do not fix them here. Then skim the diff for false positives: the transform is NOT import-gated, so a non-Montage object accessed as <x>.semantic.<old-path> or an unrelated string containing semantic.<old-path>/--semantic-<old-dashed> was rewritten too — revert genuinely unrelated rewrites in this step and note them. Expect surface.brand.primary at former primary.normal sites (including text/icon-color usages) and foreground.* tokens at former deleted-accent sites — the reclassification decisions belong to manual step M9; do NOT re-map them here. Dot-path token strings inside stylesheets are NOT converted (the stylesheet pass renames only the --semantic-* variable form) — flag any such hit for M9.',
+  },
+  {
     id: 'css-variable-migration',
     title: 'CSS variable migration (--wds-* prefix removal)',
     precheck: 'None.',
     verify:
-      'grep for "--wds-" in the targets including .css/.scss/.sass/.less — remaining hits should only be dynamically-built names (template interpolation / string concat), which belong to manual step M3. Then skim the diff for false positives: the rename is a blind prefix substitution, so consumer-defined --wds-* variables were also renamed (declarations and usages stay consistent inside the targets, but note them in verifyFindings). Also grep the diff for partially-rewritten camelCase custom properties (the pattern is lowercase-only, so --wds-myVar comes out as --myVar) and REPAIR them in this step — rename the declaration and every usage consistently; this step owns that fix, M3 is only a safety net. Expect intermediate --card-content-item-* names in the output — they are handled later by manual step M4; do NOT revert them.',
+      'grep for "--wds-" in the targets including .css/.scss/.sass/.less — remaining hits should only be dynamically-built names (template interpolation / string concat), which belong to manual step M3. Then skim the diff for false positives: the rename is a blind prefix substitution, so consumer-defined --wds-* variables were also renamed (declarations and usages stay consistent inside the targets, but note them in verifyFindings). Also grep the diff for partially-rewritten camelCase custom properties (the pattern is lowercase-only, so --wds-myVar comes out as --myVar; use git diff | grep -E "^\\+.*--[a-z0-9-]*[A-Z]" — digits included, --wds-my2Var breaks the same way) and REPAIR them in this step — rename the declaration and every usage consistently; this step owns that fix, M3 is only a safety net. Expect intermediate --card-content-item-* names in the output — they are handled later by manual step M4; do NOT revert them.',
   },
   {
     id: 'dom-identifier-migration',
@@ -59,15 +67,15 @@ const CODEMOD_STEPS = [
     precheck:
       'grep the targets for files importing BOTH an old Card name AND a new counterpart from @montage-ui/core or @wanteddev/wds, using the FULL rename surface: old = every \\bCard(List|Content)-prefixed value or Props type (CardContent, CardContentItem, CardListContent, *Skeleton and *Props forms, CardList, CardListSkeleton); new = ListCard*, CardBody*, CardRow* and their Props. The global renames hit all of these unconditionally, so any old/new pair in one file produces a duplicate import specifier — report such files as "failed" with the file list so they can be cleaned up first, unless there are none. Also flag files importing the SAME old name via two specifiers (plain + alias, e.g. `CardContent` and `CardContent as CC`; also the list-context names CardThumbnail*/CardTitle*/CardCaption* and Skeleton forms, where the leftover fails silently as a wrong-family name): the lookup checks @montage-ui/core before @wanteddev/wds and keeps only the last specifier in file order within the winning source, leaving the other one and its usages untouched, and a re-run mis-renames the leftovers — such files must be simplified to a single specifier first.',
     verify:
-      'grep -E "\\bCard(List|Content)" over the targets — expect zero hits (prefix pattern: \\bCardContent\\b would miss CardContentProps/CardContentItemSkeleton leftovers; the prefix form matches no new name, ListCard* included). Remaining hits live in gate-skipped files (namespace imports, re-exports, deep/subpath imports — the codemod only transforms files importing from exactly @montage-ui/core or @wanteddev/wds) — no M-section covers them; fix them by hand NOW as part of this step. Also grep for non-JSX identifier references (e.g. component={CardBody}) in files that render ListCard; report them in verifyFindings for manual step M4 review.',
+      'grep -E "\\bCard(List|Content)" over the targets — expect zero hits (prefix pattern: \\bCardContent\\b would miss CardContentProps/CardContentItemSkeleton leftovers; the prefix form matches no new name, ListCard* included). Remaining hits live in gate-skipped files (namespace imports, re-exports, deep/subpath imports — the codemod only transforms files importing from exactly @montage-ui/core or @wanteddev/wds) or duplicate-specifier files the pre-check missed (see codemod-steps.md step 5) — no M-section covers them; fix them by hand NOW as part of this step, never by re-running the codemod, but first confirm each hit actually comes from a montage source: a same-named identifier defined locally or imported from another library is NOT a migration leftover, leave it alone. Also grep for non-JSX identifier references (e.g. component={CardBody}) in files that render ListCard; report them in verifyFindings for manual step M4 review.',
   },
   {
     id: 'form-control-migration',
     title: 'Form Control naming migration (FormField → FormControl → FormControlField swap)',
     precheck:
-      'THIS CODEMOD CORRUPTS ALREADY-MIGRATED CODE. Find files referencing FormControl or FormControlProps WITHOUT also referencing FormField/FormFieldProps — two file-level greps, `\\bFormControl(Props)?\\b` minus `\\bFormField(Props)?\\b`, and diff the file lists (a single-line import-statement grep misses multi-line imports; the (Props)? alternates matter — `\\bFormControl\\b` alone misses a type-only FormControlProps import, which the codemod still corrupts to FormControlFieldProps; see the "Step 5" pre-check in the codemod-steps.md reference next to manual-migrations.md). Then run the SECOND pre-check from the same section — intersect (comm -12) files matching the new sub-component names `\\bFormControl(Field|Label|Message|NegativeMessage|PositiveMessage|MessageAccessory)` with files matching `\\bFormField(Props)?\\b`: a pure v3 file never references the new names, so every hit is mixed — half-migrated code must be reconciled to one API first; FormField appearing only in comments/strings means the file is hand-migrated and needs exclusion. Inspect each: if the file already uses the NEW v4 API (root <FormControl> wrapping <FormControlField>, imports ANY FormControl* sub-component — FormControlField, FormControlLabel, FormControlMessage, FormControlNegativeMessage, FormControlPositiveMessage, FormControlMessageAccessory — or imports only the FormControlProps type with no JSX at all), it was hand-migrated and must be excluded via the move-out/move-back procedure (codemod-steps.md). Files already listed in the user-confirmed excluded-files list are handled in procedure step 4 — proceed. Any hand-migrated file NOT in that list: report "failed" with the file list so the orchestrator can confirm the exclusions with the user and re-run the workflow with excludeFiles set. A v3 file importing only the old FormControl slot (no other Form* imports, <FormControl> used inside another file\'s FormField) is safe.',
+      'THIS CODEMOD CORRUPTS ALREADY-MIGRATED CODE. Find files referencing FormControl or FormControlProps WITHOUT also referencing FormField/FormFieldProps — two file-level greps, `\\bFormControl(Props)?\\b` minus `\\bFormField(Props)?\\b`, and diff the file lists (a single-line import-statement grep misses multi-line imports; the (Props)? alternates matter — `\\bFormControl\\b` alone misses a type-only FormControlProps import, which the codemod still corrupts to FormControlFieldProps; see the "Step 6 — form-control-migration" pre-check in the codemod-steps.md reference next to manual-migrations.md). Then run the SECOND pre-check from the same section — intersect (comm -12) files matching the new sub-component names `\\bFormControl(Field|Label|Message|NegativeMessage|PositiveMessage|MessageAccessory)` with files matching `\\bFormField(Props)?\\b`: a pure v3 file never references the new names, so every hit is mixed — half-migrated code must be reconciled to one API first; FormField appearing only in comments/strings means the file is hand-migrated and needs exclusion. Inspect each: if the file already uses the NEW v4 API (root <FormControl> wrapping <FormControlField>, imports ANY FormControl* sub-component — FormControlField, FormControlLabel, FormControlMessage, FormControlNegativeMessage, FormControlPositiveMessage, FormControlMessageAccessory — or imports only the FormControlProps type with no JSX at all), it was hand-migrated and must be excluded via the move-out/move-back procedure (codemod-steps.md). Files already listed in the user-confirmed excluded-files list are handled in procedure step 4 — proceed. Any hand-migrated file NOT in that list: report "failed" with the file list so the orchestrator can confirm the exclusions with the user and re-run the workflow with excludeFiles set. A v3 file importing only the old FormControl slot (no other Form* imports, <FormControl> used inside another file\'s FormField) is safe.',
     verify:
-      'grep -E "\\bForm(Field|Label|Message|ErrorMessage)" over the targets — expect zero hits (prefix pattern: \\bFormField\\b would miss FormFieldProps leftovers; the prefix form matches no FormControl* name). Remaining hits live in gate-skipped files (namespace imports like M.FormField, re-exports, subpath imports) — no M-section covers them; fix them by hand NOW as part of this step, WITHOUT re-running the codemod. NOTE: "FormControl" hits are EXPECTED after this step (it is the new root name); do not flag them and NEVER re-run this codemod to "fix" them. Residual the grep cannot see: in gate-skipped files (namespace/subpath imports) an OLD inner-slot FormControl survives under the same literal name but means the v4 field slot — additionally inspect namespace imports of montage sources (import * as X from @montage-ui/core or @wanteddev/wds) and subpath imports for .FormControl member usages, and rename true inner-slot usages to FormControlField by hand.',
+      'grep -E "\\bForm(Field|Label|Message|ErrorMessage)" over the targets — expect zero hits (prefix pattern: \\bFormField\\b would miss FormFieldProps leftovers; the prefix form matches no FormControl* name). Remaining hits live in gate-skipped files (namespace imports like M.FormField, re-exports, subpath imports) — no M-section covers them; fix them by hand NOW as part of this step, WITHOUT re-running the codemod, but first confirm each hit actually comes from a montage source: a same-named identifier defined locally or imported from another library is NOT a migration leftover, leave it alone. NOTE: "FormControl" hits are EXPECTED after this step (it is the new root name); do not flag them and NEVER re-run this codemod to "fix" them. Residual the grep cannot see: in gate-skipped files (namespace/subpath imports) an OLD inner-slot FormControl survives under the same literal name but means the v4 field slot — additionally inspect namespace imports of montage sources (import * as X from @montage-ui/core or @wanteddev/wds) and subpath imports for .FormControl member usages, and rename true inner-slot usages to FormControlField by hand.',
   },
 ]
 
@@ -85,6 +93,11 @@ const MANUAL_SCAN_SECTIONS = [
     id: 'M8',
     title:
       'TextArea changes (TextAreaContent variants, characterCounter → FormControlMessageAccessory, size)',
+  },
+  {
+    id: 'M9',
+    title:
+      'Semantic token follow-ups (primary.normal foreground usage, deleted accent tokens, group refs/root aliases, dynamic names, stylesheet dot-path strings)',
   },
 ]
 
@@ -148,8 +161,42 @@ for (const t of args.targets) {
     )
   }
 }
+{
+  // Nested targets make every codemod run twice over the nested subtree — the exact
+  // run-once corruption path (form-control-migration would double-swap there).
+  const normalized = args.targets.map((t) => String(t).replace(/\/+$/, ''))
+  for (const a of normalized) {
+    for (const b of normalized) {
+      if (a !== b && (b + '/').startsWith(a + '/')) {
+        throw new Error(
+          `targets must be disjoint directories — ${JSON.stringify(b)} is nested inside ${JSON.stringify(a)}, so each codemod would run twice over the nested subtree (the run-once corruption path); keep only the outer directory`,
+        )
+      }
+    }
+  }
+}
+if (typeof args.autoCommit !== 'boolean') {
+  throw new Error('autoCommit must be a boolean')
+}
+for (const key of ['repoRoot', 'stateFile', 'referencesDir']) {
+  if (typeof args[key] !== 'string' || !/^(\/|[A-Za-z]:[\\/])/.test(args[key])) {
+    throw new Error(`${key} must be an absolute path (got ${JSON.stringify(args[key])})`)
+  }
+}
+const excludeFilesInput = args.excludeFiles || []
+if (!Array.isArray(excludeFilesInput)) {
+  throw new Error('excludeFiles must be an array of repo-relative paths')
+}
+for (const f of excludeFilesInput) {
+  if (typeof f !== 'string' || f.startsWith('/') || /^[A-Za-z]:[\\/]/.test(f)) {
+    throw new Error(
+      `excludeFiles entry ${JSON.stringify(f)} must be a repo-relative path — the move-out/move-back procedure runs from the repo root, and an absolute path would be restored to the wrong location`,
+    )
+  }
+}
+
 const targets = JSON.stringify(args.targets)
-const excludeFilesJson = JSON.stringify(args.excludeFiles || [])
+const excludeFilesJson = JSON.stringify(excludeFilesInput)
 
 // Kept in sync with the templates in SKILL.md ("State file format") and the M-list in
 // MANUAL_SCAN_SECTIONS above — adding a step or M-section means updating all three.
@@ -161,6 +208,7 @@ autoCommit: ${args.autoCommit}
 codemodVersion: ${codemodVersion}
 steps:
   package-name-migration: pending
+  semantic-token-migration: pending
   css-variable-migration: pending
   dom-identifier-migration: pending
   list-card-migration: pending
@@ -174,6 +222,7 @@ manual:
   M6: pending
   M7: pending
   M8: pending
+  M9: pending
 ---`
 
 const completedSteps = args.completedSteps || []
@@ -229,14 +278,14 @@ Procedure (follow exactly, in order):
 1. Read the state file. If it does NOT exist, report status "failed" with reason "state file missing at step start" — do not assume pending; SKILL.md preflight creates the file before step 1, so a missing file means lost migration state that the orchestrator must reconcile with the user. If it marks steps.${step.id} as "completed", do NOTHING and report status "skipped". This is critical: running a codemod twice corrupts code (e.g. the form-control codemod renames FormControl → FormControlField on a second run). Also compare the state file's \`targets\` list with the targets above: on any mismatch, report status "failed" with BOTH lists — targets recorded in the state file are locked; a different list means completed steps never ran on the new directories (silent under-migration) or would re-run on migrated ones (corruption).
 2. If autoCommit is true, run \`git -C ${args.repoRoot} status --porcelain\` and confirm the working tree is clean apart from the state file. If it is dirty, report status "failed" with the reason — do not run the codemod on top of unrelated changes. If autoCommit is false, still record \`git status --porcelain\` now: the dirty set should consist of earlier completed steps' transform output (plus the state file); report anything unexplained in verifyFindings BEFORE running — the codemod would transform unrelated edits and entangle them with migration changes.
 3. Pre-check: ${step.precheck}
-4. If the excluded-files list above is non-empty (only ever populated for form-control-migration), move those files out of the tree NOW — after step 2 has run (the clean-tree check when autoCommit is true, the status recording otherwise) — following the exclusion procedure in codemod-steps.md: \`EXCL=$(mktemp -d)\`, run from the repo root with the repo-relative paths as listed, verify $EXCL is empty first. They are moved back in step 8 — before the state update and commit.
+4. If the excluded-files list above is non-empty (only ever populated for form-control-migration), move those files out of the tree NOW — after step 2 has run (the clean-tree check when autoCommit is true, the status recording otherwise) — following the exclusion procedure in codemod-steps.md: record each file's path + content hash first into a temp file (\`echo "$f $(git hash-object "$f")"\` per file, per the procedure's step 1), then \`EXCL=$(mktemp -d)\`, run from the repo root with the repo-relative paths as listed, verify $EXCL is empty first. They are moved back in step 8 — before the state update and commit.
 5. If autoCommit is false, record a pre-step snapshot: \`git -C ${args.repoRoot} stash create\` and note the printed hash (it captures the tree including earlier steps' uncommitted changes; if it prints nothing the tree is clean).
 6. For each element of the targets array, run:
    \`npx -y @montage-ui/codemod@${codemodVersion} ${step.id} <target>\`
    from ${args.repoRoot}. The command is non-interactive when both the transform name and the path are passed. Capture the output; jscodeshift prints per-file errors — treat any "ERR" as a failure.
-7. If the codemod failed partway, NEVER leave a half-transformed tree (re-running a codemod over one is the documented corruption path for steps 4–5, and excluding the partially-transformed files later is the WRONG fix): when autoCommit is true (tree was clean at step start), restore with \`git -C ${args.repoRoot} checkout -- <each target>\`; when autoCommit is false, restore the targets from the snapshot recorded in step 5 (\`git -C ${args.repoRoot} checkout <snapshot-hash> -- <each target>\` — this reverts only this step's changes; earlier steps' uncommitted work is inside the snapshot; if no hash was printed the tree was clean, so plain \`git checkout -- <each target>\` is equivalent). Move any excluded files back per step 8, then report status "failed" with the error.
-8. If files were moved out in step 4: move each back to its exact original path, confirm \`git status\` shows no diff for them, and confirm the temp dir is empty. Do this BEFORE the state update and commit — a commit must never contain their deletions.
-9. Post-step verification: ${step.verify} Record findings in verifyFindings; apply only the fixes the verification instructions explicitly assign to this step — leave everything marked M1–M8 to the manual phase.
+7. If the codemod failed partway, NEVER leave a half-transformed tree (re-running a codemod over one is the documented corruption path for steps 5–6 — list-card-migration and form-control-migration — and excluding the partially-transformed files later is the WRONG fix): when autoCommit is true (tree was clean at step start), restore with \`git -C ${args.repoRoot} checkout -- <each target>\`; when autoCommit is false, restore the targets from the snapshot recorded in step 5 (\`git -C ${args.repoRoot} checkout <snapshot-hash> -- <each target>\` — this reverts only this step's changes; earlier steps' uncommitted work is inside the snapshot; if no hash was printed the tree was clean, so plain \`git checkout -- <each target>\` is equivalent). Move any excluded files back per step 8, then report status "failed" with the error.
+8. If files were moved out in step 4: move each back to its exact original path, re-run the path+hash command and diff against the recording from step 4 — must be empty (do NOT rely on a plain \`git status\` no-diff check — it is only meaningful when autoCommit is true; with autoCommit false the excluded files legitimately carry earlier steps' uncommitted changes and show as modified), and confirm the temp dir is empty. Do this BEFORE the state update and commit — a commit must never contain their deletions.
+9. Post-step verification: ${step.verify} Record findings in verifyFindings; apply only the fixes the verification instructions explicitly assign to this step — leave everything marked M1–M9 to the manual phase.
 10. Update the state file: set steps.${step.id} to "completed". If the file is missing, recreate it from the template below FIRST — but set every step in this list to "completed" before writing (they all ran, either in earlier sessions or earlier in THIS run; an all-pending file would trigger corrupting re-runs on a later resume): ${stepsDoneByNow}. Report the recreation AND the recreated targets list in verifyFindings — the targets come from this invocation's args, not the lost original, so the orchestrator must confirm them with the user. Ensure the file's path is present in .git/info/exclude (append only if missing) so it never enters commits. Template:
 ${STATE_FILE_TEMPLATE}
 11. If autoCommit is true: \`git -C ${args.repoRoot} add -A && git -C ${args.repoRoot} commit -m "chore(montage): v4 codemod — ${step.id}"\` and record the commit hash. The state file is excluded via .git/info/exclude, so it must not appear in the commit.

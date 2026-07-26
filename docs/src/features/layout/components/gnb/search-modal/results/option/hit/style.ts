@@ -26,7 +26,7 @@ export const linkStyle = css`
 
 export const contentStyle = (theme: Theme) => css`
   padding: 4px;
-  color: ${theme.semantic.label.alternative};
+  color: ${theme.semantic.foreground.neutral.tertiary};
   flex-shrink: 0;
   height: fit-content;
 
@@ -47,7 +47,7 @@ export const textStyle = (theme: Theme) => css`
 
   mark {
     background-color: transparent;
-    color: ${theme.semantic.label.normal};
+    color: ${theme.semantic.foreground.neutral.primary};
     ${typographyStyle('label1', 'bold')}
   }
 `;
@@ -55,7 +55,7 @@ export const textStyle = (theme: Theme) => css`
 export const captionStyle = (theme: Theme) => css`
   mark {
     background-color: transparent;
-    color: ${theme.semantic.label.normal};
+    color: ${theme.semantic.foreground.neutral.primary};
     ${typographyStyle('label2', 'bold')}
   }
 `;

@@ -54,7 +54,7 @@ export const tabListStyle =
 
     &::after {
       position: absolute;
-      background-color: ${theme.semantic.line.normal.alternative};
+      background-color: ${theme.semantic.line.neutral.tertiary};
       content: '';
       left: 0px;
       bottom: 0px;
@@ -286,8 +286,8 @@ export const scrollWrapperStyle = css`
 export const tabListWrapperStyle = (theme: Theme) => css`
   position: relative;
 
-  --tab-list-active-divider-color: ${theme.semantic.label.strong};
-  --tab-list-disabled-divider-color: ${theme.semantic.fill.alternative};
+  --tab-list-active-divider-color: ${theme.semantic.foreground.neutral.strong};
+  --tab-list-disabled-divider-color: ${theme.semantic.surface.neutral.tertiary};
 
   --tab-list-divider-color: var(--tab-list-active-divider-color);
 
@@ -348,7 +348,7 @@ export const tabListItemStyle =
       ? css`
           cursor: initial;
           [data-role='tab-list-item-text'] {
-            color: ${theme.semantic.label.disable};
+            color: ${theme.semantic.foreground.disable.primary};
           }
 
           &[data-ssr-motion='true'] {
@@ -360,19 +360,19 @@ export const tabListItemStyle =
         `
       : css`
           &[aria-selected='false']:hover [data-role='tab-list-item-text'] {
-            color: ${theme.semantic.label.alternative};
+            color: ${theme.semantic.foreground.neutral.tertiary};
           }
 
           &[aria-selected='false'] [data-role='tab-list-item-text'] {
-            color: ${theme.semantic.label.assistive};
+            color: ${theme.semantic.foreground.neutral.quaternary};
             &:hover {
-              color: ${theme.semantic.label.alternative};
+              color: ${theme.semantic.foreground.neutral.tertiary};
             }
           }
 
           &[aria-selected='true'] {
             [data-role='tab-list-item-text'] {
-              color: ${theme.semantic.label.strong};
+              color: ${theme.semantic.foreground.neutral.strong};
             }
 
             &[data-ssr-motion='true'] {

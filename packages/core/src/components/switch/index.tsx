@@ -72,7 +72,11 @@ const Switch = forwardRef<
 
         <WithInteraction
           disabled={disabled}
-          color={checked ? 'semantic.static.white' : 'semantic.label.normal'}
+          color={
+            checked
+              ? 'semantic.static.white'
+              : 'semantic.foreground.neutral.primary'
+          }
         >
           <Box
             as="button"

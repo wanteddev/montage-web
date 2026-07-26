@@ -21,7 +21,7 @@ const IconButton = forwardRef(
       disableInteraction = false,
       size,
       variant = 'normal',
-      interactionColor = 'semantic.label.normal',
+      interactionColor = 'semantic.foreground.neutral.primary',
       alternative,
       color: originColor,
       children,
@@ -51,9 +51,9 @@ const IconButton = forwardRef(
         case 'background':
           return undefined;
         case 'normal':
-          return 'semantic.label.normal';
+          return 'semantic.foreground.neutral.primary';
         default:
-          return 'semantic.label.normal';
+          return 'semantic.foreground.neutral.primary';
       }
     }, [context, originColor, variant]);
 

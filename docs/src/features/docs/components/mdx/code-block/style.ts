@@ -9,23 +9,23 @@ export const inlineCodeStyle = (theme: Theme) => css`
   leading-trim: both;
   ${typographyStyle('label2', 'medium')}
   display: inline;
-  color: ${theme.semantic.accent.foreground.blue};
+  color: ${theme.semantic.foreground.brand.primary};
   position: relative;
   background-color: ${addOpacity(
-    theme.semantic.accent.foreground.blue,
+    theme.semantic.foreground.brand.primary,
     theme.opacity[8],
   )};
 `;
 
 export const codeBlockStyle = (theme: Theme) => css`
   width: 100%;
-  color: ${theme.semantic.label.normal};
+  color: ${theme.semantic.foreground.neutral.primary};
   white-space: pre;
   font-size: 95%;
 
   .token.punctuation,
   .token.plain-text {
-    color: ${theme.semantic.label.normal};
+    color: ${theme.semantic.foreground.neutral.primary};
   }
 
   .token.class-name,
@@ -37,21 +37,21 @@ export const codeBlockStyle = (theme: Theme) => css`
   .token.pseudo-class,
   .token.selector,
   .token.tag {
-    color: ${theme.semantic.accent.background.lightBlue};
+    color: ${theme.semantic.surface.accent.lightBlueOpaque};
   }
 
   .token.color,
   .token.imports .token.unit {
-    color: ${theme.semantic.accent.background.cyan};
+    color: ${theme.semantic.surface.accent.cyanOpaque};
   }
 
   .token.function-variable {
-    color: ${theme.semantic.label.strong};
+    color: ${theme.semantic.foreground.neutral.strong};
   }
 
   .token.number,
   .token.string {
-    color: ${theme.semantic.status.positive};
+    color: ${theme.semantic.foreground.positive.primary};
   }
 
   .token.attr-name,
@@ -62,11 +62,11 @@ export const codeBlockStyle = (theme: Theme) => css`
   .token.operator,
   .token.rule,
   .token.variable {
-    color: ${theme.semantic.status.negative};
+    color: ${theme.semantic.foreground.negative.primary};
   }
 
   .token.comment {
-    color: ${theme.semantic.label.alternative};
+    color: ${theme.semantic.foreground.neutral.tertiary};
   }
 
   .token.atapply .token:not(.rule):not(.important) {
@@ -85,12 +85,12 @@ export const codeBlockStyle = (theme: Theme) => css`
   }
 
   .token.deleted:not(.prefix) {
-    color: ${theme.semantic.status.negative};
+    color: ${theme.semantic.foreground.negative.primary};
   }
 
   .token.inserted:not(.prefix),
   .token.attr-value {
-    color: ${theme.semantic.status.positive};
+    color: ${theme.semantic.foreground.positive.primary};
   }
 
   .token.deleted.prefix,
@@ -102,7 +102,7 @@ export const codeBlockStyle = (theme: Theme) => css`
 `;
 
 export const copyButtonStyle = (theme: Theme) => css`
-  background-color: ${theme.semantic.background.normal.normal};
+  background-color: ${theme.semantic.background.neutral.primary};
   opacity: 0;
   transition: opacity ease 0.12s;
   position: absolute;

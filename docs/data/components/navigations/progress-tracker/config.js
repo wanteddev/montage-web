@@ -72,7 +72,7 @@ module.exports = {
         sx={theme => ({
           width: '100%',
           height: '24px',
-          background: theme.semantic.accent.background.violet,
+          background: theme.semantic.surface.accent.violetOpaque,
           opacity: 0.08,
         })}
       />`;

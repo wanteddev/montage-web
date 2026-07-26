@@ -110,7 +110,7 @@ const DocsCollection = ({ category }: Props) => {
                       <CardTitle
                         variant="body1"
                         weight="medium"
-                        color="semantic.label.neutral"
+                        color="semantic.foreground.neutral.secondary"
                         sx={{ '&&': { margin: '0px' } }}
                       >
                         {data.title}

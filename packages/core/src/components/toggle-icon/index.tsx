@@ -21,7 +21,7 @@ const ToggleIcon = forwardRef(
       active,
       defaultActive,
       onActiveChange,
-      activeColor = 'semantic.primary.normal',
+      activeColor = 'semantic.foreground.brand.primary',
       size = '24px',
       disabled,
       disableInteraction,

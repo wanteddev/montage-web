@@ -23,7 +23,7 @@ const FoundationsElevationNormal = () => {
               <Typography
                 variant="label1"
                 weight="medium"
-                color="semantic.label.neutral"
+                color="semantic.foreground.neutral.secondary"
               >
                 Default
               </Typography>
@@ -31,7 +31,7 @@ const FoundationsElevationNormal = () => {
               <Typography
                 variant="label1"
                 weight="medium"
-                color="semantic.label.normal"
+                color="semantic.foreground.neutral.primary"
                 sx={{
                   whiteSpace: 'pre-line',
                 }}
@@ -41,7 +41,7 @@ const FoundationsElevationNormal = () => {
               <Typography
                 variant="label1"
                 weight="medium"
-                color="semantic.label.neutral"
+                color="semantic.foreground.neutral.secondary"
               >
                 iOS
               </Typography>
@@ -49,7 +49,7 @@ const FoundationsElevationNormal = () => {
               <Typography
                 variant="label1"
                 weight="medium"
-                color="semantic.label.normal"
+                color="semantic.foreground.neutral.primary"
                 sx={{
                   whiteSpace: 'pre-line',
                 }}
@@ -59,7 +59,7 @@ const FoundationsElevationNormal = () => {
               <Typography
                 variant="label1"
                 weight="medium"
-                color="semantic.label.neutral"
+                color="semantic.foreground.neutral.secondary"
               >
                 Android
               </Typography>
@@ -67,7 +67,7 @@ const FoundationsElevationNormal = () => {
               <Typography
                 variant="label1"
                 weight="medium"
-                color="semantic.label.normal"
+                color="semantic.foreground.neutral.primary"
                 sx={{
                   whiteSpace: 'pre-line',
                 }}

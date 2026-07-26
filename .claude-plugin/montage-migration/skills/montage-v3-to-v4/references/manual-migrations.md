@@ -1,6 +1,6 @@
 # Manual Migrations (v3 → v4)
 
-Changes the codemods cannot apply automatically. Run these AFTER all 5 codemod steps
+Changes the codemods cannot apply automatically. Run these AFTER all 6 codemod steps
 completed (see `codemod-steps.md`). Each section lists scan patterns to locate affected
 code — scan first, then apply fixes only where a real occurrence exists.
 
@@ -100,10 +100,12 @@ Also review destructured/aliased usages the patterns above miss (e.g.
 destructuring sites with (**[decision]**, like every M2 pattern):
 
 ```
-const\s*\{[^}]*\b(spacing|radius|dimension|opacity|zIndex|primitive)\b[^}]*\}\s*=\s*(use)?[Tt]heme
+const\s*\{[^}]*\b(spacing|radius|dimension|opacity|zIndex|primitive)\b[^}]*\}\s*=\s*[\w.]*[Tt]heme
 ```
 
-then inspect each file for arithmetic on the destructured names.
+(the `[\w.]*` tail also matches `props.theme`, `this.props.theme`, and `useTheme()`
+bases; an alias whose name does not end in `theme` still escapes — treat the scan as a
+heuristic) then inspect each file for arithmetic on the destructured names.
 
 Fixes:
 
@@ -149,16 +151,21 @@ literals, template literals, and stylesheets. They cannot rewrite:
   instead of `--grid-column-spacing` — review every dynamic construction site.
 - Selectors living outside the transformed directories: E2E specs (Playwright/Cypress),
   snapshot files, CSS-in-JS in other packages, HTML files, styled-components in `.md`/MDX.
+- Dynamically built DOM-identifier strings whose static part stops short of a full token:
+  `'wds-' + kind`, `` `wds-ignore-${x}` `` — review every dynamic construction site, same
+  as the `--wds-` case above. The full-token [zero] scans below do not reach the
+  shortest-head form; locate it with **[decision]**: `["']wds-["'] *\+` and
+  ``\`wds-[^\`]*\$\{`` (expect noise from unrelated `wds-` strings; assess each hit).
 - camelCase custom properties: the rename pattern is lowercase-only, so `--wds-myVar` comes
-  out partially rewritten as `--myVar`. The diff review for these is owned by step 2's
-  post-step verification (where the diff is at hand); this note is a safety net — if step
-  2's diff was never reviewed, grep it now.
+  out partially rewritten as `--myVar`. The diff review for these is owned by step 3's
+  (`css-variable-migration`) post-step verification (where the diff is at hand); this note
+  is a safety net — if step 3's diff was never reviewed, grep it now.
 
 False-positive review of the codemod diff (blind substring replacement rewrites unrelated
 strings — analytics event names, documentation strings, consumer-defined `--wds-*`
-variables) is OWNED by steps 2/3's post-step verification, where the diff is at hand; the
-note here is a safety net for inline runs that skipped it — if the step 2/3 commits were
-never diff-reviewed, do it now.
+variables) is OWNED by steps 3/4's (`css-variable-migration` / `dom-identifier-migration`)
+post-step verification, where the diff is at hand; the note here is a safety net for
+inline runs that skipped it — if the step 3/4 commits were never diff-reviewed, do it now.
 
 Scan patterns (all file types) — all **[zero]** once M3's renames are applied:
 
@@ -304,10 +311,106 @@ For each bottom-sheet Modal, decide: default close-on-dismiss (delete workaround
   only hits styling its INTERNAL structure need rework, a hit on the wrapper alone is a
   probable false positive.
 
+## M9. Semantic token follow-ups
+
+The `semantic-token-migration` codemod (step 2) rewrites every literal old-token
+reference in JS/TS plus the `--semantic-*` variable form in stylesheets, but five
+classes of work remain. The full old→new rename tables are bundled at the end of this
+section — use them for every hand-rewrite (do not look for the design-system repo's
+MIGRATION.md; it does not exist in the consumer repo).
+
+- **`primary.normal` used as a text/icon color**: the codemod always emits
+  `surface.brand.primary` (the guide-table mapping). Where the token is consumed as a
+  foreground color (`color:`, `caret-color:`, SVG `fill`/`stroke`, Typography-like
+  `color` props), switch to `foreground.brand.primary` — the VALUE is identical, only
+  the property/intent classification changes, so this is safe to apply mechanically once
+  the usage is confirmed to be foreground.
+  Scan **[decision]**: `semantic\.surface\.brand\.primary` and
+  `--semantic-surface-brand-primary` (matches valid v4 code by design — assess each hit's
+  CSS property / prop context; background, border, and tint usages stay as `surface`).
+- **Deleted accent tokens replaced with `foreground.*` tokens**: the codemod maps
+  `accent.foreground.red/redOrange/orange/green/blue` and `accent.background.redOrange`
+  to `foreground.negative.strong` / `foreground.cautionary.primary` /
+  `foreground.positive.primary` / `foreground.brand.primary`. Where the ORIGINAL token
+  painted a background (the `accent.background.redOrange` case, or an
+  `accent.foreground.*` misused as a fill), a foreground token is the wrong intent —
+  pick a `surface.*` token with the user (e.g. `surface.cautionary.primary`,
+  `surface.accent.*`). Replacement values also differ from the originals (redOrange
+  collapses into orange; orange/green/blue land on different steps) — recommend visual
+  QA on screens that used them.
+  Scan **[decision]**: `background[^;]*semantic\.foreground\.` (a foreground token as a
+  background base is the suspect shape; multi-line declarations escape this — also
+  review the step 2 diff hunks that touched the deleted tokens).
+- **Group-level references and root-object aliases**: passing or iterating a token
+  GROUP object (`theme.semantic.label`, `Object.entries(theme.semantic.accent.background)`)
+  is never converted — the transform requires a full leaf path. Neither is an alias or
+  destructure of the semantic ROOT (`const sem = theme.semantic; sem.label.normal`,
+  `const { label } = theme.semantic`) — the chain no longer passes through a `semantic`
+  anchor at the usage site. Rewrite against the rename tables below.
+  Scan **[zero]**: the two step-2 verification greps in `codemod-steps.md` (old dot-path
+  and old CSS-variable patterns) — after this section every remaining hit must be gone;
+  step 2's verification only REPORTS these, M9 owns the fix.
+  Scan **[decision]**: `\.semantic([^.[:alnum:]]|$)` — locates root-object aliasing and
+  destructuring sites (`= theme.semantic;`, `(theme.semantic)`) without matching normal
+  `theme.semantic.<group>` chains; trace each alias/destructured name to its leaf usages
+  and rewrite them.
+- **Dynamically built names and computed access**: `` `--semantic-${x}` ``,
+  `'semantic.' + path`, `semantic['label']['normal']` are never matched. Rewrite by
+  hand against the rename tables below.
+  Scan **[decision]**: `["']--semantic-["'] *\+` and ``\`--semantic-[^\`]*\$\{`` (CSS
+  variable construction, either quote style), `["']semantic\.["'] *\+` and
+  ``\`semantic\.[^\`]*\$\{`` (dot-path construction), and `semantic\[` (computed
+  access — also matches unrelated consumer objects named `semantic`; assess each hit).
+- **Dot-path token strings inside stylesheets**: the stylesheet text pass renames only
+  the `--semantic-*` CSS-variable form; a `semantic.<old-path>` dot string inside
+  `.css/.scss/.sass/.less` (rare — usually content/comments) is untouched and surfaces
+  through the step-2 verification grep above. Fix per the rename tables below.
+
+### Rename tables (v3 → v4)
+
+The codemod's full rename map, reproduced here so hand-rewrites never depend on files
+outside the consumer repo. Dot paths are relative to `semantic.`; the CSS-variable form
+is derived mechanically — `--semantic-` + the path with dots replaced by dashes,
+camelCase kept (`accent.foreground.lightBlue` → `--semantic-accent-foreground-lightBlue`),
+and any `-rgb` suffix carried over unchanged. `semantic.static.*`,
+`semantic.elevation.*`, `semantic.platform.*`, and `atomic.*` are unchanged.
+
+| 기존 (v3)                                                    | 변경 (v4)                                                                                       |
+| ------------------------------------------------------------ | ----------------------------------------------------------------------------------------------- |
+| `label.normal` / `.strong`                                   | `foreground.neutral.primary` / `.strong`                                                        |
+| `label.neutral` / `.alternative` / `.assistive`              | `foreground.neutral.secondary` / `.tertiary` / `.quaternary`                                    |
+| `label.disable`                                              | `foreground.disable.primary`                                                                    |
+| `status.positive` / `.cautionary` / `.negative`              | `foreground.positive.primary` / `foreground.cautionary.primary` / `foreground.negative.primary` |
+| `inverse.label`                                              | `foreground.neutral.inverse`                                                                    |
+| `inverse.primary`                                            | `foreground.brand.inverse`                                                                      |
+| `inverse.background`                                         | `surface.neutral.inverse`                                                                       |
+| `interaction.inactive`                                       | `foreground.inactive.primary`                                                                   |
+| `interaction.disable`                                        | `surface.disable.primary`                                                                       |
+| `primary.normal` / `.strong` / `.heavy`                      | `surface.brand.primary` / `.strong` / `.heavy`                                                  |
+| `fill.normal` / `.strong` / `.alternative`                   | `surface.neutral.secondary` / `.strong` / `.tertiary`                                           |
+| `material.dimmer`                                            | `effect.dimmer.primary`                                                                         |
+| `background.normal.normal` / `.alternative`                  | `background.neutral.primary` / `.secondary`                                                     |
+| `background.elevated.normal` / `.alternative`                | `surface.elevated.primary` / `.secondary`                                                       |
+| `background.transparent.normal` / `.alternative`             | `effect.transparent.primary` / `.secondary`                                                     |
+| `background.status.{negative,cautionary,positive}`           | `surface.{negative,cautionary,positive}.primary`                                                |
+| `accent.foreground.{lime,cyan,lightBlue,violet,purple,pink}` | `foreground.accent.{동일 키}`                                                                   |
+| `accent.foreground.red`                                      | `foreground.negative.strong`                                                                    |
+| `accent.foreground.redOrange` / `.orange`                    | `foreground.cautionary.primary`                                                                 |
+| `accent.foreground.green`                                    | `foreground.positive.primary`                                                                   |
+| `accent.foreground.blue`                                     | `foreground.brand.primary`                                                                      |
+| `accent.background.{lime,cyan,lightBlue,violet,purple,pink}` | `surface.accent.{동일 키}Opaque`                                                                |
+| `accent.background.redOrange`                                | `foreground.cautionary.primary`                                                                 |
+| `line.normal.normal` / `.neutral` / `.alternative`           | `line.neutral.primary` / `.secondary` / `.tertiary`                                             |
+| `line.solid.normal` / `.neutral` / `.alternative`            | `line.neutral.primaryOpaque` / `.secondaryOpaque` / `.tertiaryOpaque`                           |
+| `line.primary.normal` / `.strong`                            | `line.brand.primary` / `.strong`                                                                |
+| `line.status.negative.normal` / `.strong`                    | `line.negative.primary` / `.strong`                                                             |
+| `line.status.cautionary.normal`                              | `line.cautionary.primary`                                                                       |
+| `line.status.positive.normal`                                | `line.positive.primary`                                                                         |
+
 ## Suggested commit boundary
 
 Manual fixes get their own commits, after the codemod phase — with the recommended
-auto-commit flow the five codemod commits already exist by the time any M-section runs, so
+auto-commit flow the six codemod commits already exist by the time any M-section runs, so
 do not try to "group" a manual fix into a codemod step's commit (that would mean rewriting
 history and defeats per-step revertability). One commit per M-section (or per coherent
 group, e.g. M3+M4) keeps review and revert straightforward. Only in a non-auto-commit

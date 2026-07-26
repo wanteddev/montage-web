@@ -7,7 +7,7 @@ const Steps = () => {
         as="p"
         variant="body2-reading"
         weight="medium"
-        color="semantic.label.neutral"
+        color="semantic.foreground.neutral.secondary"
       >
         디자이너들은 사용자에게 일관적인 UX 경험을 제공하며
         <br />
@@ -19,7 +19,7 @@ const Steps = () => {
           as="p"
           variant="body2"
           weight="bold"
-          color="semantic.label.normal"
+          color="semantic.foreground.neutral.primary"
         >
           디자이너를 위한 가이드
         </Typography>

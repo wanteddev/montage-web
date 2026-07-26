@@ -18,8 +18,8 @@ export const menuScrollAreaStyle = (theme: Theme) => css`
   max-height: 416px;
   height: auto;
   border-radius: inherit;
-  border: 1px solid ${theme.semantic.line.solid.neutral};
-  background-color: ${theme.semantic.background.elevated.normal};
+  border: 1px solid ${theme.semantic.line.neutral.secondaryOpaque};
+  background-color: ${theme.semantic.surface.elevated.primary};
 
   [data-radix-scroll-area-content] {
     width: 100%;
@@ -34,7 +34,7 @@ export const menuGroupTitleStyle = (theme: Theme) => css`
   padding: 4px 20px;
   z-index: 10;
   margin: auto auto auto 0;
-  background-color: ${theme.semantic.background.elevated.normal};
+  background-color: ${theme.semantic.surface.elevated.primary};
 `;
 
 export const menuGroupStyle = css`
@@ -57,7 +57,7 @@ export const menuItemStyle = (theme: Theme) => css`
   }
 
   [data-role='menu-item-active-icon-check'] {
-    color: ${theme.semantic.primary.normal};
+    color: ${theme.semantic.foreground.brand.primary};
   }
 `;
 
@@ -69,9 +69,9 @@ export const menuActionAreaStyle = (theme: Theme) => css`
   height: 56px;
   padding: 0 12px;
   max-height: 56px;
-  background-color: ${theme.semantic.background.elevated.normal};
+  background-color: ${theme.semantic.surface.elevated.primary};
   z-index: 10;
-  border-top: 1px solid ${theme.semantic.line.solid.alternative};
+  border-top: 1px solid ${theme.semantic.line.neutral.tertiaryOpaque};
 `;
 
 export const menuActionAreaContentStyle = (

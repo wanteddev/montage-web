@@ -57,7 +57,7 @@ const Demo = () => {
       <Avatar
         size="medium"
         sx={theme => ({
-          backgroundColor: theme.semantic.fill.strong,
+          backgroundColor: theme.semantic.surface.neutral.strong,
           color: theme.semantic.static.white,
           ['[data-role="avatar-fallback"]']: {
             display: 'none',
@@ -69,7 +69,7 @@ const Demo = () => {
       <Avatar
         size="medium"
         sx={theme => ({
-          backgroundColor: theme.semantic.primary.normal,
+          backgroundColor: theme.semantic.surface.brand.primary,
           color: theme.semantic.static.white,
           ['[data-role="avatar-fallback"]']: {
             display: 'none',
@@ -81,8 +81,8 @@ const Demo = () => {
       <Avatar
         size="medium"
         sx={theme => ({
-          backgroundColor: theme.semantic.background.normal.normal,
-          color: theme.semantic.label.neutral,
+          backgroundColor: theme.semantic.background.neutral.primary,
+          color: theme.semantic.foreground.neutral.secondary,
           ['[data-role="avatar-fallback"]']: {
             display: 'none',
           },

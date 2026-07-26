@@ -76,7 +76,7 @@ const DocsTitle = ({
         <Typography
           variant="body2-reading"
           weight="medium"
-          color="semantic.label.neutral"
+          color="semantic.foreground.neutral.secondary"
           sx={[
             {
               marginTop: '24px',

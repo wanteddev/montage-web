@@ -48,7 +48,8 @@ export const paginationDotsWrapperStyle =
         margin-left: var(--pagination-dot-size, 10px);
 
         &::after {
-          --pagination-dot-border-color: ${theme.semantic.line.normal.neutral};
+          --pagination-dot-border-color: ${theme.semantic.line.neutral
+            .secondary};
         }
 
         &:first-of-type {
@@ -77,13 +78,13 @@ const paginationDotsWrapperColorStyle = (
       return css`
         [data-role='pagination-dot-button'] {
           background-color: ${addOpacity(
-            theme.semantic.label.normal,
+            theme.semantic.foreground.neutral.primary,
             theme.opacity[16],
           )};
           border: none;
 
           &[aria-selected='true'] {
-            background-color: ${theme.semantic.label.normal};
+            background-color: ${theme.semantic.foreground.neutral.primary};
           }
         }
       `;
@@ -113,7 +114,7 @@ const paginationDotsWrapperColorStyle = (
             border: 1px solid
               var(
                 --pagination-dot-border-color,
-                ${theme.semantic.line.normal.neutral}
+                ${theme.semantic.line.neutral.secondary}
               );
           }
 

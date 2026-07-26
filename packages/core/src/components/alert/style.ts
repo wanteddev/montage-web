@@ -25,14 +25,14 @@ export const alertDimmerStyle = (theme: Theme) => css`
   position: fixed;
   inset: 0;
   background-color: ${addOpacity(
-    theme.semantic.material.dimmer,
+    theme.semantic.effect.dimmer.primary,
     theme.opacity[43],
   )};
   z-index: -1;
 `;
 
 export const alertContainerStyle = (theme: Theme) => css`
-  background-color: ${theme.semantic.background.elevated.normal};
+  background-color: ${theme.semantic.surface.elevated.primary};
   border-radius: 12px;
   min-width: 320px;
   max-width: 400px;

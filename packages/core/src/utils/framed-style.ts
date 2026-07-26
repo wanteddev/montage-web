@@ -111,7 +111,10 @@ const getShadowStyle = (
         box-shadow:
           ${base},
           inset 0 0 0 1px
-            ${addOpacity(theme.semantic.status.negative, theme.opacity[28])};
+            ${addOpacity(
+              theme.semantic.foreground.negative.primary,
+              theme.opacity[28],
+            )};
       }
     `;
   }
@@ -122,8 +125,11 @@ const getShadowStyle = (
         box-shadow:
           ${base},
           inset 0 0 0 2px
-            ${addOpacity(theme.semantic.primary.normal, theme.opacity[43])},
-          inset 0 0 0 2px ${theme.semantic.background.normal.normal};
+            ${addOpacity(
+              theme.semantic.surface.brand.primary,
+              theme.opacity[43],
+            )},
+          inset 0 0 0 2px ${theme.semantic.background.neutral.primary};
       }
     `;
   }
@@ -132,7 +138,7 @@ const getShadowStyle = (
     &::before {
       box-shadow:
         ${base},
-        inset 0 0 0 1px ${theme.semantic.line.normal.neutral};
+        inset 0 0 0 1px ${theme.semantic.line.neutral.secondary};
     }
   `;
 };

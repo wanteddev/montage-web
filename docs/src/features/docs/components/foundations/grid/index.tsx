@@ -12,7 +12,7 @@ const FoundationsGrid = () => {
   return (
     <>
       <Divider
-        color="semantic.line.normal.neutral"
+        color="semantic.line.neutral.secondary"
         sx={{ '&&': { marginBlock: '40px 32px' } }}
       />
 
@@ -79,7 +79,7 @@ const FoundationsGrid = () => {
       />
 
       <Divider
-        color="semantic.line.normal.neutral"
+        color="semantic.line.neutral.secondary"
         sx={{ '&&': { marginBlock: '32px' } }}
       />
 
@@ -104,7 +104,7 @@ const FoundationsGrid = () => {
       />
 
       <Divider
-        color="semantic.line.normal.neutral"
+        color="semantic.line.neutral.secondary"
         sx={{ '&&': { marginBlock: '32px' } }}
       />
 

@@ -22,7 +22,7 @@ const Demo = () => {
   return (
     <Box
       sx={[
-        theme => gradient(theme.semantic.inverse.background, 'right', '100%', 'solid'),
+        theme => gradient(theme.semantic.surface.neutral.inverse, 'right', '100%', 'solid'),
         {
           width: '100%',
           height: '200px',
@@ -47,7 +47,7 @@ const demoStyle = (theme: Theme) => css\`
   position: relative;
   width: 100%;
   height: 200px;
-  background-color: \$\{theme.semantic.primary.normal\};
+  background-color: \$\{theme.semantic.surface.brand.primary\};
   &::before {
     width: 100%;
     height: 100%;
@@ -55,7 +55,7 @@ const demoStyle = (theme: Theme) => css\`
     position: absolute;
     left: 0px;
     top: 0px;
-    \$\{gradient(theme.semantic.inverse.background, 'right', '100%', 'multiple')\}
+    \$\{gradient(theme.semantic.surface.neutral.inverse, 'right', '100%', 'multiple')\}
   }
 \`;
 
@@ -80,7 +80,7 @@ const Demo = () => {
   return (
     <Box
       sx={[
-        theme => gradient(theme.semantic.inverse.background, 'right', '80px', 'mask'),
+        theme => gradient(theme.semantic.surface.neutral.inverse, 'right', '80px', 'mask'),
         {
           width: '100%',
           height: '200px',

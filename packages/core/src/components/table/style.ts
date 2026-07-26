@@ -16,7 +16,7 @@ export const tableStyle = (theme: Theme) => css`
   --table-cell-padding-y: 16px;
   --table-cell-min-height: 44px;
 
-  --table-border-color: ${theme.semantic.line.solid.neutral};
+  --table-border-color: ${theme.semantic.line.neutral.secondaryOpaque};
 
   border-radius: 12px;
   overflow: hidden;
@@ -99,7 +99,7 @@ export const tableRowStyle = (interaction?: boolean) => (theme: Theme) => css`
       pointer-events: none;
       width: 100%;
       height: 100%;
-      background-color: ${theme.semantic.label.normal};
+      background-color: ${theme.semantic.foreground.neutral.primary};
       opacity: 0;
       transition:
         background ease 0.2s,
@@ -137,11 +137,11 @@ export const tableHeadStyle = (isSticky?: boolean) => (theme: Theme) => css`
           inset: 0;
           z-index: -1;
           position: absolute;
-          background-color: ${theme.semantic.fill.alternative};
+          background-color: ${theme.semantic.surface.neutral.tertiary};
         }
       `
     : css`
-        background-color: ${theme.semantic.fill.alternative};
+        background-color: ${theme.semantic.surface.neutral.tertiary};
       `}
 `;
 

@@ -248,7 +248,7 @@ const FormControlMessage = forwardRef(
         data-component="form-control-message"
         variant="caption1"
         weight="regular"
-        color="semantic.label.alternative"
+        color="semantic.foreground.neutral.tertiary"
         {...props}
         sx={[formMessageStyle, props.sx]}
       >
@@ -288,7 +288,7 @@ const FormControlNegativeMessage = forwardRef(
         data-component="form-control-negative-message"
         variant="caption1"
         weight="regular"
-        color="semantic.status.negative"
+        color="semantic.foreground.negative.primary"
         {...props}
         sx={[formMessageStyle, props.sx]}
       >
@@ -330,7 +330,7 @@ const FormControlPositiveMessage = forwardRef(
         data-component="form-control-positive-message"
         variant="caption1"
         weight="regular"
-        color="semantic.label.alternative"
+        color="semantic.foreground.neutral.tertiary"
         {...props}
         sx={[formMessageStyle, props.sx]}
       >
@@ -364,7 +364,7 @@ const FormControlMessageAccessory = forwardRef<
             ref={ref}
             data-is-overflow={length > maxLength}
             {...props}
-            color="semantic.label.alternative"
+            color="semantic.foreground.neutral.tertiary"
             sx={[formCharacterCounterStyle, props.sx]}
           >
             <span data-role="form-control-character-counter-length">

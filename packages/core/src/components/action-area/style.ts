@@ -24,9 +24,9 @@ const actionAreaBackgroundStyle = (
       return css`
         ${divider &&
         css`
-          border-top: 1px solid ${theme.semantic.line.normal.neutral};
+          border-top: 1px solid ${theme.semantic.line.neutral.secondary};
         `}
-        background-color: ${theme.semantic.background.elevated.normal};
+        background-color: ${theme.semantic.surface.elevated.primary};
       `;
     case false:
     default:
@@ -36,7 +36,7 @@ const actionAreaBackgroundStyle = (
               &::before {
                 pointer-events: none;
                 ${gradient(
-                  theme.semantic.background.elevated.normal,
+                  theme.semantic.surface.elevated.primary,
                   'top',
                   'calc(var(--action-area-margin-y, 20px) * 2)',
                   'mask',

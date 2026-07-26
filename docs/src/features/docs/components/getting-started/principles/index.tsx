@@ -35,7 +35,7 @@ const Principles = () => {
               variant="heading2"
               weight="bold"
               as="p"
-              color="semantic.label.normal"
+              color="semantic.foreground.neutral.primary"
               align="center"
               id={`carousel-${id}-${idx}`}
             >
@@ -45,7 +45,7 @@ const Principles = () => {
               variant="label1-reading"
               weight="regular"
               as="p"
-              color="semantic.label.neutral"
+              color="semantic.foreground.neutral.secondary"
               align="center"
               sx={descriptionStyle}
               id={`carousel-${id}-${idx}-description`}

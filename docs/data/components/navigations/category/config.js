@@ -77,7 +77,7 @@ module.exports = {
         <Category value="0">
           <CategoryList
             variant="${variant}"
-            sx={theme => ({ width: '80%', backgroundColor: theme.semantic.background.normal.normal })}
+            sx={theme => ({ width: '80%', backgroundColor: theme.semantic.background.neutral.primary })}
             horizontalPadding={${horizontalPadding}}
             verticalPadding={${verticalPadding}}
             iconButton={${iconButton}}

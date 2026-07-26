@@ -10,7 +10,7 @@ const ReleaseNote = () => {
   return (
     <>
       <Divider
-        color="semantic.line.normal.neutral"
+        color="semantic.line.neutral.secondary"
         sx={{ '&&': { marginBlock: '40px 32px' } }}
       />
 
@@ -49,7 +49,7 @@ const ReleaseNote = () => {
         Change 포함 된 업데이트 내용이 포함됩니다.
       </p>
 
-      <Divider color="semantic.line.normal.neutral" />
+      <Divider color="semantic.line.neutral.secondary" />
 
       <Heading2 content="Latest update" />
 

@@ -99,7 +99,7 @@ const Accordion = forwardRef<
           {divider && (
             <Divider
               data-role="accordion-divider"
-              color="semantic.line.normal.alternative"
+              color="semantic.line.neutral.tertiary"
               sx={accordionDividerStyle({ disableAnimation })}
             />
           )}
@@ -164,7 +164,7 @@ const AccordionSummary = forwardRef<
             >
               <IconChevronDownSmall
                 sx={(theme) => ({
-                  color: theme.semantic.label.normal,
+                  color: theme.semantic.foreground.neutral.primary,
                 })}
               />
             </AccordionSummaryContent>
@@ -333,7 +333,7 @@ const AccordionDescription = forwardRef<
       as="p"
       variant="label1"
       weight="regular"
-      color="semantic.label.neutral"
+      color="semantic.foreground.neutral.secondary"
       {...props}
     />
   );

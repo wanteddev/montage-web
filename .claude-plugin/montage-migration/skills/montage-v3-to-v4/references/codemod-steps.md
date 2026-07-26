@@ -1,6 +1,6 @@
 # Codemod Steps (v3 → v4)
 
-The 5 v4 codemods, in canonical execution order. Run each step **exactly once**, strictly
+The 6 v4 codemods, in canonical execution order. Run each step **exactly once**, strictly
 in this order, completing (and ideally committing) one step before starting the next.
 
 ```sh
@@ -21,13 +21,16 @@ npx -y @montage-ui/codemod@<codemodVersion> <transform> <target>
   (despite the help text; a shell-expanded glob passes only its first match). For multiple
   target directories, run the SAME transform once per directory before moving to the next
   step — separate trees, so this does not violate the run-once rule, which is per-tree.
+  For that reasoning to hold, **targets must be disjoint**: a target nested inside
+  another (`src` and `src/features/forms`) makes the codemod run TWICE over the nested
+  subtree — the run-once corruption path. The workflow script rejects nested targets.
 - jscodeshift processes `.tsx/.ts/.jsx/.js` and ignores `node_modules` / `.next` / `dist`.
-  Steps 2 and 3 additionally rewrite `.css/.scss/.sass/.less` files under the same path as
-  plain text.
+  Steps 2, 3 and 4 additionally rewrite `.css/.scss/.sass/.less` files under the same path
+  as plain text.
 - Always run through the CLI (`npx @montage-ui/codemod`), never raw jscodeshift — the
   stylesheet text pass only runs via the CLI wrapper.
 - If stylesheets live outside the source target (e.g. a top-level `styles/` directory),
-  add that directory to the target list AT PREFLIGHT, before step 1 runs, so steps 2 and 3
+  add that directory to the target list AT PREFLIGHT, before step 1 runs, so steps 2–4
   cover it (again: one invocation per directory). A directory discovered mid-migration
   must NOT be silently added to a running migration's `targets` — the state file's list is
   locked; follow the target-addition path in SKILL.md's preflight item 2 (user
@@ -42,16 +45,20 @@ npx -y @montage-ui/codemod@<codemodVersion> <transform> <target>
 | Step | Transform                  | Re-run on migrated code                                                                                               |
 | ---- | -------------------------- | --------------------------------------------------------------------------------------------------------------------- |
 | 1    | `package-name-migration`   | safe (no-op)                                                                                                          |
-| 2    | `css-variable-migration`   | safe (no-op)                                                                                                          |
-| 3    | `dom-identifier-migration` | safe (no-op)                                                                                                          |
-| 4    | `list-card-migration`      | safe (no-op), EXCEPT on half-hand-migrated files and files importing the same old name via two specifiers (see below) |
-| 5    | `form-control-migration`   | **CORRUPTS CODE** — never re-run (see below)                                                                          |
+| 2    | `semantic-token-migration` | safe (no-op — the rename map is prefix-free and no new path matches an old key)                                       |
+| 3    | `css-variable-migration`   | safe (no-op) for every Montage-shipped variable; a consumer-defined `--wds-wds-*` name would be stripped again        |
+| 4    | `dom-identifier-migration` | safe (no-op)                                                                                                          |
+| 5    | `list-card-migration`      | safe (no-op), EXCEPT on half-hand-migrated files and files importing the same old name via two specifiers (see below) |
+| 6    | `form-control-migration`   | **CORRUPTS CODE** — never re-run (see below)                                                                          |
 
 Even for the "safe" steps, treat every step as run-once: the state file is the single
 source of truth, and mixed states (a step applied to half the tree) are hard to diagnose.
 The hard inter-step constraints are between codemods and MANUAL steps: manual fixes
-reference post-codemod names, so all 5 codemods run first, manual migrations after
-(see `manual-migrations.md`).
+reference post-codemod names, so all 6 codemods run first, manual migrations after
+(see `manual-migrations.md`). Step 2 has no ordering constraint against the other five
+(its `semantic.*` / `--semantic-*` namespace is disjoint from every other transform's
+inputs and outputs, and it is not import-gated) — its position follows the MIGRATION.md
+section order.
 
 ## Step 1 — `package-name-migration`
 
@@ -87,7 +94,66 @@ never passes to jscodeshift) — fix them by hand now, in the same commit. EXCEP
 inside config-file option values (next.config `transpilePackages`, test-config aliases,
 tsconfig paths): those belong to manual step M1 even when the file has a JS/TS extension.
 
-## Step 2 — `css-variable-migration`
+## Step 2 — `semantic-token-migration`
+
+Rewrites the v3 semantic color token paths to the v4 property/intent/variant structure
+(`label.normal` → `foreground.neutral.primary`, `material.dimmer` → `effect.dimmer.primary`,
+…) across three surfaces, driven by a 60-entry rename map (baseline: the v3 release
+line's token set). The full old→new tables — including the deleted accent tokens'
+replacement mappings — are bundled in `manual-migrations.md` under "M9 → Rename tables";
+use them for every hand-rewrite this step or M9 calls for:
+
+- **Member-expression chains** — any `<base>.semantic.<old-path>` regardless of base
+  (`theme`, `wdsTheme`, `props.theme`, any alias) plus destructured chains rooted at a
+  bare `semantic` identifier. Old paths are matched longest-first (depth 4 → 2) and
+  rebuilt even when the new path has a different depth.
+- **String literals / template literals** — `'semantic.<old-path>'` dot tokens
+  (`color="semantic.label.normal"`, `getColorByToken('semantic.…')`) and
+  `--semantic-<old-dashed>` CSS variables. A trailing guard preserves `-rgb` suffixed
+  variables (`--semantic-background-elevated-normal-rgb` →
+  `--semantic-surface-elevated-primary-rgb`) and blocks partial-identifier matches.
+- **Stylesheets** (`.css/.scss/.sass/.less`, CLI text pass) — the `--semantic-*`
+  CSS-variable form ONLY. A dot-path token string inside a stylesheet is NOT converted —
+  flag any such hit for manual step M9.
+
+Cautions:
+
+- NOT import-gated — it fires on shape alone, so a non-Montage object accessed as
+  `<x>.semantic.<old-path>` or an unrelated string containing `semantic.<old-path>` /
+  `--semantic-<old-dashed>` is rewritten too. Review the diff.
+- Deleted accent tokens (`accent.foreground.red/redOrange/orange/green/blue`,
+  `accent.background.redOrange`) are mapped to their `foreground.*` replacements. A
+  background-color usage of those replacements needs a hand-switch to a `surface.*`
+  token — manual step M9; do NOT re-map here.
+- `primary.normal` always becomes `surface.brand.primary` (the guide-table mapping).
+  Text/icon-color usages should be `foreground.brand.primary` (identical value) — that
+  reclassification is manual step M9; do NOT re-map here.
+- Group-level references (`theme.semantic.label` passed or iterated whole), dynamically
+  built names (`` `--semantic-${x}` ``, `'semantic.' + path`), and computed access
+  (`semantic['label']['normal']`) are never matched → manual M9.
+- Safe to re-run (byte-level no-op on migrated code — no rename value matches another
+  rename key, verified in the transform source), and safe on hand-migrated v4 token
+  code. The run-once rule still applies: mixed states are hard to diagnose.
+
+Post-step verification — two greps, both expected to reach zero apart from the M9 classes
+below:
+
+```
+grep -rnE "semantic\.(label|status|fill|material|inverse)\b|semantic\.interaction\b|semantic\.primary\.|semantic\.accent\.|semantic\.background\.(normal|elevated|transparent|status)|semantic\.line\.(normal|solid|primary|status)" <targets>
+grep -rnE -- "--semantic-(label|status|fill|material|inverse|interaction|primary|accent|background-(normal|elevated|transparent|status)|line-(normal|solid|primary|status))" <targets>
+```
+
+(The second grep includes stylesheets. Both patterns match no v4 name — the new structure
+has no top-level `label`/`status`/`fill`/`material`/`inverse`/`interaction`/`primary`/
+`accent` group, `background` keeps only `neutral`, and `line` keeps none of
+`normal`/`solid`/`primary`/`status`.) Remaining hits should only be group-level
+references, root-object aliases/destructures (`const sem = theme.semantic`,
+`const { label } = theme.semantic` — these escape both greps at the usage site; note
+any you spot in the diff), dynamically built names, computed access, or dot-path token
+strings inside stylesheets — all owned by manual step M9; report them, do not fix them
+here.
+
+## Step 3 — `css-variable-migration`
 
 Renames `--wds-*` CSS custom properties: strips the `--wds-` prefix, with two exceptions —
 `--wds-column-spacing` → `--grid-column-spacing`, `--wds-row-spacing` → `--grid-row-spacing`.
@@ -100,7 +166,9 @@ Cautions:
 - The pattern is lowercase-only (`--wds-[a-z0-9-]+`): a camelCase custom property like
   `--wds-myVar` gets partially rewritten (`--myVar`). All shipped Montage variables are
   lowercase, but grep the diff for partially-rewritten camelCase properties
-  (`git diff | grep -E '^\+.*--[a-z-]*[A-Z]'`) and REPAIR them in this step — rename the
+  (`git diff | grep -E '^\+.*--[a-z0-9-]*[A-Z]'` — the class includes digits because the
+  rename pattern does: `--wds-my2Var` also comes out partially rewritten) and REPAIR
+  them in this step — rename the
   declaration and every usage consistently to the consumer's intended post-migration
   name. This step owns the fix; M3's note is only a safety net.
 - Card sub-component variables come out as **intermediate names**: `--wds-card-content-item-*`
@@ -112,7 +180,7 @@ Cautions:
 Post-step verification: `grep -rn -- "--wds-" <targets>` — remaining hits should only be
 dynamically-built names (manual M3).
 
-## Step 3 — `dom-identifier-migration`
+## Step 4 — `dom-identifier-migration`
 
 Renames 4 DOM identifier tokens in string literals, template literals, JSX attribute names,
 and stylesheets:
@@ -135,7 +203,7 @@ Cautions:
 Post-step verification: `grep -rn -E "wds-(component|ignore-|region-manager)" <targets>` —
 remaining hits should only be dynamically-built strings (manual M3).
 
-## Step 4 — `list-card-migration`
+## Step 5 — `list-card-migration`
 
 Renames the CardList family to ListCard and Card sub-components context-sensitively based
 on the nearest JSX ancestor (`CardList`/`CardListSkeleton` → `ListCard*` names;
@@ -159,12 +227,30 @@ Cautions:
   `CardListContent`, their `*Skeleton` and `*Props` forms, `CardList`,
   `CardListSkeleton`) against the new names (`ListCard*`, `CardBody*`, `CardRow*` and
   their Props). The global renames hit ALL of these unconditionally, so any old/new pair
-  in one file produces a duplicate specifier. Clean them up first. **Cleanup remediation**
+  in one file produces a duplicate specifier. Clean them up first. Concrete two-pass
+  check (mirrors step 6's style):
+
+  ```sh
+  # files referencing an OLD Card name AND a NEW counterpart — every hit is mixed
+  comm -12 \
+    <(grep -rlE '\bCard(List|Content)' <targets> | sort) \
+    <(grep -rlE '\b(ListCard|CardBody|CardRow)' <targets> | sort)
+  ```
+
+  For the same-old-name-twice case, list aliased imports of the rename surface and
+  inspect each hit's file for a second (plain) specifier of the same name:
+
+  ```sh
+  grep -rnE "\bCard(List|Content|Thumbnail|Title|Caption)\w* as \w+" <targets>
+  ```
+
+  **Cleanup remediation**
   (when the pre-check aborts the workflow with a file list): for each flagged file, either
   revert the partial hand-migration or complete it to pure new-API names — fully
   hand-migrated files are SAFE for this codemod (re-run on migrated names is a no-op, per
   the idempotency table). Commit that cleanup as its own commit so the tree is clean, then
   re-run the workflow with `completedSteps` refreshed from the state file.
+
 - **Duplicate specifiers for the same old name** (`import { CardContent }` plus
   `import { CardContent as CC }` from a montage source — the same applies to the
   list-context names `CardThumbnail*` / `CardTitle*` / `CardCaption*` and their Skeleton
@@ -188,11 +274,14 @@ valid v4 Card-family names and cannot be grepped to zero; their list-context lef
 surface via a `CardList` hit in the same gate-skipped file, or via M4's cross-file
 review). Remaining hits live in gate-skipped files (namespace / re-export / deep-subpath
 imports) or duplicate-specifier files (see pre-check) — no M-section covers them; fix
-them by hand now, as part of this step.
+them by hand now, as part of this step. Before fixing a hit, confirm the identifier
+actually comes from a montage source (a namespace/subpath/re-export of
+`@montage-ui/core` / `@wanteddev/wds`): a same-named identifier defined locally or
+imported from another library is NOT a migration leftover — leave it alone.
 
-## Step 5 — `form-control-migration`
+## Step 6 — `form-control-migration`
 
-Import-gated like step 4: the transform fires only on names imported from exactly
+Import-gated like step 5: the transform fires only on names imported from exactly
 `@montage-ui/core` or `@wanteddev/wds` (per-name specifier lookup) — namespace, re-export,
 and subpath imports do not trigger it.
 
@@ -238,7 +327,7 @@ possible) is safe to transform.
 The subtraction above assumes a `FormField` reference implies v3 code — that assumption
 has a hole: a hand-migrated file whose only `FormField` mention is a comment, string, or
 back-compat type alias escapes it. Run a SECOND pre-check for such mixed files, mirroring
-step 4's half-hand-migrated check:
+step 5's half-hand-migrated check:
 
 ```sh
 # files referencing a NEW FormControl* sub-component name AND still containing FormField:
@@ -266,28 +355,40 @@ commit, so the tree state is assessed without the temporary deletions and no com
 contains them. Run from the repo root with repo-relative paths:
 
 ```sh
-# 1. fresh temp dir (never reuse a fixed path — stale leftovers would be moved back in)
+# 1. record each flagged file's path + content hash (compared after the move-back)
+HASHES=$(mktemp)
+for f in <flagged files>; do echo "$f $(git hash-object "$f")"; done > "$HASHES"
+
+# 2. fresh temp dir (never reuse a fixed path — stale leftovers would be moved back in)
 EXCL=$(mktemp -d)
 
-# 2. move each flagged file out, preserving its relative path
+# 3. move each flagged file out, preserving its relative path
 for f in <flagged files>; do
   mkdir -p "$EXCL/$(dirname "$f")"
   mv "$f" "$EXCL/$f"
 done
 
-# 3. run the codemod on the targets as usual — <codemodVersion> is the migration's
+# 4. run the codemod on the targets as usual — <codemodVersion> is the migration's
 #    recorded value from the state file, same build as every other step
 npx -y @montage-ui/codemod@<codemodVersion> form-control-migration <target>
 
-# 4. move the files back to their exact original paths
+# 5. move the files back to their exact original paths
 (cd "$EXCL" && find . -type f) | while read -r f; do
   mv "$EXCL/$f" "$f"
 done
 ```
 
-Verify with `git status` that the moved-back files show no diff. Confirm the temp
-directory is empty before the move-out, and contains no files after the move-back
-(the directory skeleton remains): `[ -z "$(find "$EXCL" -type f)" ]`.
+Verify the moved-back files by re-running step 1's path+hash command and diffing against
+the recording (`diff "$HASHES" <(for f in <flagged files>; do echo "$f $(git hash-object "$f")"; done)`
+— must be empty). Confirm the temp directory is empty before the move-out, and contains
+no files after the move-back (the directory skeleton remains):
+`[ -z "$(find "$EXCL" -type f)" ]`.
+
+Verification note: with `autoCommit: false` a plain `git status` no-diff check on the
+moved-back files is meaningless — they legitimately carry earlier steps' uncommitted
+changes (at minimum step 1's import renames) and show as modified. The hash comparison
+above (step 1 vs step 5) is the correct check in both modes; only under
+`autoCommit: true` does "no diff" coincide with it.
 
 Cautions:
 
@@ -295,7 +396,9 @@ Cautions:
   `FormField` (object keys, `styles.FormControl`) get renamed too. Review the diff.
 - Namespace imports (`M.FormField`), re-exports, and subpath imports are skipped by the
   codemod — no M-section covers them; fix them by hand in this step's verification,
-  WITHOUT re-running the codemod.
+  WITHOUT re-running the codemod. Before fixing a hit, confirm the identifier actually
+  comes from a montage source — a same-named identifier defined locally or imported from
+  another library is NOT a migration leftover; leave it alone.
 - New v4 API adoption (`FormControlPositiveMessage`, `FormControlMessageAccessory`,
   `size`/`labelPlacement`) must happen only AFTER this step, for the same double-swap reason.
 
@@ -305,21 +408,23 @@ Post-step verification (expect zero hits):
 in gate-skipped files; the prefix form matches no new `FormControl*` name.)
 `FormControl` hits are EXPECTED — it is the new root name; do not "fix" them.
 
-One residual the main grep cannot see (step 4 has the same class of acknowledgment): in
+One residual the main grep cannot see (step 5 has the same class of acknowledgment): in
 gate-skipped files, an OLD inner-slot `FormControl` usage (e.g.
 `import * as M from '@wanteddev/wds'` + `<M.FormControl>`, or a subpath import) survives
 under the literal name `FormControl` — grep-indistinguishable from a correct new root,
 but it means the field slot in v4 and must be renamed to `FormControlField` by hand.
 Additionally inspect namespace imports of montage sources
-(`grep -rnE "import \* as \w+ from '(@montage-ui/core|@wanteddev/wds)'"`) and montage
+(`grep -rnE "import \* as \w+ from ['\"](@montage-ui/core|@wanteddev/wds)['\"]"` — both
+quote styles; prettier defaults to single quotes but consumer configs vary) and montage
 subpath imports for `.FormControl` member usages.
 
-## After all 5 steps
+## After all 6 steps
 
-Proceed to `manual-migrations.md` (all M-sections, M1–M8), then final verification:
+Proceed to `manual-migrations.md` (all M-sections, M1–M9), then final verification:
 
 1. All leftover greps clean (see each step + M-sections).
 2. Dependency install with the renamed `@montage-ui/*` packages succeeded.
 3. Project typecheck / lint / build / tests pass.
-4. Visual QA on TextField / TextArea / Modal bottom-sheet / Card list screens (behavioral
+4. Visual QA on TextField / TextArea / Modal bottom-sheet / Card list screens and screens
+   that used the deleted accent tokens (behavioral
    changes).

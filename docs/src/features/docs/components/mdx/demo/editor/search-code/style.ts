@@ -8,11 +8,11 @@ export const searchPanelStyle = (theme: Theme) => css`
   right: 16px;
   z-index: 2;
   background-color: ${addOpacity(
-    theme.semantic.background.normal.normal,
+    theme.semantic.background.neutral.primary,
     theme.opacity[88],
   )};
   box-shadow: ${theme.semantic.elevation.shadow.normal.small};
-  border: 1px solid ${theme.semantic.line.normal.neutral};
+  border: 1px solid ${theme.semantic.line.neutral.secondary};
   padding: 10px 16px;
   border-radius: 16px;
   backdrop-filter: blur(32px);
@@ -23,15 +23,15 @@ export const searchInputStyle = (theme: Theme) => css`
   padding: 4px 8px;
   border-radius: 8px;
   border: none;
-  box-shadow: inset 0 0 0 1px ${theme.semantic.line.normal.neutral};
-  background-color: ${theme.semantic.background.elevated.normal};
-  color: ${theme.semantic.label.normal};
+  box-shadow: inset 0 0 0 1px ${theme.semantic.line.neutral.secondary};
+  background-color: ${theme.semantic.surface.elevated.primary};
+  color: ${theme.semantic.foreground.neutral.primary};
   ${typographyStyle('label1', 'regular')}
   transition: box-shadow ease 0.2s;
 
   &::placeholder {
     ${typographyStyle('label1', 'regular')}
-    color: ${theme.semantic.label.alternative};
+    color: ${theme.semantic.foreground.neutral.tertiary};
   }
 
   &:focus,
@@ -39,15 +39,15 @@ export const searchInputStyle = (theme: Theme) => css`
     outline: none;
     box-shadow:
       inset 0 0 0 1.5px
-        ${addOpacity(theme.semantic.primary.normal, theme.opacity[43])},
-      inset 0 0 0 1.5px ${theme.semantic.background.normal.normal};
+        ${addOpacity(theme.semantic.surface.brand.primary, theme.opacity[43])},
+      inset 0 0 0 1.5px ${theme.semantic.background.neutral.primary};
   }
 `;
 
 export const searchInputToggleStyle = (theme: Theme) => css`
   border-radius: 8px;
-  color: ${theme.semantic.label.normal};
-  box-shadow: inset 0 0 0 1px ${theme.semantic.line.normal.neutral};
+  color: ${theme.semantic.foreground.neutral.primary};
+  box-shadow: inset 0 0 0 1px ${theme.semantic.line.neutral.secondary};
   transition:
     box-shadow ease 0.2s,
     background-color ease 0.2s,
@@ -55,14 +55,14 @@ export const searchInputToggleStyle = (theme: Theme) => css`
   background-color: transparent;
 
   &[aria-pressed='true'] {
-    color: ${theme.semantic.primary.normal};
+    color: ${theme.semantic.foreground.brand.primary};
     background-color: ${addOpacity(
-      theme.semantic.primary.normal,
+      theme.semantic.surface.brand.primary,
       theme.opacity[5],
     )};
     box-shadow:
       inset 0 0 0 1.5px
-        ${addOpacity(theme.semantic.primary.normal, theme.opacity[43])},
-      inset 0 0 0 1.5px ${theme.semantic.background.normal.normal};
+        ${addOpacity(theme.semantic.surface.brand.primary, theme.opacity[43])},
+      inset 0 0 0 1.5px ${theme.semantic.background.neutral.primary};
   }
 `;

@@ -21,7 +21,7 @@ export const wrapperStyle = (theme: Theme) => css`
     inset: 0;
     position: absolute;
     border-radius: inherit;
-    background-color: ${theme.semantic.fill.alternative};
+    background-color: ${theme.semantic.surface.neutral.tertiary};
     opacity: ${theme.opacity[52]};
   }
 `;
