@@ -32,13 +32,13 @@ export const radioStyle =
     border-radius: 9999px;
 
     & ~ label {
-      color: ${theme.semantic.label.normal};
+      color: ${theme.semantic.foreground.neutral.primary};
       cursor: pointer;
     }
 
     span {
-      background-color: ${theme.semantic.background.normal.normal};
-      box-shadow: inset 0 0 0 1.5px ${theme.semantic.line.normal.normal};
+      background-color: ${theme.semantic.background.neutral.primary};
+      box-shadow: inset 0 0 0 1.5px ${theme.semantic.line.neutral.primary};
       border-radius: inherit;
       display: flex;
       align-items: center;
@@ -47,19 +47,19 @@ export const radioStyle =
 
       // safari
       @supports (-webkit-backdrop-filter: none) {
-        box-shadow: inset 0 0 0 1px ${theme.semantic.line.normal.normal};
+        box-shadow: inset 0 0 0 1px ${theme.semantic.line.neutral.primary};
 
         @media only screen and (-webkit-device-pixel-ratio: 2),
           only screen and (-moz-device-pixel-ratio: 2),
           only screen and (device-pixel-ratio: 2) {
-          box-shadow: inset 0 0 0 1.5px ${theme.semantic.line.normal.normal};
+          box-shadow: inset 0 0 0 1.5px ${theme.semantic.line.neutral.primary};
         }
 
         @media only screen and (-webkit-device-pixel-ratio: 3),
           only screen and (-moz-device-pixel-ratio: 3),
           only screen and (device-pixel-ratio: 3) {
           box-shadow: inset 0 0 0 1.33333333px
-            ${theme.semantic.line.normal.normal};
+            ${theme.semantic.line.neutral.primary};
           transform: translate(0);
         }
       }
@@ -87,7 +87,7 @@ export const radioStyle =
     css`
       span {
         box-shadow: none;
-        background-color: ${theme.semantic.primary.normal};
+        background-color: ${theme.semantic.surface.brand.primary};
         color: ${theme.semantic.static.white};
       }
     `}
@@ -102,7 +102,7 @@ export const radioStyle =
       }
 
       & ~ label {
-        color: ${theme.semantic.label.disable};
+        color: ${theme.semantic.foreground.disable.primary};
       }
     `}
 

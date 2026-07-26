@@ -68,7 +68,7 @@ const WithInteraction = forwardRef<
 WithInteraction.displayName = 'WithInteraction';
 
 const Interaction = ({
-  color = 'semantic.label.normal',
+  color = 'semantic.foreground.neutral.primary',
   width = '100%',
   height = '100%',
 }: WithInteractionProps) => {

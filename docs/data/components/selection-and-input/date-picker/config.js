@@ -92,7 +92,7 @@ module.exports = {
           case 'Icon':
             actionArea = `
             <PickerActionArea>
-              <IconSparkle sx={theme => ({ fontSize: 24, color: theme.semantic.label.normal })} />
+              <IconSparkle sx={theme => ({ fontSize: 24, color: theme.semantic.foreground.neutral.primary })} />
               <PickerActionAreaButton variant="accept">적용</PickerActionAreaButton>
             </PickerActionArea>`;
             break;

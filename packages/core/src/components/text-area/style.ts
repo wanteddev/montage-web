@@ -22,9 +22,9 @@ export const textAreaWrapperStyle =
   (theme: Theme) => css`
     border: none;
     transition: box-shadow ease 0.2s;
-    box-shadow: inset 0 0 0 1px ${theme.semantic.line.normal.neutral};
+    box-shadow: inset 0 0 0 1px ${theme.semantic.line.neutral.secondary};
     border-radius: 12px;
-    background-color: ${theme.semantic.background.transparent.normal};
+    background-color: ${theme.semantic.effect.transparent.primary};
     backdrop-filter: blur(32px);
     padding: 12px;
     width: ${toCssValue(width)};
@@ -33,14 +33,14 @@ export const textAreaWrapperStyle =
 
     ${invalid &&
     css`
-      box-shadow: inset 0 0 0 1px ${theme.semantic.line.status.negative.normal};
+      box-shadow: inset 0 0 0 1px ${theme.semantic.line.negative.primary};
     `}
 
     ${disabled
       ? css`
-          background-color: ${theme.semantic.fill.alternative};
+          background-color: ${theme.semantic.surface.neutral.tertiary};
           backdrop-filter: none;
-          box-shadow: inset 0 0 0 1px ${theme.semantic.line.normal.alternative};
+          box-shadow: inset 0 0 0 1px ${theme.semantic.line.neutral.tertiary};
           cursor: default;
         `
       : css`
@@ -52,14 +52,13 @@ export const textAreaWrapperStyle =
                 invalid
                   ? css`
                       box-shadow:
-                        inset 0 0 0 1px
-                          ${theme.semantic.line.status.negative.strong},
-                        0 0 0 4px ${theme.semantic.interaction.negative};
+                        inset 0 0 0 1px ${theme.semantic.line.negative.strong},
+                        0 0 0 4px ${theme.semantic.line.negative.focus};
                     `
                   : css`
                       box-shadow:
-                        inset 0 0 0 1px ${theme.semantic.line.primary.strong},
-                        0 0 0 4px ${theme.semantic.interaction.focus};
+                        inset 0 0 0 1px ${theme.semantic.line.brand.strong},
+                        0 0 0 4px ${theme.semantic.line.brand.focus};
                     `
               }
             }
@@ -71,14 +70,13 @@ export const textAreaWrapperStyle =
                 invalid
                   ? css`
                       box-shadow:
-                        inset 0 0 0 1px
-                          ${theme.semantic.line.status.negative.strong},
-                        0 0 0 4px ${theme.semantic.interaction.negative};
+                        inset 0 0 0 1px ${theme.semantic.line.negative.strong},
+                        0 0 0 4px ${theme.semantic.line.negative.focus};
                     `
                   : css`
                       box-shadow:
-                        inset 0 0 0 1px ${theme.semantic.line.primary.strong},
-                        0 0 0 4px ${theme.semantic.interaction.focus};
+                        inset 0 0 0 1px ${theme.semantic.line.brand.strong},
+                        0 0 0 4px ${theme.semantic.line.brand.focus};
                     `
               }
           }
@@ -166,11 +164,11 @@ export const textAreaStyle =
     padding: ${theme.spacing[0]} ${theme.spacing[4]};
     flex-shrink: 2;
     background-color: transparent;
-    caret-color: ${theme.semantic.primary.normal};
+    caret-color: ${theme.semantic.foreground.brand.primary};
     outline: none;
     border: none;
     resize: none;
-    color: ${theme.semantic.label.normal};
+    color: ${theme.semantic.foreground.neutral.primary};
 
     &::-webkit-scrollbar {
       display: none;
@@ -179,15 +177,15 @@ export const textAreaStyle =
     scrollbar-width: none;
 
     &::placeholder {
-      color: ${theme.semantic.label.assistive};
+      color: ${theme.semantic.foreground.neutral.quaternary};
     }
 
     &:disabled {
-      color: ${theme.semantic.label.alternative};
+      color: ${theme.semantic.foreground.neutral.tertiary};
     }
 
     &:disabled::placeholder {
-      color: ${theme.semantic.label.disable};
+      color: ${theme.semantic.foreground.disable.primary};
     }
 
     &:focus {
@@ -248,7 +246,7 @@ export const textAreaCharacterCounterStyle = (theme: Theme) => css`
 
   &[data-is-overflow='true'] {
     [data-role='text-area-content-character-counter-length'] {
-      color: ${theme.semantic.status.negative};
+      color: ${theme.semantic.foreground.negative.primary};
     }
   }
 `;

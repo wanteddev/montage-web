@@ -8,6 +8,7 @@ import execa from 'execa';
 import { MIGRATION_TRANSFORMS } from './constants';
 import { renameWdsVariablesInString } from './transforms/v4/css-variable-map';
 import { renameWdsDomIdentifiersInString } from './transforms/v4/dom-identifier-map';
+import { renameSemanticTokensInString } from './transforms/v4/semantic-token-map';
 
 /**
  * Transforms that also need to rewrite stylesheets, which jscodeshift cannot
@@ -17,6 +18,7 @@ import { renameWdsDomIdentifiersInString } from './transforms/v4/dom-identifier-
 const STYLE_TEXT_TRANSFORMS: Record<string, (source: string) => string> = {
   'css-variable-migration': renameWdsVariablesInString,
   'dom-identifier-migration': renameWdsDomIdentifiersInString,
+  'semantic-token-migration': renameSemanticTokensInString,
 };
 
 export const jscodeshiftExecutable = require.resolve('.bin/jscodeshift');

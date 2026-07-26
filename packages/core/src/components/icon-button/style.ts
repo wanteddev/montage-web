@@ -186,7 +186,7 @@ const iconButtonColorStyle = (
 
         &:disabled, &[aria-disabled='true'] {
           background-color: transparent;
-          color: ${theme.semantic.label.disable};
+          color: ${theme.semantic.foreground.disable.primary};
           box-shadow: none;
           border: none;
         }
@@ -281,7 +281,7 @@ const iconButtonColorStyle = (
           box-shadow: none;
 
           &::before {
-            background-color: ${theme.semantic.fill.alternative};
+            background-color: ${theme.semantic.surface.neutral.tertiary};
             backdrop-filter: none;
           }
 
@@ -301,7 +301,7 @@ const iconButtonColorStyle = (
       return css`
         border: none;
         background-color: transparent;
-        box-shadow: inset 0 0 0 1px ${theme.semantic.line.normal.neutral};
+        box-shadow: inset 0 0 0 1px ${theme.semantic.line.neutral.secondary};
         background-color: transparent;
         ${Boolean(color) &&
         css`
@@ -309,15 +309,15 @@ const iconButtonColorStyle = (
         `}
 
         &:disabled, &[aria-disabled='true'] {
-          color: ${theme.semantic.label.disable};
+          color: ${theme.semantic.foreground.disable.primary};
           background-color: transparent;
-          box-shadow: inset 0 0 0 1px ${theme.semantic.line.normal.neutral};
+          box-shadow: inset 0 0 0 1px ${theme.semantic.line.neutral.secondary};
         }
       `;
     case 'solid':
       return css`
         border: none;
-        background-color: ${theme.semantic.primary.normal};
+        background-color: ${theme.semantic.surface.brand.primary};
 
         ${Boolean(color) &&
         css`
@@ -325,8 +325,8 @@ const iconButtonColorStyle = (
         `}
 
         &:disabled, &[aria-disabled='true'] {
-          color: ${theme.semantic.label.disable};
-          background-color: ${theme.semantic.fill.normal};
+          color: ${theme.semantic.foreground.disable.primary};
+          background-color: ${theme.semantic.surface.neutral.secondary};
           backdrop-filter: blur(32px);
         }
       `;

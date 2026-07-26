@@ -317,7 +317,7 @@ const TextAreaContent = forwardRef<
               height: 'var(--text-area-content-icon-wrapper-height)',
               width: 'var(--text-area-content-icon-wrapper-width)',
               padding: `${theme.spacing[0]} ${theme.spacing[2]}`,
-              color: theme.semantic.label.alternative,
+              color: theme.semantic.foreground.neutral.tertiary,
               ['[data-component="icon-button"]']: {
                 flexShrink: 0,
               },
@@ -326,7 +326,7 @@ const TextAreaContent = forwardRef<
           ]}
           {...props}
         >
-          <IconButtonProvider normal="semantic.label.alternative">
+          <IconButtonProvider normal="semantic.foreground.neutral.tertiary">
             {children}
           </IconButtonProvider>
         </FlexBox>

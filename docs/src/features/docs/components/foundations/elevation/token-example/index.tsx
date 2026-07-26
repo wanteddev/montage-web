@@ -57,7 +57,7 @@ const TokenExample = ({ items }: Props) => {
             <Typography
               variant="caption2"
               weight="bold"
-              color="semantic.label.normal"
+              color="semantic.foreground.neutral.primary"
               align="center"
             >
               {sentenceCase(item.key)}

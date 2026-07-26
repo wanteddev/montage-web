@@ -14,7 +14,7 @@ export const sectionThumbnailStyle = (ratio: string) => (theme: Theme) => css`
     inset: 0;
     position: absolute;
     border-radius: inherit;
-    border: 1px solid ${theme.semantic.line.solid.neutral};
+    border: 1px solid ${theme.semantic.line.neutral.secondaryOpaque};
   }
 
   svg {

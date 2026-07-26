@@ -20,7 +20,7 @@ export const lightOriginTheme = {
     platform: {
       ios: {
         navigation: `
-          background-color: ${addHexOpacity(semantic.light.background.elevated.normal, opacity[88])};
+          background-color: ${addHexOpacity(semantic.light.surface.elevated.primary, opacity[88])};
           backdrop-filter: blur(32px);
       `,
       },
@@ -45,7 +45,7 @@ export const darkOriginTheme = {
     platform: {
       ios: {
         navigation: `
-          background-color: ${addHexOpacity(semantic.dark.background.elevated.normal, opacity[88])};
+          background-color: ${addHexOpacity(semantic.dark.surface.elevated.primary, opacity[88])};
           backdrop-filter: blur(32px);
       `,
       },
@@ -106,7 +106,7 @@ export const lightTheme = {
     platform: {
       ios: {
         navigation: `
-          background-color: rgba(var(--semantic-background-elevated-normal-rgb), 0.88);
+          background-color: rgba(var(--semantic-surface-elevated-primary-rgb), 0.88);
           backdrop-filter: blur(32px);
         `,
       },
@@ -129,7 +129,7 @@ export const darkTheme = {
     platform: {
       ios: {
         navigation: `
-          background-color: rgba(var(--semantic-background-elevated-normal-rgb), 0.88);
+          background-color: rgba(var(--semantic-surface-elevated-primary-rgb), 0.88);
           backdrop-filter: blur(32px);
         `,
       },

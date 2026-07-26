@@ -25,6 +25,6 @@ export const sectionLayoutStyle = (theme: Theme) => css`
   [data-role='section-figure-group']:not(:first-of-type) {
     margin-top: 32px;
     padding-top: 32px;
-    border-top: 1px solid ${theme.semantic.line.normal.alternative};
+    border-top: 1px solid ${theme.semantic.line.neutral.tertiary};
   }
 `;

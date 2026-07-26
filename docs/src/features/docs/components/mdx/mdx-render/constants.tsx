@@ -93,7 +93,7 @@ export const MDX_COMPONENTS: { [key: string]: (props: any) => ReactNode } = {
       variant="caption2"
       weight="medium"
       as="h6"
-      color="semantic.label.alternative"
+      color="semantic.foreground.neutral.tertiary"
       id={id}
     >
       <HeadingLink id={id}>{children}</HeadingLink>
@@ -133,7 +133,7 @@ export const MDX_COMPONENTS: { [key: string]: (props: any) => ReactNode } = {
       data-role="table"
       sx={(theme) => ({
         marginBottom: 40,
-        '--table-border-color': theme.semantic.line.solid.alternative,
+        '--table-border-color': theme.semantic.line.neutral.tertiaryOpaque,
       })}
     />
   ),
@@ -143,7 +143,7 @@ export const MDX_COMPONENTS: { [key: string]: (props: any) => ReactNode } = {
       {...props}
       variant="label1"
       sx={(theme) => ({
-        color: theme.semantic.label.neutral,
+        color: theme.semantic.foreground.neutral.secondary,
       })}
     />
   ),

@@ -12,14 +12,14 @@ export const thumbnailStyle = (theme: Theme) => css`
     inset: 0;
     position: absolute;
     border-radius: inherit;
-    background-color: ${theme.semantic.fill.alternative};
+    background-color: ${theme.semantic.surface.neutral.tertiary};
     opacity: ${theme.opacity[52]};
   }
 `;
 
 export const linkStyle = (theme: Theme) => css`
   padding-block: 24px;
-  border-bottom: 1px solid ${theme.semantic.line.normal.alternative};
+  border-bottom: 1px solid ${theme.semantic.line.neutral.tertiary};
 
   ${respondTo(theme.breakpoint.sm)} {
     padding-block: 20px;
@@ -40,7 +40,7 @@ export const linkStyle = (theme: Theme) => css`
 `;
 
 export const interactionArrowStyle = (theme: Theme) => css`
-  color: ${theme.semantic.label.normal};
+  color: ${theme.semantic.foreground.neutral.primary};
   font-size: 16px;
   flex-shrink: 0;
   transition:

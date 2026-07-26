@@ -27,7 +27,7 @@ export const searchFieldWrapperStyle =
       align-items: center;
       border-radius: 12px;
       border: none;
-      background-color: ${theme.semantic.fill.normal};
+      background-color: ${theme.semantic.surface.neutral.secondary};
       backdrop-filter: blur(32px);
       will-change: backdrop-filter;
       width: ${toCssValue(width)};
@@ -37,7 +37,7 @@ export const searchFieldWrapperStyle =
 
       [data-role='search-field-icon'] {
         transition: color ease 0.2s;
-        color: ${theme.semantic.label.alternative};
+        color: ${theme.semantic.foreground.neutral.tertiary};
       }
 
       [data-role='search-field-reset'] {
@@ -49,7 +49,7 @@ export const searchFieldWrapperStyle =
             cursor: default;
 
             [data-role='search-field-icon'] {
-              color: ${theme.semantic.label.disable};
+              color: ${theme.semantic.foreground.disable.primary};
             }
 
             [data-role='search-field-reset'] {
@@ -60,7 +60,7 @@ export const searchFieldWrapperStyle =
             @supports selector(:has(*)) {
               &:where(:has(input:placeholder-shown)) {
                 [data-role='search-field-icon'] {
-                  color: ${theme.semantic.label.assistive};
+                  color: ${theme.semantic.foreground.neutral.quaternary};
                 }
               }
 
@@ -75,7 +75,7 @@ export const searchFieldWrapperStyle =
                   }
 
                   [data-role='search-field-icon'] {
-                    color: ${theme.semantic.label.alternative};
+                    color: ${theme.semantic.foreground.neutral.tertiary};
                   }
                 }
               }
@@ -91,15 +91,15 @@ export const searchFieldWrapperStyle =
           `}
 
       input:disabled {
-        color: ${theme.semantic.label.alternative};
+        color: ${theme.semantic.foreground.neutral.tertiary};
       }
 
       input:disabled::placeholder {
-        color: ${theme.semantic.label.disable};
+        color: ${theme.semantic.foreground.disable.primary};
       }
 
       input {
-        caret-color: ${theme.semantic.primary.normal};
+        caret-color: ${theme.semantic.foreground.brand.primary};
         transition: color ease 0.2s;
         width: 100%;
         padding: 0;
@@ -109,12 +109,12 @@ export const searchFieldWrapperStyle =
         outline: none;
         border: none;
         box-shadow: none;
-        color: ${theme.semantic.label.normal};
+        color: ${theme.semantic.foreground.neutral.primary};
         ${typographyStyle('body1', 'regular')}
 
         &::placeholder {
           ${typographyStyle('body1', 'regular')}
-          color: ${theme.semantic.label.assistive};
+          color: ${theme.semantic.foreground.neutral.quaternary};
         }
 
         [type='number'] {

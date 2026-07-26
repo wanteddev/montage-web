@@ -99,7 +99,7 @@ const SectionMessage = forwardRef<
           flex="1"
         >
           <Typography
-            color="semantic.label.normal"
+            color="semantic.foreground.neutral.primary"
             variant="body2"
             weight="medium"
             data-role="section-message-content-title"
@@ -115,7 +115,7 @@ const SectionMessage = forwardRef<
               weight="regular"
               data-role="section-message-content-description"
               id={descriptionId}
-              color="semantic.label.neutral"
+              color="semantic.foreground.neutral.secondary"
               as="p"
             >
               {description}
@@ -147,8 +147,8 @@ const SectionMessage = forwardRef<
         {closeButton && (
           <IconButton
             data-role="section-message-close-icon"
-            color="semantic.label.alternative"
-            interactionColor="semantic.label.alternative"
+            color="semantic.foreground.neutral.tertiary"
+            interactionColor="semantic.foreground.neutral.tertiary"
             onClick={handleClose}
             size={20}
             aria-label="Close message"

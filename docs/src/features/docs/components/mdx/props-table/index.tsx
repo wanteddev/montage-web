@@ -35,7 +35,7 @@ const PropsTable = ({ component, fallback }: Props) => {
       aria-label={`${component} props`}
       sx={(theme) => ({
         marginBottom: 40,
-        '--table-border-color': theme.semantic.line.normal.neutral,
+        '--table-border-color': theme.semantic.line.neutral.secondary,
       })}
     >
       <colgroup>
@@ -65,7 +65,7 @@ const PropsTable = ({ component, fallback }: Props) => {
                       <TooltipTrigger>
                         <IconCircleInfo
                           sx={(theme) => ({
-                            color: theme.semantic.label.alternative,
+                            color: theme.semantic.foreground.neutral.tertiary,
                           })}
                         />
                       </TooltipTrigger>

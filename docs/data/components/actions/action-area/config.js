@@ -15,7 +15,7 @@ module.exports = {
               variant: 'strong',
               sx: (theme) => ({
                 width: '90%',
-                backgroundColor: theme.semantic.background.normal.normal,
+                backgroundColor: theme.semantic.background.neutral.primary,
               }),
             },
           },
@@ -25,7 +25,7 @@ module.exports = {
               variant: 'neutral',
               sx: (theme) => ({
                 width: '90%',
-                backgroundColor: theme.semantic.background.normal.normal,
+                backgroundColor: theme.semantic.background.neutral.primary,
                 '[data-role="action-area-wrapper"]': {
                   flexDirection: 'row-reverse',
                 },
@@ -38,7 +38,7 @@ module.exports = {
               variant: 'compact',
               sx: (theme) => ({
                 width: '90%',
-                backgroundColor: theme.semantic.background.normal.normal,
+                backgroundColor: theme.semantic.background.neutral.primary,
                 '[data-role="action-area-wrapper"]': {
                   flexDirection: 'row-reverse',
                 },
@@ -52,7 +52,7 @@ module.exports = {
               children: '<ActionAreaButton>Cancel</ActionAreaButton>',
               sx: (theme) => ({
                 width: '90%',
-                backgroundColor: theme.semantic.background.normal.normal,
+                backgroundColor: theme.semantic.background.neutral.primary,
               }),
             },
           },

@@ -100,11 +100,34 @@ Workflow({
 });
 ```
 
-Fix every `critical`/`major` finding (and `minor` unless there is a stated reason not
-to), then RE-RUN the validation Workflow. Repeat until it returns `clean: true`. The
-structure reviewer already runs the mechanical checks (workflow-script syntax wrap +
-`node --check`, prettier) — run them manually (procedure in the conventions doc) only
-when iterating on a fix or when the structure reviewer itself failed.
+Fix every `critical`/`major` finding, then RE-RUN the validation Workflow — a real fix
+can introduce a new real defect, so `critical`/`major` always warrants another pass.
+
+**Stop re-running once a round returns no `critical`/`major` and its `minor` findings are
+only heuristic refinement.** The validation reviewers are adversarial and will almost
+always surface _something_; `clean: true` is the ideal, not a required terminal state.
+Each round is expensive (four large sub-agents), so converge deliberately:
+
+- Fix `minor` findings that are genuine defects (a wrong rename-table entry, a broken
+  grep that silently finds nothing, a state-schema contradiction, a claim that
+  contradicts the transform source) — these are cheap and worth another pass with the
+  `critical`/`major` fixes.
+- Do NOT loop for `minor` findings that just make an already-hedged heuristic
+  incrementally tighter — "this scan pattern also misses `'wds-' + kind`", "widen this
+  regex to also match `props.theme`", etc. The scan patterns are declared line-based
+  heuristics ("a clean scan is 'nothing obvious', not proof of absence"); chasing every
+  regex edge case with more regex contradicts that framing and never terminates. Apply
+  the ones you judge worthwhile in a single final edit and do not re-validate solely to
+  confirm them.
+- A `minor` you are deliberately not acting on (e.g. a version bump the user deferred)
+  needs a one-line note in your report, not another round.
+
+Practically: expect ONE re-run after the first substantive fix pass, occasionally two if
+that pass surfaced new `critical`/`major`. If a round yields only heuristic-refinement
+`minor`s, you are done — stop and report. The structure reviewer already runs the
+mechanical checks (workflow-script syntax wrap + `node --check`, prettier); run them
+manually (procedure in the conventions doc) after your final edits instead of triggering
+a whole validation round just to confirm formatting.
 
 ### Step 5 — Ship
 
@@ -142,7 +165,10 @@ has a skill:
    verification, so consumers who FINISHED the migration get flagged when they invoke
    the skill again.
 4. **Re-run the FULL validation Workflow** (Step 4 above) — not just on the delta; the
-   consistency reviewer exists precisely for update-mode drift.
+   consistency reviewer exists precisely for update-mode drift (renumbering a step, for
+   instance, leaves stale cross-references the delta alone would not reveal). Apply Step
+   4's convergence rule: re-run after each `critical`/`major` fix pass, but stop once a
+   round returns only heuristic-refinement `minor`s — do not loop toward `clean: true`.
 5. **Bump versions** (plugin.json minor for new content, patch for corrections) and
    update READMEs if behavior changed.
 

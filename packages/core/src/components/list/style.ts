@@ -41,13 +41,13 @@ export const listCellStyle =
       ? css`
           cursor: initial;
           pointer-events: none;
-          color: ${theme.semantic.label.alternative};
+          color: ${theme.semantic.foreground.neutral.tertiary};
           opacity: ${theme.opacity[43]};
         `
       : css`
           color: ${selected
-            ? theme.semantic.primary.normal
-            : theme.semantic.label.normal};
+            ? theme.semantic.foreground.brand.primary
+            : theme.semantic.foreground.neutral.primary};
 
           ${!disableInteraction &&
           css`
@@ -226,7 +226,7 @@ const listCellContentVariantStyle =
       case 'value':
         return css`
           ${typographyStyle('body1', 'regular')}
-          color: ${theme.semantic.label.alternative};
+          color: ${theme.semantic.foreground.neutral.tertiary};
         `;
 
       case 'thumbnail':
@@ -236,7 +236,7 @@ const listCellContentVariantStyle =
 
       case 'icon':
         return css`
-          color: ${theme.semantic.label.alternative};
+          color: ${theme.semantic.foreground.neutral.tertiary};
           font-size: 24px;
         `;
 
@@ -253,8 +253,8 @@ const listCellContentVariantStyle =
             height: fit-content;
             border-radius: 12px;
             padding: 8px;
-            color: ${theme.semantic.primary.normal};
-            background-color: ${theme.semantic.fill.normal};
+            color: ${theme.semantic.foreground.brand.primary};
+            background-color: ${theme.semantic.surface.neutral.secondary};
             font-size: 32px;
           }
         `;
@@ -262,7 +262,7 @@ const listCellContentVariantStyle =
       case 'chevron':
         return css`
           ${typographyStyle('body1', 'regular')}
-          color: ${theme.semantic.label.alternative};
+          color: ${theme.semantic.foreground.neutral.tertiary};
         `;
       case 'checkbox':
         return css`

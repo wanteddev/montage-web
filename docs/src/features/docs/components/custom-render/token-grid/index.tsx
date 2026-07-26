@@ -31,7 +31,7 @@ const TokenGridHead = ({ children, sx }: WithSxProps<PropsWithChildren>) => {
       as="th"
       variant="label2"
       weight="bold"
-      color="semantic.label.alternative"
+      color="semantic.foreground.neutral.tertiary"
       align="left"
       sx={[gridHeadCellStyle, sx]}
     >
@@ -61,7 +61,7 @@ const TokenGridCell = ({ children, sx }: WithSxProps<PropsWithChildren>) => {
     <Typography
       variant="body2"
       weight="medium"
-      color="semantic.label.normal"
+      color="semantic.foreground.neutral.primary"
       align="left"
       as="td"
       sx={[gridCellStyle, sx]}

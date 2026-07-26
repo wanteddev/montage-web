@@ -15,7 +15,7 @@ export const footerStyle = (theme: Theme) => css`
     left: 0;
     width: 100%;
     height: 1px;
-    background-color: ${theme.semantic.line.normal.alternative};
+    background-color: ${theme.semantic.line.neutral.tertiary};
   }
 `;
 
@@ -24,11 +24,11 @@ export const footerLinkStyle = (theme: Theme) => css`
   font-weight: 600;
   line-height: 142.9%;
   letter-spacing: 0.203px;
-  color: ${theme.semantic.label.neutral};
+  color: ${theme.semantic.foreground.neutral.secondary};
 `;
 
 export const footerTextButtonStyle = (theme: Theme) => css`
-  color: ${theme.semantic.label.neutral};
+  color: ${theme.semantic.foreground.neutral.secondary};
   gap: 2px;
 
   & > span {

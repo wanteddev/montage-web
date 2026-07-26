@@ -5,7 +5,7 @@ import type { Theme } from '@montage-ui/core';
 export const wrapperStyle = (theme: Theme) => css`
   word-break: keep-all;
   overflow-wrap: break-word;
-  color: ${theme.semantic.label.neutral};
+  color: ${theme.semantic.foreground.neutral.secondary};
   ${typographyStyle('body2-reading', 'medium')}
 
   strong {
@@ -22,7 +22,7 @@ export const wrapperStyle = (theme: Theme) => css`
   h4,
   h5,
   h6 {
-    color: ${theme.semantic.label.normal};
+    color: ${theme.semantic.foreground.neutral.primary};
   }
 
   h2 {
@@ -42,7 +42,7 @@ export const wrapperStyle = (theme: Theme) => css`
     border-radius: 24px;
 
     &::after {
-      border: 1px solid ${theme.semantic.line.solid.neutral};
+      border: 1px solid ${theme.semantic.line.neutral.secondaryOpaque};
     }
   }
 

@@ -39,7 +39,7 @@ const SectionFigure = ({
                 <Typography
                   variant="headline2"
                   weight="bold"
-                  color="semantic.label.normal"
+                  color="semantic.foreground.neutral.primary"
                 >
                   Do
                 </Typography>
@@ -50,7 +50,7 @@ const SectionFigure = ({
                 <Typography
                   variant="headline2"
                   weight="bold"
-                  color="semantic.label.normal"
+                  color="semantic.foreground.neutral.primary"
                 >
                   Don’t
                 </Typography>
@@ -67,7 +67,7 @@ const SectionFigure = ({
               as="p"
               variant="headline2"
               weight="bold"
-              color="semantic.label.normal"
+              color="semantic.foreground.neutral.primary"
             >
               {title}
             </Typography>

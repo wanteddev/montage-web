@@ -15,7 +15,7 @@ import type { Theme } from '@montage-ui/core';
 
 export const exampleStyle = (theme: Theme) => css`
   background-color: ${addOpacity(
-    theme.semantic.label.normal,
+    theme.semantic.foreground.neutral.primary,
     theme.opacity[12],
   )};
 `;
@@ -25,7 +25,7 @@ export const exampleStyle = (theme: Theme) => css`
 
 ```css
 .montage-exampleStyle1 {
-  background-color: rgba(var(--theme-semantic-label-normal-rgb), 0.12);
+  background-color: rgba(var(--semantic-foreground-neutral-primary-rgb), 0.12);
 }
 ```
 

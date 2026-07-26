@@ -44,6 +44,7 @@ export const MIGRATION_TRANSFORMS = {
   },
   v4: {
     'package-name-migration': 'Package Name Migration',
+    'semantic-token-migration': 'Semantic Token Migration',
     'css-variable-migration': 'CSS Variable Migration',
     'dom-identifier-migration': 'DOM Identifier Migration',
     'list-card-migration': 'ListCard Naming Migration',

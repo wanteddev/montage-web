@@ -19,7 +19,7 @@ module.exports = {
             width: '80%',
             padding: '16px',
             borderRadius: '20px',
-            backgroundColor: theme.semantic.background.normal.normal
+            backgroundColor: theme.semantic.background.neutral.primary
           })}
         >
           <ListCard platform="${value['Platform'].toLowerCase()}">
