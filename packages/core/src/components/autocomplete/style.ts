@@ -6,11 +6,11 @@ export const autocompleteListStyle = (theme: Theme) => css`
   padding: 0px;
   box-shadow: ${theme.semantic.elevation.shadow.normal.small};
   border-radius: 16px;
-  background-color: ${theme.semantic.background.elevated.normal};
+  background-color: ${theme.semantic.surface.elevated.primary};
 `;
 
 export const autocompleteScrollAreaStyle = (theme: Theme) => css`
-  border: 1px solid ${theme.semantic.line.solid.neutral};
+  border: 1px solid ${theme.semantic.line.neutral.secondaryOpaque};
   border-radius: 16px;
   min-width: 140px;
   height: auto;
@@ -31,7 +31,7 @@ export const autocompleteGroupTitleStyle = (theme: Theme) => css`
   padding: 4px 20px;
   z-index: 10;
   margin: auto auto auto 0;
-  background-color: ${theme.semantic.background.elevated.normal};
+  background-color: ${theme.semantic.surface.elevated.primary};
 `;
 
 export const autocompleteOptionStyle = (theme: Theme) => css`
@@ -43,7 +43,7 @@ export const autocompleteOptionStyle = (theme: Theme) => css`
   }
 
   [data-role='autocomplete-option-active-icon-check'] {
-    color: ${theme.semantic.primary.normal};
+    color: ${theme.semantic.foreground.brand.primary};
   }
 
   &[data-focus='true'] > [data-component='with-interaction'] {

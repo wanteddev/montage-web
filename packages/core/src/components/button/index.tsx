@@ -73,7 +73,7 @@ const Button = forwardRef(
 
     return (
       <WithInteraction
-        color="semantic.label.normal"
+        color="semantic.foreground.neutral.primary"
         variant={getInteractionVariant()}
         disabled={disableInteraction || disabled}
       >

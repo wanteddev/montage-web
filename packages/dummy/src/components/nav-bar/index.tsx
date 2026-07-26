@@ -59,7 +59,7 @@ const NavBar = forwardRef<HTMLDivElement, DefaultComponentProps<{}, 'div'>>(
                   <Typography
                     variant="body2"
                     weight="bold"
-                    color="semantic.label.normal"
+                    color="semantic.foreground.neutral.primary"
                     sx={mainNavLinkItemStyle}
                   >
                     <span>
@@ -72,7 +72,7 @@ const NavBar = forwardRef<HTMLDivElement, DefaultComponentProps<{}, 'div'>>(
                   <Typography
                     variant="body2"
                     weight="bold"
-                    color="semantic.label.normal"
+                    color="semantic.foreground.neutral.primary"
                     sx={mainNavLinkItemStyle}
                   >
                     <span>이력서</span>
@@ -82,7 +82,7 @@ const NavBar = forwardRef<HTMLDivElement, DefaultComponentProps<{}, 'div'>>(
                   <Typography
                     variant="body2"
                     weight="bold"
-                    color="semantic.label.normal"
+                    color="semantic.foreground.neutral.primary"
                     sx={mainNavLinkItemStyle}
                   >
                     <span>교육•이벤트</span>
@@ -92,7 +92,7 @@ const NavBar = forwardRef<HTMLDivElement, DefaultComponentProps<{}, 'div'>>(
                   <Typography
                     variant="body2"
                     weight="bold"
-                    color="semantic.label.normal"
+                    color="semantic.foreground.neutral.primary"
                     sx={mainNavLinkItemStyle}
                   >
                     <span>콘텐츠</span>
@@ -102,7 +102,7 @@ const NavBar = forwardRef<HTMLDivElement, DefaultComponentProps<{}, 'div'>>(
                   <Typography
                     variant="body2"
                     weight="bold"
-                    color="semantic.label.normal"
+                    color="semantic.foreground.neutral.primary"
                     sx={mainNavLinkItemStyle}
                   >
                     <span>소셜</span>
@@ -112,7 +112,7 @@ const NavBar = forwardRef<HTMLDivElement, DefaultComponentProps<{}, 'div'>>(
                   <Typography
                     variant="body2"
                     weight="bold"
-                    color="semantic.label.normal"
+                    color="semantic.foreground.neutral.primary"
                     sx={mainNavLinkItemStyle}
                   >
                     <span>프리랜서</span>
@@ -122,7 +122,7 @@ const NavBar = forwardRef<HTMLDivElement, DefaultComponentProps<{}, 'div'>>(
                   <Typography
                     variant="body2"
                     weight="bold"
-                    color="semantic.label.normal"
+                    color="semantic.foreground.neutral.primary"
                     sx={mainNavLinkItemStyle}
                   >
                     <span>더보기</span>

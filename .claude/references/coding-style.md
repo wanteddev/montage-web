@@ -229,8 +229,8 @@ export const buttonStyle =
   ({ loading, xs, sm, md, lg, xl, ...props }: ButtonProps) =>
   (theme: Theme) => css`
     display: inline-flex;
-    color: ${theme.semantic.label.normal};
-    background-color: ${theme.semantic.primary.normal};
+    color: ${theme.semantic.foreground.neutral.primary};
+    background-color: ${theme.semantic.surface.brand.primary};
     /* ... */
   `;
 ```

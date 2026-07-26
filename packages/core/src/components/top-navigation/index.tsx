@@ -136,7 +136,7 @@ const TopNavigation = forwardRef<
                   id={titleId}
                   variant="headline2"
                   weight="bold"
-                  color="semantic.label.strong"
+                  color="semantic.foreground.neutral.strong"
                   display="block"
                   sx={{ margin: 0, border: 'none' }}
                 >
@@ -198,7 +198,7 @@ const TopNavigationButton = forwardRef(
     }
 
     return (
-      <TextButtonProvider assistive="semantic.label.normal">
+      <TextButtonProvider assistive="semantic.foreground.neutral.primary">
         <TextButton
           color={color}
           size="medium"

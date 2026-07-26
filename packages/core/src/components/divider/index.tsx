@@ -15,7 +15,7 @@ const Divider = forwardRef<
       size = '100%',
       thickness = '1px',
       vertical = false,
-      color = 'semantic.line.normal.normal',
+      color = 'semantic.line.neutral.primary',
       xs,
       sm,
       md,

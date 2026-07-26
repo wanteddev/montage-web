@@ -24,9 +24,9 @@ export const selectStyle =
     border-radius: 12px;
     border: none;
     box-shadow:
-      inset 0 0 0 1px ${theme.semantic.line.normal.neutral},
+      inset 0 0 0 1px ${theme.semantic.line.neutral.secondary},
       ${theme.semantic.elevation.shadow.normal.xsmall};
-    background-color: ${theme.semantic.background.transparent.normal};
+    background-color: ${theme.semantic.effect.transparent.primary};
     backdrop-filter: blur(32px);
     width: ${toCssValue(width)};
     height: ${toCssValue(height)};
@@ -52,38 +52,41 @@ export const selectStyle =
 
     [data-role='select-placeholder'],
     [data-role='select-multiple-placeholder'] {
-      color: ${theme.semantic.label.assistive};
+      color: ${theme.semantic.foreground.neutral.quaternary};
     }
     [data-role='select-values'],
     [data-role='select-multiple-values'] {
-      color: ${theme.semantic.label.normal};
+      color: ${theme.semantic.foreground.neutral.primary};
     }
 
     ${invalid &&
     css`
       box-shadow:
         inset 0 0 0 1px
-          ${addOpacity(theme.semantic.status.negative, theme.opacity[28])},
+          ${addOpacity(
+            theme.semantic.foreground.negative.primary,
+            theme.opacity[28],
+          )},
         ${theme.semantic.elevation.shadow.normal.xsmall};
     `}
 
     ${disabled
       ? css`
-          background-color: ${theme.semantic.fill.alternative};
+          background-color: ${theme.semantic.surface.neutral.tertiary};
           backdrop-filter: none;
           box-shadow:
-            inset 0 0 0 1px ${theme.semantic.line.normal.alternative},
+            inset 0 0 0 1px ${theme.semantic.line.neutral.tertiary},
             ${theme.semantic.elevation.shadow.normal.xsmall};
           cursor: default;
 
           [data-role='select-placeholder']
             [data-role='select-multiple-placeholder'] {
-            color: ${theme.semantic.label.disable};
+            color: ${theme.semantic.foreground.disable.primary};
           }
 
           [data-role='select-values'],
           [data-role='select-multiple-values'] {
-            color: ${theme.semantic.label.alternative};
+            color: ${theme.semantic.foreground.neutral.tertiary};
           }
         `
       : css`
@@ -94,7 +97,7 @@ export const selectStyle =
                   box-shadow:
                     inset 0 0 0 2px
                       ${addOpacity(
-                        theme.semantic.status.negative,
+                        theme.semantic.foreground.negative.primary,
                         theme.opacity[43],
                       )},
                     ${theme.semantic.elevation.shadow.normal.xsmall};
@@ -103,7 +106,7 @@ export const selectStyle =
                   box-shadow:
                     inset 0 0 0 2px
                       ${addOpacity(
-                        theme.semantic.primary.normal,
+                        theme.semantic.surface.brand.primary,
                         theme.opacity[43],
                       )},
                     ${theme.semantic.elevation.shadow.normal.xsmall};
@@ -156,7 +159,7 @@ export const invalidIconWrapperStyle = (theme: Theme) => css`
   }
 
   svg {
-    color: ${theme.semantic.status.negative};
+    color: ${theme.semantic.foreground.negative.primary};
     z-index: 0;
   }
 `;
@@ -171,10 +174,10 @@ export const selectIconStyle =
 
     ${disabled
       ? css`
-          color: ${theme.semantic.label.disable};
+          color: ${theme.semantic.foreground.disable.primary};
         `
       : css`
-          color: ${theme.semantic.label.alternative};
+          color: ${theme.semantic.foreground.neutral.tertiary};
         `}
   `;
 

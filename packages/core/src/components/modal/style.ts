@@ -24,7 +24,7 @@ export const modalDimmerStyle = (theme: Theme) => css`
   position: fixed;
   inset: 0;
   z-index: -1;
-  background-color: ${theme.semantic.material.dimmer};
+  background-color: ${theme.semantic.effect.dimmer.primary};
 
   &[data-snap='full'],
   &[data-snap='half'] {
@@ -165,7 +165,7 @@ export const modalContainerStyle =
     flex-direction: column;
     justify-content: space-between;
     outline: none;
-    background-color: ${theme.semantic.background.elevated.normal};
+    background-color: ${theme.semantic.surface.elevated.primary};
 
     [data-component='top-navigation'] {
       z-index: 5;
@@ -623,7 +623,7 @@ export const modalGrabberStyle = (theme: Theme) => css`
 
   &::before {
     content: '';
-    background-color: ${theme.semantic.background.elevated.normal};
+    background-color: ${theme.semantic.surface.elevated.primary};
     width: 100%;
     height: calc(100% - 7px);
     position: absolute;
@@ -639,7 +639,7 @@ export const modalGrabberStyle = (theme: Theme) => css`
     height: 5px;
     margin: 0 auto;
     display: block;
-    background-color: ${theme.semantic.fill.strong};
+    background-color: ${theme.semantic.surface.neutral.strong};
   }
 `;
 

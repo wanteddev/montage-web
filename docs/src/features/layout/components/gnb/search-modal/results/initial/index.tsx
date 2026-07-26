@@ -14,13 +14,13 @@ const SearchResultInitial = () => {
         <IconSearch
           sx={(theme) => ({
             fontSize: 40,
-            color: theme.semantic.label.assistive,
+            color: theme.semantic.foreground.neutral.quaternary,
           })}
         />
         <Typography
           variant="label1"
           weight="medium"
-          color="semantic.label.assistive"
+          color="semantic.foreground.neutral.quaternary"
         >
           Search Wanted Design System
         </Typography>

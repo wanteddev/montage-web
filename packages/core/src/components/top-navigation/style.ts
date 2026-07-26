@@ -99,7 +99,7 @@ export const topNavigationFloatingBackgroundStyle = (theme: Theme) => css`
   background: linear-gradient(
     to top,
     transparent,
-    ${theme.semantic.background.elevated.normal}
+    ${theme.semantic.surface.elevated.primary}
   );
 
   [data-role='top-navigation-floating-background-layer'] {

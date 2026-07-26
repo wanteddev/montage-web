@@ -165,7 +165,7 @@ const TableHeadCell = forwardRef<
   return (
     <Typography
       as="th"
-      color="semantic.label.neutral"
+      color="semantic.foreground.neutral.secondary"
       variant="label2"
       weight="bold"
       align="left"
@@ -185,7 +185,7 @@ const TableCell = forwardRef<
   return (
     <Typography
       as="td"
-      color="semantic.label.normal"
+      color="semantic.foreground.neutral.primary"
       variant="body1"
       weight="regular"
       align="left"

@@ -697,7 +697,7 @@ const ModalHeading = forwardRef(
       as,
       variant = 'heading2',
       weight = 'bold',
-      color = 'semantic.label.normal',
+      color = 'semantic.foreground.neutral.primary',
       ...props
     }: PolymorphicPropsInternal<ModalHeadingProps, E>,
     ref: ForwardedRef<E>,
@@ -728,7 +728,7 @@ const ModalSummary = forwardRef(
       as,
       variant = 'body2',
       weight = 'regular',
-      color = 'semantic.label.alternative',
+      color = 'semantic.foreground.neutral.tertiary',
       ...props
     }: PolymorphicPropsInternal<ModalSummaryProps, E>,
     ref: ForwardedRef<E>,
@@ -759,7 +759,7 @@ const ModalDescription = forwardRef(
       as,
       variant = 'body1-reading',
       weight = 'regular',
-      color = 'semantic.label.normal',
+      color = 'semantic.foreground.neutral.primary',
       ...props
     }: PolymorphicPropsInternal<ModalDescriptionProps, E>,
     ref: ForwardedRef<E>,

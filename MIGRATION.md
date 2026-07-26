@@ -102,6 +102,111 @@ style={{ zIndex: `calc(${theme.zIndex.modal} + 1)` }}
 
 > **breakpoint 토큰은 var 변환에서 제외되었습니다.** `@media (min-width: ...)` 쿼리에는 CSS variable을 사용할 수 없기 때문입니다.
 
+### Semantic 토큰 구조 개편
+
+Semantic 컬러 토큰이 **용도(Property) / 역할(Intent) / 변형(Variant)** 3계층 구조로 재구성되었습니다.
+
+- 용도(Property): 색을 입히는 대상 — `foreground`, `background`, `surface`, `line`, `effect`
+- 역할(Intent): 색이 전달하는 의미 — `brand`, `neutral`, `negative`, `accent` 등 (기존 역할명 `primary`는 변형과 구분하기 위해 `brand`로 변경)
+- 변형(Variant): 위계가 드러나도록 `normal`/`neutral`/`alternative`/`assistive` 대신 `primary`/`secondary`/`tertiary`/`quaternary`
+
+`semantic.static.*`, `semantic.elevation.*`, `semantic.platform.*`은 변경되지 않았습니다.
+
+#### Foreground — 텍스트·아이콘 색상
+
+| 기존                                                         | 변경                                                                                            |
+| ------------------------------------------------------------ | ----------------------------------------------------------------------------------------------- |
+| `label.normal` / `label.strong`                              | `foreground.neutral.primary` / `.strong`                                                        |
+| `label.neutral` / `label.alternative` / `label.assistive`    | `foreground.neutral.secondary` / `.tertiary` / `.quaternary`                                    |
+| `label.disable`                                              | `foreground.disable.primary`                                                                    |
+| `status.positive` / `.cautionary` / `.negative`              | `foreground.positive.primary` / `foreground.cautionary.primary` / `foreground.negative.primary` |
+| `inverse.label`                                              | `foreground.neutral.inverse`                                                                    |
+| `inverse.primary`                                            | `foreground.brand.inverse`                                                                      |
+| `interaction.inactive`                                       | `foreground.inactive.primary`                                                                   |
+| `accent.foreground.{lime,cyan,lightBlue,violet,purple,pink}` | `foreground.accent.{동일 키}`                                                                   |
+
+#### Background — 페이지 배경 (전체 페이지 배경 색상으로만 사용)
+
+| 기존                            | 변경                           |
+| ------------------------------- | ------------------------------ |
+| `background.normal.normal`      | `background.neutral.primary`   |
+| `background.normal.alternative` | `background.neutral.secondary` |
+
+#### Surface — 페이지 위 요소의 채움 색상
+
+| 기존                                                         | 변경                                                  |
+| ------------------------------------------------------------ | ----------------------------------------------------- |
+| `primary.normal` / `.strong` / `.heavy`                      | `surface.brand.primary` / `.strong` / `.heavy`        |
+| `fill.normal` / `fill.strong` / `fill.alternative`           | `surface.neutral.secondary` / `.strong` / `.tertiary` |
+| `background.elevated.normal` / `.alternative`                | `surface.elevated.primary` / `.secondary`             |
+| `background.status.{negative,cautionary,positive}`           | `surface.{negative,cautionary,positive}.primary`      |
+| `inverse.background`                                         | `surface.neutral.inverse`                             |
+| `interaction.disable`                                        | `surface.disable.primary`                             |
+| `accent.background.{lime,cyan,lightBlue,violet,purple,pink}` | `surface.accent.{동일 키}Opaque`                      |
+
+#### Line — 선 색상
+
+| 기존                                               | 변경                                                                  |
+| -------------------------------------------------- | --------------------------------------------------------------------- |
+| `line.normal.normal` / `.neutral` / `.alternative` | `line.neutral.primary` / `.secondary` / `.tertiary`                   |
+| `line.solid.normal` / `.neutral` / `.alternative`  | `line.neutral.primaryOpaque` / `.secondaryOpaque` / `.tertiaryOpaque` |
+| `line.primary.normal` / `.strong`                  | `line.brand.primary` / `.strong`                                      |
+| `line.status.negative.normal` / `.strong`          | `line.negative.primary` / `.strong`                                   |
+| `line.status.cautionary.normal`                    | `line.cautionary.primary`                                             |
+| `line.status.positive.normal`                      | `line.positive.primary`                                               |
+
+#### Effect — 특수 효과
+
+| 기존                                             | 변경                                        |
+| ------------------------------------------------ | ------------------------------------------- |
+| `background.transparent.normal` / `.alternative` | `effect.transparent.primary` / `.secondary` |
+| `material.dimmer`                                | `effect.dimmer.primary`                     |
+
+#### 삭제된 토큰 (대체 매핑)
+
+아래 accent 토큰은 삭제되었고, codemod가 가장 가까운 의미의 토큰으로 매핑합니다. 매핑 결과가 모두
+**foreground 계열**이므로, 배경색 용도로 쓰고 있었다면 codemod 실행 후 `surface.*` 계열 토큰으로
+직접 바꿔야 합니다.
+
+| 기존                                                                     | 변경                            |
+| ------------------------------------------------------------------------ | ------------------------------- |
+| `accent.foreground.red`                                                  | `foreground.negative.strong`    |
+| `accent.foreground.redOrange` / `.orange`, `accent.background.redOrange` | `foreground.cautionary.primary` |
+| `accent.foreground.green`                                                | `foreground.positive.primary`   |
+| `accent.foreground.blue`                                                 | `foreground.brand.primary`      |
+
+#### codemod
+
+```sh
+npx @montage-ui/codemod@latest semantic-token-migration src
+```
+
+codemod가 변환하는 것:
+
+- `theme.semantic.label.normal` 같은 멤버 접근 체인 — base 이름과 무관하게 동작하며
+  (`props.theme.semantic.*`, 구조분해한 `semantic.*` 포함), 깊이가 달라지는 경로도 처리합니다
+  (`material.dimmer` → `effect.dimmer.primary`).
+- 문자열·template literal 안의 `semantic.label.normal` 형태 토큰 (`color="semantic.label.normal"`,
+  `getColorByToken('semantic.…')` 등).
+- `--semantic-*` CSS 변수 — `.ts`/`.tsx`/`.js`/`.jsx`의 문자열·template literal과
+  `.css`/`.scss`/`.sass`/`.less` 스타일시트를 함께 변환하며, `-rgb` 접미 변수도 보존됩니다
+  (`--semantic-background-elevated-normal-rgb` → `--semantic-surface-elevated-primary-rgb`).
+
+수동 확인이 필요한 항목:
+
+- **`primary.normal`의 용도 구분** — codemod는 가이드 표 그대로 `surface.brand.primary`로
+  변환합니다. 텍스트·아이콘 색상(`color:` 등)으로 쓰던 곳은 값이 동일한
+  `foreground.brand.primary`가 의미상 올바르므로 직접 교체하세요.
+- **삭제된 accent 토큰의 배경색 사용처** — 위 삭제 표 참고.
+- **그룹 단위 참조** — `theme.semantic.label`처럼 그룹 객체를 통째로 전달·순회하는 코드는
+  변환되지 않습니다. 새 구조에 맞게 직접 재작성하세요.
+- **동적으로 조립한 토큰 이름** — `` `--semantic-${x}` ``, `'semantic.' + path` 형태는 변환되지
+  않습니다.
+- **값이 바뀐 토큰** — 리네임된 토큰은 값이 그대로 보존되며, 예외는 삭제된 accent 토큰의 대체
+  매핑뿐입니다: `redOrange` 계열은 orange 색으로 통합되고, `accent.foreground.orange`(light
+  39→50 스텝) / `.green`(light 40→50) / `.blue`(light 45→50, dark 65→60)도 대체 토큰의 스텝이
+  다릅니다. 해당 토큰을 쓰던 화면은 시각적 QA를 권장합니다.
+
 ### CSS Variable 네이밍 변경 (`--wds-` prefix 제거)
 
 컴포넌트 내부에서 사용하는 CSS 변수의 `--wds-` 브랜드 prefix가 제거되었습니다. 대부분 컴포넌트명으로 시작하므로 prefix만 떨어지며(`--wds-modal-translate` → `--modal-translate`), grid의 두 변수는 이름이 지나치게 일반적이어서 컴포넌트 스코프를 붙였습니다.

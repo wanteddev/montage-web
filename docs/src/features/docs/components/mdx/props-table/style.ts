@@ -4,7 +4,7 @@ import type { Theme } from '@montage-ui/core';
 
 export const defaultValueStyle = (theme: Theme) => css`
   & > code {
-    color: ${theme.semantic.label.alternative};
-    background-color: ${theme.semantic.fill.normal};
+    color: ${theme.semantic.foreground.neutral.tertiary};
+    background-color: ${theme.semantic.surface.neutral.secondary};
   }
 `;

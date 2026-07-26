@@ -8,7 +8,7 @@ import type { Theme } from '@montage-ui/core';
 
 const tagStyleHighlighter = (theme: Theme) =>
   HighlightStyle.define([
-    { tag: t.comment, color: theme.semantic.label.alternative },
+    { tag: t.comment, color: theme.semantic.foreground.neutral.tertiary },
     {
       tag: [
         t.function(t.variableName),
@@ -18,24 +18,24 @@ const tagStyleHighlighter = (theme: Theme) =>
         t.processingInstruction,
         t.number,
       ],
-      color: theme.semantic.accent.background.cyan,
+      color: theme.semantic.surface.accent.cyanOpaque,
     },
     {
       tag: [t.definition(t.variableName)],
-      color: theme.semantic.label.normal,
+      color: theme.semantic.foreground.neutral.primary,
     },
     {
       tag: [t.attributeName],
-      color: theme.semantic.status.negative,
+      color: theme.semantic.foreground.negative.primary,
     },
     {
       tag: [t.className, t.tagName, t.heading],
-      color: theme.semantic.accent.background.lightBlue,
+      color: theme.semantic.surface.accent.lightBlueOpaque,
     },
-    { tag: t.keyword, color: theme.semantic.status.negative },
+    { tag: t.keyword, color: theme.semantic.foreground.negative.primary },
     {
       tag: [t.string, t.regexp, t.special(t.propertyName)],
-      color: theme.semantic.status.positive,
+      color: theme.semantic.foreground.positive.primary,
     },
   ]);
 
@@ -43,7 +43,7 @@ export const viewTheme = (theme: Theme): Extension => [
   EditorView.theme({
     '&': {
       fontSize: '95%',
-      color: theme.semantic.label.normal,
+      color: theme.semantic.foreground.neutral.primary,
       backgroundColor: 'transparent',
       width: 'fit-content',
       minWidth: '100%',
@@ -61,13 +61,13 @@ export const viewTheme = (theme: Theme): Extension => [
       lineHeight: '185%',
     },
     '& .cm-cursor, & .cm-dropCursor': {
-      borderLeftColor: theme.semantic.label.alternative,
+      borderLeftColor: theme.semantic.foreground.neutral.tertiary,
     },
     '& .cm-content': {
-      caretColor: `${theme.semantic.label.alternative} !important`,
+      caretColor: `${theme.semantic.foreground.neutral.tertiary} !important`,
     },
     '& .cm-activeLine, & .cm-activeLineGutter': {
-      backgroundColor: `${theme.semantic.fill.normal} !important`,
+      backgroundColor: `${theme.semantic.surface.neutral.secondary} !important`,
     },
     '&:not(.cm-focused) .cm-activeLine, &:not(.cm-focused) .cm-activeLineGutter':
       {
@@ -76,7 +76,7 @@ export const viewTheme = (theme: Theme): Extension => [
 
     '&.cm-focused .cm-selectionMatch, .cm-matchingBracket, .cm-selectionBackground, .cm-nonmatchingBracket, & .cm-line::selection, & .cm-content::selection':
       {
-        backgroundColor: `${theme.semantic.fill.strong} !important`,
+        backgroundColor: `${theme.semantic.surface.neutral.strong} !important`,
       },
 
     '&:not(.cm-focused) .cm-selectionMatch, &:not(.cm-focused) .cm-matchingBracket, &:not(.cm-focused) .cm-selectionBackground, &:not(.cm-focused) .cm-nonmatchingBracket, &:not(.cm-focused) .cm-line::selection, &:not(.cm-focused) .cm-content::selection':
@@ -84,9 +84,9 @@ export const viewTheme = (theme: Theme): Extension => [
         backgroundColor: `transparent !important`,
       },
     '& .cm-gutters': {
-      backgroundColor: theme.semantic.background.elevated.alternative,
-      color: theme.semantic.label.alternative,
-      borderRightColor: theme.semantic.line.solid.alternative,
+      backgroundColor: theme.semantic.surface.elevated.secondary,
+      color: theme.semantic.foreground.neutral.tertiary,
+      borderRightColor: theme.semantic.line.neutral.tertiaryOpaque,
     },
     '& .cm-lineNumbers .cm-gutterElement': {
       padding: '0 3px 0 12px',
@@ -94,28 +94,28 @@ export const viewTheme = (theme: Theme): Extension => [
 
     // autocomplete
     '& .cm-tooltip-autocomplete ul li': {
-      color: theme.semantic.label.neutral,
+      color: theme.semantic.foreground.neutral.secondary,
     },
     '& .cm-tooltip-autocomplete ul li[aria-selected]': {
-      background: theme.semantic.primary.normal,
+      background: theme.semantic.surface.brand.primary,
       color: theme.semantic.static.white,
     },
     '& .cm-tooltip-autocomplete': {
-      backgroundColor: theme.semantic.background.elevated.alternative,
-      borderColor: theme.semantic.line.normal.alternative,
+      backgroundColor: theme.semantic.surface.elevated.secondary,
+      borderColor: theme.semantic.line.neutral.tertiary,
     },
     '& .cm-panels': {
       border: 'none !important',
     },
     '& .cm-searchMatch': {
       backgroundColor: addOpacity(
-        theme.semantic.accent.background.redOrange,
+        theme.semantic.foreground.cautionary.primary,
         theme.opacity[16],
       ),
     },
     '& .cm-searchMatch.cm-searchMatch-selected': {
       backgroundColor: addOpacity(
-        theme.semantic.accent.background.redOrange,
+        theme.semantic.foreground.cautionary.primary,
         theme.opacity[28],
       ),
     },

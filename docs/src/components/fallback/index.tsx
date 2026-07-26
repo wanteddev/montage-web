@@ -26,7 +26,7 @@ const Fallback = ({ title, subtitle, description }: Props) => {
             variant="headline1"
             align="center"
             weight="bold"
-            color="semantic.label.normal"
+            color="semantic.foreground.neutral.primary"
             lg={{
               variant: 'title2',
             }}
@@ -38,7 +38,7 @@ const Fallback = ({ title, subtitle, description }: Props) => {
             variant="label2"
             align="center"
             weight="regular"
-            color="semantic.label.alternative"
+            color="semantic.foreground.neutral.tertiary"
             lg={{
               variant: 'label1',
             }}

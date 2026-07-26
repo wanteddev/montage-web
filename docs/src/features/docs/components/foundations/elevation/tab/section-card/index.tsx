@@ -41,7 +41,7 @@ const SectionCard = ({ data, sx }: Props) => {
               <Typography
                 variant="body1"
                 weight="bold"
-                color="semantic.label.strong"
+                color="semantic.foreground.neutral.strong"
                 as="p"
               >
                 {item.title}
@@ -50,7 +50,7 @@ const SectionCard = ({ data, sx }: Props) => {
               <Typography
                 variant="label2"
                 weight="medium"
-                color="semantic.label.alternative"
+                color="semantic.foreground.neutral.tertiary"
                 as="p"
               >
                 {item.description}

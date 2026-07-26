@@ -8,7 +8,7 @@ import type { Theme } from '@montage-ui/engine';
 export const popoverStyle =
   (variant: PopoverContentProps['variant']) => (theme: Theme) => css`
     background-color: ${addOpacity(
-      theme.semantic.background.elevated.normal,
+      theme.semantic.surface.elevated.primary,
       theme.opacity[88],
     )};
     border-radius: 16px;

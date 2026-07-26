@@ -5,8 +5,8 @@ import type { Theme } from '@montage-ui/core';
 export const footerStyle = (theme: Theme) => css`
   width: 100%;
   padding: 40px 0 16px 0;
-  background-color: ${theme.semantic.background.normal.normal};
-  border-top: 1px solid ${theme.semantic.line.normal.neutral};
+  background-color: ${theme.semantic.background.neutral.primary};
+  border-top: 1px solid ${theme.semantic.line.neutral.secondary};
 
   ${respondTo(theme.breakpoint.sm)} {
     padding: 32px 0 16px 0;
@@ -66,7 +66,7 @@ export const summaryStyle = (theme: Theme) => css`
   span + span::before {
     content: '|';
     margin: 0 8px;
-    color: ${theme.semantic.line.normal.normal};
+    color: ${theme.semantic.line.neutral.primary};
   }
 
   ${respondTo(theme.breakpoint.sm)} {
@@ -81,7 +81,7 @@ export const summaryStyle = (theme: Theme) => css`
     & + &::before {
       content: '|';
       margin: 0 8px;
-      color: ${theme.semantic.line.normal.normal};
+      color: ${theme.semantic.line.neutral.primary};
     }
   }
 `;

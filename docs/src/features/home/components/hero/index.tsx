@@ -60,7 +60,7 @@ const Hero = () => {
                 variant="label2"
                 weight="medium"
                 as="p"
-                color="semantic.label.normal"
+                color="semantic.foreground.neutral.primary"
                 align="center"
                 lg={{
                   variant: 'label1-reading',

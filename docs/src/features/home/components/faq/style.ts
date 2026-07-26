@@ -19,7 +19,7 @@ export const accordionSummaryStyle = (theme: Theme) => css`
       }
 
       [data-component='list-cell-content'] {
-        color: ${theme.semantic.label.normal};
+        color: ${theme.semantic.foreground.neutral.primary};
       }
     }
   }
@@ -31,7 +31,7 @@ export const accordionSummaryStyle = (theme: Theme) => css`
   }
 
   [data-component='list-cell-content'] {
-    color: ${theme.semantic.label.assistive};
+    color: ${theme.semantic.foreground.neutral.quaternary};
     transition: color 0.3s ease;
   }
 

@@ -35,7 +35,7 @@ module.exports = {
             sx={theme => ({
               width: '100%',
               height: '64px',
-              backgroundColor: theme.semantic.accent.background.violet,
+              backgroundColor: theme.semantic.surface.accent.violetOpaque,
               opacity: theme.opacity[8]
             })}
           />

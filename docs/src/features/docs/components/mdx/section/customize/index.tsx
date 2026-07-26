@@ -25,7 +25,7 @@ const SectionCustomize = ({ data }: Props) => {
             <Typography
               variant="headline2"
               weight="bold"
-              color="semantic.label.strong"
+              color="semantic.foreground.neutral.strong"
               sx={{ minWidth: 160 }}
             >
               {v.key}

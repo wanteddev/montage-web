@@ -38,8 +38,8 @@ const FoundationsColorsAtomic = () => {
                   weight="bold"
                   color={
                     isBasicColor(color)
-                      ? 'semantic.label.normal'
-                      : 'semantic.label.alternative'
+                      ? 'semantic.foreground.neutral.primary'
+                      : 'semantic.foreground.neutral.tertiary'
                   }
                   as="p"
                   align="center"
@@ -95,7 +95,7 @@ const FoundationsColorsAtomic = () => {
                 token={color}
                 tokenPrefix="atomic"
                 color={addOpacity(
-                  theme.semantic.label.normal,
+                  theme.semantic.foreground.neutral.primary,
                   theme.opacity[color as unknown as keyof typeof theme.opacity],
                 )}
               />
@@ -103,7 +103,7 @@ const FoundationsColorsAtomic = () => {
               <Typography
                 variant="caption2"
                 weight="bold"
-                color="semantic.label.normal"
+                color="semantic.foreground.neutral.primary"
                 as="p"
                 align="center"
               >

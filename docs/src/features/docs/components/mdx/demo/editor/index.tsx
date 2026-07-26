@@ -255,7 +255,7 @@ const Editor = ({
       <Typography
         variant="label2"
         weight="regular"
-        color="semantic.label.neutral"
+        color="semantic.foreground.neutral.secondary"
         as="div"
         tabIndex={0}
         aria-live="polite"

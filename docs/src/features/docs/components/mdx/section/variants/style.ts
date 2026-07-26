@@ -14,14 +14,14 @@ export const sectionVariantsDemoStyle = (theme: Theme) => css`
 export const sectionVariantsStyle = (theme: Theme) => css`
   padding: 12px;
   border-radius: 24px;
-  background-color: ${theme.semantic.fill.alternative};
-  border: 1px solid ${theme.semantic.line.normal.alternative};
+  background-color: ${theme.semantic.surface.neutral.tertiary};
+  border: 1px solid ${theme.semantic.line.neutral.tertiary};
   position: relative;
 `;
 
 export const sectionVariantsControlStyle = (theme: Theme) => css`
-  box-shadow: inset 0 0 0 1px ${theme.semantic.line.normal.alternative};
-  background-color: ${theme.semantic.background.elevated.normal};
+  box-shadow: inset 0 0 0 1px ${theme.semantic.line.neutral.tertiary};
+  background-color: ${theme.semantic.surface.elevated.primary};
   border-radius: 20px;
   display: flex;
   position: absolute !important;
@@ -58,8 +58,8 @@ export const sectionVariantsControlMobileTriggerStyle = (theme: Theme) => css`
 `;
 
 export const sectionVariantsControlMobileStyle = (theme: Theme) => css`
-  background-color: ${theme.semantic.background.elevated.normal};
-  box-shadow: inset 0 0 0 1px ${theme.semantic.line.normal.alternative};
+  background-color: ${theme.semantic.surface.elevated.primary};
+  box-shadow: inset 0 0 0 1px ${theme.semantic.line.neutral.tertiary};
   width: 280px;
   border-radius: 16px;
   max-height: 400px;
@@ -78,14 +78,14 @@ export const sectionVariantsControlMobileStyle = (theme: Theme) => css`
 
 export const sectionVariantsItemRadioStyle = (theme: Theme) => css`
   && {
-    color: ${theme.semantic.label.alternative};
+    color: ${theme.semantic.foreground.neutral.tertiary};
     ${typographyStyle('label1', 'bold')}
     &[data-selected='true'] {
-      color: ${theme.semantic.label.normal};
+      color: ${theme.semantic.foreground.neutral.primary};
     }
 
     &[data-disabled='true'] {
-      color: ${theme.semantic.label.disable};
+      color: ${theme.semantic.foreground.disable.primary};
     }
   }
 `;

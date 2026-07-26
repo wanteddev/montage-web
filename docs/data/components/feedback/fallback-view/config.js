@@ -43,7 +43,7 @@ module.exports = {
       },
     ],
     render: (value) => {
-      const image = `<FallbackViewImage sx={{ padding: '16px' }}><Box sx={theme => ({ width: '100%', height: '100%', borderRadius: '50%', backgroundColor: theme.semantic.fill.normal })} /></FallbackViewImage>`;
+      const image = `<FallbackViewImage sx={{ padding: '16px' }}><Box sx={theme => ({ width: '100%', height: '100%', borderRadius: '50%', backgroundColor: theme.semantic.surface.neutral.secondary })} /></FallbackViewImage>`;
 
       return `
         <FallbackView platform="${value['Platform'].toLowerCase()}" sx={{ padding: '0px' }}>

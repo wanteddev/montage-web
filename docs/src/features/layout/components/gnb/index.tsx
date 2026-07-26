@@ -76,7 +76,9 @@ const Gnb = () => {
             href="/"
             aria-label="Go to home"
             aria-current={pathname === '/' ? 'page' : undefined}
-            sx={(theme) => ({ color: theme.semantic.label.normal })}
+            sx={(theme) => ({
+              color: theme.semantic.foreground.neutral.primary,
+            })}
           >
             <Logo />
           </Box>
@@ -101,7 +103,7 @@ const Gnb = () => {
                   aria-current={
                     currentSlug.at(0) === link.slug ? 'page' : undefined
                   }
-                  color="semantic.label.alternative"
+                  color="semantic.foreground.neutral.tertiary"
                   data-role="gnb-navigation-link"
                   sx={gnbNavigationLinkStyle}
                 >

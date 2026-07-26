@@ -114,7 +114,7 @@ const Collections = ({ icons }: Props) => {
                     <Typography
                       variant="headline2"
                       weight="bold"
-                      color="semantic.label.normal"
+                      color="semantic.foreground.neutral.primary"
                       sx={breakWordStyle}
                     >
                       {camelCase(icon.name.replace('Icon', ''))}
@@ -139,7 +139,7 @@ const Collections = ({ icons }: Props) => {
                   {getKeywords(icon.description).length > 0 && (
                     <FlexBox gap="12px" flexDirection="column">
                       <Typography
-                        color="semantic.label.neutral"
+                        color="semantic.foreground.neutral.secondary"
                         variant="label1"
                         weight="medium"
                       >

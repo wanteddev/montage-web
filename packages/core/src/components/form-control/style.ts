@@ -328,7 +328,7 @@ export const formCharacterCounterStyle = (theme: Theme) => css`
 
   &[data-is-overflow='true'] {
     [data-role='form-control-character-counter-length'] {
-      color: ${theme.semantic.status.negative};
+      color: ${theme.semantic.foreground.negative.primary};
     }
   }
 `;

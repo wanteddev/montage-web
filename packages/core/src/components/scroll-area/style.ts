@@ -110,7 +110,7 @@ export const scrollBarThumbStyle = (theme: Theme) => css`
   cursor: initial;
   position: relative;
   border-radius: 10px;
-  background-color: ${theme.semantic.fill.strong};
+  background-color: ${theme.semantic.surface.neutral.strong};
 
   & > [data-component='with-interaction'] {
     transition: opacity 0.2s ease;

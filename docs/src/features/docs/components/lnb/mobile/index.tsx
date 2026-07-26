@@ -165,7 +165,7 @@ const LnbMobile = () => {
               <Typography
                 variant="heading2"
                 weight="bold"
-                color="semantic.label.neutral"
+                color="semantic.foreground.neutral.secondary"
                 sx={[categoryTitleStyle, focusedCategoryWrapperStyle]}
                 data-is-scrolling={isScrolling}
               >

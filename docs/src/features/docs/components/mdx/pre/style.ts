@@ -3,8 +3,8 @@ import { css, typographyStyle } from '@montage-ui/core';
 import type { Theme } from '@montage-ui/core';
 
 export const preWrapperStyle = (theme: Theme) => css`
-  background-color: ${theme.semantic.fill.alternative};
-  box-shadow: inset 0px 0px 0px 1px ${theme.semantic.line.normal.alternative};
+  background-color: ${theme.semantic.surface.neutral.tertiary};
+  box-shadow: inset 0px 0px 0px 1px ${theme.semantic.line.neutral.tertiary};
   border-radius: 8px;
   margin-bottom: 20px;
   position: relative;

@@ -354,13 +354,13 @@ const TooltipContent = forwardRef(
                           opacity="0.88"
                           width="20"
                           height="8"
-                          fill={theme.semantic.inverse.background}
+                          fill={theme.semantic.surface.neutral.inverse}
                         />
                         <rect
                           opacity="0.05"
                           width="20"
                           height="8"
-                          fill={theme.semantic.primary.normal}
+                          fill={theme.semantic.surface.brand.primary}
                         />
                       </g>
                     </Box>
@@ -386,13 +386,13 @@ const TooltipContent = forwardRef(
                           opacity="0.88"
                           width="14"
                           height="6"
-                          fill={theme.semantic.inverse.background}
+                          fill={theme.semantic.surface.neutral.inverse}
                         />
                         <rect
                           opacity="0.05"
                           width="14"
                           height="6"
-                          fill={theme.semantic.primary.normal}
+                          fill={theme.semantic.surface.brand.primary}
                         />
                       </g>
                     </Box>

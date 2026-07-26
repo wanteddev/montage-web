@@ -97,7 +97,7 @@ export const renderParsedContent = (content: string) => {
           variant="body2-reading"
           weight={isStrong ? 'bold' : 'medium'}
           as="p"
-          color="semantic.label.neutral"
+          color="semantic.foreground.neutral.secondary"
           key={`text-${elements.length}`}
           sx={{
             marginBottom,

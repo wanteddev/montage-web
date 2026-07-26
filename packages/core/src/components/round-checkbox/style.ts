@@ -22,7 +22,7 @@ export const roundCheckboxStyle =
       [data-role='checkbox-icon-wrapper'] {
         border: none;
         box-shadow: none;
-        background-color: ${theme.semantic.primary.normal};
+        background-color: ${theme.semantic.surface.brand.primary};
       }
     }
 

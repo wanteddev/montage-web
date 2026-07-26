@@ -29,10 +29,10 @@ export const bottomNavigationStyle = css`
 
 export const bottomNavigationItemStyle = (theme: Theme) => css`
   && {
-    color: ${theme.semantic.interaction.inactive};
+    color: ${theme.semantic.foreground.inactive.primary};
 
     &[aria-current='page'] {
-      color: ${theme.semantic.primary.normal};
+      color: ${theme.semantic.foreground.brand.primary};
     }
   }
 `;

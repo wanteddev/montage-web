@@ -50,7 +50,10 @@ const Toolbar = ({
         {errorMessage && (
           <>
             <IconCircleExclamationFill aria-hidden />
-            <Typography color="semantic.status.negative" variant="caption1">
+            <Typography
+              color="semantic.foreground.negative.primary"
+              variant="caption1"
+            >
               {errorMessage}
             </Typography>
           </>

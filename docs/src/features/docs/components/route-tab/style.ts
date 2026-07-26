@@ -13,7 +13,7 @@ export const tabStyle = (theme: Theme) => css`
   position: sticky;
   top: calc(var(--gnb-height));
   z-index: 12;
-  background-color: ${theme.semantic.background.normal.normal};
+  background-color: ${theme.semantic.background.neutral.primary};
 
   ${respondTo('840px')} {
     width: calc(100% + var(--layout-padding-inline) * 2);

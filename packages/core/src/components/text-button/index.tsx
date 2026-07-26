@@ -42,7 +42,9 @@ const TextButton = forwardRef(
     const context = useTextButtonContext();
 
     const interactionColor: ThemeColorsToken =
-      color === 'primary' ? 'semantic.primary.normal' : 'semantic.label.normal';
+      color === 'primary'
+        ? 'semantic.surface.brand.primary'
+        : 'semantic.foreground.neutral.primary';
 
     const overrideColor = useMemo(() => {
       return context?.[color];

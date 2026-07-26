@@ -43,7 +43,7 @@ export const contentButtonStyle = (theme: Theme) => css`
   background-color: transparent;
   padding: 20px 24px;
   border-radius: 16px;
-  box-shadow: inset 0 0 0 1px ${theme.semantic.line.normal.neutral};
-  color: ${theme.semantic.label.normal};
+  box-shadow: inset 0 0 0 1px ${theme.semantic.line.neutral.secondary};
+  color: ${theme.semantic.foreground.neutral.primary};
   ${typographyStyle('body2', 'bold')}
 `;

@@ -94,10 +94,12 @@ const LnbGroupItem = ({
 
   const color = useMemo(() => {
     if (depth === '0') {
-      return 'semantic.label.neutral';
+      return 'semantic.foreground.neutral.secondary';
     }
 
-    return isActive ? 'semantic.label.normal' : 'semantic.label.alternative';
+    return isActive
+      ? 'semantic.foreground.neutral.primary'
+      : 'semantic.foreground.neutral.tertiary';
   }, [depth, isActive]);
 
   return (
@@ -124,7 +126,7 @@ const LnbGroupItem = ({
             aria-disabled={disabled}
             sx={[lnbItemStyle, sx]}
             trailingContent={
-              trailingContent ?? isExternal ? (
+              (trailingContent ?? isExternal) ? (
                 <ListCellContent
                   variant="icon"
                   data-role="lnb-group-item-arrow"

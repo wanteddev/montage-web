@@ -98,7 +98,7 @@ module.exports = {
             <ModalContentItem>
               <Box
                 sx={theme => ({
-                  backgroundColor: theme.semantic.accent.background.violet,
+                  backgroundColor: theme.semantic.surface.accent.violetOpaque,
                   opacity: theme.opacity[8],
                   height: '240px',
                 })}

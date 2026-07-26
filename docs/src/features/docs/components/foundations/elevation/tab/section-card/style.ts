@@ -6,6 +6,6 @@ export const sectionCardStyle = (theme: Theme) => css`
   border-radius: 24px;
 
   &::after {
-    border-color: ${theme.semantic.line.normal.alternative};
+    border-color: ${theme.semantic.line.neutral.tertiary};
   }
 `;

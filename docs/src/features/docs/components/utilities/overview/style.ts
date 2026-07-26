@@ -14,7 +14,7 @@ export const headingStyle = css`
 
 export const linkStyle = (theme: Theme) => css`
   padding-block: 16px;
-  border-bottom: 1px solid ${theme.semantic.line.normal.alternative};
+  border-bottom: 1px solid ${theme.semantic.line.neutral.tertiary};
 
   ${respondTo(theme.breakpoint.sm)} {
     padding-block: 20px;
@@ -35,7 +35,7 @@ export const linkStyle = (theme: Theme) => css`
 `;
 
 export const interactionArrowStyle = (theme: Theme) => css`
-  color: ${theme.semantic.label.normal};
+  color: ${theme.semantic.foreground.neutral.primary};
   font-size: 16px;
   flex-shrink: 0;
   transition:

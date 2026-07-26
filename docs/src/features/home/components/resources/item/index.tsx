@@ -36,9 +36,8 @@ const ResourcesItem = ({ title, href, updatedAt, lottie, ...props }: Props) => {
   const loadAnimation = useCallback(async () => {
     if (!lottieRef.current) return;
 
-    const { default: LottiePlayer } = await import(
-      'lottie-web/build/player/lottie_svg.min'
-    );
+    const { default: LottiePlayer } =
+      await import('lottie-web/build/player/lottie_svg.min');
 
     animationRef.current = LottiePlayer.loadAnimation({
       container: lottieRef.current,
@@ -78,7 +77,7 @@ const ResourcesItem = ({ title, href, updatedAt, lottie, ...props }: Props) => {
         <Box ref={lottieRef} sx={itemWebpStyle} />
       </FlexBox>
 
-      <Divider color="semantic.line.normal.neutral" sx={itemDividerStyle} />
+      <Divider color="semantic.line.neutral.secondary" sx={itemDividerStyle} />
 
       <FlexBox
         gap="6px"
@@ -94,7 +93,7 @@ const ResourcesItem = ({ title, href, updatedAt, lottie, ...props }: Props) => {
           <Typography
             variant="headline2"
             weight="bold"
-            color="semantic.label.normal"
+            color="semantic.foreground.neutral.primary"
             as="p"
             md={{
               variant: 'headline1',
@@ -109,7 +108,7 @@ const ResourcesItem = ({ title, href, updatedAt, lottie, ...props }: Props) => {
         <Typography
           variant="body2"
           weight="medium"
-          color="semantic.label.alternative"
+          color="semantic.foreground.neutral.tertiary"
           as="p"
           sx={hiddenTextStyle}
           dangerouslySetInnerHTML={{ __html: updatedAt }}

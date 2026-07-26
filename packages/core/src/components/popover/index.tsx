@@ -219,7 +219,7 @@ const PopoverContent = forwardRef(
                               id={headingId}
                               variant="body2"
                               weight="bold"
-                              color="semantic.label.normal"
+                              color="semantic.foreground.neutral.primary"
                               data-role="popover-content-heading"
                               sx={{
                                 width: '100%',
@@ -254,7 +254,7 @@ const PopoverContent = forwardRef(
                             id={descriptionId}
                             variant="label2"
                             weight="medium"
-                            color="semantic.label.neutral"
+                            color="semantic.foreground.neutral.secondary"
                             data-role="popover-content-description"
                             sx={{ padding: '2px 0px', width: '100%' }}
                           >
@@ -267,7 +267,7 @@ const PopoverContent = forwardRef(
                             id={descriptionId}
                             variant="label2"
                             weight="medium"
-                            color="semantic.label.neutral"
+                            color="semantic.foreground.neutral.secondary"
                             data-role="popover-content-description"
                             sx={{ padding: '2px 0px', width: '100%' }}
                           >
@@ -296,7 +296,7 @@ const PopoverContent = forwardRef(
                     </FlexBox>
 
                     {action && (
-                      <TextButtonProvider assistive="semantic.label.alternative">
+                      <TextButtonProvider assistive="semantic.foreground.neutral.tertiary">
                         <FlexBox
                           data-role="popover-content-action-wrapper"
                           flexShrink="0"

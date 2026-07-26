@@ -6,8 +6,8 @@ export const pickerActionAreaStyle = (theme: Theme) => css`
   --action-area-margin-x: 12px;
   --action-area-margin-y: 10px;
 
-  border-top: 1px solid ${theme.semantic.line.solid.alternative};
-  background-color: ${theme.semantic.background.elevated.normal};
+  border-top: 1px solid ${theme.semantic.line.neutral.tertiaryOpaque};
+  background-color: ${theme.semantic.surface.elevated.primary};
 
   [data-role='action-area-wrapper'] {
     width: 100%;

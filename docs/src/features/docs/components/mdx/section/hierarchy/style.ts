@@ -22,6 +22,6 @@ export const sectionHierarchyItemStyle = (theme: Theme) => css`
     left: 0;
     width: 100%;
     height: 1px;
-    background-color: ${theme.semantic.line.normal.alternative};
+    background-color: ${theme.semantic.line.neutral.tertiary};
   }
 `;

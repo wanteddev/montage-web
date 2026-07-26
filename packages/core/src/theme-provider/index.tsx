@@ -70,7 +70,7 @@ const PrivateThemeProvider = ({
             ? undefined
             : (themeObj) => ({
                 body: {
-                  backgroundColor: themeObj.semantic.background.normal.normal,
+                  backgroundColor: themeObj.semantic.background.neutral.primary,
                 },
               })
         }

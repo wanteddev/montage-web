@@ -49,7 +49,7 @@ const TokenPopover = ({
             <Typography
               variant="headline2"
               weight="bold"
-              color="semantic.label.normal"
+              color="semantic.foreground.neutral.primary"
               sx={breakWordStyle}
             >
               {title}

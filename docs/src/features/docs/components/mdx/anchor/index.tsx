@@ -26,7 +26,7 @@ const Anchor = ({ href, ...props }: Props) => {
       target={isExternal ? '_blank' : undefined}
       rel={isExternal ? 'noopener noreferrer' : undefined}
       onClick={isExternal ? undefined : handleRouteChange}
-      color="semantic.primary.normal"
+      color="semantic.foreground.brand.primary"
       sx={{
         textDecoration: 'underline',
         textDecorationStyle: 'solid',

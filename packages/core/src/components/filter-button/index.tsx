@@ -45,8 +45,8 @@ const FilterButton = forwardRef(
       <WithInteraction
         color={
           active && variant === 'outlined'
-            ? 'semantic.primary.normal'
-            : 'semantic.label.normal'
+            ? 'semantic.surface.brand.primary'
+            : 'semantic.foreground.neutral.primary'
         }
         disabled={disableInteraction || disabled}
       >

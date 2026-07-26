@@ -141,47 +141,50 @@ const filterButtonVariantStyle = (
   switch (variant) {
     case 'solid':
       return css`
-        color: ${theme.semantic.label.normal};
-        background-color: ${theme.semantic.fill.alternative};
+        color: ${theme.semantic.foreground.neutral.primary};
+        background-color: ${theme.semantic.surface.neutral.tertiary};
         box-shadow: none;
 
         &[aria-pressed='true'] {
-          color: ${theme.semantic.inverse.label};
-          background-color: ${theme.semantic.inverse.background};
+          color: ${theme.semantic.foreground.neutral.inverse};
+          background-color: ${theme.semantic.surface.neutral.inverse};
         }
 
         &:disabled,
         &[aria-disabled='true'] {
-          color: ${theme.semantic.label.disable};
-          background-color: ${theme.semantic.interaction.disable};
+          color: ${theme.semantic.foreground.disable.primary};
+          background-color: ${theme.semantic.surface.disable.primary};
           box-shadow: none;
         }
       `;
     case 'outlined':
       return css`
-        color: ${theme.semantic.label.normal};
+        color: ${theme.semantic.foreground.neutral.primary};
         background-color: transparent;
-        box-shadow: inset 0 0 0 1px ${theme.semantic.line.normal.neutral};
+        box-shadow: inset 0 0 0 1px ${theme.semantic.line.neutral.secondary};
 
         &[aria-pressed='true'] {
           background-color: ${addOpacity(
-            theme.semantic.primary.normal,
+            theme.semantic.surface.brand.primary,
             theme.opacity[5],
           )};
           box-shadow: inset 0 0 0 1px
-            ${addOpacity(theme.semantic.primary.normal, theme.opacity[43])};
-          color: ${theme.semantic.primary.normal};
+            ${addOpacity(
+              theme.semantic.surface.brand.primary,
+              theme.opacity[43],
+            )};
+          color: ${theme.semantic.foreground.brand.primary};
 
           svg {
-            color: ${theme.semantic.label.normal};
+            color: ${theme.semantic.foreground.neutral.primary};
           }
         }
 
         &:disabled,
         &[aria-disabled='true'] {
-          color: ${theme.semantic.label.disable};
+          color: ${theme.semantic.foreground.disable.primary};
           background-color: transparent;
-          box-shadow: inset 0 0 0 1px ${theme.semantic.line.normal.neutral};
+          box-shadow: inset 0 0 0 1px ${theme.semantic.line.neutral.secondary};
         }
       `;
   }

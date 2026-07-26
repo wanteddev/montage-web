@@ -45,7 +45,7 @@ const Faq = () => {
                 textProps={{
                   variant: 'headline2',
                   weight: 'bold',
-                  color: 'semantic.label.normal',
+                  color: 'semantic.foreground.neutral.primary',
                   md: {
                     variant: 'headline1',
                   },
@@ -67,7 +67,7 @@ const Faq = () => {
                 <AccordionDescription
                   variant="body2-reading"
                   weight="medium"
-                  color="semantic.label.neutral"
+                  color="semantic.foreground.neutral.secondary"
                   sx={[accordionDescriptionStyle, breakWordStyle]}
                   md={{
                     variant: 'body2',

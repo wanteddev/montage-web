@@ -157,8 +157,8 @@ const StepperItemLabel = ({
   isActive: boolean;
 }) => {
   const color: ThemeColorsToken = isActive
-    ? 'semantic.label.normal'
-    : 'semantic.label.alternative';
+    ? 'semantic.foreground.neutral.primary'
+    : 'semantic.foreground.neutral.tertiary';
 
   if (isCompleted) {
     return Boolean(completedLabel) ? (

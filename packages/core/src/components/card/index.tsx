@@ -269,7 +269,7 @@ const CardCaption = forwardRef(
     {
       variant,
       weight,
-      color = 'semantic.label.alternative',
+      color = 'semantic.foreground.neutral.tertiary',
       as,
       xs,
       sm,

@@ -3,7 +3,7 @@ import { css, respondTo } from '@montage-ui/core';
 import type { Theme } from '@montage-ui/core';
 
 export const fallbackTitleStyle = (theme: Theme) => css`
-  color: ${theme.semantic.label.assistive};
+  color: ${theme.semantic.foreground.neutral.quaternary};
   font-size: 120px;
   font-style: normal;
   font-weight: 700;

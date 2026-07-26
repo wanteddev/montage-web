@@ -129,7 +129,7 @@ const ListCardContent = forwardRef(
             sx={(theme) => [
               listCardContentStyle,
               {
-                color: theme.semantic.label.assistive,
+                color: theme.semantic.foreground.neutral.quaternary,
               },
               sx,
             ]}

@@ -3,7 +3,7 @@ import { css } from '@montage-ui/core';
 import type { Theme } from '@montage-ui/core';
 
 export const gridHeaderStyle = (theme: Theme) => css`
-  border-bottom: 1px solid ${theme.semantic.line.normal.alternative};
+  border-bottom: 1px solid ${theme.semantic.line.neutral.tertiary};
 `;
 
 export const gridHeadCellStyle = css`

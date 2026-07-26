@@ -14,7 +14,7 @@ const Label = forwardRef<
     <Typography
       variant="label1"
       weight="bold"
-      color="semantic.label.neutral"
+      color="semantic.foreground.neutral.secondary"
       as="label"
       ref={ref}
       display={display}
@@ -31,7 +31,7 @@ const Label = forwardRef<
               font: 'inherit',
               fontWeight: '500',
               whiteSpace: 'pre',
-              color: theme.semantic.status.negative,
+              color: theme.semantic.foreground.negative.primary,
             })}
           >
             {' *'}

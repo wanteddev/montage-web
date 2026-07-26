@@ -12,7 +12,7 @@ export const itemWrapperStyle = (theme: Theme) => css`
   }
 
   [data-role='interaction-arrow'] {
-    color: ${theme.semantic.label.normal};
+    color: ${theme.semantic.foreground.neutral.primary};
     transition: transform 0.2s ease;
     font-size: 24px;
     transform: scale(0);
@@ -50,7 +50,7 @@ export const itemWrapperStyle = (theme: Theme) => css`
       left: 0px;
       width: 100%;
       height: 1px;
-      background: ${theme.semantic.line.normal.neutral};
+      background: ${theme.semantic.line.neutral.secondary};
       pointer-events: none;
     }
   }
@@ -78,7 +78,7 @@ export const itemWebpStyle = (theme: Theme) => css`
 
 export const itemLinkStyle = (theme: Theme) => css`
   [data-role='interaction-arrow'] {
-    color: ${theme.semantic.label.normal};
+    color: ${theme.semantic.foreground.neutral.primary};
     transition: transform 0.2s ease;
     font-size: 24px;
     transform: scale(0);

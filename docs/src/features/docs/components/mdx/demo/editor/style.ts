@@ -3,8 +3,8 @@ import { css, gradient } from '@montage-ui/core';
 import type { Theme } from '@montage-ui/core';
 
 export const focusGuardStyle = (theme: Theme) => css`
-  border: 1px solid ${theme.semantic.line.normal.normal};
-  background-color: ${theme.semantic.background.elevated.alternative};
+  border: 1px solid ${theme.semantic.line.neutral.primary};
+  background-color: ${theme.semantic.surface.elevated.secondary};
   padding: 4px 8px;
   border-radius: 6px;
   position: absolute;
@@ -16,7 +16,7 @@ export const focusGuardStyle = (theme: Theme) => css`
   outline-offset: 4px;
 
   kbd {
-    background-color: ${theme.semantic.fill.strong};
+    background-color: ${theme.semantic.surface.neutral.strong};
     padding: 2px 4px;
     border-radius: 4px;
   }
@@ -29,7 +29,7 @@ export const focusGuardStyle = (theme: Theme) => css`
 `;
 
 export const editorStyle = (theme: Theme) => css`
-  background-color: ${theme.semantic.background.elevated.normal};
+  background-color: ${theme.semantic.surface.elevated.primary};
   border-bottom-right-radius: 16px;
   border-bottom-left-radius: 16px;
   position: relative;
@@ -67,7 +67,7 @@ export const collapsedStyle = (theme: Theme) => css`
     width: calc(100% - 2px);
     border-radius: inherit;
     ${gradient(
-      theme.semantic.background.normal.alternative,
+      theme.semantic.background.neutral.secondary,
       'top',
       '100%',
       'mask',

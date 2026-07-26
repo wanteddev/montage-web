@@ -9,7 +9,7 @@ import type { Theme } from '@montage-ui/engine';
 export const avatarWrapperStyle =
   ({ size, variant, xs, sm, md, lg, xl }: AvatarProps) =>
   (theme: Theme) => css`
-    background-color: ${theme.semantic.background.normal.normal};
+    background-color: ${theme.semantic.background.neutral.primary};
     display: flex;
     align-items: center;
     justify-content: center;
@@ -17,7 +17,10 @@ export const avatarWrapperStyle =
 
     &::after {
       box-shadow: inset 0 0 0 1px
-        ${addOpacity(theme.semantic.label.normal, theme.opacity[5])};
+        ${addOpacity(
+          theme.semantic.foreground.neutral.primary,
+          theme.opacity[5],
+        )};
       content: '';
       width: 100%;
       height: 100%;
@@ -65,7 +68,7 @@ export const fallbackWrapperStyle = (theme: Theme) => css`
   border-radius: inherit;
   color: inherit;
   font-size: inherit;
-  background-color: ${theme.semantic.fill.strong};
+  background-color: ${theme.semantic.surface.neutral.strong};
   color: ${theme.semantic.static.white};
   display: flex;
   align-items: center;

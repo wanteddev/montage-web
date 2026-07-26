@@ -16,12 +16,12 @@ export const toolbarStyle = (theme: Theme) => css`
     width: 100%;
     top: -1px;
     left: 0px;
-    box-shadow: inset 0 0 0 1px ${theme.semantic.line.normal.normal};
+    box-shadow: inset 0 0 0 1px ${theme.semantic.line.neutral.primary};
   }
 `;
 
 export const errorStyle = (theme: Theme) => css`
   svg {
-    color: ${theme.semantic.status.negative};
+    color: ${theme.semantic.foreground.negative.primary};
   }
 `;

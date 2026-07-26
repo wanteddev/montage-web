@@ -15,12 +15,12 @@ export const stepperWrapperStyle = css`
 
 export const stepperChevronStyle = (theme: Theme) => css`
   font-size: 16px;
-  color: ${theme.semantic.label.assistive};
+  color: ${theme.semantic.foreground.neutral.quaternary};
 `;
 
 export const stepperCircleStyle =
   (isActive: boolean, completed: boolean) => (theme: Theme) => css`
-    background-color: ${theme.semantic.fill.strong};
+    background-color: ${theme.semantic.surface.neutral.strong};
     color: ${theme.semantic.static.white};
     width: 20px;
     height: 20px;
@@ -35,7 +35,7 @@ export const stepperCircleStyle =
 
     ${(isActive || completed) &&
     css`
-      background-color: ${theme.semantic.primary.normal};
+      background-color: ${theme.semantic.surface.brand.primary};
 
       [data-role='stepper-item-step'] {
         text-shadow: none;

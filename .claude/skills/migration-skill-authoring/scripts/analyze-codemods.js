@@ -7,6 +7,9 @@ export const meta = {
   phases: [{ title: 'Analyze', detail: 'one agent per transform + CLI/docs facts' }],
 }
 
+// The harness may deliver `args` as a JSON string instead of an object — normalize first.
+const input = typeof args === 'string' ? JSON.parse(args) : (args ?? {})
+
 // Required args:
 //   repoRoot:   absolute path of this design-system repo
 //   transforms: array of { key, files, extra? }
@@ -97,14 +100,14 @@ const DOCS_SCHEMA = {
 
 phase('Analyze')
 
-const tasks = args.transforms.map((t) => () =>
+const tasks = input.transforms.map((t) => () =>
   agent(
-    `You are analyzing a jscodeshift codemod in the Montage design system repo at ${args.repoRoot}.
+    `You are analyzing a jscodeshift codemod in the Montage design system repo at ${input.repoRoot}.
 
 Target transform: ${t.key}
 Read these files completely: ${t.files}
-Also read the shared helpers they import from ${args.repoRoot}/packages/codemod/src/helpers/, ${args.repoRoot}/packages/codemod/src/constants.ts, ${args.repoRoot}/packages/codemod/src/cli.ts, and the "${args.migrationSection}" section of ${args.repoRoot}/MIGRATION.md.
-Find and read any test files for this transform (Glob/Grep for "*${t.key}*" under ${args.repoRoot}/packages/codemod).
+Also read the shared helpers they import from ${input.repoRoot}/packages/codemod/src/helpers/, ${input.repoRoot}/packages/codemod/src/constants.ts, ${input.repoRoot}/packages/codemod/src/cli.ts, and the "${input.migrationSection}" section of ${input.repoRoot}/MIGRATION.md.
+Find and read any test files for this transform (Glob/Grep for "*${t.key}*" under ${input.repoRoot}/packages/codemod).
 
 ${t.extra || ''}
 
@@ -113,12 +116,12 @@ Answer with file:line evidence. A consumer-facing skill will run this codemod EX
   ),
 )
 
-if (!args.skipDocsAgent) {
+if (!input.skipDocsAgent) {
   tasks.push(() =>
     agent(
-      `You are analyzing the CLI and docs of the @montage-ui/codemod package in the repo at ${args.repoRoot}.
+      `You are analyzing the CLI and docs of the @montage-ui/codemod package in the repo at ${input.repoRoot}.
 
-Read: packages/codemod/package.json, packages/codemod/src/cli.ts, packages/codemod/src/constants.ts, packages/codemod/README.md, packages/codemod/README.ko.md, lerna.json, and the "${args.migrationSection}" section of MIGRATION.md (all under ${args.repoRoot}). Check CHANGELOG.md briefly for the latest published version.
+Read: packages/codemod/package.json, packages/codemod/src/cli.ts, packages/codemod/src/constants.ts, packages/codemod/README.md, packages/codemod/README.ko.md, lerna.json, and the "${input.migrationSection}" section of MIGRATION.md (all under ${input.repoRoot}). Check CHANGELOG.md briefly for the latest published version.
 
 Determine from SOURCE (not docs — the help text has been wrong before): exact non-interactive invocation, how many path positionals are honored, whether globs are expanded, which transforms get the stylesheet text pass (STYLE_TEXT_TRANSFORMS), extensions and ignore patterns, and any ordering implied for this version's transforms. Your final output is raw data for the orchestrator.`,
       { label: 'analyze:cli-docs', phase: 'Analyze', schema: DOCS_SCHEMA },
@@ -127,13 +130,13 @@ Determine from SOURCE (not docs — the help text has been wrong before): exact 
 }
 
 const results = await parallel(tasks)
-const transformResults = results.slice(0, args.transforms.length)
+const transformResults = results.slice(0, input.transforms.length)
 const transforms = transformResults.filter(Boolean)
-const missing = args.transforms.filter((t, i) => !transformResults[i]).map((t) => t.key)
-const docs = args.skipDocsAgent ? 'skipped' : results[args.transforms.length] || null
+const missing = input.transforms.filter((t, i) => !transformResults[i]).map((t) => t.key)
+const docs = input.skipDocsAgent ? 'skipped' : results[input.transforms.length] || null
 
 log(
-  `Analyzed ${transforms.length}/${args.transforms.length} transforms` +
+  `Analyzed ${transforms.length}/${input.transforms.length} transforms` +
     (missing.length ? ` — MISSING: ${missing.join(', ')} (re-run before deriving the design)` : ''),
 )
 

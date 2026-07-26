@@ -20,7 +20,7 @@ export const thumbnailStyle = (theme: Theme) => css`
     border-radius: inherit;
     width: 100%;
     height: 100%;
-    background-color: ${theme.semantic.fill.alternative};
+    background-color: ${theme.semantic.surface.neutral.tertiary};
     opacity: ${theme.opacity[43]};
     inset: 0;
   }

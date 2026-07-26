@@ -17,11 +17,11 @@ export const toggleIconStyle =
     box-shadow: none;
     color: ${active
       ? getColorByToken(theme, activeColor!)
-      : theme.semantic.label.assistive};
+      : theme.semantic.foreground.neutral.quaternary};
 
     &:disabled,
     &[aria-disabled='true'] {
-      color: ${theme.semantic.label.disable};
+      color: ${theme.semantic.foreground.disable.primary};
     }
 
     ${createResponsiveStyle(

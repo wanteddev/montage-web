@@ -100,7 +100,7 @@ export const firstOverlayStyle = (theme: Theme) => css`
   height: 100%;
   position: absolute;
   background-color: ${addOpacity(
-    theme.semantic.inverse.background,
+    theme.semantic.surface.neutral.inverse,
     theme.opacity[52],
   )};
   inset: 0;
@@ -111,7 +111,7 @@ export const secondOverlayStyle = (theme: Theme) => css`
   height: 100%;
   position: absolute;
   background-color: ${addOpacity(
-    theme.semantic.primary.normal,
+    theme.semantic.surface.brand.primary,
     theme.opacity[5],
   )};
   inset: 0;

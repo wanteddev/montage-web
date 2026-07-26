@@ -6,7 +6,7 @@ export const paletteTitleStyle = (theme: Theme) => css`
   && {
     margin-top: 48px;
     margin-bottom: 12px;
-    color: ${theme.semantic.label.strong};
+    color: ${theme.semantic.foreground.neutral.strong};
 
     ${typographyStyle('headline2', 'bold')}
 

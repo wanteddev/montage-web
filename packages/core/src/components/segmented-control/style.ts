@@ -38,12 +38,12 @@ const segmentedControlVariantStyle = (
     case 'outlined':
       return css`
         background-color: transparent;
-        box-shadow: inset 0 0 0 1px ${theme.semantic.line.normal.normal};
+        box-shadow: inset 0 0 0 1px ${theme.semantic.line.neutral.primary};
       `;
     case 'solid':
     default:
       return css`
-        background-color: ${theme.semantic.fill.normal};
+        background-color: ${theme.semantic.surface.neutral.secondary};
       `;
   }
 };
@@ -100,7 +100,7 @@ const segmentedControlSizeStyle = ({
 
 export const motionThumbStyle = (theme: Theme) => css`
   position: absolute;
-  background-color: ${theme.semantic.background.elevated.normal};
+  background-color: ${theme.semantic.surface.elevated.primary};
   box-shadow: 0px 0px 4px 0px
     ${addOpacity(theme.semantic.static.black, theme.opacity[8])};
 
@@ -260,13 +260,13 @@ const segmentedControlItemActiveStyle = (
   switch (variant) {
     case 'solid':
       return css`
-        color: ${theme.semantic.label.alternative};
+        color: ${theme.semantic.foreground.neutral.tertiary};
         background-color: transparent;
         box-shadow: none;
         transition: color 0.2s;
 
         &[data-active='true'] {
-          color: ${theme.semantic.label.normal};
+          color: ${theme.semantic.foreground.neutral.primary};
 
           &[data-ssr-motion='true'] {
             & > * {
@@ -276,7 +276,7 @@ const segmentedControlItemActiveStyle = (
             box-shadow: 0px 0px 4px 0px
               ${addOpacity(theme.semantic.static.black, theme.opacity[8])};
             position: relative;
-            background-color: ${theme.semantic.background.elevated.normal};
+            background-color: ${theme.semantic.surface.elevated.primary};
 
             &::before {
               content: '';
@@ -296,7 +296,7 @@ const segmentedControlItemActiveStyle = (
       `;
     case 'outlined':
       return css`
-        color: ${theme.semantic.label.alternative};
+        color: ${theme.semantic.foreground.neutral.tertiary};
         background-color: transparent;
         box-shadow: none;
         border: 1px solid transparent;
@@ -310,7 +310,7 @@ const segmentedControlItemActiveStyle = (
           top: 0px;
           position: absolute;
           border-radius: inherit;
-          border-right: 1px solid ${theme.semantic.line.normal.normal};
+          border-right: 1px solid ${theme.semantic.line.neutral.primary};
           box-sizing: content-box;
         }
 
@@ -328,12 +328,15 @@ const segmentedControlItemActiveStyle = (
 
         &[data-active='true'] {
           background-color: ${addOpacity(
-            theme.semantic.primary.normal,
+            theme.semantic.surface.brand.primary,
             theme.opacity[5],
           )};
-          color: ${theme.semantic.primary.normal};
+          color: ${theme.semantic.foreground.brand.primary};
           border: 1px solid
-            ${addOpacity(theme.semantic.primary.normal, theme.opacity[43])};
+            ${addOpacity(
+              theme.semantic.surface.brand.primary,
+              theme.opacity[43],
+            )};
 
           &::after {
             border: none;

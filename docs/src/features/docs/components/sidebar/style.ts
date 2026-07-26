@@ -27,11 +27,11 @@ export const sidebarContentStyle = (theme: Theme) => css`
     color 0.2s ease;
 
   &[data-is-active='true'] {
-    color: ${theme.semantic.label.normal};
+    color: ${theme.semantic.foreground.neutral.primary};
   }
 
   &[data-is-active='false']:has(a:hover) {
-    color: ${theme.semantic.label.neutral};
+    color: ${theme.semantic.foreground.neutral.secondary};
   }
 
   &[data-level='3'] {

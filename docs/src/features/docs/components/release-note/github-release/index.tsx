@@ -34,7 +34,7 @@ const GithubRelease = () => {
             <Typography
               variant="body2"
               weight="bold"
-              color="semantic.label.normal"
+              color="semantic.foreground.neutral.primary"
               sx={{ padding: '1px 0px' }}
             >
               {platform}
@@ -51,7 +51,7 @@ const GithubRelease = () => {
               <IconCircleExclamationFill
                 aria-label="Failed to load release note"
                 sx={(theme) => ({
-                  color: theme.semantic.label.assistive,
+                  color: theme.semantic.foreground.neutral.quaternary,
                   fontSize: '16px',
                 })}
               />
@@ -60,7 +60,7 @@ const GithubRelease = () => {
                 <Typography
                   variant="caption1"
                   weight="medium"
-                  color="semantic.label.alternative"
+                  color="semantic.foreground.neutral.tertiary"
                 >
                   {result.data?.created_at.split('T')[0]}
                 </Typography>

@@ -147,7 +147,7 @@ export const DocSearchModal = ({
                 <Typography
                   variant="caption1"
                   weight="medium"
-                  color="semantic.label.alternative"
+                  color="semantic.foreground.neutral.tertiary"
                 >
                   Go to Page
                 </Typography>
@@ -163,7 +163,7 @@ export const DocSearchModal = ({
                   <Typography
                     variant="caption2"
                     weight="medium"
-                    color="semantic.label.alternative"
+                    color="semantic.foreground.neutral.tertiary"
                   >
                     ESC
                   </Typography>
@@ -172,7 +172,7 @@ export const DocSearchModal = ({
                 <Typography
                   variant="caption1"
                   weight="medium"
-                  color="semantic.label.alternative"
+                  color="semantic.foreground.neutral.tertiary"
                 >
                   Close
                 </Typography>
@@ -184,7 +184,7 @@ export const DocSearchModal = ({
             <Typography
               variant="caption1"
               weight="medium"
-              color="semantic.label.alternative"
+              color="semantic.foreground.neutral.tertiary"
             >
               Search by
             </Typography>

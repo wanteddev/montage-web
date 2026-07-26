@@ -6,7 +6,7 @@ export const carouselItemStyle = (theme: Theme) => css`
   --carousel-item-width: calc((100% - var(--carousel-item-gap) * 2) / 3);
 
   [data-role='interaction-arrow'] {
-    color: ${theme.semantic.label.normal};
+    color: ${theme.semantic.foreground.neutral.primary};
     transition: transform 0.2s ease;
     font-size: 24px;
     transform: scale(0);
@@ -75,7 +75,7 @@ export const thumbnailStyle = (theme: Theme) => css`
     border-radius: inherit;
     width: 100%;
     height: 100%;
-    background-color: ${theme.semantic.fill.alternative};
+    background-color: ${theme.semantic.surface.neutral.tertiary};
     opacity: ${theme.opacity[43]};
     inset: 0;
   }
@@ -135,15 +135,17 @@ export const glassBackgroundEffectStyle =
     ${respondTo(theme.breakpoint.lg)} {
       background-size: calc(
         (
-            100vw - var(--layout-padding-inline) * 2 - var(--carousel-item-gap) *
-              2
-          ) / 3
+            100vw - var(--layout-padding-inline) *
+              2 - var(--carousel-item-gap) * 2
+          ) /
+          3
       );
       background-size: calc(
         (
-            100dvw - var(--layout-padding-inline) * 2 - var(--carousel-item-gap) *
-              2
-          ) / 3
+            100dvw - var(--layout-padding-inline) *
+              2 - var(--carousel-item-gap) * 2
+          ) /
+          3
       );
     }
 

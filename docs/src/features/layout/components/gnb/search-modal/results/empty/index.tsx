@@ -19,13 +19,13 @@ const SearchResultEmpty = ({ query }: Props) => {
           aria-hidden
           sx={(theme) => ({
             fontSize: 40,
-            color: theme.semantic.label.assistive,
+            color: theme.semantic.foreground.neutral.quaternary,
           })}
         />
         <Typography
           variant="label1"
           weight="medium"
-          color="semantic.label.assistive"
+          color="semantic.foreground.neutral.quaternary"
           align="center"
         >
           Showing 0 results for <br />“{query}“

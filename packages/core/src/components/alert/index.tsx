@@ -287,7 +287,7 @@ const AlertHeading = forwardRef<
       data-component="alert-title"
       variant="headline1"
       weight="bold"
-      color="semantic.label.normal"
+      color="semantic.foreground.neutral.primary"
       ref={ref}
       as="h2"
       id={headingId}
@@ -310,7 +310,7 @@ const AlertDescription = forwardRef<
     <Typography
       variant="body2"
       weight="regular"
-      color="semantic.label.alternative"
+      color="semantic.foreground.neutral.tertiary"
       data-component="alert-description"
       ref={ref}
       as="p"
@@ -376,11 +376,14 @@ const AlertActionAreaButton = forwardRef(
           variant === 'negative'
             ? [
                 (theme) => ({
-                  color: getColorByToken(theme, 'semantic.status.negative'),
+                  color: getColorByToken(
+                    theme,
+                    'semantic.foreground.negative.primary',
+                  ),
                   ['[data-component="with-interaction"]']: {
                     backgroundColor: getColorByToken(
                       theme,
-                      'semantic.status.negative',
+                      'semantic.foreground.negative.primary',
                     ),
                   },
                 }),

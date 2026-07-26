@@ -52,11 +52,11 @@ export const actionAreaStyle = (theme: Theme) => css`
   --action-area-margin-y: 16px;
 
   background-color: ${addOpacity(
-    theme.semantic.background.normal.normal,
+    theme.semantic.background.neutral.primary,
     theme.opacity[88],
   )};
   backdrop-filter: blur(32px);
-  border-top: 1px solid ${theme.semantic.line.normal.alternative};
+  border-top: 1px solid ${theme.semantic.line.neutral.tertiary};
 
   ${respondTo(theme.breakpoint.sm)} {
     --action-area-margin-x: 20px;
@@ -67,10 +67,10 @@ export const kbdStyle = (theme: Theme) => css`
   border-radius: 6px;
   padding: 4px 6px;
   font-size: 14px;
-  color: ${theme.semantic.label.alternative};
-  background-color: ${theme.semantic.fill.alternative};
+  color: ${theme.semantic.foreground.neutral.tertiary};
+  background-color: ${theme.semantic.surface.neutral.tertiary};
   box-shadow:
-    inset 0 0 0 1px ${theme.semantic.line.normal.alternative},
+    inset 0 0 0 1px ${theme.semantic.line.neutral.tertiary},
     2px 2px 3px 0 rgba(255, 255, 255, 0.05) inset,
     1px -1px 3px 0 rgba(0, 0, 0, 0.05) inset;
 `;
