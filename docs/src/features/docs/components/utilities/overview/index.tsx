@@ -68,7 +68,7 @@ export const UtilitiesOverview = ({ platform }: Props) => {
                     <Typography
                       variant="body2"
                       weight="bold"
-                      color="semantic.label.normal"
+                      color="semantic.foreground.neutral.primary"
                     >
                       {item.title}
                     </Typography>
@@ -96,7 +96,7 @@ export const UtilitiesOverview = ({ platform }: Props) => {
                     <Typography
                       variant="body2"
                       weight="bold"
-                      color="semantic.label.normal"
+                      color="semantic.foreground.neutral.primary"
                     >
                       {item.title}
                     </Typography>

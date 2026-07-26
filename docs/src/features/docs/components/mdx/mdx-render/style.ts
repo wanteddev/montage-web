@@ -3,7 +3,7 @@ import { addOpacity, css, typographyStyle } from '@montage-ui/core';
 import type { Theme } from '@montage-ui/core';
 
 export const mdxRootStyle = (theme: Theme) => css`
-  color: ${theme.semantic.label.neutral};
+  color: ${theme.semantic.foreground.neutral.secondary};
   ${typographyStyle('body2-reading', 'medium')}
 
   & > :not(:is([data-role="demo"])):not(:is([data-role="hierarchy"])):not(:is([data-role="variants"])) {
@@ -13,7 +13,7 @@ export const mdxRootStyle = (theme: Theme) => css`
     [data-role='property-type'] {
       font-family: inherit !important;
       ${typographyStyle('label2', 'medium')}
-      color: ${theme.semantic.accent.background.redOrange};
+      color: ${theme.semantic.foreground.cautionary.primary};
       background-color: transparent;
     }
 
@@ -23,7 +23,8 @@ export const mdxRootStyle = (theme: Theme) => css`
     .npm__react-simple-code-editor__textarea,
     :is(pre),
     pre {
-      font-family: 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace,
+      font-family:
+        'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace,
         'DejaVu Sans Mono', 'Roboto Mono' !important;
     }
 
@@ -41,7 +42,7 @@ export const mdxRootStyle = (theme: Theme) => css`
     h1,
     :is(h2),
     h2 {
-      color: ${theme.semantic.label.normal};
+      color: ${theme.semantic.foreground.neutral.primary};
       scroll-margin-top: calc(var(--gnb-height) + 56px);
     }
 
@@ -53,7 +54,7 @@ export const mdxRootStyle = (theme: Theme) => css`
     h5,
     :is(h6),
     h6 {
-      color: ${theme.semantic.label.normal};
+      color: ${theme.semantic.foreground.neutral.primary};
       scroll-margin-top: calc(var(--gnb-height) + 64px);
     }
 
@@ -67,7 +68,7 @@ export const mdxRootStyle = (theme: Theme) => css`
       margin-top: 32px;
       margin-bottom: 24px;
       padding-top: 32px;
-      border-top: 1px solid ${theme.semantic.line.normal.neutral};
+      border-top: 1px solid ${theme.semantic.line.neutral.secondary};
     }
 
     :is(h2),
@@ -75,7 +76,7 @@ export const mdxRootStyle = (theme: Theme) => css`
       margin-top: 32px;
       margin-bottom: 32px;
       padding-top: 32px;
-      border-top: 1px solid ${theme.semantic.line.normal.neutral};
+      border-top: 1px solid ${theme.semantic.line.neutral.secondary};
 
       &:not(:not(:last-child) ~ *) {
         border: none;
@@ -161,19 +162,19 @@ export const mdxRootStyle = (theme: Theme) => css`
     hr {
       margin: 16px 0px;
       border: none;
-      border-top: 1px solid ${theme.semantic.line.normal.neutral};
+      border-top: 1px solid ${theme.semantic.line.neutral.secondary};
     }
 
     :is(blockquote),
     blockquote {
       margin-bottom: 16px;
       border-left: 4px solid
-        ${addOpacity(theme.semantic.primary.normal, theme.opacity[61])};
+        ${addOpacity(theme.semantic.surface.brand.primary, theme.opacity[61])};
       padding: 8px 0px 8px 12px;
       font-style: initial;
-      color: ${theme.semantic.label.neutral};
+      color: ${theme.semantic.foreground.neutral.secondary};
       background-color: ${addOpacity(
-        theme.semantic.primary.normal,
+        theme.semantic.surface.brand.primary,
         theme.opacity[5],
       )};
       border-radius: 4px;

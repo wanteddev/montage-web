@@ -23,7 +23,7 @@ module.exports = {
             width: "${platform === 'desktop' ? '60%' : '45%'}",
             padding: '16px',
             borderRadius: '20px',
-            backgroundColor: theme.semantic.background.normal.normal
+            backgroundColor: theme.semantic.background.neutral.primary
           })}
         >
           <Card platform="${platform}">

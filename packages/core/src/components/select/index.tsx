@@ -257,7 +257,7 @@ const Select = forwardRef<
               )}
 
               {typeof render === 'function' && !shouldShowPlaceholder && (
-                <ChipProvider solid="semantic.label.alternative">
+                <ChipProvider solid="semantic.foreground.neutral.tertiary">
                   <FlexBox
                     flex="1"
                     gap="4px"

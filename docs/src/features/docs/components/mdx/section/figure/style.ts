@@ -14,6 +14,6 @@ export const sectionFigureStyle = css`
 export const sectionFigureVariantStyle =
   (variant: 'positive' | 'negative') => (theme: Theme) => css`
     color: ${variant === 'positive'
-      ? theme.semantic.status.positive
-      : theme.semantic.status.negative};
+      ? theme.semantic.foreground.positive.primary
+      : theme.semantic.foreground.negative.primary};
   `;

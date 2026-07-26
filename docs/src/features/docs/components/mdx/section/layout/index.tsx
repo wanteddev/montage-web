@@ -37,7 +37,7 @@ const Heading2 = memo(
         data-heading=""
         variant="heading1"
         weight="bold"
-        color="semantic.label.normal"
+        color="semantic.foreground.neutral.primary"
         id={id}
         sx={[{ scrollMarginTop: 'calc(var(--gnb-height) + 56px)' }, sx]}
       >
@@ -66,7 +66,7 @@ const Heading3 = memo(({ content, sx }: HeadingProps) => {
       data-heading=""
       variant="headline2"
       weight="bold"
-      color="semantic.label.normal"
+      color="semantic.foreground.neutral.primary"
       id={id}
       sx={[{ scrollMarginTop: 'calc(var(--gnb-height) + 64px)' }, sx]}
     >
@@ -102,7 +102,7 @@ const SectionDescription = memo(({ content, sx }: SectionDescriptionProps) => {
         variant="body2-reading"
         weight="medium"
         as="p"
-        color="semantic.label.neutral"
+        color="semantic.foreground.neutral.secondary"
         sx={[
           {
             marginBottom: '0 !important',

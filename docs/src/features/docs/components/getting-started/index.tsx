@@ -26,7 +26,7 @@ const GettingStarted = () => {
       <Typography
         variant="body2-reading"
         weight="medium"
-        color="semantic.label.neutral"
+        color="semantic.foreground.neutral.secondary"
         as="p"
         sx={[descriptionStyle, { marginBottom: '40px' }]}
       >
@@ -37,13 +37,13 @@ const GettingStarted = () => {
 
       <Resources />
 
-      <Divider color="semantic.line.normal.alternative" />
+      <Divider color="semantic.line.neutral.tertiary" />
 
       <Heading2 content="Design Principles" />
 
       <Principles />
 
-      <Divider color="semantic.line.normal.alternative" />
+      <Divider color="semantic.line.neutral.tertiary" />
 
       <Heading2 content="Getting Started" />
 

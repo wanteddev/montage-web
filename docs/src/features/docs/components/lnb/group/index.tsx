@@ -59,7 +59,7 @@ const LnbGroup = ({ frontmatters }: Props) => {
                 <Typography
                   variant="caption2"
                   weight="bold"
-                  color="semantic.label.assistive"
+                  color="semantic.foreground.neutral.quaternary"
                   sx={{
                     marginBottom: '8px',
                   }}

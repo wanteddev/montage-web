@@ -15,22 +15,22 @@ export const sliderProgressWrapperStyle =
           cursor: initial;
 
           [data-role='slider-progress-range'] {
-            background-color: ${theme.semantic.interaction.disable};
+            background-color: ${theme.semantic.surface.disable.primary};
           }
 
           [data-role='slider-progress'] {
-            background-color: ${theme.semantic.interaction.disable};
+            background-color: ${theme.semantic.surface.disable.primary};
           }
         `
       : css`
           cursor: pointer;
 
           [data-role='slider-progress-range'] {
-            background-color: ${theme.semantic.fill.strong};
+            background-color: ${theme.semantic.surface.neutral.strong};
           }
 
           [data-role='slider-progress'] {
-            background-color: ${theme.semantic.primary.normal};
+            background-color: ${theme.semantic.surface.brand.primary};
           }
         `}
   `;
@@ -54,8 +54,8 @@ export const sliderThumbStyle = (theme: Theme) => css`
   height: 20px;
   border-radius: 9999px;
   position: absolute;
-  background-color: ${theme.semantic.primary.normal};
-  box-shadow: 0 0 0 2px ${theme.semantic.background.normal.normal};
+  background-color: ${theme.semantic.surface.brand.primary};
+  box-shadow: 0 0 0 2px ${theme.semantic.background.neutral.primary};
   top: 0px;
   display: block;
   cursor: pointer;
@@ -63,7 +63,7 @@ export const sliderThumbStyle = (theme: Theme) => css`
   &[aria-disabled='true'] {
     pointer-events: none;
     cursor: initial;
-    background-color: ${theme.semantic.interaction.disable};
+    background-color: ${theme.semantic.surface.disable.primary};
 
     & > [data-role='slider-thumb-interaction'] {
       opacity: 0;
@@ -88,7 +88,7 @@ export const sliderThumbStyle = (theme: Theme) => css`
 `;
 
 export const sliderThumbInteractionStyle = (theme: Theme) => css`
-  background-color: ${theme.semantic.primary.normal};
+  background-color: ${theme.semantic.surface.brand.primary};
   opacity: 0;
   width: calc(100% + 12px);
   height: calc(100% + 12px);

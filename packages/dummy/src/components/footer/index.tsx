@@ -62,7 +62,7 @@ const Footer = forwardRef<HTMLDivElement, DefaultComponentProps<{}, 'div'>>(
                 variant="body2"
                 sm={{ variant: 'body1-reading' }}
                 weight="medium"
-                color="semantic.label.normal"
+                color="semantic.foreground.neutral.primary"
               >
                 기업소개
               </Typography>
@@ -71,7 +71,7 @@ const Footer = forwardRef<HTMLDivElement, DefaultComponentProps<{}, 'div'>>(
                 variant="body2"
                 sm={{ variant: 'body1-reading' }}
                 weight="medium"
-                color="semantic.label.normal"
+                color="semantic.foreground.neutral.primary"
               >
                 광고문의
               </Typography>
@@ -80,7 +80,7 @@ const Footer = forwardRef<HTMLDivElement, DefaultComponentProps<{}, 'div'>>(
                 variant="body2"
                 sm={{ variant: 'body1-reading' }}
                 weight="medium"
-                color="semantic.label.normal"
+                color="semantic.foreground.neutral.primary"
               >
                 고객센터
               </Typography>
@@ -89,7 +89,7 @@ const Footer = forwardRef<HTMLDivElement, DefaultComponentProps<{}, 'div'>>(
                 variant="body2"
                 sm={{ variant: 'body1-reading' }}
                 weight="medium"
-                color="semantic.label.normal"
+                color="semantic.foreground.neutral.primary"
               >
                 이용약관
               </Typography>
@@ -98,7 +98,7 @@ const Footer = forwardRef<HTMLDivElement, DefaultComponentProps<{}, 'div'>>(
                 variant="body2"
                 sm={{ variant: 'body1-reading' }}
                 weight="medium"
-                color="semantic.label.normal"
+                color="semantic.foreground.neutral.primary"
               >
                 블로그
               </Typography>
@@ -107,7 +107,7 @@ const Footer = forwardRef<HTMLDivElement, DefaultComponentProps<{}, 'div'>>(
                 variant="body2"
                 sm={{ variant: 'body1-reading' }}
                 weight="bold"
-                color="semantic.label.normal"
+                color="semantic.foreground.neutral.primary"
                 data-role="privacy-policy"
               >
                 개인정보 처리방침
@@ -119,7 +119,7 @@ const Footer = forwardRef<HTMLDivElement, DefaultComponentProps<{}, 'div'>>(
             <Typography
               variant="caption1"
               weight="medium"
-              color="semantic.label.alternative"
+              color="semantic.foreground.neutral.tertiary"
               sm={{ variant: 'label2' }}
               sx={summaryStyle}
               as="p"
@@ -130,7 +130,7 @@ const Footer = forwardRef<HTMLDivElement, DefaultComponentProps<{}, 'div'>>(
             <Typography
               variant="caption1"
               weight="medium"
-              color="semantic.label.alternative"
+              color="semantic.foreground.neutral.tertiary"
               sm={{ variant: 'label2' }}
               sx={summaryStyle}
               as="p"
@@ -141,7 +141,7 @@ const Footer = forwardRef<HTMLDivElement, DefaultComponentProps<{}, 'div'>>(
             <Typography
               variant="caption1"
               weight="medium"
-              color="semantic.label.alternative"
+              color="semantic.foreground.neutral.tertiary"
               sm={{ variant: 'label2' }}
               sx={summaryStyle}
               as="p"
@@ -165,7 +165,7 @@ const Footer = forwardRef<HTMLDivElement, DefaultComponentProps<{}, 'div'>>(
               variant="caption1"
               sm={{ variant: 'label2' }}
               weight="bold"
-              color="semantic.label.alternative"
+              color="semantic.foreground.neutral.tertiary"
             >
               채용서비스 문의
             </Typography>
@@ -175,7 +175,7 @@ const Footer = forwardRef<HTMLDivElement, DefaultComponentProps<{}, 'div'>>(
               variant="caption1"
               sm={{ variant: 'label2' }}
               weight="bold"
-              color="semantic.label.alternative"
+              color="semantic.foreground.neutral.tertiary"
             >
               원티드스페이스 문의
             </Typography>
@@ -185,7 +185,7 @@ const Footer = forwardRef<HTMLDivElement, DefaultComponentProps<{}, 'div'>>(
               variant="caption1"
               sm={{ variant: 'label2' }}
               weight="bold"
-              color="semantic.label.alternative"
+              color="semantic.foreground.neutral.tertiary"
             >
               원티드긱스 문의
             </Typography>
@@ -195,7 +195,7 @@ const Footer = forwardRef<HTMLDivElement, DefaultComponentProps<{}, 'div'>>(
               variant="caption1"
               sm={{ variant: 'label2' }}
               weight="bold"
-              color="semantic.label.alternative"
+              color="semantic.foreground.neutral.tertiary"
             >
               프리온보딩 문의
             </Typography>
@@ -205,7 +205,7 @@ const Footer = forwardRef<HTMLDivElement, DefaultComponentProps<{}, 'div'>>(
               variant="caption1"
               sm={{ variant: 'label2' }}
               weight="bold"
-              color="semantic.label.alternative"
+              color="semantic.foreground.neutral.tertiary"
             >
               취업지원시스템 문의
             </Typography>
@@ -215,13 +215,13 @@ const Footer = forwardRef<HTMLDivElement, DefaultComponentProps<{}, 'div'>>(
               variant="caption1"
               sm={{ variant: 'label2' }}
               weight="bold"
-              color="semantic.label.alternative"
+              color="semantic.foreground.neutral.tertiary"
             >
               IR 문의
             </Typography>
           </FlexBox>
 
-          <Divider color="semantic.line.normal.alternative" size="100%" />
+          <Divider color="semantic.line.neutral.tertiary" size="100%" />
 
           <FlexBox
             flexDirection="column"
@@ -239,7 +239,7 @@ const Footer = forwardRef<HTMLDivElement, DefaultComponentProps<{}, 'div'>>(
             <Typography
               variant="label2"
               weight="medium"
-              color="semantic.label.alternative"
+              color="semantic.foreground.neutral.tertiary"
             >
               {`© ${currentYear} Wanted Lab, Inc.`}
             </Typography>
@@ -253,42 +253,42 @@ const Footer = forwardRef<HTMLDivElement, DefaultComponentProps<{}, 'div'>>(
             >
               <IconButton
                 size={20}
-                color="semantic.label.alternative"
+                color="semantic.foreground.neutral.tertiary"
                 aria-label="인스타그램"
               >
                 <IconLogoInstagram />
               </IconButton>
               <IconButton
                 size={20}
-                color="semantic.label.alternative"
+                color="semantic.foreground.neutral.tertiary"
                 aria-label="페이스북"
               >
                 <IconLogoFacebook />
               </IconButton>
               <IconButton
                 size={20}
-                color="semantic.label.alternative"
+                color="semantic.foreground.neutral.tertiary"
                 aria-label="유튜브"
               >
                 <IconLogoYoutube />
               </IconButton>
               <IconButton
                 size={20}
-                color="semantic.label.alternative"
+                color="semantic.foreground.neutral.tertiary"
                 aria-label="네이버 블로그"
               >
                 <IconLogoNaverBlog />
               </IconButton>
               <IconButton
                 size={20}
-                color="semantic.label.alternative"
+                color="semantic.foreground.neutral.tertiary"
                 aria-label="App Store"
               >
                 <IconLogoApple />
               </IconButton>
               <IconButton
                 size={20}
-                color="semantic.label.alternative"
+                color="semantic.foreground.neutral.tertiary"
                 aria-label="Google Play"
               >
                 <IconLogoGooglePlay />

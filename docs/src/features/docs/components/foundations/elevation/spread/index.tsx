@@ -22,14 +22,14 @@ const FoundationsElevationSpread = () => {
               <Typography
                 variant="label1"
                 weight="medium"
-                color="semantic.label.neutral"
+                color="semantic.foreground.neutral.secondary"
               >
                 Value
               </Typography>
               <Typography
                 variant="label1"
                 weight="medium"
-                color="semantic.label.neutral"
+                color="semantic.foreground.neutral.secondary"
               >
                 {token.value}
               </Typography>

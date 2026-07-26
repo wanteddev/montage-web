@@ -114,7 +114,7 @@ const BehindItem = ({
           <Typography
             variant="headline2"
             weight="bold"
-            color="semantic.label.normal"
+            color="semantic.foreground.neutral.primary"
             as="p"
             id={`carousel-${id}`}
             md={{
@@ -130,7 +130,7 @@ const BehindItem = ({
         <Typography
           variant="body2"
           weight="medium"
-          color="semantic.label.alternative"
+          color="semantic.foreground.neutral.tertiary"
           as="p"
           sx={breakWordStyle}
           id={`carousel-${id}-description`}

@@ -16,7 +16,7 @@ export const navBarStyle = (theme: Theme) => css`
   width: 100%;
   position: fixed;
   top: 0;
-  border-bottom: 1px solid ${theme.semantic.line.normal.neutral};
+  border-bottom: 1px solid ${theme.semantic.line.neutral.secondary};
   z-index: 800;
 
   ${respondTo(theme.breakpoint.md)} {
@@ -30,7 +30,7 @@ export const navBarBackgroundStyle = (theme: Theme) => css`
   position: absolute;
   z-index: -1;
   background: ${addOpacity(
-    theme.semantic.background.elevated.normal,
+    theme.semantic.surface.elevated.primary,
     theme.opacity[88],
   )};
   backdrop-filter: saturate(150%) blur(32px);

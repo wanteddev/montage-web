@@ -47,7 +47,7 @@ module.exports = {
           ? 'null'
           : `
       <MenuItemContent variant="icon" data-role="autocomplete-option-trailing-content">
-        <IconArrowTurnDownLeft sx={theme => ({ color: theme.semantic.label.normal })} />
+        <IconArrowTurnDownLeft sx={theme => ({ color: theme.semantic.foreground.neutral.primary })} />
       </MenuItemContent>
     `;
 
@@ -63,7 +63,7 @@ module.exports = {
             display: 'flex',
           },
           ['[data-role="list-text-content"]']: {
-            color: theme.semantic.label.normal,
+            color: theme.semantic.foreground.neutral.primary,
             fontWeight: 400,
           },
         })}
@@ -78,7 +78,7 @@ module.exports = {
         case 'Search':
           leadingContent = `
           <MenuItemContent variant="icon">
-            <IconSearch sx={theme => ({ color: theme.semantic.label.assistive })} />
+            <IconSearch sx={theme => ({ color: theme.semantic.foreground.neutral.quaternary })} />
           </MenuItemContent>
         `;
           break;
@@ -138,14 +138,14 @@ module.exports = {
                       display: 'flex',
                     },
                     ['[data-role="list-text-content"]']: {
-                      color: theme.semantic.label.alternative,
+                      color: theme.semantic.foreground.neutral.tertiary,
                       fontWeight: 400,
                     },
                   })}
                   trailingContent={${trailingContent}}
                   ${variant !== 'checkbox' ? `leadingContent={${leadingContent}}` : ''}
                 >
-                  <Typography color="semantic.label.normal" variant="body1" weight="bold">Typing</Typography> Auto complete
+                  <Typography color="semantic.foreground.neutral.primary" variant="body1" weight="bold">Typing</Typography> Auto complete
                 </MenuItem>
               `,
                 )

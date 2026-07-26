@@ -34,7 +34,7 @@ const SectionAnatomy = ({ ratio = '21 / 9', data, src }: Props) => {
               as="li"
               variant="body2"
               weight="medium"
-              color="semantic.label.normal"
+              color="semantic.foreground.neutral.primary"
             >
               <span>{i + 1}.&nbsp;</span>
               {value}

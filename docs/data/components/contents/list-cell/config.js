@@ -89,7 +89,7 @@ module.exports = {
       }
 
       return `
-        <List gap="0px" sx={theme => ({ width: '85%', backgroundColor: theme.semantic.background.normal.normal, borderRadius: '12px', ${fillWidth ? "padding: '8px 0px'" : "padding: '8px 20px'"} })}>
+        <List gap="0px" sx={theme => ({ width: '85%', backgroundColor: theme.semantic.background.neutral.primary, borderRadius: '12px', ${fillWidth ? "padding: '8px 0px'" : "padding: '8px 20px'"} })}>
           <ListCell verticalPadding="${verticalPadding}" alignItems="${verticalAlign}" fillWidth={${fillWidth}} leadingContent={${leadingContent}} trailingContent={${trailingContent}} divider={${divider}} textProps={${textProps}}>
             Label
           </ListCell>

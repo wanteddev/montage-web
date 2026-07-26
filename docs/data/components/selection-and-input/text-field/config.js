@@ -60,7 +60,7 @@ module.exports = {
           break;
         case 'Custom':
           trailingContent =
-            '<TextFieldContent variant="custom"><Box sx={theme => ({ width: 24, height: 24, backgroundColor: theme.semantic.accent.background.violet, opacity: 0.08 })} /></TextFieldContent>';
+            '<TextFieldContent variant="custom"><Box sx={theme => ({ width: 24, height: 24, backgroundColor: theme.semantic.surface.accent.violetOpaque, opacity: 0.08 })} /></TextFieldContent>';
           break;
         case 'Badge':
           trailingContent =

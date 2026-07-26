@@ -43,7 +43,7 @@ module.exports = {
           sx={(theme) => ({
             width: '600px',
             maxHeight: '${pagination === 'null' ? '272px' : '276px'}',
-            backgroundColor: theme.semantic.background.normal.normal
+            backgroundColor: theme.semantic.background.neutral.primary
           })}
         >
           <colgroup>

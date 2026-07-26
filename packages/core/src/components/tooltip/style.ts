@@ -137,16 +137,16 @@ export const tooltipWrapperSizeStyle = ({
 export const tooltipContentStyle = (theme: Theme) => css`
   border-radius: inherit;
   background-color: ${addOpacity(
-    theme.semantic.inverse.background,
+    theme.semantic.surface.neutral.inverse,
     theme.opacity[88],
   )};
-  color: ${theme.semantic.inverse.label};
+  color: ${theme.semantic.foreground.neutral.inverse};
   position: relative;
 
   &::before {
     border-radius: inherit;
     background-color: ${addOpacity(
-      theme.semantic.primary.normal,
+      theme.semantic.surface.brand.primary,
       theme.opacity[5],
     )};
     content: '';
@@ -156,18 +156,21 @@ export const tooltipContentStyle = (theme: Theme) => css`
 
   button {
     color: ${addOpacity(
-      theme.semantic.inverse.label,
+      theme.semantic.foreground.neutral.inverse,
       theme.opacity[61],
     )} !important;
   }
 
   [data-component='with-interaction'] {
-    background: ${theme.semantic.inverse.label};
+    background: ${theme.semantic.foreground.neutral.inverse};
   }
 `;
 
 export const tooltipContentShortcutStyle = (theme: Theme) => css`
-  color: ${addOpacity(theme.semantic.inverse.label, theme.opacity[61])};
+  color: ${addOpacity(
+    theme.semantic.foreground.neutral.inverse,
+    theme.opacity[61],
+  )};
   width: fit-content;
   flex-shrink: 0;
 `;

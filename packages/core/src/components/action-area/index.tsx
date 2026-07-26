@@ -78,7 +78,7 @@ const ActionArea = forwardRef<
               variant="label2"
               weight="regular"
               data-role="action-area-caption"
-              color="semantic.label.alternative"
+              color="semantic.foreground.neutral.tertiary"
               sx={{ marginBottom: '16px' }}
             >
               {caption}

@@ -32,11 +32,11 @@ const SectionStates = ({
                   <IconGlobe
                     sx={(theme) => ({
                       fontSize: '12px',
-                      color: theme.semantic.accent.foreground.purple,
+                      color: theme.semantic.foreground.accent.purple,
                     })}
                   />
                 }
-                accentColor="semantic.accent.foreground.purple"
+                accentColor="semantic.foreground.accent.purple"
                 sx={{ flexShrink: 0, marginLeft: '2px' }}
               >
                 Web only

@@ -203,7 +203,7 @@ const MenuGroup = forwardRef<
         <Typography
           variant="caption1"
           weight="bold"
-          color="semantic.label.alternative"
+          color="semantic.foreground.neutral.tertiary"
           sx={menuGroupTitleStyle}
         >
           {title}
@@ -436,7 +436,7 @@ const MenuActionAreaContent = forwardRef<
             menuActionAreaContentStyle(variant),
             (theme) => ({
               fontSize: '24px',
-              color: theme.semantic.label.alternative,
+              color: theme.semantic.foreground.neutral.tertiary,
             }),
             sx,
           ]}

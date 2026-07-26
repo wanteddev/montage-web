@@ -38,7 +38,7 @@ describe('when given toggle-icon component', () => {
 
     expect(screen.getByTestId('toggle-icon')).toBeInTheDocument();
     expect(screen.getByTestId('toggle-icon')).toHaveStyle({
-      color: theme.light.semantic.primary.normal,
+      color: theme.light.semantic.foreground.brand.primary,
     });
   });
 

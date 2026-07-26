@@ -358,7 +358,7 @@ const RangeDayPanel = memo(({ panelIndex }: RangeDayPanelProps) => {
                 sx={rangeWeekdayCellStyle}
                 variant="caption2"
                 weight="medium"
-                color="semantic.label.alternative"
+                color="semantic.foreground.neutral.tertiary"
                 align="center"
               >
                 {day.narrow}
@@ -1461,7 +1461,11 @@ type PanelHeaderLabelProps = {
 
 const PanelHeaderLabel = memo(({ label }: PanelHeaderLabelProps) => {
   return (
-    <Typography variant="body1" weight="bold" color="semantic.label.normal">
+    <Typography
+      variant="body1"
+      weight="bold"
+      color="semantic.foreground.neutral.primary"
+    >
       {label}
     </Typography>
   );
