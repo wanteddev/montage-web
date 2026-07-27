@@ -543,6 +543,75 @@ const [value, setValue] = useState('');
 
 하단 영역의 DOM 구조가 재구성되었고, character counter 관련 `data-role`(`text-area-content-character-counter-length` / `-divider` / `-max-length`)이 제거되었습니다. 해당 `data-role`이나 `[data-role='text-area-bottom-area']` 내부 구조를 직접 타겟해 커스텀했다면 새 구조에 맞게 수정해야 합니다.
 
+### SegmentedControl
+
+Figma 스펙에 맞춰 `variant`가 제거되고 아이콘 전용 모드(`iconOnly`)가 추가되었습니다. 하위 컴포넌트의 콘텐츠 prop도 정리되었으며, 사이즈별 세부 수치가 토큰 기반으로 변경되었습니다.
+
+#### `variant` prop 제거
+
+`variant="solid" | "outlined"` 중 `outlined`가 제거되고 solid 단일 형태로 통일되어 `variant` prop이 제거되었습니다.
+
+- AS-IS: `<SegmentedControl variant="solid">` / `<SegmentedControl variant="outlined">`
+- TO-BE: `<SegmentedControl>` — `variant` 속성을 제거하세요.
+
+`outlined`를 대체하는 값은 없습니다. `outlined` 전용으로 렌더되던 스타일(투명 배경 + 외곽선, 아이템 사이 구분선, 선택 항목의 brand 톤 배경·테두리)이 모두 제거되고, 선택 항목은 solid와 동일하게 흰색 thumb으로 표시됩니다. 또한 `outlined`에서는 동작하지 않았던 thumb 이동 애니메이션이 적용됩니다. 시각적 변화가 크므로 `outlined`를 사용했던 화면은 QA가 필요합니다.
+
+#### `SegmentedControlItem`의 `leadingContent` → `leadingIcon`, `trailingContent` 제거
+
+- AS-IS: `<SegmentedControlItem leadingContent={<IconList />} trailingContent={<IconBlank />}>`
+- TO-BE: `<SegmentedControlItem leadingIcon={<IconList />}>`
+
+`trailingContent`는 대체 prop 없이 제거되었습니다. 뒤쪽 콘텐츠가 필요하다면 children 안에 직접 배치해야 합니다.
+
+#### `iconOnly` prop 추가
+
+텍스트 없이 아이콘만 노출하는 모드가 추가되었습니다. `iconOnly`를 지정하면 아이콘을 `SegmentedControlItem`의 children으로 전달하며, 텍스트가 없으므로 각 아이템에 `aria-label`을 직접 지정해야 합니다.
+
+```tsx
+<SegmentedControl iconOnly defaultValue="0">
+  <SegmentedControlItem value="0" aria-label="Board view">
+    <IconColumn />
+  </SegmentedControlItem>
+  <SegmentedControlItem value="1" aria-label="List view">
+    <IconList />
+  </SegmentedControlItem>
+</SegmentedControl>
+```
+
+`iconOnly`일 때는 루트 너비가 `100%`가 아닌 `fit-content`로 렌더되고, 텍스트 래퍼(`[data-role='segmented-control-item-text']`)가 렌더되지 않습니다. 기존에 `leadingContent`에 아이콘만 넣거나 children에 아이콘만 넣어 아이콘 전용처럼 사용했다면 `iconOnly`로 전환하세요.
+
+`TextAreaContent`의 `variant="segmented-control"`도 내부에서 별도 스타일을 주입하지 않으므로, TextArea 안에 배치하는 `SegmentedControl`에는 `iconOnly`를 직접 지정해야 합니다.
+
+#### 사이즈·토큰 변경
+
+루트 요소 — 높이는 그대로이고 radius와 padding이 변경되었습니다.
+
+| 속성          | Small       | Medium      | Large       |
+| ------------- | ----------- | ----------- | ----------- |
+| 높이          | 32px (유지) | 40px (유지) | 48px (유지) |
+| Border radius | 8px → 10px  | 10px → 12px | 12px → 14px |
+| Padding       | 2px → 4px   | 2px → 4px   | 3px → 4px   |
+| Thumb radius  | 6px → 8px   | 8px (유지)  | 10px (유지) |
+
+아이템 — typography가 한 단계씩 작아졌습니다.
+
+| 속성          | Small                         | Medium                     | Large                         |
+| ------------- | ----------------------------- | -------------------------- | ----------------------------- |
+| Typography    | label2(13px) → caption1(12px) | body2(15px) → label1(14px) | headline2(17px) → body2(15px) |
+| Border radius | 6px → 8px                     | 8px (유지)                 | 10px (유지)                   |
+| Padding       | 5px 6px → 4px 6px             | 7px 8px → 6px 8px          | 9px 8px (유지)                |
+| Icon size     | 14px (유지)                   | 18px → 16px                | 20px → 18px                   |
+| Gap           | 4px (유지)                    | 4px → 6px                  | 4px → 6px                     |
+
+`iconOnly` 아이템은 별도 수치를 사용합니다(신규).
+
+| 속성      | Small   | Medium  | Large     |
+| --------- | ------- | ------- | --------- |
+| Padding   | 4px 5px | 7px 8px | 10px 11px |
+| Icon size | 16px    | 18px    | 20px      |
+
+선택된 항목의 thumb 그림자는 하드코딩된 값과 white 28% 오버레이 대신 `semantic.elevation.shadow.normal.xsmall` 토큰을 사용합니다. 텍스트 크기가 줄어 아이템 폭 계산이 달라지므로, 폭을 고정하거나 `maxWidth`로 제한해 사용하던 화면은 확인이 필요합니다.
+
 ### ThemeProvider 테마 저장소 변경 (localStorage → Cookie)
 
 `ThemeProvider`가 `next-themes` 의존을 걷어내고 자체 쿠키 기반 구현으로 교체되었습니다. localStorage는 origin 단위로 격리되어 서브도메인 간 테마 공유가 불가능했기 때문입니다. 쿠키에 저장하되 읽기는 기존과 동일하게 first paint 이전 blocking inline script에서 처리하므로, SSG/SSR 렌더링 전략과 no-flash 동작은 그대로입니다.

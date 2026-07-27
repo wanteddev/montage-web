@@ -5,8 +5,12 @@ completed (see `codemod-steps.md`). Each section lists scan patterns to locate a
 code — scan first, then apply fixes only where a real occurrence exists.
 
 Scan patterns use `grep -E` syntax with `\b`/`\s`/`\w` shorthands — supported by GNU grep,
-macOS BSD grep, and ripgrep alike (translate the shorthands to POSIX classes for busybox
-or other minimal greps). Patterns beginning with `-` (e.g. `--wds-`) must be passed after
+macOS BSD grep, and ripgrep alike, but ONLY OUTSIDE bracket expressions (translate the
+shorthands to POSIX classes for busybox or other minimal greps). **Inside `[...]` always use
+a POSIX class**: BSD/GNU `grep -E` treat `[\w.]` as the literal 3-character set
+`{backslash, w, dot}`, while ripgrep's Rust regex honors `\w` there — the same pattern
+silently yields different worklists per tool, which is how a scan comes back empty instead of
+failing. Write `[[:alnum:]_.]` instead. Patterns beginning with `-` (e.g. `--wds-`) must be passed after
 a `--` separator or via `-e` (`grep -rn -e "--wds-"`), or grep parses them as options and
 exits without scanning. The patterns are line-based heuristics: multi-line JSX props and
 non-literal forms (`variant={'bottom'}`, responsive objects) escape them, so treat a clean
@@ -44,7 +48,7 @@ Exception: `@wanteddev/wds-mcp` maps to `@wanteddev/montage-mcp` — it stays in
 
 Check and update:
 
-- `package.json` — `dependencies` / `devDependencies` / `peerDependencies` / `resolutions` / `overrides` / `pnpm.overrides`. Replace each `@wanteddev/wds*` entry with its `@montage-ui/*` counterpart at version `^4.0.0`, then run the project's package manager install to refresh the lockfile.
+- `package.json` — `dependencies` / `devDependencies` / `peerDependencies` / `resolutions` / `overrides` / `pnpm.overrides`. Replace each `@wanteddev/wds*` entry with its `@montage-ui/*` counterpart at version `^4.0.0`, then run the project's package manager install to refresh the lockfile. EXCEPTION: `@wanteddev/wds-mcp` → `@wanteddev/montage-mcp` keeps its OWN version line (it is not one of the `@montage-ui/*` packages and is published to the GitHub Package Registry) — resolve it separately against the GitHub Package Registry — `npm view @wanteddev/montage-mcp version --registry=https://npm.pkg.github.com/` with the project's `@wanteddev:registry` / auth token configured in `.npmrc`; the default registry 404s for it — instead of pinning it to `^4.0.0`, which would likely be unresolvable and fail the install.
 - Code the codemod cannot reach — these must already have been fixed during Step 1's
   post-step verification (they are code, not config); the scan here is a safety net, and
   any hit is a Step 1 escape:
@@ -100,12 +104,14 @@ Also review destructured/aliased usages the patterns above miss (e.g.
 destructuring sites with (**[decision]**, like every M2 pattern):
 
 ```
-const\s*\{[^}]*\b(spacing|radius|dimension|opacity|zIndex|primitive)\b[^}]*\}\s*=\s*[\w.]*[Tt]heme
+const\s*\{[^}]*\b(spacing|radius|dimension|opacity|zIndex|primitive)\b[^}]*\}\s*=\s*[[:alnum:]_.]*[Tt]heme
 ```
 
-(the `[\w.]*` tail also matches `props.theme`, `this.props.theme`, and `useTheme()`
-bases; an alias whose name does not end in `theme` still escapes — treat the scan as a
-heuristic) then inspect each file for arithmetic on the destructured names.
+(the POSIX `[[:alnum:]_.]*` tail — NOT `[\w.]*`, which BSD/GNU `grep -E` read as the literal
+set `{backslash, w, dot}` and which therefore matches only a bare `theme` base — also matches
+`props.theme`, `this.props.theme`, and `useTheme()` bases, verified under BSD grep; an alias
+whose name does not end in `theme` still escapes, so treat the scan as a heuristic) then
+inspect each file for arithmetic on the destructured names.
 
 Fixes:
 
@@ -128,10 +134,14 @@ Fixes:
 - Genuinely needs a JS number (measurements, non-CSS APIs, chart libs) → import raw values:
 
   ```ts
-  import { lightOriginTheme, darkOriginTheme } from '@montage-ui/core';
+  import { lightOriginTheme } from '@montage-ui/core';
 
   lightOriginTheme.spacing[16]; // '16px' — raw value
   ```
+
+  One import is enough: `lightOriginTheme` and `darkOriginTheme` share the exact same
+  `opacity` / `primitive` / `spacing` / `radius` / `dimension` / `zIndex` objects (only
+  `semantic` differs), so never branch on the active theme for these six groups.
 
 - `rgba(0, 0, 0, ${theme.opacity[43]})` and `addOpacity(color, theme.opacity[N])` keep
   working as-is — the alpha slot of `rgba()` resolves `var()` fine. No change needed.
@@ -151,6 +161,10 @@ literals, template literals, and stylesheets. They cannot rewrite:
   instead of `--grid-column-spacing` — review every dynamic construction site.
 - Selectors living outside the transformed directories: E2E specs (Playwright/Cypress),
   snapshot files, CSS-in-JS in other packages, HTML files, styled-components in `.md`/MDX.
+  The same out-of-target class exists for the IDENTIFIER renames of steps ⑤/⑥ (a `CardList`
+  or `FormField` reference in an E2E spec or snapshot outside `<targets>`): M4 owns the
+  Card/ListCard ones, M5 the Form ones — run those sections' scans over the whole repo, not
+  just the targets.
 - Dynamically built DOM-identifier strings whose static part stops short of a full token:
   `'wds-' + kind`, `` `wds-ignore-${x}` `` — review every dynamic construction site, same
   as the `--wds-` case above. The full-token [zero] scans below do not reach the
@@ -159,7 +173,14 @@ literals, template literals, and stylesheets. They cannot rewrite:
 - camelCase custom properties: the rename pattern is lowercase-only, so `--wds-myVar` comes
   out partially rewritten as `--myVar`. The diff review for these is owned by step 3's
   (`css-variable-migration`) post-step verification (where the diff is at hand); this note
-  is a safety net — if step 3's diff was never reviewed, grep it now.
+  is a safety net — if step 3's diff was never reviewed, grep it now. Because the partially
+  rewritten name no longer contains `wds`, none of the [zero] patterns below reach it; scan
+  the repo instead with **[decision]**: `--[a-z0-9-]*[A-Z]` (stylesheets and JS/TS; digits
+  included, since `--wds-my2Var` breaks the same way) and, for each hit, confirm the
+  declaration and every usage agree on one name. Expect heavy noise: the pattern matches
+  every legitimately camelCase custom property, Montage's own `--zIndex-*` theme variables
+  included. Only a name whose declaration and usages DISAGREE is a real hit — a consistent
+  camelCase variable is valid code and must not be renamed to force the scan quiet.
 
 False-positive review of the codemod diff (blind substring replacement rewrites unrelated
 strings — analytics event names, documentation strings, consumer-defined `--wds-*`
@@ -197,18 +218,27 @@ ancestor. Two classes of usage need manual review:
   maps of components): context cannot be inferred, so the codemod converts to the Card-family
   name (`CardBody`). If the value is actually rendered inside a `ListCard`, replace with the
   `ListCard*` equivalent (`ListCardBody`, `ListCardRow`, ...) by hand.
-  Scan **[decision]**: `Card(Body|Row|Title|Caption|Thumbnail)\w*` used outside JSX tags
-  in files that also render `ListCard`.
+  Scan **[decision]**: `\bCard(Body|Row|Title|Caption|Thumbnail)\w*` used outside JSX tags
+  in files that also render `ListCard`. The `\b` anchor is required — unanchored, the
+  pattern matches inside `ListCardBody` / `ListCardRow` too, so every correct
+  post-migration name in the scanned files comes back as a hit and buries the real ones.
 - **Cross-file context**: a child-component file that imports only Card sub-components (no
   `ListCard` import in the same file) is converted to Card-family names even when a parent
   file mounts it inside a `ListCard`. Review shared child components rendered inside
   `ListCard` and switch them to `ListCard*` names by hand. Concrete procedure
   (**[decision]**):
-  1. `grep -rlE '\bCard(Body|Row|Title|Caption|Thumbnail)' <targets>` minus the files that
-     also match `\bListCard` — these are Card-family-only files.
+  1. `grep -rlE '\bCard(Body|Row|Title|Caption|Thumbnail)'` over the whole repo (M-section
+     scans are repo-wide; `<targets>` would miss importers living outside the transformed
+     directories) minus the files that also match `\bListCard` — these are Card-family-only
+     files.
   2. For each such file's exported component, grep for its importers; flag any importer
      that renders `ListCard` around the imported component — those usages need the
      `ListCard*` names.
+
+  Use the **Rename tables (v3 → v4)** at the end of step 5 in `codemod-steps.md` for every
+  hand-rewrite here — the consumer repo has no other source for the old→new mapping, and
+  the Card-family and ListCard-family names differ per context.
+
 - **DOM identifiers of renamed sub-components** (selectors in CSS/tests/E2E):
 
   ```
@@ -221,11 +251,24 @@ ancestor. Two classes of usage need manual review:
   Scan patterns **[zero]**: `card-content` and `--card-content-item-` (`card-content` is
   a bare substring — consumer code coincidentally containing it is the unrelated-hit case
   the [zero] definition allows to remain).
+
+- **Old Card names outside the transformed directories** (E2E specs, snapshots, MDX,
+  CSS-in-JS in other packages): the codemod never saw them, so they still carry v3 names.
+  Scan **[zero]** over the WHOLE repo, not just `<targets>`: `\bCard(List|Content)` — the
+  same pattern step ⑤ verifies with, plus the montage-source confirmation caveat (a locally
+  defined or third-party name is not a leftover). Rewrite hits against the rename tables in
+  `codemod-steps.md` step 5.
   Note: after `dom-identifier-migration`, old `wds-component="card-content"` selectors have
   become `data-component="card-content"` — this step renames the _value_ part.
 
 ## M5. FormControl follow-ups
 
+- **Old Form names outside the transformed directories** (E2E specs, snapshots, MDX,
+  CSS-in-JS in other packages): the codemod never saw them.
+  Scan **[zero]** over the WHOLE repo, not just `<targets>`:
+  `\bForm(Field|Label|Message|ErrorMessage)` — step ⑥'s verify pattern, plus the
+  montage-source confirmation caveat. Apply the step ⑥ rename table by hand; never re-run
+  the codemod to reach them.
 - Message typography changed from `label2` to `caption1`. Code that passed explicit
   `variant` / `weight` to `FormMessage` / `FormErrorMessage` (now `FormControlMessage` /
   `FormControlNegativeMessage`) may fight the new default — review each occurrence.
@@ -280,8 +323,12 @@ For each bottom-sheet Modal, decide: default close-on-dismiss (delete workaround
 ## M8. TextArea changes
 
 - **`TextAreaContent` variant renames**: `variant="badge"` → `variant="content-badge"`,
-  `variant="chip"` → `variant="custom"`. New variants `primary-icon-button` and
-  `segmented-control` are available (informational).
+  `variant="chip"` → `variant="custom"`. The full v4 set is `custom` | `button` |
+  `content-badge` | `icon` | `icon-button` | `primary-icon-button` | `segmented-control`.
+  Only `content-badge`, `primary-icon-button` and `segmented-control` are NEW —
+  `custom` / `button` / `icon` / `icon-button` all existed in v3 (`icon-button` merely
+  became the default, see below), so seeing one in the codebase is not evidence of a
+  migration.
   Scan **[zero]**: `TextAreaContent[^>]*variant="(badge|chip)"`.
 - **`variant="characterCounter"` removed** — the character counter no longer renders
   inside the TextArea bottom area. Replace with `FormControlMessageAccessory` passed via
@@ -314,7 +361,7 @@ For each bottom-sheet Modal, decide: default close-on-dismiss (delete workaround
 ## M9. Semantic token follow-ups
 
 The `semantic-token-migration` codemod (step 2) rewrites every literal old-token
-reference in JS/TS plus the `--semantic-*` variable form in stylesheets, but five
+reference in JS/TS plus the `--semantic-*` variable form in stylesheets, but six
 classes of work remain. The full old→new rename tables are bundled at the end of this
 section — use them for every hand-rewrite (do not look for the design-system repo's
 MIGRATION.md; it does not exist in the consumer repo).
@@ -348,8 +395,10 @@ MIGRATION.md; it does not exist in the consumer repo).
   `const { label } = theme.semantic`) — the chain no longer passes through a `semantic`
   anchor at the usage site. Rewrite against the rename tables below.
   Scan **[zero]**: the two step-2 verification greps in `codemod-steps.md` (old dot-path
-  and old CSS-variable patterns) — after this section every remaining hit must be gone;
-  step 2's verification only REPORTS these, M9 owns the fix.
+  and old CSS-variable patterns) — after this section every Montage-token hit must be gone;
+  step 2's verification only REPORTS these, M9 owns the fix. Standard [zero] semantics apply:
+  a hit assessed as non-Montage code (a false positive reverted during step 2's diff review,
+  an unrelated object or string) may remain and is listed in the final summary.
   Scan **[decision]**: `\.semantic([^.[:alnum:]]|$)` — locates root-object aliasing and
   destructuring sites (`= theme.semantic;`, `(theme.semantic)`) without matching normal
   `theme.semantic.<group>` chains; trace each alias/destructured name to its leaf usages
@@ -365,6 +414,12 @@ MIGRATION.md; it does not exist in the consumer repo).
   the `--semantic-*` CSS-variable form; a `semantic.<old-path>` dot string inside
   `.css/.scss/.sass/.less` (rare — usually content/comments) is untouched and surfaces
   through the step-2 verification grep above. Fix per the rename tables below.
+- **Old tokens living outside the transformed directories** (mirrors M3's equivalent class):
+  E2E specs (Playwright/Cypress), snapshot files, CSS-in-JS in other packages, HTML files,
+  styled-components in `.md`/MDX. The codemod only touches the target directories, so these
+  keep their v3 names silently. Run the two step-2 greps over the WHOLE repo (minus
+  `.git`/node_modules/build output), not just `<targets>`, and rewrite the hits by hand
+  against the rename tables below.
 
 ### Rename tables (v3 → v4)
 
@@ -441,6 +496,12 @@ keeps working as-is. The items below are what does break, plus one new opportuni
     and map the fields: `resolvedTheme` → `theme` (resolved `'light' | 'dark'`), and the
     user's raw choice → `themeOriginValue` (`'light' | 'dark' | 'system' | undefined`).
     Note `setTheme` accepts only those three values in v4.
+    `useThemeControl()` returns EXACTLY `{ theme, themeOriginValue, setTheme }` — next-themes'
+    `systemTheme`, `themes`, and `forcedTheme` have no equivalent. A destructure of any of
+    them is a per-occurrence decision for the user, not a mechanical rewrite: `systemTheme`
+    can be re-derived from `window.matchMedia('(prefers-color-scheme: dark)')` (client-side
+    only), `themes` is the fixed `['light', 'dark']` list, and `forcedTheme` has no
+    replacement — an app relying on it must be reworked, not remapped.
   - Bound to the app's own `<NextThemeProvider>`, rendered independently of Montage → leave
     it alone. Those calls still work, and the `next-themes` dependency stays.
 
@@ -487,6 +548,47 @@ keeps working as-is. The items below are what does break, plus one new opportuni
   the first load after deploy to follow the system theme (or light when `enableDarkMode`
   is off).
 
+## M11. SegmentedControl changes
+
+- **`variant` prop removed** (was `"solid" | "outlined"`). Delete the prop — solid is the
+  only form. There is NO replacement for `outlined`: its transparent background + outer
+  border, per-item dividers, and brand-tinted active item are gone, and the active item now
+  renders the solid white thumb WITH the sliding animation `outlined` never had. Every
+  `outlined` occurrence is a visual change requiring QA, not a mechanical delete.
+  Scan **[zero]**: `SegmentedControl[^>]*variant=` (multi-line props escape it — pair with
+  the file-level scan below).
+- **`SegmentedControlItem` `leadingContent` → `leadingIcon`** (mechanical rename), and
+  **`trailingContent` removed** with no replacement — move that content into `children` or
+  drop it.
+  Scan **[zero]**: `SegmentedControlItem[^>]*(leadingContent|trailingContent)=`. Do NOT
+  scan the bare `leadingContent` / `trailingContent` substrings — TextField, TextArea, and
+  ListCell keep those props in v4, so bare hits are valid v4 code.
+  Scan **[decision]**: `\bSegmentedControl(Item)?\b` file-level, then review every JSX usage
+  for a `variant` / `leadingContent` / `trailingContent` prop the line greps missed. The
+  `(Item)?` group is required — `\bSegmentedControl\b` alone does NOT match
+  `SegmentedControlItem` (the trailing `\b` fails before `I`), so a file that renders only
+  items would be skipped entirely.
+- **`iconOnly` prop added** — the icon-only form is no longer "an item whose only child is
+  an icon". Usages that rendered icons without a text label must set `iconOnly` on the ROOT
+  and pass the icon as the item's `children`, plus an `aria-label` per item (the text
+  wrapper that carried the accessible name is not rendered in this mode). Root width also
+  becomes `fit-content` instead of `100%`, so a parent relying on the control filling its
+  width needs a width of its own.
+  When a `SegmentedControl` sits inside `TextAreaContent variant="segmented-control"`, that
+  variant injects no sizing of its own — `iconOnly` must be set explicitly.
+  Scan **[decision]**: `SegmentedControlItem[^>]*aria-label=` — an item with an aria-label
+  and no text is the icon-only pattern that now needs `iconOnly` on its root.
+- **`[data-role='segmented-control-item-text']` not rendered under `iconOnly`** — custom CSS
+  targeting it applies to labeled items only.
+  Scan **[decision]**: `segmented-control-item-text` (include stylesheets).
+- **Size details changed** (heights unchanged at 32 / 40 / 48px): root radius 8→10 / 10→12 /
+  12→14px, root padding 2→4 / 2→4 / 3→4px, item typography label2→caption1 /
+  body2→label1 / headline2→body2, item icon 14 (same) / 18→16 / 20→18px, item gap fixed 4px
+  → 4 / 6 / 6px, small item radius 6→8px. The thumb shadow now comes from
+  `semantic.elevation.shadow.normal.xsmall` (the white 28% overlay is gone). Nothing to
+  rewrite unless layout was tuned against the old numbers — item labels are one typography
+  step smaller, so fixed-width or `maxWidth`-capped controls need a visual check.
+
 ## Suggested commit boundary
 
 Manual fixes get their own commits, after the codemod phase — with the recommended
@@ -494,5 +596,6 @@ auto-commit flow the six codemod commits already exist by the time any M-section
 do not try to "group" a manual fix into a codemod step's commit (that would mean rewriting
 history and defeats per-step revertability). One commit per M-section (or per coherent
 group, e.g. M3+M4) keeps review and revert straightforward. Only in a non-auto-commit
-inline run, where nothing is committed until the end, may M1/M3/M4/M5 share a commit with
-their related codemod step.
+inline run, where nothing is committed until the end, may M1/M3/M4/M5/M9 share a commit with
+their related codemod step (M9 ↔ step ② `semantic-token-migration`, the same relationship as
+M1 ↔ ①, M3 ↔ ③/④, M4 ↔ ⑤, M5 ↔ ⑥).

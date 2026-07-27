@@ -7,13 +7,6 @@ module.exports = {
     icons: ['IconList'],
     variants: [
       {
-        key: 'Variant',
-        options: [
-          { label: 'Solid', value: {} },
-          { label: 'Outlined', value: {} },
-        ],
-      },
-      {
         key: 'Icon',
         options: [
           { label: 'False', value: {} },
@@ -22,18 +15,17 @@ module.exports = {
       },
     ],
     render: (value) => {
-      const variant = value['Variant'].toLowerCase();
-      const leadingContent = value['Icon'] === 'True' ? '<IconList />' : 'null';
+      const leadingIcon = value['Icon'] === 'True' ? '<IconList />' : 'null';
 
       return `
-        <SegmentedControl value="active" variant="${variant}" sx={{maxWidth: 335}}>
-          <SegmentedControlItem value="active" leadingContent={${leadingContent}}>
+        <SegmentedControl value="active" sx={{maxWidth: 335}}>
+          <SegmentedControlItem value="active" leadingIcon={${leadingIcon}}>
             Active
           </SegmentedControlItem>
-          <SegmentedControlItem value="inactive1" leadingContent={${leadingContent}}>
+          <SegmentedControlItem value="inactive1" leadingIcon={${leadingIcon}}>
             Inactive
           </SegmentedControlItem>
-          <SegmentedControlItem value="inactive2" leadingContent={${leadingContent}}>
+          <SegmentedControlItem value="inactive2" leadingIcon={${leadingIcon}}>
             Inactive
           </SegmentedControlItem>
         </SegmentedControl>
