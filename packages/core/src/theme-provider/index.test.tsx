@@ -6,6 +6,7 @@ import { buildThemeScript } from './cookie-theme-provider/theme-script/helpers';
 import {
   clearHostOnlyThemeCookie,
   getThemeCookie,
+  safeCookieAttribute,
   serializeThemeCookie,
 } from './cookie-theme-provider/helpers';
 import { useThemeContext } from './contexts';
@@ -56,6 +57,44 @@ describe('serializeThemeCookie', () => {
     expect(serializeThemeCookie('dark', { sameSite: 'none' })).toBe(
       'montage-theme=dark; Path=/; Max-Age=31536000; SameSite=None; Secure',
     );
+  });
+});
+
+describe('safeCookieAttribute', () => {
+  beforeEach(() => {
+    vi.spyOn(console, 'error').mockImplementation(() => {});
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
+  it('passes through a normal value', () => {
+    expect(safeCookieAttribute('path', '/app')).toBe('/app');
+    expect(safeCookieAttribute('domain', undefined)).toBeUndefined();
+  });
+
+  it.each([
+    ['semicolon', '/; Domain=evil.example.com'],
+    ['newline', `/app${String.fromCharCode(0x0a)}`],
+    ['null byte', `/app${String.fromCharCode(0x00)}`],
+    ['DEL', `/app${String.fromCharCode(0x7f)}`],
+  ])('rejects a value containing a %s', (_label, value) => {
+    expect(safeCookieAttribute('path', value)).toBeUndefined();
+    expect(console.error).toHaveBeenCalledOnce();
+  });
+
+  it('reports and drops an injected path instead of writing it', () => {
+    render(
+      <ThemeProvider
+        enableDarkMode
+        cookie={{ domain: '.wanted.co.kr', path: '/; Max-Age=0' }}
+      >
+        <ThemeConsumer />
+      </ThemeProvider>,
+    );
+
+    expect(console.error).toHaveBeenCalled();
   });
 });
 

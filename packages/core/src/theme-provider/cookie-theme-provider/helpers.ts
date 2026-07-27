@@ -20,6 +20,43 @@ const SAME_SITE_LABEL = {
 export const isThemeMode = (value: unknown): value is ThemeMode =>
   value === 'light' || value === 'dark' || value === 'system';
 
+const hasInvalidCookieChar = (value: string): boolean => {
+  for (let i = 0; i < value.length; i += 1) {
+    const code = value.charCodeAt(i);
+
+    // 0x3B is ';'; 0x00-0x1F and 0x7F are the CTLs RFC 6265 excludes
+    if (code === 0x3b || code <= 0x1f || code === 0x7f) {
+      return true;
+    }
+  }
+
+  return false;
+};
+
+/**
+ * Guard a value that gets concatenated into a cookie string.
+ *
+ * Cookie attributes are `;`-separated and the grammar has no escape mechanism,
+ * so a value containing `;` or a control character silently turns into extra
+ * attributes — widening `Domain`, zeroing `Max-Age`, and so on. Since nothing
+ * can escape them, reject at the boundary: report and fall back to the default
+ * rather than writing a malformed cookie.
+ */
+export const safeCookieAttribute = (
+  name: string,
+  value: string | undefined,
+): string | undefined => {
+  if (value !== undefined && hasInvalidCookieChar(value)) {
+    console.error(
+      `[Montage] ThemeProvider cookie.${name} must not contain ';' or control characters. The option was ignored.`,
+    );
+
+    return undefined;
+  }
+
+  return value;
+};
+
 export const getThemeCookie = (key: string): ThemeMode | undefined => {
   if (typeof document === 'undefined') {
     return undefined;

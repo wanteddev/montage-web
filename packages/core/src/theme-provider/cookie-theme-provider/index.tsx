@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { ThemeContextProvider } from '../contexts';
 
@@ -8,6 +8,7 @@ import {
   getSystemTheme,
   getThemeCookie,
   isThemeMode,
+  safeCookieAttribute,
   setThemeCookie,
 } from './helpers';
 import {
@@ -44,14 +45,25 @@ const CookieThemeProvider = ({
 }: CookieThemeProviderProps) => {
   const {
     key: cookieKeyOption,
-    domain: cookieDomain,
-    path: cookiePath,
+    domain: cookieDomainOption,
+    path: cookiePathOption,
     maxAge: cookieMaxAge,
     sameSite: cookieSameSite,
     secure: cookieSecure,
   } = cookie ?? {};
-  const cookieKey = cookieKeyOption ?? DEFAULT_THEME_COOKIE_KEY;
-  const resolvedCookiePath = cookiePath ?? DEFAULT_THEME_COOKIE_PATH;
+
+  // Memoized so an invalid option is reported once per value, not per render
+  const { cookieKey, cookieDomain, resolvedCookiePath } = useMemo(
+    () => ({
+      cookieKey:
+        safeCookieAttribute('key', cookieKeyOption) ?? DEFAULT_THEME_COOKIE_KEY,
+      cookieDomain: safeCookieAttribute('domain', cookieDomainOption),
+      resolvedCookiePath:
+        safeCookieAttribute('path', cookiePathOption) ??
+        DEFAULT_THEME_COOKIE_PATH,
+    }),
+    [cookieKeyOption, cookieDomainOption, cookiePathOption],
+  );
 
   const defaultTheme: ThemeMode = enableSystem ? 'system' : 'light';
 

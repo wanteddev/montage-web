@@ -570,6 +570,8 @@ const [value, setValue] = useState('');
 | `sameSite` | `'lax' \| 'strict' \| 'none'` | `'lax'`                           | `SameSite` 속성                       |
 | `secure`   | `boolean`                     | `sameSite === 'none'`일 때 `true` | `Secure` 속성                         |
 
+`key` / `domain` / `path`에 `;`나 제어 문자가 들어 있으면 해당 옵션은 무시되고 콘솔에 에러가 출력됩니다. 쿠키 속성은 `;`로 구분되는데 이스케이프 문법이 없어, 그대로 두면 의도치 않은 속성(`Domain` 확장, `Max-Age` 무효화 등)으로 해석되기 때문입니다.
+
 #### 서브도메인 간 테마 공유
 
 `cookie.domain`을 지정하면 해당 도메인의 모든 서브도메인이 테마를 공유합니다.
