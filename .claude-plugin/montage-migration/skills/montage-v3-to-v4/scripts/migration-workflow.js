@@ -99,6 +99,11 @@ const MANUAL_SCAN_SECTIONS = [
     title:
       'Semantic token follow-ups (primary.normal foreground usage, deleted accent tokens, group refs/root aliases, dynamic names, stylesheet dot-path strings)',
   },
+  {
+    id: 'M10',
+    title:
+      'ThemeProvider cookie storage (storageKey → cookie.key, direct next-themes usage, cookie.domain for subdomain sharing)',
+  },
 ]
 
 const STEP_RESULT_SCHEMA = {
@@ -223,6 +228,7 @@ manual:
   M7: pending
   M8: pending
   M9: pending
+  M10: pending
 ---`
 
 const completedSteps = args.completedSteps || []
@@ -285,7 +291,7 @@ Procedure (follow exactly, in order):
    from ${args.repoRoot}. The command is non-interactive when both the transform name and the path are passed. Capture the output; jscodeshift prints per-file errors — treat any "ERR" as a failure.
 7. If the codemod failed partway, NEVER leave a half-transformed tree (re-running a codemod over one is the documented corruption path for steps 5–6 — list-card-migration and form-control-migration — and excluding the partially-transformed files later is the WRONG fix): when autoCommit is true (tree was clean at step start), restore with \`git -C ${args.repoRoot} checkout -- <each target>\`; when autoCommit is false, restore the targets from the snapshot recorded in step 5 (\`git -C ${args.repoRoot} checkout <snapshot-hash> -- <each target>\` — this reverts only this step's changes; earlier steps' uncommitted work is inside the snapshot; if no hash was printed the tree was clean, so plain \`git checkout -- <each target>\` is equivalent). Move any excluded files back per step 8, then report status "failed" with the error.
 8. If files were moved out in step 4: move each back to its exact original path, re-run the path+hash command and diff against the recording from step 4 — must be empty (do NOT rely on a plain \`git status\` no-diff check — it is only meaningful when autoCommit is true; with autoCommit false the excluded files legitimately carry earlier steps' uncommitted changes and show as modified), and confirm the temp dir is empty. Do this BEFORE the state update and commit — a commit must never contain their deletions.
-9. Post-step verification: ${step.verify} Record findings in verifyFindings; apply only the fixes the verification instructions explicitly assign to this step — leave everything marked M1–M9 to the manual phase.
+9. Post-step verification: ${step.verify} Record findings in verifyFindings; apply only the fixes the verification instructions explicitly assign to this step — leave everything marked M1–M10 to the manual phase.
 10. Update the state file: set steps.${step.id} to "completed". If the file is missing, recreate it from the template below FIRST — but set every step in this list to "completed" before writing (they all ran, either in earlier sessions or earlier in THIS run; an all-pending file would trigger corrupting re-runs on a later resume): ${stepsDoneByNow}. Report the recreation AND the recreated targets list in verifyFindings — the targets come from this invocation's args, not the lost original, so the orchestrator must confirm them with the user. Ensure the file's path is present in .git/info/exclude (append only if missing) so it never enters commits. Template:
 ${STATE_FILE_TEMPLATE}
 11. If autoCommit is true: \`git -C ${args.repoRoot} add -A && git -C ${args.repoRoot} commit -m "chore(montage): v4 codemod — ${step.id}"\` and record the commit hash. The state file is excluded via .git/info/exclude, so it must not appear in the commit.

@@ -420,7 +420,7 @@ subpath imports for `.FormControl` member usages.
 
 ## After all 6 steps
 
-Proceed to `manual-migrations.md` (all M-sections, M1–M9), then final verification:
+Proceed to `manual-migrations.md` (all M-sections, M1–M10), then final verification:
 
 1. All leftover greps clean (see each step + M-sections).
 2. Dependency install with the renamed `@montage-ui/*` packages succeeded.

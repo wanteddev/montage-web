@@ -1,46 +1,29 @@
-import { ThemeProvider as NextThemeProvider } from 'next-themes';
 import { Global, ThemeProvider as WdsThemeProvider } from '@montage-ui/engine';
 
 import useThemeControl from '../hooks/use-theme-control';
 
+import CookieThemeProvider from './cookie-theme-provider';
 import StoreProvider from './store-provider';
 
+import type { ThemeCookieOptions, ThemeProviderProps } from './types';
 import type { ComponentPropsWithoutRef, PropsWithChildren } from 'react';
-
-type Props = PropsWithChildren<{
-  enableDarkMode?: boolean;
-  /** Disable all CSS transitions when switching themes */
-  disableTransitionOnChange?: boolean | undefined;
-  /** Key used to store theme setting in localStorage */
-  storageKey?: string | undefined;
-  /** Use default global style */
-  disableDefaultGlobalStyle?: boolean | undefined;
-}> &
-  Pick<ComponentPropsWithoutRef<typeof WdsThemeProvider>, 'provider'>;
 
 const ThemeProvider = ({
   children,
   enableDarkMode,
   disableTransitionOnChange = false,
-  storageKey = 'theme',
+  cookie,
   disableDefaultGlobalStyle = false,
   provider,
-}: Props) => {
-  // https://github.com/pacocoursey/next-themes/issues/387#issuecomment-4181891723
-  const scriptProps =
-    typeof window === 'undefined'
-      ? undefined
-      : ({ type: 'application/json' } as const);
-
+  nonce,
+}: ThemeProviderProps) => {
   return (
-    <NextThemeProvider
-      scriptProps={scriptProps}
-      themes={enableDarkMode ? ['light', 'dark'] : ['light']}
+    <CookieThemeProvider
       enableSystem={enableDarkMode || false}
-      enableColorScheme
       disableTransitionOnChange={disableTransitionOnChange}
       forcedTheme={enableDarkMode ? undefined : 'light'}
-      storageKey={storageKey}
+      cookie={cookie}
+      nonce={nonce}
     >
       <PrivateThemeProvider
         disableDefaultGlobalStyle={disableDefaultGlobalStyle}
@@ -48,7 +31,7 @@ const ThemeProvider = ({
       >
         {children}
       </PrivateThemeProvider>
-    </NextThemeProvider>
+    </CookieThemeProvider>
   );
 };
 
@@ -80,3 +63,4 @@ const PrivateThemeProvider = ({
 };
 
 export default ThemeProvider;
+export type { ThemeCookieOptions, ThemeProviderProps };
