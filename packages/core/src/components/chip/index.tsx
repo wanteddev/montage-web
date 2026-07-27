@@ -21,6 +21,7 @@ const Chip = forwardRef(
       variant = 'solid',
       disabled = false,
       disableInteraction = false,
+      iconOnly,
       leadingContent,
       trailingContent,
       size = 'medium',
@@ -46,10 +47,22 @@ const Chip = forwardRef(
       }
 
       if (variant === 'outlined') {
-        return 'semantic.surface.brand.primary';
+        return 'semantic.foreground.brand.primary';
       }
 
       return 'semantic.foreground.neutral.inverse';
+    }, [active, variant]);
+
+    const interactionVariant = useMemo(() => {
+      if (!active) {
+        return 'light';
+      }
+
+      if (variant === 'outlined') {
+        return 'normal';
+      }
+
+      return 'strong';
     }, [active, variant]);
 
     const overrideColor = useMemo(() => {
@@ -59,22 +72,24 @@ const Chip = forwardRef(
     return (
       <WithInteraction
         color={interactionColor}
-        variant={active ? 'normal' : 'light'}
+        variant={interactionVariant}
         disabled={disableInteraction || disabled}
       >
         <Box
           as={as || 'button'}
-          aria-labelledby={id}
+          aria-labelledby={iconOnly ? undefined : id}
           role="button"
           type="button"
           ref={ref}
           disabled={disabled}
+          data-component="chip"
           aria-disabled={disabled}
           data-active={active}
           aria-pressed={active}
           {...props}
           sx={[
             chipStyle({
+              iconOnly,
               overrideColor,
               active,
               variant,
@@ -88,9 +103,15 @@ const Chip = forwardRef(
             props.sx,
           ]}
         >
-          {Boolean(leadingContent) && leadingContent}
-          <span id={id}>{children}</span>
-          {Boolean(trailingContent) && trailingContent}
+          {iconOnly ? (
+            children
+          ) : (
+            <>
+              {Boolean(leadingContent) && leadingContent}
+              <span id={id}>{children}</span>
+              {Boolean(trailingContent) && trailingContent}
+            </>
+          )}
         </Box>
       </WithInteraction>
     );

@@ -18,6 +18,7 @@ const ICON_ONLY_BUTTON_COMPONENTS = [
   'Button',
   'ActionAreaButton',
   'FallbackViewButton',
+  'Chip',
 ];
 
 const TARGET_COMPONENTS = [

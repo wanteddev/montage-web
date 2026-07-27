@@ -63,6 +63,13 @@ run({
         <TopNavigationButton aria-label="close" />
       `,
     },
+    {
+      code: `
+        import { Chip } from '@montage-ui/core';
+
+        <Chip iconOnly aria-label="close" />
+      `,
+    },
   ],
   invalid: [
     {
@@ -118,6 +125,14 @@ run({
         import { TopNavigationButton } from '@montage-ui/core';
 
         <TopNavigationButton />
+      `,
+      errors: 1,
+    },
+    {
+      code: `
+        import { Chip } from '@montage-ui/core';
+
+        <Chip iconOnly />
       `,
       errors: 1,
     },
