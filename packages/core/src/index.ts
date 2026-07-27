@@ -1,6 +1,7 @@
 export * from './components';
 export * from './hooks';
 export { default as ThemeProvider } from './theme-provider';
+export type { ThemeCookieOptions, ThemeProviderProps } from './theme-provider';
 export * from './utils';
 export { Slot, Slottable } from '@radix-ui/react-slot';
 export { composeRefs, useComposedRefs } from '@radix-ui/react-compose-refs';

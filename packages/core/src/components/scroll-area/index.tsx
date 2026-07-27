@@ -4,6 +4,7 @@ import { Box } from '@montage-ui/engine';
 
 import { WithInteraction } from '../with-interaction';
 import { FlexBox } from '../flex-box';
+import { useThemeContext } from '../../theme-provider/contexts';
 
 import {
   scrollAreaStyle,
@@ -72,12 +73,15 @@ const ScrollArea = forwardRef<
       ),
     };
 
+    const { nonce } = useThemeContext('ScrollArea');
+
     return (
       <Box
         as={ScrollAreaPrimitive.Root}
         ref={ref}
         type={type}
         scrollHideDelay={scrollHideDelay}
+        nonce={nonce}
         {...props}
         sx={[scrollAreaStyle, props.sx]}
       >

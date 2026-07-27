@@ -543,6 +543,102 @@ const [value, setValue] = useState('');
 
 하단 영역의 DOM 구조가 재구성되었고, character counter 관련 `data-role`(`text-area-content-character-counter-length` / `-divider` / `-max-length`)이 제거되었습니다. 해당 `data-role`이나 `[data-role='text-area-bottom-area']` 내부 구조를 직접 타겟해 커스텀했다면 새 구조에 맞게 수정해야 합니다.
 
+### ThemeProvider 테마 저장소 변경 (localStorage → Cookie)
+
+`ThemeProvider`가 `next-themes` 의존을 걷어내고 자체 쿠키 기반 구현으로 교체되었습니다. localStorage는 origin 단위로 격리되어 서브도메인 간 테마 공유가 불가능했기 때문입니다. 쿠키에 저장하되 읽기는 기존과 동일하게 first paint 이전 blocking inline script에서 처리하므로, SSG/SSR 렌더링 전략과 no-flash 동작은 그대로입니다.
+
+> **기존 사용자의 테마 선택은 배포 후 최초 1회 초기화됩니다.** localStorage 값을 읽어오는 폴백은 제공하지 않습니다. `enableDarkMode` 사용 시 시스템 테마로, 그 외에는 light로 시작합니다.
+
+#### `storageKey` prop 제거 → `cookie` 옵션
+
+저장 키를 포함한 쿠키 속성을 `cookie` 객체로 받습니다. 기본 저장 키도 `theme`에서 `montage-theme`로 변경되었습니다.
+
+```tsx
+// AS-IS
+<ThemeProvider enableDarkMode storageKey="app-theme" />
+
+// TO-BE
+<ThemeProvider enableDarkMode cookie={{ key: 'app-theme' }} />
+```
+
+| 옵션       | 타입                          | 기본값                            | 설명                                  |
+| ---------- | ----------------------------- | --------------------------------- | ------------------------------------- |
+| `key`      | `string`                      | `'montage-theme'`                 | 쿠키 이름                             |
+| `domain`   | `string`                      | 미설정(host-only)                 | `Domain` 속성. 서브도메인 공유에 사용 |
+| `path`     | `string`                      | `'/'`                             | `Path` 속성                           |
+| `maxAge`   | `number`                      | `31536000` (1년)                  | `Max-Age` 속성(초)                    |
+| `sameSite` | `'lax' \| 'strict' \| 'none'` | `'lax'`                           | `SameSite` 속성                       |
+| `secure`   | `boolean`                     | `sameSite === 'none'`일 때 `true` | `Secure` 속성                         |
+
+잘못된 옵션 값은 무시되고 콘솔에 에러가 출력된 뒤 기본값으로 폴백합니다.
+
+- `domain` / `path` — `;`나 제어 문자를 거부합니다. 쿠키 속성은 `;`로 구분되는데 이스케이프 문법이 없어, 그대로 두면 의도치 않은 속성(`Domain` 확장, `Max-Age` 무효화 등)으로 해석되기 때문입니다.
+- `key` — RFC 6265의 cookie-name 토큰만 허용합니다(영숫자와 ``!#$%&'*+-.^_`|~``). 특히 `=`가 들어가면 `key: 'theme=x'`가 `theme=x=dark`로 직렬화되어 브라우저에는 **`theme`이라는 다른 이름으로 저장**되고(무관한 `theme` 쿠키를 덮어쓸 수 있습니다), 읽을 때는 `theme=x`를 찾으므로 영영 매칭되지 않습니다.
+
+#### 서브도메인 간 테마 공유
+
+`cookie.domain`을 지정하면 해당 도메인의 모든 서브도메인이 테마를 공유합니다.
+
+```tsx
+// www.example.com / app.example.com / help.example.com이 테마를 공유
+<ThemeProvider enableDarkMode cookie={{ domain: '.example.com' }} />
+```
+
+`domain`을 지정하지 않으면 `Domain` 속성 자체를 설정하지 않아 현재 호스트에서만 읽히는 host-only 쿠키가 됩니다. 단일 호스트 앱에서는 이게 올바른 기본값입니다. 기존 localStorage와 마찬가지로 서브도메인에는 공유되지 않지만, 범위가 완전히 같지는 않습니다 — 쿠키는 **포트를 구분하지 않고**(localStorage는 origin 단위라 `:3000`과 `:4000`이 별도 저장소였습니다), `path` 스코프를 가지며, 해당 호스트로 가는 모든 요청에 함께 전송됩니다. 값은 반드시 등록 가능한 도메인이어야 합니다 — `co.kr`, `com` 같은 public suffix를 지정하면 브라우저가 쿠키를 거부합니다.
+
+##### 주의: 같은 루트 도메인의 앱은 `key`와 `domain`을 통일해야 합니다
+
+host-only 쿠키와 `Domain`이 붙은 쿠키는 **이름이 같아도 서로 다른 별개의 쿠키로 공존**합니다. 그런데 `document.cookie`에는 `Domain` 속성이 노출되지 않아(읽을 때는 `key=value`만 돌아옵니다) 읽는 쪽에서 둘을 구분할 방법이 없습니다. 순서로 유추할 수도 없습니다 — RFC 6265 §4.2.2는 같은 이름의 쿠키가 둘 이상일 때 **순서에 의존하지 말라고 명시**하고, 실제 동작도 브라우저마다 다릅니다(Chrome은 값이 바뀐 쿠키를 맨 뒤로 재배치하므로 앞에서 읽으면 항상 낡은 값이 잡히고, Safari는 더 구체적인 쿠키를 먼저 보낸다는 보고가 있습니다). 즉 낡은 쿠키가 새 쿠키를 가려 어느 값이 적용될지 예측할 수 없는 상태가 됩니다.
+
+증상은 "테마가 저장되지 않음"입니다 — 토글하면 화면은 바뀌는데 새로고침하면 되돌아가고, 탭을 다시 활성화해도 되돌아갑니다. 에러나 경고는 발생하지 않습니다.
+
+`ThemeProvider`는 `domain`이 설정된 경우 **쿠키를 읽기 전에 같은 이름의 host-only 쿠키를 자동으로 제거**하므로, host-only로 먼저 배포한 뒤 나중에 `domain`을 추가하는 경우는 별도 조치 없이 정리됩니다. 다만 이 정리 과정에서 host-only 쿠키에만 값이 있던 사용자는 테마가 한 번 초기화됩니다.
+
+자동 정리로 해결되지 않는 케이스가 하나 있습니다. **같은 루트 도메인 아래의 앱들이 서로 다른 설정을 쓰는 경우**입니다.
+
+```tsx
+// help.wanted.co.kr — domain 지정
+<ThemeProvider enableDarkMode cookie={{ domain: '.wanted.co.kr' }} />
+
+// www.wanted.co.kr — domain 누락 (문제)
+<ThemeProvider enableDarkMode />
+```
+
+이때 www에는 자신이 만든 host-only 쿠키와 help가 만든 도메인 쿠키가 공존하는데, www는 `domain`을 쓰지 않으므로 host-only 쿠키를 지울 근거가 없습니다. 라이브러리 차원에서 막을 수 없으니 **한 루트 도메인을 공유하는 앱들은 `key`와 `domain`을 반드시 동일하게 맞춰야 합니다.** `path`도 마찬가지입니다(Path가 다르면 더 긴 Path 쿠키가 우선합니다).
+
+#### `next-themes` 직접 사용 코드
+
+v3에서는 `ThemeProvider`가 내부적으로 next-themes의 Provider를 렌더했기 때문에 소비자 코드에서 `next-themes`의 `useTheme`을 직접 호출해도 동작했습니다. v4에서는 이 연결이 끊기며, **에러 없이 기본값(`undefined`)만 반환**하므로 조용히 깨집니다.
+
+다만 `next-themes` 사용처를 일괄 치환하면 안 됩니다. 해당 `useTheme()` 호출이 **어느 Provider에 묶여 있었는지** 먼저 확인하세요.
+
+- **Montage `ThemeProvider`에 묶여 있던 호출** — `useThemeControl`로 교체하고 필드를 매핑합니다.
+- **앱이 자체적으로 렌더하는 `<NextThemeProvider>`에 묶인 호출** — 그대로 두세요. v4에서도 정상 동작하며 `next-themes` 의존성도 유지해야 합니다.
+
+```tsx
+// AS-IS
+import { useTheme } from 'next-themes';
+
+const { resolvedTheme, theme, setTheme } = useTheme();
+
+// TO-BE
+import { useThemeControl } from '@montage-ui/core';
+
+// theme: 실제 적용된 'light' | 'dark'
+// themeOriginValue: 사용자가 선택한 'light' | 'dark' | 'system' | undefined
+const { theme, themeOriginValue, setTheme } = useThemeControl();
+```
+
+`setTheme`은 v4에서 `'light' | 'dark' | 'system'` 세 값만 받습니다. 독립적인 `next-themes` 사용처가 하나도 남지 않은 경우에만 `package.json`에서 의존성을 제거하세요.
+
+#### `nonce` prop 추가
+
+CSP를 사용하는 프로젝트를 위해 `nonce` prop이 추가되었습니다. 테마 inline script와 ScrollArea가 주입하는 inline style에 적용됩니다.
+
+```tsx
+<ThemeProvider enableDarkMode nonce={nonce} />
+```
+
 ## 3.0.0 (2025-11-12)
 
 ### Button
