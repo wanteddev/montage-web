@@ -407,6 +407,75 @@ and any `-rgb` suffix carried over unchanged. `semantic.static.*`,
 | `line.status.cautionary.normal`                              | `line.cautionary.primary`                                                                       |
 | `line.status.positive.normal`                                | `line.positive.primary`                                                                         |
 
+## M10. ThemeProvider theme storage moved to cookie
+
+`ThemeProvider` dropped its `next-themes` dependency for an in-house cookie-backed
+implementation (localStorage is origin-scoped, so themes could not be shared across
+subdomains). Reading still happens in a blocking inline script before first paint, so
+SSG/SSR strategy and the no-flash behavior are unchanged.
+
+**No source change is required for the common case** — `<ThemeProvider enableDarkMode />`
+keeps working as-is. The items below are what does break, plus one new opportunity.
+
+- **`storageKey` prop removed** → `cookie={{ key }}`. The default storage key also changed
+  from `theme` to `montage-theme`.
+  Scan **[zero]**: `storageKey`. Heuristic — a consumer's own storage utility can share the
+  name; assess each hit and only rewrite the one passed to Montage's `ThemeProvider`.
+
+  ```tsx
+  // AS-IS
+  <ThemeProvider enableDarkMode storageKey="app-theme" />
+  // TO-BE
+  <ThemeProvider enableDarkMode cookie={{ key: 'app-theme' }} />
+  ```
+
+- **Direct `next-themes` usage breaks silently.** In v3 `ThemeProvider` rendered
+  next-themes' provider internally, so calling next-themes' `useTheme` from consumer code
+  worked. In v4 nothing connects them: the hook throws no error and returns `undefined`
+  values, so this fails at runtime with no type error and no console warning. Replace with
+  `useThemeControl` from `@montage-ui/core` (`theme` = resolved `'light' | 'dark'`,
+  `themeOriginValue` = the user's `'light' | 'dark' | 'system' | undefined` choice).
+  Scan **[zero]**: `next-themes` (covers imports and the `package.json` dependency — drop
+  the dependency if nothing else uses it).
+
+  ```tsx
+  // AS-IS
+  import { useTheme } from 'next-themes';
+  const { resolvedTheme, theme, setTheme } = useTheme();
+  // TO-BE
+  import { useThemeControl } from '@montage-ui/core';
+  const { theme, themeOriginValue, setTheme } = useThemeControl();
+  ```
+
+- **Cross-subdomain sharing is now possible** via `cookie={{ domain: '.example.com' }}`.
+  Omitting `domain` leaves the attribute unset (host-only cookie — same scope as the old
+  localStorage), which is the correct default for a single-host app. The value must be a
+  registrable domain; a public suffix (`co.kr`, `com`) makes the browser reject the cookie.
+  Scan **[decision]**: `<ThemeProvider` — per app, decide whether it should share a theme
+  with sibling subdomains, and whether to pass `nonce` (new prop; applies to the theme
+  inline script and ScrollArea's injected inline styles) if the project uses CSP.
+
+  **When `domain` is adopted, every app under that root domain must use the SAME `key`,
+  `domain`, and `path`.** A host-only cookie and a `Domain=`-scoped one of the same name
+  are separate cookies that coexist, `document.cookie` exposes no `Domain` attribute to
+  tell them apart, and the order is no help either — RFC 6265 §4.2.2 says not to rely on it
+  when two cookies share a name, and browsers differ (Chrome moves a cookie to the end when
+  its value changes, so reading the first entry always yields the stale one; Safari has been
+  reported to put the more specific cookie first). The symptom is "the theme does not
+  persist": toggling repaints, reloading reverts, refocusing the tab reverts — no error, no
+  warning.
+  `ThemeProvider` deletes a same-named host-only cookie before reading whenever `domain`
+  is set, so a host-only-first → `domain`-later rollout self-heals (at the cost of one
+  theme reset for users who only had the host-only cookie). It cannot heal a MIXED setup —
+  an app left without `domain` has no basis to delete its own host-only cookie while a
+  sibling's domain cookie shadows it. Verify the configs match across the whole subdomain
+  family; this is a review item, not something a scan can catch.
+
+- **End users' stored theme resets once** on the release that ships v4 — no localStorage
+  fallback is read. Nothing to fix in code; call it out in the release notes and expect
+  the first load after deploy to follow the system theme (or light when `enableDarkMode`
+  is off).
+
 ## Suggested commit boundary
 
 Manual fixes get their own commits, after the codemod phase — with the recommended
