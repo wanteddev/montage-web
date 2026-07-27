@@ -42,7 +42,7 @@ Perform all checks before changing anything:
    - Only `@montage-ui/*` 4.x present and no state file → likely already migrated; run
      the leftover greps from `references/codemod-steps.md` plus every M-section scan
      pattern from `references/manual-migrations.md` (steps and M-sections added after a
-     consumer finished migrating — e.g. step ② `semantic-token-migration` and M9 —
+     consumer finished migrating — e.g. step ② `semantic-token-migration`, M9, and M10 —
      surface only through these scans) and report instead of migrating.
    - BOTH `@wanteddev/wds*` and `@montage-ui/*` present → the project is partially
      hand-migrated. Run the step ⑤/⑥ pre-checks from `references/codemod-steps.md` before
@@ -53,7 +53,8 @@ Perform all checks before changing anything:
    exists, this is a resume; apply these rules:
    - **Resume.** Skip every step marked `completed`, continue from the first `pending`
      step. A step or manual key missing from an older state file (e.g.
-     `semantic-token-migration` or `M9`, added after the file was created) is `pending` —
+     `semantic-token-migration`, `M9`, or `M10`, added after the file was created) is
+     `pending` —
      add it to the file and run it. `semantic-token-migration` sits at position ② BEFORE
      steps an older migration may already have completed: it still runs, and running it
      after the later steps is safe (its token namespace is disjoint from every other
@@ -155,6 +156,7 @@ manual:
   M7: pending
   M8: pending
   M9: pending
+  M10: pending
 ---
 ```
 
@@ -191,7 +193,7 @@ announced when this skill loaded. ALWAYS pass `codemodVersion` as the concrete v
 resolved in preflight (first run) or read from the state file (resume) — the script
 rejects dist-tags, since the value is recorded in the state file and a dist-tag would
 re-resolve on resume and break the same-build guarantee. The workflow returns per-step results plus a
-`manualScan` report (assessed occurrences for manual steps M1–M9).
+`manualScan` report (assessed occurrences for manual steps M1–M10).
 
 - If the workflow reports `aborted`, surface the failed step's error to the user, fix the
   cause, and re-run the same Workflow invocation with `completedSteps` refreshed from the
@@ -250,7 +252,7 @@ where double-runs happen.
 
 ## Step 2 — Manual migrations
 
-Work through `references/manual-migrations.md` (M1–M9) using the workflow's `manualScan`
+Work through `references/manual-migrations.md` (M1–M10) using the workflow's `manualScan`
 hits as the worklist. On a resume where all 6 codemod steps are already `completed` but no
 workflow ran this session, there is no `manualScan` report — rebuild the worklist first:
 re-run the same Workflow invocation with `completedSteps` listing all 6 (every step is
@@ -269,6 +271,16 @@ both together when an M-section changes):
   uncontrolled TextArea to a controlled one and moving the counter UI from inside the
   field to the form-control message line — confirm per occurrence, and whether any
   TextArea should adopt `size="medium"`.
+- **M10 (ThemeProvider cookie storage):** whether the app should share its theme with
+  sibling subdomains (`cookie.domain`) or stay host-only, and whether to pass `nonce` under
+  CSP. `storageKey` → `cookie.key` is mechanical. Direct `next-themes` `useTheme` calls are
+  NOT — they break silently (no error, no type error), but only the ones that resolved
+  against Montage's provider may be rewritten; check each call's provider context, then map
+  `resolvedTheme` → `theme` and the raw choice → `themeOriginValue`. Calls bound to the
+  app's own `<NextThemeProvider>` stay as they are, dependency included.
+  End users' stored theme resets once on this release; that is expected, not a defect.
+  If `domain` is adopted, confirm every app under that root domain uses the same `key` /
+  `domain` / `path` — a mixed setup shadows the shared cookie and no scan catches it.
 - **M9 (Semantic tokens):** which `surface.*` token replaces a deleted accent token that
   painted a background — the codemod's `foreground.*` replacement is the wrong intent
   there, and the replacement values differ from the originals (visual change), so decide
@@ -308,7 +320,7 @@ Mark each M-section `completed` in the state file as it finishes.
 
 - **`references/codemod-steps.md`** — the 6 codemods in order: exact commands,
   idempotency analysis, pre-checks, post-step verification greps, hazards.
-- **`references/manual-migrations.md`** — manual migrations M1–M9 with scan patterns and
+- **`references/manual-migrations.md`** — manual migrations M1–M10 with scan patterns and
   fix rules.
 - **`scripts/migration-workflow.js`** — Workflow-tool script for the codemod phase; also
   the canonical per-step procedure for inline fallback execution.
