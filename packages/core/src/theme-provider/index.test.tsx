@@ -7,6 +7,7 @@ import {
   clearHostOnlyThemeCookie,
   getThemeCookie,
   safeCookieAttribute,
+  safeCookieKey,
   serializeThemeCookie,
 } from './cookie-theme-provider/helpers';
 import { useThemeContext } from './contexts';
@@ -67,6 +68,8 @@ describe('safeCookieAttribute', () => {
 
   afterEach(() => {
     vi.restoreAllMocks();
+    clearThemeCookie();
+    document.documentElement.removeAttribute('data-theme');
   });
 
   it('passes through a normal value', () => {
@@ -82,6 +85,37 @@ describe('safeCookieAttribute', () => {
   ])('rejects a value containing a %s', (_label, value) => {
     expect(safeCookieAttribute('path', value)).toBeUndefined();
     expect(console.error).toHaveBeenCalledOnce();
+  });
+
+  it('accepts a valid cookie name', () => {
+    expect(safeCookieKey('montage-theme')).toBe('montage-theme');
+    expect(safeCookieKey('__Host-theme')).toBe('__Host-theme');
+    expect(safeCookieKey(undefined)).toBeUndefined();
+  });
+
+  it.each([
+    ['equals sign', 'theme=other'],
+    ['whitespace', 'my theme'],
+    ['quote', 'theme"'],
+    ['empty string', ''],
+    ['semicolon', 'theme;x'],
+  ])('rejects a cookie key containing %s', (_label, value) => {
+    expect(safeCookieKey(value)).toBeUndefined();
+    expect(console.error).toHaveBeenCalledOnce();
+  });
+
+  it('falls back to the default key when cookie.key is invalid', () => {
+    render(
+      <ThemeProvider enableDarkMode cookie={{ key: 'theme=other' }}>
+        <ThemeConsumer />
+      </ThemeProvider>,
+    );
+
+    fireEvent.click(screen.getByRole('button'));
+
+    expect(console.error).toHaveBeenCalled();
+    // written under the default key, not the malformed one
+    expect(getThemeCookie('montage-theme')).toBe('dark');
   });
 
   it('reports and drops an injected path instead of writing it', () => {

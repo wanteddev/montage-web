@@ -34,6 +34,32 @@ const hasInvalidCookieChar = (value: string): boolean => {
 };
 
 /**
+ * RFC 6265 `cookie-name` is an RFC 2616 token. The set already excludes `;` and
+ * the CTLs, so this is a strictly stronger check than {@link safeCookieAttribute}
+ * — `=`, whitespace and quotes are rejected too, and so is an empty name.
+ *
+ * `=` matters most: `key: 'theme=x'` serializes to `theme=x=dark`, which the
+ * browser stores under the name `theme` — silently clobbering an unrelated
+ * `theme` cookie — while the reader keeps looking for `theme=x` and never
+ * matches.
+ */
+const COOKIE_NAME_PATTERN = /^[!#$%&'*+\-.^_`|~0-9A-Za-z]+$/;
+
+export const safeCookieKey = (
+  value: string | undefined,
+): string | undefined => {
+  if (value !== undefined && !COOKIE_NAME_PATTERN.test(value)) {
+    console.error(
+      '[Montage] ThemeProvider cookie.key must be a valid cookie name (RFC 6265 token). The option was ignored.',
+    );
+
+    return undefined;
+  }
+
+  return value;
+};
+
+/**
  * Guard a value that gets concatenated into a cookie string.
  *
  * Cookie attributes are `;`-separated and the grammar has no escape mechanism,

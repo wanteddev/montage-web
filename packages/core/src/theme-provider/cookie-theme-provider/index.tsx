@@ -9,6 +9,7 @@ import {
   getThemeCookie,
   isThemeMode,
   safeCookieAttribute,
+  safeCookieKey,
   setThemeCookie,
 } from './helpers';
 import {
@@ -55,8 +56,7 @@ const CookieThemeProvider = ({
   // Memoized so an invalid option is reported once per value, not per render
   const { cookieKey, cookieDomain, resolvedCookiePath } = useMemo(
     () => ({
-      cookieKey:
-        safeCookieAttribute('key', cookieKeyOption) ?? DEFAULT_THEME_COOKIE_KEY,
+      cookieKey: safeCookieKey(cookieKeyOption) ?? DEFAULT_THEME_COOKIE_KEY,
       cookieDomain: safeCookieAttribute('domain', cookieDomainOption),
       resolvedCookiePath:
         safeCookieAttribute('path', cookiePathOption) ??
