@@ -53,7 +53,7 @@ export const useHexColor = (color: string) => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setHex(getHexValue());
 
-    // 테마 전환은 next-themes가 <html> 속성을 바꾸는 방식이고 그 시점이 이 effect보다
+    // 테마 전환은 ThemeProvider가 <html> 속성을 바꾸는 방식이고 그 시점이 이 effect보다
     // 늦으므로, 속성 변경을 직접 감지해 CSS 변수에서 hex를 다시 계산한다
     const observer = new MutationObserver(() => {
       setHex(getHexValue());

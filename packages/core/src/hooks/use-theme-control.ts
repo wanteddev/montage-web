@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
-import { useTheme } from 'next-themes';
+
+import { useThemeContext } from '../theme-provider/contexts';
 
 import type { Dispatch, SetStateAction } from 'react';
 
@@ -15,7 +16,7 @@ const useThemeControl: () => {
     forcedTheme,
     theme: themeOriginValue,
     setTheme,
-  } = useTheme();
+  } = useThemeContext('useThemeControl');
 
   const theme = useMemo(() => {
     if (!resolvedTheme) {
@@ -33,11 +34,7 @@ const useThemeControl: () => {
 
   return {
     theme,
-    themeOriginValue: themeOriginValue as
-      | 'light'
-      | 'dark'
-      | 'system'
-      | undefined,
+    themeOriginValue,
     setTheme,
   };
 };
