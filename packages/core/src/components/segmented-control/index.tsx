@@ -236,7 +236,7 @@ const SegmentedControlItem = forwardRef<any, SegmentedControlItemProps>(
           role="radio"
           aria-disabled={disabled}
           aria-checked={active}
-          aria-labelledby={id}
+          aria-labelledby={iconOnly ? undefined : id}
           {...props}
           disabled={disabled}
           data-component="segmented-control-item"

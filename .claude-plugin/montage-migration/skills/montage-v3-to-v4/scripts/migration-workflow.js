@@ -343,7 +343,7 @@ Report structured data only, no prose.`,
           exists: { type: 'boolean' },
           targetsMatch: { type: 'boolean' },
           stateTargets: { type: 'array', items: { type: 'string' } },
-          autoCommit: { type: 'string' },
+          autoCommit: { type: ['boolean', 'string'] },
           codemodVersion: { type: 'string' },
           stepMarks: { type: 'object', additionalProperties: { type: 'string' } },
           manualMarks: { type: 'object', additionalProperties: { type: 'string' } },
@@ -353,12 +353,27 @@ Report structured data only, no prose.`,
     },
   )
 
-  if (!stateCheck || !stateCheck.exists || !stateCheck.targetsMatch) {
+  // scan-only is legitimate ONLY when the state file itself marks all 6 steps
+  // completed — a stale completedSteps arg alone must not skip a pending codemod.
+  const notCompleted = stateCheck?.stepMarks
+    ? CODEMOD_STEPS.map((s) => s.id).filter(
+        (id) => stateCheck.stepMarks[id] !== 'completed',
+      )
+    : null
+
+  if (
+    !stateCheck ||
+    !stateCheck.exists ||
+    !stateCheck.targetsMatch ||
+    (notCompleted && notCompleted.length > 0)
+  ) {
     stateCheckError = !stateCheck
       ? 'state-file verification agent returned nothing'
       : !stateCheck.exists
         ? `state file missing at ${args.stateFile} — reconcile with the user before recreating it; the recorded targets/autoCommit/codemodVersion cannot be recovered from args`
-        : `state file targets ${JSON.stringify(stateCheck.stateTargets)} disagree with the invocation targets ${targets} — surface both lists to the user and follow the target-lock/addition path in SKILL.md preflight item 1`
+        : !stateCheck.targetsMatch
+          ? `state file targets ${JSON.stringify(stateCheck.stateTargets)} disagree with the invocation targets ${targets} — surface both lists to the user and follow the target-lock/addition path in SKILL.md preflight item 1`
+          : `completedSteps claims all 6 steps are done, but the state file marks ${JSON.stringify(notCompleted)} as not completed — a stale completedSteps list would silently skip pending codemods; refresh it from the state file and re-run`
     aborted = 'state-file-verification'
     log(`Aborting before the scans — ${stateCheckError}`)
   } else {
@@ -419,7 +434,7 @@ Procedure (follow exactly, in order):
 1. Read the state file. If it does NOT exist, report status "failed" with reason "state file missing at step start" — do not assume pending; SKILL.md preflight creates the file before step 1, so a missing file means lost migration state that the orchestrator must reconcile with the user. If it marks steps.${step.id} as "completed", do NOTHING and report status "skipped". This is critical: running a codemod twice corrupts code (e.g. the form-control codemod renames FormControl → FormControlField on a second run). Also compare the state file's \`targets\` list with the targets above: on any mismatch, report status "failed" with BOTH lists — targets recorded in the state file are locked; a different list means completed steps never ran on the new directories (silent under-migration) or would re-run on migrated ones (corruption).
 2. If autoCommit is true, run \`git -C ${args.repoRoot} status --porcelain\` and confirm the working tree is clean apart from the state file. If it is dirty, report status "failed" with the reason — do not run the codemod on top of unrelated changes. If autoCommit is false, still record \`git status --porcelain\` now: the dirty set should consist of earlier completed steps' transform output (plus the state file). If ANY dirty path is not explainable by a completed step's rename surface, report status "failed" with those paths and do NOT run the codemod — the decision belongs to the user (SKILL.md preflight item 3), and running would transform unrelated edits and entangle them with migration changes beyond what the snapshot restore can separate.
 3. Pre-check: ${step.precheck}
-4. If the excluded-files list above is non-empty (only ever populated for form-control-migration), move those files out of the tree NOW — after step 2 has run (the clean-tree check when autoCommit is true, the status recording otherwise) — following the exclusion procedure in codemod-steps.md: record each file's path + content hash first into a temp file (\`echo "$f $(git hash-object "$f")"\` per file, per the procedure's step 1), then \`EXCL=$(mktemp -d)\`, run from the repo root with the repo-relative paths as listed, verify $EXCL is empty first. Before touching anything, verify EVERY listed path exists (\`[ -f "$f" ]\`) — a stale entry (renamed file, wrong-relative path, typo) makes \`git hash-object\` and \`mv\` fail while the codemod still runs over a hand-migrated file, the corruption path; report status "failed" with the missing paths instead. After the move-out, \`find "$EXCL" -type f | wc -l\` must equal the list length, or report "failed". ALSO persist a recovery record at \`${args.repoRoot}/.claude/montage-migration-v4.exclusions.json\` (create the directory first) holding the \`EXCL\` directory and each path with its hash — BEFORE the first \`mv\`: if this agent is killed or times out mid-procedure, that file is the only way to find the user's hand-migrated files again (\`EXCL\` is a shell local pointing into a temp dir nobody recorded). Delete it after the verified move-back in step 8. They are moved back in step 8 — before the state update and commit.
+4. If the excluded-files list above is non-empty (only ever populated for form-control-migration), move those files out of the tree NOW — after step 2 has run (the clean-tree check when autoCommit is true, the status recording otherwise) — following the exclusion procedure in codemod-steps.md: record each file's path + content hash first into a temp file (\`echo "$f $(git hash-object "$f")"\` per file, per the procedure's step 1), then \`EXCL=$(mktemp -d)\`, run from the repo root with the repo-relative paths as listed, verify $EXCL is empty first. Before touching anything, verify EVERY listed path exists (\`[ -f "$f" ]\`) — a stale entry (renamed file, wrong-relative path, typo) makes \`git hash-object\` and \`mv\` fail while the codemod still runs over a hand-migrated file, the corruption path; report status "failed" with the missing paths instead. After the move-out, \`find "$EXCL" -type f | wc -l\` must equal the list length, or report "failed". ALSO persist a recovery record at \`${args.repoRoot}/.claude/montage-migration-v4.exclusions.json\` (create the directory first) holding the \`EXCL\` directory and each path with its hash — BEFORE the first \`mv\`, serialized with the jq command in codemod-steps.md's exclusion procedure (NEVER by interpolating paths into printf/echo: a quote or backslash in a filename corrupts the record exactly when it is needed for recovery): if this agent is killed or times out mid-procedure, that file is the only way to find the user's hand-migrated files again (\`EXCL\` is a shell local pointing into a temp dir nobody recorded). Delete it after the verified move-back in step 8. They are moved back in step 8 — before the state update and commit.
 5. If autoCommit is false, record a pre-step snapshot: \`git -C ${args.repoRoot} stash create\` and note the printed hash (it captures the tree including earlier steps' uncommitted changes; if it prints nothing the tree is clean).
 6. For each element of the targets array, run:
    \`npx -y @montage-ui/codemod@${codemodVersion} ${step.id} <target>\`

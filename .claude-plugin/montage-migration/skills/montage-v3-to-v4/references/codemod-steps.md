@@ -502,14 +502,15 @@ EXCL=$(mktemp -d)
 #     inside one agent run, so a killed/timed-out agent would leave the user's
 #     hand-migrated files in an unrecorded /var/folders path, invisible to git.
 #     Reuse $HASHES from step 1 (never re-hash: a file touched between the two loops would
-#     record a hash that disagrees with the move-back check) and emit VALID json.
+#     record a hash that disagrees with the move-back check). Serialize with jq, never by
+#     interpolating paths into printf — a quote or backslash in a filename would corrupt
+#     the record, and a corrupted record is unreadable exactly when it is needed.
 mkdir -p .claude
-{
-  printf '{"excl":"%s","files":[' "$EXCL"
-  sep=''
-  while read -r path hash; do printf '%s{"path":"%s","hash":"%s"}' "$sep" "$path" "$hash"; sep=','; done < "$HASHES"
-  printf ']}\n'
-} > .claude/montage-migration-v4.exclusions.json
+# each $HASHES line is "<path> <40-char sha1>" — take the hash from the END so
+# paths containing spaces survive
+jq -Rn --arg excl "$EXCL" \
+  '{excl: $excl, files: [inputs | select(length > 41) | {path: .[:length-41], hash: .[length-40:]}]}' \
+  < "$HASHES" > .claude/montage-migration-v4.exclusions.json
 # add it to the resolved info/exclude alongside the state file — it must never be committed
 # HARD GATE: no mv may run unless the record was actually written (no `set -e` here, and a
 # missing .claude/ would otherwise leave the files in an unrecorded temp dir, unrecoverable)
