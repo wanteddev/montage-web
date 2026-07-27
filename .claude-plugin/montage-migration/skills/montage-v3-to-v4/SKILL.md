@@ -273,8 +273,11 @@ both together when an M-section changes):
   TextArea should adopt `size="medium"`.
 - **M10 (ThemeProvider cookie storage):** whether the app should share its theme with
   sibling subdomains (`cookie.domain`) or stay host-only, and whether to pass `nonce` under
-  CSP. Two fixes are mechanical: `storageKey` → `cookie.key`, and direct `next-themes`
-  `useTheme` calls → `useThemeControl` (these break silently — no error, no type error).
+  CSP. `storageKey` → `cookie.key` is mechanical. Direct `next-themes` `useTheme` calls are
+  NOT — they break silently (no error, no type error), but only the ones that resolved
+  against Montage's provider may be rewritten; check each call's provider context, then map
+  `resolvedTheme` → `theme` and the raw choice → `themeOriginValue`. Calls bound to the
+  app's own `<NextThemeProvider>` stay as they are, dependency included.
   End users' stored theme resets once on this release; that is expected, not a defect.
   If `domain` is adopted, confirm every app under that root domain uses the same `key` /
   `domain` / `path` — a mixed setup shadows the shared cookie and no scan catches it.

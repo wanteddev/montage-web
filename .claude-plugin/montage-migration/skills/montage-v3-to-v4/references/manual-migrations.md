@@ -432,11 +432,19 @@ keeps working as-is. The items below are what does break, plus one new opportuni
 - **Direct `next-themes` usage breaks silently.** In v3 `ThemeProvider` rendered
   next-themes' provider internally, so calling next-themes' `useTheme` from consumer code
   worked. In v4 nothing connects them: the hook throws no error and returns `undefined`
-  values, so this fails at runtime with no type error and no console warning. Replace with
-  `useThemeControl` from `@montage-ui/core` (`theme` = resolved `'light' | 'dark'`,
-  `themeOriginValue` = the user's `'light' | 'dark' | 'system' | undefined` choice).
-  Scan **[zero]**: `next-themes` (covers imports and the `package.json` dependency — drop
-  the dependency if nothing else uses it).
+  values, so this fails at runtime with no type error and no console warning.
+  Scan **[decision]**: `next-themes` (covers imports and the `package.json` dependency).
+  **Do not rewrite hits blindly** — first determine which provider each `useTheme()` call
+  resolved against:
+  - Bound to Montage's `ThemeProvider` (the app has no next-themes provider of its own, or
+    the call sits under Montage's) → replace with `useThemeControl` from `@montage-ui/core`
+    and map the fields: `resolvedTheme` → `theme` (resolved `'light' | 'dark'`), and the
+    user's raw choice → `themeOriginValue` (`'light' | 'dark' | 'system' | undefined`).
+    Note `setTheme` accepts only those three values in v4.
+  - Bound to the app's own `<NextThemeProvider>`, rendered independently of Montage → leave
+    it alone. Those calls still work, and the `next-themes` dependency stays.
+
+  Drop the `next-themes` dependency only once no independent usage remains.
 
   ```tsx
   // AS-IS
@@ -448,9 +456,12 @@ keeps working as-is. The items below are what does break, plus one new opportuni
   ```
 
 - **Cross-subdomain sharing is now possible** via `cookie={{ domain: '.example.com' }}`.
-  Omitting `domain` leaves the attribute unset (host-only cookie — same scope as the old
-  localStorage), which is the correct default for a single-host app. The value must be a
-  registrable domain; a public suffix (`co.kr`, `com`) makes the browser reject the cookie.
+  Omitting `domain` leaves the attribute unset — a host-only cookie, the correct default for
+  a single-host app. Like the old localStorage it does not reach sibling subdomains, but the
+  scopes are not identical: cookies ignore the port (localStorage is per origin, so
+  `:3000` and `:4000` were separate stores), are scoped by `path`, and ride along on every
+  request to the host. The value must be a registrable domain; a public suffix (`co.kr`,
+  `com`) makes the browser reject the cookie.
   Scan **[decision]**: `<ThemeProvider` — per app, decide whether it should share a theme
   with sibling subdomains, and whether to pass `nonce` (new prop; applies to the theme
   inline script and ScrollArea's injected inline styles) if the project uses CSP.

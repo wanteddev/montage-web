@@ -26,7 +26,7 @@ export const buildThemeScript = ({
   // (see clearHostOnlyThemeCookie); drop it before reading so the value the
   // script paints and the value the provider reads cannot diverge.
   const clearHostOnly = cookieDomain
-    ? `document.cookie=k+'=; Path=${cookiePath}; Max-Age=0';`
+    ? `document.cookie=k+'=; Path='+${JSON.stringify(cookiePath)}+'; Max-Age=0';`
     : '';
 
   return (

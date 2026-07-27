@@ -579,7 +579,7 @@ const [value, setValue] = useState('');
 <ThemeProvider enableDarkMode cookie={{ domain: '.example.com' }} />
 ```
 
-`domain`을 지정하지 않으면 `Domain` 속성 자체를 설정하지 않아 현재 호스트에서만 읽히는 host-only 쿠키가 됩니다(기존 localStorage와 동일한 범위). 값은 반드시 등록 가능한 도메인이어야 합니다 — `co.kr`, `com` 같은 public suffix를 지정하면 브라우저가 쿠키를 거부합니다.
+`domain`을 지정하지 않으면 `Domain` 속성 자체를 설정하지 않아 현재 호스트에서만 읽히는 host-only 쿠키가 됩니다. 단일 호스트 앱에서는 이게 올바른 기본값입니다. 기존 localStorage와 마찬가지로 서브도메인에는 공유되지 않지만, 범위가 완전히 같지는 않습니다 — 쿠키는 **포트를 구분하지 않고**(localStorage는 origin 단위라 `:3000`과 `:4000`이 별도 저장소였습니다), `path` 스코프를 가지며, 해당 호스트로 가는 모든 요청에 함께 전송됩니다. 값은 반드시 등록 가능한 도메인이어야 합니다 — `co.kr`, `com` 같은 public suffix를 지정하면 브라우저가 쿠키를 거부합니다.
 
 ##### 주의: 같은 루트 도메인의 앱은 `key`와 `domain`을 통일해야 합니다
 
@@ -603,7 +603,12 @@ host-only 쿠키와 `Domain`이 붙은 쿠키는 **이름이 같아도 서로 �
 
 #### `next-themes` 직접 사용 코드
 
-v3에서는 `ThemeProvider`가 내부적으로 next-themes의 Provider를 렌더했기 때문에 소비자 코드에서 `next-themes`의 `useTheme`을 직접 호출해도 동작했습니다. v4에서는 이 연결이 끊기며, **에러 없이 기본값(`undefined`)만 반환**하므로 조용히 깨집니다. `@montage-ui/core`의 `useThemeControl`로 교체하세요.
+v3에서는 `ThemeProvider`가 내부적으로 next-themes의 Provider를 렌더했기 때문에 소비자 코드에서 `next-themes`의 `useTheme`을 직접 호출해도 동작했습니다. v4에서는 이 연결이 끊기며, **에러 없이 기본값(`undefined`)만 반환**하므로 조용히 깨집니다.
+
+다만 `next-themes` 사용처를 일괄 치환하면 안 됩니다. 해당 `useTheme()` 호출이 **어느 Provider에 묶여 있었는지** 먼저 확인하세요.
+
+- **Montage `ThemeProvider`에 묶여 있던 호출** — `useThemeControl`로 교체하고 필드를 매핑합니다.
+- **앱이 자체적으로 렌더하는 `<NextThemeProvider>`에 묶인 호출** — 그대로 두세요. v4에서도 정상 동작하며 `next-themes` 의존성도 유지해야 합니다.
 
 ```tsx
 // AS-IS
@@ -619,7 +624,7 @@ import { useThemeControl } from '@montage-ui/core';
 const { theme, themeOriginValue, setTheme } = useThemeControl();
 ```
 
-다른 용도로 `next-themes`를 쓰지 않는다면 `package.json`에서 의존성을 제거해도 됩니다.
+`setTheme`은 v4에서 `'light' | 'dark' | 'system'` 세 값만 받습니다. 독립적인 `next-themes` 사용처가 하나도 남지 않은 경우에만 `package.json`에서 의존성을 제거하세요.
 
 #### `nonce` prop 추가
 

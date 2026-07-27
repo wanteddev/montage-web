@@ -30,6 +30,7 @@ const NonceConsumer = () => {
 
 const clearThemeCookie = () => {
   document.cookie = 'montage-theme=; Path=/; Max-Age=0';
+  document.cookie = 'wanted-theme=; Path=/; Max-Age=0';
 };
 
 describe('serializeThemeCookie', () => {
@@ -104,7 +105,9 @@ describe('buildThemeScript', () => {
       cookieDomain: '.wanted.co.kr',
     });
 
-    expect(script).toContain("document.cookie=k+'=; Path=/; Max-Age=0';");
+    expect(script).toContain('Max-Age=0');
+    // no Domain attribute, so only the host-only variant is expired
+    expect(script).not.toContain('Domain=');
     // the cleanup must precede the read, otherwise the shadow still wins
     expect(script.indexOf('Max-Age=0')).toBeLessThan(
       script.indexOf('document.cookie.split'),
@@ -115,6 +118,20 @@ describe('buildThemeScript', () => {
     const script = buildThemeScript(baseOptions);
 
     expect(script).not.toContain('Max-Age=0');
+  });
+
+  it('serializes cookiePath as a literal so a crafted path cannot execute code', () => {
+    const script = buildThemeScript({
+      ...baseOptions,
+      cookiePath: "/'; globalThis.__themeScriptInjected = true; '",
+      cookieDomain: '.wanted.co.kr',
+    });
+
+    new Function(script)();
+
+    expect(
+      (globalThis as { __themeScriptInjected?: boolean }).__themeScriptInjected,
+    ).toBeUndefined();
   });
 });
 
@@ -185,8 +202,6 @@ describe('ThemeProvider', () => {
     fireEvent.click(screen.getByRole('button'));
 
     expect(getThemeCookie('wanted-theme')).toBe('dark');
-
-    document.cookie = 'wanted-theme=; Path=/; Max-Age=0';
   });
 
   it('picks up a theme written elsewhere when the window regains focus', () => {
