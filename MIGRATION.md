@@ -582,6 +582,8 @@ Figma 스펙에 맞춰 `variant`가 제거되고 아이콘 전용 모드(`iconOn
 
 `TextAreaContent`의 `variant="segmented-control"`도 내부에서 별도 스타일을 주입하지 않으므로, TextArea 안에 배치하는 `SegmentedControl`에는 `iconOnly`를 직접 지정해야 합니다.
 
+`aria-label` 누락은 `@montage-ui/eslint-plugin`에 새로 추가된 `segmented-control-item-uses-name` 규칙이 잡아줍니다. `recommended` 설정에서는 warn, `strict` 설정에서는 error로 동작하므로, v4 플러그인으로 업그레이드하면 기존 코드에서 새 경고·에러가 발생할 수 있습니다.
+
 #### 사이즈·토큰 변경
 
 루트 요소 — 높이는 그대로이고 radius와 padding이 변경되었습니다.

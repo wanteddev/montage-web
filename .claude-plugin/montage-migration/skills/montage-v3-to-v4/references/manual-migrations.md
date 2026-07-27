@@ -578,6 +578,11 @@ keeps working as-is. The items below are what does break, plus one new opportuni
   variant injects no sizing of its own — `iconOnly` must be set explicitly.
   Scan **[decision]**: `SegmentedControlItem[^>]*aria-label=` — an item with an aria-label
   and no text is the icon-only pattern that now needs `iconOnly` on its root.
+  After M1 lands the v4 `@montage-ui/eslint-plugin`, its new
+  `segmented-control-item-uses-name` rule flags missing `aria-label` on items inside an
+  `iconOnly` root at lint time (`recommended`: warn, `strict`: error) — run the project's
+  lint as a second net once the rename phase is done; the line greps above remain the
+  primary scan (the rule only sees same-file roots and items).
 - **`[data-role='segmented-control-item-text']` not rendered under `iconOnly`** — custom CSS
   targeting it applies to labeled items only.
   Scan **[decision]**: `segmented-control-item-text` (include stylesheets).
