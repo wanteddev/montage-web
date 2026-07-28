@@ -20,7 +20,11 @@ export {
   type ThemeSpacingToken,
   type ThemeDimensionToken,
   type ThemeRadiusToken,
+  type ThemeTypographyToken,
   type ThemeZIndexToken,
+  type TypographyVariant,
+  type TypographyVariantKey,
+  type TypographyWeight,
 } from '@montage-ui/theme';
 export type {
   EmotionCache,
