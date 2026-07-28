@@ -44,7 +44,7 @@ const FilterButton = forwardRef(
     return (
       <WithInteraction
         color={
-          active && variant === 'outlined'
+          active
             ? 'semantic.surface.brand.primary'
             : 'semantic.foreground.neutral.primary'
         }
@@ -72,7 +72,11 @@ const FilterButton = forwardRef(
               <span data-role="chip-filter-active-label">{activeLabel}</span>
             )}
           </FlexBox>
-          {expanded ? <IconCaretUp /> : <IconCaretDown />}
+          {expanded ? (
+            <IconCaretUp aria-hidden />
+          ) : (
+            <IconCaretDown aria-hidden />
+          )}
         </Box>
       </WithInteraction>
     );
