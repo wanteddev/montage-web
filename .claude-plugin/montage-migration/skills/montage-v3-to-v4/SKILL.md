@@ -1,6 +1,6 @@
 ---
 name: montage-v3-to-v4
-description: This skill should be used when the user asks to migrate a project from Montage (WDS) v3 to v4, upgrade @wanteddev/wds to @montage-ui/* 4.x, run any Montage v4 codemod (package-name-migration, semantic-token-migration, css-variable-migration, dom-identifier-migration, list-card-migration, form-control-migration), or resume an in-progress v4 migration. Triggers include "montage v4 마이그레이션", "montage 4 적용해줘", "몬타지 v4로 올려줘", "wds 4.0으로 업그레이드", "디자인시스템 v4로 올려줘", "@montage-ui로 전환해줘", "마이그레이션 이어서 해줘", "form-control 코드모드만 돌려줘", "semantic 토큰 코드모드 돌려줘", "시멘틱 토큰 마이그레이션 해줘", "migrate to montage v4", "resume the montage migration", "run the form-control codemod", "run the semantic token codemod". Covers v3→v4 only (earlier migrations live in the wanteddev/montage-web repo's MIGRATION.md). Orchestrates the 6 codemods strictly in sequence with run-once protection, then guides the manual migrations.
+description: This skill should be used when the user asks to migrate a project from Montage (WDS) v3 to v4, upgrade @wanteddev/wds to @montage-ui/* 4.x, run any Montage v4 codemod (package-name-migration, semantic-token-migration, css-variable-migration, dom-identifier-migration, list-card-migration, form-control-migration), or resume an in-progress v4 migration. Triggers include "montage v4 마이그레이션", "montage 4 적용해줘", "몬타지 v4로 올려줘", "wds 4.0으로 업그레이드", "디자인시스템 v4로 올려줘", "@montage-ui로 전환해줘", "마이그레이션 이어서 해줘", "form-control 코드모드만 돌려줘", "semantic 토큰 코드모드 돌려줘", "시멘틱 토큰 마이그레이션 해줘", "패키지명 마이그레이션만 해줘", "css 변수 코드모드 돌려줘", "dom 식별자 코드모드만 돌려줘", "list-card 코드모드만 돌려줘", "migrate to montage v4", "resume the montage migration", "run the form-control codemod", "run the semantic token codemod". Covers v3→v4 only (earlier migrations live in the wanteddev/montage-web repo's MIGRATION.md). Orchestrates the 6 codemods strictly in sequence with run-once protection, then guides the manual migrations.
 ---
 
 # montage-v3-to-v4
@@ -26,34 +26,28 @@ by verification.
    hand-migrated files even on its first run.
 4. **Start from a clean git tree** and keep one commit per step so any step can be
    reverted in isolation.
-5. Run codemods through the CLI (`npx -y @montage-ui/codemod@<codemodVersion> <transform>
-<path>`; resolve the version at preflight, and on resume use the state file's recorded
+5. **The tree does not install / typecheck / build between step ① and M1.** Step ① rewrites
+   every import to `@montage-ui/*` while `package.json` still lists `@wanteddev/wds*` (M1
+   owns package.json and ends with the install). The six codemod commits are intentionally
+   non-building — do NOT try to fix resolution errors during the codemod phase, and expect
+   pre-commit hooks (`.husky/`, `core.hooksPath`, `lint-staged`) to fail: detect them at
+   preflight and agree with the user on `--no-verify` or disabling them for the phase.
+6. Run codemods through the CLI (`npx -y @montage-ui/codemod@<codemodVersion> <transform> <path>`;
+   resolve the version at preflight, and on resume use the state file's recorded
    `codemodVersion`), never raw jscodeshift — steps ②–④ rewrite stylesheets only via
    the CLI.
 
 ## Step 0 — Preflight
 
-Perform all checks before changing anything:
+Perform all checks before changing anything. **Read the state file (item 1) BEFORE the
+version check (item 2)** — the version check's branches describe a first run, and after M1
+rewrites `package.json` a resume looks exactly like "already migrated".
 
-1. **Version check.** Read the project's `package.json`:
-   - `@wanteddev/wds*` at 3.x → proceed.
-   - `@wanteddev/wds*` at 2.x or lower → stop; complete the v2→v3 migration first
-     (MIGRATION.md in the wanteddev/montage-web repo).
-   - Only `@montage-ui/*` 4.x present and no state file → likely already migrated; run
-     the leftover greps from `references/codemod-steps.md` plus every M-section scan
-     pattern from `references/manual-migrations.md` (steps and M-sections added after a
-     consumer finished migrating — e.g. step ② `semantic-token-migration`, M9, and M10 —
-     surface only through these scans) and report instead of migrating.
-   - BOTH `@wanteddev/wds*` and `@montage-ui/*` present → the project is partially
-     hand-migrated. Run the step ⑤/⑥ pre-checks from `references/codemod-steps.md` before
-     anything else and expect file exclusions in step ⑥.
-   - NEITHER package present → check nested/workspace `package.json` files; if still
-     absent, stop and tell the user this repo does not appear to use Montage/WDS.
-2. **State file.** Look for `.claude/montage-migration-v4.local.md` (format below). If it
+1. **State file.** Look for `.claude/montage-migration-v4.local.md` (format below). If it
    exists, this is a resume; apply these rules:
    - **Resume.** Skip every step marked `completed`, continue from the first `pending`
      step. A step or manual key missing from an older state file (e.g.
-     `semantic-token-migration`, `M9`, or `M10`, added after the file was created) is
+     `semantic-token-migration`, `M9`, `M10`, or `M11`, added after the file was created) is
      `pending` —
      add it to the file and run it. `semantic-token-migration` sits at position ② BEFORE
      steps an older migration may already have completed: it still runs, and running it
@@ -66,8 +60,19 @@ Perform all checks before changing anything:
      IN BOTH DIRECTIONS: a step marked `completed` but its renames absent from the tree
      (reverted commits), or a step marked `pending` whose renames are already present
      (hand-run between sessions — re-running step ⑥ over such a tree is the corruption
-     path). Spot-check `completed` MANUAL marks the same way: a fresh hit from a
-     completed M-section's scan patterns is equally a mismatch. On any mismatch, stop and
+     path). Spot-check `completed` MANUAL marks the same way, but using ONLY that section's
+     **[zero]** scan patterns, and only for hits that are Montage-related: a fresh
+     Montage-related [zero] hit is equally a mismatch, while an unrelated-consumer-code hit
+     is what the [zero] tag explicitly permits to remain (M4's `card-content`, M10's
+     `storageKey` …) — re-assess such a hit, do not treat it as evidence. [decision]
+     patterns match valid v4 code and keep hitting after the section is correctly done (every M2
+     pattern, M6's `variant="bottom"`, M9's `surface.brand.primary`, M10's
+     `<ThemeProvider` / `next-themes`, M11's `\bSegmentedControl(Item)?\b` …), so they are
+     never mismatch evidence. Detect the pending-but-already-applied direction with the
+     **presence greps** in `references/codemod-steps.md` — each step's verify grep is an
+     ABSENCE check that returns zero both when the codemod ran and when the repo never used
+     that API, so it cannot see this direction at all; new names present + old absent means
+     the step already ran. On any mismatch, stop and
      reconcile with the user; never re-run a marked step automatically. For the
      pending-but-applied direction: once the user confirms the codemod was hand-run, run
      that step's verification grep from `references/codemod-steps.md`, fix leftovers per
@@ -85,9 +90,55 @@ Perform all checks before changing anything:
      silently widen the `targets` arg.
    - **Version pin.** Read the recorded `codemodVersion` and pass it as the Workflow
      `codemodVersion` arg — the pin survives sessions only through this field. On a FIRST
-     run, resolve a CONCRETE version before writing the state file
-     (`npm view @montage-ui/codemod version`) — recording the literal dist-tag `latest`
-     would re-resolve on resume and silently break the same-build guarantee.
+     run, resolve a CONCRETE version before writing the state file with
+     `npm view '@montage-ui/codemod@^4' version --json | jq -r 'if type=="array" then .[-1] else . end'`.
+     The two shorter forms are both wrong: the plain `npm view @montage-ui/codemod version`
+     returns whatever `latest` points at (5.x once that ships, and this skill covers the 4.x
+     transforms only — the script rejects any other major), and the range form without
+     `--json` prints one line PER matching 4.x version. Recording the literal dist-tag
+     `latest` would re-resolve on resume and silently break the same-build guarantee.
+     **If resolution fails** (offline, proxy, or an `.npmrc` scoping `@montage-ui` to a
+     registry this session cannot reach): STOP and report the registry/auth blocker. Never
+     guess a plausible version and never fall back to `latest` — a wrong pin silently runs
+     the wrong transform build for the whole migration. Confirm reachability with
+     `npx -y @montage-ui/codemod@<resolved> --help` before step ①.
+   - **Excluded files.** Read the recorded `excludeFiles` list (empty by default). Pass it
+     back as the Workflow `excludeFiles` arg, and use it when judging step ⑥ hits at final
+     verification — without it, a later session cannot tell a ring-fenced hand-migrated file
+     from a genuine migration leftover and will "fix" code the user protected.
+2. **Version check.** Read the project's `package.json`. **If a state file exists, item 1's
+   resume rules govern** — use the version check only to confirm the recorded phase (pre-M1
+   expects `@wanteddev/wds*` 3.x, post-M1 expects `@montage-ui/*` 4.x) and report a
+   disagreement to the user; never reclassify a resume through the branches below. With NO
+   state file:
+   - `@wanteddev/wds*` at 3.x → proceed.
+   - `@wanteddev/wds*` at 2.x or lower → stop; complete the v2→v3 migration first
+     (MIGRATION.md in the wanteddev/montage-web repo).
+   - Only `@montage-ui/*` 4.x present → likely already migrated; run
+     the leftover greps from `references/codemod-steps.md` plus every M-section scan
+     pattern from `references/manual-migrations.md` (steps and M-sections added after a
+     consumer finished migrating — e.g. step ② `semantic-token-migration`, M9, M10, and
+     M11 — surface only through these scans) and report instead of migrating.
+   - BOTH `@wanteddev/wds*` and `@montage-ui/*` present → the project is partially
+     hand-migrated. Run the step ⑤/⑥ pre-checks from `references/codemod-steps.md` before
+     anything else and expect file exclusions in step ⑥.
+   - NEITHER package present → check nested/workspace `package.json` files; if still
+     absent, stop and tell the user this repo does not appear to use Montage/WDS.
+
+   Also check for commit hooks that would block the intentionally non-building codemod
+   commits (`.husky/`, `git config core.hooksPath`, `lint-staged` in package.json) and agree
+   with the user up front on how to handle them; and scan `.ts` files for legacy
+   angle-bracket casts, which the `tsx` parser cannot read (the file is skipped with a
+   transformation error while the rest of the run succeeds — a silent partial migration):
+   `grep -rnE '(=|\(|,|return) *<[A-Za-z_$][A-Za-z0-9_$.]*(\[\])?> *[A-Za-z_$(]' --include="*.ts" <targets>`
+   — convert the hits to `as` syntax in a preparatory commit before step ①.
+
+   Also read the project's `react` / `react-dom` versions: v4 peer-requires
+   `^18.0.0 || ^19.0.0` (same for `@types/react*` when TypeScript is used). On React 17 or
+   lower, STOP and report that the React upgrade must land first — every codemod and
+   M-section would otherwise run to completion and only fail at M1's closing install, with
+   the whole migration already applied.
+
 3. **Clean tree.** On a first run, `git status --porcelain` must be empty (the state file
    itself is the only allowed exception) — otherwise ask the user to commit/stash first.
    On a RESUME of an `autoCommit: true` run the tree must also be clean (completed steps
@@ -103,34 +154,54 @@ Perform all checks before changing anything:
    DOM identifiers, Card/Form identifiers) — anything unexplained goes to the user before
    proceeding (or offer to commit the consistent dirty set as a baseline).
 4. **Targets.** Identify source directories to transform (default `src`). Include
-   directories containing stylesheets that reference `--wds-*` or `--semantic-*`
-   variables — discover them with
-   `grep -rln --include="*.css" --include="*.scss" --include="*.sass" --include="*.less" -e "--wds-" -e "--semantic-" . | grep -v node_modules | xargs -n1 dirname | sort -u`
+   directories containing stylesheets that reference `--wds-*` / `--semantic-*` variables
+   OR `wds-*` DOM identifiers (step ④ rewrites those in stylesheets too, so a directory
+   whose only Montage references are selectors like `[wds-component="card"]` must be a
+   target as well) — discover them with
+   `grep -rln --include="*.css" --include="*.scss" --include="*.sass" --include="*.less" -e "--wds-" -e "--semantic-" -e "wds-component" -e "wds-ignore-" -e "wds-region-manager" . | grep -v node_modules | xargs -n1 dirname | sort -u`
    and merge the resulting directories into the target list (collapse into an existing
    target when one already contains them). Use plain directory paths — the codemod CLI
    takes exactly one path per invocation and does not expand globs; each step runs once
    per target directory. **Targets must be disjoint** — a target nested inside another
    (`src` + `src/features/forms`) runs every codemod twice over the nested subtree, the
-   run-once corruption path; the workflow script rejects nested targets. In a monorepo,
+   run-once corruption path; the workflow script rejects nested targets, and equally two
+   spellings of one tree (`src` + `./src` + `<repoRoot>/src`). In a monorepo,
    list ALL package source directories as targets of ONE migration (one state file) — do
    not run separate per-package migrations, or the run-once guarantee fragments per path.
 5. **Ask the user once, on a FIRST run only** (single `AskUserQuestion`): confirm the
    target directories, and whether to auto-commit after each step (recommended; enables
    safe rollback of a failed step). Do not ask again mid-migration. On a resume, do not
    re-ask — restate the `targets` and `autoCommit` recorded in the state file; a requested
-   change goes through the "new migration decision" path in item 2, never a silent
+   change goes through the "new migration decision" path in item 1, never a silent
    override.
 
 ### State file format
 
-Create `.claude/montage-migration-v4.local.md` before step ①, and ensure its path is in
-`.git/info/exclude` (repo-local ignore; append only if missing — step agents check this
-too) so per-step `git add -A` commits never include it
-(this template is kept in sync with `STATE_FILE_TEMPLATE` and `MANUAL_SCAN_SECTIONS` in
-`scripts/migration-workflow.js` — adding a step or M-section means updating all of them).
-The `targets` / `autoCommit` / `codemodVersion` values below are EXAMPLES — fill in the
-values confirmed in preflight (`codemodVersion` is always the concrete version resolved
-there, never a dist-tag):
+Create `.claude/montage-migration-v4.local.md` before step ① (`mkdir -p` its directory
+first — a consumer repo may have no `.claude/`, and a failed redirect leaves the migration
+with no state), and ensure its path is ignored
+so per-step `git add -A` commits never include it: resolve the repo-local exclude file with
+`git -C <repoRoot> rev-parse --git-path info/exclude` (never hardcode `.git/info/exclude` —
+in a linked worktree or submodule `.git` is a FILE and the literal path fails silently),
+append the entry only if missing, then confirm with `git -C <repoRoot> check-ignore -q
+<stateFile>`. Step agents repeat this check.
+
+Consistency surfaces (canonical list — the script's comments point here rather than
+re-enumerating). A new codemod step or M-section must be updated in ALL of these together:
+
+1. this state-file template,
+2. SKILL.md Critical rules item 2 (the ordered step list) and the frontmatter description,
+3. SKILL.md Step 2 decision bullets and Step 3 verification checklist,
+4. `references/codemod-steps.md` — step table, step section, presence grep, and the
+   "After all 6 steps" checklist,
+5. `references/manual-migrations.md` — the M-section and its scan patterns,
+6. `scripts/migration-workflow.js` — `CODEMOD_STEPS`, `MANUAL_SCAN_SECTIONS`,
+   `STATE_FILE_TEMPLATE`,
+7. the plugin `README.md` and `README.ko.md` (both hardcode the ordered 6-codemod list and
+   the manual-migration summary).
+   The `targets` / `autoCommit` / `codemodVersion` values below are EXAMPLES — fill in the
+   values confirmed in preflight (`codemodVersion` is always the concrete version resolved
+   there, never a dist-tag):
 
 ```markdown
 ---
@@ -139,6 +210,8 @@ targets:
   - src
 autoCommit: true
 codemodVersion: 4.0.0
+excludeFiles: [] # repo-relative; filled in when step ⑥ ran with user-confirmed exclusions
+# origin: single-codemod   # present only when created by the single-codemod path
 steps:
   package-name-migration: pending
   semantic-token-migration: pending
@@ -157,11 +230,17 @@ manual:
   M8: pending
   M9: pending
   M10: pending
+  M11: pending
 ---
 ```
 
-Mark each step `completed` immediately after it succeeds. Delete the file only after the
-final verification passes.
+Mark each step `completed` immediately after it succeeds, and each M-section `completed` as
+its manual phase finishes. On a resume, `manual:` marks follow the same rules as `steps:`:
+skip a `completed` section, work every `pending` one, treat a key missing from an older file
+as `pending`, and never downgrade a `completed` mark without explicit user confirmation.
+Unlike codemods, re-running an M-section is not corrupting — but it re-asks decisions the
+user already made, so the marks still govern. Delete the file only after the final
+verification passes.
 
 ## Step 1 — Codemod phase (use the Workflow tool)
 
@@ -171,15 +250,18 @@ aborts the chain) and runs the manual-migration scans in parallel afterwards:
 
 ```js
 Workflow({
-  scriptPath: "<this skill's base directory>/scripts/migration-workflow.js",
+  scriptPath:
+    '${CLAUDE_PLUGIN_ROOT}/skills/montage-v3-to-v4/scripts/migration-workflow.js',
   args: {
     repoRoot: '<absolute repo root>',
     targets: ['src'],
     stateFile: '<absolute path>/.claude/montage-migration-v4.local.md',
-    referencesDir: "<this skill's base directory>/references",
+    referencesDir: '${CLAUDE_PLUGIN_ROOT}/skills/montage-v3-to-v4/references',
     autoCommit: true,
     codemodVersion: '<concrete x.y.z resolved in preflight>',
     completedSteps: [], // step ids already marked completed in the state file
+    // excludeFiles: [], // optional; repo-relative paths, form-control-migration only —
+    //                   // set only on a re-run after step ⑥'s precheck reported them
   },
 });
 ```
@@ -188,12 +270,14 @@ Populate `completedSteps` from the state file read in preflight (empty on a firs
 the script skips those steps deterministically without spawning an agent, and each step
 agent re-checks the state file as a second layer.
 
-Resolve `<this skill's base directory>` from the "Base directory for this skill" line
-announced when this skill loaded. ALWAYS pass `codemodVersion` as the concrete version
+`${CLAUDE_PLUGIN_ROOT}` is the plugin root (`.claude-plugin/montage-migration`); expand it
+to an absolute path before passing it — the Workflow args must be literal paths. If the
+variable is unset in this environment, fall back to the "Base directory for this skill" line
+announced when the skill loaded, or to the directory of the loaded SKILL.md. ALWAYS pass `codemodVersion` as the concrete version
 resolved in preflight (first run) or read from the state file (resume) — the script
 rejects dist-tags, since the value is recorded in the state file and a dist-tag would
 re-resolve on resume and break the same-build guarantee. The workflow returns per-step results plus a
-`manualScan` report (assessed occurrences for manual steps M1–M10).
+`manualScan` report (assessed occurrences for manual steps M1–M11).
 
 - If the workflow reports `aborted`, surface the failed step's error to the user, fix the
   cause, and re-run the same Workflow invocation with `completedSteps` refreshed from the
@@ -219,10 +303,36 @@ re-resolve on resume and break the same-build guarantee. The workflow returns pe
     (a step agent staged but failed to commit): if the dirty files are exactly that step's
     transform output, commit them with that step's commit message
     (`chore(montage): v4 codemod — <step id>`) before re-running — do not stash.
-  - **A step report says the state file was recreated**: treat it as a user-confirmation
-    point — the recreated `targets` came from the invocation's args, not the lost
-    original; confirm with the user that they match the original migration before
-    continuing.
+  - **State file missing at a step's start**: the step agent reports `failed` rather than
+    assuming `pending`. Do not recreate the file silently — reconcile with the user first
+    (the recorded `targets` / `autoCommit` / `codemodVersion` cannot be recovered from args).
+  - **State-file `targets` disagree with the invocation `targets`**: surface BOTH lists to
+    the user and follow the target-lock/addition path in preflight item 1. Never re-run with
+    a widened list to "fix" it.
+  - **Step ⑥ reported an incomplete move-back** (non-empty hash diff, or files still in the
+    temp dir): the run keeps the recovery record and skips the state update and commit.
+    Surface the unrestored paths to the user and restore them before anything else — never
+    re-run step ⑥ over that tree.
+  - **Step ⑥ reported a stale or mismatched `excludeFiles` list** (a listed path does not
+    exist, or the precheck flagged a file the list omits): re-confirm the list with the user
+    and re-run with a corrected `excludeFiles`; a subset list silently under-excludes and a
+    stale path silently un-excludes a hand-migrated file.
+  - **Deletions in the dirty set together with a `.claude/montage-migration-v4.exclusions.json`
+    record**: a previous step-⑥ run died between its move-out and move-back. RECOVER FIRST —
+    restore every recorded path from the record's `excl` directory, verify each `hash`, then
+    delete the record. Never commit those deletions; they are the user's ring-fenced
+    hand-migrated files, and the generic dirty-tree bullet below would erase them.
+  - **Dirty tree with `autoCommit: true` at a step's start**: commit or reconcile the
+    unrelated changes with the user (never stash), then re-run.
+  - **State-file verification failed on a scan-only re-run** (`aborted:
+"state-file-verification"`, all 6 steps already completed): same two causes as above —
+    read `stateCheckError` in the result.
+- **Regardless of `aborted`, inspect every step's `verifyFindings` for a state-file
+  recreation report.** A recreation does NOT abort the run (the step still returns
+  `completed`), so it never reaches the list above. The recreated `targets`, `autoCommit`,
+  `codemodVersion` come from the invocation's args and every `manual:` mark was reset to
+  `pending` by the template — confirm all of it with the user, and restore the M-section
+  marks that were already `completed`, before continuing.
 - **Fallback without the Workflow tool:** execute the exact per-step procedure embedded in
   `scripts/migration-workflow.js` (read it) inline — one step at a time, same order, same
   state-file checks. Never parallelize the codemod steps. After all 6 steps, produce the
@@ -236,15 +346,19 @@ Details per step (commands, pre-checks, post-step verification greps, hazards):
 
 ### Running a single codemod
 
-When the user asks to run just one codemod (not the full migration): run preflight first
-(version check, state file, clean tree, targets). If no state file exists (no in-progress
-migration), CREATE it from the State file format template first — all steps `pending`,
-concrete `codemodVersion` resolved at preflight; the step procedure's missing-file
+When the user asks to run just one codemod (not the full migration): run preflight IN FULL
+— state file, version check, clean tree, targets, AND the one `AskUserQuestion` (item 5):
+the step procedure branches on `autoCommit` at every stage, so it cannot be invented. If no
+state file exists (no in-progress migration), CREATE it from the State file format template
+first — all steps `pending`, concrete `codemodVersion` resolved at preflight, plus
+`origin: single-codemod` so a later full migration surfaces the target list for
+re-confirmation instead of silently inheriting a list chosen for one step; the step procedure's missing-file
 failure applies only to resumes of a previously started migration. If earlier steps in
 the canonical order are not marked `completed` in the state file, surface that and get
 explicit user confirmation before running out of order — manual steps and later codemods assume
 post-codemod names. Then execute that one step exactly as the workflow's step agent would
-(its 11-step procedure is embedded in `scripts/migration-workflow.js`): state-file check,
+(its 12-step procedure, numbered 0–11, is embedded in `scripts/migration-workflow.js`):
+orphaned-exclusion check, state-file check,
 pre-check, run (with the state file's recorded `codemodVersion`, not a fresh `latest`),
 post-step verification grep from `references/codemod-steps.md`, mark the step
 `completed`. The run-once rule applies with full force — this ad-hoc path is exactly
@@ -252,17 +366,27 @@ where double-runs happen.
 
 ## Step 2 — Manual migrations
 
-Work through `references/manual-migrations.md` (M1–M10) using the workflow's `manualScan`
+Work through `references/manual-migrations.md` (M1–M11) using the workflow's `manualScan`
 hits as the worklist. On a resume where all 6 codemod steps are already `completed` but no
 workflow ran this session, there is no `manualScan` report — rebuild the worklist first:
 re-run the same Workflow invocation with `completedSteps` listing all 6 (every step is
-skipped deterministically; the run only regenerates the scans), or run each pending
+skipped deterministically; the run only regenerates the scans — but it still verifies the
+state file exists and its `targets` match, and aborts with `stateCheckError` otherwise), or run each pending
 M-section's scan patterns from `references/manual-migrations.md` yourself. Never work
 M-sections without a scan-derived worklist. Apply mechanical fixes directly; ask the user
 before behavioral decisions (the bullets below are decision summaries only —
 `references/manual-migrations.md` is the source of truth for the full fix rules; update
 both together when an M-section changes):
 
+- **M2 (theme tokens):** per occurrence — wrap the arithmetic in `calc()` on the `var()`
+  string, or import the raw value from `lightOriginTheme`; confirm which, since a raw import
+  bypasses the CSS-variable indirection (and thus runtime theme switching).
+- **M4 (cross-file Card/ListCard):** whether a shared child component is actually rendered
+  inside `ListCard` — the codemod defaults every undeterminable context to the Card family,
+  so switching it changes which component family renders; confirm before swapping.
+- **M5 (FormControl messages):** message typography moved `label2` → `caption1`; an explicit
+  `variant` / `weight` on a message component now fights the new default — per occurrence,
+  drop the override or keep it deliberately.
 - **M6 (Modal bottom sheet):** per occurrence — accept the new close-on-dismiss default
   (delete `onVisibilityChange` workarounds) or pin with `peekHeight`.
 - **M7 (TextField):** whether any field should adopt `size="medium"` (40px) now that the
@@ -271,6 +395,12 @@ both together when an M-section changes):
   uncontrolled TextArea to a controlled one and moving the counter UI from inside the
   field to the form-control message line — confirm per occurrence, and whether any
   TextArea should adopt `size="medium"`.
+- **M9 (Semantic tokens):** which `surface.*` token replaces a deleted accent token that
+  painted a background — the codemod's `foreground.*` replacement is the wrong intent
+  there, and the replacement values differ from the originals (visual change), so decide
+  per occurrence with the user. The `surface.brand.primary` → `foreground.brand.primary`
+  reclassification for text/icon usages is value-identical and mechanical once the usage
+  is confirmed.
 - **M10 (ThemeProvider cookie storage):** whether the app should share its theme with
   sibling subdomains (`cookie.domain`) or stay host-only, and whether to pass `nonce` under
   CSP. `storageKey` → `cookie.key` is mechanical. Direct `next-themes` `useTheme` calls are
@@ -281,12 +411,12 @@ both together when an M-section changes):
   End users' stored theme resets once on this release; that is expected, not a defect.
   If `domain` is adopted, confirm every app under that root domain uses the same `key` /
   `domain` / `path` — a mixed setup shadows the shared cookie and no scan catches it.
-- **M9 (Semantic tokens):** which `surface.*` token replaces a deleted accent token that
-  painted a background — the codemod's `foreground.*` replacement is the wrong intent
-  there, and the replacement values differ from the originals (visual change), so decide
-  per occurrence with the user. The `surface.brand.primary` → `foreground.brand.primary`
-  reclassification for text/icon usages is value-identical and mechanical once the usage
-  is confirmed.
+- **M11 (SegmentedControl):** `variant="outlined"` has no replacement — every occurrence
+  becomes the solid form (white sliding thumb, no dividers, no brand tint), so confirm the
+  visual change per occurrence. Icon-only usages need `iconOnly` on the root plus an
+  `aria-label` per item, and the root stops filling its parent's width (`fit-content`) —
+  decide where the width now comes from. `leadingContent` → `leadingIcon` is mechanical;
+  dropping `trailingContent` is not.
 
 M1 (package.json + configs) ends with a dependency install to refresh the lockfile.
 Mark each M-section `completed` in the state file as it finishes.
@@ -303,15 +433,25 @@ Mark each M-section `completed` in the state file as it finishes.
      during Step 2. NEVER edit valid v4 code just to force a count to zero.
    - The 6 codemod verify greps are zero-criterion WITH their documented exceptions
      (step ①: `@wanteddev/montage-mcp` hits are the correct post-migration name; step ⑥:
-     `FormControl` is the new root name). Step ② is different — its M9 classes
-     (group-level references, dynamic names, computed access) are NOT a permanent
-     exception: at final verification a step-② hit means M9 is incomplete — reopen M9
-     rather than accepting the hit. Re-read each step's verification note in
-     `references/codemod-steps.md` before judging its hits.
+     hits inside a file listed in the state file's `excludeFiles` — read it before judging
+     them. `FormControl` is NOT an exception to list here: step ⑥'s grep is
+     `\bForm(Field|Label|Message|ErrorMessage)`, which cannot match inside `FormControl*`
+     at all, so a `FormControl` "hit" never comes from it — old inner-slot `FormControl`
+     usages are covered by the separate namespace/subpath inspection in step ⑥).
+     Steps ②, ③ and ④ are different — their leftovers are M-section-owned (M9 for ②, M3
+     for ③/④), not permanent exceptions: a Montage-related hit at final verification means
+     that M-section is incomplete, so reopen it rather than accepting the hit. All three
+     share one carve-out: a hit assessed as non-Montage code — a false positive REVERTED
+     during that step's own diff review (steps ③/④ mandate reverting consumer-owned
+     `--wds-*` variables and non-identifier strings, so those names legitimately survive),
+     or unrelated consumer code — may remain and is listed in the final summary; only a
+     genuine Montage reference reopens M9/M3. Re-read each step's verification note
+     in `references/codemod-steps.md` before judging its hits.
 2. Project checks: install, typecheck, lint, build, unit tests — whatever the project
    defines.
-3. Remind the user to visually QA TextField / TextArea / bottom-sheet Modal / Card list
-   screens (v4 changed their rendering and behavior, not just names), plus screens that
+3. Remind the user to visually QA TextField / TextArea / bottom-sheet Modal / Card list /
+   SegmentedControl screens (v4 changed their rendering and behavior, not just names) —
+   former `variant="outlined"` SegmentedControls in particular (see M11) — plus screens that
    used the deleted accent tokens (their replacement values differ — see M9).
 4. Delete the state file, then summarize: steps run, commits created, manual fixes
    applied, items intentionally left (with reasons).
@@ -320,7 +460,7 @@ Mark each M-section `completed` in the state file as it finishes.
 
 - **`references/codemod-steps.md`** — the 6 codemods in order: exact commands,
   idempotency analysis, pre-checks, post-step verification greps, hazards.
-- **`references/manual-migrations.md`** — manual migrations M1–M10 with scan patterns and
+- **`references/manual-migrations.md`** — manual migrations M1–M11 with scan patterns and
   fix rules.
 - **`scripts/migration-workflow.js`** — Workflow-tool script for the codemod phase; also
   the canonical per-step procedure for inline fallback execution.

@@ -343,31 +343,6 @@ const TextAreaContent = forwardRef<
         </FlexBox>
       );
     case 'segmented-control':
-      return (
-        <FlexBox
-          data-component="text-area-content"
-          ref={ref}
-          sx={[
-            textAreaContentStyle,
-            {
-              ['[data-component="segmented-control"]']: {
-                width: '60px',
-              },
-              ['[data-component="segmented-control-item"]']: {
-                alignItems: 'center',
-                justifyContent: 'center',
-                ['& > [data-role="segmented-control-item-text"]']: {
-                  display: 'inline-flex',
-                },
-              },
-            },
-            sx,
-          ]}
-          {...props}
-        >
-          {children}
-        </FlexBox>
-      );
     case 'custom':
     default:
       return (
