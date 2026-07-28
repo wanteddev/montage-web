@@ -9,7 +9,6 @@ import {
 import {
   IconChevronDownThickSmall,
   IconChevronUpThickSmall,
-  IconCircleExclamationFill,
 } from '@montage-ui/icon';
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
 import { useCallbackRef } from '@radix-ui/react-use-callback-ref';
@@ -20,14 +19,9 @@ import { useSize } from '@radix-ui/react-use-size';
 import { Menu, MenuContent, MenuList, MenuTrigger } from '../menu';
 import { FlexBox } from '../flex-box';
 import { Typography } from '../typography';
-import { ellipsisTypographyStyle } from '../../utils';
 import { SelectContent } from '../select';
 import { convertChildrenToData } from '../select/helpers';
-import {
-  invalidIconWrapperStyle,
-  selectIconStyle,
-  selectStyle,
-} from '../select/style';
+import { selectIconStyle, selectStyle, selectTextStyle } from '../select/style';
 import useResizeObserver from '../../hooks/internal/use-resize-observer';
 import { VirtualValueInput } from '../virtual-input';
 import { SelectProvider } from '../select/context';
@@ -55,6 +49,7 @@ const SelectMultiple = forwardRef<
       open: openProp,
       defaultOpen,
       onOpenChange,
+      size = 'large',
       allSelectedLabel,
       leadingContent,
       render,
@@ -165,12 +160,9 @@ const SelectMultiple = forwardRef<
       isAllSelected && Boolean(allSelectedLabel);
 
     const label = useMemo(() => {
-      return (
-        convertChildrenToData(children)
-          // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-          .filter((v) => value?.includes(v.value))
-          .map(({ label: labelValue }) => labelValue)
-      );
+      return convertChildrenToData(children)
+        .filter((v) => value.includes(v.value))
+        .map(({ label: labelValue }) => labelValue);
     }, [value, children]);
 
     const isFormControl = node ? Boolean(node.closest('form')) : true;
@@ -197,8 +189,7 @@ const SelectMultiple = forwardRef<
         {isFormControl && (
           <VirtualValueInput
             name={props.name}
-            // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-            value={Array.isArray(value) ? value.join(',') : (value ?? '')}
+            value={value.join(',')}
             aria-invalid={invalid}
             disabled={disabled}
             tabIndex={-1}
@@ -247,6 +238,7 @@ const SelectMultiple = forwardRef<
               })}
               sx={[
                 selectStyle({
+                  size,
                   disabled,
                   invalid,
                   width,
@@ -262,83 +254,71 @@ const SelectMultiple = forwardRef<
                 props.sx,
               ]}
             >
-              {Boolean(leadingContent) && leadingContent}
+              <FlexBox gap="2px" data-role="select-multiple-wrapper">
+                {Boolean(leadingContent) && leadingContent}
 
-              {(typeof render === 'undefined' || shouldShowPlaceholder) && (
-                <FlexBox
-                  flex="1"
-                  gap="4px"
-                  data-role="select-multiple-render-wrapper"
-                  sx={{ padding: '0px 4px', overflow: 'hidden' }}
-                >
-                  {shouldShowPlaceholder ? (
-                    <Typography
-                      data-role="select-multiple-placeholder"
-                      noWrap
-                      variant="body1"
-                      weight="regular"
-                      sx={ellipsisTypographyStyle(1)}
-                    >
-                      {placeholder}
-                    </Typography>
-                  ) : (
-                    <Typography
-                      data-role="select-multiple-values"
-                      variant="body1"
-                      weight="regular"
-                      {...(overflow === false && {
-                        noWrap: true,
-                        sx: ellipsisTypographyStyle(1),
-                      })}
-                    >
-                      {shouldShowAllSelectedLabel
-                        ? allSelectedLabel
-                        : label.join(', ')}
-                    </Typography>
-                  )}
-                </FlexBox>
-              )}
+                {shouldShowPlaceholder && (
+                  <Typography
+                    data-role="select-multiple-placeholder"
+                    noWrap={!overflow}
+                    sx={selectTextStyle}
+                  >
+                    {placeholder}
+                  </Typography>
+                )}
 
-              {typeof render === 'function' && !shouldShowPlaceholder && (
-                <FlexBox
-                  flex="1"
-                  data-role="select-multiple-render-wrapper"
-                  sx={customSelectMultipleRenderWrapperStyle({
-                    overflow,
-                    isScrollableLeft,
-                    isScrollableRight,
-                  })}
-                >
+                {typeof render === 'undefined' && !shouldShowPlaceholder && (
+                  <Typography
+                    data-role="select-multiple-values"
+                    noWrap={!overflow}
+                    sx={selectTextStyle}
+                  >
+                    {shouldShowAllSelectedLabel
+                      ? allSelectedLabel
+                      : label.join(', ')}
+                  </Typography>
+                )}
+
+                {typeof render === 'function' && !shouldShowPlaceholder && (
                   <ChipProvider solid="semantic.foreground.neutral.tertiary">
                     <FlexBox
-                      ref={setRenderWrapperNode}
-                      gap="4px"
-                      flexWrap={overflow ? 'wrap' : 'nowrap'}
-                      onScrollCapture={handleOnScroll}
+                      flex="1"
+                      data-role="select-multiple-chip-wrapper"
+                      sx={customSelectMultipleRenderWrapperStyle({
+                        overflow,
+                        isScrollableLeft,
+                        isScrollableRight,
+                      })}
                     >
-                      {shouldShowAllSelectedLabel
-                        ? allSelectedLabel
-                        : render(label, value)}
+                      <FlexBox
+                        ref={setRenderWrapperNode}
+                        data-role="select-multiple-chip-render-wrapper"
+                        flexWrap={overflow ? 'wrap' : 'nowrap'}
+                        onScrollCapture={handleOnScroll}
+                      >
+                        {shouldShowAllSelectedLabel
+                          ? allSelectedLabel
+                          : render(label, value)}
+                      </FlexBox>
                     </FlexBox>
                   </ChipProvider>
-                </FlexBox>
-              )}
+                )}
 
-              {invalid && (
                 <SelectContent
-                  data-role="select-multiple-invalid"
                   variant="icon"
-                  sx={invalidIconWrapperStyle}
+                  data-variant="select-multiple-chevron"
                 >
-                  <IconCircleExclamationFill />
+                  {open ? (
+                    <IconChevronUpThickSmall
+                      sx={selectIconStyle({ disabled })}
+                    />
+                  ) : (
+                    <IconChevronDownThickSmall
+                      sx={selectIconStyle({ disabled })}
+                    />
+                  )}
                 </SelectContent>
-              )}
-
-              {open ? (
-                <IconChevronUpThickSmall sx={selectIconStyle({ disabled })} />
-              ) : (
-                <IconChevronDownThickSmall sx={selectIconStyle({ disabled })} />
-              )}
+              </FlexBox>
             </FlexBox>
           </MenuTrigger>
 
