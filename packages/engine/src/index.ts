@@ -2,6 +2,7 @@ export {
   theme,
   lightOriginTheme,
   darkOriginTheme,
+  typographyVar,
   getColorByToken,
   addHexOpacity,
 } from '@montage-ui/theme';
