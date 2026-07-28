@@ -74,6 +74,42 @@ export default [montagePlugin.flatConfig.strict];
 </Button>
 ```
 
+### segmented-control-item-uses-name
+
+`SegmentedControl`이 `iconOnly`일 때 각 `SegmentedControlItem`에 `aria-label`(또는 `aria-labelledby`) 속성을 지정해야 합니다.
+
+```tsx
+<SegmentedControl iconOnly defaultValue="0">
+  <SegmentedControlItem value="0">
+    <IconColumn />
+  </SegmentedControlItem>
+</SegmentedControl>
+```
+
+`iconOnly` 모드에서는 아이템의 텍스트 래퍼가 렌더되지 않아, 해당 속성이 없으면 스크린리더가 각 세그먼트가 무엇을 선택하는지 알 수 없습니다.
+
+```tsx
+// good
+<SegmentedControl iconOnly defaultValue="0">
+  <SegmentedControlItem value="0" aria-label="보드 보기">
+    <IconColumn />
+  </SegmentedControlItem>
+  <SegmentedControlItem value="1" aria-label="목록 보기">
+    <IconList />
+  </SegmentedControlItem>
+</SegmentedControl>
+
+// bad
+<SegmentedControl iconOnly defaultValue="0">
+  <SegmentedControlItem value="0">
+    <IconColumn />
+  </SegmentedControlItem>
+  <SegmentedControlItem value="1">
+    <IconList />
+  </SegmentedControlItem>
+</SegmentedControl>
+```
+
 ### image-uses-alt
 
 아바타, 썸네일 등 시각적 이미지는 스크린리더를 위한 `alt` 속성을 반드시 제공해야 합니다.

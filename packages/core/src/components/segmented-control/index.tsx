@@ -57,8 +57,8 @@ const SegmentedControl = forwardRef<
       value: valueProp,
       onValueChange,
       children,
-      variant = 'solid',
       size = 'medium',
+      iconOnly,
       name,
       xs,
       sm,
@@ -97,13 +97,6 @@ const SegmentedControl = forwardRef<
         `[data-component="segmented-control-item"][data-value="${value}"]`,
       );
 
-      if (variant === 'outlined') {
-        setMotionStyleProperties((prev) => ({ ...prev, display: 'none' }));
-        currentElement?.removeAttribute('data-ssr-motion');
-
-        return;
-      }
-
       if (!parentElement || !targetElement || !nextElement) {
         setMotionStyleProperties((prev) => ({ ...prev, display: 'none' }));
         return;
@@ -125,7 +118,7 @@ const SegmentedControl = forwardRef<
       requestAnimationFrame(() => {
         currentElement?.removeAttribute('data-ssr-motion');
       });
-    }, [node, variant, value, isValueChanged, prevValue]);
+    }, [node, value, isValueChanged, prevValue]);
 
     useResizeObserver(node, handleResize);
 
@@ -145,9 +138,9 @@ const SegmentedControl = forwardRef<
       <SegmentedControlProvider
         value={value}
         onValueChange={setValue}
-        variant={variant}
         size={size}
         name={name}
+        iconOnly={iconOnly}
         responsive={{
           xs,
           sm,
@@ -164,7 +157,7 @@ const SegmentedControl = forwardRef<
             {...props}
             data-component="segmented-control"
             sx={[
-              segmentedControlStyle({ variant, size, xs, sm, md, lg, xl }),
+              segmentedControlStyle({ iconOnly, size, xs, sm, md, lg, xl }),
               props.sx,
             ]}
           >
@@ -191,8 +184,7 @@ const SegmentedControlItem = forwardRef<any, SegmentedControlItemProps>(
       children,
       value,
       disabled,
-      leadingContent,
-      trailingContent,
+      leadingIcon,
       as,
       ...props
     }: PolymorphicPropsInternal<SegmentedControlItemProps, T>,
@@ -206,7 +198,7 @@ const SegmentedControlItem = forwardRef<any, SegmentedControlItemProps>(
       setNode as ForwardedRef<T>,
     );
 
-    const { size, variant, responsive, name, ...context } =
+    const { size, iconOnly, responsive, name, ...context } =
       useSegmentedControlContext(SEGMENTED_CONTROL_ITEM_NAME);
 
     const active = context.value === value;
@@ -240,12 +232,11 @@ const SegmentedControlItem = forwardRef<any, SegmentedControlItemProps>(
           flex="1 1 0"
           alignItems="center"
           justifyContent="center"
-          gap="4px"
           data-value={value}
           role="radio"
           aria-disabled={disabled}
           aria-checked={active}
-          aria-labelledby={id}
+          aria-labelledby={iconOnly ? undefined : id}
           {...props}
           disabled={disabled}
           data-component="segmented-control-item"
@@ -253,9 +244,9 @@ const SegmentedControlItem = forwardRef<any, SegmentedControlItemProps>(
           data-ssr-motion={active}
           sx={[
             segmentedControlItemStyle({
+              iconOnly,
               size,
               active,
-              variant,
               disabled,
               ...responsive,
             }),
@@ -279,25 +270,42 @@ const SegmentedControlItem = forwardRef<any, SegmentedControlItemProps>(
             }
           })}
         >
-          {leadingContent}
-          <span
-            data-role="segmented-control-item-text"
-            aria-selected={active}
-            aria-disabled={disabled}
-            id={id}
-          >
-            {isFormControl && (
-              <VirtualCheckboxInput
-                type="radio"
-                name={name}
-                value={value}
-                checked={active}
-                disabled={disabled}
-              />
-            )}
-            {children}
-          </span>
-          {trailingContent}
+          {iconOnly ? (
+            <>
+              {children}
+              {isFormControl && (
+                <VirtualCheckboxInput
+                  type="radio"
+                  name={name}
+                  value={value}
+                  checked={active}
+                  disabled={disabled}
+                />
+              )}
+            </>
+          ) : (
+            <>
+              {leadingIcon}
+
+              <span
+                data-role="segmented-control-item-text"
+                aria-selected={active}
+                aria-disabled={disabled}
+                id={id}
+              >
+                {isFormControl && (
+                  <VirtualCheckboxInput
+                    type="radio"
+                    name={name}
+                    value={value}
+                    checked={active}
+                    disabled={disabled}
+                  />
+                )}
+                {children}
+              </span>
+            </>
+          )}
         </FlexBox>
       </RovingFocusGroup.Item>
     );
