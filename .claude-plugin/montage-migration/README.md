@@ -29,7 +29,8 @@ Trigger it by asking, for example:
 
 What it does:
 
-1. **Preflight** — version check, clean git tree, target selection, migration state file.
+1. **Preflight** — migration state file first (a resume must not be misread as a fresh
+   project), then version check, clean git tree, and target selection.
 2. **Codemod phase** — runs the 6 v4 codemods **strictly in sequence, each exactly once**
    (`package-name-migration` → `semantic-token-migration` → `css-variable-migration` →
    `dom-identifier-migration` → `list-card-migration` → `form-control-migration`),
@@ -39,7 +40,8 @@ What it does:
 3. **Manual migrations** — theme token `var(--...)` arithmetic, package.json/config
    renames, semantic token follow-ups (foreground/surface reclassification, deleted
    accent tokens), DOM identifier leftovers, Card/ListCard and FormControl follow-ups,
-   Modal/TextField/TextArea behavioral changes.
+   Modal/TextField/TextArea/SegmentedControl behavioral changes, ThemeProvider cookie
+   storage.
 4. **Verification** — leftover greps, install/typecheck/lint/build/tests, summary.
 
 The codemods are order-sensitive and must not run twice (re-running
