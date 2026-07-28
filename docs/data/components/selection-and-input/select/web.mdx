@@ -376,6 +376,20 @@ const Demo = () => {
           </OptionGroup>
         ))}
       </Select>
+
+      <Select disabled width="25ch" placeholder="선택해주세요." value="값 0 0">
+        {new Array(3).fill(0).map((_, i) => (
+          <OptionGroup key={i} title={\`그룹 \${i + 1}\`}>
+            {new Array(3).fill(0)
+              .map((__, j) => (
+                <Option key={j} value={\`값 \${i} \${j}\`}>
+                  {\`값 \${i} \${j}\`}
+                </Option>
+              ))
+            }
+          </OptionGroup>
+        ))}
+      </Select>
     </FlexBox>
   )
 }
