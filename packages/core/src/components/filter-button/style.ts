@@ -114,7 +114,7 @@ const filterButtonSizeStyle = (
       `;
     case 'large':
       return css`
-        border-radius: ${theme.radius[10]};
+        border-radius: ${theme.radius[12]};
         padding: ${`${theme.spacing[10]} ${theme.spacing[10]} ${theme.spacing[10]} ${theme.spacing[12]}`};
         gap: ${theme.spacing[0]};
 
