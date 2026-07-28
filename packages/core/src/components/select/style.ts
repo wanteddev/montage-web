@@ -74,8 +74,8 @@ export const selectStyle =
           box-shadow: inset 0 0 0 1px ${theme.semantic.line.neutral.tertiary};
           cursor: default;
 
-          [data-role='select-placeholder']
-            [data-role='select-multiple-placeholder'] {
+          [data-role='select-placeholder'],
+          [data-role='select-multiple-placeholder'] {
             color: ${theme.semantic.foreground.disable.primary};
           }
 
