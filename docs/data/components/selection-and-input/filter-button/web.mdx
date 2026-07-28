@@ -87,11 +87,34 @@ export default Demo;`}
 
 const Demo = () => {
   return (
-    <FlexBox gap="8px" alignItems="center" flexWrap="wrap">
-      <FilterButton variant="solid">직군</FilterButton>
-      <FilterButton activeLabel={3} variant="solid" active>직무</FilterButton>
-      <FilterButton variant="outlined">지역</FilterButton>
-      <FilterButton activeLabel={2} variant="outlined" active>태그</FilterButton>
+    <FlexBox gap="12px" flexDirection="column" alignItems="center">
+      <FlexBox gap="12px" alignItems="center" flexWrap="wrap">
+        <FilterButton size="xsmall" variant="solid" active>Solid</FilterButton>
+        <FilterButton size="small" variant="solid" active>Solid</FilterButton>
+        <FilterButton size="medium" variant="solid" active>Solid</FilterButton>
+        <FilterButton size="large" variant="solid" active>Solid</FilterButton>
+      </FlexBox>
+
+      <FlexBox gap="12px" alignItems="center" flexWrap="wrap">
+        <FilterButton size="xsmall" variant="solid" active activeLabel={2}>Solid</FilterButton>
+        <FilterButton size="small" variant="solid" active activeLabel={2}>Solid</FilterButton>
+        <FilterButton size="medium" variant="solid" active activeLabel={2}>Solid</FilterButton>
+        <FilterButton size="large" variant="solid" active activeLabel={2}>Solid</FilterButton>
+      </FlexBox>
+
+      <FlexBox gap="12px" alignItems="center" flexWrap="wrap">
+        <FilterButton size="xsmall" variant="outlined" active>Outlined</FilterButton>
+        <FilterButton size="small" variant="outlined" active>Outlined</FilterButton>
+        <FilterButton size="medium" variant="outlined" active>Outlined</FilterButton>
+        <FilterButton size="large" variant="outlined" active>Outlined</FilterButton>
+      </FlexBox>
+
+      <FlexBox gap="12px" alignItems="center" flexWrap="wrap">
+        <FilterButton size="xsmall" variant="outlined" active activeLabel={2}>Outlined</FilterButton>
+        <FilterButton size="small" variant="outlined" active activeLabel={2}>Outlined</FilterButton>
+        <FilterButton size="medium" variant="outlined" active activeLabel={2}>Outlined</FilterButton>
+        <FilterButton size="large" variant="outlined" active activeLabel={2}>Outlined</FilterButton>
+      </FlexBox>
     </FlexBox>
   )
 }
