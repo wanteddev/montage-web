@@ -25,7 +25,6 @@ import { selectIconStyle, selectStyle, selectTextStyle } from '../select/style';
 import useResizeObserver from '../../hooks/internal/use-resize-observer';
 import { VirtualValueInput } from '../virtual-input';
 import { SelectProvider } from '../select/context';
-import { ChipProvider } from '../chip/contexts';
 
 import { customSelectMultipleRenderWrapperStyle } from './style';
 
@@ -281,28 +280,26 @@ const SelectMultiple = forwardRef<
                 )}
 
                 {typeof render === 'function' && !shouldShowPlaceholder && (
-                  <ChipProvider solid="semantic.foreground.neutral.tertiary">
+                  <FlexBox
+                    flex="1"
+                    data-role="select-multiple-chip-wrapper"
+                    sx={customSelectMultipleRenderWrapperStyle({
+                      overflow,
+                      isScrollableLeft,
+                      isScrollableRight,
+                    })}
+                  >
                     <FlexBox
-                      flex="1"
-                      data-role="select-multiple-chip-wrapper"
-                      sx={customSelectMultipleRenderWrapperStyle({
-                        overflow,
-                        isScrollableLeft,
-                        isScrollableRight,
-                      })}
+                      ref={setRenderWrapperNode}
+                      data-role="select-multiple-chip-render-wrapper"
+                      flexWrap={overflow ? 'wrap' : 'nowrap'}
+                      onScrollCapture={handleOnScroll}
                     >
-                      <FlexBox
-                        ref={setRenderWrapperNode}
-                        data-role="select-multiple-chip-render-wrapper"
-                        flexWrap={overflow ? 'wrap' : 'nowrap'}
-                        onScrollCapture={handleOnScroll}
-                      >
-                        {shouldShowAllSelectedLabel
-                          ? allSelectedLabel
-                          : render(label, value)}
-                      </FlexBox>
+                      {shouldShowAllSelectedLabel
+                        ? allSelectedLabel
+                        : render(label, value)}
                     </FlexBox>
-                  </ChipProvider>
+                  </FlexBox>
                 )}
 
                 <SelectContent
