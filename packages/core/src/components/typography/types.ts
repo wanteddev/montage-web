@@ -2,32 +2,13 @@ import type {
   Merge,
   ResponsiveProps,
   ThemeColorsToken,
+  TypographyVariant,
+  TypographyWeight,
   WithSxProps,
 } from '@montage-ui/engine';
 import type { CSSProperties, ReactNode } from 'react';
 
-export type TypographyVariant =
-  | 'display1'
-  | 'display2'
-  | 'display3'
-  | 'title1'
-  | 'title2'
-  | 'title3'
-  | 'heading1'
-  | 'heading2'
-  | 'headline1'
-  | 'headline2'
-  | 'body1'
-  | 'body1-reading'
-  | 'body2'
-  | 'body2-reading'
-  | 'label1'
-  | 'label1-reading'
-  | 'label2'
-  | 'caption1'
-  | 'caption2';
-
-export type TypographyWeight = 'regular' | 'medium' | 'bold';
+export type { TypographyVariant, TypographyWeight };
 
 export type TypographyDefaultProps = WithSxProps<{
   variant?: TypographyVariant;
