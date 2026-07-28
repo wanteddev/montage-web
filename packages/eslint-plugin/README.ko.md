@@ -44,7 +44,7 @@ export default [montagePlugin.flatConfig.strict];
 
 ### icon-button-uses-name
 
-아이콘을 버튼으로 사용할 때 `name` 혹은 `aria-label` 옵션을 지정해야 합니다.
+아이콘을 버튼으로 사용할 때 `aria-label` 옵션을 지정해야 합니다.
 
 ```tsx
 <IconButton>
@@ -56,7 +56,7 @@ export default [montagePlugin.flatConfig.strict];
 
 ```tsx
 // good
-<IconButton name="Close modal">
+<IconButton aria-label="Close modal">
   <IconCloseThick />
 </IconButton>
 
