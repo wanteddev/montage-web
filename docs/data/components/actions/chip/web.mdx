@@ -79,6 +79,36 @@ const Demo = () => {
 export default Demo;`}
 />
 
+## Icon only
+
+iconOnly prop 을 사용하면 아이콘만 단독으로 배치할 수 있습니다.<br/>
+다른 Solid, Outlined Chip과 나란히 함께 사용할 때 iconOnly를 사용합니다.
+
+<Demo code={`import { FlexBox, Chip } from '@montage-ui/core';
+import { IconBlank } from '@montage-ui/icon';
+
+const Demo = () => {
+  return (
+    <FlexBox gap="12px" justifyContent="center">
+      <Chip variant="solid" iconOnly>
+        <IconBlank />
+      </Chip>
+      <Chip variant="solid" iconOnly active>
+        <IconBlank />
+      </Chip>
+      <Chip variant="outlined" iconOnly>
+        <IconBlank />
+      </Chip>
+      <Chip variant="outlined" iconOnly active>
+        <IconBlank />
+      </Chip>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
 ## Sizes
 
 4가지 사이즈를 제공합니다.
@@ -88,37 +118,68 @@ export default Demo;`}
 - large
 
 <Demo code={`import { Chip, FlexBox } from '@montage-ui/core';
+import { IconBlank } from '@montage-ui/icon';
 
 const Demo = () => {
   return (
     <FlexBox gap="12px" flexDirection="column" alignItems="center">
       <FlexBox gap="12px" alignItems="center">
-        <Chip variant="solid" size="xsmall">
+        <Chip variant="solid" size="xsmall" leadingContent={<IconBlank />} trailingContent={<IconBlank />}>
           XSmall
         </Chip>
-        <Chip variant="solid" size="small">
+        <Chip variant="solid" size="small" leadingContent={<IconBlank />} trailingContent={<IconBlank />}>
           Small
         </Chip>
-        <Chip variant="solid" size="medium">
+        <Chip variant="solid" size="medium" leadingContent={<IconBlank />} trailingContent={<IconBlank />}>
           Medium
         </Chip>
-        <Chip variant="solid" size="large">
+        <Chip variant="solid" size="large" leadingContent={<IconBlank />} trailingContent={<IconBlank />}>
           Large
         </Chip>
       </FlexBox>
 
       <FlexBox gap="12px" alignItems="center">
-        <Chip variant="outlined" size="xsmall">
+        <Chip variant="outlined" size="xsmall" leadingContent={<IconBlank />} trailingContent={<IconBlank />}>
           XSmall
         </Chip>
-        <Chip variant="outlined" size="small">
+        <Chip variant="outlined" size="small" leadingContent={<IconBlank />} trailingContent={<IconBlank />}>
           Small
         </Chip>
-        <Chip variant="outlined" size="medium">
+        <Chip variant="outlined" size="medium" leadingContent={<IconBlank />} trailingContent={<IconBlank />}>
           Medium
         </Chip>
-        <Chip variant="outlined" size="large">
+        <Chip variant="outlined" size="large" leadingContent={<IconBlank />} trailingContent={<IconBlank />}>
           Large
+        </Chip>
+      </FlexBox>
+
+      <FlexBox gap="12px" alignItems="center">
+        <Chip variant="solid" size="xsmall" iconOnly>
+          <IconBlank />
+        </Chip>
+        <Chip variant="solid" size="small" iconOnly>
+          <IconBlank />
+        </Chip>
+        <Chip variant="solid" size="medium" iconOnly>
+          <IconBlank />
+        </Chip>
+        <Chip variant="solid" size="large" iconOnly>
+          <IconBlank />
+        </Chip>
+      </FlexBox>
+
+      <FlexBox gap="12px" alignItems="center">
+        <Chip variant="outlined" size="xsmall" iconOnly>
+          <IconBlank />
+        </Chip>
+        <Chip variant="outlined" size="small" iconOnly>
+          <IconBlank />
+        </Chip>
+        <Chip variant="outlined" size="medium" iconOnly>
+          <IconBlank />
+        </Chip>
+        <Chip variant="outlined" size="large" iconOnly>
+          <IconBlank />
         </Chip>
       </FlexBox>
     </FlexBox>

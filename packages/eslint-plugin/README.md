@@ -44,7 +44,7 @@ export default [montagePlugin.flatConfig.strict];
 
 ### icon-button-uses-name
 
-When using an icon as a button, you must specify the `name` or `aria-label` attribute.
+When using an icon as a button, you must specify the `aria-label` attribute.
 
 ```tsx
 <IconButton>
@@ -56,7 +56,7 @@ Without this attribute, screen readers cannot identify the purpose of the button
 
 ```tsx
 // good
-<IconButton name="Close modal">
+<IconButton aria-label="Close modal">
   <IconCloseThick />
 </IconButton>
 
