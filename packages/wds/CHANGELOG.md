@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.11.1](https://github.com/wanteddev/montage-web/compare/v3.11.0...v3.11.1) (2026-07-28)
+
+### Bug Fixes
+
+- **wds:** slider thumb이 겹칠 때 조작과 완료 콜백이 끊기는 문제 수정 ([#613](https://github.com/wanteddev/montage-web/issues/613)) ([da0348e](https://github.com/wanteddev/montage-web/commit/da0348e1cb31eba66281e50329c589890eeb9d88))
+
 # [3.11.0](https://github.com/wanteddev/montage-web/compare/v3.10.0...v3.11.0) (2026-07-06)
 
 **Note:** Version bump only for package @wanteddev/wds
