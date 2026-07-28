@@ -2,7 +2,6 @@ import { css, getColorByToken } from '@montage-ui/engine';
 
 import { typographyStyle } from '../../utils/typography';
 import { createResponsiveStyle } from '../../utils/internal/responsive-props';
-import { addOpacity } from '../../utils';
 
 import type { ChipProps } from './types';
 import type { Theme, ThemeColorsToken } from '@montage-ui/engine';
@@ -12,7 +11,17 @@ type ChipStyleProps = ChipProps & {
 };
 
 export const chipStyle =
-  ({ xs, sm, md, lg, xl, overrideColor, ...props }: ChipStyleProps) =>
+  ({
+    xs,
+    sm,
+    md,
+    lg,
+    xl,
+    overrideColor,
+    size,
+    iconOnly,
+    variant,
+  }: ChipStyleProps) =>
   (theme: Theme) => css`
     display: inline-flex;
     align-items: center;
@@ -36,77 +45,84 @@ export const chipStyle =
       cursor: initial;
     }
 
-    ${chipVariantStyle({ ...props, overrideColor }, theme)}
-    ${chipSizeStyle(props)}
+    ${chipVariantStyle({ variant, overrideColor }, theme)}
+    ${chipSizeStyle({ size, iconOnly }, theme)}
 
   ${createResponsiveStyle(
       { xs, sm, md, lg, xl },
       theme,
     )(
       (params) => css`
-        ${chipSizeStyle(params)}
+        ${chipSizeStyle({ size: params?.size, iconOnly }, theme)}
         ${params?.sx}
       `,
     )}
   `;
 
-const chipSizeStyle = ({ size }: ChipProps = {}) => {
+const chipSizeStyle = ({ size, iconOnly }: ChipProps = {}, theme: Theme) => {
   switch (size) {
     case 'xsmall':
       return css`
-        border-radius: 6px;
-        padding: 4px 7px;
-        gap: 2px;
+        border-radius: ${theme.radius[8]};
+        padding: 5px ${theme.spacing[6]};
+        min-height: ${theme.dimension[24]};
+        gap: ${theme.spacing[0]};
 
         svg {
-          font-size: 12px;
+          font-size: ${theme.dimension[12]};
         }
         & > span {
-          ${typographyStyle('caption1', 'medium')}
-          padding: 0 1px;
+          ${typographyStyle('caption2', 'medium')}
+          padding: ${theme.spacing[0]} ${theme.spacing[2]};
         }
       `;
     case 'small':
       return css`
-        border-radius: 8px;
-        padding: 6px 8px;
-        gap: 2px;
+        border-radius: ${theme.radius[10]};
+        min-height: ${theme.dimension[32]};
+        padding: ${iconOnly ? '9px' : theme.spacing[8]};
+        gap: ${theme.spacing[2]};
 
         svg {
-          font-size: 14px;
+          font-size: ${theme.dimension[14]};
         }
         & > span {
-          ${typographyStyle('label1', 'medium')}
-          padding: 0 2px;
+          ${typographyStyle('caption1', 'medium')}
+          padding: ${theme.spacing[0]} ${theme.spacing[2]};
         }
       `;
     case 'medium':
       return css`
-        border-radius: 8px;
-        padding: 7px 11px;
-        gap: 3px;
+        border-radius: ${theme.radius[10]};
+        min-height: ${theme.dimension[36]};
+        padding: ${iconOnly ? '11px' : `9px ${theme.spacing[10]}`};
+        gap: ${theme.spacing[2]};
 
         svg {
-          font-size: 14px;
+          font-size: ${theme.dimension[14]};
         }
 
         & > span {
-          ${typographyStyle('body2', 'medium')}
-          padding: 0 2px;
+          ${typographyStyle('label2', 'medium')}
+          padding: ${theme.spacing[0]} ${theme.spacing[2]};
         }
       `;
     case 'large':
       return css`
-        border-radius: 10px;
-        padding: 9px 12px;
-        gap: 3px;
+        border-radius: ${theme.radius[12]};
+        min-height: ${theme.dimension[40]};
+        padding: ${iconOnly
+          ? theme.spacing[12]
+          : `${theme.spacing[10]} ${theme.spacing[12]}`};
+        gap: ${theme.spacing[2]};
 
         svg {
-          font-size: 16px;
+          font-size: ${theme.dimension[16]};
         }
+
         & > span {
-          ${typographyStyle('body2', 'medium')}
-          padding: 0 2px;
+          ${typographyStyle('label1', 'medium')}
+          padding: ${theme.spacing[0]} ${theme.spacing[2]};
         }
       `;
   }
@@ -126,8 +142,8 @@ const chipVariantStyle = (
         box-shadow: none;
 
         &[data-active='true'] {
-          color: ${theme.semantic.foreground.neutral.inverse};
-          background-color: ${theme.semantic.surface.neutral.inverse};
+          color: ${theme.semantic.foreground.brand.primary};
+          background-color: ${theme.semantic.surface.brand.subtle};
         }
 
         &:disabled,
@@ -146,15 +162,8 @@ const chipVariantStyle = (
         box-shadow: inset 0 0 0 1px ${theme.semantic.line.neutral.secondary};
 
         &[data-active='true'] {
-          background-color: ${addOpacity(
-            theme.semantic.surface.brand.primary,
-            theme.opacity[5],
-          )};
-          box-shadow: inset 0 0 0 1px
-            ${addOpacity(
-              theme.semantic.surface.brand.primary,
-              theme.opacity[43],
-            )};
+          background-color: ${theme.semantic.surface.brand.subtle};
+          box-shadow: inset 0 0 0 1px ${theme.semantic.line.brand.primary};
           color: ${theme.semantic.foreground.brand.primary};
         }
 

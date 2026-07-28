@@ -14,6 +14,8 @@ export type ChipDefaultProps = WithSxProps<{
   leadingContent?: ReactNode;
   /** Content displayed in the trailing area. */
   trailingContent?: ReactNode;
+  /** Whether to show only the icon. If `iconOnly` is enabled, you must provide an icon component as the `children`. */
+  iconOnly?: boolean;
   /** The content of the chip. */
   children?: ReactNode;
 }>;
