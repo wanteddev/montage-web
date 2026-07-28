@@ -6,11 +6,7 @@ createdAt: 2025-05-12
 
 ## Basic segmented control
 
-`SegmentedControl` 은 2가지 variant 를 사용할 수 있습니다.
-- solid (default)
-- outlined
-
-### Solid
+여러 항목 중 하나를 선택하여 보기 방식이나 필터를 변경할 때 사용합니다.
 
 <Demo code={`import {
   SegmentedControl,
@@ -19,7 +15,7 @@ createdAt: 2025-05-12
 
 const Demo = () => {
   return (
-    <SegmentedControl variant="solid" defaultValue="0">
+    <SegmentedControl defaultValue="0" sx={{ width: '40%', minWidth: 260 }}>
       <SegmentedControlItem value="0">
         Board
       </SegmentedControlItem>
@@ -33,28 +29,6 @@ const Demo = () => {
 export default Demo;`}
 />
 
-### Outlined
-
-<Demo code={`import {
-  SegmentedControl,
-  SegmentedControlItem,
-} from '@montage-ui/core';
-
-const Demo = () => {
-  return (
-    <SegmentedControl variant="outlined" defaultValue="0">
-      <SegmentedControlItem value="0">
-        Board
-      </SegmentedControlItem>
-     <SegmentedControlItem value="1">
-        List
-      </SegmentedControlItem>
-    </SegmentedControl>
-  )
-}
-
-export default Demo;`}
-/>
 
 ## Sizes
 
@@ -71,52 +45,30 @@ export default Demo;`}
 
 const Demo = () => {
   return (
-    <FlexBox flexDirection="Column" gap="12px" sx={{ width: '100%' }}>
-      <SegmentedControl variant="solid" size="small" defaultValue="0">
+    <FlexBox flexDirection="column" gap="12px" sx={{ width: '40%', minWidth: 260 }}>
+      <SegmentedControl size="small" defaultValue="0">
         <SegmentedControlItem value="0">
           Board
         </SegmentedControlItem>
-      <SegmentedControlItem value="1">
+        <SegmentedControlItem value="1">
           List
         </SegmentedControlItem>
       </SegmentedControl>
-      <SegmentedControl variant="solid" size="medium" defaultValue="0">
+
+      <SegmentedControl size="medium" defaultValue="0">
         <SegmentedControlItem value="0">
           Board
         </SegmentedControlItem>
-      <SegmentedControlItem value="1">
+        <SegmentedControlItem value="1">
           List
         </SegmentedControlItem>
       </SegmentedControl>
-      <SegmentedControl variant="solid" size="large" defaultValue="0">
+
+      <SegmentedControl size="large" defaultValue="0">
         <SegmentedControlItem value="0">
           Board
         </SegmentedControlItem>
-      <SegmentedControlItem value="1">
-          List
-        </SegmentedControlItem>
-      </SegmentedControl>
-      <SegmentedControl variant="outlined" size="small" defaultValue="0">
-        <SegmentedControlItem value="0">
-          Board
-        </SegmentedControlItem>
-      <SegmentedControlItem value="1">
-          List
-        </SegmentedControlItem>
-      </SegmentedControl>
-      <SegmentedControl variant="outlined" size="medium" defaultValue="0">
-        <SegmentedControlItem value="0">
-          Board
-        </SegmentedControlItem>
-      <SegmentedControlItem value="1">
-          List
-        </SegmentedControlItem>
-      </SegmentedControl>
-      <SegmentedControl variant="outlined" size="large" defaultValue="0">
-        <SegmentedControlItem value="0">
-          Board
-        </SegmentedControlItem>
-      <SegmentedControlItem value="1">
+        <SegmentedControlItem value="1">
           List
         </SegmentedControlItem>
       </SegmentedControl>
@@ -129,24 +81,94 @@ export default Demo;`}
 
 ## With icon
 
-`leadingContent` prop 을 사용하면 앞쪽에 아이콘을 추가할 수 있습니다.
+`leadingIcon` prop 을 사용하면 앞쪽에 아이콘을 추가할 수 있습니다.
 
 <Demo code={`import {
   SegmentedControl,
   SegmentedControlItem,
+  FlexBox,
 } from '@montage-ui/core';
 import { IconColumn, IconList } from '@montage-ui/icon';
 
 const Demo = () => {
   return (
-    <SegmentedControl defaultValue="0">
-      <SegmentedControlItem value="0"  leadingContent={<IconColumn />}>
-        Board
-      </SegmentedControlItem>
-     <SegmentedControlItem value="1" leadingContent={<IconList />}>
-        List
-      </SegmentedControlItem>
-    </SegmentedControl>
+    <FlexBox flexDirection="column" gap="12px" sx={{ width: '40%', minWidth: 260 }}>
+      <SegmentedControl size="small" defaultValue="0">
+        <SegmentedControlItem value="0" leadingIcon={<IconColumn />}>
+          Board
+        </SegmentedControlItem>
+        <SegmentedControlItem value="1" leadingIcon={<IconList />}>
+          List
+        </SegmentedControlItem>
+      </SegmentedControl>
+
+      <SegmentedControl size="medium" defaultValue="0">
+        <SegmentedControlItem value="0" leadingIcon={<IconColumn />}>
+          Board
+        </SegmentedControlItem>
+        <SegmentedControlItem value="1">
+          List
+        </SegmentedControlItem>
+      </SegmentedControl>
+
+      <SegmentedControl size="large" defaultValue="0">
+        <SegmentedControlItem value="0" leadingIcon={<IconColumn />}>
+          Board
+        </SegmentedControlItem>
+        <SegmentedControlItem value="1" leadingIcon={<IconList />}>
+          List
+        </SegmentedControlItem>
+      </SegmentedControl>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Icon only
+
+`iconOnly` prop 을 사용하면 텍스트 대신 아이콘만 표시할 수 있습니다.
+
+`aria-label`을 통해 적절한 라벨을 주입해야 합니다.
+
+<Demo code={`import {
+  SegmentedControl,
+  SegmentedControlItem,
+  FlexBox,
+} from '@montage-ui/core';
+import { IconColumn, IconList } from '@montage-ui/icon';
+
+const Demo = () => {
+  return (
+    <FlexBox flexDirection="column" gap="12px" alignItems="center">
+      <SegmentedControl size="small" iconOnly defaultValue="0">
+        <SegmentedControlItem value="0" aria-label="Apply filter to board">
+          <IconColumn />
+        </SegmentedControlItem>
+        <SegmentedControlItem value="1" aria-label="Apply filter to list">
+            <IconList />
+        </SegmentedControlItem>
+      </SegmentedControl>
+
+      <SegmentedControl size="medium" iconOnly defaultValue="0">
+        <SegmentedControlItem value="0" aria-label="Apply filter to board">
+          <IconColumn />
+        </SegmentedControlItem>
+        <SegmentedControlItem value="1" aria-label="Apply filter to list">
+            <IconList />
+        </SegmentedControlItem>
+      </SegmentedControl>
+
+      <SegmentedControl size="large" iconOnly defaultValue="0">
+        <SegmentedControlItem value="0" aria-label="Apply filter to board">
+          <IconColumn />
+        </SegmentedControlItem>
+        <SegmentedControlItem value="1" aria-label="Apply filter to list">
+          <IconList />
+        </SegmentedControlItem>
+      </SegmentedControl>
+    </FlexBox>
   )
 }
 

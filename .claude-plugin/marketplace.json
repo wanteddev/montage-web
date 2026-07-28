@@ -14,7 +14,7 @@
     {
       "name": "montage-web-migration",
       "source": "./.claude-plugin/montage-migration",
-      "description": "Migration tool for Wanted Lab Design System for Web"
+      "description": "Migrates consumer projects between major versions of Montage (Wanted Design System for Web)"
     }
   ]
 }

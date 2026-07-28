@@ -74,6 +74,42 @@ Without this attribute, screen readers cannot identify the purpose of the button
 </Button>
 ```
 
+### segmented-control-item-uses-name
+
+When a `SegmentedControl` is `iconOnly`, each `SegmentedControlItem` must specify the `aria-label` (or `aria-labelledby`) attribute.
+
+```tsx
+<SegmentedControl iconOnly defaultValue="0">
+  <SegmentedControlItem value="0">
+    <IconColumn />
+  </SegmentedControlItem>
+</SegmentedControl>
+```
+
+In `iconOnly` mode the item's text wrapper is not rendered, so without this attribute screen readers cannot identify what each segment selects.
+
+```tsx
+// good
+<SegmentedControl iconOnly defaultValue="0">
+  <SegmentedControlItem value="0" aria-label="Board view">
+    <IconColumn />
+  </SegmentedControlItem>
+  <SegmentedControlItem value="1" aria-label="List view">
+    <IconList />
+  </SegmentedControlItem>
+</SegmentedControl>
+
+// bad
+<SegmentedControl iconOnly defaultValue="0">
+  <SegmentedControlItem value="0">
+    <IconColumn />
+  </SegmentedControlItem>
+  <SegmentedControlItem value="1">
+    <IconList />
+  </SegmentedControlItem>
+</SegmentedControl>
+```
+
 ### image-uses-alt
 
 Visual images such as avatars and thumbnails must provide an `alt` attribute for screen readers.
