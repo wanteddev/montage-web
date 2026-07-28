@@ -34,7 +34,7 @@ export default {
         'Required aria-label prop for montage icon button components',
     },
     messages: {
-      error: 'For accessibility, please provide a aria-label attribute.',
+      error: 'For accessibility, please provide an aria-label attribute.',
     },
   },
 
