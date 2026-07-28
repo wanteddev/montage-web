@@ -189,7 +189,8 @@ const SelectMultiple = forwardRef<
         {isFormControl && (
           <VirtualValueInput
             name={props.name}
-            value={value.join(',')}
+            // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+            value={Array.isArray(value) ? value.join(',') : (value ?? '')}
             aria-invalid={invalid}
             disabled={disabled}
             tabIndex={-1}
