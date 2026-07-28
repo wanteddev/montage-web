@@ -11,7 +11,17 @@ type ChipStyleProps = ChipProps & {
 };
 
 export const chipStyle =
-  ({ xs, sm, md, lg, xl, overrideColor, ...props }: ChipStyleProps) =>
+  ({
+    xs,
+    sm,
+    md,
+    lg,
+    xl,
+    overrideColor,
+    size,
+    iconOnly,
+    variant,
+  }: ChipStyleProps) =>
   (theme: Theme) => css`
     display: inline-flex;
     align-items: center;
@@ -35,15 +45,15 @@ export const chipStyle =
       cursor: initial;
     }
 
-    ${chipVariantStyle({ ...props, overrideColor }, theme)}
-    ${chipSizeStyle(props, theme)}
+    ${chipVariantStyle({ variant, overrideColor }, theme)}
+    ${chipSizeStyle({ size, iconOnly }, theme)}
 
   ${createResponsiveStyle(
       { xs, sm, md, lg, xl },
       theme,
     )(
       (params) => css`
-        ${chipSizeStyle(params, theme)}
+        ${chipSizeStyle({ size: params?.size, iconOnly }, theme)}
         ${params?.sx}
       `,
     )}

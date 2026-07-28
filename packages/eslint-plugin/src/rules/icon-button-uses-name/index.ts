@@ -31,11 +31,10 @@ export default {
     docs: {
       url: 'https://github.com/wanteddev/montage-web/tree/main/packages/eslint-plugin/README.md#icon-button-uses-name',
       description:
-        'Required name or aria-label prop for montage icon button components',
+        'Required aria-label prop for montage icon button components',
     },
     messages: {
-      error:
-        'For accessibility, please provide a name or aria-label attribute.',
+      error: 'For accessibility, please provide a aria-label attribute.',
     },
   },
 
@@ -78,10 +77,9 @@ export default {
           return;
         }
 
-        const nameProp = getProp(element.attributes, 'name');
         const ariaLabelProp = getProp(element.attributes, 'aria-label');
 
-        if (Boolean(nameProp) || Boolean(ariaLabelProp)) {
+        if (Boolean(ariaLabelProp)) {
           return;
         }
 

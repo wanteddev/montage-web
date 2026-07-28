@@ -18,34 +18,6 @@ run({
       code: `
         import { IconButton } from '@montage-ui/core';
 
-        <IconButton name="close" />
-      `,
-    },
-    {
-      code: `
-        import { Button } from '@montage-ui/core';
-
-        <Button iconOnly name="close" />
-      `,
-    },
-    {
-      code: `
-        import { Button } from '@montage-ui/core';
-
-        <Button iconOnly={false} />
-      `,
-    },
-    {
-      code: `
-        import { TopNavigationButton } from '@montage-ui/core';
-
-        <TopNavigationButton name="close" />
-      `,
-    },
-    {
-      code: `
-        import { IconButton } from '@montage-ui/core';
-
         <IconButton aria-label="close" />
       `,
     },
@@ -58,9 +30,16 @@ run({
     },
     {
       code: `
-        import { TopNavigationButton } from '@montage-ui/core';
+        import { Button } from '@montage-ui/core';
 
-        <TopNavigationButton aria-label="close" />
+        <Button iconOnly={false} />
+      `,
+    },
+    {
+      code: `
+        import { IconButton } from '@montage-ui/core';
+
+        <IconButton aria-label="close" />
       `,
     },
     {
@@ -68,6 +47,27 @@ run({
         import { Chip } from '@montage-ui/core';
 
         <Chip iconOnly aria-label="close" />
+      `,
+    },
+    {
+      code: `
+        import { Chip } from '@montage-ui/core';
+
+        <Chip iconOnly={false} />
+      `,
+    },
+    {
+      code: `
+        import { Chip } from '@montage-ui/core';
+
+        <Chip />
+      `,
+    },
+    {
+      code: `
+        import { TopNavigationButton } from '@montage-ui/core';
+
+        <TopNavigationButton aria-label="close" />
       `,
     },
   ],

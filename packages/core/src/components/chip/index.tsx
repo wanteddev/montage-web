@@ -9,7 +9,6 @@ import { useChipContext } from './contexts';
 import type {
   PolymorphicComponentInternal,
   PolymorphicPropsInternal,
-  ThemeColorsToken,
 } from '@montage-ui/engine';
 import type { ElementType, ForwardedRef } from 'react';
 import type { ChipProps } from './types';
@@ -41,38 +40,18 @@ const Chip = forwardRef(
 
     const active = givenActive ?? props['aria-pressed'];
 
-    const interactionColor: ThemeColorsToken = useMemo(() => {
-      if (!active) {
-        return 'semantic.foreground.neutral.primary';
-      }
-
-      if (variant === 'outlined') {
-        return 'semantic.foreground.brand.primary';
-      }
-
-      return 'semantic.foreground.neutral.inverse';
-    }, [active, variant]);
-
-    const interactionVariant = useMemo(() => {
-      if (!active) {
-        return 'light';
-      }
-
-      if (variant === 'outlined') {
-        return 'normal';
-      }
-
-      return 'strong';
-    }, [active, variant]);
-
     const overrideColor = useMemo(() => {
       return context?.[variant];
     }, [context, variant]);
 
     return (
       <WithInteraction
-        color={interactionColor}
-        variant={interactionVariant}
+        color={
+          active
+            ? 'semantic.foreground.brand.primary'
+            : 'semantic.foreground.neutral.primary'
+        }
+        variant={active ? 'normal' : 'light'}
         disabled={disableInteraction || disabled}
       >
         <Box
