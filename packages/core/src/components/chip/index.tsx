@@ -9,7 +9,6 @@ import { useChipContext } from './contexts';
 import type {
   PolymorphicComponentInternal,
   PolymorphicPropsInternal,
-  ThemeColorsToken,
 } from '@montage-ui/engine';
 import type { ElementType, ForwardedRef } from 'react';
 import type { ChipProps } from './types';
@@ -21,6 +20,7 @@ const Chip = forwardRef(
       variant = 'solid',
       disabled = false,
       disableInteraction = false,
+      iconOnly,
       leadingContent,
       trailingContent,
       size = 'medium',
@@ -40,41 +40,35 @@ const Chip = forwardRef(
 
     const active = givenActive ?? props['aria-pressed'];
 
-    const interactionColor: ThemeColorsToken = useMemo(() => {
-      if (!active) {
-        return 'semantic.foreground.neutral.primary';
-      }
-
-      if (variant === 'outlined') {
-        return 'semantic.surface.brand.primary';
-      }
-
-      return 'semantic.foreground.neutral.inverse';
-    }, [active, variant]);
-
     const overrideColor = useMemo(() => {
       return context?.[variant];
     }, [context, variant]);
 
     return (
       <WithInteraction
-        color={interactionColor}
+        color={
+          active
+            ? 'semantic.foreground.brand.primary'
+            : 'semantic.foreground.neutral.primary'
+        }
         variant={active ? 'normal' : 'light'}
         disabled={disableInteraction || disabled}
       >
         <Box
           as={as || 'button'}
-          aria-labelledby={id}
+          aria-labelledby={iconOnly ? undefined : id}
           role="button"
           type="button"
           ref={ref}
           disabled={disabled}
+          data-component="chip"
           aria-disabled={disabled}
           data-active={active}
           aria-pressed={active}
           {...props}
           sx={[
             chipStyle({
+              iconOnly,
               overrideColor,
               active,
               variant,
@@ -88,9 +82,15 @@ const Chip = forwardRef(
             props.sx,
           ]}
         >
-          {Boolean(leadingContent) && leadingContent}
-          <span id={id}>{children}</span>
-          {Boolean(trailingContent) && trailingContent}
+          {iconOnly ? (
+            children
+          ) : (
+            <>
+              {Boolean(leadingContent) && leadingContent}
+              <span id={id}>{children}</span>
+              {Boolean(trailingContent) && trailingContent}
+            </>
+          )}
         </Box>
       </WithInteraction>
     );
