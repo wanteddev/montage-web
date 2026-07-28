@@ -61,6 +61,7 @@ const themeInvariant = [
   ...objectToCssKey(lightOriginTheme.spacing, 'spacing'),
   ...objectToCssKey(lightOriginTheme.radius, 'radius'),
   ...objectToCssKey(lightOriginTheme.dimension, 'dimension'),
+  ...objectToCssKey(lightOriginTheme.typography, 'typography'),
   ...objectToCssKey(lightOriginTheme.zIndex, 'zIndex'),
 ].flat(Infinity);
 const light = [

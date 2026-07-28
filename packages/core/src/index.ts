@@ -42,6 +42,7 @@ export type {
   ThemeSpacingToken,
   ThemeDimensionToken,
   ThemeRadiusToken,
+  ThemeTypographyToken,
   ThemeZIndexToken,
   ThemeToken,
   CacheOptions,
