@@ -6,6 +6,7 @@ import opacity from './opacity';
 import primitive from './primitive';
 import radius from './radius';
 import spacing from './spacing';
+import typography from './typography';
 import zIndex from './z-index';
 import atomic from './atomic';
 import * as semantic from './semantic';
@@ -32,6 +33,7 @@ export const lightOriginTheme = {
   spacing,
   radius,
   dimension,
+  typography,
   zIndex,
 };
 
@@ -57,6 +59,7 @@ export const darkOriginTheme = {
   spacing,
   radius,
   dimension,
+  typography,
   zIndex,
 };
 
@@ -98,6 +101,16 @@ const dimensionVar = addVarPrefix(
 ) as typeof dimension;
 const zIndexVar = addVarPrefix(zIndex, 'zIndex', true) as typeof zIndex;
 
+/**
+ * Typography tokens as css variable references. Exported on its own because
+ * typography is theme invariant, so consumers can read it without a theme.
+ */
+export const typographyVar = addVarPrefix(
+  typography,
+  'typography',
+  true,
+) as typeof typography;
+
 export const lightTheme = {
   ...lightOriginTheme,
   atomic: addVarPrefix(atomic, 'atomic') as typeof atomic,
@@ -118,6 +131,7 @@ export const lightTheme = {
   spacing: spacingVar,
   radius: radiusVar,
   dimension: dimensionVar,
+  typography: typographyVar,
   zIndex: zIndexVar,
 };
 
@@ -141,6 +155,7 @@ export const darkTheme = {
   spacing: spacingVar,
   radius: radiusVar,
   dimension: dimensionVar,
+  typography: typographyVar,
   zIndex: zIndexVar,
 };
 
