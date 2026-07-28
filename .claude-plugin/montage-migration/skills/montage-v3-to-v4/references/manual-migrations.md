@@ -636,7 +636,7 @@ implementation. No codemod covers this section.
 - **`SelectContent` is its own component now, not a re-export of `TextFieldContent`.**
   `variant` lost four values and its DEFAULT changed from `'text'` to `'icon'`:
 
-  ```
+  ```text
   variant="icon" | "icon-button" | "custom"           → unchanged
   variant="text" | "timer" | "badge" | "text-button"  → removed; use "custom" + sx
   (no variant)                                        → was "text", is now "icon"
@@ -687,7 +687,7 @@ implementation. No codemod covers this section.
   / `-placeholder` (and their `select-multiple-` counterparts) are unchanged; the wrappers are
   not:
 
-  ```
+  ```text
   select-render-wrapper           → select-wrapper (inner row) / select-chip-wrapper (chips)
   select-multiple-render-wrapper  → select-multiple-wrapper (inner row)
                                     / select-multiple-chip-wrapper (overflow mask)

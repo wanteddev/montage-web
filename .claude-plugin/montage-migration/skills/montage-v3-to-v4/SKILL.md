@@ -143,9 +143,13 @@ rewrites `package.json` a resume looks exactly like "already migrated".
      invocation — not only on the re-run that first established it. Use it when judging step ⑥
      hits at final verification: without it, a later session cannot tell a ring-fenced
      hand-migrated file from a genuine migration leftover and will "fix" code the user
-     protected. Read `revertedNames` the same way — steps ③/④ record there every `--wds-*`
-     variable or `wds-*` string they deliberately reverted as consumer-owned, and at final
-     verification those names are expected survivors, not leftovers. Neither list can be
+     protected. **The workflow enforces this**: it compares the recorded `excludeFiles` with the
+     invocation's and aborts before any codemod on a mismatch, so a resume that drops the arg
+     fails loudly instead of quietly un-excluding those files.
+     Read `revertedNames` the same way — steps ③/④ record there every `--wds-*` variable or
+     `wds-*` string they deliberately reverted as consumer-owned, each as a **`file` + `name`
+     pair**. The pair is what makes it safe: an entry excuses that name only in that file, so the
+     same name elsewhere is still judged as a possible leftover. Neither list can be
      reconstructed if the state file is lost.
 2. **Version check.** Read the project's `package.json`. **If a state file exists, item 1's
    resume rules govern** — use the version check only to confirm the recorded phase (pre-M1
@@ -171,8 +175,9 @@ rewrites `package.json` a resume looks exactly like "already migrated".
    with the user up front on how to handle them; and scan `.ts` files for legacy
    angle-bracket casts, which the `tsx` parser cannot read (the file is skipped with a
    transformation error while the rest of the run succeeds — a silent partial migration):
-   `grep -rnE '(=|\(|,|:|\[|!|return) *<[A-Za-z_$][A-Za-z0-9_$.]*(<[^<>]*>)?(\[\])?> *[A-Za-z_$(]' --include="*.ts" <targets>`
-   (the `(<[^<>]*>)?` group catches generic casts like `<Array<string>>items`, and `:`/`[` catch
+   `grep -rnE '(=|\(|,|:|\[|!|return) *<[A-Za-z_$][A-Za-z0-9_$.]*(<[^<>]*(<[^<>]*>)?[^<>]*>)?(\[\])?> *[A-Za-z_$(]' --include="*.ts" <targets>`
+   (the nested group catches generic casts up to two levels — `<Array<string>>items`,
+   `<Map<string, Array<number>>>m` — and `:`/`[` catch
    casts inside object literals and array elements — all of which break the parser identically.
    The scan is still a heuristic; the "treat any `ERR` as a step failure" rule is the backstop)
    — convert the hits to `as` syntax in a preparatory commit before step ①.
@@ -207,7 +212,11 @@ rewrites `package.json` a resume looks exactly like "already migrated".
    consulted only for directories met while recursing, never for the path you pass, so handing it
    `dist/assets` or `.next/static/css` rewrites generated CSS. That is why the filter above
    excludes them rather than just `node_modules` — and `-I{}` instead of `-n1` so paths
-   containing spaces survive.
+   containing spaces survive (and so an empty result runs nothing).
+   **A `.` in the output is not a target.** It means a stylesheet sits at the repo root, and
+   passing `.` would run every codemod over the ENTIRE repo — build output, fixtures and all.
+   Drop it from the merged list and instead pass that stylesheet's own path (the CLI takes a file
+   or a directory) or a narrower directory that contains it.
    and merge the resulting directories into the target list (collapse into an existing
    target when one already contains them). Use plain directory paths — the codemod CLI
    takes exactly one path per invocation and does not expand globs; each step runs once
@@ -260,7 +269,7 @@ targets:
 autoCommit: true
 codemodVersion: 4.0.0
 excludeFiles: [] # repo-relative; filled in when step ⑥ ran with user-confirmed exclusions
-revertedNames: [] # filled in by steps ③/④ — names they reverted as consumer-owned
+revertedNames: [] # steps ③/④ append file-scoped entries: "- file: <path>" + "  name: <name>"
 # origin: single-codemod   # present only when created by the single-codemod path
 steps:
   package-name-migration: pending
@@ -317,6 +326,10 @@ Workflow({
     //                   // invocation — omitting it silently un-excludes those files.
     // commitNoVerify: false, // optional; true only when preflight agreed `--no-verify` with
     //                        // the user for this repo's pre-commit hooks
+    // allowOutOfOrderSteps: false, // optional; true ONLY for a state file whose completed
+    //                              // marks are genuinely out of canonical order (single-codemod
+    //                              // path, user-confirmed). The script throws on a gap
+    //                              // otherwise, since the usual cause is a stale list.
   },
 });
 ```
@@ -442,7 +455,9 @@ re-confirmation instead of silently inheriting a list chosen for one step; the s
 failure applies only to resumes of a previously started migration. If earlier steps in
 the canonical order are not marked `completed` in the state file, surface that and get
 explicit user confirmation before running out of order — manual steps and later codemods assume
-post-codemod names. Then execute that one step exactly as the workflow's step agent would: **read the full
+post-codemod names. Such a state file leaves a GAP in the canonical order, and the next full
+Workflow run refuses to start on it: pass `allowOutOfOrderSteps: true` only after confirming the
+gap is this deliberate one and not a stale `completedSteps` list. Then execute that one step exactly as the workflow's step agent would: **read the full
 12-step procedure (numbered 0–11) out of `scripts/migration-workflow.js` and follow every
 step — do not work from a summary.** The ones an abridged run typically drops are the ones
 that prevent unrecoverable damage: the clean-tree / dirty-set check (2), the exclusion
@@ -536,9 +551,10 @@ Mark each M-section `completed` in the state file as it finishes.
      Two carve-outs apply to [zero] patterns as well as to the codemod greps, because the
      patterns are literally the same: a hit inside a file listed in the state file's
      `excludeFiles` (step ⑥ ring-fenced it — M5's scan reuses step ⑥'s pattern, so it reaches
-     those files too; report and NEVER edit them), and a name listed in `revertedNames`
-     (steps ③/④ reverted it deliberately as consumer-owned — it is an expected survivor, not
-     an M3 leftover). Read both lists from the state file before judging any hit.
+     those files too; report and NEVER edit them), and a hit matching a `revertedNames` entry
+     **in both `file` and `name`** (steps ③/④ reverted it deliberately as consumer-owned — an
+     expected survivor, not an M3 leftover; the same name in a file that is not in the list stays
+     a leftover candidate). Read both lists from the state file before judging any hit.
    - The 6 codemod verify greps are zero-criterion WITH their documented exceptions
      (step ①: `@wanteddev/montage-mcp` hits are the correct post-migration name; step ⑥:
      hits inside a file listed in the state file's `excludeFiles` — read it before judging

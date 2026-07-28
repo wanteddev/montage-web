@@ -42,10 +42,11 @@ npx -y @montage-ui/codemod@<codemodVersion> <transform> <target>
   parse — the CLI reports `Transformation error (Unterminated JSX contents…)` and leaves THAT
   file untransformed while the rest of the run succeeds: a silent partial migration. Scan for
   them at preflight and convert to `as` syntax in a preparatory commit before step ①:
-  `grep -rnE '(=|\(|,|:|\[|!|return) *<[A-Za-z_$][A-Za-z0-9_$.]*(<[^<>]*>)?(\[\])?> *[A-Za-z_$(]' --include="*.ts" <targets>`
-  (the inner `(<[^<>]*>)?` group is required for generic casts — `<Array<string>>items` breaks the
-  parser exactly like `<string>value` — and `:`/`[` reach casts inside object literals and array
-  elements; the scan is a heuristic, and "treat any `ERR` as a step failure" is the backstop).
+  `grep -rnE '(=|\(|,|:|\[|!|return) *<[A-Za-z_$][A-Za-z0-9_$.]*(<[^<>]*(<[^<>]*>)?[^<>]*>)?(\[\])?> *[A-Za-z_$(]' --include="*.ts" <targets>`
+  (the nested group is required for generic casts — `<Array<string>>items` and
+  `<Map<string, Array<number>>>m` break the parser exactly like `<string>value` — and `:`/`[`
+  reach casts inside object literals and array elements. Three or more levels of nesting still
+  escape it: the scan is a heuristic, and "treat any `ERR` as a step failure" is the backstop).
   Treat any per-file transformation error in a step's output the same way: the step is NOT
   complete until every reported file is accounted for. **Never re-run the codemod over the
   partially-transformed tree** — the other files in that run WERE transformed, so a re-run is
@@ -255,8 +256,10 @@ Cautions:
 
 - NOT import-gated — it renames ANY `--wds-*` token by prefix, including consumer-defined
   variables that were never Montage's. Review the diff and REVERT the rewrites of variables
-  the consumer clearly owns, recording each reverted name in the state file's `revertedNames`
-  (the final verification reads it, otherwise a deliberate survivor looks like an M3 leftover).
+  the consumer clearly owns, recording each revert in the state file's `revertedNames` as a
+  `file` + `name` pair (the final verification reads it, otherwise a deliberate survivor looks
+  like an M3 leftover — and a bare name would excuse that name in every file, including ones
+  where it really is an unmigrated Montage reference).
   Anything AMBIGUOUS is not the step's call to make: a step agent has no user channel, so it
   stops with status `failed` and the names in `verifyFindings` INSTEAD of committing, and the
   orchestrator confirms them with the user before the step re-runs. No later scan looks for

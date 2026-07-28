@@ -212,7 +212,14 @@ const raw = results.flatMap((r, i) =>
 log(`${raw.length} raw findings from ${completed}/4 reviewers — verifying`)
 
 if (raw.length === 0) {
-  return { findings: [], refuted: [], rawCount: 0, reviewersCompleted: completed, clean: completed === 4 }
+  return {
+    findings: [],
+    refuted: [],
+    rawCount: 0,
+    reviewersCompleted: completed,
+    unassessedGroups: 0,
+    clean: completed === 4,
+  }
 }
 
 // Group by the file each finding names so one verifier sees every claim about that file —
