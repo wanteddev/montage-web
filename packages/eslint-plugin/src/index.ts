@@ -7,11 +7,13 @@ import type { ESLint, Linter } from 'eslint';
 const recommendedRules = {
   '@montage-ui/icon-button-uses-name': 'warn',
   '@montage-ui/image-uses-alt': 'warn',
+  '@montage-ui/segmented-control-item-uses-name': 'warn',
 } satisfies Record<`@montage-ui/${keyof typeof rules}`, Linter.RuleEntry>;
 
 const strictRules = {
   '@montage-ui/icon-button-uses-name': 'error',
   '@montage-ui/image-uses-alt': 'error',
+  '@montage-ui/segmented-control-item-uses-name': 'error',
 } satisfies Record<`@montage-ui/${keyof typeof rules}`, Linter.RuleEntry>;
 
 const configs = {

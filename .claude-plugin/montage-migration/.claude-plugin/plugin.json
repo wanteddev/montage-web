@@ -1,7 +1,7 @@
 {
   "name": "montage-web-migration",
   "version": "1.0.0",
-  "description": "Wanted Design System Migration Plugin",
+  "description": "Migrates consumer projects between major versions of Montage (Wanted Design System for Web)",
   "author": {
     "name": "Sh031224"
   },

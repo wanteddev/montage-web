@@ -8,12 +8,12 @@ export type SegmentedControlDefaultProps = WithSxProps<{
   value?: string;
   /** Callback function when the value changes. */
   onValueChange?: (tab: string) => void;
-  /** The variant of the segmented control. */
-  variant?: 'solid' | 'outlined';
   /** The size of the segmented control. */
   size?: 'large' | 'medium' | 'small';
   /** The children of the segmented control. */
   children?: ReactNode;
+  /** Whether to show only the icon. If `iconOnly` is enabled, you must provide an icon component as the SegmentedControlItem's `children`. */
+  iconOnly?: boolean;
   /** The name of the segmented control. */
   name?: string;
 }>;
@@ -28,10 +28,8 @@ export type SegmentedControlProps = Merge<
 >;
 
 export type SegmentedControlItemProps = WithSxProps<{
-  /** The leading content of the segmented control item. */
-  leadingContent?: ReactNode;
-  /** The trailing content of the segmented control item. */
-  trailingContent?: ReactNode;
+  /** The leading icon of the segmented control item. */
+  leadingIcon?: ReactNode;
   /** Whether the segmented control item is disabled. */
   disabled?: boolean;
   /** The value of the segmented control item. */
