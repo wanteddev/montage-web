@@ -30,5 +30,18 @@ export const getClosestThumbIndex = (
   if (values.length === 1) return 0;
   const distances = values.map((value) => Math.abs(value - nextValue));
   const closestDistance = Math.min(...distances);
-  return distances.indexOf(closestDistance);
+
+  const firstIndex = distances.indexOf(closestDistance);
+  const lastIndex = distances.lastIndexOf(closestDistance);
+
+  /**
+   * When thumbs sit on the exact same value, `indexOf` always resolves to the
+   * leftmost one. Pick the thumb on the side being dragged instead, otherwise
+   * stacked thumbs can no longer be pulled apart.
+   */
+  if (firstIndex !== lastIndex && values[firstIndex] === values[lastIndex]) {
+    return nextValue > values[firstIndex]! ? lastIndex : firstIndex;
+  }
+
+  return firstIndex;
 };
