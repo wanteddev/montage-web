@@ -2,7 +2,6 @@ import { css } from '@montage-ui/engine';
 
 import { typographyStyle } from '../../utils/typography';
 import { createResponsiveStyle } from '../../utils/internal/responsive-props';
-import { addOpacity } from '../../utils';
 
 import type { FilterButtonProps } from './types';
 import type { Theme } from '@montage-ui/engine';
@@ -28,107 +27,111 @@ export const filterButtonStyle =
     }
 
     ${filterButtonVariantStyle(props, theme)}
-    ${filterButtonSizeStyle(props)}
+    ${filterButtonSizeStyle(props, theme)}
 
   ${createResponsiveStyle(
       { xs, sm, md, lg, xl },
       theme,
     )(
       (params) => css`
-        ${filterButtonSizeStyle(params)}
+        ${filterButtonSizeStyle(params, theme)}
         ${params?.sx}
       `,
     )}
   `;
 
-const filterButtonSizeStyle = ({ size }: FilterButtonProps = {}) => {
+const filterButtonSizeStyle = (
+  { size }: FilterButtonProps = {},
+  theme: Theme,
+) => {
   switch (size) {
     case 'xsmall':
       return css`
-        border-radius: 6px;
-        padding: 4px 7px 4px 5px;
-        gap: 1px;
+        border-radius: ${theme.radius[8]};
+        padding: 5px ${theme.spacing[4]} 5px ${theme.spacing[6]};
+        gap: ${theme.spacing[0]};
 
         [data-role='chip-filter-wrapper'] {
-          padding: 0 1px;
-          gap: 3px;
+          padding: ${theme.spacing[0]} ${theme.spacing[2]};
+          gap: ${theme.spacing[2]};
+        }
+
+        span {
+          ${typographyStyle('caption2', 'medium')}
+        }
+
+        [data-role='chip-filter-active-label'] {
+          ${typographyStyle('caption2', 'medium')}
+        }
+
+        svg {
+          font-size: ${theme.dimension[12]};
+        }
+      `;
+    case 'small':
+      return css`
+        border-radius: ${theme.radius[10]};
+        padding: ${`${theme.spacing[8]} ${theme.spacing[6]} ${theme.spacing[8]} ${theme.spacing[8]}`};
+        gap: ${theme.spacing[0]};
+
+        [data-role='chip-filter-wrapper'] {
+          padding: ${theme.spacing[0]} ${theme.spacing[2]};
+          gap: ${theme.spacing[2]};
         }
 
         span {
           ${typographyStyle('caption1', 'medium')}
         }
         [data-role='chip-filter-active-label'] {
-          ${typographyStyle('caption1', 'bold')}
+          ${typographyStyle('caption1', 'medium')}
         }
 
         svg {
-          font-size: 12px;
+          font-size: ${theme.dimension[14]};
         }
       `;
-    case 'small':
+    case 'medium':
       return css`
-        border-radius: 8px;
-        padding: 6px 6px 6px 8px;
-        gap: 1px;
+        border-radius: ${theme.radius[10]};
+        padding: ${`9px ${theme.spacing[8]} 9px ${theme.spacing[10]}`};
+        gap: ${theme.spacing[0]};
 
         [data-role='chip-filter-wrapper'] {
-          padding: 0 2px;
-          gap: 4px;
+          padding: ${theme.spacing[0]} ${theme.spacing[2]};
+          gap: ${theme.spacing[4]};
+        }
+
+        span {
+          ${typographyStyle('label2', 'medium')}
+        }
+        [data-role='chip-filter-active-label'] {
+          ${typographyStyle('label2', 'medium')}
+        }
+
+        svg {
+          font-size: ${theme.dimension[16]};
+        }
+      `;
+    case 'large':
+      return css`
+        border-radius: ${theme.radius[12]};
+        padding: ${`${theme.spacing[10]} ${theme.spacing[10]} ${theme.spacing[10]} ${theme.spacing[12]}`};
+        gap: ${theme.spacing[0]};
+
+        [data-role='chip-filter-wrapper'] {
+          padding: ${theme.spacing[0]} ${theme.spacing[2]};
+          gap: ${theme.spacing[4]};
         }
 
         span {
           ${typographyStyle('label1', 'medium')}
         }
         [data-role='chip-filter-active-label'] {
-          ${typographyStyle('label1', 'bold')}
+          ${typographyStyle('label1', 'medium')}
         }
 
         svg {
-          font-size: 16px;
-        }
-      `;
-    case 'medium':
-      return css`
-        border-radius: 10px;
-        padding: 7px 9px 7px 11px;
-        gap: 2px;
-
-        [data-role='chip-filter-wrapper'] {
-          padding: 0 2px;
-          gap: 4px;
-        }
-
-        span {
-          ${typographyStyle('body2', 'medium')}
-        }
-        [data-role='chip-filter-active-label'] {
-          ${typographyStyle('body2', 'bold')}
-        }
-
-        svg {
-          font-size: 16px;
-        }
-      `;
-    case 'large':
-      return css`
-        border-radius: 10px;
-        padding: 9px 10px 9px 12px;
-        gap: 2px;
-
-        [data-role='chip-filter-wrapper'] {
-          padding: 0 2px;
-          gap: 4px;
-        }
-
-        span {
-          ${typographyStyle('body2', 'medium')}
-        }
-        [data-role='chip-filter-active-label'] {
-          ${typographyStyle('body2', 'bold')}
-        }
-
-        svg {
-          font-size: 16px;
+          font-size: ${theme.dimension[16]};
         }
       `;
   }
@@ -146,8 +149,8 @@ const filterButtonVariantStyle = (
         box-shadow: none;
 
         &[aria-pressed='true'] {
-          color: ${theme.semantic.foreground.neutral.inverse};
-          background-color: ${theme.semantic.surface.neutral.inverse};
+          color: ${theme.semantic.foreground.brand.primary};
+          background-color: ${theme.semantic.surface.brand.subtle};
         }
 
         &:disabled,
@@ -164,20 +167,9 @@ const filterButtonVariantStyle = (
         box-shadow: inset 0 0 0 1px ${theme.semantic.line.neutral.secondary};
 
         &[aria-pressed='true'] {
-          background-color: ${addOpacity(
-            theme.semantic.surface.brand.primary,
-            theme.opacity[5],
-          )};
-          box-shadow: inset 0 0 0 1px
-            ${addOpacity(
-              theme.semantic.surface.brand.primary,
-              theme.opacity[43],
-            )};
+          background-color: ${theme.semantic.surface.brand.subtle};
+          box-shadow: inset 0 0 0 1px ${theme.semantic.line.brand.primary};
           color: ${theme.semantic.foreground.brand.primary};
-
-          svg {
-            color: ${theme.semantic.foreground.neutral.primary};
-          }
         }
 
         &:disabled,
