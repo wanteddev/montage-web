@@ -54,7 +54,7 @@ export const selectStyle =
 
     [data-role='select-placeholder'],
     [data-role='select-multiple-placeholder'] {
-      color: ${theme.semantic.foreground.neutral.quaternary};
+      color: ${theme.semantic.foreground.neutral.tertiary};
     }
 
     [data-role='select-values'],
@@ -81,7 +81,7 @@ export const selectStyle =
 
           [data-role='select-values'],
           [data-role='select-multiple-values'] {
-            color: ${theme.semantic.foreground.neutral.tertiary};
+            color: ${theme.semantic.foreground.neutral.primary};
           }
         `
       : css`
