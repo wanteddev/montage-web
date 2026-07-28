@@ -115,10 +115,17 @@ const Slider = forwardRef<
             return prevValues;
           }
 
-          const sortedNextValues = nextValues.sort((a, b) => a - b);
+          const sortedNextValues = [...nextValues].sort((a, b) => a - b);
 
+          /**
+           * `indexOf` resolves to the leftmost slot when thumbs share a value,
+           * which would hand the focus over to a thumb the user never touched.
+           * Keep the dragged thumb where it is unless sorting actually moved it.
+           */
           currentFocusedIndex.current =
-            sortedNextValues.indexOf(calculatedNextValue);
+            sortedNextValues[index] === calculatedNextValue
+              ? index
+              : sortedNextValues.indexOf(calculatedNextValue);
 
           const hasChanged =
             sortedNextValues.toString() !== prevValues.toString();
@@ -264,10 +271,12 @@ const Slider = forwardRef<
             if (target.hasPointerCapture(event.pointerId)) {
               target.releasePointerCapture(event.pointerId);
 
-              const prevValue =
-                slideStartValues.current[currentFocusedIndex.current];
-              const nextValue = values[currentFocusedIndex.current];
-              const hasChanged = nextValue !== prevValue;
+              /**
+               * Comparing a single index misses changes whenever thumbs end up
+               * stacked or swapped, so compare the whole set instead.
+               */
+              const hasChanged =
+                slideStartValues.current.toString() !== values.toString();
               rect.current = undefined;
 
               if (hasChanged) {
