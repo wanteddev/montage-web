@@ -39,9 +39,10 @@ What it does:
    manual-migration worklist.
 3. **Manual migrations** — theme token `var(--...)` arithmetic, package.json/config
    renames, semantic token follow-ups (foreground/surface reclassification, deleted
-   accent tokens), DOM identifier leftovers, Card/ListCard and FormControl follow-ups,
-   Modal/TextField/TextArea/SegmentedControl behavioral changes, ThemeProvider cookie
-   storage.
+   accent tokens), CSS variable and DOM identifier leftovers (dynamically built names, files
+   outside the transformed directories), Card/ListCard and FormControl follow-ups,
+   Modal/TextField/TextArea/SegmentedControl/Select behavioral changes, ThemeProvider
+   cookie storage.
 4. **Verification** — leftover greps, install/typecheck/lint/build/tests, summary.
 
 The codemods are order-sensitive and must not run twice (re-running

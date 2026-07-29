@@ -2,6 +2,7 @@
 title: Select
 description: 사용자가 미리 정의된 옵션 목록 중 하나 혹은 하나 이상의 항목을 선택할 수 있는 입력 요소입니다.
 createdAt: 2025-08-12
+updatedAt: 2026-07-27
 ---
 
 ## Basic select
@@ -30,6 +31,21 @@ const Demo = () => {
 
 export default Demo;`}
 />
+
+## Anatomy
+
+아래와 같은 구조로 조합하여 사용합니다.
+
+```tsx
+<Select>
+  <OptionGroup>
+    <Option value="1">옵션1</Option>
+  </OptionGroup>
+  <OptionGroup>
+    <Option value="2">옵션2</Option>
+  </OptionGroup>
+</Select>
+```
 
 ## Multiple select
 
@@ -60,16 +76,15 @@ export default Demo;`}
 
 ### Render
 
-`render` 옵션을 사용하여 텍스트 대신 Chip으로 렌더링 하거나 커스텀 텍스트를 작성할 수 있습니다.
+`render` 옵션을 사용하여 텍스트 대신 `SelectRenderChip` 으로 렌더링 하거나 커스텀 텍스트를 작성할 수 있습니다.
 
-Chip에 onClick이 들어가는 경우 `e.stopPropagation()` 을 통해 메뉴가 열리고 닫히는 동작을 막을 수 있습니다.
+onClick이 들어가는 경우 `e.stopPropagation()` 을 통해 메뉴가 열리고 닫히는 동작을 막을 수 있습니다.
 
-<Demo code={`import { Chip, SelectMultiple, Option, OptionGroup } from '@montage-ui/core';
-import { IconCloseThick } from '@montage-ui/icon';
+<Demo code={`import { SelectRenderChip, SelectMultiple, Option, OptionGroup } from '@montage-ui/core';
 import { useState, useRef } from 'react';
 
 const Demo = () => {
-  const [value, setValue] = useState(['값 1 0']);
+  const [value, setValue] = useState(['값 1 0', '값 2 0', '값 0 2']);
   const ref = useRef(null);
 
   return (
@@ -77,23 +92,22 @@ const Demo = () => {
       ref={ref}
       value={value}
       onChange={setValue}
-      width="25ch"
+      width="30ch"
       placeholder="선택해주세요."
       render={() => (
-        value.map((v) => (
-          <Chip
+        value.map((v, i) => (
+          <SelectRenderChip
             key={v}
-            size="xsmall"
-            variant="solid"
-            trailingContent={<IconCloseThick />}
             onClick={(e) => {
               e.stopPropagation();
               setValue(value.filter(data => data !== v))
               ref.current?.focus();
             }}
+            status={i === 1 ? 'negative' : 'normal'}
+            disabled={i === 0}
           >
             {v}
-          </Chip>
+          </SelectRenderChip>
         ))
       )}
     >
@@ -109,6 +123,113 @@ const Demo = () => {
         </OptionGroup>
       ))}
     </SelectMultiple>
+  )
+}
+
+export default Demo;`}
+/>
+
+### Overflow
+
+`overflow` prop 으로 선택된 값이 필드 너비를 넘어갈 때의 동작을 지정합니다.
+
+- `false` (default): 필드를 한 줄로 유지합니다. 텍스트는 말줄임, Chip은 가로 스크롤로 나머지 값을 탐색합니다.
+- `true`: 값이 모두 보이도록 줄바꿈되며 필드의 높이가 늘어납니다.
+
+`Select` 는 항상 하나의 값만 가지므로 `overflow` 를 제공하지 않습니다.
+
+#### Text
+
+<Demo code={`import { FlexBox, SelectMultiple, Option, OptionGroup } from '@montage-ui/core';
+
+const OPTIONS = ['프론트엔드 개발', '백엔드 개발', '데이터 엔지니어링', '프로덕트 디자인', '서비스 기획'];
+
+const Demo = () => {
+  return (
+    <FlexBox gap="12px" flexDirection="column" alignItems="center">
+      <SelectMultiple defaultValue={OPTIONS} width="25ch" placeholder="Overflow false">
+        <OptionGroup title="그룹 1">
+          {OPTIONS.map((option) => (
+            <Option variant="checkbox" key={option} value={option}>{option}</Option>
+          ))}
+        </OptionGroup>
+      </SelectMultiple>
+
+      <SelectMultiple overflow defaultValue={OPTIONS} width="25ch" placeholder="Overflow true">
+        <OptionGroup title="그룹 1">
+          {OPTIONS.map((option) => (
+            <Option variant="checkbox" key={option} value={option}>{option}</Option>
+          ))}
+        </OptionGroup>
+      </SelectMultiple>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+#### Chip
+
+<Demo code={`import { SelectRenderChip, FlexBox, SelectMultiple, Option, OptionGroup } from '@montage-ui/core';
+import { useState, useRef } from 'react';
+
+const OPTIONS = ['프론트엔드 개발', '백엔드 개발', '데이터 엔지니어링', '프로덕트 디자인', '서비스 기획'];
+
+const Demo = () => {
+  const [scrollValue, setScrollValue] = useState(OPTIONS);
+  const [wrapValue, setWrapValue] = useState(OPTIONS);
+  const scrollRef = useRef(null);
+  const wrapRef = useRef(null);
+
+  const renderChips = (value, setValue, ref) => () => (
+    value.map((v) => (
+      <SelectRenderChip
+        key={v}
+        onClick={(e) => {
+          e.stopPropagation();
+          setValue(value.filter((data) => data !== v));
+          ref.current.focus();
+        }}
+      >
+        {v}
+      </SelectRenderChip>
+    ))
+  );
+
+  return (
+    <FlexBox gap="12px" flexDirection="column" alignItems="center">
+      <SelectMultiple
+        width="25ch"
+        placeholder="Overflow false"
+        value={scrollValue}
+        onChange={setScrollValue}
+        ref={scrollRef}
+        render={renderChips(scrollValue, setScrollValue, scrollRef)}
+      >
+        <OptionGroup title="그룹 1">
+          {OPTIONS.map((option) => (
+            <Option variant="checkbox" key={option} value={option}>{option}</Option>
+          ))}
+        </OptionGroup>
+      </SelectMultiple>
+
+      <SelectMultiple
+        overflow
+        width="25ch"
+        placeholder="Overflow true"
+        value={wrapValue}
+        onChange={setWrapValue}
+        ref={wrapRef}
+        render={renderChips(wrapValue, setWrapValue, wrapRef)}
+      >
+        <OptionGroup title="그룹 1">
+          {OPTIONS.map((option) => (
+            <Option variant="checkbox" key={option} value={option}>{option}</Option>
+          ))}
+        </OptionGroup>
+      </SelectMultiple>
+    </FlexBox>
   )
 }
 
@@ -142,21 +263,6 @@ const Demo = () => {
 export default Demo;`}
 />
 
-## Anatomy
-
-아래와 같은 구조로 조합하여 사용합니다.
-
-```tsx
-<Select>
-  <OptionGroup>
-    <Option value="1">옵션1</Option>
-  </OptionGroup>
-  <OptionGroup>
-    <Option value="2">옵션2</Option>
-  </OptionGroup>
-</Select>
-```
-
 ## Variants
 
 `Option` 컴포넌트에 variant prop을 주어 다양한 형태의 옵션을 렌더링 할 수 있습니다.
@@ -169,6 +275,20 @@ export default Demo;`}
 const Demo = () => {
   return (
     <FlexBox gap="12px" flexDirection="column" alignItems="center">
+      <Select width="25ch" placeholder="Normal">
+        {new Array(3).fill(0).map((_, i) => (
+          <OptionGroup key={i} title={\`그룹 \${i + 1}\`}>
+            {new Array(3).fill(0)
+              .map((__, j) => (
+                <Option variant="normal" key={j} value={\`값 \${i} \${j}\`}>
+                  {\`값 \${i} \${j}\`}
+                </Option>
+              ))
+            }
+          </OptionGroup>
+        ))}
+      </Select>
+    
       <Select width="25ch" placeholder="Radio">
         {new Array(3).fill(0).map((_, i) => (
           <OptionGroup key={i} title={\`그룹 \${i + 1}\`}>
@@ -220,7 +340,7 @@ const Demo = () => {
           <OptionGroup key={i} title={\`그룹 \${i + 1}\`}>
             {new Array(3).fill(0)
               .map((__, j) => (
-                <Option variant="radio" key={j} value={\`값 \${i} \${j}\`}>
+                <Option key={j} value={\`값 \${i} \${j}\`}>
                   {\`값 \${i} \${j}\`}
                 </Option>
               ))
@@ -234,7 +354,7 @@ const Demo = () => {
           <OptionGroup key={i} title={\`그룹 \${i + 1}\`}>
             {new Array(3).fill(0)
               .map((__, j) => (
-                <Option variant="radio" key={j} value={\`값 \${i} \${j}\`}>
+                <Option key={j} value={\`값 \${i} \${j}\`}>
                   {\`값 \${i} \${j}\`}
                 </Option>
               ))
@@ -248,7 +368,21 @@ const Demo = () => {
           <OptionGroup key={i} title={\`그룹 \${i + 1}\`}>
             {new Array(3).fill(0)
               .map((__, j) => (
-                <Option variant="radio" key={j} value={\`값 \${i} \${j}\`}>
+                <Option key={j} value={\`값 \${i} \${j}\`}>
+                  {\`값 \${i} \${j}\`}
+                </Option>
+              ))
+            }
+          </OptionGroup>
+        ))}
+      </Select>
+
+      <Select disabled width="25ch" placeholder="선택해주세요." value="값 0 0">
+        {new Array(3).fill(0).map((_, i) => (
+          <OptionGroup key={i} title={\`그룹 \${i + 1}\`}>
+            {new Array(3).fill(0)
+              .map((__, j) => (
+                <Option key={j} value={\`값 \${i} \${j}\`}>
                   {\`값 \${i} \${j}\`}
                 </Option>
               ))
@@ -263,45 +397,199 @@ const Demo = () => {
 export default Demo;`}
 />
 
+## Sizes
+
+2가지 사이즈를 제공합니다.
+- large (default)
+- medium
+
+<Demo code={`import { FlexBox, FormControl, FormControlField, FormControlLabel, FormControlMessage, Select, Option, OptionGroup } from '@montage-ui/core';
+
+const Demo = () => {
+  return (
+    <FlexBox gap="12px" flexDirection="column" alignItems="center">
+      <FormControl size="large">
+        <FormControlLabel required>Large</FormControlLabel>
+        <FormControlField>
+          <Select size="large" width="25ch" placeholder="Large">
+            <OptionGroup title="그룹 1">
+              <Option value="옵션1">옵션1</Option>
+              <Option value="옵션2">옵션2</Option>
+            </OptionGroup>
+          </Select>
+        </FormControlField>
+        <FormControlMessage>Helper Message</FormControlMessage>
+      </FormControl>
+
+      <FormControl size="medium">
+        <FormControlLabel required>Medium</FormControlLabel>
+        <FormControlField>
+          <Select size="medium" width="25ch" placeholder="Medium">
+            <OptionGroup title="그룹 1">
+              <Option value="옵션1">옵션1</Option>
+              <Option value="옵션2">옵션2</Option>
+            </OptionGroup>
+          </Select>
+        </FormControlField>
+        <FormControlMessage>Helper Message</FormControlMessage>
+      </FormControl>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+`SelectMultiple` 도 동일한 사이즈 체계를 사용합니다.
+
+<Demo code={`import { FlexBox, SelectRenderChip, SelectMultiple, Option, OptionGroup, FormControl, FormControlField, FormControlLabel, FormControlMessage } from '@montage-ui/core';
+import { useState, useRef } from 'react';
+
+const OPTIONS = ['프론트엔드 개발', '백엔드 개발', '데이터 엔지니어링', '프로덕트 디자인', '서비스 기획'];
+
+const Demo = () => {
+  const [mediumValue, setMediumValue] = useState(OPTIONS);
+  const [largeValue, setLargeValue] = useState(OPTIONS);
+  const mediumRef = useRef(null);
+  const largeRef = useRef(null);
+
+  const renderChips = (value, setValue, ref) => () => (
+    value.map((v) => (
+      <SelectRenderChip
+        key={v}
+        onClick={(e) => {
+          e.stopPropagation();
+          setValue(value.filter((data) => data !== v));
+          ref.current.focus();
+        }}
+      >
+        {v}
+      </SelectRenderChip>
+    ))
+  );
+
+  return (
+    <FlexBox gap="12px" flexDirection="column" alignItems="center">
+      <FormControl size="large">
+        <FormControlLabel required>Large</FormControlLabel>
+        <FormControlField>
+          <SelectMultiple size="large" width="25ch" placeholder="Large">
+            <OptionGroup title="그룹 1">
+              <Option value="옵션1">옵션1</Option>
+              <Option value="옵션2">옵션2</Option>
+            </OptionGroup>
+          </SelectMultiple>
+        </FormControlField>
+        <FormControlMessage>Helper Message</FormControlMessage>
+      </FormControl>
+
+      <FormControl size="medium">
+        <FormControlLabel required>Medium</FormControlLabel>
+        <FormControlField>
+          <SelectMultiple size="medium" width="25ch" placeholder="Medium">
+            <OptionGroup title="그룹 1">
+              <Option value="옵션1">옵션1</Option>
+              <Option value="옵션2">옵션2</Option>
+            </OptionGroup>
+          </SelectMultiple>
+        </FormControlField>
+        <FormControlMessage>Helper Message</FormControlMessage>
+      </FormControl>
+
+      <FormControl size="large">
+        <FormControlLabel required>Large</FormControlLabel>
+        <FormControlField>
+          <SelectMultiple
+            size="large"
+            width="25ch"
+            placeholder="Large with chip"
+            value={largeValue}
+            onChange={setLargeValue}
+            ref={largeRef}
+            render={renderChips(largeValue, setLargeValue, largeRef)}
+          >
+            <OptionGroup title="그룹 1">
+              <Option value="옵션1">옵션1</Option>
+              <Option value="옵션2">옵션2</Option>
+            </OptionGroup>
+          </SelectMultiple>
+        </FormControlField>
+        <FormControlMessage>Helper Message</FormControlMessage>
+      </FormControl>
+
+      <FormControl size="medium">
+        <FormControlLabel required>Medium</FormControlLabel>
+        <FormControlField>
+          <SelectMultiple
+            size="medium"
+            width="25ch"
+            placeholder="Medium with chip"
+            value={mediumValue}
+            onChange={setMediumValue}
+            ref={mediumRef}
+            render={renderChips(mediumValue, setMediumValue, mediumRef)}
+          >
+            <OptionGroup title="그룹 1">
+              <Option value="옵션1">옵션1</Option>
+              <Option value="옵션2">옵션2</Option>
+            </OptionGroup>
+          </SelectMultiple>
+        </FormControlField>
+        <FormControlMessage>Helper Message</FormControlMessage>
+      </FormControl>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
 ## Contents
 
 ### With select content
 
 `Select`, `SelectMultiple` 컴포넌트에 `leadingContent` prop 을 사용하여 요소의 앞쪽에 콘텐츠를 추가할 수 있습니다.
 
-`SelectContent` 로 감싸서 사용합니다.
+해당 옵션을 사용할 때에는 `SelectContent` 로 감싸서 사용합니다.
 
-<Demo code={`import { Select, Option, OptionGroup, SelectContent, FlexBox, IconButton } from '@montage-ui/core';
+`size` 에 따라 사용법이 일부 다릅니다.
+- IconButton의 size
+
+또한 IconButton 클릭 시 메뉴가 열리지 않도록 `e.stopPropagation()` 을 함께 사용합니다.
+
+#### Large
+
+<Demo code={`import { SelectRenderChip, Select, SelectMultiple, Option, OptionGroup, SelectContent, FlexBox, IconButton } from '@montage-ui/core';
 import { IconBlank } from '@montage-ui/icon';
+import { useState, useRef } from 'react';
+
+const OPTIONS = ['프론트엔드 개발', '백엔드 개발', '데이터 엔지니어링', '프로덕트 디자인', '서비스 기획'];
 
 const Demo = () => {
+  const [iconValue, setIconValue] = useState([]);
+  const [iconButtonValue, setIconButtonValue] = useState([]);
+  const iconRef = useRef(null);
+  const iconButtonRef = useRef(null);
+
+  const renderChips = (value, setValue, ref) => () => (
+    value.map((v) => (
+      <SelectRenderChip
+        key={v}
+        onClick={(e) => {
+          e.stopPropagation();
+          setValue(value.filter((data) => data !== v));
+          ref.current.focus();
+        }}
+      >
+        {v}
+      </SelectRenderChip>
+    ))
+  );
+
   return (
     <FlexBox gap="12px" flexDirection="column" alignItems="center">
       <Select
-        width="25ch"
-        placeholder="Icon button"
-        leadingContent={(
-          <SelectContent variant="icon-button">
-            <IconButton onClick={e => e.stopPropagation()} size={22}>
-              <IconBlank />
-            </IconButton>
-          </SelectContent>
-        )}
-      >
-        {new Array(3).fill(0).map((_, i) => (
-          <OptionGroup key={i} title={\`그룹 \${i + 1}\`}>
-            {new Array(3).fill(0)
-              .map((__, j) => (
-                <Option key={j} value={\`값 \${i} \${j}\`}>
-                  {\`값 \${i} \${j}\`}
-                </Option>
-              ))
-            }
-          </OptionGroup>
-        ))}
-      </Select>
-
-      <Select
+        size="large"
         width="25ch"
         placeholder="Icon"
         leadingContent={(
@@ -310,18 +598,252 @@ const Demo = () => {
           </SelectContent>
         )}
       >
-        {new Array(3).fill(0).map((_, i) => (
-          <OptionGroup key={i} title={\`그룹 \${i + 1}\`}>
-            {new Array(3).fill(0)
-              .map((__, j) => (
-                <Option key={j} value={\`값 \${i} \${j}\`}>
-                  {\`값 \${i} \${j}\`}
-                </Option>
-              ))
-            }
-          </OptionGroup>
-        ))}
+        <OptionGroup title="그룹 1">
+          <Option value="옵션1">옵션1</Option>
+          <Option value="옵션2">옵션2</Option>
+        </OptionGroup>
       </Select>
+
+      <Select
+        size="large"
+        width="25ch"
+        placeholder="Icon button"
+        leadingContent={(
+          <SelectContent variant="icon-button">
+            <IconButton size={32} onClick={(e) => e.stopPropagation()}>
+              <IconBlank />
+            </IconButton>
+          </SelectContent>
+        )}
+      >
+        <OptionGroup title="그룹 1">
+          <Option value="옵션1">옵션1</Option>
+          <Option value="옵션2">옵션2</Option>
+        </OptionGroup>
+      </Select>
+
+      <SelectMultiple
+        size="large"
+        width="25ch"
+        placeholder="Multiple, Icon"
+        leadingContent={(
+          <SelectContent variant="icon">
+            <IconBlank />
+          </SelectContent>
+        )}
+      >
+        <OptionGroup title="그룹 1">
+          <Option variant="checkbox" value="옵션1">옵션1</Option>
+          <Option variant="checkbox" value="옵션2">옵션2</Option>
+        </OptionGroup>
+      </SelectMultiple>
+
+      <SelectMultiple
+        size="large"
+        width="25ch"
+        placeholder="Multiple, Icon button"
+        leadingContent={(
+          <SelectContent variant="icon-button">
+            <IconButton size={32} onClick={(e) => e.stopPropagation()}>
+              <IconBlank />
+            </IconButton>
+          </SelectContent>
+        )}
+      >
+        <OptionGroup title="그룹 1">
+          <Option variant="checkbox" value="옵션1">옵션1</Option>
+          <Option variant="checkbox" value="옵션2">옵션2</Option>
+        </OptionGroup>
+      </SelectMultiple>
+
+      <SelectMultiple
+        size="large"
+        width="25ch"
+        placeholder="Multiple, Icon, chip"
+        ref={iconRef}
+        value={iconValue}
+        onChange={setIconValue}
+        render={renderChips(iconValue, setIconValue, iconRef)}
+        leadingContent={(
+          <SelectContent variant="icon">
+            <IconBlank />
+          </SelectContent>
+        )}
+      >
+        <OptionGroup title="그룹 1">
+          <Option variant="checkbox" value="옵션1">옵션1</Option>
+          <Option variant="checkbox" value="옵션2">옵션2</Option>
+        </OptionGroup>
+      </SelectMultiple>
+
+      <SelectMultiple
+        size="large"
+        width="25ch"
+        placeholder="Multiple, Icon button, chip"
+        ref={iconButtonRef}
+        value={iconButtonValue}
+        onChange={setIconButtonValue}
+        render={renderChips(iconButtonValue, setIconButtonValue, iconButtonRef)}
+        leadingContent={(
+          <SelectContent variant="icon-button">
+            <IconButton size={32} onClick={(e) => e.stopPropagation()}>
+              <IconBlank />
+            </IconButton>
+          </SelectContent>
+        )}
+      >
+        <OptionGroup title="그룹 1">
+          <Option variant="checkbox" value="옵션1">옵션1</Option>
+          <Option variant="checkbox" value="옵션2">옵션2</Option>
+        </OptionGroup>
+      </SelectMultiple>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+#### Medium
+
+<Demo code={`import { SelectRenderChip, Select, SelectMultiple, Option, OptionGroup, SelectContent, FlexBox, IconButton } from '@montage-ui/core';
+import { IconBlank } from '@montage-ui/icon';
+import { useState, useRef } from 'react';
+
+const OPTIONS = ['프론트엔드 개발', '백엔드 개발', '데이터 엔지니어링', '프로덕트 디자인', '서비스 기획'];
+
+const Demo = () => {
+  const [iconValue, setIconValue] = useState([]);
+  const [iconButtonValue, setIconButtonValue] = useState([]);
+  const iconRef = useRef(null);
+  const iconButtonRef = useRef(null);
+
+  const renderChips = (value, setValue, ref) => () => (
+    value.map((v) => (
+      <SelectRenderChip
+        key={v}
+        onClick={(e) => {
+          e.stopPropagation();
+          setValue(value.filter((data) => data !== v));
+          ref.current.focus();
+        }}
+      >
+        {v}
+      </SelectRenderChip>
+    ))
+  );
+
+  return (
+    <FlexBox gap="12px" flexDirection="column" alignItems="center">
+      <Select
+        size="medium"
+        width="25ch"
+        placeholder="Icon"
+        leadingContent={(
+          <SelectContent variant="icon">
+            <IconBlank />
+          </SelectContent>
+        )}
+      >
+        <OptionGroup title="그룹 1">
+          <Option value="옵션1">옵션1</Option>
+          <Option value="옵션2">옵션2</Option>
+        </OptionGroup>
+      </Select>
+
+      <Select
+        size="medium"
+        width="25ch"
+        placeholder="Icon button"
+        leadingContent={(
+          <SelectContent variant="icon-button">
+            <IconButton size={28} onClick={(e) => e.stopPropagation()}>
+              <IconBlank />
+            </IconButton>
+          </SelectContent>
+        )}
+      >
+        <OptionGroup title="그룹 1">
+          <Option value="옵션1">옵션1</Option>
+          <Option value="옵션2">옵션2</Option>
+        </OptionGroup>
+      </Select>
+
+      <SelectMultiple
+        size="medium"
+        width="25ch"
+        placeholder="Multiple, Icon"
+        leadingContent={(
+          <SelectContent variant="icon">
+            <IconBlank />
+          </SelectContent>
+        )}
+      >
+        <OptionGroup title="그룹 1">
+          <Option variant="checkbox" value="옵션1">옵션1</Option>
+          <Option variant="checkbox" value="옵션2">옵션2</Option>
+        </OptionGroup>
+      </SelectMultiple>
+
+      <SelectMultiple
+        size="medium"
+        width="25ch"
+        placeholder="Multiple, Icon button"
+        leadingContent={(
+          <SelectContent variant="icon-button">
+            <IconButton size={28} onClick={(e) => e.stopPropagation()}>
+              <IconBlank />
+            </IconButton>
+          </SelectContent>
+        )}
+      >
+        <OptionGroup title="그룹 1">
+          <Option variant="checkbox" value="옵션1">옵션1</Option>
+          <Option variant="checkbox" value="옵션2">옵션2</Option>
+        </OptionGroup>
+      </SelectMultiple>
+
+      <SelectMultiple
+        size="medium"
+        width="25ch"
+        placeholder="Multiple, Icon, chip"
+        ref={iconRef}
+        value={iconValue}
+        onChange={setIconValue}
+        render={renderChips(iconValue, setIconValue, iconRef)}
+        leadingContent={(
+          <SelectContent variant="icon">
+            <IconBlank />
+          </SelectContent>
+        )}
+      >
+        <OptionGroup title="그룹 1">
+          <Option variant="checkbox" value="옵션1">옵션1</Option>
+          <Option variant="checkbox" value="옵션2">옵션2</Option>
+        </OptionGroup>
+      </SelectMultiple>
+
+      <SelectMultiple
+        size="medium"
+        width="25ch"
+        placeholder="Multiple, Icon button, chip"
+        ref={iconButtonRef}
+        value={iconButtonValue}
+        onChange={setIconButtonValue}
+        render={renderChips(iconButtonValue, setIconButtonValue, iconButtonRef)}
+        leadingContent={(
+          <SelectContent variant="icon-button">
+            <IconButton size={28} onClick={(e) => e.stopPropagation()}>
+              <IconBlank />
+            </IconButton>
+          </SelectContent>
+        )}
+      >
+        <OptionGroup title="그룹 1">
+          <Option variant="checkbox" value="옵션1">옵션1</Option>
+          <Option variant="checkbox" value="옵션2">옵션2</Option>
+        </OptionGroup>
+      </SelectMultiple>
     </FlexBox>
   )
 }

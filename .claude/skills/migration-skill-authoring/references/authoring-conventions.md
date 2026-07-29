@@ -16,6 +16,12 @@ implementation — when in doubt, mirror it.
 Plus: plugin `README.md` / `README.ko.md` skill listing, `plugin.json` version bump
 (minor for a new skill or new content), `marketplace.json` version bump.
 
+Optional fifth file: `known-issues.md` in the skill dir — one short entry per deliberate,
+accepted trade-off (a deferred version bump, a knowingly exceeded length budget, a scan
+whose noise is accepted). The validation Workflow reads it and refuses to re-report those,
+which is what keeps successive validation runs comparable instead of re-litigating the same
+backlog every round.
+
 ## Consistency surfaces
 
 The same facts are stated in several places and MUST stay identical. When adding or
@@ -149,6 +155,11 @@ that shipped once:
   but verify).
 - Trigger test: `claude --plugin-dir .claude-plugin/montage-migration` and ask with each
   trigger phrase.
+- Validation hygiene: pass the checkout you are EDITING as `repoRoot` (in a worktree, the
+  worktree path). The same skill exists at the same relative path in the parent checkout, and
+  a reviewer that reads the stale copy reports false defects with full confidence. The
+  validation Workflow defends against this — findings carry the `wc -l` of every file they
+  cite and verifiers refute on mismatch — but only for the paths it was given.
 - ESLint: `.claude-plugin` and `.claude` are in `eslint.config.mjs` `globalIgnores` — new
   script files there are not linted; keep it that way rather than adding tsconfig
   coverage.
