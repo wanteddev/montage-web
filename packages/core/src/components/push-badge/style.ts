@@ -1,4 +1,4 @@
-import { css } from '@montage-ui/engine';
+import { css, getColorByToken } from '@montage-ui/engine';
 
 import { typographyStyle } from '../../utils';
 import { createResponsiveStyle } from '../../utils/internal/responsive-props';
@@ -6,8 +6,23 @@ import { createResponsiveStyle } from '../../utils/internal/responsive-props';
 import type { Theme } from '@montage-ui/engine';
 import type { PushBadgeProps } from './types';
 
+type PushBadgeWrapperStyleProps = PushBadgeProps & {
+  shouldFixedWidth: boolean;
+};
+
 export const pushBadgeWrapperStyle =
-  ({ offsetX, offsetY, variant, size, xs, sm, md, lg, xl }: PushBadgeProps) =>
+  ({
+    shouldFixedWidth,
+    offsetX,
+    offsetY,
+    variant,
+    size,
+    xs,
+    sm,
+    md,
+    lg,
+    xl,
+  }: PushBadgeWrapperStyleProps) =>
   (theme: Theme) => css`
     width: fit-content;
     height: fit-content;
@@ -19,8 +34,11 @@ export const pushBadgeWrapperStyle =
     --push-badge-offset-x: ${offsetX ?? '0px'};
     --push-badge-offset-y: ${offsetY ?? '0px'};
 
+    --push-badge-background-color: ${theme.semantic.surface.brand.primary};
+    --push-badge-text-color: ${theme.semantic.static.white};
+
     & > [data-component='push-badge'] {
-      ${pushBadgeSizeStyle({ variant, size })}
+      ${pushBadgeSizeStyle({ variant, size, shouldFixedWidth }, theme)}
     }
 
     ${createResponsiveStyle(
@@ -31,7 +49,10 @@ export const pushBadgeWrapperStyle =
         ${params?.size &&
         css`
           & > [data-component='push-badge'] {
-            ${pushBadgeSizeStyle({ variant, size })}
+            ${pushBadgeSizeStyle(
+              { variant, size: params.size, shouldFixedWidth },
+              theme,
+            )}
           }
         `}
 
@@ -48,13 +69,113 @@ export const pushBadgeWrapperStyle =
     )}
   `;
 
+const pushBadgeSizeStyle = (
+  { size, variant, shouldFixedWidth }: PushBadgeWrapperStyleProps,
+  theme: Theme,
+) => {
+  switch (variant) {
+    case 'text':
+    case 'max-count': {
+      switch (size) {
+        case 'xsmall':
+          return css`
+            height: ${theme.dimension[16]};
+            min-width: ${theme.dimension[16]};
+            padding: 1px ${theme.spacing[4]};
+            ${typographyStyle('caption2', 'bold')}
+
+            ${shouldFixedWidth &&
+            css`
+              width: ${theme.dimension[16]};
+            `}
+
+            --push-badge-outline-border-width: 1px;
+          `;
+        case 'small':
+          return css`
+            height: ${theme.dimension[20]};
+            min-width: ${theme.dimension[20]};
+            padding: 3px ${theme.spacing[6]};
+            ${typographyStyle('caption2', 'bold')}
+
+            ${shouldFixedWidth &&
+            css`
+              width: ${theme.dimension[20]};
+            `}
+
+            --push-badge-outline-border-width: 1.5px;
+          `;
+        case 'medium':
+          return css`
+            height: ${theme.dimension[24]};
+            min-width: ${theme.dimension[24]};
+            padding: ${theme.spacing[2]} 7px;
+            ${typographyStyle('label1', 'bold')}
+
+            ${shouldFixedWidth &&
+            css`
+              width: ${theme.dimension[24]};
+            `}
+
+            --push-badge-outline-border-width: 2px;
+          `;
+      }
+    }
+    case 'dot': {
+      switch (size) {
+        case 'xsmall':
+          return css`
+            --push-badge-outline-border-width: 1px;
+
+            svg {
+              font-size: 5px;
+            }
+          `;
+        case 'small':
+          return css`
+            --push-badge-outline-border-width: 1.5px;
+
+            svg {
+              font-size: 6px;
+            }
+          `;
+        case 'medium':
+          return css`
+            --push-badge-outline-border-width: 2px;
+
+            svg {
+              font-size: 10px;
+            }
+          `;
+      }
+    }
+  }
+};
+
 export const pushBadgeStyle =
-  ({ variant, invisible, position }: PushBadgeProps) =>
+  ({
+    variant,
+    invisible,
+    position,
+    outlineBorder,
+    outlineBorderColor,
+  }: PushBadgeProps) =>
   (theme: Theme) => css`
     z-index: 1;
     position: absolute;
+    box-sizing: border-box;
     transition: transform 0.2s ease;
     transform-origin: 0% 0%;
+
+    ${outlineBorder &&
+    css`
+      outline: var(--push-badge-outline-border-width) solid
+        ${getColorByToken(
+          theme,
+          outlineBorderColor ?? 'semantic.background.neutral.primary',
+        )};
+      outline-offset: 0px;
+    `}
 
     ${pushBadgePositionStyle({ invisible, position })}
     ${pushBadgeVariantStyle({ variant }, theme)}
@@ -130,130 +251,32 @@ const pushBadgePositionStyle = ({ position, invisible }: PushBadgeProps) => {
 
 const pushBadgeVariantStyle = ({ variant }: PushBadgeProps, theme: Theme) => {
   switch (variant) {
-    case 'dot':
-      return css`
-        display: inline-flex;
-        justify-content: center;
-        flex-shrink: 0;
-        align-items: center;
-        color: ${theme.semantic.surface.brand.primary};
-
-        svg {
-          width: 1em !important;
-          height: 1em !important;
-        }
-      `;
-    case 'new':
-    case 'number':
-    default:
+    case 'text':
+    case 'max-count':
       return css`
         text-align: center;
         display: inline-flex;
         justify-content: center;
         align-items: center;
         flex-shrink: 0;
-        color: ${theme.semantic.static.white};
-        background-color: ${theme.semantic.surface.brand.primary};
-        border-radius: 9999px;
+        color: var(--push-badge-text-color);
+        background-color: var(--push-badge-background-color);
+        border-radius: ${theme.radius.full};
+      `;
+    case 'dot':
+    default:
+      return css`
+        display: inline-flex;
+        justify-content: center;
+        flex-shrink: 0;
+        align-items: center;
+        color: var(--push-badge-background-color);
+        border-radius: ${theme.radius.full};
 
-        & > [data-role='push-badge-text'] {
-          display: block;
+        svg {
+          width: 1em !important;
+          height: 1em !important;
         }
       `;
-  }
-};
-
-const pushBadgeSizeStyle = ({ size, variant }: PushBadgeProps) => {
-  switch (variant) {
-    case 'dot': {
-      switch (size) {
-        case 'xsmall':
-          return css`
-            font-size: 4px;
-          `;
-        case 'small':
-          return css`
-            font-size: 6px;
-          `;
-        case 'medium':
-          return css`
-            font-size: 8px;
-          `;
-      }
-    }
-    case 'new': {
-      switch (size) {
-        case 'xsmall':
-          return css`
-            height: 16px;
-            min-width: 16px;
-            aspect-ratio: 1 / 1;
-
-            [data-role='push-badge-text'] {
-              ${typographyStyle('caption2', 'bold')}
-              line-height: 1;
-            }
-          `;
-        case 'small':
-          return css`
-            height: 20px;
-            min-width: 20px;
-            aspect-ratio: 1 / 1;
-
-            [data-role='push-badge-text'] {
-              ${typographyStyle('caption2', 'bold')}
-              line-height: 1;
-            }
-          `;
-        case 'medium':
-          return css`
-            height: 24px;
-            min-width: 24px;
-            aspect-ratio: 1 / 1;
-
-            [data-role='push-badge-text'] {
-              ${typographyStyle('label1', 'bold')}
-              line-height: 1;
-            }
-          `;
-      }
-    }
-    case 'number': {
-      switch (size) {
-        case 'xsmall':
-          return css`
-            height: 16px;
-            min-width: 16px;
-            padding: 1px 4px;
-
-            [data-role='push-badge-text'] {
-              ${typographyStyle('caption2', 'bold')}
-              line-height: 1;
-            }
-          `;
-        case 'small':
-          return css`
-            height: 20px;
-            min-width: 20px;
-            padding: 3px 6px;
-
-            [data-role='push-badge-text'] {
-              ${typographyStyle('caption2', 'bold')}
-              line-height: 1;
-            }
-          `;
-        case 'medium':
-          return css`
-            height: 24px;
-            min-width: 24px;
-            padding: 2px 7px;
-
-            [data-role='push-badge-text'] {
-              ${typographyStyle('label1', 'bold')}
-              line-height: 1;
-            }
-          `;
-      }
-    }
   }
 };
