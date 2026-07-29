@@ -198,6 +198,59 @@ const Demo = () => {
 export default Demo;`}
 />
 
+## Disabled
+
+`disabled` 옵션을 통해 비활성화 상태를 표시합니다.
+
+<Demo code={`import { Button, FlexBox } from '@montage-ui/core';
+import { IconBlank } from '@montage-ui/icon';
+
+const Demo = () => {
+  return (
+    <FlexBox gap="12px" flexDirection="column" alignItems="center">
+      <FlexBox gap="12px" alignItems="center" flexWrap="wrap">
+        <Button variant="solid" color="primary" size="large" disabled>
+          Solid Primary
+        </Button>
+        <Button variant="solid" color="primary" size="large" disabled iconOnly>
+          <IconBlank />
+        </Button>
+        <Button variant="solid" color="assistive" size="large" disabled>
+          Solid Assistive
+        </Button>
+        <Button variant="solid" color="assistive" size="large" disabled iconOnly>
+          <IconBlank />
+        </Button>
+        <Button variant="solid" color="negative" size="large" disabled>
+          Solid Negative
+        </Button>
+        <Button variant="solid" color="negative" size="large" disabled iconOnly>
+          <IconBlank />
+        </Button>
+      </FlexBox>
+
+      <FlexBox gap="12px" alignItems="center" flexWrap="wrap">
+        <Button variant="outlined" color="primary" size="large" disabled>
+          Outlined Primary
+        </Button>
+        <Button variant="outlined" color="primary" size="large" disabled iconOnly>
+          <IconBlank />
+        </Button>
+        <Button variant="outlined" color="assistive" size="large" disabled>
+          Outlined Assistive
+        </Button>
+        <Button variant="outlined" color="assistive" size="large" disabled iconOnly>
+          <IconBlank />
+        </Button>
+      </FlexBox>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+
 ## Loading
 
 `loading` 옵션을 통해 로딩 상태를 트리커 할 수 있습니다. disabled 상태와는 다르게 동작하며 아래 이벤트 실행을 막습니다.
@@ -209,24 +262,84 @@ export default Demo;`}
 이벤트 실행을 막지 않기 위해서 `disableLoadingPreventEvents` 을 사용할 수 있습니다.
 
 <Demo code={`import { Button, FlexBox } from '@montage-ui/core';
-import { useState, useEffect } from 'react';
 
 const Demo = () => {
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setLoading(prev => !prev)
-    }, 3000);
-
-    return () => clearInterval(interval);
-  }, [])
-
   return (
-    <FlexBox gap="12px" justifyContent="center">
-      <Button variant="solid" color="primary" loading={loading} size="large">
-        제출
-      </Button>
+    <FlexBox gap="12px" flexDirection="column" alignItems="center">
+      <FlexBox gap="12px" alignItems="center" flexWrap="wrap">
+        <Button loading variant="solid" color="primary" size="xsmall">
+          Xsmall
+        </Button>
+        <Button loading variant="solid" color="primary" size="small">
+          Small
+        </Button>
+        <Button loading variant="solid" color="primary" size="medium">
+          Medium
+        </Button>
+        <Button loading variant="solid" color="primary" size="large">
+          Large
+        </Button>
+      </FlexBox>
+
+      <FlexBox gap="12px" alignItems="center" flexWrap="wrap">
+        <Button loading variant="solid" color="assistive" size="xsmall">
+          Xsmall
+        </Button>
+        <Button loading variant="solid" color="assistive" size="small">
+          Small
+        </Button>
+        <Button loading variant="solid" color="assistive" size="medium">
+          Medium
+        </Button>
+        <Button loading variant="solid" color="assistive" size="large">
+          Large
+        </Button>
+      </FlexBox>
+
+      <FlexBox gap="12px" alignItems="center" flexWrap="wrap">
+        <Button loading variant="solid" color="negative" size="xsmall">
+          Xsmall
+        </Button>
+        <Button loading variant="solid" color="negative" size="small">
+          Small
+        </Button>
+        <Button loading variant="solid" color="negative" size="medium">
+          Medium
+        </Button>
+        <Button loading variant="solid" color="negative" size="large">
+          Large
+        </Button>
+      </FlexBox>
+
+      <FlexBox gap="12px" alignItems="center" flexWrap="wrap">
+        <Button loading variant="outlined" color="primary" size="xsmall">
+          Xsmall
+        </Button>
+        <Button loading variant="outlined" color="primary" size="small">
+          Small
+        </Button>
+        <Button loading variant="outlined" color="primary" size="medium">
+          Medium
+        </Button>
+        <Button loading variant="outlined" color="primary" size="large">
+          Large
+        </Button>
+      </FlexBox>
+
+      <FlexBox gap="12px" alignItems="center" flexWrap="wrap">
+        <Button loading variant="outlined" color="assistive" size="xsmall">
+          Xsmall
+        </Button>
+        <Button loading variant="outlined" color="assistive" size="small">
+          Small
+        </Button>
+        <Button loading variant="outlined" color="assistive" size="medium">
+          Medium
+        </Button>
+        <Button loading variant="outlined" color="assistive" size="large">
+          Large
+        </Button>
+      </FlexBox>
     </FlexBox>
   )
 }

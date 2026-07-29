@@ -141,7 +141,7 @@ export const textFieldWrapperStyle =
 
         
     input:disabled {
-      color: ${theme.semantic.foreground.neutral.tertiary};
+      color: ${theme.semantic.foreground.neutral.primary};
     }
 
     input:disabled::placeholder {
@@ -184,7 +184,7 @@ export const textFieldWrapperStyle =
 
       &::placeholder {
         font: inherit;
-        color: ${theme.semantic.foreground.neutral.quaternary};
+        color: ${theme.semantic.foreground.neutral.tertiary};
       }
 
       [type='number'] {

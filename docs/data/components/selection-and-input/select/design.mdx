@@ -17,8 +17,8 @@ updatedAt: 2026-01-30
   
 
 <SectionVariants
-  components={['FormControl', 'FormControlField', 'FormControlMessage', 'FormControlLabel', 'Select', 'SelectContent', 'SelectMultiple', 'Option', 'Chip']}
-  icons={['IconGlobe', 'IconCloseThick']}
+  components={['FormControl', 'FormControlField', 'FormControlMessage', 'FormControlLabel', 'Select', 'SelectContent', 'SelectMultiple', 'Option', 'SelectRenderChip']}
+  icons={['IconGlobe']}
   states={`const [value, setValue] = React.useState([]);
 const ref = React.useRef(null);`}
   render={(value) => {
@@ -38,11 +38,8 @@ const ref = React.useRef(null);`}
         if (value['Render'] === 'Chip') {
           render = `() => (
             value.map((v) => (
-              <Chip
+              <SelectRenderChip
                 key={v}
-                size="xsmall"
-                variant="solid"
-                trailingContent={<IconCloseThick />}
                 onClick={(e) => {
                   e.stopPropagation();
                   setValue(value.filter(data => data !== v))
@@ -50,7 +47,7 @@ const ref = React.useRef(null);`}
                 }}
               >
                 {v}
-              </Chip>
+              </SelectRenderChip>
             ))
           )`;
         }

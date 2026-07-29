@@ -10,7 +10,7 @@ import {
 import {
   IconChevronDownThickSmall,
   IconChevronUpThickSmall,
-  IconCircleExclamationFill,
+  IconClose,
 } from '@montage-ui/icon';
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
 import { useSize } from '@radix-ui/react-use-size';
@@ -26,16 +26,18 @@ import {
   MenuList,
   MenuTrigger,
 } from '../menu';
-import { TextFieldContent } from '../text-field';
 import { FlexBox } from '../flex-box';
 import { Typography } from '../typography';
 import { VirtualValueInput } from '../virtual-input';
 import { ListCellContent } from '../list';
-import { ChipProvider } from '../chip/contexts';
+import { IconButtonProvider } from '../icon-button/contexts';
+import { ellipsisTypographyStyle } from '../../utils';
+import { Chip } from '../chip';
 
 import {
-  invalidIconWrapperStyle,
+  selectContentStyle,
   selectIconStyle,
+  selectRenderChipStyle,
   selectStyle,
   selectTextStyle,
 } from './style';
@@ -46,18 +48,24 @@ import {
   OPTION_NAME,
   SELECT_CONTENT_NAME,
   SELECT_NAME,
+  SELECT_RENDER_CHIP_NAME,
 } from './constants';
 import { SelectProvider, useSelectContext } from './context';
 
 import type { ListCellContentProps } from '../list';
-import type { TextFieldContentProps } from '../text-field';
 import type {
   DefaultComponentPropsInternal,
   PolymorphicComponentInternal,
   PolymorphicPropsInternal,
 } from '@montage-ui/engine';
 import type { ForwardedRef } from 'react';
-import type { OptionGroupProps, OptionProps, SelectProps } from './types';
+import type {
+  OptionGroupProps,
+  OptionProps,
+  SelectContentProps,
+  SelectProps,
+  SelectRenderChipProps,
+} from './types';
 
 const Select = forwardRef<
   HTMLDivElement,
@@ -71,6 +79,7 @@ const Select = forwardRef<
       defaultOpen,
       open: openProp,
       onOpenChange,
+      size = 'large',
       width,
       height,
       invalid,
@@ -209,6 +218,7 @@ const Select = forwardRef<
               })}
               sx={[
                 selectStyle({
+                  size,
                   disabled,
                   invalid,
                   width,
@@ -223,67 +233,51 @@ const Select = forwardRef<
                 props.sx,
               ]}
             >
-              {Boolean(leadingContent) && leadingContent}
+              <FlexBox flex="1" gap="2px" data-role="select-wrapper">
+                {Boolean(leadingContent) && leadingContent}
 
-              {(typeof render === 'undefined' || shouldShowPlaceholder) && (
-                <FlexBox
-                  flex="1"
-                  gap="4px"
-                  data-role="select-render-wrapper"
-                  sx={{ padding: '0px 4px', overflow: 'hidden' }}
-                >
-                  {shouldShowPlaceholder ? (
-                    <Typography
-                      data-role="select-placeholder"
-                      noWrap
-                      variant="body1"
-                      weight="regular"
-                      sx={selectTextStyle}
-                    >
-                      {placeholder}
-                    </Typography>
-                  ) : (
-                    <Typography
-                      data-role="select-values"
-                      noWrap
-                      variant="body1"
-                      weight="regular"
-                      sx={selectTextStyle}
-                    >
-                      {label}
-                    </Typography>
-                  )}
-                </FlexBox>
-              )}
+                {shouldShowPlaceholder && (
+                  <Typography
+                    data-role="select-placeholder"
+                    noWrap
+                    sx={[selectTextStyle, ellipsisTypographyStyle(1)]}
+                  >
+                    {placeholder}
+                  </Typography>
+                )}
 
-              {typeof render === 'function' && !shouldShowPlaceholder && (
-                <ChipProvider solid="semantic.foreground.neutral.tertiary">
+                {typeof render === 'undefined' && !shouldShowPlaceholder && (
+                  <Typography
+                    data-role="select-values"
+                    noWrap
+                    sx={[selectTextStyle, ellipsisTypographyStyle(1)]}
+                  >
+                    {label}
+                  </Typography>
+                )}
+
+                {typeof render === 'function' && !shouldShowPlaceholder && (
                   <FlexBox
                     flex="1"
-                    gap="4px"
                     flexWrap="wrap"
-                    data-role="select-render-wrapper"
+                    data-role="select-chip-wrapper"
                   >
                     {render(label, value)}
                   </FlexBox>
-                </ChipProvider>
-              )}
+                )}
 
-              {invalid && (
-                <SelectContent
-                  data-role="select-invalid"
-                  variant="icon"
-                  sx={invalidIconWrapperStyle}
-                >
-                  <IconCircleExclamationFill />
+                <SelectContent variant="icon" data-variant="select-chevron">
+                  {open ? (
+                    <IconChevronUpThickSmall
+                      sx={selectIconStyle({ disabled })}
+                    />
+                  ) : (
+                    <IconChevronDownThickSmall
+                      sx={selectIconStyle({ disabled })}
+                    />
+                  )}
                 </SelectContent>
-              )}
-
-              {open ? (
-                <IconChevronUpThickSmall sx={selectIconStyle({ disabled })} />
-              ) : (
-                <IconChevronDownThickSmall sx={selectIconStyle({ disabled })} />
-              )}
+              </FlexBox>
             </FlexBox>
           </MenuTrigger>
 
@@ -310,6 +304,97 @@ const Select = forwardRef<
 );
 
 Select.displayName = SELECT_NAME;
+
+const SelectContent = forwardRef<
+  HTMLDivElement,
+  DefaultComponentPropsInternal<SelectContentProps, 'div'>
+>(({ variant = 'icon', children, sx, color, ...props }, ref) => {
+  switch (variant) {
+    case 'icon':
+      return (
+        <FlexBox
+          data-component="select-content"
+          data-variant="icon"
+          ref={ref}
+          sx={[
+            selectContentStyle,
+            (theme) => ({
+              width: 'var(--select-content-icon-wrapper-size)',
+              height: 'var(--select-content-max-height)',
+              fontSize: 'var(--select-content-icon-size)',
+              color: color ?? theme.semantic.foreground.neutral.tertiary,
+            }),
+            sx,
+          ]}
+          {...props}
+        >
+          {children}
+        </FlexBox>
+      );
+    case 'icon-button':
+      return (
+        <FlexBox
+          data-component="select-content"
+          data-variant="icon-button"
+          ref={ref}
+          sx={[
+            selectContentStyle,
+            {
+              width: 'var(--select-content-icon-wrapper-size)',
+              height: 'var(--select-content-max-height)',
+            },
+            sx,
+          ]}
+          {...props}
+        >
+          <IconButtonProvider normal="semantic.foreground.neutral.tertiary">
+            {children}
+          </IconButtonProvider>
+        </FlexBox>
+      );
+    case 'custom':
+    default:
+      return (
+        <FlexBox
+          data-component="select-content"
+          data-variant="custom"
+          ref={ref}
+          sx={[selectContentStyle, sx]}
+          {...props}
+        >
+          {children}
+        </FlexBox>
+      );
+  }
+});
+
+SelectContent.displayName = SELECT_CONTENT_NAME;
+
+const SelectRenderChip = forwardRef(
+  <T extends ElementType = 'button'>(
+    {
+      disabled,
+      status = 'normal',
+      trailingContent = <IconClose />,
+      ...props
+    }: PolymorphicPropsInternal<SelectRenderChipProps, T>,
+    ref: ForwardedRef<T>,
+  ) => {
+    return (
+      <Chip
+        ref={ref}
+        disabled={disabled}
+        variant="outlined"
+        size="xsmall"
+        trailingContent={trailingContent}
+        {...props}
+        sx={[selectRenderChipStyle({ status }), props.sx]}
+      />
+    );
+  },
+) as PolymorphicComponentInternal<SelectRenderChipProps, 'button'>;
+
+SelectRenderChip.displayName = SELECT_RENDER_CHIP_NAME;
 
 const OptionGroup = forwardRef<
   HTMLDivElement,
@@ -359,21 +444,12 @@ const Option = memo(
         </MenuItem>
       );
     },
-  ) as PolymorphicComponentInternal<OptionProps, 'li'>,
-);
+  ),
+) as PolymorphicComponentInternal<OptionProps, 'li'>;
 
 Option.displayName = OPTION_NAME;
 // @ts-expect-error
 Option.isOption = true;
-
-const SelectContent = forwardRef<
-  HTMLDivElement,
-  DefaultComponentPropsInternal<TextFieldContentProps, 'div'>
->((props, ref) => {
-  return <TextFieldContent ref={ref} {...props} />;
-});
-
-SelectContent.displayName = SELECT_CONTENT_NAME;
 
 const OptionContent = forwardRef<
   HTMLDivElement,
@@ -384,12 +460,20 @@ const OptionContent = forwardRef<
 
 OptionContent.displayName = OPTION_CONTENT_NAME;
 
-export { Select, SelectContent, Option, OptionGroup, OptionContent };
+export {
+  Select,
+  SelectContent,
+  SelectRenderChip,
+  Option,
+  OptionGroup,
+  OptionContent,
+};
 
 export type {
   SelectProps,
+  SelectContentProps,
+  SelectRenderChipProps,
   OptionGroupProps,
-  TextFieldContentProps as SelectContentProps,
   ListCellContentProps as OptionContentProps,
   OptionProps,
 };

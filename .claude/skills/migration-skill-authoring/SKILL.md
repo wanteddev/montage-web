@@ -96,9 +96,38 @@ Workflow({
     skillDir: '<absolute path of the authored skill>',
     migrationSection: '## <N>.0.0',
     transformsDir: '<absolute path of packages/codemod/src/transforms/vN>',
+    // optional — defaults derived from skillDir:
+    // pluginRoot: '<absolute plugin root>',
+    // knownIssuesFile: '<absolute path>/known-issues.md',
   },
 });
 ```
+
+**`repoRoot` must be the checkout you are editing.** When the work happens in a git
+worktree, that is the worktree path — the parent checkout holds an older copy of the same
+files at the same relative path, and a reviewer that reads it produces confident, entirely
+false findings (one run yielded three false `critical`s that way). The script pins the
+reviewers to absolute paths and makes each finding carry the `wc -l` of every file it cites;
+the verify phase re-runs `wc -l` and refutes on mismatch. That guard only works if the paths
+you pass are the ones you edited.
+
+The run returns **verified** findings, not raw reviewer output: four reviewers fan out, then
+per-file verifiers dedup across reviewers, re-rate severity, and REFUTE anything they cannot
+reproduce. Read the result accordingly:
+
+- `findings` — CONFIRMED only, already deduped and re-rated. This is the worklist.
+- `refuted` — dropped claims with the reason (`stale-file-read`, `accepted-trade-off`, or the
+  observation that killed it). Skim it: a wrongly refuted finding is possible, and the reasons
+  tell you whether a reviewer was reading the wrong tree.
+- `rawCount` vs `findings.length` — the gap is how much noise the verify phase absorbed. A
+  large gap with many `stale-file-read` reasons means `repoRoot` was wrong.
+- `unassessedGroups` — nonzero means a verifier died and its findings were never judged; re-run
+  before trusting a clean result.
+- `clean` — no CONFIRMED `critical`/`major`, all four reviewers returned, nothing unassessed.
+
+Record deliberate trade-offs (a version bump the user deferred, a length budget knowingly
+exceeded) in `<skillDir>/known-issues.md`, one short entry each. Reviewers and verifiers read
+it and stop re-reporting them, which is what keeps successive runs comparable.
 
 Fix every `critical`/`major` finding, then RE-RUN the validation Workflow — a real fix
 can introduce a new real defect, so `critical`/`major` always warrants another pass.
@@ -120,7 +149,7 @@ Each round is expensive (four large sub-agents), so converge deliberately:
   the ones you judge worthwhile in a single final edit and do not re-validate solely to
   confirm them.
 - A `minor` you are deliberately not acting on (e.g. a version bump the user deferred)
-  needs a one-line note in your report, not another round.
+  belongs in `known-issues.md` plus a one-line note in your report, not another round.
 
 Practically: expect ONE re-run after the first substantive fix pass, occasionally two if
 that pass surfaced new `critical`/`major`. If a round yields only heuristic-refinement

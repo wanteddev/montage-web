@@ -177,11 +177,11 @@ export const textAreaStyle =
     scrollbar-width: none;
 
     &::placeholder {
-      color: ${theme.semantic.foreground.neutral.quaternary};
+      color: ${theme.semantic.foreground.neutral.tertiary};
     }
 
     &:disabled {
-      color: ${theme.semantic.foreground.neutral.tertiary};
+      color: ${theme.semantic.foreground.neutral.primary};
     }
 
     &:disabled::placeholder {

@@ -18,7 +18,7 @@ export const customSelectMultipleRenderWrapperStyle = ({
     : css`
         overflow: hidden;
 
-        > div {
+        [data-role='select-multiple-chip-render-wrapper'] {
           overflow: scroll;
 
           &::-webkit-scrollbar {
