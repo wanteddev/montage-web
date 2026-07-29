@@ -31,7 +31,10 @@ by verification.
    owns package.json and ends with the install). The six codemod commits are intentionally
    non-building — do NOT try to fix resolution errors during the codemod phase, and expect
    pre-commit hooks (`.husky/`, `core.hooksPath`, `lint-staged`) to fail: detect them at
-   preflight and agree with the user on `--no-verify` or disabling them for the phase.
+   preflight and agree with the user on `--no-verify` or disabling them for the phase. An
+   agreed `--no-verify` reaches the step agents ONLY through the Workflow `commitNoVerify`
+   arg — without it the step agent commits without the flag and reports `failed` on the hook
+   output rather than deciding on its own.
 6. Run codemods through the CLI (`npx -y @montage-ui/codemod@<codemodVersion> <transform> <path>`;
    resolve the version at preflight, and on resume use the state file's recorded
    `codemodVersion`), never raw jscodeshift — steps ②–④ rewrite stylesheets only via
@@ -47,8 +50,8 @@ rewrites `package.json` a resume looks exactly like "already migrated".
    exists, this is a resume; apply these rules:
    - **Resume.** Skip every step marked `completed`, continue from the first `pending`
      step. A step or manual key missing from an older state file (e.g.
-     `semantic-token-migration`, `M9`, `M10`, or `M11`, added after the file was created) is
-     `pending` —
+     `semantic-token-migration`, `M9`, `M10`, `M11`, or `M12`, added after the file was
+     created) is `pending` —
      add it to the file and run it. `semantic-token-migration` sits at position ② BEFORE
      steps an older migration may already have completed: it still runs, and running it
      after the later steps is safe (its token namespace is disjoint from every other
@@ -67,7 +70,8 @@ rewrites `package.json` a resume looks exactly like "already migrated".
      `storageKey` …) — re-assess such a hit, do not treat it as evidence. [decision]
      patterns match valid v4 code and keep hitting after the section is correctly done (every M2
      pattern, M6's `variant="bottom"`, M9's `surface.brand.primary`, M10's
-     `<ThemeProvider` / `next-themes`, M11's `\bSegmentedControl(Item)?\b` …), so they are
+     `<ThemeProvider` / `next-themes`, M11's `\bSegmentedControl(Item)?\b`, M12's
+     `\bSelect(Multiple|Content|RenderChip)?\b` / `text-field-content` …), so they are
      never mismatch evidence. Detect the pending-but-already-applied direction with the
      **presence greps** in `references/codemod-steps.md` — each step's verify grep is an
      ABSENCE check that returns zero both when the codemod ran and when the repo never used
@@ -87,7 +91,22 @@ rewrites `package.json` a resume looks exactly like "already migrated".
      "skip if completed" rule is intentionally bypassed here) — run each step's verify
      grep scoped to the new directory, then append the directory to `targets` in the
      state file and pass the updated list on subsequent Workflow invocations. Never
-     silently widen the `targets` arg.
+     silently widen the `targets` arg. **Run each step's PRE-CHECK against the new directory
+     first, in canonical order** — for that directory this is a first run, so steps ⑤/⑥'s
+     pre-checks apply in full (a hand-migrated file sitting there is exactly what step ⑥
+     corrupts), and skipping them because "the step is already completed" is a corruption path
+     the completed mark was never meant to cover. A positive step-⑥ pre-check on the new
+     directory gets the same remediation as on a first run: confirm the hand-migrated files with
+     the user, run the catch-up invocation with the move-out/move-back exclusion around it, and
+     append those paths to the state file's `excludeFiles`. A positive step-⑤ pre-check is
+     resolved the same way its abort bullet describes (reconcile the file to one API, or collapse
+     duplicate specifiers) before the catch-up run.
+   - **Single-codemod origin.** If the file carries `origin: single-codemod`, its `targets`
+     were chosen for ONE ad-hoc step, not for a migration — re-confirm them with the user in
+     the one `AskUserQuestion` before starting the full run (the one sanctioned exception to
+     the target lock above), then drop the `origin` key. The workflow script's recreation
+     template never writes this key, so its absence from a recreated file is not evidence that
+     the migration began as a full run.
    - **Version pin.** Read the recorded `codemodVersion` and pass it as the Workflow
      `codemodVersion` arg — the pin survives sessions only through this field. On a FIRST
      run, resolve a CONCRETE version before writing the state file with
@@ -101,11 +120,37 @@ rewrites `package.json` a resume looks exactly like "already migrated".
      registry this session cannot reach): STOP and report the registry/auth blocker. Never
      guess a plausible version and never fall back to `latest` — a wrong pin silently runs
      the wrong transform build for the whole migration. Confirm reachability with
-     `npx -y @montage-ui/codemod@<resolved> --help` before step ①.
-   - **Excluded files.** Read the recorded `excludeFiles` list (empty by default). Pass it
-     back as the Workflow `excludeFiles` arg, and use it when judging step ⑥ hits at final
-     verification — without it, a later session cannot tell a ring-fenced hand-migrated file
-     from a genuine migration leftover and will "fix" code the user protected.
+     `npx -y @montage-ui/codemod@<resolved> --help` before step ①, then get the pinned build's
+     transform list with a deliberately invalid name —
+     `npx -y @montage-ui/codemod@<resolved> __probe__` — which prints
+     `Invalid transform choice, pick one of:` followed by every id and exits 1 (the non-zero exit
+     is expected; the run stays non-interactive). `--help` cannot serve this purpose: it prints
+     only the usage block and names no transform. **Check that list contains all six step ids.** On a RESUME this check is not a formality: a
+     step key added to this skill after the pin was recorded may not exist in the pinned
+     build, and the CLI then rejects it mid-migration with "Invalid transform choice" after
+     earlier steps have already committed. If a step is missing from the pinned build, stop
+     and settle it with the user — either finish the migration without that step and run it
+     separately afterwards, or re-pin deliberately (which forfeits the same-build guarantee
+     for the remaining steps). Never re-pin silently.
+   - **jq-free fallback.** Both the version resolution above and step ⑥'s recovery record use
+     `jq`, which many consumer repos lack. If `command -v jq` fails, resolve the version with
+     `npm view '@montage-ui/codemod@^4' version --json | node -e "let s='';process.stdin.on('data',d=>s+=d).on('end',()=>{const v=JSON.parse(s);console.log(Array.isArray(v)?v[v.length-1]:v)})"`.
+     The step-⑥ recovery record needs no arg or hand-off: the `node -e` equivalent sits beside the
+     jq command in the exclusion procedure, and the step agent is told to switch to it whenever
+     `command -v jq` fails. Never hand-assemble either with `printf`/`echo`.
+   - **Excluded files and reverted names.** Read the recorded `excludeFiles` list (empty by
+     default) and pass it back as the Workflow `excludeFiles` arg on EVERY subsequent
+     invocation — not only on the re-run that first established it. Use it when judging step ⑥
+     hits at final verification: without it, a later session cannot tell a ring-fenced
+     hand-migrated file from a genuine migration leftover and will "fix" code the user
+     protected. **The workflow enforces this**: it compares the recorded `excludeFiles` with the
+     invocation's and aborts before any codemod on a mismatch, so a resume that drops the arg
+     fails loudly instead of quietly un-excluding those files.
+     Read `revertedNames` the same way — steps ③/④ record there every `--wds-*` variable or
+     `wds-*` string they deliberately reverted as consumer-owned, each as a **`file` + `name`
+     pair**. The pair is what makes it safe: an entry excuses that name only in that file, so the
+     same name elsewhere is still judged as a possible leftover. Neither list can be
+     reconstructed if the state file is lost.
 2. **Version check.** Read the project's `package.json`. **If a state file exists, item 1's
    resume rules govern** — use the version check only to confirm the recorded phase (pre-M1
    expects `@wanteddev/wds*` 3.x, post-M1 expects `@montage-ui/*` 4.x) and report a
@@ -117,8 +162,8 @@ rewrites `package.json` a resume looks exactly like "already migrated".
    - Only `@montage-ui/*` 4.x present → likely already migrated; run
      the leftover greps from `references/codemod-steps.md` plus every M-section scan
      pattern from `references/manual-migrations.md` (steps and M-sections added after a
-     consumer finished migrating — e.g. step ② `semantic-token-migration`, M9, M10, and
-     M11 — surface only through these scans) and report instead of migrating.
+     consumer finished migrating — e.g. step ② `semantic-token-migration`, M9, M10, M11, and
+     M12 — surface only through these scans) and report instead of migrating.
    - BOTH `@wanteddev/wds*` and `@montage-ui/*` present → the project is partially
      hand-migrated. Run the step ⑤/⑥ pre-checks from `references/codemod-steps.md` before
      anything else and expect file exclusions in step ⑥.
@@ -130,7 +175,11 @@ rewrites `package.json` a resume looks exactly like "already migrated".
    with the user up front on how to handle them; and scan `.ts` files for legacy
    angle-bracket casts, which the `tsx` parser cannot read (the file is skipped with a
    transformation error while the rest of the run succeeds — a silent partial migration):
-   `grep -rnE '(=|\(|,|return) *<[A-Za-z_$][A-Za-z0-9_$.]*(\[\])?> *[A-Za-z_$(]' --include="*.ts" <targets>`
+   `grep -rnE '(=|\(|,|:|\[|!|return) *<[A-Za-z_$][A-Za-z0-9_$.]*(<[^<>]*(<[^<>]*>)?[^<>]*>)?(\[\])?> *[A-Za-z_$(]' --include="*.ts" <targets>`
+   (the nested group catches generic casts up to two levels — `<Array<string>>items`,
+   `<Map<string, Array<number>>>m` — and `:`/`[` catch
+   casts inside object literals and array elements — all of which break the parser identically.
+   The scan is still a heuristic; the "treat any `ERR` as a step failure" rule is the backstop)
    — convert the hits to `as` syntax in a preparatory commit before step ①.
 
    Also read the project's `react` / `react-dom` versions: v4 peer-requires
@@ -158,7 +207,16 @@ rewrites `package.json` a resume looks exactly like "already migrated".
    OR `wds-*` DOM identifiers (step ④ rewrites those in stylesheets too, so a directory
    whose only Montage references are selectors like `[wds-component="card"]` must be a
    target as well) — discover them with
-   `grep -rln --include="*.css" --include="*.scss" --include="*.sass" --include="*.less" -e "--wds-" -e "--semantic-" -e "wds-component" -e "wds-ignore-" -e "wds-region-manager" . | grep -v node_modules | xargs -n1 dirname | sort -u`
+   `grep -rln --include="*.css" --include="*.scss" --include="*.sass" --include="*.less" -e "--wds-" -e "--semantic-" -e "wds-component" -e "wds-ignore-" -e "wds-region-manager" . | grep -vE '/(node_modules|\.next|dist|build|out|coverage|storybook-static)/' | xargs -I{} dirname {} | sort -u`
+   **Never make build output a target.** The CLI's own ignore list does not protect you: it is
+   consulted only for directories met while recursing, never for the path you pass, so handing it
+   `dist/assets` or `.next/static/css` rewrites generated CSS. That is why the filter above
+   excludes them rather than just `node_modules` — and `-I{}` instead of `-n1` so paths
+   containing spaces survive (and so an empty result runs nothing).
+   **A `.` in the output is not a target.** It means a stylesheet sits at the repo root, and
+   passing `.` would run every codemod over the ENTIRE repo — build output, fixtures and all.
+   Drop it from the merged list and instead pass that stylesheet's own path (the CLI takes a file
+   or a directory) or a narrower directory that contains it.
    and merge the resulting directories into the target list (collapse into an existing
    target when one already contains them). Use plain directory paths — the codemod CLI
    takes exactly one path per invocation and does not expand globs; each step runs once
@@ -211,6 +269,7 @@ targets:
 autoCommit: true
 codemodVersion: 4.0.0
 excludeFiles: [] # repo-relative; filled in when step ⑥ ran with user-confirmed exclusions
+revertedNames: [] # steps ③/④ append file-scoped entries: "- file: <path>" + "  name: <name>"
 # origin: single-codemod   # present only when created by the single-codemod path
 steps:
   package-name-migration: pending
@@ -231,6 +290,7 @@ manual:
   M9: pending
   M10: pending
   M11: pending
+  M12: pending
 ---
 ```
 
@@ -260,8 +320,16 @@ Workflow({
     autoCommit: true,
     codemodVersion: '<concrete x.y.z resolved in preflight>',
     completedSteps: [], // step ids already marked completed in the state file
-    // excludeFiles: [], // optional; repo-relative paths, form-control-migration only —
-    //                   // set only on a re-run after step ⑥'s precheck reported them
+    // excludeFiles: [], // optional; repo-relative paths, form-control-migration only.
+    //                   // First established on a re-run after step ⑥'s precheck reported
+    //                   // them; from then on pass the state file's recorded list on EVERY
+    //                   // invocation — omitting it silently un-excludes those files.
+    // commitNoVerify: false, // optional; true only when preflight agreed `--no-verify` with
+    //                        // the user for this repo's pre-commit hooks
+    // allowOutOfOrderSteps: false, // optional; true ONLY for a state file whose completed
+    //                              // marks are genuinely out of canonical order (single-codemod
+    //                              // path, user-confirmed). The script throws on a gap
+    //                              // otherwise, since the usual cause is a stale list.
   },
 });
 ```
@@ -277,7 +345,7 @@ announced when the skill loaded, or to the directory of the loaded SKILL.md. ALW
 resolved in preflight (first run) or read from the state file (resume) — the script
 rejects dist-tags, since the value is recorded in the state file and a dist-tag would
 re-resolve on resume and break the same-build guarantee. The workflow returns per-step results plus a
-`manualScan` report (assessed occurrences for manual steps M1–M11).
+`manualScan` report (assessed occurrences for manual steps M1–M12).
 
 - If the workflow reports `aborted`, surface the failed step's error to the user, fix the
   cause, and re-run the same Workflow invocation with `completedSteps` refreshed from the
@@ -287,10 +355,11 @@ re-resolve on resume and break the same-build guarantee. The workflow returns pe
     performs the move-out/move-back exclusion inside the run (after its clean-tree check,
     moving back before the commit). Do NOT move files out yourself between runs; that
     dirties the tree and deadlocks the clean-tree check.
-  - **A codemod failed partway with `autoCommit: false`**: the step agent restores the
-    tree from its pre-step snapshot before reporting. If its report shows the restore did
-    not happen, the partial changes MUST be reverted before re-running — a codemod re-run
-    over a half-transformed tree is the corruption path (and excluding the
+  - **A codemod failed partway** (either `autoCommit` mode): the step agent restores the tree
+    first — from `git checkout -- <targets>` when `autoCommit: true` (the tree was clean at step
+    start), from its pre-step `git stash create` snapshot when `autoCommit: false`. If its report
+    shows the restore did not happen, the partial changes MUST be reverted before re-running — a
+    codemod re-run over a half-transformed tree is the corruption path (and excluding the
     partially-transformed files is the wrong fix).
   - **Step ⑤ precheck flagged files** — two distinct classes, different remediations:
     half-hand-migrated files (importing an old name AND its new counterpart) → revert the
@@ -306,9 +375,14 @@ re-resolve on resume and break the same-build guarantee. The workflow returns pe
   - **State file missing at a step's start**: the step agent reports `failed` rather than
     assuming `pending`. Do not recreate the file silently — reconcile with the user first
     (the recorded `targets` / `autoCommit` / `codemodVersion` cannot be recovered from args).
-  - **State-file `targets` disagree with the invocation `targets`**: surface BOTH lists to
-    the user and follow the target-lock/addition path in preflight item 1. Never re-run with
-    a widened list to "fix" it.
+  - **A locked field disagrees with the state file** — the step agent compares all three, not
+    just targets. `targets`: surface BOTH lists to the user and follow the target-lock/addition
+    path in preflight item 1; never re-run with a widened list to "fix" it. `codemodVersion`:
+    re-run with the recorded version — changing the pin mid-migration forfeits the same-build
+    guarantee, so a deliberate change needs the user's decision first. `autoCommit`: re-run with
+    the recorded value, since every step's failure handling and clean-tree expectation branches
+    on it and flipping it mid-migration leaves earlier steps' commits inconsistent with later
+    ones.
   - **Step ⑥ reported an incomplete move-back** (non-empty hash diff, or files still in the
     temp dir): the run keeps the recovery record and skips the state update and commit.
     Surface the unrestored paths to the user and restore them before anything else — never
@@ -324,9 +398,34 @@ re-resolve on resume and break the same-build guarantee. The workflow returns pe
     hand-migrated files, and the generic dirty-tree bullet below would erase them.
   - **Dirty tree with `autoCommit: true` at a step's start**: commit or reconcile the
     unrelated changes with the user (never stash), then re-run.
+  - **Step ③/④ reported ambiguous consumer-owned names**: the blind rename touched a string or
+    variable that may or may not be Montage-derived, and the step agent has no user channel, so
+    it stopped WITHOUT committing rather than deciding. **Do NOT re-run the step.** Its codemod
+    already transformed the tree; both transforms are blind prefix/substring passes, so a second
+    run would re-apply exactly the renames the user chose to keep. Finish the step by hand
+    instead — the same shape as the pending-but-already-applied path in item 1: confirm each name
+    with the user (`AskUserQuestion`), apply the agreed reverts, run that step's verification grep
+    from `references/codemod-steps.md`, commit with that step's message
+    (`chore(montage): v4 codemod — <step id>`), append every reverted name to the state file's
+    `revertedNames`, and mark the step `completed`. Only then re-invoke the Workflow, with that
+    step INCLUDED in `completedSteps` so it is skipped. Names the agent reverted on its own arrive
+    in `verifyFindings` (the run aborted before it could write them) — append those to
+    `revertedNames` too, and carry the whole list into the final verification instead of
+    re-judging it.
+  - **A pre-commit hook rejected a step's commit**: the step agent does not retry with
+    `--no-verify` and does not touch the hook config. Settle the policy with the user, then
+    re-run with `commitNoVerify: true` (or with the hooks disabled for the phase).
   - **State-file verification failed on a scan-only re-run** (`aborted:
-"state-file-verification"`, all 6 steps already completed): same two causes as above —
-    read `stateCheckError` in the result.
+"state-file-verification"`, all 6 steps already completed): read `stateCheckError` — the
+    script produces five distinct causes with different remediations, so never assume which.
+    (a) The verification agent returned nothing — re-run. (b) State file missing — reconcile
+    with the user, never recreate silently. (c) `targets` disagree — follow the target-lock
+    path in preflight item 1. (d) A LOCKED FIELD disagrees (`codemodVersion` or `autoCommit`
+    differs from the recorded value) — re-run with the recorded value; changing the pin
+    mid-migration forfeits the same-build guarantee and flipping `autoCommit` changes the
+    failure handling every step branches on. (e) `completedSteps` claims all six are done while
+    the state file still marks some `pending` — the list is stale; refresh it from the state
+    file and re-run, since those steps must still RUN.
 - **Regardless of `aborted`, inspect every step's `verifyFindings` for a state-file
   recreation report.** A recreation does NOT abort the run (the step still returns
   `completed`), so it never reaches the list above. The recreated `targets`, `autoCommit`,
@@ -356,17 +455,21 @@ re-confirmation instead of silently inheriting a list chosen for one step; the s
 failure applies only to resumes of a previously started migration. If earlier steps in
 the canonical order are not marked `completed` in the state file, surface that and get
 explicit user confirmation before running out of order — manual steps and later codemods assume
-post-codemod names. Then execute that one step exactly as the workflow's step agent would
-(its 12-step procedure, numbered 0–11, is embedded in `scripts/migration-workflow.js`):
-orphaned-exclusion check, state-file check,
-pre-check, run (with the state file's recorded `codemodVersion`, not a fresh `latest`),
-post-step verification grep from `references/codemod-steps.md`, mark the step
-`completed`. The run-once rule applies with full force — this ad-hoc path is exactly
+post-codemod names. Such a state file leaves a GAP in the canonical order, and the next full
+Workflow run refuses to start on it: pass `allowOutOfOrderSteps: true` only after confirming the
+gap is this deliberate one and not a stale `completedSteps` list. Then execute that one step exactly as the workflow's step agent would: **read the full
+12-step procedure (numbered 0–11) out of `scripts/migration-workflow.js` and follow every
+step — do not work from a summary.** The ones an abridged run typically drops are the ones
+that prevent unrecoverable damage: the clean-tree / dirty-set check (2), the exclusion
+move-out plus its recovery record (4), the pre-step snapshot (5), the restore-on-partial-failure
+(7), and the verified move-back (8). Use the state file's recorded `codemodVersion`, never a
+fresh `latest`, and mark the step `completed` only after its verification grep from
+`references/codemod-steps.md`. The run-once rule applies with full force — this ad-hoc path is exactly
 where double-runs happen.
 
 ## Step 2 — Manual migrations
 
-Work through `references/manual-migrations.md` (M1–M11) using the workflow's `manualScan`
+Work through `references/manual-migrations.md` (M1–M12) using the workflow's `manualScan`
 hits as the worklist. On a resume where all 6 codemod steps are already `completed` but no
 workflow ran this session, there is no `manualScan` report — rebuild the worklist first:
 re-run the same Workflow invocation with `completedSteps` listing all 6 (every step is
@@ -378,6 +481,11 @@ before behavioral decisions (the bullets below are decision summaries only —
 `references/manual-migrations.md` is the source of truth for the full fix rules; update
 both together when an M-section changes):
 
+- **M3 (CSS variable / DOM identifier leftovers):** per dynamic construction site — whether
+  the interpolated name is a Montage token at all, and what its post-migration form is (a
+  split token like `'--wds-column-' + 'spacing'` must become `--grid-column-spacing`, not
+  `--column-spacing`). Steps ③/④ already reverted the consumer-owned names they were sure
+  about and recorded them in the state file's `revertedNames`; treat those as settled.
 - **M2 (theme tokens):** per occurrence — wrap the arithmetic in `calc()` on the `var()`
   string, or import the raw value from `lightOriginTheme`; confirm which, since a raw import
   bypasses the CSS-variable indirection (and thus runtime theme switching).
@@ -403,7 +511,9 @@ both together when an M-section changes):
   is confirmed.
 - **M10 (ThemeProvider cookie storage):** whether the app should share its theme with
   sibling subdomains (`cookie.domain`) or stay host-only, and whether to pass `nonce` under
-  CSP. `storageKey` → `cookie.key` is mechanical. Direct `next-themes` `useTheme` calls are
+  CSP. `storageKey` → `cookie.key` is mechanical only when the old key is already a valid cookie
+  name — v4 ignores a non-token key with a console error and falls back to the default, so a key
+  containing `:` `/` `@` `=` or a space must be renamed (see M10). Direct `next-themes` `useTheme` calls are
   NOT — they break silently (no error, no type error), but only the ones that resolved
   against Montage's provider may be rewritten; check each call's provider context, then map
   `resolvedTheme` → `theme` and the raw choice → `themeOriginValue`. Calls bound to the
@@ -417,6 +527,13 @@ both together when an M-section changes):
   `aria-label` per item, and the root stops filling its parent's width (`fit-content`) —
   decide where the width now comes from. `leadingContent` → `leadingIcon` is mechanical;
   dropping `trailingContent` is not.
+- **M12 (Select / SelectMultiple):** the four removed `SelectContent` variants have no
+  like-for-like replacement (`variant="custom"` plus your own `sx`), and a `<SelectContent>`
+  with NO `variant` silently changes meaning (text slot → icon wrapper) — decide per
+  occurrence. Hand-assembled `render` Chips → `SelectRenderChip` is a visual change
+  (solid → outlined), so confirm each one, and whether any field adopts `size="medium"`
+  (40px) is the user's call too. Renaming a Select's `data-component="text-field-content"`
+  selector to `select-content` is mechanical once the hit is confirmed to be a Select's.
 
 M1 (package.json + configs) ends with a dependency install to refresh the lockfile.
 Mark each M-section `completed` in the state file as it finishes.
@@ -431,6 +548,13 @@ Mark each M-section `completed` in the state file as it finishes.
      (unrelated consumer code sharing the substring may remain, listed in the summary);
      [decision] patterns match valid v4 code, and pass means every hit was assessed
      during Step 2. NEVER edit valid v4 code just to force a count to zero.
+     Two carve-outs apply to [zero] patterns as well as to the codemod greps, because the
+     patterns are literally the same: a hit inside a file listed in the state file's
+     `excludeFiles` (step ⑥ ring-fenced it — M5's scan reuses step ⑥'s pattern, so it reaches
+     those files too; report and NEVER edit them), and a hit matching a `revertedNames` entry
+     **in both `file` and `name`** (steps ③/④ reverted it deliberately as consumer-owned — an
+     expected survivor, not an M3 leftover; the same name in a file that is not in the list stays
+     a leftover candidate). Read both lists from the state file before judging any hit.
    - The 6 codemod verify greps are zero-criterion WITH their documented exceptions
      (step ①: `@wanteddev/montage-mcp` hits are the correct post-migration name; step ⑥:
      hits inside a file listed in the state file's `excludeFiles` — read it before judging
@@ -450,9 +574,11 @@ Mark each M-section `completed` in the state file as it finishes.
 2. Project checks: install, typecheck, lint, build, unit tests — whatever the project
    defines.
 3. Remind the user to visually QA TextField / TextArea / bottom-sheet Modal / Card list /
-   SegmentedControl screens (v4 changed their rendering and behavior, not just names) —
-   former `variant="outlined"` SegmentedControls in particular (see M11) — plus screens that
-   used the deleted accent tokens (their replacement values differ — see M9).
+   SegmentedControl / Select screens (v4 changed their rendering and behavior, not just
+   names) — former `variant="outlined"` SegmentedControls in particular (see M11), and
+   Selects in dense layouts, whose focus ring now draws 4px OUTSIDE the field (see M12) —
+   plus screens that used the deleted accent tokens (their replacement values differ — see
+   M9).
 4. Delete the state file, then summarize: steps run, commits created, manual fixes
    applied, items intentionally left (with reasons).
 
@@ -460,7 +586,10 @@ Mark each M-section `completed` in the state file as it finishes.
 
 - **`references/codemod-steps.md`** — the 6 codemods in order: exact commands,
   idempotency analysis, pre-checks, post-step verification greps, hazards.
-- **`references/manual-migrations.md`** — manual migrations M1–M11 with scan patterns and
+- **`references/manual-migrations.md`** — manual migrations M1–M12 with scan patterns and
   fix rules.
 - **`scripts/migration-workflow.js`** — Workflow-tool script for the codemod phase; also
   the canonical per-step procedure for inline fallback execution.
+- **`known-issues.md`** — accepted trade-offs in this skill (deferred version bumps, the
+  SKILL.md length budget, the line-based-heuristic scans). Maintainer-facing: read it before
+  "fixing" something that was decided deliberately.
