@@ -1,6 +1,6 @@
 # Manual Migrations (v3 → v4)
 
-Changes the codemods cannot apply automatically. Run these AFTER all 6 codemod steps
+Changes the codemods cannot apply automatically. Run these AFTER all 7 codemod steps
 completed (see `codemod-steps.md`). Each section lists scan patterns to locate affected
 code — scan first, then apply fixes only where a real occurrence exists.
 
@@ -727,13 +727,75 @@ implementation. No codemod covers this section.
   Value text also drops one typography step (body1 → body2), so width-capped fields need a
   look.
 
+## M13. PushBadge changes
+
+Step ⑦ `push-badge-migration` already rewrote the literal cases (`variant="number"` →
+`variant="text"`, `variant="new"` → `variant="text" text="N"`, `count` → `text`). This
+section covers what the transform cannot express and the rendering changes no rename fixes.
+
+- **Non-literal `variant` was left as-is.** `variant={v}` / `variant={cond ? 'new' : 'dot'}`
+  cannot be mapped, so the transform skipped the value (it still renamed that element's
+  `count` → `text`, which is always correct). Trace what the expression produces: `'number'`
+  → `'text'`, `'new'` → `'text'` **and the element needs `text="N"`**, `'dot'` → unchanged.
+  A leftover `'new'` / `'number'` is not a type error against the v4 union only when the
+  expression is typed loosely, so do not rely on the typecheck to find these.
+  Scan **[zero]**: `PushBadge[^>]*variant=\{` — every hit is a value to trace by hand.
+- **`count` reaching the badge through a spread or a wrapper type.** `{...props}` carrying
+  `count`, and any `type X = PushBadgeProps & …` / `Pick<PushBadgeProps, 'count'>` that
+  re-declares or relays it, are invisible to the transform. The type surface surfaces as a
+  typecheck error once M1's install lands the v4 packages; the spread surface does not.
+  Scan **[decision]**: `\bPushBadge(Props)?\b` file-level, then review every usage for a
+  spread that may carry `count` / `variant`, and for multi-line JSX props the step-⑦ line
+  grep could not see. The `(Props)?` group is required — `\bPushBadge\b` alone does NOT match
+  `PushBadgeProps` (the trailing `\b` fails before `P`).
+- **`count` + `text` on one element.** The transform skips these deliberately (renaming would
+  duplicate the attribute). Delete the stale `count`.
+  Scan **[zero]**: `PushBadge[^>]*count=`. (Same pattern as step ⑦'s verify grep; here the
+  scope is the rest of the repo — hits OUTSIDE the targets — plus in-target leftovers the
+  step already reported.)
+- **`variant="max-count"` adoption is a decision, never a mechanical mapping.** v3's `number`
+  had no upper bound; `max-count` clamps a numeric `text` at `maxCount` (default **99**) and
+  renders `{maxCount}+`. A counter that legitimately shows 3-digit values must either stay on
+  `variant="text"` or set an explicit `maxCount`. Clamping applies to numeric `text` only —
+  `text="1000"` (string) renders in full under `max-count`.
+  Scan **[decision]**: `PushBadge[^>]*variant="text"` — for each, decide whether it wants a
+  cap. Expect most hits to stay as they are; this is an opt-in feature, not a migration debt.
+- **`[data-role='push-badge-text']` is gone.** The `Typography` wrapper around the badge text
+  was removed; the text renders directly inside `[data-component='push-badge']`, which now
+  carries the typography itself. Selectors and test queries reaching for the inner element
+  must move up one level.
+  Scan **[zero]**: `push-badge-text` (include stylesheets).
+- **`invisible` no longer removes the text from the DOM.** v3 rendered the text only when
+  `!invisible`; v4 always renders it, hides it with `transform: scale(0)`, and marks it
+  `aria-hidden` (so the shrink animation survives). Tests asserting the text's ABSENCE while
+  invisible now fail — assert on `aria-hidden` or on the computed transform instead. Nothing
+  to change in product code.
+  Scan **[decision]**: `PushBadge[^>]*invisible` — review the surrounding tests, not the
+  component usage.
+- **New props are opt-in.** `outlineBorder` / `outlineBorderColor` draw an outline around the
+  badge (1 / 1.5 / 2px by `size`) so it stays legible over an avatar or icon; the outline is
+  drawn OUTSIDE the badge, so an `overflow: hidden` ancestor clips it. `maxCount` is covered
+  above. Nothing breaks by not adopting them.
+- **Sizing and color changes** (nothing to rewrite unless layout was tuned against the old
+  numbers): the dot diameter went 4→5px (xsmall) and 8→10px (medium), small unchanged at 6px.
+  Text badge heights, min-widths, paddings and typography are unchanged, but the text
+  line-height moved from a hardcoded `1` to the token value (caption2 14px / label1 20px), and
+  the badge gained `box-sizing: border-box` — a project with no global reset previously got a
+  badge padding-widths larger than the declared size, so hand-tuned `offsetX`/`offsetY`
+  corrections may now overshoot. The former `variant="new"` square came from
+  `aspect-ratio: 1 / 1`; v4 reproduces it by fixing the width to the height when `text` is a
+  **single-character string**, so `text="N"` stays a circle while `text={3}` is sized by
+  `min-width` and can differ by a fraction of a pixel. Background and text colors are now read
+  from `--push-badge-background-color` / `--push-badge-text-color` on the wrapper, which is
+  the supported override point (the dot uses the background variable as its own color).
+
 ## Suggested commit boundary
 
 Manual fixes get their own commits, after the codemod phase — with the recommended
-auto-commit flow the six codemod commits already exist by the time any M-section runs, so
+auto-commit flow the seven codemod commits already exist by the time any M-section runs, so
 do not try to "group" a manual fix into a codemod step's commit (that would mean rewriting
 history and defeats per-step revertability). One commit per M-section (or per coherent
 group, e.g. M3+M4) keeps review and revert straightforward. Only in a non-auto-commit
-inline run, where nothing is committed until the end, may M1/M3/M4/M5/M9 share a commit with
-their related codemod step (M9 ↔ step ② `semantic-token-migration`, the same relationship as
-M1 ↔ ①, M3 ↔ ③/④, M4 ↔ ⑤, M5 ↔ ⑥).
+inline run, where nothing is committed until the end, may M1/M3/M4/M5/M9/M13 share a commit
+with their related codemod step (M9 ↔ step ② `semantic-token-migration`, the same
+relationship as M1 ↔ ①, M3 ↔ ③/④, M4 ↔ ⑤, M5 ↔ ⑥, M13 ↔ ⑦).
