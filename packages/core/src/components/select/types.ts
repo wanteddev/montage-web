@@ -8,6 +8,8 @@ export type SelectDefaultProps = WithSxProps<{
   invalid?: boolean;
   /** Whether the select is disabled. */
   disabled?: boolean;
+  /** The size of the select. Use size instead of `height` by default. */
+  size?: 'large' | 'medium';
   /** The width of the select. */
   width?: CSSProperties['width'];
   /** The height of the select. */
@@ -49,10 +51,23 @@ export type SelectDefaultProps = WithSxProps<{
 }>;
 
 export type SelectResponsiveProps = ResponsiveProps<
-  Pick<SelectDefaultProps, 'width' | 'height'>
+  Pick<SelectDefaultProps, 'width' | 'height' | 'size'>
 >;
 
 export type SelectProps = Merge<SelectDefaultProps, SelectResponsiveProps>;
+
+export type SelectContentProps = WithSxProps<{
+  variant?: 'custom' | 'icon' | 'icon-button';
+  children?: ReactNode;
+}>;
+
+export type SelectRenderChipProps = WithSxProps<{
+  disabled?: boolean;
+  children?: ReactNode;
+  status?: 'normal' | 'negative';
+  /** The trailing content of the chip. default is <IconClose /> */
+  trailingContent?: ReactNode;
+}>;
 
 export type OptionGroupProps = MenuGroupProps;
 export type OptionProps = Merge<

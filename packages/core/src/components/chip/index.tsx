@@ -1,10 +1,9 @@
-import { forwardRef, useId, useMemo } from 'react';
+import { forwardRef, useId } from 'react';
 import { Box } from '@montage-ui/engine';
 
 import { WithInteraction } from '../with-interaction';
 
 import { chipStyle } from './style';
-import { useChipContext } from './contexts';
 
 import type {
   PolymorphicComponentInternal,
@@ -35,14 +34,9 @@ const Chip = forwardRef(
     }: PolymorphicPropsInternal<ChipProps, T>,
     ref: ForwardedRef<T>,
   ) => {
-    const context = useChipContext();
     const id = useId();
 
     const active = givenActive ?? props['aria-pressed'];
-
-    const overrideColor = useMemo(() => {
-      return context?.[variant];
-    }, [context, variant]);
 
     return (
       <WithInteraction
@@ -69,7 +63,6 @@ const Chip = forwardRef(
           sx={[
             chipStyle({
               iconOnly,
-              overrideColor,
               active,
               variant,
               size,

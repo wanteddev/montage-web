@@ -7,6 +7,8 @@ export type SelectMultipleDefaultProps = WithSxProps<{
   invalid?: boolean;
   /** Whether the select multiple is disabled. */
   disabled?: boolean;
+  /** The size of the select. Use size instead of `height` by default. */
+  size?: 'large' | 'medium';
   /** The width of the select multiple. */
   width?: CSSProperties['width'];
   /** The height of the select multiple. */
@@ -52,7 +54,7 @@ export type SelectMultipleDefaultProps = WithSxProps<{
 }>;
 
 export type SelectMultipleResponsiveProps = ResponsiveProps<
-  Pick<SelectMultipleDefaultProps, 'width' | 'height'>
+  Pick<SelectMultipleDefaultProps, 'width' | 'height' | 'size'>
 >;
 
 export type SelectMultipleProps = Merge<

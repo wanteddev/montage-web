@@ -1,27 +1,13 @@
-import { css, getColorByToken } from '@montage-ui/engine';
+import { css } from '@montage-ui/engine';
 
 import { typographyStyle } from '../../utils/typography';
 import { createResponsiveStyle } from '../../utils/internal/responsive-props';
 
 import type { ChipProps } from './types';
-import type { Theme, ThemeColorsToken } from '@montage-ui/engine';
-
-type ChipStyleProps = ChipProps & {
-  overrideColor?: ThemeColorsToken;
-};
+import type { Theme } from '@montage-ui/engine';
 
 export const chipStyle =
-  ({
-    xs,
-    sm,
-    md,
-    lg,
-    xl,
-    overrideColor,
-    size,
-    iconOnly,
-    variant,
-  }: ChipStyleProps) =>
+  ({ xs, sm, md, lg, xl, size, iconOnly, variant }: ChipProps) =>
   (theme: Theme) => css`
     display: inline-flex;
     align-items: center;
@@ -45,7 +31,7 @@ export const chipStyle =
       cursor: initial;
     }
 
-    ${chipVariantStyle({ variant, overrideColor }, theme)}
+    ${chipVariantStyle({ variant }, theme)}
     ${chipSizeStyle({ size, iconOnly }, theme)}
 
   ${createResponsiveStyle(
@@ -128,16 +114,11 @@ const chipSizeStyle = ({ size, iconOnly }: ChipProps = {}, theme: Theme) => {
   }
 };
 
-const chipVariantStyle = (
-  { variant, overrideColor }: ChipStyleProps = {},
-  theme: Theme,
-) => {
+const chipVariantStyle = ({ variant }: ChipProps = {}, theme: Theme) => {
   switch (variant) {
     case 'solid':
       return css`
-        color: ${overrideColor
-          ? getColorByToken(theme, overrideColor)
-          : theme.semantic.foreground.neutral.primary};
+        color: ${theme.semantic.foreground.neutral.primary};
         background-color: ${theme.semantic.surface.neutral.tertiary};
         box-shadow: none;
 
@@ -155,9 +136,7 @@ const chipVariantStyle = (
       `;
     case 'outlined':
       return css`
-        color: ${overrideColor
-          ? getColorByToken(theme, overrideColor)
-          : theme.semantic.foreground.neutral.primary};
+        color: ${theme.semantic.foreground.neutral.primary};
         background-color: transparent;
         box-shadow: inset 0 0 0 1px ${theme.semantic.line.neutral.secondary};
 

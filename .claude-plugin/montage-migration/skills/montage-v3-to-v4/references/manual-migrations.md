@@ -268,7 +268,12 @@ ancestor. Two classes of usage need manual review:
   Scan **[zero]** over the WHOLE repo, not just `<targets>`:
   `\bForm(Field|Label|Message|ErrorMessage)` — step ⑥'s verify pattern, plus the
   montage-source confirmation caveat. Apply the step ⑥ rename table by hand; never re-run
-  the codemod to reach them.
+  the codemod to reach them. **This section owns only the hits OUTSIDE `<targets>`** — in-target
+  gate-skipped hits were already fixed during step ⑥'s verification. And because the pattern is
+  step ⑥'s, it also reaches the files ring-fenced in the state file's `excludeFiles`: hits there
+  are EXPECTED (hand-migrated files legitimately mention the old names in comments, strings, or
+  back-compat type aliases) — list them in the summary and NEVER edit an excluded file. Read
+  `excludeFiles` from the state file before judging any hit.
 - Message typography changed from `label2` to `caption1`. Code that passed explicit
   `variant` / `weight` to `FormMessage` / `FormErrorMessage` (now `FormControlMessage` /
   `FormControlNegativeMessage`) may fight the new default — review each occurrence.
@@ -305,14 +310,20 @@ For each bottom-sheet Modal, decide: default close-on-dismiss (delete workaround
   single size maps to Large, but Large's details changed: radius 12→14px, input typography
   body1→body2, icon 22→20px. Code that hard-coded a 40px height should switch to
   `size="medium"`. Visual QA recommended on all TextField/DatePicker/TimePicker screens.
+  Scan **[decision]**: `\bTextField[^>]*height=` for the hard-coded heights, plus
+  `\bTextField(Button|Content)?\b` file-level to locate the usages the line greps in this
+  section miss (the alternation is required — `\bTextField\b` alone matches neither
+  `TextFieldButton` nor `TextFieldContent`).
 - **`TextFieldButton` `variant` prop removed** (was `"normal" | "assistive"`). Delete the
   prop. The trailing button now renders inside the field.
   Scan **[zero]**: `TextFieldButton[^>]*variant=`.
 - **`TextFieldContent` `variant="text-button"` removed**. Replace with another variant.
-  Scan **[zero]**: `variant="text-button"` (do NOT scan the bare substring `text-button` —
-  v4 TextButton still legitimately renders `data-component="text-button"` and
-  `data-role="text-button-loading"`, so bare-substring hits on those selectors are valid
-  v4 code).
+  Scan **[zero]**: `TextFieldContent[^>]*variant="text-button"` (do NOT scan the bare
+  substring `text-button` — v4 TextButton still legitimately renders
+  `data-component="text-button"` and `data-role="text-button-loading"`, so bare-substring hits
+  on those selectors are valid v4 code; and do not scan the unanchored `variant="text-button"`
+  either — `SelectContent` lost the same value but belongs to M12, whose replacement is
+  `variant="custom"` plus your own `sx`, not another TextField variant).
 - **Negative-state trailing icon removed** — the circle-exclamation icon no longer renders.
   Code compensating for its width can be simplified.
 - **`[data-role='text-field-wrapper']` styling moved** — `padding` and inset `box-shadow`
@@ -347,6 +358,9 @@ For each bottom-sheet Modal, decide: default close-on-dismiss (delete workaround
 - **`size` prop introduced** (`'large'` default, `'medium'`). The former single size maps
   to Large, but Large's details changed: radius 12→14px, input typography
   body1-reading→body2-reading, icon 22→20px. Visual QA recommended on TextArea screens.
+  Scan **[decision]**: `\bTextArea[^>]*height=` plus `\bTextArea(Content)?\b` file-level — the
+  `TextAreaContent` scan above finds no plain `<TextArea>` at all, so without this one the size
+  decision has no worklist.
 - **Invalid-state icon removed** — the bottom-area icon (`data-role='text-area-invalid'`)
   no longer renders; code compensating for it can be simplified.
 - **Bottom-area DOM restructured** — character-counter `data-role`s
@@ -476,6 +490,12 @@ keeps working as-is. The items below are what does break, plus one new opportuni
   from `theme` to `montage-theme`.
   Scan **[zero]**: `storageKey`. Heuristic — a consumer's own storage utility can share the
   name; assess each hit and only rewrite the one passed to Montage's `ThemeProvider`.
+  **Check the key's characters while transplanting it.** `cookie.key` must be an RFC 6265
+  cookie name — alphanumerics plus ``!#$%&'*+-.^_`|~`` — and v4 REJECTS anything else with a
+  console error, silently falling back to `montage-theme`. A localStorage key containing `:`,
+  `/`, `@`, `=`, a space, or an empty string compiles, passes this [zero] scan, and then fails to
+  persist the theme at runtime. Rename such keys to a token-safe form (`app:theme` →
+  `app-theme`) as part of the move.
 
   ```tsx
   // AS-IS
@@ -593,6 +613,119 @@ keeps working as-is. The items below are what does break, plus one new opportuni
   `semantic.elevation.shadow.normal.xsmall` (the white 28% overlay is gone). Nothing to
   rewrite unless layout was tuned against the old numbers — item labels are one typography
   step smaller, so fixed-width or `maxWidth`-capped controls need a visual check.
+
+## M12. Select / SelectMultiple changes
+
+Everything below applies to BOTH `Select` and `SelectMultiple` — they share one style
+implementation. No codemod covers this section.
+
+- **`size` prop introduced** (`'large'` default, `'medium'` = 40px height, responsive values
+  accepted). The former single size maps to Large, but Large's details changed: radius
+  12→14px, value/placeholder typography body1→body2, `leadingContent` icon 22→20px, chip gap
+  4→8px, and the gap between `leadingContent` and the value 12→6px. A field shrunk with
+  `height` should switch to `size="medium"` — `height` alone leaves radius, typography, and
+  padding at the Large values (`height` itself still works).
+  Scan **[decision]**: `\bSelect(Multiple)?[^>]*height=` — each hit decides `size` vs a
+  deliberate custom height.
+  Scan **[decision]**: `\bSelect(Multiple|Content|RenderChip)?\b` file-level, then review
+  every Select JSX usage for the props the line greps in this section missed (multi-line
+  props escape them). The alternation is required — `\bSelect\b` alone does NOT match
+  `SelectMultiple` / `SelectContent` (the trailing `\b` fails before `M` / `C`), so a file
+  that renders only `SelectMultiple` would be skipped entirely. Expect noise: the pattern
+  also matches prose and any consumer symbol starting with `Select`.
+- **`SelectContent` is its own component now, not a re-export of `TextFieldContent`.**
+  `variant` lost four values and its DEFAULT changed from `'text'` to `'icon'`:
+
+  ```text
+  variant="icon" | "icon-button" | "custom"           → unchanged
+  variant="text" | "timer" | "badge" | "text-button"  → removed; use "custom" + sx
+  (no variant)                                        → was "text", is now "icon"
+  ```
+
+  Scan **[zero]**: `SelectContent[^>]*variant="(text|timer|badge|text-button)"` (anchored on
+  `SelectContent` on purpose — `TextFieldContent` keeps `text`, `timer`, and `badge` in v4, so
+  a bare `variant="text"` scan would flag valid TextField code).
+  Scan **[decision]**: `\bSelectContent\b` file-level, then review every JSX usage for a
+  MISSING `variant` — it rendered a text slot in v3 and renders an icon wrapper in v4, a
+  silent visual change no line grep can see. In the same pass, check the `IconButton` inside
+  each `variant="icon-button"`: the documented example size changed from 22 to 32 (large) /
+  28 (medium), so verify the rendered result instead of porting the old number. `color` only
+  applies to `variant="icon"` in v4.
+  `variant="icon"`'s icon size is no longer the hardcoded 22px — it follows the Select `size`
+  (large 20px / medium 18px), so an `sx`/`fontSize` override that pinned the old 22px should
+  be dropped rather than carried over.
+  `SelectContentProps` is also its own type now (it was an alias of `TextFieldContentProps`);
+  a removed `variant` value assigned through that type surfaces as a type error.
+
+- **`SelectRenderChip` added for the `render` prop.** Chips assembled by hand
+  (`<Chip size="xsmall" variant="solid" trailingContent={<IconCloseThick />}>`) still
+  compile, but the v4 design is **outlined**, and the new component also owns the
+  `status="negative"` / `disabled` styling and defaults `trailingContent` to `<IconClose />`.
+  Migrating is a visual change (solid → outlined) — confirm per occurrence.
+  Scan **[decision]**: `\bSelect(Multiple)?[^>]*render=` — for each hit, decide whether its
+  chips move to `SelectRenderChip`. `e.stopPropagation()` in the chip's `onClick` is still
+  required; keep it.
+
+  ```tsx
+  // AS-IS
+  render={() => value.map((v) => (
+    <Chip key={v} size="xsmall" variant="solid" trailingContent={<IconCloseThick />}
+      onClick={(e) => { e.stopPropagation(); remove(v); }}>{v}</Chip>
+  ))}
+  // TO-BE
+  render={() => value.map((v) => (
+    <SelectRenderChip key={v}
+      onClick={(e) => { e.stopPropagation(); remove(v); }}>{v}</SelectRenderChip>
+  ))}
+  ```
+
+- **Negative-state trailing icon removed** — the circle-exclamation icon no longer renders,
+  and its `data-role`s are gone. Code compensating for its width can be simplified.
+  Scan **[zero]**: `select(-multiple)?-invalid` (include stylesheets).
+- **Field DOM restructured.** Value, placeholder, `leadingContent`, and the chevron now sit
+  in one inner row, and the wrapper that held the text is gone. `[data-role='select-values']`
+  / `-placeholder` (and their `select-multiple-` counterparts) are unchanged; the wrappers are
+  not:
+
+  ```text
+  select-render-wrapper           → select-wrapper (inner row) / select-chip-wrapper (chips)
+  select-multiple-render-wrapper  → select-multiple-wrapper (inner row)
+                                    / select-multiple-chip-wrapper (overflow mask)
+  chip scroll container (unnamed `> div` inside the wrapper above)
+                                  → select-multiple-chip-render-wrapper
+  chevron svg (direct child of the root)
+                                  → wrapped in [data-component='select-content']
+                                    [data-variant='select-chevron' | 'select-multiple-chevron']
+  ```
+
+  Scan **[zero]**: `select(-multiple)?-render-wrapper` (include stylesheets). The pattern is
+  exact on purpose — it must NOT match the new `select-multiple-chip-render-wrapper`.
+  `padding` stayed on the root, but the inner row adds 4px of its own, and a chevron styled
+  through a direct-child `svg` selector now needs the wrapper in the path — review any
+  selector that reached into the field's internals.
+
+- **`SelectMultiple`'s placeholder wraps under `overflow`.** In v3 the placeholder was always
+  a single ellipsised line; in v4 it follows `overflow` like the value does, so an
+  `overflow`-enabled SelectMultiple with a long placeholder now grows taller instead of
+  truncating. No scan can see this (it depends on the rendered width) — review the
+  `overflow`-enabled SelectMultiples surfaced by this section's file-level scan.
+
+- **`data-component="text-field-content"` no longer appears inside a Select** — Select's
+  content slots render `data-component="select-content"` plus `data-variant="<variant>"`.
+  Selectors written for a Select's content slot must be renamed; hits inside a real
+  TextField / DatePicker / TimePicker are valid v4 code and stay.
+  Scan **[decision]**: `text-field-content`. (In v3 the attribute was
+  `wds-component="text-field-content"`; step ④ `dom-identifier-migration` already renamed the
+  attribute NAME, so by this point every such selector reads `data-component` — this section
+  renames the VALUE, same shape as M4's `card-content` note.)
+- **Focus ring moved outside the field, elevation shadow dropped.** Focus went from a 2px
+  inset ring to a 1px inset border plus a **4px ring drawn outside** the element
+  (`line.brand.focus`, `line.negative.focus` when invalid), and every state lost
+  `semantic.elevation.shadow.normal.xsmall`. The outer ring is clipped by an
+  `overflow: hidden` ancestor and overlaps neighbours sitting closer than 4px — no scan
+  catches this, so visually QA Selects in dense toolbars, grids, and scroll containers.
+  Value text also drops one typography step (body1 → body2), so width-capped fields need a
+  look.
 
 ## Suggested commit boundary
 
