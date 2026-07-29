@@ -42,9 +42,19 @@ npx -y @montage-ui/codemod@<codemodVersion> <transform> <target>
   parse — the CLI reports `Transformation error (Unterminated JSX contents…)` and leaves THAT
   file untransformed while the rest of the run succeeds: a silent partial migration. Scan for
   them at preflight and convert to `as` syntax in a preparatory commit before step ①:
-  `grep -rnE '(=|\(|,|return) *<[A-Za-z_$][A-Za-z0-9_$.]*(\[\])?> *[A-Za-z_$(]' --include="*.ts" <targets>`.
+  `grep -rnE '(=|\(|,|:|\[|!|return) *<[A-Za-z_$][A-Za-z0-9_$.]*(<[^<>]*(<[^<>]*>)?[^<>]*>)?(\[\])?> *[A-Za-z_$(]' --include="*.ts" <targets>`
+  (the nested group is required for generic casts — `<Array<string>>items` and
+  `<Map<string, Array<number>>>m` break the parser exactly like `<string>value` — and `:`/`[`
+  reach casts inside object literals and array elements. Three or more levels of nesting still
+  escape it: the scan is a heuristic, and "treat any `ERR` as a step failure" is the backstop).
   Treat any per-file transformation error in a step's output the same way: the step is NOT
-  complete until every reported file is either fixed and re-run, or hand-migrated.
+  complete until every reported file is accounted for. **Never re-run the codemod over the
+  partially-transformed tree** — the other files in that run WERE transformed, so a re-run is
+  the documented corruption path. Either revert the step first (`git checkout -- <targets>`
+  with `autoCommit: true`, or the pre-step snapshot with `autoCommit: false`), fix the reported
+  files, and run the step again from a restored tree; or leave the step's output in place and
+  hand-migrate only the erroring files against that step's rename table. Both are single-run
+  outcomes; "fix and re-run" without a revert is not.
 - Always run through the CLI (`npx -y @montage-ui/codemod@<codemodVersion> <transform> <target>`,
   the exact shape at the top of this file), never raw jscodeshift — the stylesheet text pass
   only runs via the CLI wrapper.
@@ -92,25 +102,41 @@ codemod ran and when the repo never used that API. That makes it useless for the
 that walks into the step ⑥ double-swap. Pair it with the matching PRESENCE grep: new names
 present + old names absent means the transform already ran (by codemod or by hand).
 
-| Step | Presence grep (new names)                                                                                       |
-| ---- | --------------------------------------------------------------------------------------------------------------- |
-| ①    | `grep -rn "@montage-ui/" <targets>`                                                                             |
-| ②    | `grep -rnE -- "semantic\.(foreground\|surface\|effect)\.\|--semantic-(foreground\|surface\|effect)-" <targets>` |
-| ③    | `grep -rnE -- "--grid-(column\|row)-spacing" <targets>` (see the caveat below)                                  |
-| ④    | `grep -rn "data-component" <targets>`                                                                           |
-| ⑤    | `grep -rnE "\b(ListCard\|CardBody\|CardRow)" <targets>`                                                         |
-| ⑥    | `grep -rnE "\bFormControl(\b\|Field\|Label\|Message\|NegativeMessage\|PositiveMessage)" <targets>`              |
+Run these exactly as written — every `|` is ERE alternation and must reach grep unescaped.
+They live in a fenced block for that reason: inside a markdown table the pipes would have to
+be written `\|`, and copied verbatim `\|` is a LITERAL pipe in ERE, so the pattern silently
+matches nothing (verified on BSD `/usr/bin/grep`) — a zero result would then read as "the
+step never ran" and walk straight into the step ⑥ double-swap.
+
+```sh
+# ① package-name-migration
+grep -rn "@montage-ui/" <targets>
+# ② semantic-token-migration — all five v4 property groups; the three-group form
+#    (foreground|surface|effect) is blind to a repo whose only v3 usage was background.normal.*
+#    or line.*, which land on background.neutral.* / line.* and would read as "never used"
+grep -rnE -- "semantic\.(foreground|surface|effect|background\.neutral|line\.(neutral|brand|negative|cautionary|positive))\.|--semantic-(foreground|surface|effect|background-neutral|line-(neutral|brand|negative|cautionary|positive))-" <targets>
+# ③ css-variable-migration — weakest signal of the six, see the caveat below
+grep -rnE -- "--grid-(column|row)-spacing" <targets>
+# ④ dom-identifier-migration
+grep -rn "data-component" <targets>
+# ⑤ list-card-migration
+grep -rnE "\b(ListCard|CardBody|CardRow)" <targets>
+# ⑥ form-control-migration — the Props alternate matters: a type-only
+#    `import type { FormControlProps }` file is invisible to bare \bFormControl\b, and the
+#    step-⑥ pre-check uses \bFormControl(Props)?\b for the same reason
+grep -rnE "\bFormControl(\b|Props|Field|Label|Message|NegativeMessage|PositiveMessage)" <targets>
+```
 
 Read the pair together, never either alone: both zero means the repo simply never used that
 API (nothing to conclude); new present + old present means a HALF-migrated tree — stop and
 reconcile with the user, never re-run the codemod over it.
 
 **Step ⑥ caveat — a bare `FormControl` is ambiguous.** A v3 tree using only the plain
-`FormField` root migrates to a plain `FormControl` with no sub-components, so BOTH step ⑥
-greps return zero on it — "both zero" therefore does NOT mean "never used that API" here.
-That is why the presence pattern includes bare `\bFormControl\b`; a bare hit can be the
-correct new root OR a surviving v3 inner slot, so the step-⑥ pre-check (not this table) is
-the authoritative test for the already-applied direction.
+`FormField` root migrates to a plain `FormControl` with no sub-components — which is exactly
+why the presence pattern includes bare `\bFormControl\b`: without it both greps would return
+zero on such a tree and the already-applied direction would be invisible. A bare hit is still
+ambiguous (the correct new root OR a surviving v3 inner slot), so the step-⑥ pre-check, not
+these greps, is the authoritative test for the already-applied direction.
 
 **Step ③ caveat — the weakest signal of the six.** `css-variable-migration` covers the
 69 `KNOWN_WDS_VARIABLES`: 67 come out with the `--wds-` prefix simply stripped
@@ -230,8 +256,14 @@ Cautions:
 
 - NOT import-gated — it renames ANY `--wds-*` token by prefix, including consumer-defined
   variables that were never Montage's. Review the diff and REVERT the rewrites of variables
-  the consumer clearly owns; route ambiguous namespaces to the user before this step's
-  commit. No later scan looks for them, and once committed the original names are gone.
+  the consumer clearly owns, recording each revert in the state file's `revertedNames` as a
+  `file` + `name` pair (the final verification reads it, otherwise a deliberate survivor looks
+  like an M3 leftover — and a bare name would excuse that name in every file, including ones
+  where it really is an unmigrated Montage reference).
+  Anything AMBIGUOUS is not the step's call to make: a step agent has no user channel, so it
+  stops with status `failed` and the names in `verifyFindings` INSTEAD of committing, and the
+  orchestrator confirms them with the user before the step re-runs. No later scan looks for
+  them, and once committed the original names are gone. The same rule governs step ④.
 - The pattern is lowercase-only (`--wds-[a-z0-9-]+`): a camelCase custom property like
   `--wds-myVar` gets partially rewritten (`--myVar`). All shipped Montage variables are
   lowercase, but grep the diff for partially-rewritten camelCase properties
@@ -363,8 +395,10 @@ ones, `ListCard*` included. `CardThumbnail*` / `CardTitle*` / `CardCaption*` are
 valid v4 Card-family names and cannot be grepped to zero; their list-context leftovers
 surface via a `CardList` hit in the same gate-skipped file, or via M4's cross-file
 review). Remaining hits live in gate-skipped files (namespace / re-export / deep-subpath
-imports) or duplicate-specifier files (see pre-check) — no M-section covers them; fix
-them by hand now, as part of this step. Before fixing a hit, confirm the identifier
+imports) or duplicate-specifier files (see pre-check) — no M-section covers gate-skipped hits
+INSIDE the targets; fix them by hand now, as part of this step. (M4 reuses this same pattern,
+but its scope is the rest of the repo — hits OUTSIDE the targets. In-target hits must already
+be zero by the time M4 runs, which is why both statements can be true.) Before fixing a hit, confirm the identifier
 actually comes from a montage source (a namespace/subpath/re-export of
 `@montage-ui/core` / `@wanteddev/wds`): a same-named identifier defined locally or
 imported from another library is NOT a migration leftover — leave it alone.
@@ -511,6 +545,13 @@ mkdir -p .claude
 jq -Rn --arg excl "$EXCL" \
   '{excl: $excl, files: [inputs | select(length > 41) | {path: .[:length-41], hash: .[length-40:]}]}' \
   < "$HASHES" > .claude/montage-migration-v4.exclusions.json
+# jq-free equivalent — many consumer repos have no jq. Same field-for-field output; still
+# never printf/echo. Use this branch when `command -v jq` fails:
+#   EXCL="$EXCL" node -e 'let s="";process.stdin.on("data",d=>s+=d).on("end",()=>{
+#     const files=s.split("\n").filter(l=>l.length>41)
+#       .map(l=>({path:l.slice(0,l.length-41),hash:l.slice(l.length-40)}));
+#     process.stdout.write(JSON.stringify({excl:process.env.EXCL,files}))})' \
+#     < "$HASHES" > .claude/montage-migration-v4.exclusions.json
 # add it to the resolved info/exclude alongside the state file — it must never be committed
 # HARD GATE: no mv may run unless the record was actually written (no `set -e` here, and a
 # missing .claude/ would otherwise leave the files in an unrecorded temp dir, unrecoverable)
@@ -552,8 +593,10 @@ Cautions:
 - Global identifier rename within gated files — unrelated identifiers named `FormControl`/
   `FormField` (object keys, `styles.FormControl`) get renamed too. Review the diff.
 - Namespace imports (`M.FormField`), re-exports, and subpath imports are skipped by the
-  codemod — no M-section covers them; fix them by hand in this step's verification,
-  WITHOUT re-running the codemod. Before fixing a hit, confirm the identifier actually
+  codemod — no M-section covers these gate-skipped hits INSIDE the targets; fix them by hand
+  in this step's verification, WITHOUT re-running the codemod. (M5 reuses this step's verify
+  pattern, but its scope is the rest of the repo — hits OUTSIDE the targets, plus the files
+  ring-fenced in `excludeFiles`, which stay untouched.) Before fixing a hit, confirm the identifier actually
   comes from a montage source — a same-named identifier defined locally or imported from
   another library is NOT a migration leftover; leave it alone.
 - New v4 API adoption (`FormControlPositiveMessage`, `FormControlMessageAccessory`,
@@ -587,7 +630,7 @@ subpath imports for `.FormControl` member usages.
 
 ## After all 6 steps
 
-Proceed to `manual-migrations.md` (all M-sections, M1–M11), then final verification:
+Proceed to `manual-migrations.md` (all M-sections, M1–M12), then final verification:
 
 1. Each step's verify grep zero, with its documented exceptions (step ①:
    `@wanteddev/montage-mcp`; step ⑥: hits inside the state file's `excludeFiles`).
@@ -602,6 +645,7 @@ Proceed to `manual-migrations.md` (all M-sections, M1–M11), then final verific
    statement of these criteria; this list is a pointer, not a substitute.
 2. Dependency install with the renamed `@montage-ui/*` packages succeeded.
 3. Project typecheck / lint / build / tests pass.
-4. Visual QA on TextField / TextArea / Modal bottom-sheet / Card list / SegmentedControl
-   screens (former `variant="outlined"` in particular, see M11) and screens that used the
+4. Visual QA on TextField / TextArea / Modal bottom-sheet / Card list / SegmentedControl /
+   Select screens (former `variant="outlined"` in particular, see M11; Selects in dense
+   layouts, whose focus ring now draws outside the field, see M12) and screens that used the
    deleted accent tokens (see M9) — behavioral and visual changes, not just renames.

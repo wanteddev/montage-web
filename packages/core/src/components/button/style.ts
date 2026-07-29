@@ -1,7 +1,6 @@
 import { css } from '@montage-ui/engine';
 
 import { typographyStyle } from '../../utils/typography';
-import { addOpacity } from '../../utils/color';
 import { createResponsiveStyle } from '../../utils/internal/responsive-props';
 
 import type { ButtonProps } from './types';
@@ -210,7 +209,7 @@ const buttonColorStyle = (
 
         &:disabled,
         &[aria-disabled='true'] {
-          color: ${theme.semantic.foreground.neutral.quaternary};
+          color: ${theme.semantic.foreground.disable.primary};
           background-color: ${theme.semantic.surface.disable.primary};
           box-shadow: none;
         }
@@ -224,12 +223,12 @@ const buttonColorStyle = (
         will-change: backdrop-filter;
 
         [data-role='button-loading'] {
-          color: ${theme.semantic.foreground.neutral.quaternary};
+          color: inherit;
         }
 
         &:disabled,
         &[aria-disabled='true'] {
-          color: ${theme.semantic.foreground.neutral.quaternary};
+          color: ${theme.semantic.foreground.disable.primary};
           background-color: ${theme.semantic.surface.disable.primary};
           box-shadow: none;
           backdrop-filter: none;
@@ -238,10 +237,7 @@ const buttonColorStyle = (
     case variant === 'solid' && color === 'negative':
       return css`
         color: ${theme.semantic.foreground.negative.strong};
-        background-color: ${addOpacity(
-          theme.semantic.foreground.negative.primary,
-          theme.opacity[12],
-        )};
+        background-color: ${theme.semantic.surface.negative.strong};
         box-shadow: none;
 
         [data-role='button-loading'] {
@@ -250,7 +246,7 @@ const buttonColorStyle = (
 
         &:disabled,
         &[aria-disabled='true'] {
-          color: ${theme.semantic.foreground.neutral.quaternary};
+          color: ${theme.semantic.foreground.disable.primary};
           background-color: ${theme.semantic.surface.disable.primary};
           box-shadow: none;
         }
@@ -279,7 +275,7 @@ const buttonColorStyle = (
         box-shadow: inset 0 0 0 1px ${theme.semantic.line.neutral.secondary};
 
         [data-role='button-loading'] {
-          color: ${theme.semantic.foreground.neutral.quaternary};
+          color: inherit;
         }
 
         &:disabled,

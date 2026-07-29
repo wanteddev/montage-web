@@ -12,9 +12,9 @@ module.exports = {
       'SelectContent',
       'SelectMultiple',
       'Option',
-      'Chip',
+      'SelectRenderChip',
     ],
-    icons: ['IconGlobe', 'IconCloseThick'],
+    icons: ['IconGlobe'],
     states:
       'const [value, setValue] = React.useState([]);\nconst ref = React.useRef(null);',
     variants: [
@@ -66,11 +66,8 @@ module.exports = {
         if (value['Render'] === 'Chip') {
           render = `() => (
             value.map((v) => (
-              <Chip
+              <SelectRenderChip
                 key={v}
-                size="xsmall"
-                variant="solid"
-                trailingContent={<IconCloseThick />}
                 onClick={(e) => {
                   e.stopPropagation();
                   setValue(value.filter(data => data !== v))
@@ -78,7 +75,7 @@ module.exports = {
                 }}
               >
                 {v}
-              </Chip>
+              </SelectRenderChip>
             ))
           )`;
         }
