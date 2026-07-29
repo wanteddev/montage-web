@@ -614,6 +614,103 @@ Figma 스펙에 맞춰 `variant`가 제거되고 아이콘 전용 모드(`iconOn
 
 선택된 항목의 thumb 그림자는 하드코딩된 값과 white 28% 오버레이 대신 `semantic.elevation.shadow.normal.xsmall` 토큰을 사용합니다. 텍스트 크기가 줄어 아이템 폭 계산이 달라지므로, 폭을 고정하거나 `maxWidth`로 제한해 사용하던 화면은 확인이 필요합니다.
 
+### Select / SelectMultiple
+
+Figma 스펙에 맞춰 사이즈 체계(Large / Medium)가 도입되었습니다. `SelectContent`는 `TextFieldContent` 재사용을 걷어내고 Select 전용 구현으로 분리되었으며, `render`에 넣을 Chip을 직접 조립하지 않도록 `SelectRenderChip`이 추가되었습니다. 두 컴포넌트는 스타일을 공유하므로 아래 내용은 `Select`, `SelectMultiple`에 모두 적용됩니다.
+
+#### `size` prop 도입 (Large / Medium)
+
+`size` prop이 추가되었으며 기본값은 `'large'`입니다. 기존 단일 사이즈는 Large(높이 48px)에 해당하지만, 토큰 적용으로 radius·typography·간격 등 세부 수치가 변경되었습니다. `size`는 반응형 값도 지원합니다.
+
+| 속성                       | 기존(단일)   | Large        | Medium        |
+| -------------------------- | ------------ | ------------ | ------------- |
+| 높이                       | 48px         | 48px         | 40px          |
+| Border radius              | 12px         | 14px         | 12px          |
+| Padding(루트)              | 12px         | 12px 8px     | 8px 6px       |
+| 값 / placeholder           | body1 (16px) | body2 (15px) | label1 (14px) |
+| `leadingContent` 아이콘    | 22px         | 20px         | 18px          |
+| Chevron 아이콘             | 16px (유지)  | 16px         | 16px          |
+| Chip 간격                  | 4px          | 8px          | 6px           |
+| `leadingContent` ~ 값 간격 | 12px         | 6px          | 6px           |
+
+높이 40px가 필요했다면 `size="medium"`을 사용하세요. `height`로 높이만 줄여 쓰던 코드는 typography·radius·padding이 함께 바뀌지 않으므로 `size`로 교체해야 합니다(`height`는 그대로 지원됩니다).
+
+#### Negative(invalid) 상태 우측 아이콘 제거
+
+`invalid` 상태에서 chevron 왼쪽에 표시되던 circle exclamation 아이콘이 제거되었습니다. 관련 `data-role`(`select-invalid` / `select-multiple-invalid`)도 함께 제거되었습니다. TextField / TextArea와 동일한 변경입니다.
+
+#### 테두리 · Focus 스타일 변경
+
+| 상태          | AS-IS                                                 | TO-BE                                                             |
+| ------------- | ----------------------------------------------------- | ----------------------------------------------------------------- |
+| 기본          | inset 1px `line.neutral.secondary` + elevation shadow | inset 1px `line.neutral.secondary`                                |
+| Invalid       | inset 1px `foreground.negative.primary` 28% + shadow  | inset 1px `line.negative.primary`                                 |
+| Focus         | inset 2px `surface.brand.primary` 43% + shadow        | inset 1px `line.brand.strong` + 외부 4px `line.brand.focus`       |
+| Focus+Invalid | inset 2px `foreground.negative.primary` 43% + shadow  | inset 1px `line.negative.strong` + 외부 4px `line.negative.focus` |
+| Disabled      | inset 1px `line.neutral.tertiary` + elevation shadow  | inset 1px `line.neutral.tertiary`                                 |
+
+- 모든 상태에서 `semantic.elevation.shadow.normal.xsmall`(그림자)이 제거되어 평평해집니다.
+- focus 링이 요소 **바깥으로 4px** 그려집니다. `overflow: hidden` 컨테이너 안에 있으면 잘리고, 인접 요소와의 간격이 4px 미만이면 겹칩니다. 좁은 그리드·툴바에 배치한 Select는 확인이 필요합니다.
+
+#### `SelectContent` — 전용 구현으로 분리, `variant` 축소 및 기본값 변경
+
+기존 `SelectContent`는 `TextFieldContent`를 그대로 재export한 것이었습니다. 이제 Select 전용 구현으로 분리되면서 `variant` 목록이 줄고 **기본값이 `'text'`에서 `'icon'`으로 변경**되었습니다.
+
+| AS-IS (`TextFieldContent`의 variant)    | TO-BE                                  |
+| --------------------------------------- | -------------------------------------- |
+| `icon`                                  | `icon` (유지)                          |
+| `icon-button`                           | `icon-button` (유지)                   |
+| `custom`                                | `custom` (유지)                        |
+| `text`, `timer`, `badge`, `text-button` | 제거 — `custom` + `sx`로 직접 스타일링 |
+
+- `variant`를 지정하지 않던 `<SelectContent>`는 이전에 `text`로 렌더됐지만 이제 `icon`으로 렌더됩니다. 텍스트를 넣어 쓰고 있었다면 `variant="custom"`으로 명시하세요.
+- `variant="icon"`의 아이콘 크기가 22px 하드코딩에서 Select의 `size`를 따르는 값(large 20px / medium 18px)으로 변경되었습니다.
+- `variant="icon-button"`에 넣는 `IconButton`의 권장 `size`가 변경되었습니다: **large 32 / medium 28** (기존 22).
+- `color` prop은 `variant="icon"`에서만 적용됩니다.
+- `SelectContentProps` 타입이 `TextFieldContentProps`의 alias가 아닌 자체 타입이 되었습니다. 제거된 variant 값을 쓰던 곳에서 타입 에러가 발생합니다.
+
+#### `SelectRenderChip` 추가
+
+`render`로 선택된 값을 Chip으로 표시할 때 쓰는 컴포넌트가 추가되었습니다. 내부적으로 `Chip`의 `variant="outlined"` `size="xsmall"`을 고정하고, trailing content 기본값으로 `<IconClose />`를 렌더합니다.
+
+```tsx
+// AS-IS
+<Chip size="xsmall" variant="solid" trailingContent={<IconCloseThick />} onClick={...}>
+  {v}
+</Chip>
+
+// TO-BE
+<SelectRenderChip onClick={...}>{v}</SelectRenderChip>
+```
+
+`Chip`을 계속 사용해도 동작하지만 새 디자인은 solid가 아닌 **outlined**이므로 시각적으로 어긋납니다. 또한 `status="negative"`, `disabled` 상태 스타일을 제공하므로 값별 에러 표시를 직접 구현했다면 `status`로 교체하세요.
+
+```tsx
+<SelectRenderChip status="negative">{v}</SelectRenderChip>
+<SelectRenderChip disabled>{v}</SelectRenderChip>
+```
+
+`as` prop을 지원하며 기본 엘리먼트는 `button`입니다. 클릭 시 메뉴가 열리고 닫히는 동작을 막으려면 기존과 동일하게 `e.stopPropagation()`이 필요합니다.
+
+#### 내부 DOM 구조 변경
+
+값·placeholder·chevron이 하나의 내부 행(`select-wrapper` / `select-multiple-wrapper`)으로 묶이고, 텍스트를 감싸던 래퍼가 제거되었습니다. 아래 `data-role`을 직접 타겟해 커스텀했다면 수정이 필요합니다.
+
+| AS-IS                                                                                | TO-BE                                                                                                                             |
+| ------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------- |
+| `[data-role='select-render-wrapper']`                                                | `[data-role='select-wrapper']`(전체 행) / `[data-role='select-chip-wrapper']`(Chip 컨테이너). 텍스트는 래퍼 없이 직접 렌더됩니다. |
+| `[data-role='select-multiple-render-wrapper']`                                       | `[data-role='select-multiple-wrapper']`(전체 행) / `[data-role='select-multiple-chip-wrapper']`(오버플로 마스크)                  |
+| Chip 스크롤 컨테이너 — 익명 `> div`                                                  | `[data-role='select-multiple-chip-render-wrapper']`                                                                               |
+| `[data-role='select-invalid' \| 'select-multiple-invalid']`                          | 제거                                                                                                                              |
+| Chevron — 래퍼 없는 `svg`                                                            | `[data-component='select-content'][data-variant='select-chevron' \| 'select-multiple-chevron']` 안에 렌더                         |
+| `SelectContent` — `wds-component`(v3) / `data-component`(v4) `='text-field-content'` | `data-component='select-content'` + `data-variant='<variant>'`                                                                    |
+
+- `padding`은 루트에 그대로 있고, 내부 행에 좌우 4px, 값·placeholder에 추가 padding이 붙습니다. 좌우 여백 총합은 Large 16px(기존과 동일), Medium 14px입니다.
+- 루트의 `gap: 8px`이 내부 행의 `gap: 2px`로 바뀌어 `leadingContent`와 값 사이 간격이 12px → 6px로 좁아집니다.
+- `SelectMultiple`의 placeholder가 `overflow`를 지정한 경우 말줄임 없이 줄바꿈됩니다(기존에는 항상 한 줄 말줄임).
+
+값 텍스트가 body1(16px)에서 body2(15px)로 작아지고 Chip이 solid에서 outlined로 바뀌므로, 폭을 고정하거나 `maxWidth`로 제한해 사용하던 화면은 QA가 필요합니다.
+
 ### ThemeProvider 테마 저장소 변경 (localStorage → Cookie)
 
 `ThemeProvider`가 `next-themes` 의존을 걷어내고 자체 쿠키 기반 구현으로 교체되었습니다. localStorage는 origin 단위로 격리되어 서브도메인 간 테마 공유가 불가능했기 때문입니다. 쿠키에 저장하되 읽기는 기존과 동일하게 first paint 이전 blocking inline script에서 처리하므로, SSG/SSR 렌더링 전략과 no-flash 동작은 그대로입니다.
