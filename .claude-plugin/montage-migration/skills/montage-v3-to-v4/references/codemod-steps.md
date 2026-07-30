@@ -35,17 +35,31 @@ npx -y @montage-ui/codemod@<codemodVersion> <transform> <target>
   rejects `..` segments before comparing.
 - jscodeshift processes `.tsx/.ts/.jsx/.js` and ignores `node_modules` / `.next` / `dist`.
   Steps 2, 3 and 4 additionally rewrite `.css/.scss/.sass/.less` files under the same path
-  as plain text.
+  as plain text. **That ignore list does NOT protect the path you pass**, and the two passes
+  differ: jscodeshift's JS pass gets real `--ignore-pattern=**/{node_modules,.next,dist}/**`
+  globs, but the stylesheet pass walks the target itself and consults its ignore set only for
+  directories met while RECURSING (`cli.ts`'s `collectStyleFiles`) — and that set is only
+  `{node_modules, .next, dist}`, so `build` / `out` / `coverage` / `storybook-static` are never
+  skipped at all. Hand it `dist/assets` and the generated CSS in it IS rewritten. See
+  "**Never make build output a target**" in SKILL.md preflight item 4 for the rule and the
+  discovery-command exclusions that enforce it.
 - **Every transform parses with the `tsx` parser** (`api.jscodeshift.withParser('tsx')`, all
   seven), and the CLI passes `--extensions=tsx,ts,jsx,js` with no per-extension override. A
   `.ts` file using legacy angle-bracket casts (`const y = <string>value;`) therefore fails to
   parse — the CLI reports `Transformation error (Unterminated JSX contents…)` and leaves THAT
   file untransformed while the rest of the run succeeds: a silent partial migration. Scan for
   them at preflight and convert to `as` syntax in a preparatory commit before step ①:
-  `grep -rnE '(=|\(|,|:|\[|!|return) *<[A-Za-z_$][A-Za-z0-9_$.]*(<[^<>]*(<[^<>]*>)?[^<>]*>)?(\[\])?> *[A-Za-z_$(]' --include="*.ts" <targets>`
+  `grep -rnE '(=>|&&|\|\||[?=(,:[!]|return|await|yield|throw|^ *) *<[A-Za-z_$][^<>=]*(<[^<>]*(<[^<>]*>)?[^<>]*>)?[^<>=]*> *[A-Za-z_$(]' --include="*.ts" <targets>`
   (the nested group is required for generic casts — `<Array<string>>items` and
-  `<Map<string, Array<number>>>m` break the parser exactly like `<string>value` — and `:`/`[`
-  reach casts inside object literals and array elements. Three or more levels of nesting still
+  `<Map<string, Array<number>>>m` break the parser exactly like `<string>value` — the loose
+  `[^<>=]*` type body reaches `<string | number>v` / `<readonly string[]>v` /
+  `<string[][]>v`, `:`/`[`
+  reach casts inside object literals and array elements, `=>`/`&&`/`||`/`?` reach casts
+  in arrow bodies, logical operands, and ternary branches, and `await`/`yield`/`throw`/`^ *`
+  reach `await <Promise<string>>p` and a statement-initial `<string>foo;`. A generic
+  arrow-function declaration (`const f = <T>(x: T) => x`) is a known false positive — it
+  matches but parses fine, so confirm each hit is a real cast before converting. Three or
+  more levels of nesting still
   escape it: the scan is a heuristic, and "treat any `ERR` as a step failure" is the backstop).
   Treat any per-file transformation error in a step's output the same way: the step is NOT
   complete until every reported file is accounted for. **Never re-run the codemod over the
@@ -65,10 +79,23 @@ npx -y @montage-ui/codemod@<codemodVersion> <transform> <target>
 -e "wds-region-manager"` — because step ④ rewrites `wds-component` / `wds-ignore-*` /
   `wds-region-manager` in stylesheets too, so a directory whose only Montage references are
   DOM-identifier selectors (`[wds-component="card"]`, `#wds-region-manager`) is otherwise
-  never discovered and step ④ silently never runs on it. A directory discovered mid-migration
+  never discovered and step ④ silently never runs on it. **Exclude build output from that
+  discovery, twice** — `--exclude-dir=node_modules --exclude-dir=.next --exclude-dir=dist
+  --exclude-dir=build --exclude-dir=out --exclude-dir=coverage
+  --exclude-dir=storybook-static` on the grep itself, plus
+  `| grep -vE '(^|\./|/)(node_modules|\.next|dist|build|out|coverage|storybook-static)/'` as
+  the backstop. The `(^|\./|/)` leading alternation is required, not cosmetic: whether the
+  discovery grep prefixes paths with `./` depends on which grep is on PATH (Claude Code
+  shadows `grep` with a ugrep that does NOT), so a filter demanding a slash before the name
+  silently lets every repo-root-level `dist/` or `node_modules/` through — and per the
+  stylesheet-pass note above, such a target's generated CSS is then rewritten. The full rule
+  and command live in SKILL.md preflight item 4. A directory discovered mid-migration
   must NOT be silently added to a running migration's `targets` — the state file's list is
   locked; follow the target-addition path in SKILL.md's preflight item 1 (user
-  confirmation → run each already-completed step's codemod CLI directly on ONLY the new
+  confirmation → run each step's PRE-CHECK against the new directory first, in canonical
+  order — for that directory this is a first run, so steps ⑤/⑥'s pre-checks apply in full,
+  and a hand-migrated file sitting there is exactly what step ⑥ corrupts → run each
+  already-completed step's codemod CLI directly on ONLY the new
   directory with the recorded `codemodVersion`, bypassing the skip-if-completed check —
   the `completed` mark is per-migration, not per-directory, and stays untouched → run
   each step's verify grep scoped to that directory → append it to the state file's
@@ -145,6 +172,15 @@ why the presence pattern includes bare `\bFormControl\b`: without it both greps 
 zero on such a tree and the already-applied direction would be invisible. A bare hit is still
 ambiguous (the correct new root OR a surviving v3 inner slot), so the step-⑥ pre-check, not
 these greps, is the authoritative test for the already-applied direction.
+
+**Step ④ caveat — `data-component` is a generic attribute name.** Consumers plausibly own
+`data-component` attributes of their own (test selectors, analytics hooks), so a bare hit is
+no presence evidence: only a `data-component` / `data-ignore-*` / `montage-region-manager`
+hit paired with Montage usage in the same file counts, and when in doubt fall back to the
+step-④ commit / `git log -S"wds-component"`. Without this filter, a repo with its own
+`data-component` attributes plus a genuinely unmigrated `wds-component` selector satisfies
+"new present + old present" and reads as HALF-migrated on a tree where step ④ is correctly
+pending — a false alarm the user then has to talk you out of.
 
 **Step ③ caveat — the weakest signal of the seven.** `css-variable-migration` covers the
 69 `KNOWN_WDS_VARIABLES`: 67 come out with the `--wds-` prefix simply stripped
@@ -703,7 +739,7 @@ as a typecheck error at the end of M1; the spread surface is M13's.
 
 ## After all 7 steps
 
-Proceed to `manual-migrations.md` (all M-sections, M1–M13), then final verification:
+Proceed to `manual-migrations.md` (all M-sections, M1–M14), then final verification:
 
 1. Each step's verify grep zero, with its documented exceptions (step ①:
    `@wanteddev/montage-mcp`; step ⑥: hits inside the state file's `excludeFiles`).
@@ -719,8 +755,9 @@ Proceed to `manual-migrations.md` (all M-sections, M1–M13), then final verific
 2. Dependency install with the renamed `@montage-ui/*` packages succeeded.
 3. Project typecheck / lint / build / tests pass.
 4. Visual QA on TextField / TextArea / Modal bottom-sheet / Card list / SegmentedControl /
-   Select / PushBadge screens (former `variant="outlined"` in particular, see M11; Selects in
+   Select / PushBadge / SearchField screens (former `variant="outlined"` in particular, see M11; Selects in
    dense layouts, whose focus ring now draws outside the field, see M12; former
    `variant="new"` badges, whose square now comes from a fixed width instead of
-   `aspect-ratio`, see M13) and screens that used the deleted accent tokens (see M9) —
+   `aspect-ratio`, see M13; SearchFields whose radius and typography shifted with the size
+   rename, see M14) and screens that used the deleted accent tokens (see M9) —
    behavioral and visual changes, not just renames.

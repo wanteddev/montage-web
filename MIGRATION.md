@@ -812,6 +812,43 @@ dot 지름, 텍스트 배지의 높이·min-width·padding·타이포그래피�
 - 구 `variant="new"`는 `aspect-ratio: 1 / 1`로 정사각을 만들었습니다. v4에서는 `text`가 **한 글자짜리 문자열**일 때 높이와 같은 고정 너비를 적용해 정사각을 유지합니다. `text={3}`처럼 한 자리 숫자는 `min-width`로 처리되므로 폰트에 따라 폭이 미세하게 다를 수 있습니다.
 - 배지에 `box-sizing: border-box`가 적용되었습니다. 글로벌 리셋이 없는 프로젝트에서 padding만큼 커지던 문제가 사라지므로, 이를 전제로 offset을 보정해 두었다면 확인이 필요합니다.
 
+### SearchField
+
+Figma 스펙에 맞춰 사이즈 체계가 TextField 계열과 동일한 Large/Medium 체계로 변경되었고, `variant` prop이 추가되었습니다.
+
+#### `size` 값 변경 (`small` / `medium` → `medium` / `large`)
+
+`size` 값이 한 단계씩 이동했습니다. 기본값도 `'medium'`에서 `'large'`로 변경되어, `size`를 지정하지 않은 기본 사용은 기존과 동일한 높이(48px)를 유지합니다.
+
+| AS-IS                    | TO-BE                   |
+| ------------------------ | ----------------------- |
+| `size="medium"` (기본값) | `size="large"` (기본값) |
+| `size="small"`           | `size="medium"`         |
+
+기존 사이즈와 높이는 1:1로 대응하지만, 토큰 적용으로 radius·typography·아이콘 크기 등 세부 수치가 변경되었습니다.
+
+| 속성            | 기존 medium  | Large        | 기존 small   | Medium        |
+| --------------- | ------------ | ------------ | ------------ | ------------- |
+| 높이            | 48px         | 48px         | 40px         | 40px          |
+| Border radius   | 12px         | 14px         | 12px         | 12px          |
+| 입력 Typography | body1 (16px) | body2 (15px) | body1 (16px) | label1 (14px) |
+| Icon size       | 20px         | 20px         | 20px         | 18px          |
+
+`size`는 반응형 값도 지원합니다. 또한 `FormControl` 내부에서 사용하면 `size`를 지정하지 않았을 때 `FormControl`의 size를 자동으로 따릅니다.
+
+#### `variant` prop 추가 (신규)
+
+`variant?: 'solid' | 'outlined'`가 추가되었으며 기본값은 `'solid'`입니다. 기존 단일 형태는 solid에 해당하므로 마이그레이션이 필요 없고, outlined는 투명 배경에 1px inset border를 가진 신규 형태입니다.
+
+#### 내부 DOM 구조 변경 (`[data-role='search-field-wrapper']`)
+
+아이콘·input·reset 버튼을 감싸는 `[data-role='search-field-wrapper']` 요소가 새로 추가되어 DOM 깊이가 한 단계 늘어났습니다.
+
+- AS-IS: `[data-component='search-field'] > input`
+- TO-BE: `[data-component='search-field'] > [data-role='search-field-wrapper'] > input`
+
+`[data-component='search-field']`의 직계 자식(`>`)으로 `input`이나 `[data-role='search-field-icon']` 등을 타겟해 커스텀했다면 새 구조에 맞게 수정해야 합니다. 아이콘 영역 크기는 이제 CSS variable(`--search-field-icon-wrapper-size`, `--search-field-icon-size`)로 제어됩니다.
+
 ### ThemeProvider 테마 저장소 변경 (localStorage → Cookie)
 
 `ThemeProvider`가 `next-themes` 의존을 걷어내고 자체 쿠키 기반 구현으로 교체되었습니다. localStorage는 origin 단위로 격리되어 서브도메인 간 테마 공유가 불가능했기 때문입니다. 쿠키에 저장하되 읽기는 기존과 동일하게 first paint 이전 blocking inline script에서 처리하므로, SSG/SSR 렌더링 전략과 no-flash 동작은 그대로입니다.

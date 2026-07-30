@@ -96,6 +96,8 @@ Workflow({
     skillDir: '<absolute path of the authored skill>',
     migrationSection: '## <N>.0.0',
     transformsDir: '<absolute path of packages/codemod/src/transforms/vN>',
+    scope: 'full', // Mode A authors a whole skill, so everything is in scope. Mode B passes
+    //                'delta' (the default) — see "Scoping the review" below.
     // optional — defaults derived from skillDir:
     // pluginRoot: '<absolute plugin root>',
     // knownIssuesFile: '<absolute path>/known-issues.md',
@@ -123,7 +125,32 @@ reproduce. Read the result accordingly:
   large gap with many `stale-file-read` reasons means `repoRoot` was wrong.
 - `unassessedGroups` — nonzero means a verifier died and its findings were never judged; re-run
   before trusting a clean result.
-- `clean` — no CONFIRMED `critical`/`major`, all four reviewers returned, nothing unassessed.
+- `preExisting` — CONFIRMED `critical` findings the change neither introduced nor invalidated
+  (empty under `scope: 'full'`, where everything is in `findings`). They do NOT block
+  convergence, but they are corruption paths: fix them or add a `known-issues.md` entry
+  deliberately, and tell the user which you chose.
+- `clean` — no CONFIRMED in-scope `critical`/`major`, all four reviewers returned, nothing
+  unassessed. `preExisting` is excluded by design; a pre-existing corruption path would
+  otherwise make every future change review unconvergeable.
+
+#### Scoping the review
+
+`scope: 'delta'` (the default) validates **the change**, not the whole package. A Scope phase
+runs `git diff --unified=0 <diffBase>` (default `HEAD`; pass the base branch when the change is
+already committed) and hands the reviewers the changed line ranges. They still READ every file —
+consistency checking is impossible otherwise — but may only report a finding that is anchored in
+a changed region, is unchanged text the change made wrong (`blast-radius`: a now-stale
+cross-reference, count, or duplicated statement — the highest-value category in update mode), or
+is `critical`. The verify phase re-checks the scope itself and refutes out-of-scope non-criticals
+with reason `out-of-scope`. The `structure` reviewer is exempt: its checks are mechanical and
+actionable wherever they fail.
+
+Use `scope: 'full'` for Mode A, and for a deliberate periodic audit of an existing skill. Do NOT
+use it for a routine Mode B update: a full audit re-surfaces the entire pre-existing backlog
+every round, which buries the change's own defects and prevents convergence (one M-section
+addition produced 21 confirmed findings across two rounds, none of them in the new section).
+When the diff comes back empty the run logs it and falls back to a full audit — check the
+`diffBase` you passed rather than trusting that result as a clean change review.
 
 Record deliberate trade-offs (a version bump the user deferred, a length budget knowingly
 exceeded) in `<skillDir>/known-issues.md`, one short entry each. Reviewers and verifiers read
@@ -193,11 +220,17 @@ has a skill:
    verification grep to the consumer skill's "already migrated" preflight path and final
    verification, so consumers who FINISHED the migration get flagged when they invoke
    the skill again.
-4. **Re-run the FULL validation Workflow** (Step 4 above) — not just on the delta; the
-   consistency reviewer exists precisely for update-mode drift (renumbering a step, for
-   instance, leaves stale cross-references the delta alone would not reveal). Apply Step
+4. **Run the validation Workflow with `scope: 'delta'`** (Step 4 above, and its "Scoping the
+   review" subsection). Delta scope constrains what reviewers may REPORT, never what they
+   READ — they still load the whole package, because the consistency reviewer exists
+   precisely for update-mode drift (renumbering a step leaves stale cross-references that
+   reading the diff alone would never reveal). That drift is the `blast-radius` category and
+   it survives scoping by design; what scoping drops is the pre-existing backlog that has
+   nothing to do with your change. Apply Step
    4's convergence rule: re-run after each `critical`/`major` fix pass, but stop once a
    round returns only heuristic-refinement `minor`s — do not loop toward `clean: true`.
+   Reach for `scope: 'full'` only when you deliberately want a whole-package audit, and
+   expect it not to converge on the change: budget it as separate work.
 5. **Bump versions** (plugin.json minor for new content, patch for corrections) and
    update READMEs if behavior changed.
 

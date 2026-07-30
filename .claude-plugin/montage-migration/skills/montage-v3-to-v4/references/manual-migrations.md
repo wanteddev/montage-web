@@ -739,7 +739,10 @@ section covers what the transform cannot express and the rendering changes no re
   → `'text'`, `'new'` → `'text'` **and the element needs `text="N"`**, `'dot'` → unchanged.
   A leftover `'new'` / `'number'` is not a type error against the v4 union only when the
   expression is typed loosely, so do not rely on the typecheck to find these.
-  Scan **[zero]**: `PushBadge[^>]*variant=\{` — every hit is a value to trace by hand.
+  Scan **[decision]**: `PushBadge[^>]*variant=\{` — every hit is a value to trace by hand.
+  A correctly migrated dynamic variant (`variant={cond ? 'text' : 'dot'}`) is valid v4 code
+  and still matches after this section is done, so the pass criterion is that every
+  expression was traced during the manual phase, never a zero count.
 - **`count` reaching the badge through a spread or a wrapper type.** `{...props}` carrying
   `count`, and any `type X = PushBadgeProps & …` / `Pick<PushBadgeProps, 'count'>` that
   re-declares or relays it, are invisible to the transform. The type surface surfaces as a
@@ -750,9 +753,15 @@ section covers what the transform cannot express and the rendering changes no re
   `PushBadgeProps` (the trailing `\b` fails before `P`).
 - **`count` + `text` on one element.** The transform skips these deliberately (renaming would
   duplicate the attribute). Delete the stale `count`.
-  Scan **[zero]**: `PushBadge[^>]*count=`. (Same pattern as step ⑦'s verify grep; here the
-  scope is the rest of the repo — hits OUTSIDE the targets — plus in-target leftovers the
-  step already reported.)
+  Scan **[zero]** over the WHOLE repo, not just `<targets>`:
+  `PushBadge[^>]*(count=|variant="(new|number)")` — step ⑦'s FULL verify pattern, mirroring
+  how M4/M5/M9 carry their step's whole pattern out of target. The `count=` half alone would
+  leave a literal v3 `<PushBadge variant="new" />` living outside the transformed
+  directories (E2E spec, `.snap`, MDX, a sibling package) matched by no zero-criterion
+  pattern anywhere in the checklist, since step ⑦'s own grep is `<targets>`-scoped. Rewrite
+  hits per the step-⑦ rename table (`variant="number" count={n}` → `variant="text" text={n}`;
+  `variant="new"` → `variant="text" text="N"`); in-target hits were already reported by the
+  step.
 - **`variant="max-count"` adoption is a decision, never a mechanical mapping.** v3's `number`
   had no upper bound; `max-count` clamps a numeric `text` at `maxCount` (default **99**) and
   renders `{maxCount}+`. A counter that legitimately shows 3-digit values must either stay on
@@ -764,7 +773,13 @@ section covers what the transform cannot express and the rendering changes no re
   was removed; the text renders directly inside `[data-component='push-badge']`, which now
   carries the typography itself. Selectors and test queries reaching for the inner element
   must move up one level.
-  Scan **[zero]**: `push-badge-text` (include stylesheets).
+  Scan **[zero]**: `push-badge-text` (include stylesheets). The bare substring is
+  deliberate — it also reaches test queries like `getByTestId('push-badge-text')`, which an
+  anchored `\[data-role=…\]` pattern would miss. **Carve-out**: it therefore also matches
+  `--push-badge-text-color`, which is NOT a leftover — that variable (with
+  `--push-badge-background-color`) is the v4 override point this same section recommends
+  below, so hits on either variable are valid v4 code and stay. Only a
+  `[data-role='push-badge-text']` selector or a test query for that element is work.
 - **`invisible` no longer removes the text from the DOM.** v3 rendered the text only when
   `!invisible`; v4 always renders it, hides it with `transform: scale(0)`, and marks it
   `aria-hidden` (so the shrink animation survives). Tests asserting the text's ABSENCE while
@@ -789,6 +804,82 @@ section covers what the transform cannot express and the rendering changes no re
   fraction of a pixel. Background and text colors are now read from
   `--push-badge-background-color` / `--push-badge-text-color` on the wrapper, which is the
   supported override point (the dot uses the background variable as its own color).
+
+## M14. SearchField changes
+
+No codemod covers this section — every fix here is a hand edit.
+
+- **`size` values shifted one step**: v3 `size?: 'medium' | 'small'` (default `'medium'`)
+  became v4 `size?: 'large' | 'medium'` (default `'large'`). The mapping is
+  `size="medium"` → `size="large"` and `size="small"` → `size="medium"`; an element with
+  NO `size` needs no change (the default keeps the 48px form).
+
+  **Hand-edit rename chain — order and run-once matter.** `medium` is both a rename
+  SOURCE (`medium`→`large`) and a rename TARGET (`small`→`medium`) — the same chain shape
+  that makes `form-control-migration` corrupting, except here the editor is you. Convert
+  each file in ONE pass, per occurrence, and never re-sweep a converted file: a second
+  `medium`→`large` sweep promotes the mediums that were just converted FROM `small`.
+  Project-wide find-and-replace is safe only in the order `medium`→`large` FIRST, then
+  `small`→`medium`, each applied exactly once.
+
+  **The typechecker cannot find the old `medium`.** `'medium'` is a valid value in BOTH
+  versions with different meanings (48px in v3, 40px in v4), so an unconverted
+  `size="medium"` compiles clean and silently renders 8px shorter. Only `size="small"`
+  fails the v4 typecheck. Build the `medium` worklist from the scan BEFORE converting
+  anything — after a partial pass, a `size="medium"` hit is ambiguous between "converted
+  from `small`" and "not yet converted".
+
+  Scan **[zero]**: `\bSearchField\b[^>]*size="small"` — every hit becomes `size="medium"`.
+  Scan **[decision]**: `\bSearchField\b[^>]*size="medium"` — run it before converting and
+  record the hits; each PRE-conversion hit becomes `size="large"`. Once the section is
+  done the pattern legitimately matches the converted smalls, so the final-verification
+  pass criterion is "every pre-conversion hit was converted", never a zero count.
+  Scan **[decision]**: `\bSearchField\b[^>]*size=\{` — non-literal size: trace what the
+  expression produces (`'medium'` → `'large'`, `'small'` → `'medium'`). A leftover
+  `'small'` surfaces as a type error at M1's install; a leftover `'medium'` never does.
+  Scan **[decision]**: `\bSearchField` file-level (prefix form on purpose — it also
+  matches `SearchFieldProps`, and `SearchField` itself is valid v4 code, so every usage
+  is a hit). Review each file for what the line greps above cannot see: multi-line JSX
+  props, responsive `size` values (`xs={{ size: 'small' }}` — the same value mapping
+  applies inside `xs`/`sm`/`md`/`lg`/`xl` objects, and the colon syntax escapes every
+  `size=` grep), `{...spread}`s that may carry `size`, and wrapper types relaying
+  `SearchFieldProps['size']` (a relayed `'small'` is a type error; a relayed `'medium'`
+  is not).
+
+- **Size details changed** (the reason converted screens still need visual QA):
+
+  | 속성            | 기존 medium  | Large        | 기존 small   | Medium        |
+  | --------------- | ------------ | ------------ | ------------ | ------------- |
+  | 높이            | 48px         | 48px         | 40px         | 40px          |
+  | Border radius   | 12px         | 14px         | 12px         | 12px          |
+  | 입력 Typography | body1 (16px) | body2 (15px) | body1 (16px) | label1 (14px) |
+  | Icon size       | 20px         | 20px         | 20px         | 18px          |
+
+  Heights map 1:1, so a correctly converted SearchField keeps its height — but radius and
+  typography shift, so screens with tightly tuned layouts deserve a look.
+
+- **`size` now follows `FormControl`** (informational): a SearchField with no explicit
+  `size` inside a `FormControl` inherits the FormControl's size; an explicit `size` prop
+  still wins. Nothing to rewrite — but do not "fix" an unset size to an explicit one
+  inside a FormControl, or it stops following the parent.
+
+- **`variant` prop added (opt-in)**: `variant?: 'solid' | 'outlined'`, default `'solid'`.
+  The former single form IS solid, so existing usages need no change; `outlined` is a new
+  transparent-background form with a 1px inset border. Nothing breaks by not adopting it.
+
+- **DOM depth increased by one level.** A new `[data-role='search-field-wrapper']`
+  element now wraps the icon, the `input`, and the reset button. The
+  `search-field-icon` / `search-field-reset` data-roles are unchanged but sit one level
+  deeper, so descendant selectors keep working while direct-child selectors break:
+  - AS-IS: `[data-component='search-field'] > input`
+  - TO-BE: `[data-component='search-field'] > [data-role='search-field-wrapper'] > input`
+
+  The icon area is now sized through CSS variables on the root
+  (`--search-field-icon-wrapper-size`, `--search-field-icon-size`) — the supported
+  override point for custom icon sizing.
+  Scan **[decision]**: `search-field` (include stylesheets) — matches valid v4 selectors
+  and unrelated consumer strings by design; only hits that reach into the field's
+  internals with a direct-child (`>`) combinator need rework.
 
 ## Suggested commit boundary
 
