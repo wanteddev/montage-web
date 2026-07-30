@@ -20,7 +20,7 @@ exclusions) and the abort-cause catalogue. Both are consumed BEFORE any referenc
 fresh instance that skips them can corrupt a consumer repo, so they stay in the entry point until
 someone designs a split that keeps them on the first-load path. The frontmatter description is
 likewise over the usual length because it carries Korean and English triggers for the full
-migration, the resume, and each of the six single-codemod phrasings.
+migration, the resume, and each of the seven single-codemod phrasings.
 
 ## Scan patterns are line-based heuristics
 

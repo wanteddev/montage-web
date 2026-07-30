@@ -1,6 +1,6 @@
 # Codemod Steps (v3 → v4)
 
-The 6 v4 codemods, in canonical execution order. Run each step **exactly once**, strictly
+The 7 v4 codemods, in canonical execution order. Run each step **exactly once**, strictly
 in this order, completing (and ideally committing) one step before starting the next.
 
 ```sh
@@ -37,7 +37,7 @@ npx -y @montage-ui/codemod@<codemodVersion> <transform> <target>
   Steps 2, 3 and 4 additionally rewrite `.css/.scss/.sass/.less` files under the same path
   as plain text.
 - **Every transform parses with the `tsx` parser** (`api.jscodeshift.withParser('tsx')`, all
-  six), and the CLI passes `--extensions=tsx,ts,jsx,js` with no per-extension override. A
+  seven), and the CLI passes `--extensions=tsx,ts,jsx,js` with no per-extension override. A
   `.ts` file using legacy angle-bracket casts (`const y = <string>value;`) therefore fails to
   parse — the CLI reports `Transformation error (Unterminated JSX contents…)` and leaves THAT
   file untransformed while the rest of the run succeeds: a silent partial migration. Scan for
@@ -84,15 +84,18 @@ npx -y @montage-ui/codemod@<codemodVersion> <transform> <target>
 | 4    | `dom-identifier-migration` | safe (no-op)                                                                                                          |
 | 5    | `list-card-migration`      | safe (no-op), EXCEPT on half-hand-migrated files and files importing the same old name via two specifiers (see below) |
 | 6    | `form-control-migration`   | **CORRUPTS CODE** — never re-run (see below)                                                                          |
+| 7    | `push-badge-migration`     | safe (no-op — the shapes it skips on the first run are skipped identically on the next; see below)                    |
 
 Even for the "safe" steps, treat every step as run-once: the state file is the single
 source of truth, and mixed states (a step applied to half the tree) are hard to diagnose.
 The hard inter-step constraints are between codemods and MANUAL steps: manual fixes
-reference post-codemod names, so all 6 codemods run first, manual migrations after
-(see `manual-migrations.md`). Step 2 has no ordering constraint against the other five
+reference post-codemod names, so all 7 codemods run first, manual migrations after
+(see `manual-migrations.md`). Step 2 has no ordering constraint against the other six
 (its `semantic.*` / `--semantic-*` namespace is disjoint from every other transform's
 inputs and outputs, and it is not import-gated) — its position follows the MIGRATION.md
-section order.
+section order. Step 7 is likewise order-independent (its surface is the `PushBadge`
+`variant` / `count` / `text` props alone, which no other transform reads or writes); it sits
+last because it is the newest addition, so an older state file simply gains a `pending` key.
 
 ## Presence greps — "was this step already run?"
 
@@ -115,7 +118,7 @@ grep -rn "@montage-ui/" <targets>
 #    (foreground|surface|effect) is blind to a repo whose only v3 usage was background.normal.*
 #    or line.*, which land on background.neutral.* / line.* and would read as "never used"
 grep -rnE -- "semantic\.(foreground|surface|effect|background\.neutral|line\.(neutral|brand|negative|cautionary|positive))\.|--semantic-(foreground|surface|effect|background-neutral|line-(neutral|brand|negative|cautionary|positive))-" <targets>
-# ③ css-variable-migration — weakest signal of the six, see the caveat below
+# ③ css-variable-migration — weakest signal of the seven, see the caveat below
 grep -rnE -- "--grid-(column|row)-spacing" <targets>
 # ④ dom-identifier-migration
 grep -rn "data-component" <targets>
@@ -125,6 +128,11 @@ grep -rnE "\b(ListCard|CardBody|CardRow)" <targets>
 #    `import type { FormControlProps }` file is invisible to bare \bFormControl\b, and the
 #    step-⑥ pre-check uses \bFormControl(Props)?\b for the same reason
 grep -rnE "\bFormControl(\b|Props|Field|Label|Message|NegativeMessage|PositiveMessage)" <targets>
+# ⑦ push-badge-migration — single-quoted so the pattern's own double quotes reach grep
+#    intact. Anchored on PushBadge on purpose: a bare `text=` matches TextField / Chip /
+#    analytics code everywhere and is no evidence at all. Multi-line props escape it — see
+#    the caveat below
+grep -rnE 'PushBadge[^>]*(variant="(text|max-count)"|text=)' <targets>
 ```
 
 Read the pair together, never either alone: both zero means the repo simply never used that
@@ -138,7 +146,7 @@ zero on such a tree and the already-applied direction would be invisible. A bare
 ambiguous (the correct new root OR a surviving v3 inner slot), so the step-⑥ pre-check, not
 these greps, is the authoritative test for the already-applied direction.
 
-**Step ③ caveat — the weakest signal of the six.** `css-variable-migration` covers the
+**Step ③ caveat — the weakest signal of the seven.** `css-variable-migration` covers the
 69 `KNOWN_WDS_VARIABLES`: 67 come out with the `--wds-` prefix simply stripped
 (`--modal-translate`, `--switch-width`, `--card-content-item-*`, …) and the remaining two,
 `--wds-column-spacing` / `--wds-row-spacing`, are renamed to `--grid-*-spacing`. Only
@@ -628,9 +636,74 @@ Additionally inspect namespace imports of montage sources
 quote styles; prettier defaults to single quotes but consumer configs vary) and montage
 subpath imports for `.FormControl` member usages.
 
-## After all 6 steps
+## Step 7 — `push-badge-migration`
 
-Proceed to `manual-migrations.md` (all M-sections, M1–M12), then final verification:
+Import-gated like steps 5 and 6: the transform fires only on `PushBadge` imported from
+exactly `@montage-ui/core` or `@wanteddev/wds` (per-name specifier lookup, alias-aware) —
+namespace, re-export, and subpath imports do not trigger it.
+
+Rewrites the `PushBadge` variant scheme and the `count` prop:
+
+| 기존                         | 변경                      |
+| ---------------------------- | ------------------------- |
+| `variant="number" count={3}` | `variant="text" text={3}` |
+| `variant="new"`              | `variant="text" text="N"` |
+| `count={n}`                  | `text={n}`                |
+
+`variant="dot"` is unchanged. `variant="max-count"` is a NEW value the transform never
+produces — it clamps numeric `text` at `maxCount` (default 99), which `variant="number"`
+never did, so mapping `number` → `max-count` would change what renders. That adoption is a
+manual decision (M13).
+
+**Idempotent — but not because the surface is empty afterwards.** The first run exhausts
+everything convertible, and the two shapes it deliberately skips are skipped identically on
+the next run: an element carrying BOTH `count` and `text` keeps its `count`, and a
+`variant={expr}` keeps its value. So a re-run changes nothing, yet `count` and the old
+variant values can still be present in the tree — which is why the verify grep below is
+allowed to report hits without that meaning the step failed. Transform idempotency and the
+state file's run-once policy are separate: this step is still run-once by the state file,
+like every other step.
+
+Precheck: none. Two shapes the transform deliberately leaves alone, both safe to re-encounter:
+
+- an element that already has BOTH `count` and `text` (half-hand-migrated) — renaming would
+  produce a duplicate attribute, so it is skipped and left for M13;
+- `variant={expr}` — a non-literal variant cannot be mapped. `count` is still renamed to
+  `text` on that element (the rename is unconditional and correct), but the variant value
+  itself must be checked by hand (M13).
+
+`variant="new"` + `count` on the same element: the transform DELETES `count`. In v3 the
+`new` variant hardcoded `'N'` and never rendered `count`, so carrying it over as
+`text={count}` would newly expose the number. Deleting the dead prop is what preserves
+behavior — do not "restore" it when reviewing the diff.
+
+Post-step verification (expect zero hits):
+
+```sh
+grep -rnE 'PushBadge[^>]*(count=|variant="(new|number)")' <targets>
+```
+
+Single-quoted so the pattern's own double quotes reach grep. Remaining hits come from three
+places, none of them a reason to re-run the codemod:
+
+- **Multi-line JSX props** — `<PushBadge\n  variant="number"\n  count={n}\n/>` never matches
+  a line-based grep in the first place, so a clean grep is not proof. The transform DOES
+  handle them (it works on the AST); the grep is what cannot see them. M13's file-level
+  `\bPushBadge\b` scan is the net for anything the transform skipped.
+- **Gate-skipped files** (namespace / re-export / deep-subpath imports) — no M-section covers
+  in-target hits of this class; fix them by hand NOW as part of this step, against the rename
+  table above. Confirm the identifier really comes from a montage source first — a locally
+  defined or third-party `PushBadge` is not a migration leftover.
+- **Half-hand-migrated elements** (`count` + `text` together) — reconcile to a single prop by
+  hand; that is M13's worklist, not a codemod re-run.
+
+`count` reaching `PushBadge` through `{...props}`, or declared on a type extending
+`PushBadgeProps`, is invisible to both the transform and this grep. The type surface shows up
+as a typecheck error at the end of M1; the spread surface is M13's.
+
+## After all 7 steps
+
+Proceed to `manual-migrations.md` (all M-sections, M1–M13), then final verification:
 
 1. Each step's verify grep zero, with its documented exceptions (step ①:
    `@wanteddev/montage-mcp`; step ⑥: hits inside the state file's `excludeFiles`).
@@ -646,6 +719,8 @@ Proceed to `manual-migrations.md` (all M-sections, M1–M12), then final verific
 2. Dependency install with the renamed `@montage-ui/*` packages succeeded.
 3. Project typecheck / lint / build / tests pass.
 4. Visual QA on TextField / TextArea / Modal bottom-sheet / Card list / SegmentedControl /
-   Select screens (former `variant="outlined"` in particular, see M11; Selects in dense
-   layouts, whose focus ring now draws outside the field, see M12) and screens that used the
-   deleted accent tokens (see M9) — behavioral and visual changes, not just renames.
+   Select / PushBadge screens (former `variant="outlined"` in particular, see M11; Selects in
+   dense layouts, whose focus ring now draws outside the field, see M12; former
+   `variant="new"` badges, whose square now comes from a fixed width instead of
+   `aspect-ratio`, see M13) and screens that used the deleted accent tokens (see M9) —
+   behavioral and visual changes, not just renames.

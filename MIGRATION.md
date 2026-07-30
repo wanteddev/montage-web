@@ -711,6 +711,107 @@ Figma 스펙에 맞춰 사이즈 체계(Large / Medium)가 도입되었습니다
 
 값 텍스트가 body1(16px)에서 body2(15px)로 작아지고 Chip이 solid에서 outlined로 바뀌므로, 폭을 고정하거나 `maxWidth`로 제한해 사용하던 화면은 QA가 필요합니다.
 
+### PushBadge
+
+Figma 스펙에 맞춰 `variant` 체계가 개편되고 `count`가 `text`로 대체되었습니다. 숫자 상한 표시(`max-count`)와 외곽선(`outlineBorder`)이 추가되었으며, 텍스트를 감싸던 `Typography` 래퍼가 제거되었습니다.
+
+#### `variant` 개편 및 `count` → `text`
+
+`variant`의 `number` / `new`가 제거되고 `text` / `max-count`로 재편되었습니다. 표시할 내용은 `count`(숫자 전용) 대신 `text`(`number | string`)로 전달합니다.
+
+| AS-IS                        | TO-BE                            |
+| ---------------------------- | -------------------------------- |
+| `variant="dot"`              | `variant="dot"` (유지)           |
+| `variant="number" count={3}` | `variant="text" text={3}`        |
+| `variant="new"`              | `variant="text" text="N"`        |
+| —                            | `variant="max-count" text={100}` |
+
+- `variant="new"`는 'N'을 하드코딩해 렌더하던 전용 variant였습니다. v4에는 대응하는 variant가 없으므로 `variant="text" text="N"`으로 직접 지정하세요.
+- `variant="new"`에 `count`를 함께 넘기던 코드에서 `count`는 렌더되지 않는 죽은 prop이었습니다. `text={count}`로 옮기면 숫자가 노출되어 **동작이 바뀌므로** 옮기지 말고 제거하세요(코드모드도 제거합니다).
+- `variant="number"`의 대체는 `max-count`가 아니라 **`text`** 입니다. `number`에는 상한이 없었지만 `max-count`는 `maxCount`(기본값 `99`)에서 잘리므로, `count={150}`을 `variant="max-count" text={150}`으로 옮기면 화면에 `99+`가 표시됩니다.
+
+#### codemod
+
+```sh
+npx @montage-ui/codemod@latest push-badge-migration src
+```
+
+코드모드가 변환하는 것:
+
+- `variant="number"` → `variant="text"`
+- `variant="new"` → `variant="text" text="N"` (동반된 `count`는 제거)
+- `count` → `text`
+
+코드모드가 변환하지 못하는 것(수동 확인 필요):
+
+- `variant={someVariable}`처럼 문자열 리터럴이 아닌 `variant` — `count`만 `text`로 바뀌므로 변수가 만들어내는 값을 직접 확인해야 합니다.
+- `{...props}` 스프레드로 넘기는 `count` / `variant`.
+- `PushBadgeProps`를 확장한 타입에서 `count`를 재선언·중계하는 코드 — 타입 에러로 드러납니다.
+- 이미 `text`가 지정된 요소에 `count`가 남아 있는 경우 — 속성 중복을 피하려고 건드리지 않으니 직접 정리하세요.
+
+#### `maxCount` 추가 (신규)
+
+`variant="max-count"`에서 숫자 상한을 지정합니다. `text`가 **숫자일 때만** 적용되며, `maxCount`보다 크면 `{maxCount}+`로 렌더됩니다.
+
+```tsx
+<PushBadge variant="max-count" text={100} />              // → 99+
+<PushBadge variant="max-count" text={1000} maxCount={999} /> // → 999+
+<PushBadge variant="max-count" text="1000" />             // → 1000 (문자열은 상한 미적용)
+```
+
+| prop       | 타입               | 기본값 | 설명                                           |
+| ---------- | ------------------ | ------ | ---------------------------------------------- |
+| `text`     | `number \| string` | —      | 배지에 표시할 내용                             |
+| `maxCount` | `number`           | `99`   | `variant="max-count"`에서 숫자 `text`의 상한값 |
+
+#### `outlineBorder` / `outlineBorderColor` 추가 (신규)
+
+배지 외곽에 배경색과 같은 색의 테두리를 그려 아바타·아이콘 위에 겹쳐도 경계가 보이도록 합니다. 두께는 `size`와 `variant`를 따릅니다.
+
+```tsx
+<PushBadge outlineBorder>
+  <Avatar />
+</PushBadge>
+
+<PushBadge outlineBorder outlineBorderColor="semantic.surface.neutral.inverse">
+  <Avatar />
+</PushBadge>
+```
+
+| prop                 | 타입               | 기본값                                  | 설명                    |
+| -------------------- | ------------------ | --------------------------------------- | ----------------------- |
+| `outlineBorder`      | `boolean`          | `false`                                 | 외곽선 표시 여부        |
+| `outlineBorderColor` | `ThemeColorsToken` | `'semantic.background.neutral.primary'` | `outlineBorder`일 때 색 |
+
+배지 바깥으로 `outline`이 그려지므로 `overflow: hidden` 컨테이너 안에서는 잘릴 수 있습니다.
+
+#### 내부 DOM 구조 변경
+
+텍스트를 감싸던 `Typography`가 제거되고, 텍스트가 배지 엘리먼트 안에 직접 렌더됩니다.
+
+| AS-IS                                                           | TO-BE                                                       |
+| --------------------------------------------------------------- | ----------------------------------------------------------- |
+| `[data-component='push-badge'] > [data-role='push-badge-text']` | 제거 — 텍스트가 `[data-component='push-badge']`에 직접 렌더 |
+
+- `[data-role='push-badge-text']`를 직접 타겟해 커스텀했다면 `[data-component='push-badge']`로 옮기세요. 타이포그래피도 이 엘리먼트에 적용됩니다.
+- `invisible`일 때 v3는 텍스트를 DOM에서 아예 제외했지만, v4는 `transform: scale(0)`으로 숨기고 `aria-hidden`을 부여합니다(축소 애니메이션 유지). 텍스트의 **부재**를 검증하던 테스트는 깨집니다.
+- 배경/텍스트 색이 CSS variable로 노출됩니다. 래퍼에서 `--push-badge-background-color`, `--push-badge-text-color`를 덮어쓰면 색을 바꿀 수 있습니다(dot은 `--push-badge-background-color`를 점 색으로 사용).
+
+#### 사이즈 변경
+
+dot 지름, 텍스트 배지의 높이·min-width·padding·타이포그래피는 모두 그대로입니다. 텍스트 배지의 line-height만 바뀌었습니다.
+
+| 속성                       | xsmall      | small       | medium      |
+| -------------------------- | ----------- | ----------- | ----------- |
+| dot 지름                   | 4px (유지)  | 6px (유지)  | 8px (유지)  |
+| 텍스트 배지 높이/min-width | 16px (유지) | 20px (유지) | 24px (유지) |
+| 텍스트 line-height         | 1 → 14px    | 1 → 14px    | 1 → 20px    |
+| 외곽선 두께(신규) — 텍스트 | 1px         | 1.5px       | 2px         |
+| 외곽선 두께(신규) — dot    | 0.5px       | 1px         | 1px         |
+
+- 구 `variant="new"`는 `aspect-ratio: 1 / 1`로 정사각을 만들었습니다. v4에서는 `text`가 **한 글자짜리 문자열**일 때 높이와 같은 고정 너비를 적용해 정사각을 유지합니다. `text={3}`처럼 한 자리 숫자는 `min-width`로 처리되므로 폰트에 따라 폭이 미세하게 다를 수 있습니다.
+- 배지에 `box-sizing: border-box`가 적용되었습니다. 글로벌 리셋이 없는 프로젝트에서 padding만큼 커지던 문제가 사라지므로, 이를 전제로 offset을 보정해 두었다면 확인이 필요합니다.
+
 ### ThemeProvider 테마 저장소 변경 (localStorage → Cookie)
 
 `ThemeProvider`가 `next-themes` 의존을 걷어내고 자체 쿠키 기반 구현으로 교체되었습니다. localStorage는 origin 단위로 격리되어 서브도메인 간 테마 공유가 불가능했기 때문입니다. 쿠키에 저장하되 읽기는 기존과 동일하게 first paint 이전 blocking inline script에서 처리하므로, SSG/SSR 렌더링 전략과 no-flash 동작은 그대로입니다.
