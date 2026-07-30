@@ -116,13 +116,13 @@ const SearchField = forwardRef<
 
           <input
             ref={composedRefs}
-            type="search"
             readOnly={readOnly}
             aria-readonly={readOnly}
             autoComplete="off"
             disabled={disabled}
             aria-disabled={disabled}
             {...props}
+            type="search"
           />
 
           <FlexBox
@@ -134,6 +134,7 @@ const SearchField = forwardRef<
             <IconButton
               type="button"
               tabIndex={-1}
+              aria-label="Reset search"
               size={resolvedSize === 'large' ? 32 : 28}
               {...mapResponsiveProps(
                 {

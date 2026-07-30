@@ -812,7 +812,10 @@ No codemod covers this section — every fix here is a hand edit.
 - **`size` values shifted one step**: v3 `size?: 'medium' | 'small'` (default `'medium'`)
   became v4 `size?: 'large' | 'medium'` (default `'large'`). The mapping is
   `size="medium"` → `size="large"` and `size="small"` → `size="medium"`; an element with
-  NO `size` needs no change (the default keeps the 48px form).
+  NO `size` needs no change — standalone, the default still renders the 48px form. Inside a
+  `FormControl` the unset size now follows the PARENT's size instead (see the FormControl
+  bullet below), so a SearchField under `FormControl size="medium"` renders 40px; that is
+  the intended v4 behavior, not a migration miss.
 
   **Hand-edit rename chain — order and run-once matter.** `medium` is both a rename
   SOURCE (`medium`→`large`) and a rename TARGET (`small`→`medium`) — the same chain shape

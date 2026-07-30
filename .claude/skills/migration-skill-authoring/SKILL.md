@@ -132,6 +132,11 @@ reproduce. Read the result accordingly:
 - `clean` — no CONFIRMED in-scope `critical`/`major`, all four reviewers returned, nothing
   unassessed. `preExisting` is excluded by design; a pre-existing corruption path would
   otherwise make every future change review unconvergeable.
+- `scope` / `diffBase` / `changedFiles` — the scope the run ACTUALLY used, which can differ
+  from what was requested: an empty diff falls back to `scope: 'full'` (with `diffBase` and
+  `changedFiles` returning `null`). Check these before reading a delta run as clean — a
+  `'full'` here when you passed `'delta'` means the diff base was wrong, not that the change
+  reviewed clean.
 
 #### Scoping the review
 

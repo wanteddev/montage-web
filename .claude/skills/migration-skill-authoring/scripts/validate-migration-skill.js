@@ -215,16 +215,19 @@ Report structured data only.`,
   }
 }
 
+const formatChangeMap = (cm) =>
+  cm.changedFiles
+    .map(
+      (f) =>
+        `- ${f.file}: lines ${f.ranges.map((r) => (r.length > 1 ? `${r[0]}-${r[1]}` : String(r[0]))).join(', ')} — ${f.summary}`,
+    )
+    .join('\n')
+
 const SCOPE_RULES = changeMap
   ? `SCOPE — this run validates a CHANGE, not the whole package. Read every file you were given (you cannot check consistency otherwise), but be strict about what you REPORT.
 
 Changed regions (new-side line numbers) this run is accountable for:
-${changeMap.changedFiles
-  .map(
-    (f) =>
-      `- ${f.file}: lines ${f.ranges.map((r) => (r.length > 1 ? `${r[0]}-${r[1]}` : String(r[0]))).join(', ')} — ${f.summary}`,
-  )
-  .join('\n')}
+${formatChangeMap(changeMap)}
 
 Report a finding ONLY if it is one of:
 - \`scope: "delta"\` — the defect is anchored inside one of those changed regions.
@@ -384,12 +387,7 @@ Procedure, in order:
 5. RE-CHECK SCOPE, after re-rating (the order matters — a finding the reviewer called critical and you downgrade to major loses its pre-existing exemption). ${
         changeMap
           ? `This run validates a CHANGE. The changed regions are:
-${changeMap.changedFiles
-  .map(
-    (f) =>
-      `   - ${f.file}: lines ${f.ranges.map((r) => (r.length > 1 ? `${r[0]}-${r[1]}` : String(r[0]))).join(', ')} — ${f.summary}`,
-  )
-  .join('\n')}
+${formatChangeMap(changeMap)}
    Set \`scope\` yourself rather than trusting the reviewer's: "delta" if the defect sits inside a changed region, "blast-radius" if it is unchanged text the change made wrong (a now-stale cross-reference, count, or duplicated statement — verify BOTH sides, quoting the changed region it contradicts), "pre-existing-critical" if untouched by the change but a genuine corruption path. REFUTE with reason "out-of-scope: pre-existing <severity>, not introduced or invalidated by this change" any finding that ends up outside a changed region, does not contradict one, and is not \`critical\` after your re-rating. Do not stretch "blast-radius" to cover a defect that merely lives near a changed region — the change must be what makes it wrong.`
           : `This run is a FULL audit, so every finding is in scope; set \`scope: "delta"\` on all of them.`
       }
@@ -418,8 +416,23 @@ const lostGroups = grouped.length - verifiedGroups.filter(Boolean).length
 // Split the two audiences apart: the change's own worklist, and corruption paths this change
 // merely happens to sit next to. Both ship — but only the first governs convergence, or a
 // pre-existing critical would make every future change review unconvergeable.
+// Enforce the scope contract in code, not just in the prompts: 'pre-existing-critical' is
+// valid ONLY at severity critical (the verifier re-rates severity BEFORE re-checking scope,
+// so a downgraded finding loses the exemption). A verifier that returns the scope with a
+// lower severity has violated that contract — treat the finding as out-of-scope (what the
+// verifier should have returned) rather than letting it bypass convergence unexamined.
+const scopeViolations = allConfirmed.filter(
+  (f) => f.scope === 'pre-existing-critical' && f.severity !== 'critical',
+)
 const confirmed = allConfirmed.filter((f) => f.scope !== 'pre-existing-critical')
-const preExisting = allConfirmed.filter((f) => f.scope === 'pre-existing-critical')
+const preExisting = allConfirmed.filter(
+  (f) => f.scope === 'pre-existing-critical' && f.severity === 'critical',
+)
+if (scopeViolations.length > 0) {
+  log(
+    `${scopeViolations.length} finding(s) claimed scope "pre-existing-critical" at non-critical severity — scope contract enforced: moved to refuted as out-of-scope.`,
+  )
+}
 
 const blocking = confirmed.filter((f) => f.severity !== 'minor').length
 log(
@@ -437,7 +450,14 @@ if (preExisting.length > 0) {
 return {
   findings: confirmed,
   preExisting,
-  refuted: refuted.map((f) => ({ file: f.file, issue: f.issue, reason: f.reason })),
+  refuted: [
+    ...refuted.map((f) => ({ file: f.file, issue: f.issue, reason: f.reason })),
+    ...scopeViolations.map((f) => ({
+      file: f.file,
+      issue: f.issue,
+      reason: `out-of-scope: scope "pre-existing-critical" requires severity critical, verifier returned ${f.severity} — contract enforced by the orchestrator`,
+    })),
+  ],
   rawCount: raw.length,
   reviewersCompleted: completed,
   unassessedGroups: lostGroups,

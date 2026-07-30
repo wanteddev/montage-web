@@ -185,18 +185,21 @@ rewrites `package.json` a resume looks exactly like "already migrated".
    with the user up front on how to handle them; and scan `.ts` files for legacy
    angle-bracket casts, which the `tsx` parser cannot read (the file is skipped with a
    transformation error while the rest of the run succeeds — a silent partial migration):
-   `grep -rnE '(=>|&&|\|\||[?=(,:[!]|return|await|yield|throw|^ *) *<[A-Za-z_$][^<>=]*(<[^<>]*(<[^<>]*>)?[^<>]*>)?[^<>=]*> *[A-Za-z_$(]' --include="*.ts" <targets>`
+   `grep -rnE '(=>|&&|\|\||[?=(,:[!]|return|await|yield|throw|^ *) *<[A-Za-z_$][^<>=]*(<[^<>]*(<[^<>]*>)?[^<>]*>)?[^<>=]*> *[^<>= ]' --include="*.ts" <targets>`
    (the nested group catches generic casts up to two levels — `<Array<string>>items`,
    `<Map<string, Array<number>>>m`; the loose `[^<>=]*` type body reaches unions, modifiers
    and multi-dimensional arrays — `<string | number>v`, `<readonly string[]>v`,
    `<string[][]>v`; `:`/`[` catch
    casts inside object literals and array elements; `=>`/`&&`/`||`/`?` catch casts in
-   arrow bodies, logical operands, and ternary branches; and `await`/`yield`/`throw`/`^ *`
-   catch `await <Promise<string>>p` and a statement-initial `<string>foo;` — all of which
-   break the parser identically.
-   **Expect a known false-positive shape**: a generic arrow-function declaration
-   (`const f = <T>(x: T) => x`, `<T extends object>(x: T) => x`) matches the pattern but
-   parses fine — this repo's own source yields 9 such hits across 404 `.ts` files. Confirm
+   arrow bodies, logical operands, and ternary branches; `await`/`yield`/`throw`/`^ *`
+   catch `await <Promise<string>>p` and a statement-initial `<string>foo;`; and the
+   `[^<>= ]` trailing class accepts casts applied to LITERALS — `<Foo>{ a: 1 }`,
+   `<number[]>[1, 2]`, `<string>'x'`, `<number>123` — not only identifiers and calls. All
+   of these break the parser identically.
+   **Expect two known false-positive shapes**: a generic arrow-function declaration
+   (`const f = <T>(x: T) => x`, `<T extends object>(x: T) => x`) and a regex literal with a
+   named capture group (`/#(?<id>\w+)/`) both match the pattern but parse fine — this
+   repo's own source yields 10 such hits across 404 `.ts` files. Confirm
    each hit is a real CAST (a type in angle brackets applied to an expression) before
    converting anything; never rewrite a generic arrow's type parameter list.
    The scan is still a heuristic; the "treat any `ERR` as a step failure" rule is the backstop)

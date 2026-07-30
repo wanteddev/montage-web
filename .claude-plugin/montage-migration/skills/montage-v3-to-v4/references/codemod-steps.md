@@ -49,16 +49,19 @@ npx -y @montage-ui/codemod@<codemodVersion> <transform> <target>
   parse — the CLI reports `Transformation error (Unterminated JSX contents…)` and leaves THAT
   file untransformed while the rest of the run succeeds: a silent partial migration. Scan for
   them at preflight and convert to `as` syntax in a preparatory commit before step ①:
-  `grep -rnE '(=>|&&|\|\||[?=(,:[!]|return|await|yield|throw|^ *) *<[A-Za-z_$][^<>=]*(<[^<>]*(<[^<>]*>)?[^<>]*>)?[^<>=]*> *[A-Za-z_$(]' --include="*.ts" <targets>`
+  `grep -rnE '(=>|&&|\|\||[?=(,:[!]|return|await|yield|throw|^ *) *<[A-Za-z_$][^<>=]*(<[^<>]*(<[^<>]*>)?[^<>]*>)?[^<>=]*> *[^<>= ]' --include="*.ts" <targets>`
   (the nested group is required for generic casts — `<Array<string>>items` and
   `<Map<string, Array<number>>>m` break the parser exactly like `<string>value` — the loose
   `[^<>=]*` type body reaches `<string | number>v` / `<readonly string[]>v` /
   `<string[][]>v`, `:`/`[`
   reach casts inside object literals and array elements, `=>`/`&&`/`||`/`?` reach casts
-  in arrow bodies, logical operands, and ternary branches, and `await`/`yield`/`throw`/`^ *`
-  reach `await <Promise<string>>p` and a statement-initial `<string>foo;`. A generic
-  arrow-function declaration (`const f = <T>(x: T) => x`) is a known false positive — it
-  matches but parses fine, so confirm each hit is a real cast before converting. Three or
+  in arrow bodies, logical operands, and ternary branches, `await`/`yield`/`throw`/`^ *`
+  reach `await <Promise<string>>p` and a statement-initial `<string>foo;`, and the
+  `[^<>= ]` trailing class reaches casts applied to literals — `<Foo>{ a: 1 }`,
+  `<number[]>[1, 2]`, `<string>'x'`, `<number>123`. Two known false positives — a generic
+  arrow-function declaration (`const f = <T>(x: T) => x`) and a regex named capture group
+  (`/#(?<id>\w+)/`) — match but parse fine, so confirm each hit is a real cast before
+  converting. Three or
   more levels of nesting still
   escape it: the scan is a heuristic, and "treat any `ERR` as a step failure" is the backstop).
   Treat any per-file transformation error in a step's output the same way: the step is NOT
