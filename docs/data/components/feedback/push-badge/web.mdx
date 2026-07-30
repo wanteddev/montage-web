@@ -24,11 +24,11 @@ const Demo = () => {
       <Switch checked={!invisible} onCheckedChange={(value) => setInvisible(!value)} size="small" />
 
       <FlexBox gap="16px" alignItems="center">
-        <IconButton>
-          <PushBadge invisible={invisible}>
+        <PushBadge invisible={invisible}>
+          <IconButton>
             <IconBell />
-          </PushBadge>
-        </IconButton>
+          </IconButton>
+        </PushBadge>
 
         <PushBadge invisible={invisible}>
           <Avatar
@@ -58,17 +58,17 @@ const Demo = () => {
       <Switch checked={!invisible} onCheckedChange={(value) => setInvisible(!value)} size="small" />
 
       <FlexBox gap="16px" alignItems="center">
-        <IconButton>
-          <PushBadge variant="text" text="N" invisible={invisible}>
+        <PushBadge variant="text" text="N" invisible={invisible}>
+          <IconButton>
             <IconBell />
-          </PushBadge>
-        </IconButton>
+          </IconButton>
+        </PushBadge>
 
-        <IconButton>
-          <PushBadge variant="text" text={3} invisible={invisible}>
+        <PushBadge variant="text" text={3} invisible={invisible}>
+          <IconButton>
             <IconBell />
-          </PushBadge>
-        </IconButton>
+          </IconButton>
+        </PushBadge>
 
         <PushBadge variant="text" text="N" invisible={invisible}>
           <Avatar
@@ -107,11 +107,11 @@ const Demo = () => {
       <Switch checked={!invisible} onCheckedChange={(value) => setInvisible(!value)} size="small" />
 
       <FlexBox gap="16px" alignItems="center">
-        <IconButton>
-          <PushBadge variant="max-count" text={100} invisible={invisible}>
+        <PushBadge variant="max-count" text={100} invisible={invisible}>
+          <IconButton>
             <IconBell />
-          </PushBadge>
-        </IconButton>
+          </IconButton>
+        </PushBadge>
 
         <PushBadge variant="max-count" text={1000} maxCount={999} invisible={invisible}>
           <Avatar
