@@ -1,7 +1,6 @@
 import { forwardRef } from 'react';
 import { Box } from '@montage-ui/engine';
 
-import { Typography } from '../typography';
 import { FlexBox } from '../flex-box';
 
 import { pushBadgeStyle, pushBadgeWrapperStyle } from './style';
@@ -20,8 +19,11 @@ const PushBadge = forwardRef<
       position = 'top-right',
       children,
       size = 'xsmall',
-      count,
+      text,
+      maxCount = 99,
       invisible = false,
+      outlineBorder = false,
+      outlineBorderColor = 'semantic.background.neutral.primary',
       offsetX,
       offsetY,
       xs,
@@ -48,8 +50,9 @@ const PushBadge = forwardRef<
           <circle cx="2" cy="2" r="2" fill="currentColor" />
         </Box>
       ),
-      ['number']: count,
-      ['new']: 'N',
+      ['text']: text,
+      ['max-count']:
+        typeof text === 'number' && text > maxCount ? `${maxCount}+` : text,
     };
 
     return (
@@ -59,6 +62,7 @@ const PushBadge = forwardRef<
         {...props}
         sx={[
           pushBadgeWrapperStyle({
+            shouldFixedWidth: typeof text === 'string' && text.length === 1,
             variant,
             offsetX,
             offsetY,
@@ -78,20 +82,16 @@ const PushBadge = forwardRef<
           as="span"
           data-component="push-badge"
           data-variant={variant}
-          sx={pushBadgeStyle({ variant, invisible, position })}
+          aria-hidden={invisible}
+          sx={pushBadgeStyle({
+            variant,
+            invisible,
+            position,
+            outlineBorder,
+            outlineBorderColor,
+          })}
         >
-          {variant === 'dot'
-            ? renderChild[variant]
-            : !invisible && (
-                <Typography
-                  data-role="push-badge-text"
-                  variant="caption2"
-                  weight="bold"
-                  align="center"
-                >
-                  {renderChild[variant]}
-                </Typography>
-              )}
+          {renderChild[variant]}
         </Box>
       </FlexBox>
     );

@@ -31,9 +31,10 @@ What it does:
 
 1. **Preflight** — migration state file first (a resume must not be misread as a fresh
    project), then version check, clean git tree, and target selection.
-2. **Codemod phase** — runs the 6 v4 codemods **strictly in sequence, each exactly once**
+2. **Codemod phase** — runs the 7 v4 codemods **strictly in sequence, each exactly once**
    (`package-name-migration` → `semantic-token-migration` → `css-variable-migration` →
-   `dom-identifier-migration` → `list-card-migration` → `form-control-migration`),
+   `dom-identifier-migration` → `list-card-migration` → `form-control-migration` →
+   `push-badge-migration`),
    orchestrated with the Workflow tool: sequential codemod execution with per-step
    verification and optional per-step commits, then parallel scans for the
    manual-migration worklist.
@@ -41,8 +42,8 @@ What it does:
    renames, semantic token follow-ups (foreground/surface reclassification, deleted
    accent tokens), CSS variable and DOM identifier leftovers (dynamically built names, files
    outside the transformed directories), Card/ListCard and FormControl follow-ups,
-   Modal/TextField/TextArea/SegmentedControl/Select behavioral changes, ThemeProvider
-   cookie storage.
+   Modal/TextField/TextArea/SegmentedControl/Select/PushBadge behavioral changes,
+   ThemeProvider cookie storage.
 4. **Verification** — leftover greps, install/typecheck/lint/build/tests, summary.
 
 The codemods are order-sensitive and must not run twice (re-running

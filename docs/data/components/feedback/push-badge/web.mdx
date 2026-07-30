@@ -7,8 +7,8 @@ createdAt: 2025-09-08
 
 PushBadge는 3가지 variant를 제공합니다.
 - dot
-- new
-- number
+- text
+- max-count
 
 ### Dot
 
@@ -24,7 +24,7 @@ const Demo = () => {
       <Switch checked={!invisible} onCheckedChange={(value) => setInvisible(!value)} size="small" />
 
       <FlexBox gap="16px" alignItems="center">
-        <IconButton size={24}>
+        <IconButton>
           <PushBadge invisible={invisible}>
             <IconBell />
           </PushBadge>
@@ -44,7 +44,7 @@ const Demo = () => {
 export default Demo;`}
 />
 
-### New
+### Text
 
 <Demo code={`import { Avatar, PushBadge, FlexBox, IconButton, Switch } from '@montage-ui/core';
 import { IconBell } from '@montage-ui/icon';
@@ -58,13 +58,26 @@ const Demo = () => {
       <Switch checked={!invisible} onCheckedChange={(value) => setInvisible(!value)} size="small" />
 
       <FlexBox gap="16px" alignItems="center">
-        <IconButton size={24}>
-          <PushBadge variant="new" invisible={invisible}>
+        <IconButton>
+          <PushBadge variant="text" text="N" invisible={invisible}>
             <IconBell />
           </PushBadge>
         </IconButton>
 
-        <PushBadge variant="new" invisible={invisible}>
+        <IconButton>
+          <PushBadge variant="text" text={3} invisible={invisible}>
+            <IconBell />
+          </PushBadge>
+        </IconButton>
+
+        <PushBadge variant="text" text="N" invisible={invisible}>
+          <Avatar
+            src="https://static.wanted.co.kr/oneid-user/2kcR2ULXRgEC7Rgk5psLTK/BwWtS7ZW8ryS2dpQrAW8Cr.png"
+            alt="User"
+          />
+        </PushBadge>
+
+        <PushBadge variant="text" text={3} invisible={invisible}>
           <Avatar
             src="https://static.wanted.co.kr/oneid-user/2kcR2ULXRgEC7Rgk5psLTK/BwWtS7ZW8ryS2dpQrAW8Cr.png"
             alt="User"
@@ -78,9 +91,9 @@ const Demo = () => {
 export default Demo;`}
 />
 
-### Number
+### Max count
 
-`count` 옵션을 주어 숫자를 표시할 수 있어요.
+`text` 옵션에 숫자 상한치를 적용합니다. `maxCount` 옵션을 주어 최대 허용 숫자를 지정할 수 있어요.
 
 <Demo code={`import { Avatar, PushBadge, FlexBox, IconButton, Switch } from '@montage-ui/core';
 import { IconBell } from '@montage-ui/icon';
@@ -94,13 +107,13 @@ const Demo = () => {
       <Switch checked={!invisible} onCheckedChange={(value) => setInvisible(!value)} size="small" />
 
       <FlexBox gap="16px" alignItems="center">
-        <IconButton size={24}>
-          <PushBadge variant="number" count={3} invisible={invisible}>
+        <IconButton>
+          <PushBadge variant="max-count" text={100} invisible={invisible}>
             <IconBell />
           </PushBadge>
         </IconButton>
 
-        <PushBadge variant="number" count={3} invisible={invisible}>
+        <PushBadge variant="max-count" text={1000} maxCount={999} invisible={invisible}>
           <Avatar
             src="https://static.wanted.co.kr/oneid-user/2kcR2ULXRgEC7Rgk5psLTK/BwWtS7ZW8ryS2dpQrAW8Cr.png"
             alt="User"
@@ -201,22 +214,116 @@ const ExampleBox = () => {
 
 const Demo = () => {
   return (
-    <FlexBox gap="12px" flexDirection="column" alignItems="center">
-      <PushBadge size="xsmall">
-        <ExampleBox />
-      </PushBadge>
-      <PushBadge size="small">
-        <ExampleBox />
-      </PushBadge>
-      <PushBadge size="medium">
-        <ExampleBox />
-      </PushBadge>
+    <FlexBox flexDirection="column" gap="8px">
+      <FlexBox gap="16px" alignItems="center">
+        <PushBadge size="xsmall" variant="dot">
+          <ExampleBox />
+        </PushBadge>
+        <PushBadge size="small" variant="dot">
+          <ExampleBox />
+        </PushBadge>
+        <PushBadge size="medium" variant="dot">
+          <ExampleBox />
+        </PushBadge>
+      </FlexBox>
+
+      <FlexBox gap="16px" alignItems="center">
+        <PushBadge size="xsmall" variant="text" text="N">
+          <ExampleBox />
+        </PushBadge>
+        <PushBadge size="small" variant="text" text="N">
+          <ExampleBox />
+        </PushBadge>
+        <PushBadge size="medium" variant="text" text="N">
+          <ExampleBox />
+        </PushBadge>
+      </FlexBox>
+
+      <FlexBox gap="16px" alignItems="center">
+        <PushBadge size="xsmall" variant="text" text={12}>
+          <ExampleBox />
+        </PushBadge>
+        <PushBadge size="small" variant="text" text={12}>
+          <ExampleBox />
+        </PushBadge>
+        <PushBadge size="medium" variant="text" text={12}>
+          <ExampleBox />
+        </PushBadge>
+      </FlexBox>
     </FlexBox>
   )
 }
 
 export default Demo;`}
 />
+
+## Outline border
+
+- `outlineBorder` 옵션을 사용하여 외곽에 테두리를 표시 할 수 있습니다.
+- `outlineBorderColor` 옵션을 사용하면 테두리 색상을 변경할 수 있습니다.
+
+<Demo
+  defaultIsTransparent
+  code={`import { PushBadge, FlexBox, Box } from '@montage-ui/core';
+
+const ExampleBox = () => {
+  return (
+    <Box
+      sx={(theme) => ({
+        boxShadow: \`inset 0 0 0 1px $\{theme.semantic.line.neutral.primaryOpaque}\`,
+        backgroundColor: theme.semantic.surface.neutral.inverse,
+        width: 60,
+        height: 60,
+      })}
+    />
+  )
+}
+
+const Demo = () => {
+  return (
+    <FlexBox flexDirection="column" gap="8px">
+      <FlexBox gap="16px" alignItems="center">
+        <PushBadge outlineBorder size="xsmall" variant="dot">
+          <ExampleBox />
+        </PushBadge>
+        <PushBadge outlineBorder size="small" variant="dot">
+          <ExampleBox />
+        </PushBadge>
+        <PushBadge outlineBorder size="medium" variant="dot">
+          <ExampleBox />
+        </PushBadge>
+      </FlexBox>
+
+      <FlexBox gap="16px" alignItems="center">
+        <PushBadge outlineBorder size="xsmall" variant="text" text="N">
+          <ExampleBox />
+        </PushBadge>
+        <PushBadge outlineBorder size="small" variant="text" text="N">
+          <ExampleBox />
+        </PushBadge>
+        <PushBadge outlineBorder size="medium" variant="text" text="N">
+          <ExampleBox />
+        </PushBadge>
+      </FlexBox>
+
+      <FlexBox gap="16px" alignItems="center">
+        <PushBadge outlineBorder size="xsmall" variant="text" text={12}>
+          <ExampleBox />
+        </PushBadge>
+        <PushBadge outlineBorder size="small" variant="text" text={12}>
+          <ExampleBox />
+        </PushBadge>
+        <PushBadge outlineBorder size="medium" variant="text" text={12}>
+          <ExampleBox />
+        </PushBadge>
+      </FlexBox>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
 
 ## API
 
