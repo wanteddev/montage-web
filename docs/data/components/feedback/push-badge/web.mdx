@@ -12,7 +12,7 @@ PushBadge는 3가지 variant를 제공합니다.
 
 ### Dot
 
-<Demo code={`import { PushBadge, FlexBox } from '@montage-ui/core';
+<Demo code={`import { PushBadge, FlexBox, Box } from '@montage-ui/core';
 
 const ExampleBox = () => {
   return (
@@ -43,7 +43,7 @@ export default Demo;`}
 
 ### Text
 
-<Demo code={`import { PushBadge, FlexBox } from '@montage-ui/core';
+<Demo code={`import { PushBadge, FlexBox, Box } from '@montage-ui/core';
 
 const ExampleBox = () => {
   return (
@@ -80,7 +80,7 @@ export default Demo;`}
 
 `text` 옵션에 숫자 상한치를 적용합니다. `maxCount` 옵션을 주어 최대 허용 숫자를 지정할 수 있어요.
 
-<Demo code={`import { PushBadge, FlexBox } from '@montage-ui/core';
+<Demo code={`import { PushBadge, FlexBox, Box } from '@montage-ui/core';
 
 const ExampleBox = () => {
   return (
@@ -269,7 +269,7 @@ const Demo = () => {
     <FlexBox flexDirection="column" gap="8px" alignItems="center">
       <Switch checked={!invisible} onCheckedChange={(value) => setInvisible(!value)} size="small" />
       <FlexBox gap="16px" alignItems="center">
-        <PushBadge size="medium" variant="dot">
+        <PushBadge invisible={invisible} size="medium" variant="dot">
           <ExampleBox />
         </PushBadge>
       </FlexBox>
