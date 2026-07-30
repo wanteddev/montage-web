@@ -59,7 +59,7 @@ const Toolbar = ({
           </>
         )}
       </FlexBox>
-      <FlexBox alignItems="center" justifyContent="flex-end" gap="16px">
+      <FlexBox alignItems="center" justifyContent="flex-end" gap="8px">
         <Chip
           size="small"
           variant="outlined"
@@ -73,30 +73,26 @@ const Toolbar = ({
         <TooltipGroup>
           <Tooltip>
             <TooltipTrigger>
-              <IconButton size={18} onClick={onCopy} name="Copy">
+              <IconButton size={28} onClick={onCopy} name="Copy">
                 <IconCopy />
               </IconButton>
             </TooltipTrigger>
-            <TooltipContent offset={12} size="small">
-              Copy
-            </TooltipContent>
+            <TooltipContent size="small">Copy</TooltipContent>
           </Tooltip>
 
           <Tooltip>
             <TooltipTrigger>
-              <IconButton size={18} onClick={onReset} name="Reset">
+              <IconButton size={28} onClick={onReset} name="Reset">
                 <IconRefresh />
               </IconButton>
             </TooltipTrigger>
-            <TooltipContent offset={12} size="small">
-              Reset
-            </TooltipContent>
+            <TooltipContent size="small">Reset</TooltipContent>
           </Tooltip>
 
           <Tooltip>
             <TooltipTrigger>
               <IconButton
-                size={18}
+                size={28}
                 onClick={() => onIsTransparentChange((prev) => !prev)}
                 name={
                   isTransparent
@@ -107,9 +103,7 @@ const Toolbar = ({
                 <IconImage />
               </IconButton>
             </TooltipTrigger>
-            <TooltipContent offset={12} size="small">
-              Change Background
-            </TooltipContent>
+            <TooltipContent size="small">Change Background</TooltipContent>
           </Tooltip>
         </TooltipGroup>
       </FlexBox>
