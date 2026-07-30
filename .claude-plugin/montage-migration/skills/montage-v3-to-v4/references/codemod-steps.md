@@ -84,7 +84,7 @@ npx -y @montage-ui/codemod@<codemodVersion> <transform> <target>
 | 4    | `dom-identifier-migration` | safe (no-op)                                                                                                          |
 | 5    | `list-card-migration`      | safe (no-op), EXCEPT on half-hand-migrated files and files importing the same old name via two specifiers (see below) |
 | 6    | `form-control-migration`   | **CORRUPTS CODE** — never re-run (see below)                                                                          |
-| 7    | `push-badge-migration`     | safe (no-op — `count` and the old `variant` values are gone after the first run)                                      |
+| 7    | `push-badge-migration`     | safe (no-op — the shapes it skips on the first run are skipped identically on the next; see below)                    |
 
 Even for the "safe" steps, treat every step as run-once: the state file is the single
 source of truth, and mixed states (a step applied to half the tree) are hard to diagnose.
@@ -655,9 +655,14 @@ produces — it clamps numeric `text` at `maxCount` (default 99), which `variant
 never did, so mapping `number` → `max-count` would change what renders. That adoption is a
 manual decision (M13).
 
-**Idempotent.** After the first run no `PushBadge` carries `count`, and no `variant="new"`
-/ `variant="number"` remains, so a second run matches nothing. It is still run-once by the
-state file, like every other step.
+**Idempotent — but not because the surface is empty afterwards.** The first run exhausts
+everything convertible, and the two shapes it deliberately skips are skipped identically on
+the next run: an element carrying BOTH `count` and `text` keeps its `count`, and a
+`variant={expr}` keeps its value. So a re-run changes nothing, yet `count` and the old
+variant values can still be present in the tree — which is why the verify grep below is
+allowed to report hits without that meaning the step failed. Transform idempotency and the
+state file's run-once policy are separate: this step is still run-once by the state file,
+like every other step.
 
 Precheck: none. Two shapes the transform deliberately leaves alone, both safe to re-encounter:
 
@@ -716,5 +721,6 @@ Proceed to `manual-migrations.md` (all M-sections, M1–M13), then final verific
 4. Visual QA on TextField / TextArea / Modal bottom-sheet / Card list / SegmentedControl /
    Select / PushBadge screens (former `variant="outlined"` in particular, see M11; Selects in
    dense layouts, whose focus ring now draws outside the field, see M12; former
-   `variant="new"` badges and dot badges, whose sizing changed, see M13) and screens that used
-   the deleted accent tokens (see M9) — behavioral and visual changes, not just renames.
+   `variant="new"` badges, whose square now comes from a fixed width instead of
+   `aspect-ratio`, see M13) and screens that used the deleted accent tokens (see M9) —
+   behavioral and visual changes, not just renames.

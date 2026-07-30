@@ -766,7 +766,7 @@ npx @montage-ui/codemod@latest push-badge-migration src
 
 #### `outlineBorder` / `outlineBorderColor` 추가 (신규)
 
-배지 외곽에 배경색과 같은 색의 테두리를 그려 아바타·아이콘 위에 겹쳐도 경계가 보이도록 합니다. 두께는 `size`를 따릅니다(xsmall 1px / small 1.5px / medium 2px).
+배지 외곽에 배경색과 같은 색의 테두리를 그려 아바타·아이콘 위에 겹쳐도 경계가 보이도록 합니다. 두께는 `size`와 `variant`를 따릅니다.
 
 ```tsx
 <PushBadge outlineBorder>
@@ -799,14 +799,15 @@ npx @montage-ui/codemod@latest push-badge-migration src
 
 #### 사이즈 변경
 
-높이·min-width·padding·타이포그래피는 그대로입니다. dot의 크기와 텍스트 배지의 line-height가 바뀌었습니다.
+dot 지름, 텍스트 배지의 높이·min-width·padding·타이포그래피는 모두 그대로입니다. 텍스트 배지의 line-height만 바뀌었습니다.
 
 | 속성                       | xsmall      | small       | medium      |
 | -------------------------- | ----------- | ----------- | ----------- |
-| dot 지름                   | 4px → 5px   | 6px (유지)  | 8px → 10px  |
+| dot 지름                   | 4px (유지)  | 6px (유지)  | 8px (유지)  |
 | 텍스트 배지 높이/min-width | 16px (유지) | 20px (유지) | 24px (유지) |
 | 텍스트 line-height         | 1 → 14px    | 1 → 14px    | 1 → 20px    |
-| 외곽선 두께(신규)          | 1px         | 1.5px       | 2px         |
+| 외곽선 두께(신규) — 텍스트 | 1px         | 1.5px       | 2px         |
+| 외곽선 두께(신규) — dot    | 0.5px       | 1px         | 1px         |
 
 - 구 `variant="new"`는 `aspect-ratio: 1 / 1`로 정사각을 만들었습니다. v4에서는 `text`가 **한 글자짜리 문자열**일 때 높이와 같은 고정 너비를 적용해 정사각을 유지합니다. `text={3}`처럼 한 자리 숫자는 `min-width`로 처리되므로 폰트에 따라 폭이 미세하게 다를 수 있습니다.
 - 배지에 `box-sizing: border-box`가 적용되었습니다. 글로벌 리셋이 없는 프로젝트에서 padding만큼 커지던 문제가 사라지므로, 이를 전제로 offset을 보정해 두었다면 확인이 필요합니다.

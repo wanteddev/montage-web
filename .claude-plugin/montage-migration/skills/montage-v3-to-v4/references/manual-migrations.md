@@ -773,21 +773,22 @@ section covers what the transform cannot express and the rendering changes no re
   Scan **[decision]**: `PushBadge[^>]*invisible` — review the surrounding tests, not the
   component usage.
 - **New props are opt-in.** `outlineBorder` / `outlineBorderColor` draw an outline around the
-  badge (1 / 1.5 / 2px by `size`) so it stays legible over an avatar or icon; the outline is
+  badge so it stays legible over an avatar or icon. The width follows BOTH `size` and
+  `variant` — text / max-count get 1 / 1.5 / 2px, dot gets 0.5 / 1 / 1px — and the outline is
   drawn OUTSIDE the badge, so an `overflow: hidden` ancestor clips it. `maxCount` is covered
   above. Nothing breaks by not adopting them.
 - **Sizing and color changes** (nothing to rewrite unless layout was tuned against the old
-  numbers): the dot diameter went 4→5px (xsmall) and 8→10px (medium), small unchanged at 6px.
-  Text badge heights, min-widths, paddings and typography are unchanged, but the text
-  line-height moved from a hardcoded `1` to the token value (caption2 14px / label1 20px), and
-  the badge gained `box-sizing: border-box` — a project with no global reset previously got a
-  badge padding-widths larger than the declared size, so hand-tuned `offsetX`/`offsetY`
-  corrections may now overshoot. The former `variant="new"` square came from
-  `aspect-ratio: 1 / 1`; v4 reproduces it by fixing the width to the height when `text` is a
-  **single-character string**, so `text="N"` stays a circle while `text={3}` is sized by
-  `min-width` and can differ by a fraction of a pixel. Background and text colors are now read
-  from `--push-badge-background-color` / `--push-badge-text-color` on the wrapper, which is
-  the supported override point (the dot uses the background variable as its own color).
+  numbers): dot diameters (4 / 6 / 8px), text badge heights, min-widths, paddings and
+  typography are all unchanged from v3. What did change is the text line-height — from a
+  hardcoded `1` to the token value (caption2 14px / label1 20px) — and the badge gained
+  `box-sizing: border-box`: a project with no global reset previously got a badge padding-widths
+  larger than the declared size, so hand-tuned `offsetX`/`offsetY` corrections may now
+  overshoot. The former `variant="new"` square came from `aspect-ratio: 1 / 1`; v4 reproduces
+  it by fixing the width to the height when `text` is a **single-character string**, so
+  `text="N"` stays a circle while `text={3}` is sized by `min-width` and can differ by a
+  fraction of a pixel. Background and text colors are now read from
+  `--push-badge-background-color` / `--push-badge-text-color` on the wrapper, which is the
+  supported override point (the dot uses the background variable as its own color).
 
 ## Suggested commit boundary
 

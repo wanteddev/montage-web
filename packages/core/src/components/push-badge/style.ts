@@ -125,15 +125,15 @@ const pushBadgeSizeStyle = (
       switch (size) {
         case 'xsmall':
           return css`
-            --push-badge-outline-border-width: 1px;
+            --push-badge-outline-border-width: 0.5px;
 
             svg {
-              font-size: 5px;
+              font-size: 4px;
             }
           `;
         case 'small':
           return css`
-            --push-badge-outline-border-width: 1.5px;
+            --push-badge-outline-border-width: 1px;
 
             svg {
               font-size: 6px;
@@ -141,10 +141,10 @@ const pushBadgeSizeStyle = (
           `;
         case 'medium':
           return css`
-            --push-badge-outline-border-width: 2px;
+            --push-badge-outline-border-width: 1px;
 
             svg {
-              font-size: 10px;
+              font-size: 8px;
             }
           `;
       }

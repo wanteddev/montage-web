@@ -588,9 +588,9 @@ Mark each M-section `completed` in the state file as it finishes.
    SegmentedControl / Select / PushBadge screens (v4 changed their rendering and behavior,
    not just names) — former `variant="outlined"` SegmentedControls in particular (see M11),
    Selects in dense layouts, whose focus ring now draws 4px OUTSIDE the field (see M12), and
-   former `variant="new"` badges plus every dot badge, whose sizing changed (see M13) —
-   plus screens that used the deleted accent tokens (their replacement values differ — see
-   M9).
+   former `variant="new"` badges, whose square now comes from a fixed width instead of
+   `aspect-ratio` (see M13) — plus screens that used the deleted accent tokens (their
+   replacement values differ — see M9).
 4. Delete the state file, then summarize: steps run, commits created, manual fixes
    applied, items intentionally left (with reasons).
 
