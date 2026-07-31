@@ -104,7 +104,7 @@ export const DocSearchModal = ({
           <SearchField
             type="search"
             width="100%"
-            size="small"
+            size="medium"
             {...(getInputProps({
               inputElement: inputRef.current!,
             }) as unknown as Omit<HTMLAttributes<HTMLInputElement>, 'onReset'>)}
