@@ -23,7 +23,6 @@ export const textAreaWrapperStyle =
     border: none;
     transition: box-shadow ease 0.2s;
     box-shadow: inset 0 0 0 1px ${theme.semantic.line.neutral.secondary};
-    border-radius: 12px;
     background-color: ${theme.semantic.effect.transparent.primary};
     backdrop-filter: blur(32px);
     padding: 12px;
