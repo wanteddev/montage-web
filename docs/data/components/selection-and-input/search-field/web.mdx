@@ -9,11 +9,18 @@ createdAt: 2025-05-12
 
 `SearchField` 는 주로 상단 영역에 컨텐츠를 검색할 수 있는 요소로 사용합니다.
 
-<Demo code={`import { SearchField } from '@montage-ui/core';
+2가지 variant를 사용할 수 있습니다.
+- solid (default)
+- outlined
+
+<Demo code={`import { FlexBox, SearchField } from '@montage-ui/core';
 
 const Demo = () => {
   return (
-    <SearchField width="25ch" placeholder="Search field" />
+    <FlexBox gap="12px" flexDirection="column" alignItems="center">
+      <SearchField variant="solid" width="25ch" placeholder="Solid" />
+      <SearchField variant="outlined" width="25ch" placeholder="Outlined" />
+    </FlexBox>
   )
 }
 
@@ -23,16 +30,31 @@ export default Demo;`}
 ## Sizes
 
 2가지 크기를 제공합니다.
-- small
-- medium (default)
+- medium
+- large (default)
 
-<Demo code={`import { FlexBox, SearchField } from '@montage-ui/core';
+<Demo code={`import { FlexBox, SearchField, Typography } from '@montage-ui/core';
 
 const Demo = () => {
   return (
-    <FlexBox gap="12px" flexDirection="column" alignItems="center">
-      <SearchField size="small" width="25ch" placeholder="Small" />
-      <SearchField size="medium" width="25ch" placeholder="Medium" />
+    <FlexBox gap="16px" flexDirection="column" alignItems="center">
+      <FlexBox gap="12px" alignItems="center">
+        <Typography variant="body2-reading" sx={{ width: '60px' }}>Solid</Typography>
+
+        <FlexBox gap="12px" flexDirection="column">
+          <SearchField variant="solid" size="medium" width="25ch" placeholder="Medium" />
+          <SearchField variant="solid" size="large" width="25ch" placeholder="Large" />
+        </FlexBox>
+      </FlexBox>
+
+       <FlexBox gap="12px" alignItems="center">
+        <Typography variant="body2-reading" sx={{ width: '60px' }}>Outlined</Typography>
+
+        <FlexBox gap="12px" flexDirection="column">
+          <SearchField variant="outlined" size="medium" width="25ch" placeholder="Medium" />
+          <SearchField variant="outlined" size="large" width="25ch" placeholder="Large" />
+        </FlexBox>
+      </FlexBox>
     </FlexBox>
   )
 }
@@ -44,17 +66,30 @@ export default Demo;`}
 
 validation 을 통해 여러 상태를 표현할 수 있습니다.
 - default
-- readOnly
 - disabled
 
-<Demo code={`import { FlexBox, SearchField } from '@montage-ui/core';
+<Demo code={`import { FlexBox, SearchField, Typography } from '@montage-ui/core';
 
 const Demo = () => {
   return (
-    <FlexBox gap="12px" flexDirection="column" alignItems="center">
-      <SearchField width="25ch" placeholder="Default" />
-      <SearchField width="25ch" placeholder="Read Only" readOnly />
-      <SearchField width="25ch" placeholder="Disabled" disabled />
+    <FlexBox gap="16px" flexDirection="column" alignItems="center">
+      <FlexBox gap="12px" alignItems="center">
+        <Typography variant="body2-reading" sx={{ width: '60px' }}>Solid</Typography>
+
+        <FlexBox gap="12px" flexDirection="column">
+          <SearchField variant="solid" width="25ch" placeholder="Default" />
+          <SearchField variant="solid" width="25ch" placeholder="Disabled" disabled />
+        </FlexBox>
+      </FlexBox>
+
+       <FlexBox gap="12px" alignItems="center">
+        <Typography variant="body2-reading" sx={{ width: '60px' }}>Outlined</Typography>
+
+        <FlexBox gap="12px" flexDirection="column">
+          <SearchField variant="outlined" width="25ch" placeholder="Default" />
+          <SearchField variant="outlined" width="25ch" placeholder="Disabled" disabled />
+        </FlexBox>
+      </FlexBox>
     </FlexBox>
   )
 }
