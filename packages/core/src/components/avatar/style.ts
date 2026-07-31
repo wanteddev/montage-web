@@ -1,7 +1,6 @@
 import { css } from '@montage-ui/engine';
 
 import { createResponsiveStyle } from '../../utils/internal/responsive-props';
-import { addOpacity } from '../../utils';
 
 import type { AvatarProps } from './types';
 import type { Theme } from '@montage-ui/engine';
@@ -16,11 +15,7 @@ export const avatarWrapperStyle =
     position: relative;
 
     &::after {
-      box-shadow: inset 0 0 0 1px
-        ${addOpacity(
-          theme.semantic.foreground.neutral.primary,
-          theme.opacity[5],
-        )};
+      box-shadow: inset 0 0 0 1px ${theme.semantic.line.neutral.tertiary};
       content: '';
       width: 100%;
       height: 100%;
@@ -31,7 +26,7 @@ export const avatarWrapperStyle =
       inset: 0;
     }
 
-    ${avatarSizeStyle(size, variant)}
+    ${avatarSizeStyle({ size, variant }, theme)}
 
     img {
       width: 100%;
@@ -56,7 +51,7 @@ export const avatarWrapperStyle =
       theme,
     )(
       (params) => css`
-        ${avatarSizeStyle(params?.size, variant)}
+        ${avatarSizeStyle({ size: params?.size, variant }, theme)}
         ${params?.sx}
       `,
     )}
@@ -75,47 +70,78 @@ export const fallbackWrapperStyle = (theme: Theme) => css`
   justify-content: center;
 `;
 
-const avatarSizeStyle = (
-  size: AvatarProps['size'],
-  variant: AvatarProps['variant'],
-) => {
-  const getBorderRadius = (rounded: number) => {
+const avatarSizeStyle = ({ size, variant }: AvatarProps, theme: Theme) => {
+  /**
+   * When use AvatarButton component
+   * `&::before` and `[data-component='with-interaction']` to be render for interaction
+   */
+  const getCustomSizes = (rounded: number | string, avatarSize: number) => {
     switch (variant) {
       case 'person':
         return css`
-          border-radius: 9999px;
+          border-radius: ${theme.radius.full};
+
+          &::before {
+            border-radius: ${theme.radius.full};
+          }
 
           & > [data-component='with-interaction'],
           & + [data-component='with-interaction'] {
-            border-radius: 9999px;
+            border-radius: ${theme.radius.full};
+          }
+
+          & > [data-component='push-badge'],
+          & + [data-component='push-badge'],
+          &
+            + [data-component='with-interaction']
+            + [data-component='push-badge'] {
+            --push-badge-additional-inset: ${Math.round(
+              0.293 * (avatarSize / 2),
+            )}px;
           }
         `;
       case 'academy':
       case 'company':
         return css`
-          border-radius: ${rounded}px;
+          border-radius: ${typeof rounded === 'number'
+            ? `${rounded}px`
+            : rounded};
+
+          &::before {
+            border-radius: ${typeof rounded === 'number'
+              ? `${rounded + 8}px`
+              : `calc(${rounded} + 8px)`};
+          }
 
           & > [data-component='with-interaction'],
           & + [data-component='with-interaction'] {
-            border-radius: ${rounded + 8}px;
+            border-radius: ${typeof rounded === 'number'
+              ? `${rounded + 8}px`
+              : `calc(${rounded} + 8px)`};
           }
 
-          &::after {
-            border-radius: ${rounded + 1.5}px;
+          & > [data-component='push-badge'],
+          & + [data-component='push-badge'],
+          &
+            + [data-component='with-interaction']
+            + [data-component='push-badge'] {
+            --push-badge-additional-inset: ${Math.round(
+              0.293 * (avatarSize * 0.25 + 2),
+            )}px;
           }
         `;
     }
   };
 
   if (typeof size === 'number') {
-    const customRadius = Math.ceil((size * 0.25) / 2) * 2;
+    const customRadius = Math.ceil((size * 0.25) / 2) * 2 + 2;
 
     return css`
       width: ${size}px;
       height: ${size}px;
       font-size: calc(${size}px / 1.5);
 
-      ${getBorderRadius(customRadius)}
+      ${getCustomSizes(customRadius, size)}
     `;
   }
 
@@ -126,7 +152,7 @@ const avatarSizeStyle = (
         height: 56px;
         font-size: 37.4px;
 
-        ${getBorderRadius(14)}
+        ${getCustomSizes(theme.radius[16], 56)}
       `;
     case 'large':
       return css`
@@ -134,7 +160,7 @@ const avatarSizeStyle = (
         height: 48px;
         font-size: 32px;
 
-        ${getBorderRadius(12)}
+        ${getCustomSizes(theme.radius[14], 48)}
       `;
     case 'medium':
       return css`
@@ -142,7 +168,7 @@ const avatarSizeStyle = (
         height: 40px;
         font-size: 26.7px;
 
-        ${getBorderRadius(10)}
+        ${getCustomSizes(theme.radius[12], 40)}
       `;
     case 'small':
       return css`
@@ -150,7 +176,7 @@ const avatarSizeStyle = (
         height: 32px;
         font-size: 21.4px;
 
-        ${getBorderRadius(8)}
+        ${getCustomSizes(theme.radius[10], 32)}
       `;
     case 'xsmall':
       return css`
@@ -158,7 +184,7 @@ const avatarSizeStyle = (
         height: 24px;
         font-size: 16px;
 
-        ${getBorderRadius(6)}
+        ${getCustomSizes(theme.radius[8], 24)}
       `;
   }
 };

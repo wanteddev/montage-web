@@ -20,7 +20,6 @@ export const avatarButtonStyle = (theme: Theme) => css`
       &::before {
         content: '';
         position: absolute;
-        border-radius: inherit;
         left: 50%;
         top: 50%;
         transform: translate(-50%, -50%);
