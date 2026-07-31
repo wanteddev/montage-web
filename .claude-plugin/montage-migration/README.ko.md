@@ -39,8 +39,8 @@ Montage(Wanted Design System for Web) 메이저 버전 간 마이그레이션을
 3. **수동 마이그레이션** — theme 토큰 `var(--...)` 산술 코드, package.json/설정 파일의
    패키지명 변경, semantic 토큰 후속 작업(foreground/surface 재분류, 삭제된 accent 토큰),
    CSS 변수·DOM 식별자 잔여물(동적으로 조립된 이름, 변환 대상 밖 파일), Card/ListCard·FormControl 후속 작업,
-   Modal/TextField/TextArea/SegmentedControl/Select/PushBadge 동작 변경 대응, ThemeProvider
-   쿠키 저장소 전환.
+   Modal/TextField/TextArea/SegmentedControl/Select/PushBadge/SearchField 동작 변경 대응,
+   ThemeProvider 쿠키 저장소 전환.
 4. **최종 검증** — 잔여 패턴 grep, install/typecheck/lint/build/tests, 결과 요약.
 
 codemod는 순서에 민감하고 두 번 실행하면 안 됩니다(`form-control-migration` 재실행 시
