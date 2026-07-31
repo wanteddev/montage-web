@@ -2,13 +2,15 @@
 title: Avatar group
 description: Avatar Group은 여러 사용자를 그룹으로 묶어 표시하는 컴포넌트입니다. 겹쳐진 아바타 목록을 통해 공간을 효율적으로 사용하며, 그룹에 속한 멤버들을 직관적으로 보여주고 추가 멤버 수를 표시할 수 있습니다.
 createdAt: 2025-06-17
-updatedAt: 2025-06-17
+updatedAt: 2025-07-30
 ---
 
 
 ## Basic avatar group
 
 여러개의 아바타를 그룹으로 표시할 수 있습니다.
+
+> 최대 5개의 아바타까지 표시됩니다.
 
 <Demo code={`import { Avatar, AvatarGroup } from '@montage-ui/core';
 
@@ -76,7 +78,9 @@ export default Demo;`}
 
 `trailingContent` 옵션을 통해 그룹 뒤에 컨텐츠를 추가할 수 있습니다.
 
-<Demo code={`import { Avatar, AvatarGroup, TextButton, FlexBox, Typography } from '@montage-ui/core';
+`AvatarGroupContent` 로 감싸서 사용합니다.
+
+<Demo code={`import { Avatar, AvatarGroup, TextButton, FlexBox, AvatarGroupContent } from '@montage-ui/core';
 
 const Demo = () => {
   return (
@@ -84,9 +88,11 @@ const Demo = () => {
       <AvatarGroup
         size="small"
         trailingContent={(
-          <TextButton color="assistive" size="small">
-            외 0명
-          </TextButton>
+          <AvatarGroupContent variant="text-button">
+            <TextButton color="assistive" size="small">
+              외 0명
+            </TextButton>
+          </AvatarGroupContent>
         )}>
         <Avatar variant="person" size="small" />
         <Avatar variant="person" size="small" />
@@ -96,9 +102,9 @@ const Demo = () => {
       <AvatarGroup
         size="small"
         trailingContent={(
-          <Typography variant="label1" weight="bold" color="semantic.foreground.neutral.tertiary">
+          <AvatarGroupContent variant="text">
             외 0명
-          </Typography>
+          </AvatarGroupContent>
         )}>
         <Avatar variant="person" size="small" />
         <Avatar variant="person" size="small" />
@@ -114,7 +120,13 @@ export default Demo;`}
 
 ## API
 
+### AvatarGroup
+
 정해진 breakpoint에 따라 아래 옵션을 override 할 수 있습니다.
 - size
 
 <PropsTable component="AvatarGroup" />
+
+### AvatarGroupContent
+
+<PropsTable component="AvatarGroupContent" />
