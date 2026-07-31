@@ -58,14 +58,17 @@ const AvatarGroupContent = forwardRef<
           flexShrink={0}
           alignItems="center"
           data-component="avatar-group-content"
-          {...props}
           ref={ref}
-          sx={{
-            ['[data-component="text-button"] > span']: typographyStyle(
-              'label1',
-              'medium',
-            ),
-          }}
+          {...props}
+          sx={[
+            {
+              ['[data-component="text-button"] > span']: typographyStyle(
+                'label1',
+                'medium',
+              ),
+            },
+            props.sx,
+          ]}
         >
           <TextButtonProvider assistive="semantic.foreground.neutral.secondary">
             {children}
