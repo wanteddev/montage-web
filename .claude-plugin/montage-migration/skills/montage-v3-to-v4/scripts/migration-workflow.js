@@ -167,7 +167,7 @@ const MANUAL_SCAN_SECTIONS = [
   {
     id: 'M14',
     title:
-      'SearchField changes (size values shifted medium→large / small→medium — order-sensitive hand rename, old medium stays type-valid; variant added; DOM depth +1 via search-field-wrapper)',
+      'SearchField changes (size values shifted medium→large / small→medium — order-sensitive hand rename, old medium stays type-valid; variant added; readOnly visual state removed — attribute stays type-valid; DOM depth +1 via search-field-wrapper)',
   },
 ]
 
@@ -371,8 +371,9 @@ const repoRootSh = shq(args.repoRoot)
 // Same treatment for the targets: the step agent pastes these into npx/checkout/pathspec
 // positions, and a double-quoted interpolation would still let `$()`/backticks expand.
 // One token per line, NEVER JSON.stringify — JSON re-escapes `"` and `\`, so a pasted
-// token would no longer be the shell-quoted path.
-const targetsSh = canonicalTargets.map((t) => `  - ${shq(t)}`).join('\n')
+// token would no longer be the shell-quoted path. No list-marker prefix either: a `- `
+// pasted along with the token becomes a separate argument.
+const targetsSh = canonicalTargets.map(shq).join('\n')
 
 // Kept in sync with the template in SKILL.md ("State file format") and MANUAL_SCAN_SECTIONS
 // above — see that section's Consistency surfaces list for every surface to update.
@@ -596,7 +597,8 @@ Work only on this step. Do not run any other codemod.
 
 Step: ${step.id} — ${step.title}
 Targets (JSON array; one codemod invocation per element): ${targets}
-Targets, shell-quoted (same order — paste these tokens VERBATIM wherever a command below takes a target; never re-quote or unquote them): ${targetsSh}
+Targets, shell-quoted (same order, one token per line — each line IS the complete token; paste it VERBATIM wherever a command below takes a target, never re-quote or unquote it):
+${targetsSh}
 State file: ${args.stateFile}
 Auto-commit: ${args.autoCommit}
 Codemod version: ${codemodVersion}

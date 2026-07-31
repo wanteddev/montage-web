@@ -870,6 +870,17 @@ No codemod covers this section — every fix here is a hand edit.
   The former single form IS solid, so existing usages need no change; `outlined` is a new
   transparent-background form with a 1px inset border. Nothing breaks by not adopting it.
 
+- **`readOnly` visual state removed**: v3 hid the reset button and set `aria-readonly`
+  when `readOnly` was passed. v4 does not handle readOnly at the component level — the
+  attribute forwards to the native input untouched, so typing is still blocked, but the
+  reset button now SHOWS on focus and clicking it CLEARS the value (a JS assignment
+  ignores the readonly attribute). `readOnly` stays type-valid (it is a native input
+  attribute), so the typechecker cannot find affected usages — the same type-invisible
+  class as the old `size="medium"` above.
+  Scan **[decision]**: `\bSearchField\b[^>]*readOnly` — per hit, decide: switch to
+  `disabled`, or keep the native attribute knowing the reset button is visible and
+  functional.
+
 - **DOM depth increased by one level.** A new `[data-role='search-field-wrapper']`
   element now wraps the icon, the `input`, and the reset button. The
   `search-field-icon` / `search-field-reset` data-roles are unchanged but sit one level

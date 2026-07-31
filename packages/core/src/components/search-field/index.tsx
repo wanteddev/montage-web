@@ -21,7 +21,6 @@ const SearchField = forwardRef<
 >(
   (
     {
-      readOnly,
       className,
       disabled,
       style,
@@ -89,7 +88,6 @@ const SearchField = forwardRef<
         ref={useComposedRefs(parentRef, wrapperRef)}
         sx={[
           searchFieldWrapperStyle({
-            readOnly,
             disabled,
             size: resolvedSize,
             width,
@@ -116,8 +114,6 @@ const SearchField = forwardRef<
 
           <input
             ref={composedRefs}
-            readOnly={readOnly}
-            aria-readonly={readOnly}
             autoComplete="off"
             disabled={disabled}
             aria-disabled={disabled}

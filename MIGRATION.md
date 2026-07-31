@@ -840,6 +840,12 @@ Figma 스펙에 맞춰 사이즈 체계가 TextField 계열과 동일한 Large/M
 
 `variant?: 'solid' | 'outlined'`가 추가되었으며 기본값은 `'solid'`입니다. 기존 단일 형태는 solid에 해당하므로 마이그레이션이 필요 없고, outlined는 투명 배경에 1px inset border를 가진 신규 형태입니다.
 
+#### `readOnly` 상태 제거
+
+v3에서는 `readOnly`를 넘기면 reset 버튼이 숨겨지고 `aria-readonly`가 부여됐습니다. v4의 SearchField는 readOnly를 컴포넌트 차원에서 처리하지 않습니다 — `readOnly`는 네이티브 input 속성으로 그대로 전달되어 타이핑만 막고, **reset 버튼은 포커스 시 그대로 표시되며 클릭하면 값이 지워집니다** (JS 대입은 readonly 속성의 영향을 받지 않습니다). 읽기 전용 SearchField가 필요했다면 `disabled`로 전환하거나 애플리케이션에서 자체 처리하세요.
+
+`readOnly`는 네이티브 속성이라 여전히 타입 유효합니다 — 타입 에러가 발생하지 않으므로 기존 사용처를 직접 찾아 정리해야 합니다.
+
 #### 내부 DOM 구조 변경 (`[data-role='search-field-wrapper']`)
 
 아이콘·input·reset 버튼을 감싸는 `[data-role='search-field-wrapper']` 요소가 새로 추가되어 DOM 깊이가 한 단계 늘어났습니다.

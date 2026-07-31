@@ -7,11 +7,10 @@ import { toCssValue } from '../../utils/internal/css';
 import type { SearchFieldProps } from './types';
 import type { Theme } from '@montage-ui/engine';
 
-type SearchFieldWrapperStyleProps = SearchFieldProps & { readOnly?: boolean };
+type SearchFieldWrapperStyleProps = SearchFieldProps;
 
 export const searchFieldWrapperStyle =
   ({
-    readOnly,
     disabled,
     width = 'initial',
     variant,
@@ -65,7 +64,7 @@ export const searchFieldWrapperStyle =
           @supports selector(:has(*)) {
             &:where(:has(input:focus)) {
               [data-role='search-field-reset'] {
-                display: ${readOnly ? 'none' : 'flex'};
+                display: flex;
               }
 
               &:where(:has(input:placeholder-shown)) {
@@ -79,7 +78,7 @@ export const searchFieldWrapperStyle =
           @supports not selector(:has(*)) {
             &:where(:focus-within) {
               [data-role='search-field-reset'] {
-                display: ${readOnly ? 'none' : 'flex'};
+                display: flex;
               }
             }
           }

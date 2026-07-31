@@ -66,7 +66,6 @@ export default Demo;`}
 
 validation 을 통해 여러 상태를 표현할 수 있습니다.
 - default
-- readOnly
 - disabled
 
 <Demo code={`import { FlexBox, SearchField, Typography } from '@montage-ui/core';
@@ -79,7 +78,6 @@ const Demo = () => {
 
         <FlexBox gap="12px" flexDirection="column">
           <SearchField variant="solid" width="25ch" placeholder="Default" />
-          <SearchField variant="solid" width="25ch" placeholder="Read only" readOnly />
           <SearchField variant="solid" width="25ch" placeholder="Disabled" disabled />
         </FlexBox>
       </FlexBox>
@@ -89,7 +87,6 @@ const Demo = () => {
 
         <FlexBox gap="12px" flexDirection="column">
           <SearchField variant="outlined" width="25ch" placeholder="Default" />
-          <SearchField variant="outlined" width="25ch" placeholder="Read only" readOnly />
           <SearchField variant="outlined" width="25ch" placeholder="Disabled" disabled />
         </FlexBox>
       </FlexBox>

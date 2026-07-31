@@ -603,6 +603,9 @@ both together when an M-section changes):
   so convert each file in one pass (`medium`→`large` before `small`→`medium`) and build
   the `medium` worklist from the scan BEFORE converting: an unconverted v3 `size="medium"`
   stays type-valid in v4 with a different rendering, so the typechecker never finds it.
+  The `readOnly` visual state is gone the same type-invisible way — the attribute still
+  compiles and still blocks typing, but the reset button now shows on focus and clears the
+  value, so each usage needs a decision (switch to `disabled`, or accept the behavior).
   Adopting the new `variant="outlined"` is opt-in, and direct-child selectors into the
   field's DOM need the new `[data-role='search-field-wrapper']` level added.
 
