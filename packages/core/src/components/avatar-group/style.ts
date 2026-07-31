@@ -14,7 +14,7 @@ export const avatarGroupStyle =
       position: relative;
     }
 
-    ${avatarGroupSizeStyle(size)}
+    ${avatarGroupSizeStyle(size, theme)}
 
     [data-component='avatar'] {
       flex-shrink: 0;
@@ -27,7 +27,6 @@ export const avatarGroupStyle =
         left: 0px;
         position: absolute;
         top: 0px;
-        border-radius: inherit;
         border: 1.5px solid ${theme.semantic.background.neutral.primary};
         margin: -1.5px;
         box-sizing: content-box;
@@ -39,33 +38,33 @@ export const avatarGroupStyle =
       theme,
     )(
       (params) => css`
-        ${avatarGroupSizeStyle(params?.size)}
+        ${avatarGroupSizeStyle(params?.size, theme)}
         ${params?.sx}
       `,
     )}
   `;
 
-const avatarGroupSizeStyle = (size: AvatarGroupProps['size']) => {
+const avatarGroupSizeStyle = (size: AvatarGroupProps['size'], theme: Theme) => {
   switch (size) {
     case 'small':
       return css`
-        gap: 10px;
+        gap: ${theme.spacing[10]};
         [data-component='avatar'] {
-          margin-left: -8px;
+          margin-left: calc(${theme.spacing[8]} * -1);
 
           &:last-child {
-            margin-left: 0px;
+            margin-left: ${theme.spacing[0]};
           }
         }
       `;
     case 'xsmall':
       return css`
-        gap: 8px;
+        gap: ${theme.spacing[8]};
         [data-component='avatar'] {
-          margin-left: -6px;
+          margin-left: calc(${theme.spacing[6]} * -1);
 
           &:last-child {
-            margin-left: 0px;
+            margin-left: ${theme.spacing[0]};
           }
         }
       `;
