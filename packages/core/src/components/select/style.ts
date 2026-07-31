@@ -30,6 +30,7 @@ export const selectStyle =
     height: ${toCssValue(height)};
     box-shadow: inset 0 0 0 1px ${theme.semantic.line.neutral.secondary};
     transition: box-shadow ease 0.2s;
+    align-items: center;
     cursor: pointer;
 
     ${selectSizeStyle({ size }, theme)}

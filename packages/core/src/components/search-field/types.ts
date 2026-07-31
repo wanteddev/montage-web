@@ -10,7 +10,9 @@ export type SearchFieldDefaultProps = WithSxProps<{
   /** The ref of the wrapper. */
   wrapperRef?: Ref<HTMLDivElement>;
   /** The size of the search field. */
-  size?: 'medium' | 'small';
+  size?: 'large' | 'medium';
+  /** The variant of the search field. */
+  variant?: 'solid' | 'outlined';
 }>;
 
 export type SearchFieldResponsiveProps = ResponsiveProps<

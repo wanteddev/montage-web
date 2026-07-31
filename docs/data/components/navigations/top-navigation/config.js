@@ -135,7 +135,7 @@ module.exports = {
 
       if (variant === 'search') {
         title =
-          '<SearchField size="small" placeholder="Enter search keyword." />';
+          '<SearchField size="medium" placeholder="Enter search keyword." />';
       }
 
       const sx =

@@ -81,7 +81,7 @@ module.exports = {
               variant="search"
               trailingContent={<ModalClose variant="text">취소</ModalClose>}
             >
-              <SearchField placeholder="Enter search keyword." size="small" />
+              <SearchField placeholder="Enter search keyword." size="medium" />
             </ModalNavigation>
           `;
           break;
