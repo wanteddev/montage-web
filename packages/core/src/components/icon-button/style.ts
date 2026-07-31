@@ -59,13 +59,13 @@ export const iconButtonStyle =
   `;
 
 // Exposes the gap between the box edge and the icon edge as
-// `--icon-button-inset` on the adjacent PushBadge sibling so it can align to
+// `--push-badge-additional-inset` on the adjacent PushBadge sibling so it can align to
 // the icon edge (not the chrome edge). Only normal variant has invisible chrome,
 // so this compensation is scoped to 'normal' — other variants keep the badge at
 // the visible chrome corner.
 const badgeInsetStyle = (inset: string) => css`
   & + [data-component='push-badge'] {
-    --icon-button-inset: ${inset};
+    --push-badge-additional-inset: ${inset};
   }
 `;
 

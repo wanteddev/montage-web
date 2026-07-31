@@ -99,13 +99,18 @@ const Demo = () => {
           <IconBlank />
         </IconButton>
       </PushBadge>
-      <PushBadge variant="new">
-        <IconButton aria-label="Icon button with new badge">
+      <PushBadge variant="text" text="N">
+        <IconButton aria-label="Icon button with text N badge">
           <IconBlank />
         </IconButton>
       </PushBadge>
-      <PushBadge variant="number" count={6}>
-        <IconButton aria-label="Icon button with number badge">
+      <PushBadge variant="text" text={3}>
+        <IconButton aria-label="Icon button with text badge">
+          <IconBlank />
+        </IconButton>
+      </PushBadge>
+      <PushBadge variant="max-count" text={100}>
+        <IconButton aria-label="Icon button with max count badge">
           <IconBlank />
         </IconButton>
       </PushBadge>
