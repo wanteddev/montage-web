@@ -12,29 +12,26 @@ PushBadge는 3가지 variant를 제공합니다.
 
 ### Dot
 
-<Demo code={`import { Avatar, PushBadge, FlexBox, IconButton, Switch } from '@montage-ui/core';
-import { IconBell } from '@montage-ui/icon';
-import { useState } from 'react';
+<Demo code={`import { PushBadge, FlexBox, Box } from '@montage-ui/core';
+
+const ExampleBox = () => {
+  return (
+    <Box
+      sx={(theme) => ({
+        boxShadow: \`inset 0 0 0 1px $\{theme.semantic.line.neutral.primaryOpaque}\`,
+        width: 60,
+        height: 60,
+      })}
+    />
+  )
+}
 
 const Demo = () => {
-  const [invisible, setInvisible] = useState(false);
-
   return (
     <FlexBox flexDirection="column" gap="8px">
-      <Switch checked={!invisible} onCheckedChange={(value) => setInvisible(!value)} size="small" />
-
       <FlexBox gap="16px" alignItems="center">
-        <IconButton>
-          <PushBadge invisible={invisible}>
-            <IconBell />
-          </PushBadge>
-        </IconButton>
-
-        <PushBadge invisible={invisible}>
-          <Avatar
-            src="https://static.wanted.co.kr/oneid-user/2kcR2ULXRgEC7Rgk5psLTK/BwWtS7ZW8ryS2dpQrAW8Cr.png"
-            alt="User"
-          />
+        <PushBadge variant="dot">
+          <ExampleBox />
         </PushBadge>
       </FlexBox>
     </FlexBox>
@@ -46,42 +43,30 @@ export default Demo;`}
 
 ### Text
 
-<Demo code={`import { Avatar, PushBadge, FlexBox, IconButton, Switch } from '@montage-ui/core';
-import { IconBell } from '@montage-ui/icon';
-import { useState } from 'react';
+<Demo code={`import { PushBadge, FlexBox, Box } from '@montage-ui/core';
+
+const ExampleBox = () => {
+  return (
+    <Box
+      sx={(theme) => ({
+        boxShadow: \`inset 0 0 0 1px $\{theme.semantic.line.neutral.primaryOpaque}\`,
+        width: 60,
+        height: 60,
+      })}
+    />
+  )
+}
 
 const Demo = () => {
-  const [invisible, setInvisible] = useState(false);
-
   return (
     <FlexBox flexDirection="column" gap="8px">
-      <Switch checked={!invisible} onCheckedChange={(value) => setInvisible(!value)} size="small" />
-
       <FlexBox gap="16px" alignItems="center">
-        <IconButton>
-          <PushBadge variant="text" text="N" invisible={invisible}>
-            <IconBell />
-          </PushBadge>
-        </IconButton>
-
-        <IconButton>
-          <PushBadge variant="text" text={3} invisible={invisible}>
-            <IconBell />
-          </PushBadge>
-        </IconButton>
-
-        <PushBadge variant="text" text="N" invisible={invisible}>
-          <Avatar
-            src="https://static.wanted.co.kr/oneid-user/2kcR2ULXRgEC7Rgk5psLTK/BwWtS7ZW8ryS2dpQrAW8Cr.png"
-            alt="User"
-          />
+        <PushBadge variant="text" text="N">
+          <ExampleBox />
         </PushBadge>
 
-        <PushBadge variant="text" text={3} invisible={invisible}>
-          <Avatar
-            src="https://static.wanted.co.kr/oneid-user/2kcR2ULXRgEC7Rgk5psLTK/BwWtS7ZW8ryS2dpQrAW8Cr.png"
-            alt="User"
-          />
+        <PushBadge variant="text" text={3}>
+          <ExampleBox />
         </PushBadge>
       </FlexBox>
     </FlexBox>
@@ -95,29 +80,30 @@ export default Demo;`}
 
 `text` 옵션에 숫자 상한치를 적용합니다. `maxCount` 옵션을 주어 최대 허용 숫자를 지정할 수 있어요.
 
-<Demo code={`import { Avatar, PushBadge, FlexBox, IconButton, Switch } from '@montage-ui/core';
-import { IconBell } from '@montage-ui/icon';
-import { useState } from 'react';
+<Demo code={`import { PushBadge, FlexBox, Box } from '@montage-ui/core';
+
+const ExampleBox = () => {
+  return (
+    <Box
+      sx={(theme) => ({
+        boxShadow: \`inset 0 0 0 1px $\{theme.semantic.line.neutral.primaryOpaque}\`,
+        width: 60,
+        height: 60,
+      })}
+    />
+  )
+}
 
 const Demo = () => {
-  const [invisible, setInvisible] = useState(false);
-
   return (
     <FlexBox flexDirection="column" gap="8px">
-      <Switch checked={!invisible} onCheckedChange={(value) => setInvisible(!value)} size="small" />
-
       <FlexBox gap="16px" alignItems="center">
-        <IconButton>
-          <PushBadge variant="max-count" text={100} invisible={invisible}>
-            <IconBell />
-          </PushBadge>
-        </IconButton>
+        <PushBadge variant="max-count" text={100}>
+          <ExampleBox />
+        </PushBadge>
 
-        <PushBadge variant="max-count" text={1000} maxCount={999} invisible={invisible}>
-          <Avatar
-            src="https://static.wanted.co.kr/oneid-user/2kcR2ULXRgEC7Rgk5psLTK/BwWtS7ZW8ryS2dpQrAW8Cr.png"
-            alt="User"
-          />
+        <PushBadge variant="max-count" text={1000} maxCount={999}>
+          <ExampleBox />
         </PushBadge>
       </FlexBox>
     </FlexBox>
@@ -257,10 +243,48 @@ const Demo = () => {
 export default Demo;`}
 />
 
+## invisible
+
+`invisible` 옵션을 주어 뱃지를 껐다 켤 수 있습니다.
+
+<Demo code={`import { PushBadge, FlexBox, Box, Switch } from '@montage-ui/core';
+import { useState } from 'react';
+
+const ExampleBox = () => {
+  return (
+    <Box
+      sx={(theme) => ({
+        boxShadow: \`inset 0 0 0 1px $\{theme.semantic.line.neutral.primaryOpaque}\`,
+        width: 60,
+        height: 60,
+      })}
+    />
+  )
+}
+
+const Demo = () => {
+  const [invisible, setInvisible] = useState(false);
+
+  return (
+    <FlexBox flexDirection="column" gap="8px" alignItems="center">
+      <Switch checked={!invisible} onCheckedChange={(value) => setInvisible(!value)} size="small" />
+      <FlexBox gap="16px" alignItems="center">
+        <PushBadge invisible={invisible} size="medium" variant="dot">
+          <ExampleBox />
+        </PushBadge>
+      </FlexBox>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
 ## Outline border
 
 - `outlineBorder` 옵션을 사용하여 외곽에 테두리를 표시 할 수 있습니다.
 - `outlineBorderColor` 옵션을 사용하면 테두리 색상을 변경할 수 있습니다.
+- `Avatar` 컴포넌트와 사용할 때 활성화를 권장합니다.
 
 <Demo
   defaultIsTransparent

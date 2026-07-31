@@ -47,7 +47,6 @@ export const KNOWN_WDS_VARIABLES: ReadonlyArray<string> = [
   '--wds-framed-style-border-radius',
   '--wds-framed-style-horizontal-padding',
   '--wds-framed-style-vertical-padding',
-  '--wds-icon-button-inset',
   '--wds-list-cell-horizontal-padding',
   '--wds-list-cell-interaction-display',
   '--wds-list-cell-interaction-padding',

@@ -181,10 +181,10 @@ export const pushBadgeStyle =
     ${pushBadgeVariantStyle({ variant }, theme)}
   `;
 
-// Adjacent sibling can expose `--icon-button-inset` to pull the badge
+// Adjacent sibling can expose `--push-badge-additional-inset` to pull the badge
 // inward by that amount (e.g. IconButton normal variant aligning badge to the
 // icon edge instead of the padded chrome edge). Defaults to 0px → no effect.
-const INSET = 'var(--icon-button-inset, 0px)';
+const INSET = 'var(--push-badge-additional-inset, 0px)';
 
 const pushBadgePositionStyle = ({ position, invisible }: PushBadgeProps) => {
   const transform = `${invisible ? 'scale(0)' : 'scale(1)'} translate(-50%, -50%)`;

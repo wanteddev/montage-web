@@ -153,30 +153,113 @@ const Demo = () => {
 export default Demo;`}
 />
 
-### With push badge
+## With push badge
 
 `PushBadge` 컴포넌트와 함께 사용하여 뱃지를 표시할 수 있습니다.
 
-<Demo code={`import { Avatar, AvatarButton, PushBadge, FlexBox } from '@montage-ui/core';
+- `outlineBorder` 를 활성화 하는 것을 권장합니다.
+- Avatar 크기에 따라 Push badge 의 크기를 조정하여 사용합니다.
+
+<Demo code={`import { Avatar, AvatarButton, PushBadge, FlexBox, Typography } from '@montage-ui/core';
 
 const Demo = () => {
   return (
-    <FlexBox gap="12px">
-      <AvatarButton>
-        <PushBadge>
-          <Avatar variant="person" size="medium" />
-        </PushBadge>
-      </AvatarButton>
-      <AvatarButton>
-        <PushBadge>
-          <Avatar variant="company" size="medium" />
-        </PushBadge>
-      </AvatarButton>
-      <AvatarButton>
-        <PushBadge>
-          <Avatar variant="academy" size="medium" />
-        </PushBadge>
-      </AvatarButton>
+    <FlexBox gap="12px" flexDirection="column" alignItems="center">
+      <FlexBox gap="12px" alignItems="center">
+        <Typography variant="body2-reading">Xsmall avatar</Typography>
+        <FlexBox gap="12px" alignItems="center" flexWrap="wrap">
+          <PushBadge size="xsmall" outlineBorder>
+            <Avatar variant="person" size="xsmall" />
+          </PushBadge>
+          <PushBadge size="xsmall" outlineBorder>
+            <Avatar variant="company" size="xsmall" />
+          </PushBadge>
+          <PushBadge size="xsmall" outlineBorder>
+            <Avatar variant="academy" size="xsmall" />
+          </PushBadge>
+        </FlexBox>
+      </FlexBox>
+
+      <FlexBox gap="12px" alignItems="center">
+        <Typography variant="body2-reading">Small avatar</Typography>
+        <FlexBox gap="12px" alignItems="center" flexWrap="wrap">
+          <PushBadge size="xsmall" outlineBorder>
+            <Avatar variant="person" size="small" />
+          </PushBadge>
+          <PushBadge size="xsmall" outlineBorder>
+            <Avatar variant="company" size="small" />
+          </PushBadge>
+          <PushBadge size="xsmall" outlineBorder>
+            <Avatar variant="academy" size="small" />
+          </PushBadge>
+        </FlexBox>
+      </FlexBox>
+
+      <FlexBox gap="12px" alignItems="center">
+        <Typography variant="body2-reading">Medium avatar</Typography>
+        <FlexBox gap="12px" alignItems="center" flexWrap="wrap">
+          <PushBadge size="small" outlineBorder>
+            <Avatar variant="person" size="medium" />
+          </PushBadge>
+          <PushBadge size="small" outlineBorder>
+            <Avatar variant="company" size="medium" />
+          </PushBadge>
+          <PushBadge size="small" outlineBorder>
+            <Avatar variant="academy" size="medium" />
+          </PushBadge>
+        </FlexBox>
+      </FlexBox>
+
+      <FlexBox gap="12px" alignItems="center">
+        <Typography variant="body2-reading">Large avatar</Typography>
+        <FlexBox gap="12px" alignItems="center" flexWrap="wrap">
+          <PushBadge size="small" outlineBorder>
+            <Avatar variant="person" size="large" />
+          </PushBadge>
+          <PushBadge size="small" outlineBorder>
+            <Avatar variant="company" size="large" />
+          </PushBadge>
+          <PushBadge size="small" outlineBorder>
+            <Avatar variant="academy" size="large" />
+          </PushBadge>
+        </FlexBox>
+      </FlexBox>
+
+      <FlexBox gap="12px" alignItems="center">
+        <Typography variant="body2-reading">Xlarge avatar</Typography>
+        <FlexBox gap="12px" alignItems="center" flexWrap="wrap">
+          <PushBadge size="medium" outlineBorder>
+            <Avatar variant="person" size="xlarge" />
+          </PushBadge>
+          <PushBadge size="medium" outlineBorder>
+            <Avatar variant="company" size="xlarge" />
+          </PushBadge>
+          <PushBadge size="medium" outlineBorder>
+            <Avatar variant="academy" size="xlarge" />
+          </PushBadge>
+        </FlexBox>
+      </FlexBox>
+
+      <FlexBox gap="12px" alignItems="center" sx={{ marginTop: '20px' }}>
+        <Typography variant="body2-reading">Button avatar</Typography>
+        <FlexBox gap="12px" alignItems="center" flexWrap="wrap">
+          <AvatarButton>
+            <PushBadge size="medium" outlineBorder>
+              <Avatar variant="person" size="medium" />
+            </PushBadge>
+          </AvatarButton>
+          <AvatarButton>
+            <PushBadge size="medium" outlineBorder>
+              <Avatar variant="company" size="medium" />
+            </PushBadge>
+          </AvatarButton>
+          <AvatarButton>
+            <PushBadge size="medium" outlineBorder>
+              <Avatar variant="academy" size="medium" />
+            </PushBadge>
+          </AvatarButton>
+        </FlexBox>
+      </FlexBox>
     </FlexBox>
   );
 }
