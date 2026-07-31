@@ -1,5 +1,9 @@
-import { forwardRef, useEffect, useRef, useState } from 'react';
-import { IconCompany, IconGraduation, IconPersonFill } from '@montage-ui/icon';
+import { forwardRef, useEffect, useMemo, useRef, useState } from 'react';
+import {
+  IconCompanyFill,
+  IconGraduationFill,
+  IconPersonFill,
+} from '@montage-ui/icon';
 import { Box } from '@montage-ui/engine';
 
 import { ImageBase } from '../image-base';
@@ -19,6 +23,7 @@ const Avatar = forwardRef<
       variant = 'person',
       className,
       style,
+      alt,
       sx,
       xs,
       sm,
@@ -30,16 +35,31 @@ const Avatar = forwardRef<
     },
     ref,
   ) => {
-    const getDefaultFallback = () => {
+    const defaultFallback = useMemo(() => {
       switch (variant) {
         case 'person':
-          return <IconPersonFill />;
+          return <IconPersonFill aria-hidden />;
         case 'academy':
-          return <IconGraduation />;
+          return <IconGraduationFill aria-hidden />;
         case 'company':
-          return <IconCompany />;
+          return <IconCompanyFill aria-hidden />;
       }
-    };
+    }, [variant]);
+
+    const defaultAltText = useMemo(() => {
+      if (Boolean(alt)) {
+        return alt;
+      }
+
+      switch (variant) {
+        case 'person':
+          return '프로필 이미지';
+        case 'academy':
+          return '학원 로고';
+        case 'company':
+          return '회사 로고';
+      }
+    }, [variant, alt]);
 
     const [imageLoadingStatus, setImageLoadingStatus] = useState<
       'idle' | 'loaded' | 'error'
@@ -67,6 +87,9 @@ const Avatar = forwardRef<
         {imageLoadingStatus !== 'error' && Boolean(props.src) ? (
           <ImageBase
             {...props}
+            role="img"
+            alt={defaultAltText}
+            aria-label={props['aria-label'] ?? defaultAltText}
             onLoad={() => {
               props.onLoad?.();
               setImageLoadingStatus('loaded');
@@ -77,8 +100,13 @@ const Avatar = forwardRef<
             }}
           />
         ) : (
-          <Box data-role="avatar-fallback" sx={fallbackWrapperStyle}>
-            {getDefaultFallback()}
+          <Box
+            role="img"
+            data-role="avatar-fallback"
+            sx={fallbackWrapperStyle}
+            aria-label={props['aria-label'] ?? defaultAltText}
+          >
+            {defaultFallback}
           </Box>
         )}
         {children}
