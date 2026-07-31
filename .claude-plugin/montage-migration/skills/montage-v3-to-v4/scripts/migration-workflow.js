@@ -370,7 +370,9 @@ const shq = (p) => `'${String(p).replace(/'/g, `'\\''`)}'`
 const repoRootSh = shq(args.repoRoot)
 // Same treatment for the targets: the step agent pastes these into npx/checkout/pathspec
 // positions, and a double-quoted interpolation would still let `$()`/backticks expand.
-const targetsSh = JSON.stringify(canonicalTargets.map(shq))
+// One token per line, NEVER JSON.stringify — JSON re-escapes `"` and `\`, so a pasted
+// token would no longer be the shell-quoted path.
+const targetsSh = canonicalTargets.map((t) => `  - ${shq(t)}`).join('\n')
 
 // Kept in sync with the template in SKILL.md ("State file format") and MANUAL_SCAN_SECTIONS
 // above — see that section's Consistency surfaces list for every surface to update.
