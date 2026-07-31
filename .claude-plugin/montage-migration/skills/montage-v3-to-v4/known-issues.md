@@ -7,9 +7,10 @@ when the underlying decision changes.
 ## Version bumps deferred
 
 `.claude-plugin/montage-migration/.claude-plugin/plugin.json` (1.0.0) and
-`.claude-plugin/marketplace.json` (1.1.0) are intentionally NOT bumped on this branch — the
-maintainer asked for the content change without a release. Both must be bumped (plugin minor
-for the new M12 section, marketplace alongside it) before the plugin ships.
+`.claude-plugin/marketplace.json` (1.1.0) are intentionally NOT bumped during the 4.0.0
+work — the maintainer stacks these changes on `feature/4.0.0` and bumps once, when 4.0.0
+merges to `main`. Both must be bumped then (plugin minor for the new M12/M13/M14 content,
+marketplace alongside it) before the plugin ships.
 
 ## SKILL.md exceeds the lean-entry-point budget
 

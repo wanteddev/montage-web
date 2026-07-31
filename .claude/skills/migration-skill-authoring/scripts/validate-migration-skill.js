@@ -5,6 +5,7 @@ export const meta = {
   whenToUse:
     'Invoked by the migration-skill-authoring skill after authoring or updating a migration skill; re-run until no critical/major survives verification',
   phases: [
+    { title: 'Scope', detail: 'resolve the changed regions this run is accountable for' },
     { title: 'Review', detail: '4 parallel reviewers (fact-check, consistency, quality, structure)' },
     { title: 'Verify', detail: 'per-file dedup + reproduce each finding; unreproducible findings are dropped' },
   ],
@@ -24,6 +25,17 @@ const input = typeof args === 'string' ? JSON.parse(args) : (args ?? {})
 //   pluginRoot: absolute path of the plugin (defaults to <skillDir>/../..)
 //   knownIssuesFile: absolute path of the accepted-trade-offs list
 //             (defaults to <skillDir>/known-issues.md; may not exist)
+//   scope:    'delta' (default) | 'full'
+//             'delta' scopes what reviewers may REPORT to the change under review — they still
+//             READ every file (consistency checking is impossible otherwise), but a finding
+//             survives only if it is anchored in a changed region, contradicts one, or is
+//             `critical`. Use it for Mode B (updating an existing skill), where a full audit
+//             re-surfaces the whole pre-existing backlog every round and the run never
+//             converges. 'full' audits everything — correct for Mode A (a brand-new skill) and
+//             for a deliberate periodic audit of an existing one.
+//   diffBase: git ref the change is measured against (default 'HEAD', i.e. uncommitted
+//             working-tree edits). Pass the base branch ('main', 'origin/main') when the
+//             change is already committed on a feature branch. Ignored when scope is 'full'.
 
 if (!input.repoRoot || !input.skillDir || !input.transformsDir) {
   throw new Error('repoRoot, skillDir and transformsDir are required absolute paths')
@@ -74,8 +86,14 @@ const FINDINGS_SCHEMA = {
       type: 'array',
       items: {
         type: 'object',
-        required: ['severity', 'file', 'fileLines', 'issue', 'fix', 'evidence'],
+        required: ['severity', 'file', 'fileLines', 'issue', 'fix', 'evidence', 'scope'],
         properties: {
+          scope: {
+            type: 'string',
+            enum: ['delta', 'blast-radius', 'pre-existing-critical'],
+            description:
+              'delta = anchored in a changed region; blast-radius = contradicts a changed region from unchanged text; pre-existing-critical = untouched by this change but a corruption path',
+          },
           severity: { type: 'string', enum: ['critical', 'major', 'minor'] },
           file: { type: 'string', description: 'Absolute path from the allowed list' },
           fileLines: {
@@ -103,8 +121,12 @@ const VERIFIED_SCHEMA = {
       type: 'array',
       items: {
         type: 'object',
-        required: ['verdict', 'severity', 'file', 'issue', 'fix', 'reason'],
+        required: ['verdict', 'severity', 'file', 'issue', 'fix', 'reason', 'scope'],
         properties: {
+          scope: {
+            type: 'string',
+            enum: ['delta', 'blast-radius', 'pre-existing-critical'],
+          },
           verdict: { type: 'string', enum: ['CONFIRMED', 'REFUTED'] },
           severity: { type: 'string', enum: ['critical', 'major', 'minor'] },
           file: { type: 'string' },
@@ -126,6 +148,95 @@ const VERIFIED_SCHEMA = {
   },
 }
 
+const scopeMode = input.scope === 'full' ? 'full' : 'delta'
+const diffBase = input.diffBase || 'HEAD'
+
+// Resolve WHAT CHANGED before reviewing. Scripts cannot run shell commands, so one cheap
+// agent owns the git plumbing and hands back per-file changed line ranges.
+let changeMap = null
+
+if (scopeMode === 'delta') {
+  phase('Scope')
+
+  changeMap = await agent(
+    `Read-only. Determine which regions of a migration skill package changed, so reviewers know what this validation run is accountable for.
+
+The paths under review (use exactly these, nothing else):
+${[...SKILL_FILE_LIST, ...PLUGIN_FILE_LIST].join('\n')}
+
+Run BOTH commands from ${input.repoRoot} — the second is not optional:
+1. \`git -C ${input.repoRoot} diff --unified=0 ${diffBase} -- <every path above>\`
+2. \`git -C ${input.repoRoot} status --porcelain -- <every path above>\` — \`git diff\` does NOT list untracked files, so a newly ADDED file is invisible to command 1 and would be silently treated as pre-existing. Any path marked \`??\` is entirely new: report it with the single range [1, <its \`wc -l\`>] and say so in its summary.
+
+From command 1, parse the hunk headers (\`@@ -old +new @@\`) and report, per file, the NEW-side line ranges that were added or modified. A header whose new-side count is 0 (\`+N,0\`) is a pure DELETION with no new-side line to anchor to — do not emit a range for it, but mention the deletion in that file's summary, since removing a statement can invalidate text elsewhere. Give each file a one-line summary of what actually changed there. When that summary names a section or identifier (an M-number, a step id, a function), READ the file at those line numbers to confirm the name — do not infer it from the diff text. A summary that labels the region wrongly sends reviewers hunting in the wrong section.
+
+Also run \`git -C ${input.repoRoot} diff --stat ${diffBase} -- <every path above>\` and report it verbatim in \`stat\`.
+
+If BOTH commands come back empty, report changedFiles: [] — do not go looking for another base ref.
+
+Report structured data only.`,
+    {
+      label: 'scope:changed-regions',
+      phase: 'Scope',
+      schema: {
+        type: 'object',
+        required: ['changedFiles', 'stat'],
+        properties: {
+          stat: { type: 'string' },
+          changedFiles: {
+            type: 'array',
+            items: {
+              type: 'object',
+              required: ['file', 'ranges', 'summary'],
+              properties: {
+                file: { type: 'string' },
+                ranges: {
+                  type: 'array',
+                  items: { type: 'array', items: { type: 'number' } },
+                },
+                summary: { type: 'string' },
+              },
+            },
+          },
+        },
+      },
+    },
+  )
+
+  if (!changeMap || !Array.isArray(changeMap.changedFiles) || changeMap.changedFiles.length === 0) {
+    log(
+      `No changes found against ${diffBase} — falling back to a FULL audit (nothing to scope to). Pass a different diffBase if the change is already committed.`,
+    )
+    changeMap = null
+  } else {
+    log(
+      `Scoping to ${changeMap.changedFiles.length} changed file(s) vs ${diffBase}; pre-existing defects are reported only when critical.`,
+    )
+  }
+}
+
+const formatChangeMap = (cm) =>
+  cm.changedFiles
+    .map(
+      (f) =>
+        `- ${f.file}: lines ${f.ranges.map((r) => (r.length > 1 ? `${r[0]}-${r[1]}` : String(r[0]))).join(', ')} — ${f.summary}`,
+    )
+    .join('\n')
+
+const SCOPE_RULES = changeMap
+  ? `SCOPE — this run validates a CHANGE, not the whole package. Read every file you were given (you cannot check consistency otherwise), but be strict about what you REPORT.
+
+Changed regions (new-side line numbers) this run is accountable for:
+${formatChangeMap(changeMap)}
+
+Report a finding ONLY if it is one of:
+- \`scope: "delta"\` — the defect is anchored inside one of those changed regions.
+- \`scope: "blast-radius"\` — unchanged text that the change made wrong: a cross-reference, count, ordered list, table, or duplicated statement elsewhere that now contradicts a changed region. This is the highest-value category in a change review; hunt for it deliberately (a renumbered step leaves stale references, a new section leaves a stale "M1–M13", a widened pattern leaves a stale duplicate copy).
+- \`scope: "pre-existing-critical"\` — untouched by this change, but following the docs corrupts code, loses work, or leaves a corruption guard silently inert. ONLY \`critical\` qualifies here; a pre-existing \`major\` or \`minor\` does NOT.
+
+Do NOT report a pre-existing \`major\` or \`minor\` that this change neither introduced nor invalidated, however real it is. Those are a separate audit (\`scope: 'full'\`); including them here drowns the change review and prevents it from ever converging. Set the \`scope\` field on every finding — the verification phase REFUTES anything whose scope it cannot justify.`
+  : `SCOPE — full audit: report every defect you can evidence, anywhere in the package. Set \`scope: "delta"\` on all findings (there is no change baseline to compare against in this mode).`
+
 phase('Review')
 
 const REVIEWERS = ['fact-check', 'consistency', 'quality', 'structure']
@@ -139,6 +250,8 @@ Docs: ${SKILL_FILES}
 Ground truth: ${input.transformsDir}/*.ts, ${input.repoRoot}/packages/codemod/src/cli.ts, ${input.repoRoot}/packages/codemod/src/constants.ts, ${input.repoRoot}/packages/codemod/src/helpers/index.ts, and the "${input.migrationSection}" section of ${input.repoRoot}/MIGRATION.md.
 
 Check especially: (1) idempotency claims — trace rename chains in the transform source; (2) CLI invocation claims (positional handling, glob expansion, stylesheet pass registration) — from cli.ts source, not help text; (3) every rename table vs MIGRATION.md and the transform maps, including entries the docs may have MISSED from the maps; (4) every grep pattern — empirically run each one with /usr/bin/grep -E on a synthetic fixture: does it execute without error on BSD grep, does it catch multi-line imports, does it catch *Props/*Skeleton leftovers, does it avoid matching post-migration names?; (5) every claim the docs make ABOUT the workflow script ("the script rejects X", "the script compares Y") — read the actual guard in ${input.skillDir}/scripts/migration-workflow.js and execute its predicate with \`node -e\` before believing or refuting the doc.
+
+${SCOPE_RULES}
 
 ${PATH_RULES}
 
@@ -157,6 +270,8 @@ Files: ${SKILL_FILES}, plus ${PLUGIN_FILE_LIST.join(', ')}.
 
 Verify these consistency surfaces are identical everywhere they appear: (1) codemod step order — SKILL.md rules + state template + workflow example, codemod-steps.md table + sections, script CODEMOD_STEPS + STATE_FILE_TEMPLATE, READMEs; (2) M-section numbering/topics — manual-migrations.md headings vs script MANUAL_SCAN_SECTIONS vs SKILL.md mentions vs state template; (3) state file path and YAML schema, including which keys each template writes; (4) Workflow args in SKILL.md example vs what the script reads (every arg the script reads must be documented, and vice versa); (5) npx command shape; (6) ownership of each manual fix (exactly one phase owns it; safety-net scans must say so); (7) abort causes documented in SKILL.md vs the ones the script can actually produce.
 
+${SCOPE_RULES}
+
 ${PATH_RULES}
 
 ${SEVERITY_RULES}
@@ -173,6 +288,8 @@ Report every mismatch you can quote both sides of. Your final output is raw data
 Files: ${SKILL_FILES}
 
 Check: frontmatter description (third person, Korean AND English triggers, resume + single-codemod phrases, version scoping); details pushed to references; imperative writing; whether a FRESH Claude instance in a consumer repo could execute safely — every instruction actionable (no "exclude it" / "confirm with the user" without a documented mechanism at the layer that must do it), corruption hazards stated at every layer (SKILL.md rule, reference table, script precheck/verify), behavioral decisions routed to the user, resume semantics unambiguous (state-vs-git mismatch handling, targets locked).
+
+${SCOPE_RULES}
 
 ${PATH_RULES}
 
@@ -192,6 +309,8 @@ Plugin root: ${pluginRoot}
 Marketplace: ${input.repoRoot}/.claude-plugin/marketplace.json
 
 Check: plugin.json valid and version bumped for this change (a deliberately deferred bump belongs in ${knownIssuesFile} — check there before reporting it); SKILL.md frontmatter parses (name matches directory, kebab-case); every file referenced from SKILL.md exists; any file under references/ or scripts/ NOT referenced from SKILL.md gets flagged (the convention is exactly: references/codemod-steps.md, references/manual-migrations.md, scripts/migration-workflow.js); the workflow script parses — extract the body after the meta export, wrap it in "async function main(){...}" with stub globals (args/agent/parallel/log/phase), write to a temp .mjs and run node --check; meta export is a pure literal with name/description/phases; npx prettier --check on the skill's .md files passes; README.md and README.ko.md both list the skill.
+
+SCOPE — you are EXEMPT from the change-scoping the other reviewers follow: your checks are mechanical, cheap, and actionable wherever they fail, so report any failure regardless of what changed. Set \`scope: "delta"\` on every finding.
 
 ${PATH_RULES}
 
@@ -214,10 +333,14 @@ log(`${raw.length} raw findings from ${completed}/4 reviewers — verifying`)
 if (raw.length === 0) {
   return {
     findings: [],
+    preExisting: [],
     refuted: [],
     rawCount: 0,
     reviewersCompleted: completed,
     unassessedGroups: 0,
+    scope: changeMap ? 'delta' : 'full',
+    diffBase: changeMap ? diffBase : null,
+    changedFiles: changeMap ? changeMap.changedFiles.map((f) => f.file) : null,
     clean: completed === 4,
   }
 }
@@ -261,6 +384,13 @@ Procedure, in order:
 2. DEDUP. Merge findings that state the SAME underlying defect (frequently one from \`consistency\` and one from \`quality\`). Keep the clearest statement, list the other reviewers in \`mergedFrom\`, and emit ONE entry.
 3. REPRODUCE each surviving finding against the real file. Quote file:line for a textual claim. For any claim about behavior, EXECUTE it: \`/usr/bin/grep -E\` on a fixture you write, \`node -e\` for a regex or a script predicate, the real codemod CLI for a transform claim. CONFIRMED requires a reproduction you can state in \`reason\`; anything else is REFUTED with what you actually observed.
 4. RE-RATE severity per the rubric below, independently of what the reviewer claimed — reviewers systematically over-rate. Downgrade style/length/budget findings to minor.
+5. RE-CHECK SCOPE, after re-rating (the order matters — a finding the reviewer called critical and you downgrade to major loses its pre-existing exemption). ${
+        changeMap
+          ? `This run validates a CHANGE. The changed regions are:
+${formatChangeMap(changeMap)}
+   Set \`scope\` yourself rather than trusting the reviewer's: "delta" if the defect sits inside a changed region, "blast-radius" if it is unchanged text the change made wrong (a now-stale cross-reference, count, or duplicated statement — verify BOTH sides, quoting the changed region it contradicts), "pre-existing-critical" if untouched by the change but a genuine corruption path. REFUTE with reason "out-of-scope: pre-existing <severity>, not introduced or invalidated by this change" any finding that ends up outside a changed region, does not contradict one, and is not \`critical\` after your re-rating. Do not stretch "blast-radius" to cover a defect that merely lives near a changed region — the change must be what makes it wrong.`
+          : `This run is a FULL audit, so every finding is in scope; set \`scope: "delta"\` on all of them.`
+      }
 
 Allowed absolute paths (read nothing else, never search above ${input.repoRoot}, and never re-resolve a file by name when its path is here):
 ${[...SKILL_FILE_LIST, ...PLUGIN_FILE_LIST].join('\n')}
@@ -277,23 +407,62 @@ Return every finding you were given, each with a verdict — REFUTED ones includ
 
 const order = { critical: 0, major: 1, minor: 2 }
 const assessed = verifiedGroups.filter(Boolean).flatMap((g) => g.verified || [])
-const confirmed = assessed
+const allConfirmed = assessed
   .filter((f) => f.verdict === 'CONFIRMED')
   .sort((a, b) => order[a.severity] - order[b.severity])
 const refuted = assessed.filter((f) => f.verdict === 'REFUTED')
 const lostGroups = grouped.length - verifiedGroups.filter(Boolean).length
 
+// Split the two audiences apart: the change's own worklist, and corruption paths this change
+// merely happens to sit next to. Both ship — but only the first governs convergence, or a
+// pre-existing critical would make every future change review unconvergeable.
+// Enforce the scope contract in code, not just in the prompts: 'pre-existing-critical' is
+// valid ONLY at severity critical (the verifier re-rates severity BEFORE re-checking scope,
+// so a downgraded finding loses the exemption). A verifier that returns the scope with a
+// lower severity has violated that contract — treat the finding as out-of-scope (what the
+// verifier should have returned) rather than letting it bypass convergence unexamined.
+const scopeViolations = allConfirmed.filter(
+  (f) => f.scope === 'pre-existing-critical' && f.severity !== 'critical',
+)
+const confirmed = allConfirmed.filter((f) => f.scope !== 'pre-existing-critical')
+const preExisting = allConfirmed.filter(
+  (f) => f.scope === 'pre-existing-critical' && f.severity === 'critical',
+)
+if (scopeViolations.length > 0) {
+  log(
+    `${scopeViolations.length} finding(s) claimed scope "pre-existing-critical" at non-critical severity — scope contract enforced: moved to refuted as out-of-scope.`,
+  )
+}
+
 const blocking = confirmed.filter((f) => f.severity !== 'minor').length
 log(
-  `${confirmed.length} confirmed (${blocking} critical/major), ${refuted.length} refuted, ${raw.length} raw` +
+  `${confirmed.length} in-scope confirmed (${blocking} critical/major)` +
+    (preExisting.length > 0 ? `, ${preExisting.length} pre-existing critical` : '') +
+    `, ${refuted.length} refuted, ${raw.length} raw` +
     (lostGroups > 0 ? ` — WARNING: ${lostGroups} verifier group(s) returned nothing; their findings are unassessed` : ''),
 )
+if (preExisting.length > 0) {
+  log(
+    `${preExisting.length} pre-existing corruption path(s) surfaced outside this change — they do NOT block convergence, but fix or record them deliberately.`,
+  )
+}
 
 return {
   findings: confirmed,
-  refuted: refuted.map((f) => ({ file: f.file, issue: f.issue, reason: f.reason })),
+  preExisting,
+  refuted: [
+    ...refuted.map((f) => ({ file: f.file, issue: f.issue, reason: f.reason })),
+    ...scopeViolations.map((f) => ({
+      file: f.file,
+      issue: f.issue,
+      reason: `out-of-scope: scope "pre-existing-critical" requires severity critical, verifier returned ${f.severity} — contract enforced by the orchestrator`,
+    })),
+  ],
   rawCount: raw.length,
   reviewersCompleted: completed,
   unassessedGroups: lostGroups,
+  scope: changeMap ? 'delta' : 'full',
+  diffBase: changeMap ? diffBase : null,
+  changedFiles: changeMap ? changeMap.changedFiles.map((f) => f.file) : null,
   clean: blocking === 0 && completed === 4 && lostGroups === 0,
 }

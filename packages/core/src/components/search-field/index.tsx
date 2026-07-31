@@ -5,6 +5,11 @@ import { forwardRef, useEffect, useRef } from 'react';
 
 import { FlexBox } from '../flex-box';
 import { IconButton } from '../icon-button';
+import { useFormControlLayoutContext } from '../form-control/contexts';
+import {
+  mapResponsiveProps,
+  mergeResponsiveProps,
+} from '../../utils/internal/responsive-props';
 
 import { searchFieldContentStyle, searchFieldWrapperStyle } from './style';
 
@@ -16,13 +21,13 @@ const SearchField = forwardRef<
 >(
   (
     {
-      readOnly,
       className,
       disabled,
       style,
       onReset,
       width,
-      size = 'medium',
+      variant = 'solid',
+      size,
       wrapperRef,
       sx,
       xs,
@@ -37,6 +42,19 @@ const SearchField = forwardRef<
     const parentRef = useRef<HTMLDivElement>(null);
     const inputRef = useRef<HTMLInputElement>(null);
     const composedRefs = useComposedRefs(inputRef, ref);
+
+    const { size: formControlSize, responsive } =
+      useFormControlLayoutContext() || {};
+
+    const resolvedSize = size ?? formControlSize ?? 'large';
+
+    const {
+      xs: resolvedXs,
+      sm: resolvedSm,
+      md: resolvedMd,
+      lg: resolvedLg,
+      xl: resolvedXl,
+    } = mergeResponsiveProps({ xs, sm, md, lg, xl }, responsive, 'size');
 
     useEffect(() => {
       const container = parentRef.current;
@@ -70,88 +88,106 @@ const SearchField = forwardRef<
         ref={useComposedRefs(parentRef, wrapperRef)}
         sx={[
           searchFieldWrapperStyle({
-            readOnly,
             disabled,
-            size,
+            size: resolvedSize,
             width,
-            xs,
-            sm,
-            md,
-            lg,
-            xl,
+            variant,
+            xs: resolvedXs,
+            sm: resolvedSm,
+            md: resolvedMd,
+            lg: resolvedLg,
+            xl: resolvedXl,
             ...props,
           }),
           sx,
         ]}
       >
-        <FlexBox
-          data-role="search-field-icon"
-          sx={[
-            searchFieldContentStyle,
-            { height: '20px', padding: '0px 2px', marginRight: '4px' },
-          ]}
-          alignItems="center"
-          justifyContent="center"
-        >
-          <IconSearch />
-        </FlexBox>
-        <input
-          ref={composedRefs}
-          type="search"
-          readOnly={readOnly}
-          aria-readonly={readOnly}
-          autoComplete="off"
-          disabled={disabled}
-          aria-disabled={disabled}
-          {...props}
-        />
-        <FlexBox
-          data-role="search-field-reset"
-          sx={[searchFieldContentStyle, { height: '22px', marginLeft: '8px' }]}
-          alignItems="center"
-          justifyContent="center"
-        >
-          <IconButton
-            type="button"
-            size={22}
-            tabIndex={-1}
-            onPointerDown={(e) => e.preventDefault()}
-            onClick={() => {
-              const input = inputRef.current;
-
-              if (!input) return;
-
-              requestAnimationFrame(() => {
-                const prevValue = input.value;
-
-                const event = new Event('change', { bubbles: true });
-                input.value = '';
-
-                props.onChange?.({
-                  ...event,
-                  target: input as EventTarget & HTMLInputElement,
-                  currentTarget: input as EventTarget & HTMLInputElement,
-                  nativeEvent: {
-                    ...event,
-                    target: input as EventTarget,
-                    currentTarget: input as EventTarget,
-                  },
-                  isDefaultPrevented: () => false,
-                  isPropagationStopped: () => false,
-                  persist: (): void => {},
-                });
-
-                onReset?.(prevValue);
-
-                input.focus();
-              });
-            }}
-            sx={(theme) => ({
-              color: theme.semantic.foreground.neutral.quaternary,
-            })}
+        <FlexBox data-role="search-field-wrapper" alignItems="center">
+          <FlexBox
+            data-role="search-field-icon"
+            sx={searchFieldContentStyle}
+            alignItems="center"
+            justifyContent="center"
           >
-            <IconCircleCloseFill />
-          </IconButton>
+            <IconSearch />
+          </FlexBox>
+
+          <input
+            ref={composedRefs}
+            autoComplete="off"
+            disabled={disabled}
+            aria-disabled={disabled}
+            {...props}
+            type="search"
+          />
+
+          <FlexBox
+            data-role="search-field-reset"
+            sx={searchFieldContentStyle}
+            alignItems="center"
+            justifyContent="center"
+          >
+            <IconButton
+              type="button"
+              tabIndex={-1}
+              aria-label="Reset search"
+              size={resolvedSize === 'large' ? 32 : 28}
+              {...mapResponsiveProps(
+                {
+                  xs: resolvedXs,
+                  sm: resolvedSm,
+                  md: resolvedMd,
+                  lg: resolvedLg,
+                  xl: resolvedXl,
+                },
+                'size',
+                (s) => {
+                  switch (s) {
+                    case 'large':
+                      return 32;
+                    case 'medium':
+                      return 28;
+                  }
+                },
+              )}
+              onPointerDown={(e) => e.preventDefault()}
+              onClick={() => {
+                const input = inputRef.current;
+
+                if (!input) return;
+
+                requestAnimationFrame(() => {
+                  const prevValue = input.value;
+
+                  const event = new Event('change', { bubbles: true });
+                  input.value = '';
+
+                  props.onChange?.({
+                    ...event,
+                    target: input as EventTarget & HTMLInputElement,
+                    currentTarget: input as EventTarget & HTMLInputElement,
+                    nativeEvent: {
+                      ...event,
+                      target: input as EventTarget,
+                      currentTarget: input as EventTarget,
+                    },
+                    isDefaultPrevented: () => false,
+                    isPropagationStopped: () => false,
+                    persist: (): void => {},
+                  });
+
+                  onReset?.(prevValue);
+
+                  input.focus();
+                });
+              }}
+              sx={(theme) => ({
+                color: theme.semantic.foreground.neutral.quaternary,
+              })}
+            >
+              <IconCircleCloseFill />
+            </IconButton>
+          </FlexBox>
         </FlexBox>
       </Box>
     );
