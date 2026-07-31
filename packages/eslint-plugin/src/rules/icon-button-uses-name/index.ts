@@ -17,7 +17,7 @@ const ICON_BUTTON_COMPONENTS = [
 const ICON_ONLY_BUTTON_COMPONENTS = [
   'Button',
   'ActionAreaButton',
-  'FallbackViewButton',
+  'FallbackViewActionAreaButton',
   'Chip',
 ];
 

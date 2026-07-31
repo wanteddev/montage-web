@@ -1,10 +1,10 @@
 import type { ButtonProps } from '../button';
 import type { FallbackViewContextType } from './contexts';
-import type { FallbackViewButtonProps } from './types';
+import type { FallbackViewActionAreaButtonProps } from './types';
 
 export const getFallbackViewButtonSize = (
   context: FallbackViewContextType,
-  { size, xs, sm, md, lg, xl }: FallbackViewButtonProps,
+  { size, xs, sm, md, lg, xl }: FallbackViewActionAreaButtonProps,
 ) => {
   return {
     size: size ?? getFallbackViewButtonSizePlatform(context.platform),
