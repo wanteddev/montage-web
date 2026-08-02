@@ -87,7 +87,9 @@ const FallbackView = forwardRef(
 FallbackView.displayName = FALLBACK_VIEW_NAME;
 
 /**
- * @deprecated Fallback view is not display image
+ * @deprecated Fallback view no longer displays an image. Remove the image from
+ * your usage — note that doing so also removes `FallbackViewContent`'s vertical
+ * padding, which now applies only while an image is present.
  */
 const FallbackViewImage = forwardRef(
   (

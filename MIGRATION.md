@@ -903,7 +903,9 @@ v2 → v3 마이그레이션에서 `empty-state-to-fallback-view` 코드모드�
 
 #### `FallbackViewImage` deprecated
 
-Fallback view는 더 이상 이미지를 표시하지 않습니다. `FallbackViewImage` / `FallbackViewImageProps`는 deprecated 되었으며(동작은 유지) 사용처에서 제거하세요.
+Fallback view는 더 이상 이미지를 표시하지 않습니다. `FallbackViewImage` / `FallbackViewImageProps`는 deprecated 되었지만 동작은 그대로 유지되므로, 타입 에러 없이 계속 렌더됩니다. 사용처마다 이미지를 제거할지 deprecated API를 유지할지 판단하세요 — 제거하면 이미지가 사라지는 것 외에 아래 `FallbackViewContent`의 상하 패딩도 함께 없어지므로 시각적 변경입니다.
+
+이미지를 제거하는 경우:
 
 ```tsx
 // AS-IS
