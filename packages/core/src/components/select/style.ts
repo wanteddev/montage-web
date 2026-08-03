@@ -10,7 +10,7 @@ import type { SelectMultipleProps } from '../select-multiple/types';
 
 export const selectStyle =
   ({
-    invalid,
+    status = 'normal',
     width = 'initial',
     height = 'fit-content',
     size,
@@ -63,7 +63,7 @@ export const selectStyle =
       color: ${theme.semantic.foreground.neutral.primary};
     }
 
-    ${invalid &&
+    ${status === 'negative' &&
     css`
       box-shadow: inset 0 0 0 1px ${theme.semantic.line.negative.primary};
     `}
@@ -88,7 +88,7 @@ export const selectStyle =
       : css`
           &:focus,
           &[aria-expanded='true'] {
-            ${invalid
+            ${status === 'negative'
               ? css`
                   box-shadow:
                     inset 0 0 0 1px ${theme.semantic.line.negative.strong},

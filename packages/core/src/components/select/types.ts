@@ -4,8 +4,8 @@ import type { Merge, ResponsiveProps, WithSxProps } from '@montage-ui/engine';
 import type { MenuGroupProps, MenuItemProps } from '../menu/types';
 
 export type SelectDefaultProps = WithSxProps<{
-  /** Whether the select is invalid. */
-  invalid?: boolean;
+  /** The status of the select. `negative` marks the select invalid. */
+  status?: 'normal' | 'negative';
   /** Whether the select is disabled. */
   disabled?: boolean;
   /** The size of the select. Use size instead of `height` by default. */
