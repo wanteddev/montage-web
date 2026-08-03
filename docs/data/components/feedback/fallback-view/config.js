@@ -5,11 +5,10 @@ module.exports = {
   variants: {
     components: [
       'FallbackView',
-      'FallbackViewImage',
       'FallbackViewContent',
       'FallbackViewText',
-      'FallbackViewButton',
-      'Box',
+      'FallbackViewActionArea',
+      'FallbackViewActionAreaButton',
     ],
     icons: [],
     variants: [
@@ -18,13 +17,6 @@ module.exports = {
         options: [
           { label: 'Desktop', value: {} },
           { label: 'Mobile', value: {} },
-        ],
-      },
-      {
-        key: 'Image',
-        options: [
-          { label: 'True', value: {} },
-          { label: 'False', value: {} },
         ],
       },
       {
@@ -37,24 +29,30 @@ module.exports = {
       {
         key: 'Button',
         options: [
-          { label: 'True', value: {} },
+          { label: 'Single', value: {} },
+          { label: 'Horizontal', value: {} },
+          { label: 'Vertical', value: {} },
           { label: 'False', value: {} },
         ],
       },
     ],
     render: (value) => {
-      const image = `<FallbackViewImage sx={{ padding: '16px' }}><Box sx={theme => ({ width: '100%', height: '100%', borderRadius: '50%', backgroundColor: theme.semantic.surface.neutral.secondary })} /></FallbackViewImage>`;
+      const button =
+        '<FallbackViewActionAreaButton>Button</FallbackViewActionAreaButton>';
+      const actionArea =
+        value['Button'] === 'False'
+          ? ''
+          : `<FallbackViewActionArea variant="${value['Button'].toLowerCase()}">${value['Button'] === 'Single' ? button : `${button}${button}`}</FallbackViewActionArea>`;
 
       return `
         <FallbackView platform="${value['Platform'].toLowerCase()}" sx={{ padding: '0px' }}>
-          ${value['Image'] === 'True' ? image : ''}
           <FallbackViewContent>
             <FallbackViewText
-              title={${value['Heading'] === 'True' ? '"Heading"' : 'null'}} 
+              title={${value['Heading'] === 'True' ? '"Heading"' : 'null'}}
               description="Description"
             />
-  
-            ${value['Button'] === 'True' ? '<FallbackViewButton>Button</FallbackViewButton>' : ''}
+
+            ${actionArea}
           </FallbackViewContent>
         </FallbackView>
       `;

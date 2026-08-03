@@ -42,8 +42,8 @@ What it does:
    renames, semantic token follow-ups (foreground/surface reclassification, deleted
    accent tokens), CSS variable and DOM identifier leftovers (dynamically built names, files
    outside the transformed directories), Card/ListCard and FormControl follow-ups,
-   Modal/TextField/TextArea/SegmentedControl/Select/PushBadge/SearchField behavioral
-   changes, ThemeProvider cookie storage.
+   Modal/TextField/TextArea/SegmentedControl/Select/PushBadge/SearchField/FallbackView
+   behavioral changes, ThemeProvider cookie storage.
 4. **Verification** — leftover greps, install/typecheck/lint/build/tests, summary.
 
 The codemods are order-sensitive and must not run twice (re-running
