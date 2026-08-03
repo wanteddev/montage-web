@@ -24,7 +24,6 @@ const Radio = forwardRef<
       disabled,
       required,
       value,
-      invalid = false,
       onCheck,
       size = 'medium',
       tight: originTight,
@@ -72,7 +71,6 @@ const Radio = forwardRef<
             aria-checked={checked}
             aria-disabled={disabled}
             aria-required={required}
-            aria-invalid={invalid}
             disabled={disabled}
             value={value}
             ref={composedRefs}
@@ -82,7 +80,6 @@ const Radio = forwardRef<
             sx={[
               radioStyle({
                 size,
-                // invalid,
                 tight,
                 checked,
                 disabled,

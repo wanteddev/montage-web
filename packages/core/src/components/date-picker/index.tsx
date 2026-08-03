@@ -65,7 +65,7 @@ const DatePicker = forwardRef<
       yearsOrder,
       input,
       actionArea,
-      invalid: originInvalid,
+      status: originStatus,
       disableLastUnitClickClose,
       size,
       xs,
@@ -130,9 +130,12 @@ const DatePicker = forwardRef<
       disabled,
     });
 
-    const invalid =
-      originInvalid ||
-      (!onChange && Boolean(value) && isNaN(new Date(value!).getTime()));
+    // 비제어 모드에서 파싱할 수 없는 값이 들어오면 status를 negative로 승격한다.
+    const status =
+      originStatus === 'negative' ||
+      (!onChange && Boolean(value) && isNaN(new Date(value!).getTime()))
+        ? 'negative'
+        : originStatus;
 
     const { size: formControlSize, responsive } =
       useFormControlLayoutContext() || {};
@@ -214,7 +217,7 @@ const DatePicker = forwardRef<
             ...(isCustomInput
               ? {}
               : {
-                  invalid,
+                  status,
                   size: resolvedSize,
                   xs: resolvedXs,
                   sm: resolvedSm,

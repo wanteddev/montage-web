@@ -15,7 +15,7 @@ module.exports = {
       },
     ],
     render: (value) => {
-      const invalid = value['Status'] === 'Negative';
+      const status = value['Status'] === 'Negative' ? 'negative' : 'normal';
 
       return `
         <Box
@@ -23,7 +23,7 @@ module.exports = {
           onClick={() => setSelected(!selected)}
           sx={[
             framedStyle({
-              invalid: ${invalid},
+              status: '${status}',
               selected,
             }),
             {

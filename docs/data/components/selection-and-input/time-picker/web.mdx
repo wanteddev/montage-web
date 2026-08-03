@@ -234,7 +234,7 @@ const Demo = () => {
                 inputRef={field.ref}
                 value={field.value}
                 onChange={field.onChange}
-                invalid={!!formState.errors.time}
+                status={!!formState.errors.time ? 'negative' : 'normal'}
               />
             </FormControlField>
 

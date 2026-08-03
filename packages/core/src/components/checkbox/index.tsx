@@ -31,7 +31,6 @@ const Checkbox = forwardRef<
       checked: originChecked,
       onCheckedChange,
       size = 'medium',
-      invalid = false,
       indeterminate,
       indeterminateIcon: originIndeterminateIcon,
       tight: originTight,
@@ -99,7 +98,6 @@ const Checkbox = forwardRef<
             role="checkbox"
             aria-checked={indeterminate ? 'mixed' : checked}
             aria-disabled={disabled}
-            aria-invalid={invalid}
             disabled={disabled}
             aria-required={required}
             ref={composedRefs}
@@ -114,7 +112,6 @@ const Checkbox = forwardRef<
                 indeterminate,
                 bold,
                 tight,
-                // invalid,
                 xs,
                 sm,
                 md,

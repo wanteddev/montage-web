@@ -50,5 +50,6 @@ export const MIGRATION_TRANSFORMS = {
     'list-card-migration': 'ListCard Naming Migration',
     'form-control-migration': 'Form Control Naming Migration',
     'push-badge-migration': 'PushBadge Variant & Count Migration',
+    'status-migration': 'Invalid & Positive to Status Migration',
   },
 };

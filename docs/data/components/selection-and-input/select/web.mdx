@@ -327,7 +327,7 @@ export default Demo;`}
 
 validation 을 통해 여러 상태를 표현할 수 있습니다.
 - default
-- invalid (negative)
+- negative (`status="negative"`)
 - disabled
 
 <Demo code={`import { Select, Option, OptionGroup, FlexBox } from '@montage-ui/core';
@@ -349,7 +349,7 @@ const Demo = () => {
         ))}
       </Select>
 
-      <Select invalid width="25ch" placeholder="선택해주세요.">
+      <Select status="negative" width="25ch" placeholder="선택해주세요.">
         {new Array(3).fill(0).map((_, i) => (
           <OptionGroup key={i} title={\`그룹 \${i + 1}\`}>
             {new Array(3).fill(0)
@@ -1014,7 +1014,7 @@ const Demo = () => {
       <FormControl>
         <FormControlLabel required>Label</FormControlLabel>
         <FormControlField>
-          <Select width="25ch" placeholder="Invalid form control" invalid>
+          <Select width="25ch" placeholder="Invalid form control" status="negative">
             <OptionGroup title="그룹 1">
               <Option value="옵션1">옵션1</Option>
               <Option value="옵션2">옵션2</Option>
@@ -1111,7 +1111,7 @@ const Demo = () => {
                 {...field}
                 placeholder="선택하세요."
                 width="300px"
-                invalid={Boolean(formState.errors.selection)}
+                status={Boolean(formState.errors.selection) ? 'negative' : 'normal'}
               >
                 <OptionGroup title="그룹 1">
                   <Option value="옵션1">옵션1</Option>

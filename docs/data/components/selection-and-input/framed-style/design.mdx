@@ -21,7 +21,7 @@ updatedAt: 2026-02-01
   icons={[]}
   states={`const [selected, setSelected] = React.useState(false);`}
   render={(value) => {
-      const invalid = value['Status'] === 'Negative';
+      const status = value['Status'] === 'Negative' ? 'negative' : 'normal';
 
       return `
         <Box
@@ -29,7 +29,7 @@ updatedAt: 2026-02-01
           onClick={() => setSelected(!selected)}
           sx={[
             framedStyle({
-              invalid: ${invalid},
+              status: '${status}',
               selected,
             }),
             {

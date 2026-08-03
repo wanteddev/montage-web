@@ -19,8 +19,6 @@ export type CheckboxDefaultProps = WithSxProps<{
   bold?: boolean;
   /** The size of the checkbox. */
   size?: 'medium' | 'small';
-  /** Whether the checkbox is invalid. */
-  invalid?: boolean;
   /** Whether the checkbox is indeterminate. */
   indeterminate?: boolean;
   /** Use this prop to provide a custom indeterminate icon. */

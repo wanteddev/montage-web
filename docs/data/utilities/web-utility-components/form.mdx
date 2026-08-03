@@ -37,7 +37,7 @@ const Demo = () => {
             <FormControlLabel required>라벨</FormControlLabel>
 
             <FormControlField>
-              <TextField {...field} width="25ch" placeholder="값을 입력하세요." invalid={Boolean(formState.errors.content)} />
+              <TextField {...field} width="25ch" placeholder="값을 입력하세요." status={Boolean(formState.errors.content) ? 'negative' : 'normal'} />
             </FormControlField>
 
             {Boolean(formState.errors.content) ? (
@@ -112,7 +112,7 @@ const Demo = () => {
             <FormControlLabel required>라벨</FormControlLabel>
 
             <FormControlField>
-              <TextField {...field} width="25ch" placeholder="값을 입력하세요." invalid={Boolean(formState.errors.top)} />
+              <TextField {...field} width="25ch" placeholder="값을 입력하세요." status={Boolean(formState.errors.top) ? 'negative' : 'normal'} />
             </FormControlField>
 
             {Boolean(formState.errors.top) ? (
@@ -140,7 +140,7 @@ const Demo = () => {
             <FormControlLabel required>라벨</FormControlLabel>
 
             <FormControlField>
-              <TextField {...field} width="25ch" placeholder="값을 입력하세요." invalid={Boolean(formState.errors.leading)} />
+              <TextField {...field} width="25ch" placeholder="값을 입력하세요." status={Boolean(formState.errors.leading) ? 'negative' : 'normal'} />
             </FormControlField>
 
             {Boolean(formState.errors.leading) ? (
@@ -210,7 +210,7 @@ const Demo = () => {
               <FormControlLabel required>{label}</FormControlLabel>
 
               <FormControlField>
-                <TextField {...field} width="25ch" placeholder="값을 입력하세요." invalid={Boolean(formState.errors[name])} />
+                <TextField {...field} width="25ch" placeholder="값을 입력하세요." status={Boolean(formState.errors[name]) ? 'negative' : 'normal'} />
               </FormControlField>
 
               {Boolean(formState.errors[name]) ? (
@@ -267,7 +267,7 @@ const Demo = () => {
             <FormControlLabel required>라벨</FormControlLabel>
 
             <FormControlField>
-              <TextField {...field} width="25ch" placeholder="값을 입력하세요." invalid={Boolean(formState.errors.top)} />
+              <TextField {...field} width="25ch" placeholder="값을 입력하세요." status={Boolean(formState.errors.top) ? 'negative' : 'normal'} />
             </FormControlField>
 
             {Boolean(formState.errors.top) ? (
@@ -295,7 +295,7 @@ const Demo = () => {
             <FormControlLabel required>라벨</FormControlLabel>
 
             <FormControlField>
-              <TextField {...field} width="25ch" placeholder="값을 입력하세요." invalid={Boolean(formState.errors.leading)} />
+              <TextField {...field} width="25ch" placeholder="값을 입력하세요." status={Boolean(formState.errors.leading) ? 'negative' : 'normal'} />
             </FormControlField>
 
             {Boolean(formState.errors.leading) ? (
@@ -345,7 +345,7 @@ const Demo = () => {
             <FormControlLabel required>라벨</FormControlLabel>
 
             <FormControlField>
-              <TextField {...field} width="25ch" placeholder="값을 입력하세요." invalid={Boolean(formState.errors.top)} />
+              <TextField {...field} width="25ch" placeholder="값을 입력하세요." status={Boolean(formState.errors.top) ? 'negative' : 'normal'} />
             </FormControlField>
 
             {Boolean(formState.errors.top) ? (
@@ -373,7 +373,7 @@ const Demo = () => {
             <FormControlLabel required>라벨</FormControlLabel>
 
             <FormControlField>
-              <TextField {...field} width="25ch" placeholder="값을 입력하세요." invalid={Boolean(formState.errors.leading)} />
+              <TextField {...field} width="25ch" placeholder="값을 입력하세요." status={Boolean(formState.errors.leading) ? 'negative' : 'normal'} />
             </FormControlField>
 
             {Boolean(formState.errors.leading) ? (
@@ -432,7 +432,7 @@ const Demo = () => {
             <FormControlLabel required>라벨</FormControlLabel>
 
             <FormControlField>
-              <TextField {...field} width="25ch" placeholder="값을 입력하세요." invalid={Boolean(formState.errors.content)} />
+              <TextField {...field} width="25ch" placeholder="값을 입력하세요." status={Boolean(formState.errors.content) ? 'negative' : 'normal'} />
             </FormControlField>
 
             {Boolean(formState.errors.content) ? (

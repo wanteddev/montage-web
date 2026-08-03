@@ -59,7 +59,7 @@ const TimePicker = forwardRef<
       timezone,
       minTime,
       maxTime,
-      invalid: originInvalid,
+      status: originStatus,
       input,
       inputRef: originInputRef,
       disableLastUnitClickClose,
@@ -136,9 +136,12 @@ const TimePicker = forwardRef<
       [sections, originViews],
     );
 
-    const invalid =
-      originInvalid ||
-      (!onChange && Boolean(value) && isNaN(new Date(value!).getTime()));
+    // 비제어 모드에서 파싱할 수 없는 값이 들어오면 status를 negative로 승격한다.
+    const status =
+      originStatus === 'negative' ||
+      (!onChange && Boolean(value) && isNaN(new Date(value!).getTime()))
+        ? 'negative'
+        : originStatus;
 
     const { size: formControlSize, responsive } =
       useFormControlLayoutContext() || {};
@@ -218,7 +221,7 @@ const TimePicker = forwardRef<
             ...(isCustomInput
               ? {}
               : {
-                  invalid,
+                  status,
                   size: resolvedSize,
                   xs: resolvedXs,
                   sm: resolvedSm,

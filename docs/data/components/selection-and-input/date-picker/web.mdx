@@ -235,7 +235,7 @@ const Demo = () => {
                 inputRef={field.ref}
                 value={field.value}
                 onChange={field.onChange}
-                invalid={!!formState.errors.date}
+                status={!!formState.errors.date ? 'negative' : 'normal'}
               />
             </FormControlField>
 
@@ -515,7 +515,7 @@ const Demo = () => {
                 inputRef={field.ref}
                 value={field.value}
                 onChange={field.onChange}
-                invalid={!!formState.errors.date}
+                status={!!formState.errors.date ? 'negative' : 'normal'}
               />
             </FormControlField>
 
