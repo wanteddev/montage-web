@@ -107,18 +107,18 @@ export default Demo;`}
 아래 옵션을 이용하여 다양한 상태를 표현할 수 있습니다.
 
 - `selected`
-- `invalid`
+- `status` (`normal` | `negative`)
 - `disabled`
 
 <Demo code={`import { Box, framedStyle, FlexBox, SegmentedControl, SegmentedControlItem } from '@montage-ui/core';
 import { useState } from 'react';
 
 const Demo = () => {
-  const [status, setStatus] = useState('normal');
+  const [state, setState] = useState('normal');
 
-  const selected = status === 'selected';
-  const invalid = status === 'negative';
-  const disabled = status === 'disabled';
+  const selected = state === 'selected';
+  const disabled = state === 'disabled';
+  const status = state === 'negative' ? 'negative' : 'normal';
 
   return (
     <FlexBox flexDirection="column" gap={24} sx={{ width: '100%' }} justifyContent="center">
@@ -128,7 +128,7 @@ const Demo = () => {
           framedStyle({
             size: 'small',
             selected,
-            invalid,
+            status,
             disabled
           }),
           {
@@ -140,8 +140,8 @@ const Demo = () => {
       </Box>
 
       <SegmentedControl
-        value={status}
-        onValueChange={setStatus}
+        value={state}
+        onValueChange={setState}
       >
         <SegmentedControlItem value="normal">Normal</SegmentedControlItem>
         <SegmentedControlItem value="selected">Selected</SegmentedControlItem>
@@ -232,7 +232,7 @@ export default Demo;`}
 ## API
 
 <PropsTable component="framedStyle" fallback={[
-{ name: 'invalid', type: 'boolean' },
+{ name: 'status', type: '\"normal\" | \"negative\"', defaultValue: "\"normal\"" },
 { name: 'disabled', type: 'boolean' },
 { name: 'selected', type: 'boolean' },
 { name: 'shadow', type: 'ThemeShadowToken', defaultValue: 'semantic.elevation.shadow.normal.xsmall' },

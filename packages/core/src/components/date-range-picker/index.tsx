@@ -65,7 +65,7 @@ const DateRangePicker = forwardRef<
       yearsOrder,
       input,
       actionArea,
-      invalid: originInvalid,
+      status: originStatus,
       disableLastDateClickClose,
       calendars,
       size,
@@ -134,7 +134,11 @@ const DateRangePicker = forwardRef<
       disabled,
     });
 
-    const invalid = originInvalid || (!onChange && isInvalidDateRange(value));
+    // 비제어 모드에서 파싱할 수 없거나 뒤집힌 범위가 들어오면 status를 negative로 승격한다.
+    const status =
+      originStatus === 'negative' || (!onChange && isInvalidDateRange(value))
+        ? 'negative'
+        : originStatus;
 
     const { size: formControlSize, responsive } =
       useFormControlLayoutContext() || {};
@@ -219,7 +223,7 @@ const DateRangePicker = forwardRef<
             ...(isCustomInput
               ? {}
               : {
-                  invalid,
+                  status,
                   size: resolvedSize,
                   xs: resolvedXs,
                   sm: resolvedSm,

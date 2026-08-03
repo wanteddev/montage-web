@@ -627,7 +627,7 @@ const Demo = () => {
                     <FormControlLabel>라벨</FormControlLabel>
 
                     <FormControlField>
-                      <TextField {...field} width="100%" placeholder="값을 입력하세요." invalid={Boolean(formState.errors.value)} />
+                      <TextField {...field} width="100%" placeholder="값을 입력하세요." status={Boolean(formState.errors.value) ? 'negative' : 'normal'} />
                     </FormControlField>
 
                     {Boolean(formState.errors.value) ? (

@@ -2,8 +2,8 @@ import type { Merge, ResponsiveProps, WithSxProps } from '@montage-ui/engine';
 import type { CSSProperties, ReactNode } from 'react';
 
 export type TextAreaDefaultProps = WithSxProps<{
-  /** Whether the text area is invalid. */
-  invalid?: boolean;
+  /** The status of the text area. `negative` marks the field invalid. */
+  status?: 'normal' | 'negative';
   /** The maximum length of the text area. */
   maxLength?: number;
   /** The leading content of the text area. Pass an element wrapped with `TextAreaContent`. */

@@ -1,12 +1,12 @@
 ---
 name: montage-v3-to-v4
-description: This skill should be used when the user asks to migrate a project from Montage (WDS) v3 to v4, upgrade @wanteddev/wds to @montage-ui/* 4.x, run any Montage v4 codemod (package-name-migration, semantic-token-migration, css-variable-migration, dom-identifier-migration, list-card-migration, form-control-migration, push-badge-migration), or resume an in-progress v4 migration. Triggers include "montage v4 마이그레이션", "montage 4 적용해줘", "몬타지 v4로 올려줘", "wds 4.0으로 업그레이드", "디자인시스템 v4로 올려줘", "@montage-ui로 전환해줘", "마이그레이션 이어서 해줘", "form-control 코드모드만 돌려줘", "semantic 토큰 코드모드 돌려줘", "시멘틱 토큰 마이그레이션 해줘", "패키지명 마이그레이션만 해줘", "css 변수 코드모드 돌려줘", "dom 식별자 코드모드만 돌려줘", "list-card 코드모드만 돌려줘", "push-badge 코드모드만 돌려줘", "푸시뱃지 마이그레이션 해줘", "migrate to montage v4", "resume the montage migration", "run the form-control codemod", "run the semantic token codemod", "run the push-badge codemod". Covers v3→v4 only (earlier migrations live in the wanteddev/montage-web repo's MIGRATION.md). Orchestrates the 7 codemods strictly in sequence with run-once protection, then guides the manual migrations.
+description: This skill should be used when the user asks to migrate a project from Montage (WDS) v3 to v4, upgrade @wanteddev/wds to @montage-ui/* 4.x, run any Montage v4 codemod (package-name-migration, semantic-token-migration, css-variable-migration, dom-identifier-migration, list-card-migration, form-control-migration, push-badge-migration, status-migration), or resume an in-progress v4 migration. Triggers include "montage v4 마이그레이션", "montage 4 적용해줘", "몬타지 v4로 올려줘", "wds 4.0으로 업그레이드", "디자인시스템 v4로 올려줘", "@montage-ui로 전환해줘", "마이그레이션 이어서 해줘", "form-control 코드모드만 돌려줘", "semantic 토큰 코드모드 돌려줘", "시멘틱 토큰 마이그레이션 해줘", "패키지명 마이그레이션만 해줘", "css 변수 코드모드 돌려줘", "dom 식별자 코드모드만 돌려줘", "list-card 코드모드만 돌려줘", "push-badge 코드모드만 돌려줘", "푸시뱃지 마이그레이션 해줘", "status 코드모드만 돌려줘", "invalid를 status로 바꿔줘", "migrate to montage v4", "resume the montage migration", "run the form-control codemod", "run the semantic token codemod", "run the push-badge codemod", "run the status codemod". Covers v3→v4 only (earlier migrations live in the wanteddev/montage-web repo's MIGRATION.md). Orchestrates the 8 codemods strictly in sequence with run-once protection, then guides the manual migrations.
 ---
 
 # montage-v3-to-v4
 
 Migrate a consumer project from Montage (Wanted Design System) v3 (`@wanteddev/wds*` 3.x)
-to v4 (`@montage-ui/*` 4.x). The migration is: 7 codemods run **strictly in sequence,
+to v4 (`@montage-ui/*` 4.x). The migration is: 8 codemods run **strictly in sequence,
 each exactly once**, followed by manual migrations the codemods cannot express, followed
 by verification.
 
@@ -14,13 +14,13 @@ by verification.
 
 1. **Never run a codemod twice on the same tree.** `form-control-migration` swaps
    `FormField→FormControl` while renaming `FormControl→FormControlField`; a second run
-   renames the new root again and silently corrupts the code. Treat all 7 steps as
+   renames the new root again and silently corrupts the code. Treat all 8 steps as
    run-once; the state file is the source of truth.
 2. **Fixed order, one step at a time.** Complete (and commit) step N before starting
    step N+1: ① `package-name-migration` ② `semantic-token-migration`
    ③ `css-variable-migration` ④ `dom-identifier-migration` ⑤ `list-card-migration`
-   ⑥ `form-control-migration` ⑦ `push-badge-migration`. Manual steps reference
-   post-codemod names, so they come after all 7.
+   ⑥ `form-control-migration` ⑦ `push-badge-migration` ⑧ `status-migration`. Manual steps
+   reference post-codemod names, so they come after all 8.
 3. **Codemods first, hand-edits after.** Do not hand-migrate any `Form*` / `Card*` usage
    (or adopt new v4 APIs) before the codemods run — `form-control-migration` corrupts
    hand-migrated files even on its first run.
@@ -28,7 +28,7 @@ by verification.
    reverted in isolation.
 5. **The tree does not install / typecheck / build between step ① and M1.** Step ① rewrites
    every import to `@montage-ui/*` while `package.json` still lists `@wanteddev/wds*` (M1
-   owns package.json and ends with the install). The seven codemod commits are intentionally
+   owns package.json and ends with the install). The eight codemod commits are intentionally
    non-building — do NOT try to fix resolution errors during the codemod phase, and expect
    pre-commit hooks (`.husky/`, `core.hooksPath`, `lint-staged`) to fail: detect them at
    preflight and agree with the user on `--no-verify` or disabling them for the phase. An
@@ -50,8 +50,8 @@ rewrites `package.json` a resume looks exactly like "already migrated".
    exists, this is a resume; apply these rules:
    - **Resume.** Skip every step marked `completed`, continue from the first `pending`
      step. A step or manual key missing from an older state file (e.g.
-     `semantic-token-migration`, `push-badge-migration`, `M9`, `M10`, `M11`, `M12`,
-     `M13`, `M14`, or `M15`, added after the file was created) is `pending` —
+     `semantic-token-migration`, `push-badge-migration`, `status-migration`, `M9`, `M10`,
+     `M11`, `M12`, `M13`, `M14`, `M15`, or `M16`, added after the file was created) is `pending` —
      add it to the file and run it. `semantic-token-migration` sits at position ② BEFORE
      steps an older migration may already have completed: it still runs, and running it
      after the later steps is safe (its token namespace is disjoint from every other
@@ -82,7 +82,7 @@ rewrites `package.json` a resume looks exactly like "already migrated".
      `\bSearchField\b[^>]*size="medium"` — post-conversion `size="medium"` hits are the
      converted smalls …, M15's `\bFallbackView` /
      `\bFallbackViewImage(Props)?\b` — a kept deprecated image is a recorded decision, not a
-     leftover), so they are
+     leftover, M16's `status=` / `aria-invalid` — both are the correct v4 shape), so they are
      never mismatch evidence. Detect the pending-but-already-applied direction with the
      **presence greps** in `references/codemod-steps.md` — each step's verify grep is an
      ABSENCE check that returns zero both when the codemod ran and when the repo never used
@@ -136,7 +136,7 @@ rewrites `package.json` a resume looks exactly like "already migrated".
      `npx -y @montage-ui/codemod@<resolved> __probe__` — which prints
      `Invalid transform choice, pick one of:` followed by every id and exits 1 (the non-zero exit
      is expected; the run stays non-interactive). `--help` cannot serve this purpose: it prints
-     only the usage block and names no transform. **Check that list contains all seven step ids.** On a RESUME this check is not a formality: a
+     only the usage block and names no transform. **Check that list contains all eight step ids.** On a RESUME this check is not a formality: a
      step key added to this skill after the pin was recorded may not exist in the pinned
      build, and the CLI then rejects it mid-migration with "Invalid transform choice" after
      earlier steps have already committed. If a step is missing from the pinned build, stop
@@ -174,7 +174,7 @@ rewrites `package.json` a resume looks exactly like "already migrated".
      the leftover greps from `references/codemod-steps.md` plus every M-section scan
      pattern from `references/manual-migrations.md` (steps and M-sections added after a
      consumer finished migrating — e.g. step ② `semantic-token-migration`, step ⑦
-     `push-badge-migration`, M9, M10, M11, M12, M13, M14, and M15 — surface only through these scans)
+     `push-badge-migration`, step ⑧ `status-migration`, M9, M10, M11, M12, M13, M14, M15, and M16 — surface only through these scans)
      and report instead of migrating.
    - BOTH `@wanteddev/wds*` and `@montage-ui/*` present → the project is partially
      hand-migrated. Run the step ⑤/⑥ pre-checks from `references/codemod-steps.md` before
@@ -225,7 +225,8 @@ rewrites `package.json` a resume looks exactly like "already migrated".
    consistent with the completed steps: run each completed step's post-step verification
    grep from `references/codemod-steps.md` over the dirty files, and skim `git diff` for
    hunks outside those steps' rename surfaces (imports, semantic tokens, CSS variables,
-   DOM identifiers, Card/Form identifiers) — anything unexplained goes to the user before
+   DOM identifiers, Card/Form identifiers, PushBadge `variant`/`count`/`text`,
+   `invalid`/`positive` → `status`/`aria-invalid`) — anything unexplained goes to the user before
    proceeding (or offer to commit the consistent dirty set as a baseline).
 4. **Targets.** Identify source directories to transform (default `src`). Include
    directories containing stylesheets that reference `--wds-*` / `--semantic-*` variables
@@ -286,12 +287,16 @@ re-enumerating). A new codemod step or M-section must be updated in ALL of these
 
 1. this state-file template,
 2. SKILL.md Critical rules item 2 (the ordered step list) and the frontmatter description,
-3. SKILL.md Step 2 decision bullets and Step 3 verification checklist,
+3. SKILL.md Step 2 decision bullets, Step 3 verification checklist, and preflight item 3's
+   parenthetical listing each completed step's rename surface,
 4. `references/codemod-steps.md` — step table, step section, presence grep, and the
-   "After all 7 steps" checklist,
+   "After all 8 steps" checklist,
 5. `references/manual-migrations.md` — the M-section and its scan patterns,
 6. `scripts/migration-workflow.js` — `CODEMOD_STEPS`, `MANUAL_SCAN_SECTIONS`,
-   `STATE_FILE_TEMPLATE`,
+   `STATE_FILE_TEMPLATE`, the step-agent prompt's `M1–M<last>` deferral range
+   (procedure step 9), and the three count-bearing strings `meta.description`,
+   `meta.phases[0].detail` and the `commitNoVerify` header comment's codemod count — every
+   one of these is hand-written, so they drift silently when a step or M-section is added,
 7. the plugin `README.md` and `README.ko.md` (both hardcode the ordered codemod list and
    the manual-migration summary).
    The `targets` / `autoCommit` / `codemodVersion` values below are EXAMPLES — fill in the
@@ -316,6 +321,7 @@ steps:
   list-card-migration: pending
   form-control-migration: pending
   push-badge-migration: pending
+  status-migration: pending
 manual:
   M1: pending
   M2: pending
@@ -332,6 +338,7 @@ manual:
   M13: pending
   M14: pending
   M15: pending
+  M16: pending
 ---
 ```
 
@@ -390,7 +397,7 @@ announced when the skill loaded, or to the directory of the loaded SKILL.md. ALW
 resolved in preflight (first run) or read from the state file (resume) — the script
 rejects dist-tags, since the value is recorded in the state file and a dist-tag would
 re-resolve on resume and break the same-build guarantee. The workflow returns per-step results plus a
-`manualScan` report (assessed occurrences for manual steps M1–M15).
+`manualScan` report (assessed occurrences for manual steps M1–M16).
 
 - If the workflow reports `aborted`, surface the failed step's error to the user, fix the
   cause, and re-run the same Workflow invocation with `completedSteps` refreshed from the
@@ -474,14 +481,14 @@ re-resolve on resume and break the same-build guarantee. The workflow returns pe
     `--no-verify` and does not touch the hook config. Settle the policy with the user, then
     re-run with `commitNoVerify: true` (or with the hooks disabled for the phase).
   - **State-file verification failed on a scan-only re-run** (`aborted:
-"state-file-verification"`, all 7 steps already completed): read `stateCheckError` — the
+"state-file-verification"`, all 8 steps already completed): read `stateCheckError` — the
     script produces six distinct causes with different remediations, so never assume which.
     (a) The verification agent returned nothing — re-run. (b) State file missing — reconcile
     with the user, never recreate silently. (c) `targets` disagree — follow the target-lock
     path in preflight item 1. (d) A LOCKED FIELD disagrees (`codemodVersion` or `autoCommit`
     differs from the recorded value) — re-run with the recorded value; changing the pin
     mid-migration forfeits the same-build guarantee and flipping `autoCommit` changes the
-    failure handling every step branches on. (e) `completedSteps` claims all seven are done while
+    failure handling every step branches on. (e) `completedSteps` claims all eight are done while
     the state file still marks some `pending` — the list is stale; refresh it from the state
     file and re-run, since those steps must still RUN. (f) The state file's recorded
     `excludeFiles` disagree with the invocation's — re-run passing the recorded list
@@ -494,7 +501,7 @@ re-resolve on resume and break the same-build guarantee. The workflow returns pe
   marks that were already `completed`, before continuing.
 - **Fallback without the Workflow tool:** execute the exact per-step procedure embedded in
   `scripts/migration-workflow.js` (read it) inline — one step at a time, same order, same
-  state-file checks. Never parallelize the codemod steps. After all 7 steps, produce the
+  state-file checks. Never parallelize the codemod steps. After all 8 steps, produce the
   manual worklist yourself: run each M-section's scan patterns from
   `references/manual-migrations.md` (read-only, whole repo minus
   `.git`/node_modules/.next/dist/build output/lockfiles) and use those hits as Step 2's
@@ -529,10 +536,10 @@ where double-runs happen.
 
 ## Step 2 — Manual migrations
 
-Work through `references/manual-migrations.md` (M1–M15) using the workflow's `manualScan`
-hits as the worklist. On a resume where all 7 codemod steps are already `completed` but no
+Work through `references/manual-migrations.md` (M1–M16) using the workflow's `manualScan`
+hits as the worklist. On a resume where all 8 codemod steps are already `completed` but no
 workflow ran this session, there is no `manualScan` report — rebuild the worklist first:
-re-run the same Workflow invocation with `completedSteps` listing all 7 (every step is
+re-run the same Workflow invocation with `completedSteps` listing all 8 (every step is
 skipped deterministically; the run only regenerates the scans — but it still verifies the
 state file exists and its `targets` match, and aborts with `stateCheckError` otherwise), or run each pending
 M-section's scan patterns from `references/manual-migrations.md` yourself. Never work
@@ -620,6 +627,14 @@ both together when an M-section changes):
   `FallbackViewImage` is the v4 design but a visual decision, and it also removes the
   content's vertical padding, which now applies only while an image is present — where the
   old spacing mattered, restore it with `sx` instead of keeping the image.
+- **M16 (`invalid` / `positive` → `status`):** the prop rename itself is type-visible (the
+  old props are gone), so what survives step ⑧ is the type-invisible surface: `invalid` /
+  `positive` reaching a field through `{...props}` or a props object built outside the JSX,
+  and `TextField` usages that set BOTH — v4's `status` is exclusive, so one of the two
+  states has to go (the codemod folds them with `negative` winning, matching v3's border).
+  Picker `status` is also auto-promoted to `negative` on unparseable values in uncontrolled
+  mode, which `status="normal"` cannot override — per occurrence, decide whether to keep the
+  promotion or take control with `onChange`.
 
 M1 (package.json + configs) ends with a dependency install to refresh the lockfile.
 Mark each M-section `completed` in the state file as it finishes.
@@ -641,10 +656,14 @@ Mark each M-section `completed` in the state file as it finishes.
      **in both `file` and `name`** (steps ③/④ reverted it deliberately as consumer-owned — an
      expected survivor, not an M3 leftover; the same name in a file that is not in the list stays
      a leftover candidate). Read both lists from the state file before judging any hit.
-   - The 7 codemod verify greps are zero-criterion WITH their documented exceptions
+   - The 8 codemod verify greps are zero-criterion WITH their documented exceptions
      (step ①: `@wanteddev/montage-mcp` hits are the correct post-migration name; step ⑥:
      hits inside a file listed in the state file's `excludeFiles` — read it before judging
-     them. `FormControl` is NOT an exception to list here: step ⑥'s grep is
+     them; step ⑧: a `status={…}` whose FOLDED EXPRESSION mentions a bare `invalid` /
+     `positive` (`status={hasError || invalid ? …}`) is the transform's own correct output —
+     never edit it and never count it against the criterion, since deleting that identifier
+     breaks the ternary. Only a SECOND `invalid` / `positive` ATTRIBUTE on the element is an
+     M16 leftover. `FormControl` is NOT an exception to list here: step ⑥'s grep is
      `\bForm(Field|Label|Message|ErrorMessage)`, which cannot match inside `FormControl*`
      at all, so a `FormControl` "hit" never comes from it — old inner-slot `FormControl`
      usages are covered by the separate namespace/subpath inspection in step ⑥).
@@ -665,18 +684,21 @@ Mark each M-section `completed` in the state file as it finishes.
    particular (see M11),
    Selects in dense layouts, whose focus ring now draws 4px OUTSIDE the field (see M12),
    former `variant="new"` badges, whose square now comes from a fixed width instead of
-   `aspect-ratio` (see M13), and fallback views, whose content padding now applies only
+   `aspect-ratio` (see M13), SearchFields whose radius and typography shifted with the size
+   rename (see M14), fallback views, whose content padding now applies only
    while an image is present — so it is gone from every image-less view, including each one
-   where M15's decision dropped the deprecated image (see M15) — plus screens that used the
+   where M15's decision dropped the deprecated image (see M15) — and TextFields that used to
+   show BOTH the negative border and the positive icon, which `status` can no longer express
+   at once (see M16) — plus screens that used the
    deleted accent tokens (their replacement values differ — see M9).
 4. Delete the state file, then summarize: steps run, commits created, manual fixes
    applied, items intentionally left (with reasons).
 
 ## Additional resources
 
-- **`references/codemod-steps.md`** — the 7 codemods in order: exact commands,
+- **`references/codemod-steps.md`** — the 8 codemods in order: exact commands,
   idempotency analysis, pre-checks, post-step verification greps, hazards.
-- **`references/manual-migrations.md`** — manual migrations M1–M15 with scan patterns and
+- **`references/manual-migrations.md`** — manual migrations M1–M16 with scan patterns and
   fix rules.
 - **`scripts/migration-workflow.js`** — Workflow-tool script for the codemod phase; also
   the canonical per-step procedure for inline fallback execution.

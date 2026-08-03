@@ -9,8 +9,6 @@ export type RadioDefaultProps = WithSxProps<{
   /** Whether the radio is disabled. */
   disabled?: boolean;
   required?: boolean;
-  /** Whether the radio is invalid. */
-  invalid?: boolean;
   /** The size of the radio. */
   size?: 'medium' | 'small';
   /** Callback function when the radio is checked. */

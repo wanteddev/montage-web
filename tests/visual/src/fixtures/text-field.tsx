@@ -19,10 +19,10 @@ export const DefaultTextField = () => {
 export const InvalidTextField = () => {
   return (
     <>
-      <TextField placeholder="Invalid" invalid />
+      <TextField placeholder="Invalid" status="negative" />
       <TextField
         placeholder="Invalid with value"
-        invalid
+        status="negative"
         defaultValue="Value"
       />
     </>
@@ -32,10 +32,10 @@ export const InvalidTextField = () => {
 export const PositiveTextField = () => {
   return (
     <>
-      <TextField placeholder="Positive" positive />
+      <TextField placeholder="Positive" status="positive" />
       <TextField
         placeholder="Positive with value"
-        positive
+        status="positive"
         defaultValue="Value"
       />
     </>
