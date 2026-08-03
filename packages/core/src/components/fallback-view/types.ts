@@ -19,6 +19,11 @@ export type FallbackViewProps = Merge<
   FlexBoxProps
 >;
 
+/**
+ * @deprecated Fallback view no longer displays an image. Remove the image from
+ * your usage — note that doing so also removes `FallbackViewContent`'s vertical
+ * padding, which now applies only while an image is present.
+ */
 export type FallbackViewImageProps = FlexBoxProps;
 
 export type FallbackViewContentProps = FlexBoxProps;
@@ -34,4 +39,20 @@ export type FallbackViewTextProps = Merge<
   TypographyProps
 >;
 
-export type FallbackViewButtonProps = ButtonProps;
+export type FallbackViewActionAreaDefaultProps = WithSxProps<{
+  /**
+   * The layout of the action area.
+   * - `single`: A single button placed in one row.
+   * - `horizontal`: Buttons placed side by side in one row.
+   * - `vertical`: Buttons stacked in a column.
+   */
+  variant?: 'single' | 'horizontal' | 'vertical';
+  children?: ReactNode;
+}>;
+
+export type FallbackViewActionAreaProps = Merge<
+  FallbackViewActionAreaDefaultProps,
+  FlexBoxProps
+>;
+
+export type FallbackViewActionAreaButtonProps = ButtonProps;
