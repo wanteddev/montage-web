@@ -43,7 +43,7 @@ describe('when given text field component', () => {
           <TextField
             data-testid="text-field"
             readOnly={false}
-            invalid={false}
+            status="normal"
           />
         </FormControlField>
         <FormControlMessage>Message</FormControlMessage>

@@ -42,11 +42,10 @@ const TextField = forwardRef<
   (
     {
       size,
-      invalid,
+      status = 'normal',
       leadingContent,
       trailingContent,
       trailingButton,
-      positive,
       readOnly,
       disabled,
       className,
@@ -116,13 +115,12 @@ const TextField = forwardRef<
         sx={[
           textFieldWrapperStyle({
             size: resolvedSize,
-            invalid,
+            status,
             width,
             height,
             readOnly,
             disabled,
             type,
-            positive,
             xs: resolvedXs,
             sm: resolvedSm,
             md: resolvedMd,
@@ -150,7 +148,7 @@ const TextField = forwardRef<
             readOnly={readOnly}
             disabled={disabled}
             aria-readonly={readOnly}
-            aria-invalid={invalid}
+            aria-invalid={status === 'negative' || undefined}
             aria-disabled={disabled}
             {...props}
           />
@@ -160,7 +158,7 @@ const TextField = forwardRef<
             alignItems="center"
             data-role="text-field-trailing-content"
           >
-            {positive && (
+            {status === 'positive' && (
               <TextFieldContent
                 data-role="text-field-positive"
                 sx={positiveIconWrapperStyle}

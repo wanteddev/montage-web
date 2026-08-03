@@ -10,7 +10,7 @@ import type { Theme } from '@montage-ui/engine';
 export const textAreaWrapperStyle =
   ({
     disabled,
-    invalid,
+    status = 'normal',
     width = 'fit-content',
     size,
     xs,
@@ -30,7 +30,7 @@ export const textAreaWrapperStyle =
 
     ${textAreaWrapperSizeStyle({ size }, theme)}
 
-    ${invalid &&
+    ${status === 'negative' &&
     css`
       box-shadow: inset 0 0 0 1px ${theme.semantic.line.negative.primary};
     `}
@@ -48,7 +48,7 @@ export const textAreaWrapperStyle =
           @supports selector(:has(*)) {
             &:where(:has(textarea:focus)) {
               ${
-                invalid
+                status === 'negative'
                   ? css`
                       box-shadow:
                         inset 0 0 0 1px ${theme.semantic.line.negative.strong},
@@ -66,7 +66,7 @@ export const textAreaWrapperStyle =
           @supports not selector(:has(*)) {
            &:where(:focus-within) {
               ${
-                invalid
+                status === 'negative'
                   ? css`
                       box-shadow:
                         inset 0 0 0 1px ${theme.semantic.line.negative.strong},

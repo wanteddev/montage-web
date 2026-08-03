@@ -7,18 +7,7 @@ import type { RadioProps } from './types';
 import type { Theme } from '@montage-ui/engine';
 
 export const radioStyle =
-  ({
-    size,
-    checked,
-    // invalid,
-    tight,
-    disabled,
-    xs,
-    sm,
-    md,
-    lg,
-    xl,
-  }: RadioProps) =>
+  ({ size, checked, tight, disabled, xs, sm, md, lg, xl }: RadioProps) =>
   (theme: Theme) => css`
     display: flex;
     padding: 2px;

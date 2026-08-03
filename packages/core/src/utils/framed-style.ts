@@ -6,7 +6,7 @@ import { addOpacity } from './color';
 import type { Theme, ThemeShadowToken } from '@montage-ui/engine';
 
 export type FramedStyleParams = {
-  invalid?: boolean;
+  status?: 'normal' | 'negative';
   disabled?: boolean;
   selected?: boolean;
   shadow?: ThemeShadowToken;
@@ -17,7 +17,7 @@ export const framedStyle = (params?: FramedStyleParams) => (theme: Theme) => {
   const {
     shadow = 'semantic.elevation.shadow.normal.xsmall',
     size = 'medium',
-    invalid,
+    status = 'normal',
     disabled,
     selected,
   } = params ?? {};
@@ -29,7 +29,7 @@ export const framedStyle = (params?: FramedStyleParams) => (theme: Theme) => {
 
   return css`
     ${getSizeStyle(size)}
-    ${getShadowStyle({ base: boxShadow, invalid, selected }, theme)}
+    ${getShadowStyle({ base: boxShadow, status, selected }, theme)}
 
     background-color: transparent;
     display: flex;
@@ -100,12 +100,12 @@ const getSizeStyle = (size: FramedStyleParams['size']) => {
 const getShadowStyle = (
   {
     base,
-    invalid,
+    status,
     selected,
-  }: { base: string } & Pick<FramedStyleParams, 'invalid' | 'selected'>,
+  }: { base: string } & Pick<FramedStyleParams, 'status' | 'selected'>,
   theme: Theme,
 ) => {
-  if (invalid) {
+  if (status === 'negative') {
     return css`
       &::before {
         box-shadow:
