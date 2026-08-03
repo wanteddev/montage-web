@@ -79,7 +79,7 @@ const fallbackViewPlatformStyle = (
           ${typographyStyle('heading2', 'bold')}
         }
         [data-role='fallback-view-text-description'] {
-          ${typographyStyle('body1-reading')}
+          ${typographyStyle('body2-reading', 'regular')}
         }
 
         &:has([data-component='fallback-view-image'])

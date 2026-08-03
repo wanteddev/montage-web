@@ -38,6 +38,6 @@ const getFallbackViewButtonSizePlatform = (
     case 'desktop':
       return 'large';
     case 'mobile':
-      return 'small';
+      return 'medium';
   }
 };
