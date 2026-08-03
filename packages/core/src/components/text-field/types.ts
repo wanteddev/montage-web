@@ -12,10 +12,11 @@ import type {
 } from 'react';
 
 export type TextFieldDefaultProps = WithSxProps<{
-  /** Whether the text field is invalid. */
-  invalid?: boolean;
-  /** Whether the text field is positive. */
-  positive?: boolean;
+  /**
+   * The status of the text field.
+   * `negative` marks the field invalid, `positive` shows the success indicator.
+   */
+  status?: 'normal' | 'negative' | 'positive';
   /** The leading content of the text field. Pass an element wrapped with `TextFieldContent`. */
   leadingContent?: ReactNode;
   /** The trailing content of the text field. Pass an element wrapped with `TextFieldContent`. */

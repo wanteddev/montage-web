@@ -23,8 +23,8 @@ export default Demo;`}
 
 validation 을 통해 여러 상태를 표현할 수 있습니다.
 - default
-- positive
-- invalid (negative)
+- positive (`status="positive"`)
+- negative (`status="negative"`)
 - readOnly
 - disabled
 
@@ -34,8 +34,8 @@ const Demo = () => {
   return (
     <FlexBox gap="12px" flexDirection="column" alignItems="center">
       <TextField width="25ch" placeholder="Default" />
-      <TextField width="25ch" placeholder="Positive" positive />
-      <TextField width="25ch" placeholder="Invalid" invalid />
+      <TextField width="25ch" placeholder="Positive" status="positive" />
+      <TextField width="25ch" placeholder="Invalid" status="negative" />
       <TextField width="25ch" placeholder="Read Only" readOnly />
       <TextField width="25ch" placeholder="Disabled" disabled />
       <TextField width="25ch" placeholder="Disabled" value="Disabled + Value" disabled />
@@ -74,7 +74,7 @@ const Demo = () => {
       <FormControl>
         <FormControlLabel required>Label</FormControlLabel>
         <FormControlField>
-          <TextField width="25ch" placeholder="Invalid form control" invalid />
+          <TextField width="25ch" placeholder="Invalid form control" status="negative" />
         </FormControlField>
         <FormControlNegativeMessage>Error Message</FormControlNegativeMessage>
       </FormControl>
@@ -390,7 +390,7 @@ const Demo = () => {
                 {...field}
                 placeholder="입력하세요."
                 width="300px"
-                invalid={Boolean(formState.errors.content)}
+                status={Boolean(formState.errors.content) ? 'negative' : 'normal'}
               />
             </FormControlField>
             
