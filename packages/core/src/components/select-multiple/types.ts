@@ -3,8 +3,8 @@ import type { Merge, ResponsiveProps, WithSxProps } from '@montage-ui/engine';
 import type { CSSProperties, ComponentProps, ReactNode } from 'react';
 
 export type SelectMultipleDefaultProps = WithSxProps<{
-  /** Whether the select multiple is invalid. */
-  invalid?: boolean;
+  /** The status of the select multiple. `negative` marks the select invalid. */
+  status?: 'normal' | 'negative';
   /** Whether the select multiple is disabled. */
   disabled?: boolean;
   /** The size of the select. Use size instead of `height` by default. */
