@@ -855,6 +855,103 @@ v3에서는 `readOnly`를 넘기면 reset 버튼이 숨겨지고 `aria-readonly`
 
 `[data-component='search-field']`의 직계 자식(`>`)으로 `input`이나 `[data-role='search-field-icon']` 등을 타겟해 커스텀했다면 새 구조에 맞게 수정해야 합니다. 아이콘 영역 크기는 이제 CSS variable(`--search-field-icon-wrapper-size`, `--search-field-icon-size`)로 제어됩니다.
 
+### FallbackView
+
+Figma 스펙에 맞춰 이미지 영역이 사라지고, 버튼을 `FallbackViewActionArea`로 감싸 레이아웃을 구성하는 구조로 변경되었습니다.
+
+#### `FallbackViewButton` → `FallbackViewActionAreaButton` + `FallbackViewActionArea`
+
+`FallbackViewButton`이 제거되고 `FallbackViewActionAreaButton`으로 이름이 변경되었습니다. 버튼은 `FallbackViewActionArea`로 감싸서 사용하고, 버튼 배치는 `FallbackViewActionArea`의 `variant`로 지정합니다.
+
+```tsx
+// AS-IS
+<FallbackViewContent>
+  <FallbackViewText title="타이틀" description="설명" />
+  <FallbackViewButton>텍스트</FallbackViewButton>
+</FallbackViewContent>
+
+// TO-BE
+<FallbackViewContent>
+  <FallbackViewText title="타이틀" description="설명" />
+  <FallbackViewActionArea>
+    <FallbackViewActionAreaButton>텍스트</FallbackViewActionAreaButton>
+  </FallbackViewActionArea>
+</FallbackViewContent>
+```
+
+| AS-IS                     | TO-BE                               |
+| ------------------------- | ----------------------------------- |
+| `FallbackViewButton`      | `FallbackViewActionAreaButton`      |
+| `FallbackViewButtonProps` | `FallbackViewActionAreaButtonProps` |
+| —                         | `FallbackViewActionArea` (신규)     |
+
+`FallbackViewActionArea`의 `variant`는 아래 세 가지이며 기본값은 `'single'`입니다. `single`과 `horizontal`은 모두 가로 배치이고, `vertical`만 세로로 쌓입니다. 버튼 간격은 `platform`이 결정하며(desktop 가로 12px / 세로 10px, mobile 가로 10px / 세로 8px), `--fallback-view-action-area-horizontal-gap` / `--fallback-view-action-area-vertical-gap`으로 재정의할 수 있습니다.
+
+| variant           | 배치                     |
+| ----------------- | ------------------------ |
+| `single` (기본값) | 버튼 하나를 가로로 배치  |
+| `horizontal`      | 버튼 두 개를 가로로 배치 |
+| `vertical`        | 버튼 두 개를 세로로 배치 |
+
+코드모드는 제공하지 않습니다. 이름만 바꾸면 렌더는 되지만 간격이 `FallbackViewActionArea`에서 결정되므로, `FallbackViewButton` 사용처를 직접 찾아 래핑까지 함께 적용하세요.
+
+```sh
+grep -rn 'FallbackViewButton' src
+```
+
+v2 → v3 마이그레이션에서 `empty-state-to-fallback-view` 코드모드를 실행한 프로젝트는 `EmptyStateButton`이 `FallbackViewButton`으로 변환되어 있으므로 위 grep에 함께 걸립니다.
+
+#### `FallbackViewImage` deprecated
+
+Fallback view는 더 이상 이미지를 표시하지 않습니다. `FallbackViewImage` / `FallbackViewImageProps`는 deprecated 되었지만 동작은 그대로 유지되므로, 타입 에러 없이 계속 렌더됩니다. 사용처마다 이미지를 제거할지 deprecated API를 유지할지 판단하세요 — 제거하면 이미지가 사라지는 것 외에 아래 `FallbackViewContent`의 상하 패딩도 함께 없어지므로 시각적 변경입니다.
+
+이미지를 제거하는 경우:
+
+```tsx
+// AS-IS
+<FallbackView>
+  <FallbackViewImage>
+    <img src="..." alt="" />
+  </FallbackViewImage>
+
+  <FallbackViewContent>{/* ... */}</FallbackViewContent>
+</FallbackView>
+
+// TO-BE
+<FallbackView>
+  <FallbackViewContent>{/* ... */}</FallbackViewContent>
+</FallbackView>
+```
+
+#### `FallbackViewContent` 상하 패딩 제거
+
+`FallbackViewContent`의 상하 패딩이 `FallbackViewImage`가 있을 때만 적용되도록 바뀌었습니다. 이미지 없이 사용하던 화면은 content 높이가 줄어듭니다.
+
+| 구성                 | AS-IS (`padding-top` / `padding-bottom`) | TO-BE       |
+| -------------------- | ---------------------------------------- | ----------- |
+| mobile, 이미지 없음  | 8px / 8px                                | 0 / 0       |
+| mobile, 이미지 있음  | 8px / 28px                               | 8px / 28px  |
+| desktop, 이미지 없음 | 12px / 12px                              | 0 / 0       |
+| desktop, 이미지 있음 | 12px / 32px                              | 12px / 32px |
+
+패딩은 `--fallback-view-top-space` / `--fallback-view-bottom-space` CSS variable로 노출되며, `FallbackView` 루트가 `fallback-view-image`를 가질 때만 값을 채웁니다. 기존 여백이 필요하면 `FallbackViewContent`에 `sx`로 직접 지정하세요.
+
+#### 스타일 변경
+
+| 대상                                      | AS-IS                                  | TO-BE                                   |
+| ----------------------------------------- | -------------------------------------- | --------------------------------------- |
+| `FallbackViewText` title/description 간격 | `10px`                                 | `12px`                                  |
+| description 색상                          | `semantic.foreground.neutral.tertiary` | `semantic.foreground.neutral.secondary` |
+
+#### DOM 식별자 변경
+
+| AS-IS                                     | TO-BE                                                      |
+| ----------------------------------------- | ---------------------------------------------------------- |
+| `[data-component='fallback-view-button']` | `[data-component='fallback-view-action-area-button']`      |
+| —                                         | `[data-component='fallback-view-action-area']` (신규 래퍼) |
+
+`[data-component='fallback-view-button']`을 타겟해 커스텀했거나, `FallbackViewContent`의 직계 자식(`>`)으로 버튼을 타겟했다면 새 구조에 맞게 수정해야 합니다.
+
 ### ThemeProvider 테마 저장소 변경 (localStorage → Cookie)
 
 `ThemeProvider`가 `next-themes` 의존을 걷어내고 자체 쿠키 기반 구현으로 교체되었습니다. localStorage는 origin 단위로 격리되어 서브도메인 간 테마 공유가 불가능했기 때문입니다. 쿠키에 저장하되 읽기는 기존과 동일하게 first paint 이전 blocking inline script에서 처리하므로, SSG/SSR 렌더링 전략과 no-flash 동작은 그대로입니다.

@@ -51,7 +51,7 @@ rewrites `package.json` a resume looks exactly like "already migrated".
    - **Resume.** Skip every step marked `completed`, continue from the first `pending`
      step. A step or manual key missing from an older state file (e.g.
      `semantic-token-migration`, `push-badge-migration`, `M9`, `M10`, `M11`, `M12`,
-     `M13`, or `M14`, added after the file was created) is `pending` —
+     `M13`, `M14`, or `M15`, added after the file was created) is `pending` —
      add it to the file and run it. `semantic-token-migration` sits at position ② BEFORE
      steps an older migration may already have completed: it still runs, and running it
      after the later steps is safe (its token namespace is disjoint from every other
@@ -80,7 +80,9 @@ rewrites `package.json` a resume looks exactly like "already migrated".
      `\bSelect(Multiple|Content|RenderChip)?\b` / `text-field-content`, M13's
      `\bPushBadge(Props)?\b` / `PushBadge[^>]*variant="text"` / `PushBadge[^>]*variant=\{`, M14's `\bSearchField` /
      `\bSearchField\b[^>]*size="medium"` — post-conversion `size="medium"` hits are the
-     converted smalls …), so they are
+     converted smalls …, M15's `\bFallbackView` /
+     `\bFallbackViewImage(Props)?\b` — a kept deprecated image is a recorded decision, not a
+     leftover), so they are
      never mismatch evidence. Detect the pending-but-already-applied direction with the
      **presence greps** in `references/codemod-steps.md` — each step's verify grep is an
      ABSENCE check that returns zero both when the codemod ran and when the repo never used
@@ -172,7 +174,7 @@ rewrites `package.json` a resume looks exactly like "already migrated".
      the leftover greps from `references/codemod-steps.md` plus every M-section scan
      pattern from `references/manual-migrations.md` (steps and M-sections added after a
      consumer finished migrating — e.g. step ② `semantic-token-migration`, step ⑦
-     `push-badge-migration`, M9, M10, M11, M12, M13, and M14 — surface only through these scans)
+     `push-badge-migration`, M9, M10, M11, M12, M13, M14, and M15 — surface only through these scans)
      and report instead of migrating.
    - BOTH `@wanteddev/wds*` and `@montage-ui/*` present → the project is partially
      hand-migrated. Run the step ⑤/⑥ pre-checks from `references/codemod-steps.md` before
@@ -329,6 +331,7 @@ manual:
   M12: pending
   M13: pending
   M14: pending
+  M15: pending
 ---
 ```
 
@@ -387,7 +390,7 @@ announced when the skill loaded, or to the directory of the loaded SKILL.md. ALW
 resolved in preflight (first run) or read from the state file (resume) — the script
 rejects dist-tags, since the value is recorded in the state file and a dist-tag would
 re-resolve on resume and break the same-build guarantee. The workflow returns per-step results plus a
-`manualScan` report (assessed occurrences for manual steps M1–M14).
+`manualScan` report (assessed occurrences for manual steps M1–M15).
 
 - If the workflow reports `aborted`, surface the failed step's error to the user, fix the
   cause, and re-run the same Workflow invocation with `completedSteps` refreshed from the
@@ -526,7 +529,7 @@ where double-runs happen.
 
 ## Step 2 — Manual migrations
 
-Work through `references/manual-migrations.md` (M1–M14) using the workflow's `manualScan`
+Work through `references/manual-migrations.md` (M1–M15) using the workflow's `manualScan`
 hits as the worklist. On a resume where all 7 codemod steps are already `completed` but no
 workflow ran this session, there is no `manualScan` report — rebuild the worklist first:
 re-run the same Workflow invocation with `completedSteps` listing all 7 (every step is
@@ -608,6 +611,15 @@ both together when an M-section changes):
   value, so each usage needs a decision (switch to `disabled`, or accept the behavior).
   Adopting the new `variant="outlined"` is opt-in, and direct-child selectors into the
   field's DOM need the new `[data-role='search-field-wrapper']` level added.
+- **M15 (FallbackView):** `FallbackViewButton` → `FallbackViewActionAreaButton` is
+  mechanical and type-visible (the old export is gone), but the required
+  `FallbackViewActionArea` wrapper is not — the rename alone compiles, and with a single
+  button it even renders identically, so the miss only shows up at two or more buttons
+  (they fall back to the content's `24px` column gap). Picking the wrapper's `variant`
+  (`single` / `horizontal` / `vertical`) is per occurrence. Dropping a deprecated
+  `FallbackViewImage` is the v4 design but a visual decision, and it also removes the
+  content's vertical padding, which now applies only while an image is present — where the
+  old spacing mattered, restore it with `sx` instead of keeping the image.
 
 M1 (package.json + configs) ends with a dependency install to refresh the lockfile.
 Mark each M-section `completed` in the state file as it finishes.
@@ -648,12 +660,15 @@ Mark each M-section `completed` in the state file as it finishes.
 2. Project checks: install, typecheck, lint, build, unit tests — whatever the project
    defines.
 3. Remind the user to visually QA TextField / TextArea / bottom-sheet Modal / Card list /
-   SegmentedControl / Select / PushBadge / SearchField screens (v4 changed their rendering and behavior,
-   not just names) — former `variant="outlined"` SegmentedControls in particular (see M11),
-   Selects in dense layouts, whose focus ring now draws 4px OUTSIDE the field (see M12), and
+   SegmentedControl / Select / PushBadge / SearchField / FallbackView screens (v4 changed their
+   rendering and behavior, not just names) — former `variant="outlined"` SegmentedControls in
+   particular (see M11),
+   Selects in dense layouts, whose focus ring now draws 4px OUTSIDE the field (see M12),
    former `variant="new"` badges, whose square now comes from a fixed width instead of
-   `aspect-ratio` (see M13) — plus screens that used the deleted accent tokens (their
-   replacement values differ — see M9).
+   `aspect-ratio` (see M13), and fallback views, whose content padding now applies only
+   while an image is present — so it is gone from every image-less view, including each one
+   where M15's decision dropped the deprecated image (see M15) — plus screens that used the
+   deleted accent tokens (their replacement values differ — see M9).
 4. Delete the state file, then summarize: steps run, commits created, manual fixes
    applied, items intentionally left (with reasons).
 
@@ -661,7 +676,7 @@ Mark each M-section `completed` in the state file as it finishes.
 
 - **`references/codemod-steps.md`** — the 7 codemods in order: exact commands,
   idempotency analysis, pre-checks, post-step verification greps, hazards.
-- **`references/manual-migrations.md`** — manual migrations M1–M14 with scan patterns and
+- **`references/manual-migrations.md`** — manual migrations M1–M15 with scan patterns and
   fix rules.
 - **`scripts/migration-workflow.js`** — Workflow-tool script for the codemod phase; also
   the canonical per-step procedure for inline fallback execution.
