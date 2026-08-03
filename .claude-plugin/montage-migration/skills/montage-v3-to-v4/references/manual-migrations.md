@@ -1,6 +1,6 @@
 # Manual Migrations (v3 → v4)
 
-Changes the codemods cannot apply automatically. Run these AFTER all 7 codemod steps
+Changes the codemods cannot apply automatically. Run these AFTER all 8 codemod steps
 completed (see `codemod-steps.md`). Each section lists scan patterns to locate affected
 code — scan first, then apply fixes only where a real occurrence exists.
 
@@ -982,13 +982,123 @@ No codemod covers this section — every fix here is a hand edit.
   alias — the alias hides the rename from the [zero] grep above, and its call sites still
   need the `FallbackViewActionArea` wrapper added.
 
+## M16. `invalid` / `positive` → `status` leftovers
+
+Step ⑧ `status-migration` already rewrote every literal JSX case. What is left is the
+surface a JSX-attribute transform cannot see, plus the one behavioral decision the fold
+forces.
+
+- **`invalid` / `positive` through `{...props}` or a props object.** The transform reads
+  JSX attributes only, so `<TextField {...fieldProps} />` with `invalid` inside
+  `fieldProps`, or a `getFieldProps()` helper returning `{ invalid }`, survives untouched.
+  **The typechecker does not find these.** TypeScript does not excess-property-check JSX
+  spread attributes, so neither shape errors (verified with tsc 5.9: of a fixture's four
+  spread shapes plus one direct `<TextField invalid />`, only the direct attribute — which
+  the codemod already handles — produced a diagnostic). What DOES error once M1's install
+  lands the v4 packages is the TYPE surface, covered by the wrapper-types bullet below. This
+  scan is the only net for the spread surface.
+  Scan **[decision]**: `(^|[^-[:alnum:]_])(invalid|positive)[[:space:]]*[:=,}]` — run it
+  REPO-WIDE, then judge each hit. Do not pre-filter to files that import a Montage component:
+  the shape this bullet names most often lives in a shared `getFieldProps()` helper module
+  that imports nothing from Montage, and a file-level filter discards it before the
+  per-hit judgement below ever runs. The `,}` in the trailing class is what reaches ES object
+  shorthand (`return { invalid }`, `const { invalid, ...rest } = p`) — the very shape this
+  bullet names. [decision], not [zero], because the pattern cannot avoid step ⑧'s own
+  correct output: `aria-invalid={invalid}` and the `const invalid = …` / `const positive = …`
+  declarations the fold's ternary reads (`{` satisfies the leading class, `}` and `=` the
+  trailing one). Those are expected survivors, as is consumer noise like `f(invalid, x)` —
+  the criterion is that every hit was judged, by whether the value can reach a Montage
+  component as a PROP — following the object across module boundaries where it does — not a
+  zero count.
+
+- **`TextField` that set BOTH `invalid` and `positive`.** v3's two independent booleans
+  could be on at once: the border followed `invalid`, and the positive check icon rendered
+  anyway. v4's `status` is a single exclusive value, so one of the two renderings is gone.
+  The codemod folds them with `negative` winning, which preserves the border but drops the
+  icon. **The fold's output shape depends on which prop was literal**, and only the
+  both-dynamic case leaves a distinctive nested ternary — a literal `invalid` short-circuits
+  to a bare `status="negative"` that is textually indistinguishable from an `invalid`-only
+  element:
+
+  | 기존                           | 변경                                              |
+  | ------------------------------ | ------------------------------------------------- |
+  | `invalid positive`             | `status="negative"` (흔적 없음)                   |
+  | `invalid positive={pos}`       | `status="negative"` (흔적 없음, `pos` 폐기)       |
+  | `invalid={inv} positive`       | `status={inv ? 'negative' : 'positive'}` (삼항 1) |
+  | `invalid={inv} positive={pos}` | `status={inv ? 'negative' : pos ? … : 'normal'}`  |
+
+  Scan **[decision]**: `<TextField[^>]*status=\{[^}]*\?` — catches rows 3 and 4 (any
+  ternary in `status`). Rows 1–2 match nothing, so the only net for them is a
+  `\bTextField\b` review of step ⑧'s own diff: a `status="negative"` that replaced two
+  attributes is the tell. Per hit, confirm with the user that losing the simultaneous
+  positive icon is acceptable, or restructure the state so the two are genuinely exclusive
+  upstream.
+
+- **Picker auto-promotion to `negative`.** `DatePicker` / `DateRangePicker` / `TimePicker`
+  still promote `status` to `'negative'` on their own when used **uncontrolled** (no
+  `onChange`) and the value is unparseable, or the range is inverted (start > end). This
+  is v3 behavior carried over unchanged, but it is now surprising in a way a boolean prop
+  was not: passing `status="normal"` does NOT suppress it.
+  Scan **[decision]**: `<(DatePicker|DateRangePicker|TimePicker)[^>]*status=` — per hit,
+  decide whether the automatic promotion is wanted; if the app owns validation, make the
+  picker controlled with `onChange` so only the explicit `status` applies.
+
+- **Types extending the input props.** A local `type MyFieldProps = TextFieldProps & {…}`
+  that re-declares or relays `invalid` / `positive` breaks at typecheck; a wrapper that
+  accepts `invalid` and forwards it as `status` internally is a rename decision for the
+  consumer's own API.
+  Scan **[decision]**: `(TextField|TextArea|Select|SelectMultiple|DatePicker|DateRangePicker|TimePicker)Props`
+  — valid v4 code, but each wrapper is where a consumer-facing `invalid` may still need to
+  be renamed.
+
+- **`Checkbox` / `Radio` / `CheckMark` / `RoundCheckbox` `aria-invalid`.** The codemod
+  renames `invalid` → `aria-invalid`, which is the correct v4 shape and needs no further
+  edit. Worth knowing while reviewing the diff: v3's `invalid` never affected the visuals
+  on these components (it only set `aria-invalid`), so nothing renders differently.
+  Scan **[decision]**: `<(Checkbox|Radio|CheckMark|RoundCheckbox)[^>]*aria-invalid` —
+  correct v4 code; assess only that the value is still meaningful.
+
+- **Elements carrying BOTH `status` and `invalid`.** Step ⑧ skips these deliberately —
+  renaming would produce a duplicate attribute — so a half-hand-migrated element keeps its
+  stale `invalid` after a successful run. Delete the `invalid`; the `status` already there
+  is the intended value (do not guess the other way round).
+  **Check the shape before deleting anything: only a SECOND ATTRIBUTE counts.**
+  `status={hasError || invalid ? 'negative' : 'normal'}` is ONE attribute whose folded
+  expression happens to mention `invalid` — correct v4 output — and deleting that identifier
+  breaks the ternary.
+  Scan **[decision]**: `<(TextField|TextArea|Select|SelectMultiple|DatePicker|DateRangePicker|TimePicker)[^>]*status=[^>]*[[:space:]]invalid`
+  — matches both shapes, so every hit is judged, not driven to zero.
+
+- **Out-of-target files.** Step ⑧'s verify grep is `<targets>`-scoped, so a literal v3
+  usage in a file outside them — MDX docs, `.snap` snapshots, E2E specs, a sibling package
+  outside `src` — is reached by no other pattern and survives the migration silently
+  (nothing typechecks those files either).
+  Scan **[decision]** over the WHOLE repo, not just `<targets>`:
+  `<([[:alnum:]_$]+\.)?(TextField|TextArea|Select|SelectMultiple|DatePicker|DateRangePicker|TimePicker|Checkbox|Radio|CheckMark|RoundCheckbox)[^>]*[[:space:]](invalid|positive)[=/ >]`
+  — in-target hits were already reported by step ⑧; rewrite out-of-target ones by hand
+  against that step's fold table. Confirm the identifier really comes from a montage source
+  first. The `[[:space:]]` is what forces ATTRIBUTE position, keeping `aria-invalid` and
+  `status={invalid ? …}` out; a weaker `[^-[:alnum:]_]` guard does NOT, because `{` satisfies
+  it. This is why the tag is [decision] and not [zero]: the pattern still matches the fold's
+  own output whenever the folded expression mentions a bare `invalid` / `positive` elsewhere
+  (`status={hasError || invalid ? …}`), and no line-based pattern can separate the two — see
+  the same discussion under step ⑧ in `codemod-steps.md`.
+
+- **`framedStyle({ invalid })` through a variable.** The transform only rewrites an inline
+  object literal argument. `framedStyle(params)` — where `params` is built elsewhere —
+  keeps its `invalid` key and silently stops applying the negative border, since
+  `FramedStyleParams` no longer reads it.
+  Scan **[decision]**: `framedStyle\(` file-level — every correct v4 `framedStyle({ status
+})` call matches, so the criterion is that each call's argument shape was assessed, not a
+  zero count. `selected` is unchanged and stays a boolean.
+
 ## Suggested commit boundary
 
 Manual fixes get their own commits, after the codemod phase — with the recommended
-auto-commit flow the seven codemod commits already exist by the time any M-section runs, so
+auto-commit flow the eight codemod commits already exist by the time any M-section runs, so
 do not try to "group" a manual fix into a codemod step's commit (that would mean rewriting
 history and defeats per-step revertability). One commit per M-section (or per coherent
 group, e.g. M3+M4) keeps review and revert straightforward. Only in a non-auto-commit
-inline run, where nothing is committed until the end, may M1/M3/M4/M5/M9/M13 share a commit
+inline run, where nothing is committed until the end, may M1/M3/M4/M5/M9/M13/M16 share a commit
 with their related codemod step (M9 ↔ step ② `semantic-token-migration`, the same
-relationship as M1 ↔ ①, M3 ↔ ③/④, M4 ↔ ⑤, M5 ↔ ⑥, M13 ↔ ⑦).
+relationship as M1 ↔ ①, M3 ↔ ③/④, M4 ↔ ⑤, M5 ↔ ⑥, M13 ↔ ⑦, M16 ↔ ⑧).

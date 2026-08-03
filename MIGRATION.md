@@ -245,6 +245,80 @@ codemod는 `.ts`/`.tsx`/`.js`/`.jsx`의 문자열·template literal과 `.css`/`.
 npx @montage-ui/codemod@latest dom-identifier-migration src
 ```
 
+### `invalid` / `positive` → `status`
+
+입력 계열 컴포넌트의 상태 표현이 불리언 prop 여러 개에서 `status` 하나로 통합되었습니다. iOS / Android의 `status: Normal | Negative | Selected`와 같은 체계입니다.
+
+기본값은 `'normal'`이며, 기존 `invalid`는 `'negative'`에 대응합니다.
+
+| 컴포넌트                                          | AS-IS                  | TO-BE                                     |
+| ------------------------------------------------- | ---------------------- | ----------------------------------------- |
+| `TextField`                                       | `invalid` / `positive` | `status="negative"` / `status="positive"` |
+| `TextArea`, `Select`, `SelectMultiple`            | `invalid`              | `status="negative"`                       |
+| `DatePicker`, `DateRangePicker`, `TimePicker`     | `invalid`              | `status="negative"`                       |
+| `framedStyle()`                                   | `invalid: true`        | `status: 'negative'`                      |
+| `Checkbox`, `Radio`, `CheckMark`, `RoundCheckbox` | `invalid`              | `aria-invalid` (prop 제거)                |
+
+```tsx
+// AS-IS
+<TextField invalid />
+<TextField positive />
+<TextField invalid={Boolean(errors.email)} />
+<Select invalid />
+<Checkbox invalid />
+<Box sx={framedStyle({ invalid: true })} />
+
+// TO-BE
+<TextField status="negative" />
+<TextField status="positive" />
+<TextField status={errors.email ? 'negative' : 'normal'} />
+<Select status="negative" />
+<Checkbox aria-invalid={hasError} />
+<Box sx={framedStyle({ status: 'negative' })} />
+```
+
+`status` 타입은 컴포넌트마다 다릅니다.
+
+- `TextField` — `'normal' | 'negative' | 'positive'`
+- 그 외 (`TextArea` / `Select` / `SelectMultiple` / Picker 계열 / `framedStyle`) — `'normal' | 'negative'`
+
+#### `TextField`의 `invalid` + `positive` 동시 사용
+
+v3에서는 두 prop이 독립적이라 함께 켤 수 있었고, 테두리는 `invalid`가 이기지만 positive 아이콘은 그대로 표시됐습니다. v4의 `status`는 배타적이므로 두 상태를 동시에 표현할 수 없습니다. 코드모드는 `negative`를 우선해 접습니다.
+
+#### Checkbox 계열의 `invalid` 제거
+
+`Checkbox` / `Radio` / `CheckMark` / `RoundCheckbox`의 `invalid`는 스타일에 아무 영향도 주지 않고 `aria-invalid`만 내려주던 prop이었습니다. 접근성 속성을 직접 지정하는 편이 명확하므로 prop을 제거하고 `aria-invalid`를 그대로 넘기도록 바뀌었습니다.
+
+#### `framedStyle`의 `selected`는 유지
+
+`framedStyle`은 `invalid`만 `status`로 바뀌고 `selected`는 불리언 prop 그대로입니다. `status: 'negative'`와 `selected: true`가 함께 지정되면 v3와 동일하게 negative가 우선합니다.
+
+#### Picker 계열의 자동 negative 승격
+
+`DatePicker` / `DateRangePicker` / `TimePicker`는 **비제어 모드**(`onChange` 미지정)에서 파싱할 수 없는 값이나 뒤집힌 범위(start > end)를 받으면 내부적으로 `status`를 `'negative'`로 승격합니다. v3의 `invalid` 자동 판정과 동일한 동작이며, `status="normal"`을 명시해도 이 승격은 막을 수 없습니다. 검증을 직접 제어하려면 `onChange`를 지정해 제어 컴포넌트로 사용하세요.
+
+#### codemod
+
+```sh
+npx @montage-ui/codemod@latest status-migration src
+```
+
+코드모드가 변환하는 것:
+
+- `invalid` / `invalid={true}` → `status="negative"` (Checkbox 계열은 `aria-invalid`)
+- `positive` → `status="positive"` (TextField)
+- `invalid={expr}` → `status={expr ? 'negative' : 'normal'}`
+- `invalid={false}` → 제거 (기본값이 `'normal'`)
+- `framedStyle({ invalid })` → `framedStyle({ status })`
+
+코드모드가 변환하지 못하는 것(수동 확인 필요):
+
+- `{...props}` 스프레드나 컴포넌트 밖에서 조립한 props 객체로 넘기는 `invalid` / `positive`.
+- `TextFieldProps` 등을 확장한 타입에서 `invalid` / `positive`를 재선언·중계하는 코드 — 타입 에러로 드러납니다.
+- 이미 `status`가 지정된 요소에 `invalid`가 남아 있는 경우 — 속성 중복을 피하려고 건드리지 않으니 직접 정리하세요.
+- `framedStyle`에 객체를 변수로 넘기는 코드(`framedStyle(params)`).
+
 ### Card / ListCard 네이밍 변경
 
 `CardList`가 `ListCard`로 변경되고, Card와 ListCard가 각자의 하위 컴포넌트를 갖는 독립된 패밀리로 분리되었습니다. 기존에는 `CardList` 내부에서 Card의 하위 컴포넌트(`CardThumbnail`, `CardContent` 등)를 빌려 썼지만, 이제 `ListCard*` 전용 컴포넌트를 사용합니다.

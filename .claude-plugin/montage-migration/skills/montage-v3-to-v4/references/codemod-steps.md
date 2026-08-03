@@ -1,6 +1,6 @@
 # Codemod Steps (v3 → v4)
 
-The 7 v4 codemods, in canonical execution order. Run each step **exactly once**, strictly
+The 8 v4 codemods, in canonical execution order. Run each step **exactly once**, strictly
 in this order, completing (and ideally committing) one step before starting the next.
 
 ```sh
@@ -44,7 +44,7 @@ npx -y @montage-ui/codemod@<codemodVersion> <transform> <target>
   "**Never make build output a target**" in SKILL.md preflight item 4 for the rule and the
   discovery-command exclusions that enforce it.
 - **Every transform parses with the `tsx` parser** (`api.jscodeshift.withParser('tsx')`, all
-  seven), and the CLI passes `--extensions=tsx,ts,jsx,js` with no per-extension override. A
+  eight), and the CLI passes `--extensions=tsx,ts,jsx,js` with no per-extension override. A
   `.ts` file using legacy angle-bracket casts (`const y = <string>value;`) therefore fails to
   parse — the CLI reports `Transformation error (Unterminated JSX contents…)` and leaves THAT
   file untransformed while the rest of the run succeeds: a silent partial migration. Scan for
@@ -106,31 +106,35 @@ npx -y @montage-ui/codemod@<codemodVersion> <transform> <target>
 
 ## Why the order and the run-once rule matter
 
-| Step | Transform                  | Re-run on migrated code                                                                                               |
-| ---- | -------------------------- | --------------------------------------------------------------------------------------------------------------------- |
-| 1    | `package-name-migration`   | safe (no-op)                                                                                                          |
-| 2    | `semantic-token-migration` | safe (no-op — the rename map is prefix-free and no new path matches an old key)                                       |
-| 3    | `css-variable-migration`   | safe (no-op) for every Montage-shipped variable; a consumer-defined `--wds-wds-*` name would be stripped again        |
-| 4    | `dom-identifier-migration` | safe (no-op)                                                                                                          |
-| 5    | `list-card-migration`      | safe (no-op), EXCEPT on half-hand-migrated files and files importing the same old name via two specifiers (see below) |
-| 6    | `form-control-migration`   | **CORRUPTS CODE** — never re-run (see below)                                                                          |
-| 7    | `push-badge-migration`     | safe (no-op — the shapes it skips on the first run are skipped identically on the next; see below)                    |
+| Step | Transform                  | Re-run on migrated code                                                                                                                                                                         |
+| ---- | -------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1    | `package-name-migration`   | safe (no-op)                                                                                                                                                                                    |
+| 2    | `semantic-token-migration` | safe (no-op — the rename map is prefix-free and no new path matches an old key)                                                                                                                 |
+| 3    | `css-variable-migration`   | safe (no-op) for every Montage-shipped variable; a consumer-defined `--wds-wds-*` name would be stripped again                                                                                  |
+| 4    | `dom-identifier-migration` | safe (no-op)                                                                                                                                                                                    |
+| 5    | `list-card-migration`      | safe (no-op), EXCEPT on half-hand-migrated files and files importing the same old name via two specifiers (see below)                                                                           |
+| 6    | `form-control-migration`   | **CORRUPTS CODE** — never re-run (see below)                                                                                                                                                    |
+| 7    | `push-badge-migration`     | safe (no-op — the shapes it skips on the first run are skipped identically on the next; see below)                                                                                              |
+| 8    | `status-migration`         | safe (no-op — after the first run no `invalid` / `positive` is left to rewrite, and the `status`+`invalid` half-hand-migrated shape it skips is skipped identically on the next run; see below) |
 
 Even for the "safe" steps, treat every step as run-once: the state file is the single
 source of truth, and mixed states (a step applied to half the tree) are hard to diagnose.
 The hard inter-step constraints are between codemods and MANUAL steps: manual fixes
-reference post-codemod names, so all 7 codemods run first, manual migrations after
-(see `manual-migrations.md`). Step 2 has no ordering constraint against the other six
+reference post-codemod names, so all 8 codemods run first, manual migrations after
+(see `manual-migrations.md`). Step 2 has no ordering constraint against the other seven
 (its `semantic.*` / `--semantic-*` namespace is disjoint from every other transform's
 inputs and outputs, and it is not import-gated) — its position follows the MIGRATION.md
-section order. Step 7 is likewise order-independent (its surface is the `PushBadge`
-`variant` / `count` / `text` props alone, which no other transform reads or writes); it sits
-last because it is the newest addition, so an older state file simply gains a `pending` key.
+section order. Steps 7 and 8 are likewise order-independent (step 7's surface is the
+`PushBadge` `variant` / `count` / `text` props, step 8's is the `invalid` / `positive` props
+of the input-family components and `framedStyle`; no other transform reads or writes
+either); they sit last in the order they were added, so an older state file simply gains a
+`pending` key.
 
 ## Presence greps — "was this step already run?"
 
 Every step's post-step verification is an ABSENCE check, so it returns zero both when the
-codemod ran and when the repo never used that API. That makes it useless for the
+codemod ran and when the repo never used that API — **except step ⑧'s, which is not a zero
+criterion at all** (see its caveat below before applying the pair rule to it). That makes it useless for the
 `pending`-but-already-applied mismatch direction (SKILL.md preflight item 1) — the direction
 that walks into the step ⑥ double-swap. Pair it with the matching PRESENCE grep: new names
 present + old names absent means the transform already ran (by codemod or by hand).
@@ -148,7 +152,7 @@ grep -rn "@montage-ui/" <targets>
 #    (foreground|surface|effect) is blind to a repo whose only v3 usage was background.normal.*
 #    or line.*, which land on background.neutral.* / line.* and would read as "never used"
 grep -rnE -- "semantic\.(foreground|surface|effect|background\.neutral|line\.(neutral|brand|negative|cautionary|positive))\.|--semantic-(foreground|surface|effect|background-neutral|line-(neutral|brand|negative|cautionary|positive))-" <targets>
-# ③ css-variable-migration — weakest signal of the seven, see the caveat below
+# ③ css-variable-migration — weakest signal of the eight, see the caveat below
 grep -rnE -- "--grid-(column|row)-spacing" <targets>
 # ④ dom-identifier-migration
 grep -rn "data-component" <targets>
@@ -163,6 +167,15 @@ grep -rnE "\bFormControl(\b|Props|Field|Label|Message|NegativeMessage|PositiveMe
 #    analytics code everywhere and is no evidence at all. Multi-line props escape it — see
 #    the caveat below
 grep -rnE 'PushBadge[^>]*(variant="(text|max-count)"|text=)' <targets>
+# ⑧ status-migration — `status=` alone is no evidence: consumers own the word everywhere,
+#    and v4's own SelectRenderChip carries one too. Anchor it on the components the transform
+#    touches, with a mandatory space after the name so a consumer wrapper whose name merely
+#    STARTS with one of them (<SelectBox>, <TextFieldGroup>) cannot satisfy it — a prefix
+#    match paired with a non-zero absence grep reads as a HALF-migrated tree and triggers a
+#    false stop-and-reconcile. The second alternative covers the Checkbox family, which
+#    migrates to aria-invalid and never gains a `status` — without it a Checkbox-only repo
+#    has no presence signal at all. Multi-line props escape it — see the caveat below
+grep -rnE '<(TextField|TextArea|Select|SelectMultiple|DatePicker|DateRangePicker|TimePicker)[[:space:]][^>]*status=|<(Checkbox|Radio|CheckMark|RoundCheckbox)[[:space:]][^>]*aria-invalid' <targets>
 ```
 
 Read the pair together, never either alone: both zero means the repo simply never used that
@@ -185,7 +198,29 @@ step-④ commit / `git log -S"wds-component"`. Without this filter, a repo with 
 "new present + old present" and reads as HALF-migrated on a tree where step ④ is correctly
 pending — a false alarm the user then has to talk you out of.
 
-**Step ③ caveat — the weakest signal of the seven.** `css-variable-migration` covers the
+**Step ⑧ caveat — the pair rule does NOT apply as written.** Two things break it, and both
+show up on a tree step ⑧ migrated perfectly:
+
+- **Its absence grep is not a zero criterion.** The fold reuses the original expression, so
+  `status={hasError || invalid ? …}` matches — correct v4 output. Presence non-zero AND
+  absence non-zero is therefore the NORMAL post-⑧ state, not the "HALF-migrated" verdict the
+  pair rule assigns it (reproduced: real transform output gives 3 presence hits and 1
+  absence hit). Before inferring anything, triage the absence hits against the four classes
+  under Step 8 — "old present" counts for step ⑧ only when a SECOND `invalid` / `positive`
+  ATTRIBUTE sits on the element.
+- **The absence grep has no name terminator.** Unlike the presence grep (which was given
+  `[[:space:]]` after the name for exactly this reason), it matches consumer wrappers whose
+  names merely start with a target name — `<TextFieldGroup invalid />`, `<SelectBox invalid />`.
+  It cannot be tightened the same way without going inert on the shorthand
+  `<TextField invalid />`, so judge these by hand.
+
+**`aria-invalid` is also a weak second signal.** The Checkbox-family alternative in the
+presence grep fires on any consumer-authored `aria-invalid`, which is valid a11y markup a v3
+tree may already have had. Treat it as evidence only alongside a Montage import in the same
+file; on a repo whose only v3 `invalid` usage was the Checkbox family, prefer the step-⑧
+commit / `git log -S"invalid"` over either grep.
+
+**Step ③ caveat — the weakest signal of the eight.** `css-variable-migration` covers the
 69 `KNOWN_WDS_VARIABLES`: 67 come out with the `--wds-` prefix simply stripped
 (`--modal-translate`, `--switch-width`, `--card-content-item-*`, …) and the remaining two,
 `--wds-column-spacing` / `--wds-row-spacing`, are renamed to `--grid-*-spacing`. Only
@@ -740,12 +775,109 @@ places, none of them a reason to re-run the codemod:
 `PushBadgeProps`, is invisible to both the transform and this grep. The type surface shows up
 as a typecheck error at the end of M1; the spread surface is M13's.
 
-## After all 7 steps
+## Step 8 — `status-migration`
 
-Proceed to `manual-migrations.md` (all M-sections, M1–M15), then final verification:
+Import-gated like steps 5, 6 and 7: the transform fires only on components imported from
+exactly `@montage-ui/core` or `@wanteddev/wds` (per-name specifier lookup, alias-aware) —
+namespace, re-export, and subpath imports do not trigger it.
+
+Folds the boolean state props into a single `status`:
+
+| 컴포넌트                                          | 기존                   | 변경                                      |
+| ------------------------------------------------- | ---------------------- | ----------------------------------------- |
+| `TextField`                                       | `invalid` / `positive` | `status="negative"` / `status="positive"` |
+| `TextArea`, `Select`, `SelectMultiple`, `*Picker` | `invalid`              | `status="negative"`                       |
+| `Checkbox`, `Radio`, `CheckMark`, `RoundCheckbox` | `invalid`              | `aria-invalid` (prop 자체가 제거됨)       |
+| `framedStyle({ invalid })`                        | `invalid: true`        | `status: 'negative'`                      |
+
+Non-literal values are folded into a ternary (`invalid={e}` → `status={e ? 'negative' :
+'normal'}`), and a statically false `invalid={false}` is deleted outright since `status`
+already defaults to `'normal'`.
+
+On `TextField` carrying BOTH props, `negative` wins — v3's border did the same, but v3 ALSO
+kept showing the positive icon, so a both-props element genuinely loses one state's
+rendering. That is a behavior change to review in the diff, not a bug (M16). **The output
+shape depends on which of the two props is literal, and only the two dynamic-`invalid`
+rows leave a distinctive trace:**
+
+| 기존                           | 변경                                              |
+| ------------------------------ | ------------------------------------------------- |
+| `invalid positive`             | `status="negative"` (흔적 없음)                   |
+| `invalid positive={pos}`       | `status="negative"` (흔적 없음, `pos` 폐기)       |
+| `invalid={inv} positive`       | `status={inv ? 'negative' : 'positive'}` (삼항 1) |
+| `invalid={inv} positive={pos}` | `status={inv ? 'negative' : pos ? … : 'normal'}`  |
+
+A literal `invalid` short-circuits before any ternary, so the first two rows are
+indistinguishable from a plain `invalid`-only element after the run — they can only be
+caught in a `\bTextField\b` review of step ⑧'s own diff (M16).
+
+`framedStyle`'s `selected` is NOT folded in — it stays a separate boolean, unlike iOS /
+Android where `Selected` is a `status` value.
+
+**Idempotent.** The first run removes every `invalid` / `positive` it can see, and the
+transform never treats `status` as a rename source — it only checks whether one is already
+there, so it never writes a duplicate attribute — leaving nothing for a second run to
+rewrite. The one shape that check makes it skip — an element that already carries BOTH
+`status` and `invalid` (half-hand-migrated) — is skipped identically on the next run and
+left for M16.
+
+Precheck: none.
+
+Post-step verification (zero hits EXCEPT the fold-output class documented below):
+
+```sh
+grep -rnE '<([[:alnum:]_$]+\.)?(TextField|TextArea|Select|SelectMultiple|DatePicker|DateRangePicker|TimePicker|Checkbox|Radio|CheckMark|RoundCheckbox)[^>]*[[:space:]](invalid|positive)[=/ >]' <targets>
+```
+
+The `[[:space:]]` before the alternation is load-bearing, not defensive noise: it requires
+the prop to sit in ATTRIBUTE position, which is what keeps this transform's OWN output out
+of the results in the two commonest shapes — `aria-invalid` on the Checkbox family (the
+`invalid` inside it), and `status={invalid ? 'negative' : 'normal'}` when the folded boolean
+was a variable literally named `invalid` or `positive`, the likeliest name in form code. A
+weaker `[^-[:alnum:]_]` guard does NOT exclude the second one, because `{` satisfies it.
+
+**It is still not a plain zero criterion, and no line-based pattern can make it one.** The
+transform reuses the folded expression verbatim, so whenever that expression mentions a bare
+`invalid` / `positive` anywhere other than immediately after `{` — `status={hasError ||
+invalid ? …}`, `status={inv ? 'negative' : positive ? …}` — the grep matches correct v4
+output (verified on BSD grep against real transform output: 3 such hits, while all 7 genuine
+pre-migration shapes still match and `aria-invalid` / `status={invalid ? …}` do not).
+Tightening the trailing class to exclude them silently stops matching every shorthand
+pre-migration shape (`<TextField invalid />`), which is strictly worse — an inert guard in
+place of an over-match. Judge the hits instead.
+
+Remaining hits come from four places, none of them a reason to re-run the codemod:
+
+- **Multi-line JSX props** — `<TextField\n  invalid\n/>` never matches a line-based grep, so
+  a clean grep is not proof. The transform DOES handle them (it works on the AST); M16's
+  file-level scan is the net for anything it skipped.
+- **Gate-skipped files** (namespace / re-export / deep-subpath imports) — no M-section covers
+  in-target hits of this class; fix them by hand NOW as part of this step, against the table
+  above. Confirm the identifier really comes from a montage source first.
+- **Half-hand-migrated elements** (`status` + `invalid` together) — reconcile to one prop by
+  hand; that is M16's worklist, not a codemod re-run. Check the shape before editing: only a
+  SECOND attribute counts. `status={hasError || invalid ? …}` is one attribute whose
+  expression happens to mention `invalid`, and deleting that identifier breaks the ternary.
+- **The transform's own fold output** — a `status={…}` whose folded expression contains a
+  bare `invalid` / `positive` identifier (see above). Correct v4 code; never edit it.
+
+`invalid` / `positive` reaching a component through `{...props}`, or declared on a type
+extending `TextFieldProps`, is invisible to both the transform and this grep. The TYPE
+surface shows up as a typecheck error once M1's install lands the v4 packages; the SPREAD
+surface does not typecheck at all (TypeScript does not excess-property-check JSX spread
+attributes) — that is M16's, and its scan is the only net for it. `framedStyle(params)` with
+the object built outside the call is a third member of the same class: the transform only
+rewrites an inline object literal, so such a call keeps its `invalid` key silently, and the
+JSX-anchored grep above can never see it (M16).
+
+## After all 8 steps
+
+Proceed to `manual-migrations.md` (all M-sections, M1–M16), then final verification:
 
 1. Each step's verify grep zero, with its documented exceptions (step ①:
-   `@wanteddev/montage-mcp`; step ⑥: hits inside the state file's `excludeFiles`).
+   `@wanteddev/montage-mcp`; step ⑥: hits inside the state file's `excludeFiles`; step ⑧:
+   a `status={…}` whose folded expression mentions a bare `invalid` / `positive` — the
+   transform's own correct output, never edit it).
    Steps ②/③/④ are NOT plain zero-criterion: their leftovers are M-section-owned (M9 for ②,
    M3 for ③/④), so a Montage-related hit means that section is incomplete — reopen it. All
    three share one carve-out: a hit assessed as non-Montage code — a false positive REVERTED
@@ -764,5 +896,7 @@ Proceed to `manual-migrations.md` (all M-sections, M1–M15), then final verific
    `aspect-ratio`, see M13; SearchFields whose radius and typography shifted with the size
    rename, see M14; fallback views, whose content padding now applies only while an image
    is present — gone from every image-less view, including each one where M15's decision
-   dropped the deprecated image, see M15) and screens that used the deleted accent tokens (see M9) —
+   dropped the deprecated image, see M15; TextFields that used to show BOTH the negative
+   border and the positive icon, which `status` can no longer express at once, see M16) and
+   screens that used the deleted accent tokens (see M9) —
    behavioral and visual changes, not just renames.

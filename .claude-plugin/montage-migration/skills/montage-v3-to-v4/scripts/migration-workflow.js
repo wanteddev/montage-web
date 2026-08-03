@@ -1,11 +1,11 @@
 export const meta = {
   name: 'montage-v3-to-v4-migration',
   description:
-    'Run the 7 Montage v4 codemods strictly in sequence (never re-running a completed step), then scan for manual migration targets in parallel',
+    'Run the 8 Montage v4 codemods strictly in sequence (never re-running a completed step), then scan for manual migration targets in parallel',
   whenToUse:
     'Invoked by the montage-v3-to-v4 skill to migrate a consumer repo from Montage (WDS) v3 to v4',
   phases: [
-    { title: 'Codemods', detail: '7 v4 codemods, strictly sequential' },
+    { title: 'Codemods', detail: '8 v4 codemods, strictly sequential' },
     { title: 'Scan', detail: 'parallel read-only scans for manual migrations' },
   ],
 }
@@ -41,7 +41,7 @@ export const meta = {
 //                   whose orchestrator-level skip would silently skip a step that never
 //                   ran. Without this flag the run throws.
 //   commitNoVerify: boolean (default false) — pass `--no-verify` on the per-step commits.
-//                   The seven codemod commits are intentionally non-building, so pre-commit
+//                   The eight codemod commits are intentionally non-building, so pre-commit
 //                   hooks (.husky/, core.hooksPath, lint-staged) fail on them. Preflight
 //                   detects the hooks and agrees a policy with the user; this arg is how
 //                   that agreement reaches the step agent. Only meaningful with
@@ -118,6 +118,16 @@ const CODEMOD_STEPS = [
     verify:
       'Run `grep -rnE \'PushBadge[^>]*(count=|variant="(new|number)")\' <targets>` — SINGLE-quoted so the pattern\'s own double quotes reach grep; the double-quoted form would need \\" and a copied \\" is a literal backslash-quote in ERE, matching nothing. Expect zero hits. This is a LINE-based grep and the transform is AST-based, so a clean result is not proof of coverage: multi-line JSX props (`<PushBadge\\n  variant="number"\\n  count={n}\\n/>`) never match it, yet the transform DID migrate them — do not "fix" the diff to satisfy the grep. Real hits come from three places, none of which is a reason to re-run the codemod: (a) gate-skipped files (namespace imports like M.PushBadge, re-exports, deep/subpath imports — the codemod only transforms files importing from exactly @montage-ui/core or @wanteddev/wds); no M-section covers in-target hits of this class, so fix them by hand NOW against the rename table (variant="number" count={n} → variant="text" text={n}; variant="new" → variant="text" text="N"), but first confirm the identifier really comes from a montage source — a locally defined or third-party PushBadge is NOT a migration leftover; (b) elements carrying BOTH count and text (half-hand-migrated) — the transform skips these deliberately to avoid a duplicate attribute; report them in verifyFindings for manual step M13, do not guess which prop wins; (c) non-literal variant (variant={expr}) that the transform could not map — its count WAS renamed to text (always correct), but the variant value itself is M13\'s; report it. Also report any `{...spread}` on a PushBadge and any type extending PushBadgeProps that re-declares `count` — both are invisible to the transform and belong to M13. Do NOT map variant="number" to variant="max-count" anywhere: max-count clamps numeric text at maxCount (default 99), which "number" never did, so it changes what renders — that adoption is M13\'s decision.',
   },
+  {
+    id: 'status-migration',
+    title: 'invalid/positive → status migration (TextField, TextArea, Select*, *Picker, Checkbox family, framedStyle)',
+    surface:
+      'invalid → status="negative" on TextField/TextArea/Select/SelectMultiple/DatePicker/DateRangePicker/TimePicker, plus positive → status="positive" on TextField ONLY; invalid → aria-invalid on Checkbox/Radio/CheckMark/RoundCheckbox; framedStyle({ invalid }) → framedStyle({ status })',
+    precheck:
+      'None. (Idempotent — the first run removes every invalid/positive it can see, and the transform never treats status as a rename source (it only checks whether one is already there so it never writes a duplicate attribute), so a re-run is a no-op. The one shape it skips, an element carrying BOTH status and invalid (half-hand-migrated), is skipped identically on a second run and belongs to M16. It is still run-once by the state file.)',
+    verify:
+      'Run `grep -rnE \'<([[:alnum:]_$]+\.)?(TextField|TextArea|Select|SelectMultiple|DatePicker|DateRangePicker|TimePicker|Checkbox|Radio|CheckMark|RoundCheckbox)[^>]*[[:space:]](invalid|positive)[=/ >]\' <targets>` — SINGLE-quoted so the pattern reaches grep intact, and the [[:space:]] before the alternation is REQUIRED: it forces ATTRIBUTE position, which is what keeps this transform\'s own `aria-invalid` output and its `status={invalid ? ...}` fold out of the results (a weaker [^-[:alnum:]_] guard does NOT, because `{` satisfies it). Expect zero hits EXCEPT class (b) below (the transform\'s own fold output) — this is not a plain zero criterion. This is a LINE-based grep and the transform is AST-based, so a clean result is not proof of coverage: multi-line JSX props never match it, yet the transform DID migrate them — do not "fix" the diff to satisfy the grep. Real hits come from three places, none of which is a reason to re-run the codemod: (a) gate-skipped files (namespace imports like M.TextField, re-exports, deep/subpath imports — the codemod only transforms files importing from exactly @montage-ui/core or @wanteddev/wds); no M-section covers in-target hits of this class, so fix them by hand NOW against the surface above, but first confirm the identifier really comes from a montage source; (b) the transform\'s OWN fold output, whenever the folded expression mentions a bare invalid/positive anywhere but immediately after `{` (status={hasError || invalid ? ...}, status={inv ? "negative" : positive ? ...}) — correct v4 code, NEVER edit it and never count it against the zero criterion; (c) elements carrying BOTH status and invalid as two separate attributes (half-hand-migrated) — report for M16, and check the shape first: a lone status= whose expression mentions invalid is class (b), not this. Also report every TextField the transform folded from BOTH invalid AND positive (whose output shape depends on which prop was literal — a literal invalid short-circuits to a bare status="negative" with no textual trace, invalid={inv} positive gives a single ternary, and only both-dynamic gives a nested one): v3 rendered the negative border AND the positive icon together, v4 cannot, so the icon is gone — a real behavior change for M16 to confirm, not a diff to revert. Also report any {...spread} onto one of these components and any type extending TextFieldProps that re-declares invalid/positive — both are invisible to the transform AND to this grep, and belong to M16 (TypeScript does not excess-property-check JSX spreads, so the typecheck will not find them either). framedStyle called with a variable instead of an inline object literal keeps its invalid key silently and is M16\'s too.',
+  },
 ]
 
 // Kept in sync with the M-sections in references/manual-migrations.md and STATE_FILE_TEMPLATE
@@ -173,6 +183,11 @@ const MANUAL_SCAN_SECTIONS = [
     id: 'M15',
     title:
       'FallbackView changes (FallbackViewButton → FallbackViewActionAreaButton wrapped in FallbackViewActionArea with a layout variant — the rename alone compiles and only breaks the layout at 2+ buttons; FallbackViewImage deprecated — stays type-valid; FallbackViewContent lost its unconditional vertical padding; fallback-view-button data-component renamed)',
+  },
+  {
+    id: 'M16',
+    title:
+      'invalid/positive → status leftovers (props reaching a field via spread or a props object, TextField that set BOTH — v4 status is exclusive so the positive icon is lost, picker auto-promotion to negative in uncontrolled mode that status="normal" cannot suppress, wrapper types re-declaring invalid, framedStyle called with a variable)',
   },
 ]
 
@@ -398,6 +413,7 @@ steps:
   list-card-migration: pending
   form-control-migration: pending
   push-badge-migration: pending
+  status-migration: pending
 manual:
   M1: pending
   M2: pending
@@ -414,6 +430,7 @@ manual:
   M13: pending
   M14: pending
   M15: pending
+  M16: pending
 ---`
 
 if (args.completedSteps !== undefined && !Array.isArray(args.completedSteps)) {
@@ -629,7 +646,7 @@ If ANY dirty path is not explainable by a completed step's rename surface, repor
    from ${repoRootSh} — take each <shell-quoted target> verbatim from the shell-quoted targets list above. The command is non-interactive when both the transform name and the path are passed. Capture the output; jscodeshift prints per-file errors — treat any "ERR" as a failure.
 7. If the codemod failed partway, NEVER leave a half-transformed tree (re-running a codemod over one is the documented corruption path for steps 5–6 — list-card-migration and form-control-migration — and excluding the partially-transformed files later is the WRONG fix): when autoCommit is true (tree was clean at step start), restore with \`git -C ${repoRootSh} checkout -- <each shell-quoted target>\`; when autoCommit is false, restore the targets from the snapshot recorded in step 5 (\`git -C ${repoRootSh} checkout <snapshot-hash> -- <each shell-quoted target>\` — this reverts only this step's changes; earlier steps' uncommitted work is inside the snapshot; if no hash was printed the tree was clean, so plain \`git checkout -- <each shell-quoted target>\` is equivalent). Move any excluded files back per step 8, then report status "failed" with the error.
 8. If files were moved out in step 4: move each back to its exact original path, re-run the path+hash command and diff against the recording from step 4 — must be empty (do NOT rely on a plain \`git status\` no-diff check — it is only meaningful when autoCommit is true; with autoCommit false the excluded files legitimately carry earlier steps' uncommitted changes and show as modified), and confirm the temp dir is empty. If the hash diff is NON-empty, or \`find "$EXCL" -type f\` still lists files, STOP: report status "failed" with the unrestored paths, KEEP the recovery record, do NOT update the state file and do NOT commit — the orchestrator must surface this to the user. Only on a clean move-back, delete the \`.claude/montage-migration-v4.exclusions.json\` recovery record from step 4. Do this BEFORE the state update and commit — a commit must never contain their deletions.
-9. Post-step verification: ${step.verify} Record findings in verifyFindings; apply only the fixes the verification instructions explicitly assign to this step — leave everything marked M1–M15 to the manual phase.
+9. Post-step verification: ${step.verify} Record findings in verifyFindings; apply only the fixes the verification instructions explicitly assign to this step — leave everything marked M1–M16 to the manual phase.
 10. Update the state file: set steps.${step.id} to "completed", and — for form-control-migration with a non-empty move-out list — write that list to the state file\'s \`excludeFiles:\` key, so later sessions can tell a ring-fenced file from a migration leftover (the final verification depends on it). For css-variable-migration and dom-identifier-migration, append every revert from step 9 to the \`revertedNames:\` key as a file-scoped entry — \`- file: <repo-relative path>\` on one line, \`  name: <reverted name>\` on the next, one entry per (file, name) occurrence — for the same reason — the final verification cannot otherwise tell your deliberate revert from an unmigrated leftover. If the file is missing, recreate it from the template below FIRST — but set every step in this list to "completed" before writing (they all ran, either in earlier sessions or earlier in THIS run; an all-pending file would trigger corrupting re-runs on a later resume): ${stepsDoneByNow}. Report the recreation in verifyFindings together with the recreated \`targets\`, \`autoCommit\`, \`codemodVersion\` AND the fact that every \`manual:\` mark was reset to "pending". Report the two carried-over lists precisely, because they behave differently: \`revertedNames:\` ALWAYS comes back empty (the template cannot recover it, so steps ③/④'s deliberate reverts are no longer distinguishable from leftovers at final verification), while \`excludeFiles:\` is rebuilt from THIS invocation's \`excludeFiles\` arg — currently ${excludeFilesInput.length ? JSON.stringify(excludeFilesInput) : 'EMPTY, so an earlier session\'s ring-fenced list is lost and must be re-established with the user before the final verification'} — all of it comes from this invocation's args and the template, not the lost original, so the orchestrator must confirm each with the user (a finished M-section silently reset to pending is as damaging as a wrong targets list). Ensure the file's path is ignored so it never enters commits: resolve the exclude file with \`git -C ${repoRootSh} rev-parse --git-path info/exclude\` (in a linked worktree or submodule \`.git\` is a FILE, so a literal .git/info/exclude path fails), append the entry only if missing — do the same for \`.claude/montage-migration-v4.exclusions.json\`, the step-⑥ recovery record, which must never enter a commit either — then confirm both with \`git -C ${repoRootSh} check-ignore -q <shell-quoted path>\`. Template:
 ${STATE_FILE_TEMPLATE}
 11. Refuse to commit while \`${args.repoRoot}/.claude/montage-migration-v4.exclusions.json\` exists — its presence means excluded files are still moved out, and \`git add -A\` would commit their deletion. If autoCommit is true: \`git -C ${repoRootSh} add -A && git -C ${repoRootSh} commit${commitNoVerify ? ' --no-verify' : ''} -m "chore(montage): v4 codemod — ${step.id}"\` and record the commit hash. ${
