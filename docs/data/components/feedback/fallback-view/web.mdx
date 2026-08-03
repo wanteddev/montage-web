@@ -1,28 +1,21 @@
 ---
 title: Fallback view
 createdAt: 2025-09-08
+updatedAt: 2026-07-31
 ---
 
 ## Basic fallback view
 
 콘텐츠가 비어있거나 오류가난 상황에 사용합니다.
 
-이미지를 추가할 땐 `FallbackViewImage`로 감싸서 사용합니다.
-
-<Demo code={`import { FallbackView, FallbackViewImage, FallbackViewContent, FallbackViewText, FallbackViewButton } from '@montage-ui/core';
+<Demo code={`import { FallbackView, FallbackViewContent, FallbackViewText, FallbackViewActionArea, FallbackViewActionAreaButton } from '@montage-ui/core';
 
 const Demo = () => {
   return (
     <FallbackView sx={{ margin: 'auto' }}>
-      <FallbackViewImage>
-        <img
-          src="https://static.wanted.co.kr/images/ghost.png"
-          alt="Example image"
-        />
-      </FallbackViewImage>
       <FallbackViewContent>
         <FallbackViewText
-          title="타이틀이 들어가요." 
+          title="타이틀이 들어가요."
           description={
             <>
               상황에 대한 설명이 들어가요.
@@ -31,7 +24,9 @@ const Demo = () => {
             </>
           }
         />
-        <FallbackViewButton>텍스트</FallbackViewButton>
+        <FallbackViewActionArea>
+          <FallbackViewActionAreaButton>텍스트</FallbackViewActionAreaButton>
+        </FallbackViewActionArea>
       </FallbackViewContent>
     </FallbackView>
   )
@@ -46,40 +41,37 @@ export default Demo;`}
 
 ```tsx
 <FallbackView>
-  <FallbackViewImage>
-    <img />
-  </FallbackViewImage>
-
   <FallbackViewContent>
     <FallbackViewText />
 
-    <FallbackViewButton />
+    <FallbackViewActionArea>
+      <FallbackViewActionAreaButton />
+    </FallbackViewActionArea>
   </FallbackViewContent>
 </FallbackView>
 ```
 
-## Platform
+버튼은 항상 `FallbackViewActionArea`로 감싸서 사용합니다. 버튼 배치는 `FallbackViewActionArea`의 `variant`로 지정합니다.
 
-`platform`에 따라 이미지, 글자, 버튼 크기가 달라집니다.
-- mobile
-- desktop (default)
+## Action area
 
-### Desktop
+`FallbackViewActionArea`의 `variant`에 따라 버튼 레이아웃이 달라집니다.
+- single (default)
+- horizontal
+- vertical
 
-<Demo code={`import { FallbackView, FallbackViewContent, FallbackViewText, FallbackViewButton, FallbackViewImage } from '@montage-ui/core';
+### Single
+
+버튼을 하나만 배치할 때 사용합니다.
+
+<Demo code={`import { FallbackView, FallbackViewContent, FallbackViewText, FallbackViewActionArea, FallbackViewActionAreaButton } from '@montage-ui/core';
 
 const Demo = () => {
   return (
-    <FallbackView width="100%">
-      <FallbackViewImage>
-        <img
-          src="https://static.wanted.co.kr/images/ghost.png"
-          alt="Example image"
-        />
-      </FallbackViewImage>      
+    <FallbackView padding="compact">
       <FallbackViewContent>
         <FallbackViewText
-          title="platform: desktop" 
+          title="variant: single"
           description={
             <>
               상황에 대한 설명이 들어가요.
@@ -88,7 +80,9 @@ const Demo = () => {
             </>
           }
         />
-        <FallbackViewButton>텍스트</FallbackViewButton>
+        <FallbackViewActionArea variant="single">
+          <FallbackViewActionAreaButton>텍스트</FallbackViewActionAreaButton>
+        </FallbackViewActionArea>
       </FallbackViewContent>
     </FallbackView>
   )
@@ -97,22 +91,18 @@ const Demo = () => {
 export default Demo;`}
 />
 
-### Mobile
+### Horizontal
 
-<Demo code={`import { FallbackView, FallbackViewContent, FallbackViewText, FallbackViewButton, FallbackViewImage } from '@montage-ui/core';
+버튼 두 개를 가로로 나란히 배치합니다.
+
+<Demo code={`import { FallbackView, FallbackViewContent, FallbackViewText, FallbackViewActionArea, FallbackViewActionAreaButton } from '@montage-ui/core';
 
 const Demo = () => {
   return (
-    <FallbackView platform="mobile" width="100%">
-      <FallbackViewImage>
-        <img
-          src="https://static.wanted.co.kr/images/ghost.png"
-          alt="Example image"
-        />
-      </FallbackViewImage>      
+    <FallbackView padding="compact">
       <FallbackViewContent>
         <FallbackViewText
-          title="platform: mobile" 
+          title="variant: horizontal"
           description={
             <>
               상황에 대한 설명이 들어가요.
@@ -121,9 +111,136 @@ const Demo = () => {
             </>
           }
         />
-        <FallbackViewButton>텍스트</FallbackViewButton>
+        <FallbackViewActionArea variant="horizontal">
+          <FallbackViewActionAreaButton>텍스트</FallbackViewActionAreaButton>
+          <FallbackViewActionAreaButton>텍스트</FallbackViewActionAreaButton>
+        </FallbackViewActionArea>
       </FallbackViewContent>
     </FallbackView>
+  )
+}
+
+export default Demo;`}
+/>
+
+### Vertical
+
+버튼 두 개를 세로로 쌓아 배치합니다.
+
+<Demo code={`import { FallbackView, FallbackViewContent, FallbackViewText, FallbackViewActionArea, FallbackViewActionAreaButton } from '@montage-ui/core';
+
+const Demo = () => {
+  return (
+    <FallbackView padding="compact">
+      <FallbackViewContent>
+        <FallbackViewText
+          title="variant: vertical"
+          description={
+            <>
+              상황에 대한 설명이 들어가요.
+              <br />
+              설명은 최대 두 줄로 작성해요.
+            </>
+          }
+        />
+        <FallbackViewActionArea variant="vertical">
+          <FallbackViewActionAreaButton>텍스트</FallbackViewActionAreaButton>
+          <FallbackViewActionAreaButton>텍스트</FallbackViewActionAreaButton>
+        </FallbackViewActionArea>
+      </FallbackViewContent>
+    </FallbackView>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Platform
+
+`platform`에 따라 글자, 버튼 크기, action area 간격이 달라집니다.
+- mobile
+- desktop (default)
+
+### Desktop
+
+<Demo code={`import { FlexBox, SegmentedControl, SegmentedControlItem, FallbackView, FallbackViewContent, FallbackViewText, FallbackViewActionArea, FallbackViewActionAreaButton } from '@montage-ui/core';
+import { useState } from 'react';
+
+const Demo = () => {
+  const [variant, setVariant] = useState('single');
+
+  return (
+    <FlexBox flexDirection="column" alignItems="center" gap="40px" sx={{ width: '100%' }}>
+      <SegmentedControl value={variant} onValueChange={setVariant} sx={{ width: '100%', maxWidth: 320 }}>
+        <SegmentedControlItem value="single">Single</SegmentedControlItem>
+        <SegmentedControlItem value="horizontal">Horizontal</SegmentedControlItem>
+        <SegmentedControlItem value="vertical">Vertical</SegmentedControlItem>
+      </SegmentedControl>
+
+      <FallbackView platform="desktop">
+        <FallbackViewContent>
+          <FallbackViewText
+            title={\`platform: desktop / variant: \${variant}\`}
+            description={
+              <>
+                상황에 대한 설명이 들어가요.
+                <br />
+                설명은 최대 두 줄로 작성해요.
+              </>
+            }
+          />
+          <FallbackViewActionArea variant={variant}>
+            <FallbackViewActionAreaButton>텍스트</FallbackViewActionAreaButton>
+            {variant !== 'single' && (
+              <FallbackViewActionAreaButton>텍스트</FallbackViewActionAreaButton>
+            )}
+          </FallbackViewActionArea>
+        </FallbackViewContent>
+      </FallbackView>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+### Mobile
+
+<Demo code={`import { FlexBox, SegmentedControl, SegmentedControlItem, FallbackView, FallbackViewContent, FallbackViewText, FallbackViewActionArea, FallbackViewActionAreaButton } from '@montage-ui/core';
+import { useState } from 'react';
+
+const Demo = () => {
+  const [variant, setVariant] = useState('single');
+
+  return (
+    <FlexBox flexDirection="column" alignItems="center" gap="40px" sx={{ width: '100%' }}>
+      <SegmentedControl value={variant} onValueChange={setVariant} sx={{ width: '100%', maxWidth: 320 }}>
+        <SegmentedControlItem value="single">Single</SegmentedControlItem>
+        <SegmentedControlItem value="horizontal">Horizontal</SegmentedControlItem>
+        <SegmentedControlItem value="vertical">Vertical</SegmentedControlItem>
+      </SegmentedControl>
+
+      <FallbackView platform="mobile">
+        <FallbackViewContent>
+          <FallbackViewText
+            title={\`platform: mobile / variant: \${variant}\`}
+            description={
+              <>
+                상황에 대한 설명이 들어가요.
+                <br />
+                설명은 최대 두 줄로 작성해요.
+              </>
+            }
+          />
+          <FallbackViewActionArea variant={variant}>
+            <FallbackViewActionAreaButton>텍스트</FallbackViewActionAreaButton>
+            {variant !== 'single' && (
+              <FallbackViewActionAreaButton>텍스트</FallbackViewActionAreaButton>
+            )}
+          </FallbackViewActionArea>
+        </FallbackViewContent>
+      </FallbackView>
+    </FlexBox>
   )
 }
 
@@ -140,17 +257,11 @@ flex 레이아웃을 이용한 center 배치 보단, padding을 이용한 배치
 
 ### Normal
 
-<Demo code={`import { FallbackView, FallbackViewContent, FallbackViewText, FallbackViewButton, FallbackViewImage } from '@montage-ui/core';
+<Demo code={`import { FallbackView, FallbackViewContent, FallbackViewText, FallbackViewActionArea, FallbackViewActionAreaButton } from '@montage-ui/core';
 
 const Demo = () => {
   return (
     <FallbackView padding="normal">
-      <FallbackViewImage>
-        <img
-          src="https://static.wanted.co.kr/images/ghost.png"
-          alt="Example image"
-        />
-      </FallbackViewImage>
       <FallbackViewContent>
         <FallbackViewText
           title="padding: normal"
@@ -162,7 +273,9 @@ const Demo = () => {
             </>
           }
         />
-        <FallbackViewButton>텍스트</FallbackViewButton>
+        <FallbackViewActionArea>
+          <FallbackViewActionAreaButton>텍스트</FallbackViewActionAreaButton>
+        </FallbackViewActionArea>
       </FallbackViewContent>
     </FallbackView>
   )
@@ -173,17 +286,11 @@ export default Demo;`}
 
 ### Compact
 
-<Demo code={`import { FallbackView, FallbackViewContent, FallbackViewText, FallbackViewButton, FallbackViewImage } from '@montage-ui/core';
+<Demo code={`import { FallbackView, FallbackViewContent, FallbackViewText, FallbackViewActionArea, FallbackViewActionAreaButton } from '@montage-ui/core';
 
 const Demo = () => {
   return (
     <FallbackView padding="compact">
-      <FallbackViewImage>
-        <img
-          src="https://static.wanted.co.kr/images/ghost.png"
-          alt="Example image"
-        />
-      </FallbackViewImage>
       <FallbackViewContent>
         <FallbackViewText
           title="padding: compact"
@@ -195,7 +302,9 @@ const Demo = () => {
             </>
           }
         />
-        <FallbackViewButton>텍스트</FallbackViewButton>
+        <FallbackViewActionArea>
+          <FallbackViewActionAreaButton>텍스트</FallbackViewActionAreaButton>
+        </FallbackViewActionArea>
       </FallbackViewContent>
     </FallbackView>
   )
@@ -215,12 +324,6 @@ export default Demo;`}
 
 <PropsTable component="FallbackView" />
 
-### FallbackViewImage
-
-`FlexBox`와 동일한 props를 사용합니다.
-
-<PropsTable component="FallbackViewImage" />
-
 ### FallbackViewContent
 
 `FlexBox`와 동일한 props를 사용합니다.
@@ -231,8 +334,14 @@ export default Demo;`}
 
 <PropsTable component="FallbackViewText" />
 
-### FallbackViewButton
+### FallbackViewActionArea
+
+`variant` 외에는 `FlexBox`와 동일한 props를 사용합니다.
+
+<PropsTable component="FallbackViewActionArea" />
+
+### FallbackViewActionAreaButton
 
 `Button`과 동일한 props를 사용합니다.
 
-<PropsTable component="FallbackViewButton" />
+<PropsTable component="FallbackViewActionAreaButton" />

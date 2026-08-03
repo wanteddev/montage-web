@@ -9,7 +9,8 @@ import { FlexBox } from '../flex-box';
 import { Button } from '../button';
 
 import {
-  FALLBACK_VIEW_BUTTON_NAME,
+  FALLBACK_VIEW_ACTION_AREA_BUTTON_NAME,
+  FALLBACK_VIEW_ACTION_AREA_NAME,
   FALLBACK_VIEW_CONTENT_NAME,
   FALLBACK_VIEW_IMAGE_NAME,
   FALLBACK_VIEW_NAME,
@@ -25,7 +26,8 @@ import { getFallbackViewButtonSize } from './helpers';
 
 import type { ElementType, ForwardedRef } from 'react';
 import type {
-  FallbackViewButtonProps,
+  FallbackViewActionAreaButtonProps,
+  FallbackViewActionAreaProps,
   FallbackViewContentProps,
   FallbackViewImageProps,
   FallbackViewProps,
@@ -84,6 +86,11 @@ const FallbackView = forwardRef(
 
 FallbackView.displayName = FALLBACK_VIEW_NAME;
 
+/**
+ * @deprecated Fallback view no longer displays an image. Remove the image from
+ * your usage — note that doing so also removes `FallbackViewContent`'s vertical
+ * padding, which now applies only while an image is present.
+ */
 const FallbackViewImage = forwardRef(
   (
     props: DefaultComponentPropsInternal<FallbackViewImageProps, 'div'>,
@@ -111,8 +118,6 @@ const FallbackViewContent = forwardRef(
     props: DefaultComponentPropsInternal<FallbackViewContentProps, 'div'>,
     ref: ForwardedRef<HTMLDivElement>,
   ) => {
-    const context = useFallbackViewContext(FALLBACK_VIEW_CONTENT_NAME);
-
     return (
       <FlexBox
         ref={ref}
@@ -121,7 +126,7 @@ const FallbackViewContent = forwardRef(
         alignItems="center"
         gap="24px"
         {...props}
-        sx={[fallbackViewContentStyle(context), props.sx]}
+        sx={[fallbackViewContentStyle, props.sx]}
       />
     );
   },
@@ -139,7 +144,7 @@ const FallbackViewText = forwardRef(
     ref: ForwardedRef<HTMLDivElement>,
   ) => {
     return (
-      <FlexBox ref={ref} flexDirection="column" gap="10px" {...props}>
+      <FlexBox ref={ref} flexDirection="column" gap="12px" {...props}>
         {title && <span data-role="fallback-view-text-title">{title}</span>}
         <span data-role="fallback-view-text-description">{description}</span>
       </FlexBox>
@@ -149,12 +154,43 @@ const FallbackViewText = forwardRef(
 
 FallbackViewText.displayName = FALLBACK_VIEW_TEXT_NAME;
 
-const FallbackViewButton = forwardRef(
+const FallbackViewActionArea = forwardRef(
+  (
+    {
+      variant = 'single',
+      ...props
+    }: DefaultComponentPropsInternal<FallbackViewActionAreaProps, 'div'>,
+    ref: ForwardedRef<HTMLDivElement>,
+  ) => {
+    return (
+      <FlexBox
+        ref={ref}
+        flexDirection={variant === 'vertical' ? 'column' : 'row'}
+        data-component="fallback-view-action-area"
+        gap={
+          variant === 'vertical'
+            ? 'var(--fallback-view-action-area-vertical-gap)'
+            : 'var(--fallback-view-action-area-horizontal-gap)'
+        }
+        {...props}
+      />
+    );
+  },
+);
+
+FallbackViewActionArea.displayName = FALLBACK_VIEW_ACTION_AREA_NAME;
+
+const FallbackViewActionAreaButton = forwardRef(
   <T extends ElementType = 'button'>(
-    { as, ...props }: PolymorphicPropsInternal<FallbackViewButtonProps, T>,
+    {
+      as,
+      ...props
+    }: PolymorphicPropsInternal<FallbackViewActionAreaButtonProps, T>,
     ref: ForwardedRef<T>,
   ) => {
-    const context = useFallbackViewContext(FALLBACK_VIEW_BUTTON_NAME);
+    const context = useFallbackViewContext(
+      FALLBACK_VIEW_ACTION_AREA_BUTTON_NAME,
+    );
 
     const sizeProps = useMemo(
       () => getFallbackViewButtonSize(context, props),
@@ -165,7 +201,7 @@ const FallbackViewButton = forwardRef(
       <Button
         as={(as || 'button') as ElementType}
         ref={ref}
-        data-component="fallback-view-button"
+        data-component="fallback-view-action-area-button"
         variant="outlined"
         color="assistive"
         {...props}
@@ -173,16 +209,18 @@ const FallbackViewButton = forwardRef(
       />
     );
   },
-) as PolymorphicComponentInternal<FallbackViewButtonProps, 'button'>;
+) as PolymorphicComponentInternal<FallbackViewActionAreaButtonProps, 'button'>;
 
-FallbackViewButton.displayName = FALLBACK_VIEW_BUTTON_NAME;
+FallbackViewActionAreaButton.displayName =
+  FALLBACK_VIEW_ACTION_AREA_BUTTON_NAME;
 
 export {
   FallbackView,
   FallbackViewImage,
   FallbackViewContent,
   FallbackViewText,
-  FallbackViewButton,
+  FallbackViewActionArea,
+  FallbackViewActionAreaButton,
 };
 
 export type {
@@ -190,5 +228,6 @@ export type {
   FallbackViewImageProps,
   FallbackViewContentProps,
   FallbackViewTextProps,
-  FallbackViewButtonProps,
+  FallbackViewActionAreaProps,
+  FallbackViewActionAreaButtonProps,
 };
