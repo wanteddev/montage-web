@@ -17,7 +17,7 @@ type TextFieldWrapperStyleProps = TextFieldProps & {
 export const textFieldWrapperStyle =
   ({
     size,
-    invalid,
+    status = 'normal',
     readOnly,
     type,
     disabled,
@@ -69,7 +69,7 @@ export const textFieldWrapperStyle =
       }
     `}
 
-    ${invalid &&
+    ${status === 'negative' &&
     css`
       box-shadow: inset 0 0 0 1px ${theme.semantic.line.negative.primary};
     `}
@@ -84,7 +84,7 @@ export const textFieldWrapperStyle =
       : css`
           @supports selector(:has(*)) {
             &:where(:has(input:focus)) {
-              ${invalid
+              ${status === 'negative'
                 ? css`
                     box-shadow:
                       inset 0 0 0 1px ${theme.semantic.line.negative.strong},
@@ -117,7 +117,7 @@ export const textFieldWrapperStyle =
 
           @supports not selector(:has(*)) {
             &:where(:focus-within) {
-              ${invalid
+              ${status === 'negative'
                 ? css`
                     box-shadow:
                       inset 0 0 0 1px ${theme.semantic.line.negative.strong},

@@ -30,7 +30,7 @@ const TextArea = forwardRef<
       leadingContent,
       trailingContent,
       value,
-      invalid,
+      status = 'normal',
       disabled = false,
       maxRows,
       minRows = 2,
@@ -189,7 +189,7 @@ const TextArea = forwardRef<
         gap="12px"
         sx={[
           textAreaWrapperStyle({
-            invalid: invalid,
+            status,
             disabled,
             size: resolvedSize,
             xs: resolvedXs,
@@ -217,7 +217,7 @@ const TextArea = forwardRef<
               xl: resolvedXl,
               ...props,
             })}
-            aria-invalid={invalid}
+            aria-invalid={status === 'negative' || undefined}
             value={value}
             onChange={composeEventHandlers(props.onChange, () => {
               syncTextAreaHeight();
