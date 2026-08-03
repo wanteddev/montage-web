@@ -273,7 +273,7 @@ npx @montage-ui/codemod@latest dom-identifier-migration src
 <TextField status="positive" />
 <TextField status={errors.email ? 'negative' : 'normal'} />
 <Select status="negative" />
-<Checkbox aria-invalid={hasError} />
+<Checkbox aria-invalid />
 <Box sx={framedStyle({ status: 'negative' })} />
 ```
 
@@ -310,12 +310,13 @@ npx @montage-ui/codemod@latest status-migration src
 - `positive` → `status="positive"` (TextField)
 - `invalid={expr}` → `status={expr ? 'negative' : 'normal'}`
 - `invalid={false}` → 제거 (기본값이 `'normal'`)
-- `framedStyle({ invalid })` → `framedStyle({ status })`
+- `framedStyle({ invalid: true })` → `framedStyle({ status: 'negative' })`
+- `framedStyle({ invalid })` (shorthand) → `framedStyle({ status: invalid ? 'negative' : 'normal' })` — 단순 rename이 아닙니다. `status`는 문자열 값을 받으므로 shorthand를 그대로 옮기면 컴파일되지 않습니다.
 
 코드모드가 변환하지 못하는 것(수동 확인 필요):
 
 - `{...props}` 스프레드나 컴포넌트 밖에서 조립한 props 객체로 넘기는 `invalid` / `positive`.
-- `TextFieldProps` 등을 확장한 타입에서 `invalid` / `positive`를 재선언·중계하는 코드 — 타입 에러로 드러납니다.
+- `TextFieldProps` 등을 확장한 타입에서 `invalid` / `positive`를 재선언·중계하는 래퍼. `TextFieldProps & { invalid?: boolean }` 같은 intersection 자체는 유효한 타입이고, 그 props를 `{...props}`로 넘기면 excess property 검사도 적용되지 않아 **typecheck에 걸리지 않습니다**. `invalid={p.invalid}`처럼 명시적 어트리뷰트로 넘기는 경우에만 에러가 납니다. 래퍼의 공개 API와 전달 경로를 직접 확인하세요.
 - 이미 `status`가 지정된 요소에 `invalid`가 남아 있는 경우 — 속성 중복을 피하려고 건드리지 않으니 직접 정리하세요.
 - `framedStyle`에 객체를 변수로 넘기는 코드(`framedStyle(params)`).
 

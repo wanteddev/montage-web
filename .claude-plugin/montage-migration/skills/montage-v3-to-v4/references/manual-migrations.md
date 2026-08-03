@@ -1044,9 +1044,12 @@ forces.
   picker controlled with `onChange` so only the explicit `status` applies.
 
 - **Types extending the input props.** A local `type MyFieldProps = TextFieldProps & {…}`
-  that re-declares or relays `invalid` / `positive` breaks at typecheck; a wrapper that
-  accepts `invalid` and forwards it as `status` internally is a rename decision for the
-  consumer's own API.
+  that re-declares `invalid` / `positive` does NOT break at typecheck — the intersection is
+  a valid type, and forwarding it with `<TextField {...p} />` is not excess-property-checked
+  (verified with tsc 5.9), so the wrapper compiles clean while the prop is silently dead.
+  Only an explicit forward (`<TextField invalid={p.invalid} />`) errors. Review both the
+  wrapper's public API and how it forwards; whether a consumer-facing `invalid` becomes
+  `status` is a rename decision for the consumer's own API.
   Scan **[decision]**: `(TextField|TextArea|Select|SelectMultiple|DatePicker|DateRangePicker|TimePicker)Props`
   — valid v4 code, but each wrapper is where a consumer-facing `invalid` may still need to
   be renamed.

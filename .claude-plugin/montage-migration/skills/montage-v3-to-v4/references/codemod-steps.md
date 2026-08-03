@@ -862,10 +862,13 @@ Remaining hits come from four places, none of them a reason to re-run the codemo
   bare `invalid` / `positive` identifier (see above). Correct v4 code; never edit it.
 
 `invalid` / `positive` reaching a component through `{...props}`, or declared on a type
-extending `TextFieldProps`, is invisible to both the transform and this grep. The TYPE
-surface shows up as a typecheck error once M1's install lands the v4 packages; the SPREAD
-surface does not typecheck at all (TypeScript does not excess-property-check JSX spread
-attributes) — that is M16's, and its scan is the only net for it. `framedStyle(params)` with
+extending `TextFieldProps`, is invisible to both the transform and this grep — and, contrary
+to what you might expect, **mostly invisible to the typechecker too**. A consumer
+intersection like `TextFieldProps & { invalid?: boolean }` is a perfectly valid type, and
+forwarding it with `<TextField {...p} />` is not excess-property-checked, so the whole
+wrapper compiles clean (verified with tsc 5.9). Only an EXPLICIT forward —
+`<TextField invalid={p.invalid} />` — errors. Both the wrapper API and its forwarding path
+need manual review; that is M16's, and its scan is the only net for it. `framedStyle(params)` with
 the object built outside the call is a third member of the same class: the transform only
 rewrites an inline object literal, so such a call keeps its `invalid` key silently, and the
 JSX-anchored grep above can never see it (M16).
