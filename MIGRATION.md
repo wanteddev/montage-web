@@ -286,6 +286,8 @@ npx @montage-ui/codemod@latest dom-identifier-migration src
 
 v3에서는 두 prop이 독립적이라 함께 켤 수 있었고, 테두리는 `invalid`가 이기지만 positive 아이콘은 그대로 표시됐습니다. v4의 `status`는 배타적이므로 두 상태를 동시에 표현할 수 없습니다. 코드모드는 `negative`를 우선해 접습니다.
 
+다만 `<TextField invalid positive={pos} />`처럼 **`invalid`가 리터럴이고 `positive`가 식인 조합은 변환하지 않습니다**. 접으면 `positive` 식이 통째로 사라지는데, v3 JSX는 두 식을 모두 평가했으므로 부수효과가 있으면 조용히 없어집니다. 이 조합은 그대로 남으니 어느 상태를 살릴지 직접 정하세요.
+
 #### Checkbox 계열의 `invalid` 제거
 
 `Checkbox` / `Radio` / `CheckMark` / `RoundCheckbox`의 `invalid`는 스타일에 아무 영향도 주지 않고 `aria-invalid`만 내려주던 prop이었습니다. 접근성 속성을 직접 지정하는 편이 명확하므로 prop을 제거하고 `aria-invalid`를 그대로 넘기도록 바뀌었습니다.

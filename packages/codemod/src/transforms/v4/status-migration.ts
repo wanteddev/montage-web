@@ -196,6 +196,18 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
     // 중복되므로 건드리지 않는다.
     if (findAttribute(element, 'status')) return;
 
+    // 정적으로 켜진 invalid는 status를 negative로 확정시키므로 positive 쪽 식이
+    // 통째로 사라진다. v3 JSX는 두 attribute의 식을 모두 평가했으니, 그 식에
+    // 부수효과가 있으면 조용히 없어진다. 어느 상태를 살릴지도 사람이 정해야
+    // 하는 조합이라 건드리지 않고 M16으로 넘긴다 — 남은 invalid를 verify grep이
+    // 잡아준다.
+    if (
+      readBooleanAttribute(invalidAttribute) === true &&
+      readBooleanAttribute(positiveAttribute) === 'dynamic'
+    ) {
+      return;
+    }
+
     const index = attributes.findIndex(
       (attribute) =>
         attribute === invalidAttribute || attribute === positiveAttribute,

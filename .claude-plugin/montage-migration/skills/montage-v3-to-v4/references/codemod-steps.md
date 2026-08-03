@@ -803,13 +803,18 @@ rows leave a distinctive trace:**
 | 기존                           | 변경                                              |
 | ------------------------------ | ------------------------------------------------- |
 | `invalid positive`             | `status="negative"` (흔적 없음)                   |
-| `invalid positive={pos}`       | `status="negative"` (흔적 없음, `pos` 폐기)       |
+| `invalid positive={pos}`       | **변환 안 함** — 그대로 남아 M16으로 (아래 참고)  |
 | `invalid={inv} positive`       | `status={inv ? 'negative' : 'positive'}` (삼항 1) |
 | `invalid={inv} positive={pos}` | `status={inv ? 'negative' : pos ? … : 'normal'}`  |
 
-A literal `invalid` short-circuits before any ternary, so the first two rows are
-indistinguishable from a plain `invalid`-only element after the run — they can only be
-caught in a `\bTextField\b` review of step ⑧'s own diff (M16).
+A literal `invalid` short-circuits before any ternary, so row 1 is indistinguishable from a
+plain `invalid`-only element after the run — it can only be caught in a `\bTextField\b`
+review of step ⑧'s own diff (M16).
+
+Row 2 is **deliberately left untransformed**: folding it would discard the `positive`
+expression entirely, and v3 JSX evaluated both attribute expressions, so a side-effecting
+one would silently stop running. Which state survives is a human call anyway, so the element
+keeps its `invalid` / `positive` and the verify grep below reports it for M16.
 
 `framedStyle`'s `selected` is NOT folded in — it stays a separate boolean, unlike iOS /
 Android where `Selected` is a `status` value.

@@ -1023,12 +1023,16 @@ forces.
   | 기존                           | 변경                                              |
   | ------------------------------ | ------------------------------------------------- |
   | `invalid positive`             | `status="negative"` (흔적 없음)                   |
-  | `invalid positive={pos}`       | `status="negative"` (흔적 없음, `pos` 폐기)       |
+  | `invalid positive={pos}`       | **변환 안 함** — 그대로 남습니다                  |
   | `invalid={inv} positive`       | `status={inv ? 'negative' : 'positive'}` (삼항 1) |
   | `invalid={inv} positive={pos}` | `status={inv ? 'negative' : pos ? … : 'normal'}`  |
 
+  Row 2 is left untransformed on purpose — folding it would throw away the `positive`
+  expression, which v3 JSX still evaluated, so a side-effecting one would silently stop
+  running. It keeps both attributes and surfaces in step ⑧'s verify grep; pick the surviving
+  state by hand.
   Scan **[decision]**: `<TextField[^>]*status=\{[^}]*\?` — catches rows 3 and 4 (any
-  ternary in `status`). Rows 1–2 match nothing, so the only net for them is a
+  ternary in `status`). Row 1 matches nothing, so the only net for it is a
   `\bTextField\b` review of step ⑧'s own diff: a `status="negative"` that replaced two
   attributes is the tell. Per hit, confirm with the user that losing the simultaneous
   positive icon is acceptable, or restructure the state so the two are genuinely exclusive
