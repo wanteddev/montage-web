@@ -742,7 +742,7 @@ as a typecheck error at the end of M1; the spread surface is M13's.
 
 ## After all 7 steps
 
-Proceed to `manual-migrations.md` (all M-sections, M1–M14), then final verification:
+Proceed to `manual-migrations.md` (all M-sections, M1–M15), then final verification:
 
 1. Each step's verify grep zero, with its documented exceptions (step ①:
    `@wanteddev/montage-mcp`; step ⑥: hits inside the state file's `excludeFiles`).
@@ -758,9 +758,11 @@ Proceed to `manual-migrations.md` (all M-sections, M1–M14), then final verific
 2. Dependency install with the renamed `@montage-ui/*` packages succeeded.
 3. Project typecheck / lint / build / tests pass.
 4. Visual QA on TextField / TextArea / Modal bottom-sheet / Card list / SegmentedControl /
-   Select / PushBadge / SearchField screens (former `variant="outlined"` in particular, see M11; Selects in
+   Select / PushBadge / SearchField / FallbackView screens (former `variant="outlined"` in particular, see M11; Selects in
    dense layouts, whose focus ring now draws outside the field, see M12; former
    `variant="new"` badges, whose square now comes from a fixed width instead of
    `aspect-ratio`, see M13; SearchFields whose radius and typography shifted with the size
-   rename, see M14) and screens that used the deleted accent tokens (see M9) —
+   rename, see M14; fallback views, whose content padding now applies only while an image
+   is present — gone from every image-less view, including each one where M15's decision
+   dropped the deprecated image, see M15) and screens that used the deleted accent tokens (see M9) —
    behavioral and visual changes, not just renames.

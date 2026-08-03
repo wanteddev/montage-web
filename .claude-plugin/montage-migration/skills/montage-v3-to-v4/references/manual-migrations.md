@@ -895,6 +895,93 @@ No codemod covers this section — every fix here is a hand edit.
   and unrelated consumer strings by design; only hits that reach into the field's
   internals with a direct-child (`>`) combinator need rework.
 
+## M15. FallbackView changes
+
+No codemod covers this section — every fix here is a hand edit.
+
+- **`FallbackViewButton` → `FallbackViewActionAreaButton`, wrapped in
+  `FallbackViewActionArea`**: the export was removed, so this is the ONE fix in this
+  section the typechecker finds for you — an unconverted import fails at M1's install
+  (`@montage-ui/core` has no `FallbackViewButton`). The rename alone compiles and renders;
+  the wrapper is what the v4 anatomy requires, and it is what carries the button gap.
+
+  ```tsx
+  // AS-IS
+  <FallbackViewContent>
+    <FallbackViewText title="타이틀" description="설명" />
+    <FallbackViewButton>텍스트</FallbackViewButton>
+  </FallbackViewContent>
+
+  // TO-BE
+  <FallbackViewContent>
+    <FallbackViewText title="타이틀" description="설명" />
+    <FallbackViewActionArea>
+      <FallbackViewActionAreaButton>텍스트</FallbackViewActionAreaButton>
+    </FallbackViewActionArea>
+  </FallbackViewContent>
+  ```
+
+  Pick the wrapper's `variant` from how many buttons the content holds — `single`
+  (default, one button), `horizontal` (two, side by side), `vertical` (two, stacked).
+  `single` and `horizontal` both lay out in a row; only `vertical` stacks. Gaps come from
+  the `platform` (desktop 12px row / 10px column, mobile 10px row / 8px column) and are
+  overridable through `--fallback-view-action-area-horizontal-gap` /
+  `--fallback-view-action-area-vertical-gap`.
+
+  **Two or more buttons is the case where skipping the wrapper actually breaks the
+  layout.** With ONE button, a bare `FallbackViewActionAreaButton` renders identically to
+  a wrapped one (`FallbackViewContent` is a centered column, and a one-item row inside it
+  looks the same), so a rename-only fix passes visual review and hides the miss. With TWO,
+  the bare buttons become column items of `FallbackViewContent` and inherit its `24px`
+  gap instead of the action area's row gap (12px desktop / 10px mobile, per the platform
+  list above).
+
+  Scan **[zero]**: `\bFallbackViewButton(Props)?\b` — every hit becomes
+  `FallbackViewActionAreaButton` / `FallbackViewActionAreaButtonProps`, plus the wrapper.
+  A project that ran the v2→v3 `empty-state-to-fallback-view` codemod has its former
+  `EmptyStateButton` usages sitting under this pattern.
+  Scan **[zero]**: `fallback-view-button` (include stylesheets) — the
+  `data-component` value became `fallback-view-action-area-button`. Note the new wrapper
+  carries `data-component='fallback-view-action-area'`, so a selector that assumed the
+  button is a direct child (`>`) of the content element needs the extra level.
+
+- **`FallbackViewImage` deprecated**: v4 fallback views do not display an image. The
+  component and `FallbackViewImageProps` still exist and still render, so this is
+  type-invisible — nothing fails, the screen just keeps an image the design no longer
+  specifies. Removal also removes the content padding the image used to trigger (next
+  bullet), so it is a visual change, not a cleanup.
+  Scan **[decision]**: `\bFallbackViewImage(Props)?\b` — per hit, decide with the user:
+  drop the image (the v4 design), or keep it knowingly on a deprecated API.
+
+- **`FallbackViewContent` lost its unconditional vertical padding.** The padding now
+  applies only while a `FallbackViewImage` is present, through
+  `--fallback-view-top-space` / `--fallback-view-bottom-space` on the `FallbackView`
+  root. Image-less fallback views — already the majority, and every one of them after the
+  bullet above — shrink.
+
+  | 구성                 | AS-IS (`padding-top` / `padding-bottom`) | TO-BE       |
+  | -------------------- | ---------------------------------------- | ----------- |
+  | mobile, 이미지 없음  | 8px / 8px                                | 0 / 0       |
+  | mobile, 이미지 있음  | 8px / 28px                               | 8px / 28px  |
+  | desktop, 이미지 없음 | 12px / 12px                              | 0 / 0       |
+  | desktop, 이미지 있음 | 12px / 32px                              | 12px / 32px |
+
+  Invisible to the typechecker and to every grep — it is a default change, not an API
+  change. Where the old spacing was load-bearing, put it back with `sx` on
+  `FallbackViewContent` rather than reintroducing an image.
+
+- **Text style changes** (informational, no edit): the gap between
+  `FallbackViewText`'s title and description went `10px` → `12px`, and the description
+  color went `semantic.foreground.neutral.tertiary` →
+  `semantic.foreground.neutral.secondary` (darker). Screens that tuned spacing around a
+  fallback view deserve a look.
+  Scan **[decision]**: `\bFallbackView` file-level (prefix form on purpose — it also
+  matches every sub-component and `FallbackViewProps`, all valid v4 code). Review each
+  file for what the line greps cannot see: multi-line JSX props, `{...spread}`s onto a
+  fallback view sub-component, and wrappers that re-export the button props under a local
+  alias — the alias hides the rename from the [zero] grep above, and its call sites still
+  need the `FallbackViewActionArea` wrapper added.
+
 ## Suggested commit boundary
 
 Manual fixes get their own commits, after the codemod phase — with the recommended

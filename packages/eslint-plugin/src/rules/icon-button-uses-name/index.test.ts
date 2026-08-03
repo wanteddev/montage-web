@@ -106,9 +106,9 @@ run({
     },
     {
       code: `
-        import { FallbackViewButton } from '@montage-ui/core';
+        import { FallbackViewActionAreaButton } from '@montage-ui/core';
 
-        <FallbackViewButton iconOnly />
+        <FallbackViewActionAreaButton iconOnly />
       `,
       errors: 1,
     },

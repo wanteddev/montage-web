@@ -12,14 +12,8 @@ export const fallbackViewStyle =
   ({ platform, padding, width, xs, sm, md, lg, xl }: FallbackViewProps) =>
   (theme: Theme) => css`
     width: ${toCssValue(width)};
-    ${fallbackViewPlatformStyle({ platform })}
-    ${fallbackViewPaddingStyle({ padding })}
-    --fallback-view-bottom-space: 0px;
-
-    &:has([data-component='fallback-view-image'])
-      [data-component='fallback-view-content'] {
-      --fallback-view-bottom-space: 20px;
-    }
+    ${fallbackViewPlatformStyle({ platform }, theme)}
+    ${fallbackViewPaddingStyle({ padding }, theme)}
 
     [data-role='fallback-view-text-title'] {
       text-align: center;
@@ -27,7 +21,7 @@ export const fallbackViewStyle =
     }
     [data-role='fallback-view-text-description'] {
       text-align: center;
-      color: ${theme.semantic.foreground.neutral.tertiary};
+      color: ${theme.semantic.foreground.neutral.secondary};
     }
 
     ${createResponsiveStyle(
@@ -35,8 +29,8 @@ export const fallbackViewStyle =
       theme,
     )(
       (params) => css`
-        ${fallbackViewPlatformStyle({ platform: params?.platform })}
-        ${fallbackViewPaddingStyle({ padding: params?.padding })}
+        ${fallbackViewPlatformStyle({ platform: params?.platform }, theme)}
+        ${fallbackViewPaddingStyle({ padding: params?.padding }, theme)}
         ${params?.width !== undefined &&
         css`
           width: ${toCssValue(params.width)};
@@ -46,20 +40,30 @@ export const fallbackViewStyle =
     )}
   `;
 
-const fallbackViewPlatformStyle = ({
-  platform,
-}: Pick<FallbackViewProps, 'platform'>) => {
+const fallbackViewPlatformStyle = (
+  { platform }: Pick<FallbackViewProps, 'platform'>,
+  theme: Theme,
+) => {
   switch (platform) {
     case 'mobile':
       return css`
         width: 335px;
         max-width: 100%;
 
+        --fallback-view-action-area-vertical-gap: ${theme.spacing[8]};
+        --fallback-view-action-area-horizontal-gap: ${theme.spacing[10]};
+
         [data-role='fallback-view-text-title'] {
           ${typographyStyle('headline1', 'bold')}
         }
         [data-role='fallback-view-text-description'] {
           ${typographyStyle('body2-reading')}
+        }
+
+        &:has([data-component='fallback-view-image'])
+          [data-component='fallback-view-content'] {
+          --fallback-view-top-space: ${theme.spacing[8]};
+          --fallback-view-bottom-space: 28px;
         }
       `;
 
@@ -68,24 +72,34 @@ const fallbackViewPlatformStyle = ({
         width: 400px;
         max-width: 100%;
 
+        --fallback-view-action-area-vertical-gap: ${theme.spacing[10]};
+        --fallback-view-action-area-horizontal-gap: ${theme.spacing[12]};
+
         [data-role='fallback-view-text-title'] {
           ${typographyStyle('heading2', 'bold')}
         }
         [data-role='fallback-view-text-description'] {
-          ${typographyStyle('body1-reading')}
+          ${typographyStyle('body2-reading', 'regular')}
+        }
+
+        &:has([data-component='fallback-view-image'])
+          [data-component='fallback-view-content'] {
+          --fallback-view-top-space: ${theme.spacing[12]};
+          --fallback-view-bottom-space: ${theme.spacing[32]};
         }
       `;
   }
 };
 
-const fallbackViewPaddingStyle = ({
-  padding,
-}: Pick<FallbackViewProps, 'padding'>) => {
+const fallbackViewPaddingStyle = (
+  { padding }: Pick<FallbackViewProps, 'padding'>,
+  theme: Theme,
+) => {
   switch (padding) {
     case 'compact':
       return css`
-        padding-top: 80px;
-        padding-bottom: 80px;
+        padding-top: ${theme.spacing[80]};
+        padding-bottom: ${theme.spacing[80]};
       `;
     case 'normal':
       return css`
@@ -139,35 +153,7 @@ const fallbackViewImagePlatformStyle = ({
   }
 };
 
-export const fallbackViewContentStyle =
-  ({ platform, responsive }: FallbackViewContextType) =>
-  (theme: Theme) => css`
-    ${fallbackViewContentPlatformStyle({ platform })}
-
-    ${createResponsiveStyle(
-      responsive || {},
-      theme,
-    )(
-      (params) => css`
-        ${fallbackViewContentPlatformStyle({ platform: params?.platform })}
-        ${params?.sx}
-      `,
-    )}
-  `;
-
-const fallbackViewContentPlatformStyle = ({
-  platform,
-}: FallbackViewContextType) => {
-  switch (platform) {
-    case 'mobile':
-      return css`
-        padding-top: 8px;
-        padding-bottom: calc(8px + var(--fallback-view-bottom-space));
-      `;
-    case 'desktop':
-      return css`
-        padding-top: 12px;
-        padding-bottom: calc(12px + var(--fallback-view-bottom-space));
-      `;
-  }
-};
+export const fallbackViewContentStyle = css`
+  padding-top: var(--fallback-view-top-space, 0px);
+  padding-bottom: var(--fallback-view-bottom-space, 0px);
+`;
