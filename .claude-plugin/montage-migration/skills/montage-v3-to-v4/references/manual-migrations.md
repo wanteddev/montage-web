@@ -5,12 +5,17 @@ completed (see `codemod-steps.md`). Each section lists scan patterns to locate a
 code — scan first, then apply fixes only where a real occurrence exists.
 
 Scan patterns use `grep -E` syntax with `\b`/`\s`/`\w` shorthands — supported by GNU grep,
-macOS BSD grep, and ripgrep alike, but ONLY OUTSIDE bracket expressions (translate the
+macOS BSD grep, ripgrep, and the ugrep that Claude Code shadows `grep` with alike, but ONLY
+OUTSIDE bracket expressions (translate the
 shorthands to POSIX classes for busybox or other minimal greps). **Inside `[...]` always use
 a POSIX class**: BSD/GNU `grep -E` treat `[\w.]` as the literal 3-character set
 `{backslash, w, dot}`, while ripgrep's Rust regex honors `\w` there — the same pattern
 silently yields different worklists per tool, which is how a scan comes back empty instead of
-failing. Write `[[:alnum:]_.]` instead. Patterns beginning with `-` (e.g. `--wds-`) must be passed after
+failing. Write `[[:alnum:]_.]` instead. **Never write `\b` as an alternation BRANCH**
+(`X(\b|Props|…)`): BSD/GNU accept it, ugrep rejects it as an empty subexpression and prints
+an error with NO matches — a tool-dependent zero that reads as "nothing to migrate". Give it
+its own top-level alternative instead (`\bX\b|\bX(Props|…)`), the shape step ⑥'s presence
+grep uses. Patterns beginning with `-` (e.g. `--wds-`) must be passed after
 a `--` separator or via `-e` (`grep -rn -e "--wds-"`), or grep parses them as options and
 exits without scanning. The patterns are line-based heuristics: multi-line JSX props and
 non-literal forms (`variant={'bottom'}`, responsive objects) escape them, so treat a clean

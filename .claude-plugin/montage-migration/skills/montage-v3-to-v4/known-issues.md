@@ -4,6 +4,10 @@ Deliberate decisions, not oversights. The validation Workflow reads this file an
 re-report anything listed here, which is what keeps successive runs comparable. Remove an entry
 when the underlying decision changes.
 
+Every path below is relative to the **montage-web source repo**, not to a repo being migrated —
+this file ships with the plugin but is maintainer-facing, and none of these paths exist in a
+consumer checkout.
+
 ## Version bumps deferred
 
 `.claude-plugin/montage-migration/.claude-plugin/plugin.json` (1.0.0) and
