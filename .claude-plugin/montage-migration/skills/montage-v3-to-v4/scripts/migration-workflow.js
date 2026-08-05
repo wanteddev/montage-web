@@ -299,13 +299,21 @@ for (const t of args.targets) {
 // twice over it — the same run-once corruption path as a nested target. Workflow scripts
 // have no path module, so normalize by string.
 const canonicalTargets = (() => {
-  const repoRootNormalized = String(args.repoRoot || '').replace(/\/+$/, '');
+  // Windows separators are folded to '/' FIRST, before any check below reads a segment:
+  // '..\other-repo' contains no '/' at all, so the '..' check would see a single segment
+  // and the absolute-path check would see no leading '/' — both wave it through, and on
+  // Windows that target points OUTSIDE repoRoot. A codemod let loose on a foreign tree is
+  // also unrecoverable: `git -C <repoRoot> checkout` cannot restore what it never tracked.
+  const normalizePath = (value) =>
+    String(value)
+      .replace(/\\/g, '/')
+      .replace(/\/{2,}/g, '/')
+      .replace(/\/+$/, '');
+  const repoRootNormalized = normalizePath(args.repoRoot || '');
   const seen = new Map();
 
   for (const raw of args.targets) {
-    let t = String(raw)
-      .replace(/\/{2,}/g, '/')
-      .replace(/\/+$/, '');
+    let t = normalizePath(raw);
 
     if (t.split('/').includes('..')) {
       throw new Error(
@@ -405,7 +413,10 @@ for (const key of ['repoRoot', 'stateFile', 'referencesDir']) {
     );
   }
 }
-const excludeFilesInput = args.excludeFiles || [];
+// Default ONLY on undefined — `|| []` would turn null / false / '' into an empty list and
+// skip the type check below, running step ⑥ over the files the user ring-fenced.
+const excludeFilesInput =
+  args.excludeFiles === undefined ? [] : args.excludeFiles;
 if (!Array.isArray(excludeFilesInput)) {
   throw new Error('excludeFiles must be an array of repo-relative paths');
 }

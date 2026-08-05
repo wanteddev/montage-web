@@ -172,7 +172,14 @@ grep -rnE "\b(ListCard|CardBody|CardRow)" <targets>
 #    Do NOT widen it to a bare prefix `\bFormControl` either: that also matches consumer
 #    identifiers like FormControls / FormControlPanel / FormControlled, and a false "new
 #    names present" reading is what triggers the spurious HALF-migrated stop-and-reconcile.
-grep -rnE "\bFormControl\b|\bFormControl(Props|Field|Label|Message|NegativeMessage|PositiveMessage)" <targets>
+#    The sub-component group carries `(Props)?\b` — every sub-component ships a Props type
+#    (FormControlFieldProps, FormControlLabelProps, FormControlNegativeMessageProps, …), so
+#    a `\b` placed directly after the group instead — \bFormControl(Field|Label|…)\b —
+#    matches NONE of them (the char after `FormControlField` is `P`, a word character) and
+#    returns ZERO on a type-only tree: the same "step ⑥ never ran" misread as the empty
+#    branch above. Keep MessageAccessory ahead of Message so a leftmost-first engine cannot
+#    stop at the shorter alternative.
+grep -rnE "\bFormControl\b|\bFormControl(Field|Label|MessageAccessory|Message|NegativeMessage|PositiveMessage)?(Props)?\b" <targets>
 # ⑦ push-badge-migration — single-quoted so the pattern's own double quotes reach grep
 #    intact. Anchored on PushBadge on purpose: a bare `text=` matches TextField / Chip /
 #    analytics code everywhere and is no evidence at all. Multi-line props escape it — see
