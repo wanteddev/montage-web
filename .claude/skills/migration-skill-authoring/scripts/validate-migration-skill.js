@@ -5,14 +5,25 @@ export const meta = {
   whenToUse:
     'Invoked by the migration-skill-authoring skill after authoring or updating a migration skill; re-run until no critical/major survives verification',
   phases: [
-    { title: 'Scope', detail: 'resolve the changed regions this run is accountable for' },
-    { title: 'Review', detail: '4 parallel reviewers (fact-check, consistency, quality, structure)' },
-    { title: 'Verify', detail: 'per-file dedup + reproduce each finding; unreproducible findings are dropped' },
+    {
+      title: 'Scope',
+      detail: 'resolve the changed regions this run is accountable for',
+    },
+    {
+      title: 'Review',
+      detail:
+        '4 parallel reviewers (fact-check, consistency, quality, structure)',
+    },
+    {
+      title: 'Verify',
+      detail:
+        'per-file dedup + reproduce each finding; unreproducible findings are dropped',
+    },
   ],
-}
+};
 
 // The harness may deliver `args` as a JSON string instead of an object — normalize first.
-const input = typeof args === 'string' ? JSON.parse(args) : (args ?? {})
+const input = typeof args === 'string' ? JSON.parse(args) : (args ?? {});
 
 // Required args:
 //   repoRoot: absolute path of this design-system repo
@@ -38,25 +49,28 @@ const input = typeof args === 'string' ? JSON.parse(args) : (args ?? {})
 //             change is already committed on a feature branch. Ignored when scope is 'full'.
 
 if (!input.repoRoot || !input.skillDir || !input.transformsDir) {
-  throw new Error('repoRoot, skillDir and transformsDir are required absolute paths')
+  throw new Error(
+    'repoRoot, skillDir and transformsDir are required absolute paths',
+  );
 }
 
-const pluginRoot = input.pluginRoot || input.skillDir.split('/skills/')[0]
-const knownIssuesFile = input.knownIssuesFile || `${input.skillDir}/known-issues.md`
+const pluginRoot = input.pluginRoot || input.skillDir.split('/skills/')[0];
+const knownIssuesFile =
+  input.knownIssuesFile || `${input.skillDir}/known-issues.md`;
 
 const SKILL_FILE_LIST = [
   `${input.skillDir}/SKILL.md`,
   `${input.skillDir}/references/codemod-steps.md`,
   `${input.skillDir}/references/manual-migrations.md`,
   `${input.skillDir}/scripts/migration-workflow.js`,
-]
-const SKILL_FILES = SKILL_FILE_LIST.join(', ')
+];
+const SKILL_FILES = SKILL_FILE_LIST.join(', ');
 const PLUGIN_FILE_LIST = [
   `${pluginRoot}/README.md`,
   `${pluginRoot}/README.ko.md`,
   `${pluginRoot}/.claude-plugin/plugin.json`,
   `${input.repoRoot}/.claude-plugin/marketplace.json`,
-]
+];
 
 // Three defects made previous runs untrustworthy, and each rule below exists for one of
 // them: confident findings read off a STALE DUPLICATE of the skill (a previous run produced
@@ -66,17 +80,17 @@ const PATH_RULES = `PATH DISCIPLINE — non-negotiable, and the single largest s
 - The skill under review consists of EXACTLY these files: ${SKILL_FILES}. Supporting files: ${PLUGIN_FILE_LIST.join(', ')}.
 - Read and cite ONLY those absolute paths. This repository is checked out MORE THAN ONCE on this machine — git worktrees live under a \`.claude/worktrees/<branch>/\` subtree, and \`${input.repoRoot}\` may itself BE such a worktree whose parent checkout holds an OLDER copy of these same files at the same relative path. Reading the wrong copy produces findings that are confident, specific, and entirely false.
 - Never search above \`${input.repoRoot}\`. Never use a path you were not given here. Never re-resolve a file by name, glob, or memory when its absolute path is in the list above. If any search returns a path outside the list, discard the hit — do not "reconcile" it.
-- For EVERY file you cite, run \`wc -l <absolute path from the list>\` FIRST and put that count in the finding's \`fileLines\`. The verification phase re-runs \`wc -l\` and REFUTES any finding whose \`fileLines\` disagrees, on the grounds that you read a different file — so this field is your own protection.`
+- For EVERY file you cite, run \`wc -l <absolute path from the list>\` FIRST and put that count in the finding's \`fileLines\`. The verification phase re-runs \`wc -l\` and REFUTES any finding whose \`fileLines\` disagrees, on the grounds that you read a different file — so this field is your own protection.`;
 
 const SEVERITY_RULES = `SEVERITY — rate by CONSEQUENCE for a fresh Claude instance executing the skill in a consumer repo, not by how wrong the text feels:
 - critical: following the docs corrupts code, loses work, or leaves a corruption GUARD silently inert (a scan that cannot match, a check that never runs).
 - major: a fresh instance is likely to take a wrong action, or a documented claim about runtime behavior is false.
 - minor: duplication, drift, or imprecision with no wrong-action path; missing cross-reference; wording.
-Style, file length, word budget, description length, and "this could be leaner" are minor by definition — never rate them higher. If a finding's only harm is that a human reviewer would find it untidy, it is minor.`
+Style, file length, word budget, description length, and "this could be leaner" are minor by definition — never rate them higher. If a finding's only harm is that a human reviewer would find it untidy, it is minor.`;
 
 const EVIDENCE_RULES = `EVIDENCE — every finding needs an \`evidence\` field containing either the exact command you ran WITH its observed output, or a verbatim quote with file:line from the allowed paths. Claims about runtime behavior (a grep pattern, a regex, the CLI, a transform) must be EXECUTED: \`/usr/bin/grep -E\` against a fixture you write, \`node -e\` for a regex, the real transform for a codemod claim. A finding you cannot back this way must not be reported at all — an unbacked finding is worse than a missed one, because it costs a maintainer a full investigation.
 
-ACCEPTED TRADE-OFFS — read \`${knownIssuesFile}\` if it exists (it may not; that is fine). Every entry is a deliberate, accepted decision. Do not report it again, and do not report a restatement of it under a different framing.`
+ACCEPTED TRADE-OFFS — read \`${knownIssuesFile}\` if it exists (it may not; that is fine). Every entry is a deliberate, accepted decision. Do not report it again, and do not report a restatement of it under a different framing.`;
 
 const FINDINGS_SCHEMA = {
   type: 'object',
@@ -86,7 +100,15 @@ const FINDINGS_SCHEMA = {
       type: 'array',
       items: {
         type: 'object',
-        required: ['severity', 'file', 'fileLines', 'issue', 'fix', 'evidence', 'scope'],
+        required: [
+          'severity',
+          'file',
+          'fileLines',
+          'issue',
+          'fix',
+          'evidence',
+          'scope',
+        ],
         properties: {
           scope: {
             type: 'string',
@@ -95,23 +117,31 @@ const FINDINGS_SCHEMA = {
               'delta = anchored in a changed region; blast-radius = contradicts a changed region from unchanged text; pre-existing-critical = untouched by this change but a corruption path',
           },
           severity: { type: 'string', enum: ['critical', 'major', 'minor'] },
-          file: { type: 'string', description: 'Absolute path from the allowed list' },
+          file: {
+            type: 'string',
+            description: 'Absolute path from the allowed list',
+          },
           fileLines: {
             type: 'number',
-            description: 'Output of `wc -l` on that absolute path — proves which copy was read',
+            description:
+              'Output of `wc -l` on that absolute path — proves which copy was read',
           },
           line: { type: 'number' },
-          issue: { type: 'string', description: 'What is wrong, with evidence' },
+          issue: {
+            type: 'string',
+            description: 'What is wrong, with evidence',
+          },
           fix: { type: 'string', description: 'Concrete suggested fix' },
           evidence: {
             type: 'string',
-            description: 'Command + observed output, or verbatim file:line quote',
+            description:
+              'Command + observed output, or verbatim file:line quote',
           },
         },
       },
     },
   },
-}
+};
 
 const VERIFIED_SCHEMA = {
   type: 'object',
@@ -121,7 +151,15 @@ const VERIFIED_SCHEMA = {
       type: 'array',
       items: {
         type: 'object',
-        required: ['verdict', 'severity', 'file', 'issue', 'fix', 'reason', 'scope'],
+        required: [
+          'verdict',
+          'severity',
+          'file',
+          'issue',
+          'fix',
+          'reason',
+          'scope',
+        ],
         properties: {
           scope: {
             type: 'string',
@@ -140,23 +178,24 @@ const VERIFIED_SCHEMA = {
           mergedFrom: {
             type: 'array',
             items: { type: 'string' },
-            description: 'Reviewers that reported this same defect, when duplicates were merged',
+            description:
+              'Reviewers that reported this same defect, when duplicates were merged',
           },
         },
       },
     },
   },
-}
+};
 
-const scopeMode = input.scope === 'full' ? 'full' : 'delta'
-const diffBase = input.diffBase || 'HEAD'
+const scopeMode = input.scope === 'full' ? 'full' : 'delta';
+const diffBase = input.diffBase || 'HEAD';
 
 // Resolve WHAT CHANGED before reviewing. Scripts cannot run shell commands, so one cheap
 // agent owns the git plumbing and hands back per-file changed line ranges.
-let changeMap = null
+let changeMap = null;
 
 if (scopeMode === 'delta') {
-  phase('Scope')
+  phase('Scope');
 
   changeMap = await agent(
     `Read-only. Determine which regions of a migration skill package changed, so reviewers know what this validation run is accountable for.
@@ -201,17 +240,21 @@ Report structured data only.`,
         },
       },
     },
-  )
+  );
 
-  if (!changeMap || !Array.isArray(changeMap.changedFiles) || changeMap.changedFiles.length === 0) {
+  if (
+    !changeMap ||
+    !Array.isArray(changeMap.changedFiles) ||
+    changeMap.changedFiles.length === 0
+  ) {
     log(
       `No changes found against ${diffBase} — falling back to a FULL audit (nothing to scope to). Pass a different diffBase if the change is already committed.`,
-    )
-    changeMap = null
+    );
+    changeMap = null;
   } else {
     log(
       `Scoping to ${changeMap.changedFiles.length} changed file(s) vs ${diffBase}; pre-existing defects are reported only when critical.`,
-    )
+    );
   }
 }
 
@@ -221,7 +264,7 @@ const formatChangeMap = (cm) =>
       (f) =>
         `- ${f.file}: lines ${f.ranges.map((r) => (r.length > 1 ? `${r[0]}-${r[1]}` : String(r[0]))).join(', ')} — ${f.summary}`,
     )
-    .join('\n')
+    .join('\n');
 
 const SCOPE_RULES = changeMap
   ? `SCOPE — this run validates a CHANGE, not the whole package. Read every file you were given (you cannot check consistency otherwise), but be strict about what you REPORT.
@@ -235,11 +278,11 @@ Report a finding ONLY if it is one of:
 - \`scope: "pre-existing-critical"\` — untouched by this change, but following the docs corrupts code, loses work, or leaves a corruption guard silently inert. ONLY \`critical\` qualifies here; a pre-existing \`major\` or \`minor\` does NOT.
 
 Do NOT report a pre-existing \`major\` or \`minor\` that this change neither introduced nor invalidated, however real it is. Those are a separate audit (\`scope: 'full'\`); including them here drowns the change review and prevents it from ever converging. Set the \`scope\` field on every finding — the verification phase REFUTES anything whose scope it cannot justify.`
-  : `SCOPE — full audit: report every defect you can evidence, anywhere in the package. Set \`scope: "delta"\` on all findings (there is no change baseline to compare against in this mode).`
+  : `SCOPE — full audit: report every defect you can evidence, anywhere in the package. Set \`scope: "delta"\` on all findings (there is no change baseline to compare against in this mode).`;
 
-phase('Review')
+phase('Review');
 
-const REVIEWERS = ['fact-check', 'consistency', 'quality', 'structure']
+const REVIEWERS = ['fact-check', 'consistency', 'quality', 'structure'];
 
 const results = await parallel([
   () =>
@@ -260,7 +303,11 @@ ${SEVERITY_RULES}
 ${EVIDENCE_RULES}
 
 Report only findings you verified. Your final output is raw data for the orchestrator.`,
-      { label: 'validate:fact-check', phase: 'Review', schema: FINDINGS_SCHEMA },
+      {
+        label: 'validate:fact-check',
+        phase: 'Review',
+        schema: FINDINGS_SCHEMA,
+      },
     ),
   () =>
     agent(
@@ -279,7 +326,11 @@ ${SEVERITY_RULES}
 ${EVIDENCE_RULES}
 
 Report every mismatch you can quote both sides of. Your final output is raw data for the orchestrator.`,
-      { label: 'validate:consistency', phase: 'Review', schema: FINDINGS_SCHEMA },
+      {
+        label: 'validate:consistency',
+        phase: 'Review',
+        schema: FINDINGS_SCHEMA,
+      },
     ),
   () =>
     agent(
@@ -321,14 +372,14 @@ ${EVIDENCE_RULES}
 Report failures only. Your final output is raw data for the orchestrator.`,
       { label: 'validate:structure', phase: 'Review', schema: FINDINGS_SCHEMA },
     ),
-])
+]);
 
-const completed = results.filter(Boolean).length
+const completed = results.filter(Boolean).length;
 const raw = results.flatMap((r, i) =>
   r ? (r.findings || []).map((f) => ({ ...f, reviewer: REVIEWERS[i] })) : [],
-)
+);
 
-log(`${raw.length} raw findings from ${completed}/4 reviewers — verifying`)
+log(`${raw.length} raw findings from ${completed}/4 reviewers — verifying`);
 
 if (raw.length === 0) {
   return {
@@ -342,7 +393,7 @@ if (raw.length === 0) {
     diffBase: changeMap ? diffBase : null,
     changedFiles: changeMap ? changeMap.changedFiles.map((f) => f.file) : null,
     clean: completed === 4,
-  }
+  };
 }
 
 // Group by the file each finding names so one verifier sees every claim about that file —
@@ -350,31 +401,36 @@ if (raw.length === 0) {
 // reviewers lands in the same group). A barrier is required here for exactly that reason.
 // Groups are capped so the run stays inside the agent budget; the overflow group is merged,
 // never dropped.
-const MAX_GROUPS = 8
-const groups = new Map()
+const MAX_GROUPS = 8;
+const groups = new Map();
 for (const f of raw) {
-  const key = String(f.file || 'unknown').split('/').filter(Boolean).pop() || 'unknown'
-  if (!groups.has(key)) groups.set(key, [])
-  groups.get(key).push(f)
+  const key =
+    String(f.file || 'unknown')
+      .split('/')
+      .filter(Boolean)
+      .pop() || 'unknown';
+  if (!groups.has(key)) groups.set(key, []);
+  groups.get(key).push(f);
 }
-let grouped = [...groups.entries()].sort((a, b) => b[1].length - a[1].length)
+let grouped = [...groups.entries()].sort((a, b) => b[1].length - a[1].length);
 if (grouped.length > MAX_GROUPS) {
-  const kept = grouped.slice(0, MAX_GROUPS - 1)
-  const merged = grouped.slice(MAX_GROUPS - 1)
-  kept.push([
-    merged.map(([k]) => k).join('+'),
-    merged.flatMap(([, v]) => v),
-  ])
-  log(`${merged.length} small groups merged into one verifier batch (nothing dropped)`)
-  grouped = kept
+  const kept = grouped.slice(0, MAX_GROUPS - 1);
+  const merged = grouped.slice(MAX_GROUPS - 1);
+  kept.push([merged.map(([k]) => k).join('+'), merged.flatMap(([, v]) => v)]);
+  log(
+    `${merged.length} small groups merged into one verifier batch (nothing dropped)`,
+  );
+  grouped = kept;
 }
 
-phase('Verify')
+phase('Verify');
 
 const verifiedGroups = await parallel(
-  grouped.map(([key, items]) => () =>
-    agent(
-      `You are the adversarial VERIFIER for review findings about "${key}". DEFAULT TO REFUTED — a finding survives only if you reproduce it yourself.
+  grouped.map(
+    ([key, items]) =>
+      () =>
+        agent(
+          `You are the adversarial VERIFIER for review findings about "${key}". DEFAULT TO REFUTED — a finding survives only if you reproduce it yourself.
 
 Findings to verify (JSON, as reported, including each reviewer's claimed \`fileLines\`):
 ${JSON.stringify(items, null, 2)}
@@ -385,12 +441,12 @@ Procedure, in order:
 3. REPRODUCE each surviving finding against the real file. Quote file:line for a textual claim. For any claim about behavior, EXECUTE it: \`/usr/bin/grep -E\` on a fixture you write, \`node -e\` for a regex or a script predicate, the real codemod CLI for a transform claim. CONFIRMED requires a reproduction you can state in \`reason\`; anything else is REFUTED with what you actually observed.
 4. RE-RATE severity per the rubric below, independently of what the reviewer claimed — reviewers systematically over-rate. Downgrade style/length/budget findings to minor.
 5. RE-CHECK SCOPE, after re-rating (the order matters — a finding the reviewer called critical and you downgrade to major loses its pre-existing exemption). ${
-        changeMap
-          ? `This run validates a CHANGE. The changed regions are:
+            changeMap
+              ? `This run validates a CHANGE. The changed regions are:
 ${formatChangeMap(changeMap)}
    Set \`scope\` yourself rather than trusting the reviewer's: "delta" if the defect sits inside a changed region, "blast-radius" if it is unchanged text the change made wrong (a now-stale cross-reference, count, or duplicated statement — verify BOTH sides, quoting the changed region it contradicts), "pre-existing-critical" if untouched by the change but a genuine corruption path. REFUTE with reason "out-of-scope: pre-existing <severity>, not introduced or invalidated by this change" any finding that ends up outside a changed region, does not contradict one, and is not \`critical\` after your re-rating. Do not stretch "blast-radius" to cover a defect that merely lives near a changed region — the change must be what makes it wrong.`
-          : `This run is a FULL audit, so every finding is in scope; set \`scope: "delta"\` on all of them.`
-      }
+              : `This run is a FULL audit, so every finding is in scope; set \`scope: "delta"\` on all of them.`
+          }
 
 Allowed absolute paths (read nothing else, never search above ${input.repoRoot}, and never re-resolve a file by name when its path is here):
 ${[...SKILL_FILE_LIST, ...PLUGIN_FILE_LIST].join('\n')}
@@ -400,18 +456,20 @@ Accepted trade-offs (REFUTE anything restating an entry here, reason "accepted-t
 ${SEVERITY_RULES}
 
 Return every finding you were given, each with a verdict — REFUTED ones included, so the orchestrator can see what was dropped and why. Your final output is raw data for the orchestrator.`,
-      { label: `verify:${key}`, phase: 'Verify', schema: VERIFIED_SCHEMA },
-    ),
+          { label: `verify:${key}`, phase: 'Verify', schema: VERIFIED_SCHEMA },
+        ),
   ),
-)
+);
 
-const order = { critical: 0, major: 1, minor: 2 }
-const assessed = verifiedGroups.filter(Boolean).flatMap((g) => g.verified || [])
+const order = { critical: 0, major: 1, minor: 2 };
+const assessed = verifiedGroups
+  .filter(Boolean)
+  .flatMap((g) => g.verified || []);
 const allConfirmed = assessed
   .filter((f) => f.verdict === 'CONFIRMED')
-  .sort((a, b) => order[a.severity] - order[b.severity])
-const refuted = assessed.filter((f) => f.verdict === 'REFUTED')
-const lostGroups = grouped.length - verifiedGroups.filter(Boolean).length
+  .sort((a, b) => order[a.severity] - order[b.severity]);
+const refuted = assessed.filter((f) => f.verdict === 'REFUTED');
+const lostGroups = grouped.length - verifiedGroups.filter(Boolean).length;
 
 // Split the two audiences apart: the change's own worklist, and corruption paths this change
 // merely happens to sit next to. Both ship — but only the first governs convergence, or a
@@ -423,28 +481,34 @@ const lostGroups = grouped.length - verifiedGroups.filter(Boolean).length
 // verifier should have returned) rather than letting it bypass convergence unexamined.
 const scopeViolations = allConfirmed.filter(
   (f) => f.scope === 'pre-existing-critical' && f.severity !== 'critical',
-)
-const confirmed = allConfirmed.filter((f) => f.scope !== 'pre-existing-critical')
+);
+const confirmed = allConfirmed.filter(
+  (f) => f.scope !== 'pre-existing-critical',
+);
 const preExisting = allConfirmed.filter(
   (f) => f.scope === 'pre-existing-critical' && f.severity === 'critical',
-)
+);
 if (scopeViolations.length > 0) {
   log(
     `${scopeViolations.length} finding(s) claimed scope "pre-existing-critical" at non-critical severity — scope contract enforced: moved to refuted as out-of-scope.`,
-  )
+  );
 }
 
-const blocking = confirmed.filter((f) => f.severity !== 'minor').length
+const blocking = confirmed.filter((f) => f.severity !== 'minor').length;
 log(
   `${confirmed.length} in-scope confirmed (${blocking} critical/major)` +
-    (preExisting.length > 0 ? `, ${preExisting.length} pre-existing critical` : '') +
+    (preExisting.length > 0
+      ? `, ${preExisting.length} pre-existing critical`
+      : '') +
     `, ${refuted.length} refuted, ${raw.length} raw` +
-    (lostGroups > 0 ? ` — WARNING: ${lostGroups} verifier group(s) returned nothing; their findings are unassessed` : ''),
-)
+    (lostGroups > 0
+      ? ` — WARNING: ${lostGroups} verifier group(s) returned nothing; their findings are unassessed`
+      : ''),
+);
 if (preExisting.length > 0) {
   log(
     `${preExisting.length} pre-existing corruption path(s) surfaced outside this change — they do NOT block convergence, but fix or record them deliberately.`,
-  )
+  );
 }
 
 return {
@@ -465,4 +529,4 @@ return {
   diffBase: changeMap ? diffBase : null,
   changedFiles: changeMap ? changeMap.changedFiles.map((f) => f.file) : null,
   clean: blocking === 0 && completed === 4 && lostGroups === 0,
-}
+};
