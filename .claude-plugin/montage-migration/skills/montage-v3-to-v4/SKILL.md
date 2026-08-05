@@ -200,8 +200,10 @@ rewrites `package.json` a resume looks exactly like "already migrated".
    of these break the parser identically.
    **Expect two known false-positive shapes**: a generic arrow-function declaration
    (`const f = <T>(x: T) => x`, `<T extends object>(x: T) => x`) and a regex literal with a
-   named capture group (`/#(?<id>\w+)/`) both match the pattern but parse fine — this
-   repo's own source yields 10 such hits across 404 `.ts` files. Confirm
+   named capture group (`/#(?<id>\w+)/`) both match the pattern but parse fine — the
+   Montage repo's own `packages/core/src` yielded ~9 such hits across ~290 `.ts` files when
+   this was written, all of them generic arrow declarations; expect a comparable handful per
+   few hundred files rather than a clean scan. Confirm
    each hit is a real CAST (a type in angle brackets applied to an expression) before
    converting anything; never rewrite a generic arrow's type parameter list.
    The scan is still a heuristic; the "treat any `ERR` as a step failure" rule is the backstop)
@@ -390,10 +392,20 @@ Populate `completedSteps` from the state file read in preflight (empty on a firs
 the script skips those steps deterministically without spawning an agent, and each step
 agent re-checks the state file as a second layer.
 
-`${CLAUDE_PLUGIN_ROOT}` is the plugin root (`.claude-plugin/montage-migration`); expand it
-to an absolute path before passing it — the Workflow args must be literal paths. If the
-variable is unset in this environment, fall back to the "Base directory for this skill" line
-announced when the skill loaded, or to the directory of the loaded SKILL.md. ALWAYS pass `codemodVersion` as the concrete version
+`${CLAUDE_PLUGIN_ROOT}` is the plugin's own INSTALL directory, which is outside the repo
+being migrated; expand it to an absolute path before passing it — the Workflow args must be
+literal paths. If the variable is unset in this environment, fall back to the "Base directory
+for this skill" line announced when the skill loaded, or to the directory of the loaded
+SKILL.md. **Never resolve it against `repoRoot`.** `.claude-plugin/montage-migration` is
+where these files live in the montage-web SOURCE repo (and is the right path only when the
+plugin was loaded from a checkout of it, e.g. `--plugin-dir`); a consumer repo has no such
+directory, so guessing that path there yields an unreadable `scriptPath` and the codemod
+phase dies before step ① — while a marketplace install sits under Claude Code's own plugin
+cache instead. Whatever the resolution, confirm
+`<root>/skills/montage-v3-to-v4/scripts/migration-workflow.js` actually exists before
+invoking the Workflow rather than trusting a constructed path.
+
+ALWAYS pass `codemodVersion` as the concrete version
 resolved in preflight (first run) or read from the state file (resume) — the script
 rejects dist-tags, since the value is recorded in the state file and a dist-tag would
 re-resolve on resume and break the same-build guarantee. The workflow returns per-step results plus a
