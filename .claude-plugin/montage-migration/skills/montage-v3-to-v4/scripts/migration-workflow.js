@@ -8,7 +8,7 @@ export const meta = {
     { title: 'Codemods', detail: '8 v4 codemods, strictly sequential' },
     { title: 'Scan', detail: 'parallel read-only scans for manual migrations' },
   ],
-}
+};
 
 // Required args (pass via Workflow tool `args`):
 //   repoRoot:      absolute path of the repo being migrated
@@ -56,19 +56,22 @@ const CODEMOD_STEPS = [
   {
     id: 'package-name-migration',
     title: 'Package name migration (@wanteddev/* → @montage-ui/*)',
-    surface: 'import sources: @wanteddev/wds* → @montage-ui/* (and @wanteddev/montage-mcp)',
+    surface:
+      'import sources: @wanteddev/wds* → @montage-ui/* (and @wanteddev/montage-mcp)',
     precheck: 'None.',
     verify:
       'grep for "@wanteddev/" in .ts/.tsx/.js/.jsx AND .mjs/.cjs/.mts/.cts inside the targets. Import declarations in .ts/.tsx/.js/.jsx must have zero hits, EXCEPT `@wanteddev/montage-mcp` — that is the codemod\'s own post-migration name for wds-mcp; leave it alone. Import declarations in .mjs/.cjs/.mts/.cts are legitimate leftovers (the CLI runs jscodeshift with --extensions=tsx,ts,jsx,js only) — fix them by hand NOW, they are not codemod failures. Remaining hits in `export ... from`, require(), dynamic import(), jest.mock()/vi.mock(), or `declare module` lines are NOT covered by the codemod — fix those by hand NOW as part of this step (they are code, unlike the config-file work of manual step M1). Hits in package.json/configs belong to manual step M1; leave them.',
   },
   {
     id: 'semantic-token-migration',
-    title: 'Semantic token migration (v3 semantic color tokens → v4 property/intent/variant structure)',
+    title:
+      'Semantic token migration (v3 semantic color tokens → v4 property/intent/variant structure)',
     surface:
       'semantic.<old path> dot paths in JS/TS and --semantic-<old-dashed> variables in JS/TS + stylesheets',
-    precheck: 'None. (The transform is idempotent and safe on hand-migrated v4 token code — the rename map is prefix-free and no new path matches an old key.)',
+    precheck:
+      'None. (The transform is idempotent and safe on hand-migrated v4 token code — the rename map is prefix-free and no new path matches an old key.)',
     verify:
-      'Run the two step-2 verification greps from codemod-steps.md: the old dot-path pattern (semantic.(label|status|fill|material|inverse), semantic.interaction, semantic.primary., semantic.accent., semantic.background.(normal|elevated|transparent|status), semantic.line.(normal|solid|primary|status)) over the targets, and the old CSS-variable pattern (--semantic-… equivalents) INCLUDING .css/.scss/.sass/.less. Neither pattern matches any v4 name. Remaining hits should only be group-level references (theme.semantic.label passed/iterated whole), dynamically built names (`--semantic-${x}`, \'semantic.\' + path), or computed access (semantic[\'label\']) — all owned by manual step M9; report them in verifyFindings, do not fix them here. Then skim the diff for false positives: the transform is NOT import-gated, so a non-Montage object accessed as <x>.semantic.<old-path> or an unrelated string containing semantic.<old-path>/--semantic-<old-dashed> was rewritten too — revert genuinely unrelated rewrites in this step and note them. Expect surface.brand.primary at former primary.normal sites (including text/icon-color usages) and foreground.* tokens at former deleted-accent sites — the reclassification decisions belong to manual step M9; do NOT re-map them here. Dot-path token strings inside stylesheets are NOT converted (the stylesheet pass renames only the --semantic-* variable form) — flag any such hit for M9.',
+      "Run the two step-2 verification greps from codemod-steps.md: the old dot-path pattern (semantic.(label|status|fill|material|inverse), semantic.interaction, semantic.primary., semantic.accent., semantic.background.(normal|elevated|transparent|status), semantic.line.(normal|solid|primary|status)) over the targets, and the old CSS-variable pattern (--semantic-… equivalents) INCLUDING .css/.scss/.sass/.less. Neither pattern matches any v4 name. Remaining hits should only be group-level references (theme.semantic.label passed/iterated whole), dynamically built names (`--semantic-${x}`, 'semantic.' + path), or computed access (semantic['label']) — all owned by manual step M9; report them in verifyFindings, do not fix them here. Then skim the diff for false positives: the transform is NOT import-gated, so a non-Montage object accessed as <x>.semantic.<old-path> or an unrelated string containing semantic.<old-path>/--semantic-<old-dashed> was rewritten too — revert genuinely unrelated rewrites in this step and note them. Expect surface.brand.primary at former primary.normal sites (including text/icon-color usages) and foreground.* tokens at former deleted-accent sites — the reclassification decisions belong to manual step M9; do NOT re-map them here. Dot-path token strings inside stylesheets are NOT converted (the stylesheet pass renames only the --semantic-* variable form) — flag any such hit for M9.",
   },
   {
     id: 'css-variable-migration',
@@ -81,7 +84,8 @@ const CODEMOD_STEPS = [
   },
   {
     id: 'dom-identifier-migration',
-    title: 'DOM identifier migration (wds-component → data-component, region manager ids)',
+    title:
+      'DOM identifier migration (wds-component → data-component, region manager ids)',
     surface:
       'wds-component / wds-ignore-* / wds-region-manager identifier strings and attribute names in JS/TS + stylesheets',
     precheck: 'None.',
@@ -90,7 +94,8 @@ const CODEMOD_STEPS = [
   },
   {
     id: 'list-card-migration',
-    title: 'Card / ListCard naming migration (CardList → ListCard, CardContent → CardBody/ListCardBody)',
+    title:
+      'Card / ListCard naming migration (CardList → ListCard, CardContent → CardBody/ListCardBody)',
     surface:
       'CardList* / CardContent* identifiers and their Props/Skeleton forms → ListCard* / CardBody* / CardRow*',
     precheck:
@@ -100,7 +105,8 @@ const CODEMOD_STEPS = [
   },
   {
     id: 'form-control-migration',
-    title: 'Form Control naming migration (FormField → FormControl → FormControlField swap)',
+    title:
+      'Form Control naming migration (FormField → FormControl → FormControlField swap)',
     surface:
       'FormField* / FormLabel / FormMessage / FormErrorMessage identifiers → FormControl* (and the old FormControl slot → FormControlField)',
     precheck:
@@ -110,7 +116,8 @@ const CODEMOD_STEPS = [
   },
   {
     id: 'push-badge-migration',
-    title: 'PushBadge variant/count migration (variant="number"|"new" → "text", count → text)',
+    title:
+      'PushBadge variant/count migration (variant="number"|"new" → "text", count → text)',
     surface:
       'PushBadge JSX props: variant="number"|"new" → variant="text", count → text (variant="new" also gains text="N")',
     precheck:
@@ -120,25 +127,46 @@ const CODEMOD_STEPS = [
   },
   {
     id: 'status-migration',
-    title: 'invalid/positive → status migration (TextField, TextArea, Select*, *Picker, Checkbox family, framedStyle)',
+    title:
+      'invalid/positive → status migration (TextField, TextArea, Select*, *Picker, Checkbox family, framedStyle)',
     surface:
-      'invalid → status="negative" on TextField/TextArea/Select/SelectMultiple/DatePicker/DateRangePicker/TimePicker, plus positive → status="positive" on TextField ONLY; invalid → aria-invalid on Checkbox/Radio/CheckMark/RoundCheckbox; framedStyle({ invalid: true }) → framedStyle({ status: \'negative\' }), and the shorthand framedStyle({ invalid }) → framedStyle({ status: invalid ? \'negative\' : \'normal\' }) (NOT a bare rename — status takes a string)',
+      "invalid → status=\"negative\" on TextField/TextArea/Select/SelectMultiple/DatePicker/DateRangePicker/TimePicker, plus positive → status=\"positive\" on TextField ONLY; invalid → aria-invalid on Checkbox/Radio/CheckMark/RoundCheckbox; framedStyle({ invalid: true }) → framedStyle({ status: 'negative' }), and the shorthand framedStyle({ invalid }) → framedStyle({ status: invalid ? 'negative' : 'normal' }) (NOT a bare rename — status takes a string)",
     precheck:
       'None. (Idempotent — the first run removes every invalid/positive it can see, and the transform never treats status as a rename source (it only checks whether one is already there so it never writes a duplicate attribute), so a re-run is a no-op. The one shape it skips, an element carrying BOTH status and invalid (half-hand-migrated), is skipped identically on a second run and belongs to M16. It is still run-once by the state file.)',
     verify:
       'Run `grep -rnE \'<([[:alnum:]_$]+\.)?(TextField|TextArea|Select|SelectMultiple|DatePicker|DateRangePicker|TimePicker|Checkbox|Radio|CheckMark|RoundCheckbox)[^>]*[[:space:]](invalid|positive)[=/ >]\' <targets>` — SINGLE-quoted so the pattern reaches grep intact, and the [[:space:]] before the alternation is REQUIRED: it forces ATTRIBUTE position, which is what keeps this transform\'s own `aria-invalid` output and its `status={invalid ? ...}` fold out of the results (a weaker [^-[:alnum:]_] guard does NOT, because `{` satisfies it). Expect zero hits EXCEPT class (b) below (the transform\'s own fold output) — this is not a plain zero criterion. This is a LINE-based grep and the transform is AST-based, so a clean result is not proof of coverage: multi-line JSX props never match it, yet the transform DID migrate them — do not "fix" the diff to satisfy the grep. Real hits come from three places, none of which is a reason to re-run the codemod: (a) gate-skipped files (namespace imports like M.TextField, re-exports, deep/subpath imports — the codemod only transforms files importing from exactly @montage-ui/core or @wanteddev/wds); no M-section covers in-target hits of this class, so fix them by hand NOW against the surface above, but first confirm the identifier really comes from a montage source; (b) the transform\'s OWN fold output, whenever the folded expression mentions a bare invalid/positive anywhere but immediately after `{` (status={hasError || invalid ? ...}, status={inv ? "negative" : positive ? ...}) — correct v4 code, NEVER edit it and never count it against the zero criterion; (c) elements carrying BOTH status and invalid as two separate attributes (half-hand-migrated) — report for M16, and check the shape first: a lone status= whose expression mentions invalid is class (b), not this. Also report every TextField the transform folded from BOTH invalid AND positive (whose output shape depends on which prop was literal — a literal invalid with a literal positive short-circuits to a bare status="negative" with no textual trace, invalid={inv} positive gives a single ternary, and only both-dynamic gives a nested one; a literal invalid with a DYNAMIC positive is left untransformed on purpose, since folding it would discard an expression v3 still evaluated, so it keeps both attributes and shows up in this grep — report it for M16, never hand-fold it): v3 rendered the negative border AND the positive icon together, v4 cannot, so the icon is gone — a real behavior change for M16 to confirm, not a diff to revert. Also report any {...spread} onto one of these components and any type extending TextFieldProps that re-declares invalid/positive — both are invisible to the transform AND to this grep, and belong to M16 — the typecheck will not find them either, since a TextFieldProps & { invalid?: boolean } intersection is valid and JSX spreads are not excess-property-checked. framedStyle called with a variable instead of an inline object literal keeps its invalid key silently and is M16\'s too.',
   },
-]
+];
 
 // Kept in sync with the M-sections in references/manual-migrations.md and STATE_FILE_TEMPLATE
 // below — see SKILL.md → "State file format" → Consistency surfaces for the canonical list.
 const MANUAL_SCAN_SECTIONS = [
   { id: 'M1', title: 'Package references outside import declarations' },
-  { id: 'M2', title: 'Theme tokens now return var(--...) strings (JS arithmetic breakage)' },
-  { id: 'M3', title: 'CSS variable / DOM identifier leftovers (dynamic names, out-of-target files such as E2E specs and snapshots, camelCase safety net)' },
-  { id: 'M4', title: 'Card / ListCard follow-ups (non-JSX refs, cross-file context, data-component values, old Card names outside the targets)' },
-  { id: 'M5', title: 'FormControl follow-ups (message typography variant/weight, old Form names outside the targets)' },
-  { id: 'M6', title: 'Modal bottom sheet behavior change (onVisibilityChange removal, peekHeight)' },
+  {
+    id: 'M2',
+    title:
+      'Theme tokens now return var(--...) strings (JS arithmetic breakage)',
+  },
+  {
+    id: 'M3',
+    title:
+      'CSS variable / DOM identifier leftovers (dynamic names, out-of-target files such as E2E specs and snapshots, camelCase safety net)',
+  },
+  {
+    id: 'M4',
+    title:
+      'Card / ListCard follow-ups (non-JSX refs, cross-file context, data-component values, old Card names outside the targets)',
+  },
+  {
+    id: 'M5',
+    title:
+      'FormControl follow-ups (message typography variant/weight, old Form names outside the targets)',
+  },
+  {
+    id: 'M6',
+    title:
+      'Modal bottom sheet behavior change (onVisibilityChange removal, peekHeight)',
+  },
   {
     id: 'M7',
     title:
@@ -189,7 +217,7 @@ const MANUAL_SCAN_SECTIONS = [
     title:
       'invalid/positive → status leftovers (props reaching a field via spread or a props object, TextField that set BOTH — v4 status is exclusive so the positive icon is lost, picker auto-promotion to negative in uncontrolled mode that status="normal" cannot suppress, wrapper types re-declaring invalid, framedStyle called with a variable)',
   },
-]
+];
 
 const STEP_RESULT_SCHEMA = {
   type: 'object',
@@ -203,11 +231,12 @@ const STEP_RESULT_SCHEMA = {
     verifyFindings: {
       type: 'array',
       items: { type: 'string' },
-      description: 'Leftover patterns or anomalies found by the post-step verification greps',
+      description:
+        'Leftover patterns or anomalies found by the post-step verification greps',
     },
     error: { type: 'string' },
   },
-}
+};
 
 const SCAN_RESULT_SCHEMA = {
   type: 'object',
@@ -233,33 +262,36 @@ const SCAN_RESULT_SCHEMA = {
       },
     },
   },
-}
+};
 
-const codemodVersion = args.codemodVersion
+const codemodVersion = args.codemodVersion;
 if (!/^\d+\.\d+\.\d+(-[\w.]+)?$/.test(String(codemodVersion))) {
   throw new Error(
     `codemodVersion must be an exact x.y.z version (got ${JSON.stringify(codemodVersion)}) — resolve at preflight with \`npm view '@montage-ui/codemod@^4' version --json\` and take the LAST element of the returned array — the unscoped \`npm view @montage-ui/codemod version\` returns the \`latest\` dist-tag (wrong major once 5.x ships) and the un-jsonned range form prints one \`pkg@x.y.z 'x.y.z'\` line PER matching version — or read the state file's recorded value on resume`,
-  )
+  );
 }
 if (Number(String(codemodVersion).split('.')[0]) !== 4) {
   throw new Error(
     `codemodVersion ${codemodVersion} is outside the 4.x line this skill covers — the v3→v4 transforms ship in @montage-ui/codemod 4.x (a 3.x CLI rejects every transform name with "Invalid transform choice"; a 5.x CLI carries no guarantee these transform names still exist or behave identically). Resolve with \`npm view '@montage-ui/codemod@^4' version --json\` at preflight and take the LAST array element — the un-jsonned range form prints one line PER matching 4.x version`,
-  )
+  );
 }
-if (args.commitNoVerify !== undefined && typeof args.commitNoVerify !== 'boolean') {
+if (
+  args.commitNoVerify !== undefined &&
+  typeof args.commitNoVerify !== 'boolean'
+) {
   throw new Error(
     `commitNoVerify must be a boolean (got ${JSON.stringify(args.commitNoVerify)}) — it carries the preflight agreement on pre-commit hooks into the per-step commits`,
-  )
+  );
 }
-const commitNoVerify = args.commitNoVerify === true
+const commitNoVerify = args.commitNoVerify === true;
 if (!Array.isArray(args.targets) || args.targets.length === 0) {
-  throw new Error('targets must be a non-empty array of directory paths')
+  throw new Error('targets must be a non-empty array of directory paths');
 }
 for (const t of args.targets) {
   if (/[*?{}[\]]/.test(String(t))) {
     throw new Error(
       `target ${JSON.stringify(t)} contains glob metacharacters — the codemod CLI does not expand globs (it silently uses only the first path); pass plain directory paths`,
-    )
+    );
   }
 }
 // Canonicalize targets BEFORE the disjointness check: 'src', './src', 'src/', and
@@ -267,33 +299,46 @@ for (const t of args.targets) {
 // twice over it — the same run-once corruption path as a nested target. Workflow scripts
 // have no path module, so normalize by string.
 const canonicalTargets = (() => {
-  const repoRootNormalized = String(args.repoRoot || '').replace(/\/+$/, '')
-  const seen = new Map()
+  // Windows separators are folded to '/' FIRST, before any check below reads a segment:
+  // '..\other-repo' contains no '/' at all, so the '..' check would see a single segment
+  // and the absolute-path check would see no leading '/' — both wave it through, and on
+  // Windows that target points OUTSIDE repoRoot. A codemod let loose on a foreign tree is
+  // also unrecoverable: `git -C <repoRoot> checkout` cannot restore what it never tracked.
+  const normalizePath = (value) =>
+    String(value)
+      .replace(/\\/g, '/')
+      .replace(/\/{2,}/g, '/')
+      .replace(/\/+$/, '');
+  const repoRootNormalized = normalizePath(args.repoRoot || '');
+  const seen = new Map();
 
   for (const raw of args.targets) {
-    let t = String(raw).replace(/\/{2,}/g, '/').replace(/\/+$/, '')
+    let t = normalizePath(raw);
 
     if (t.split('/').includes('..')) {
       throw new Error(
         `target ${JSON.stringify(raw)} contains a ".." segment — it may point outside the migrated tree; pass a plain path inside the repo`,
-      )
+      );
     }
 
     // Collapse interior '/./' segments and repeated './' prefixes BEFORE the duplicate
     // check — 'src', './src', '././src', and 'src/./sub' vs 'src/sub' must all land on
     // one spelling, or a duplicate pair slips past and every codemod runs twice over it.
-    while (t.includes('/./')) t = t.replace(/\/\.\//g, '/')
-    t = t.replace(/\/\.$/, '')
-    while (t.startsWith('./')) t = t.slice(2)
+    while (t.includes('/./')) t = t.replace(/\/\.\//g, '/');
+    t = t.replace(/\/\.$/, '');
+    while (t.startsWith('./')) t = t.slice(2);
 
-    if (repoRootNormalized && (t === repoRootNormalized || t.startsWith(repoRootNormalized + '/'))) {
-      t = t.slice(repoRootNormalized.length + 1)
+    if (
+      repoRootNormalized &&
+      (t === repoRootNormalized || t.startsWith(repoRootNormalized + '/'))
+    ) {
+      t = t.slice(repoRootNormalized.length + 1);
     }
 
     if (t === '' || t === '.') {
       throw new Error(
         `target ${JSON.stringify(raw)} resolves to the repo root ('.') — SKILL.md preflight item 4 forbids '.' as a target: it would run every codemod over the ENTIRE repo, build output and fixtures included; pass the specific source/stylesheet directories (or the root-level stylesheet's own path) instead`,
-      )
+      );
     }
 
     // Build output / dependency directories, at ANY segment. This is the second layer:
@@ -316,31 +361,33 @@ const canonicalTargets = (() => {
       '.turbo',
       '.svelte-kit',
       'storybook-static',
-    ])
-    const offendingSegment = t.split('/').find((seg) => BUILD_OUTPUT_SEGMENTS.has(seg))
+    ]);
+    const offendingSegment = t
+      .split('/')
+      .find((seg) => BUILD_OUTPUT_SEGMENTS.has(seg));
     if (offendingSegment !== undefined) {
       throw new Error(
         `target ${JSON.stringify(raw)} contains the build-output/dependency segment ${JSON.stringify(offendingSegment)} — SKILL.md preflight item 4 forbids these ("Never make build output a target"). The codemod CLI's ignore list is consulted only for directories met while recursing, never for the path you pass, so this target's generated stylesheets WOULD be rewritten. If preflight's stylesheet-discovery command produced this path, its exclusion filter did not fire — re-run that command with the --exclude-dir flags and the anchored (^|\\./|/) filter, and pass only real source directories`,
-      )
+      );
     }
 
     if (t.startsWith('/') || /^[A-Za-z]:[\\/]/.test(t)) {
       throw new Error(
         `target ${JSON.stringify(raw)} resolves outside repoRoot ${JSON.stringify(args.repoRoot)} — every codemod must run inside the migrated repo, or a failed step cannot be restored with \`git -C <repoRoot> checkout\` and the tree is left half-transformed (the corruption path)`,
-      )
+      );
     }
 
-    const previous = seen.get(t)
+    const previous = seen.get(t);
     if (previous !== undefined) {
       throw new Error(
         `duplicate targets point at the same tree — ${JSON.stringify(previous)} and ${JSON.stringify(raw)} both resolve to ${JSON.stringify(t)}, so each codemod would run twice over it (the run-once corruption path); list each directory exactly once`,
-      )
+      );
     }
-    seen.set(t, raw)
+    seen.set(t, raw);
   }
 
-  return [...seen.keys()]
-})()
+  return [...seen.keys()];
+})();
 
 for (const a of canonicalTargets) {
   for (const b of canonicalTargets) {
@@ -349,51 +396,59 @@ for (const a of canonicalTargets) {
     if (a !== b && (b + '/').startsWith(a === '.' ? '' : a + '/')) {
       throw new Error(
         `targets must be disjoint directories — ${JSON.stringify(b)} is nested inside ${JSON.stringify(a)}, so each codemod would run twice over the nested subtree (the run-once corruption path); keep only the outer directory`,
-      )
+      );
     }
   }
 }
 if (typeof args.autoCommit !== 'boolean') {
-  throw new Error('autoCommit must be a boolean')
+  throw new Error('autoCommit must be a boolean');
 }
 for (const key of ['repoRoot', 'stateFile', 'referencesDir']) {
-  if (typeof args[key] !== 'string' || !/^(\/|[A-Za-z]:[\\/])/.test(args[key])) {
-    throw new Error(`${key} must be an absolute path (got ${JSON.stringify(args[key])})`)
+  if (
+    typeof args[key] !== 'string' ||
+    !/^(\/|[A-Za-z]:[\\/])/.test(args[key])
+  ) {
+    throw new Error(
+      `${key} must be an absolute path (got ${JSON.stringify(args[key])})`,
+    );
   }
 }
-const excludeFilesInput = args.excludeFiles || []
+// Default ONLY on undefined — `|| []` would turn null / false / '' into an empty list and
+// skip the type check below, running step ⑥ over the files the user ring-fenced.
+const excludeFilesInput =
+  args.excludeFiles === undefined ? [] : args.excludeFiles;
 if (!Array.isArray(excludeFilesInput)) {
-  throw new Error('excludeFiles must be an array of repo-relative paths')
+  throw new Error('excludeFiles must be an array of repo-relative paths');
 }
 for (const f of excludeFilesInput) {
   if (typeof f !== 'string' || f.startsWith('/') || /^[A-Za-z]:[\\/]/.test(f)) {
     throw new Error(
       `excludeFiles entry ${JSON.stringify(f)} must be a repo-relative path — the move-out/move-back procedure runs from the repo root, and an absolute path would be restored to the wrong location`,
-    )
+    );
   }
   if (String(f).split('/').includes('..')) {
     throw new Error(
       `excludeFiles entry ${JSON.stringify(f)} contains a ".." segment — it points outside the migrated tree, and the move-out/move-back procedure would restore it to the wrong location`,
-    )
+    );
   }
 }
 
 // Canonical targets, never args.targets: the raw list may carry duplicate spellings of one
 // tree, and the step agents must receive the same list the disjointness check validated.
-const targets = JSON.stringify(canonicalTargets)
-const excludeFilesJson = JSON.stringify(excludeFilesInput)
+const targets = JSON.stringify(canonicalTargets);
+const excludeFilesJson = JSON.stringify(excludeFilesInput);
 
 // Every `git -C <repoRoot>` in the step prompts is a command the agent copies verbatim —
 // a repo path containing a space (or any shell metacharacter) breaks all of them unless
 // the interpolation ships pre-quoted. Single-quote POSIX-style; embedded quotes escaped.
-const shq = (p) => `'${String(p).replace(/'/g, `'\\''`)}'`
-const repoRootSh = shq(args.repoRoot)
+const shq = (p) => `'${String(p).replace(/'/g, `'\\''`)}'`;
+const repoRootSh = shq(args.repoRoot);
 // Same treatment for the targets: the step agent pastes these into npx/checkout/pathspec
 // positions, and a double-quoted interpolation would still let `$()`/backticks expand.
 // One token per line, NEVER JSON.stringify — JSON re-escapes `"` and `\`, so a pasted
 // token would no longer be the shell-quoted path. No list-marker prefix either: a `- `
 // pasted along with the token becomes a separate argument.
-const targetsSh = canonicalTargets.map(shq).join('\n')
+const targetsSh = canonicalTargets.map(shq).join('\n');
 
 // Kept in sync with the template in SKILL.md ("State file format") and MANUAL_SCAN_SECTIONS
 // above — see that section's Consistency surfaces list for every surface to update.
@@ -431,23 +486,23 @@ manual:
   M14: pending
   M15: pending
   M16: pending
----`
+---`;
 
 if (args.completedSteps !== undefined && !Array.isArray(args.completedSteps)) {
   throw new Error(
     'completedSteps must be an array of step ids — a string would substring-match through .includes() and skip steps that were never completed',
-  )
+  );
 }
 // Deduplicated on read: the all-completed gate below compares LENGTH against
 // CODEMOD_STEPS, so a list with repeats would satisfy it without covering every step.
-const completedSteps = [...new Set(args.completedSteps || [])]
+const completedSteps = [...new Set(args.completedSteps || [])];
 {
-  const knownStepIds = new Set(CODEMOD_STEPS.map((s) => s.id))
+  const knownStepIds = new Set(CODEMOD_STEPS.map((s) => s.id));
   for (const id of completedSteps) {
     if (!knownStepIds.has(id)) {
       throw new Error(
         `completedSteps contains unknown step id ${JSON.stringify(id)} — a typo silently skips nothing and lets a completed step re-run (the corruption path); use the exact ids: ${[...knownStepIds].join(', ')}`,
-      )
+      );
     }
   }
   // A gap in the canonical order is legal but exceptional: only the single-codemod path can
@@ -457,24 +512,26 @@ const completedSteps = [...new Set(args.completedSteps || [])]
   const gaps = CODEMOD_STEPS.filter(
     (s, i) =>
       !completedSteps.includes(s.id) &&
-      CODEMOD_STEPS.slice(i + 1).some((later) => completedSteps.includes(later.id)),
-  ).map((s) => s.id)
+      CODEMOD_STEPS.slice(i + 1).some((later) =>
+        completedSteps.includes(later.id),
+      ),
+  ).map((s) => s.id);
   if (gaps.length > 0 && args.allowOutOfOrderSteps !== true) {
     throw new Error(
       `completedSteps is not a prefix of the canonical order — ${JSON.stringify(gaps)} are pending while later steps are marked completed. Three causes, and the script cannot tell them apart: (a) a STALE list, in which case the orchestrator-level skip would silently skip a step that never ran (under-migration with no later scan to catch it), (b) a genuine out-of-order state produced by the single-codemod path with explicit user confirmation, or (c) a resume of an OLDER state file that predates a step inserted mid-order (the gap step's key was ABSENT from the file and was added as pending per SKILL.md preflight item 1 — e.g. semantic-token-migration). Refresh the list from the state file; if the gap is the confirmed single-codemod one or the verified missing-key one, re-run with allowOutOfOrderSteps: true.`,
-    )
+    );
   }
   if (gaps.length > 0) {
     log(
       `Proceeding with a non-prefix completedSteps list (allowOutOfOrderSteps) — ${JSON.stringify(gaps)} are pending while later steps are marked completed.`,
-    )
+    );
   }
 }
 
-const stepResults = []
-let aborted = null
-let stateCheckReport = null
-let stateCheckError = null
+const stepResults = [];
+let aborted = null;
+let stateCheckReport = null;
+let stateCheckError = null;
 
 // Every step being skipped means no step agent runs, so nothing would verify the state
 // file or the targets it records — the scan-only re-run path in SKILL.md Step 2 lands here.
@@ -506,16 +563,25 @@ Report structured data only, no prose.`,
             items: {
               type: 'object',
               required: ['file', 'name'],
-              properties: { file: { type: 'string' }, name: { type: 'string' } },
+              properties: {
+                file: { type: 'string' },
+                name: { type: 'string' },
+              },
             },
           },
-          stepMarks: { type: 'object', additionalProperties: { type: 'string' } },
-          manualMarks: { type: 'object', additionalProperties: { type: 'string' } },
+          stepMarks: {
+            type: 'object',
+            additionalProperties: { type: 'string' },
+          },
+          manualMarks: {
+            type: 'object',
+            additionalProperties: { type: 'string' },
+          },
           notes: { type: 'array', items: { type: 'string' } },
         },
       },
     },
-  )
+  );
 
   // scan-only is legitimate ONLY when the state file itself marks every codemod step
   // completed — a stale completedSteps arg alone must not skip a pending codemod.
@@ -523,29 +589,30 @@ Report structured data only, no prose.`,
     ? CODEMOD_STEPS.map((s) => s.id).filter(
         (id) => stateCheck.stepMarks[id] !== 'completed',
       )
-    : null
+    : null;
 
   // targets are not the only locked field: running with a different codemodVersion changes
   // the transform BUILD mid-migration, and a flipped autoCommit changes the failure handling
   // every later step branches on. Both are recorded, so both are comparable — compare them.
   const versionMismatch =
-    stateCheck?.codemodVersion && String(stateCheck.codemodVersion) !== String(codemodVersion)
+    stateCheck?.codemodVersion &&
+    String(stateCheck.codemodVersion) !== String(codemodVersion)
       ? `state file records codemodVersion ${stateCheck.codemodVersion} but this run passed ${codemodVersion} — the same-build guarantee is broken; re-run with the recorded version, or reconcile with the user before changing the pin`
-      : null
+      : null;
   const autoCommitMismatch =
     stateCheck?.autoCommit !== undefined &&
     String(stateCheck.autoCommit) !== String(args.autoCommit)
       ? `state file records autoCommit ${stateCheck.autoCommit} but this run passed ${args.autoCommit} — every step's failure handling and clean-tree expectation branches on it; re-run with the recorded value`
-      : null
+      : null;
   // The recorded exclusions outlive the run that created them: the final verification uses
   // them to tell a ring-fenced hand-migrated file from a leftover, and a resume that drops
   // the arg would un-exclude those files for any later step ⑥ work.
-  const recordedExclusions = stateCheck?.excludeFiles || []
+  const recordedExclusions = stateCheck?.excludeFiles || [];
   const exclusionsMismatch =
     JSON.stringify([...recordedExclusions].sort()) !==
     JSON.stringify([...excludeFilesInput].sort())
       ? `state file records excludeFiles ${JSON.stringify(recordedExclusions)} but this run passed ${JSON.stringify(excludeFilesInput)} — pass the recorded list back on every invocation; omitting it un-excludes the files the user ring-fenced and makes the final verification treat their Form* mentions as leftovers`
-      : null
+      : null;
 
   if (
     !stateCheck ||
@@ -565,34 +632,34 @@ Report structured data only, no prose.`,
           : versionMismatch ||
             autoCommitMismatch ||
             exclusionsMismatch ||
-            `completedSteps claims all ${CODEMOD_STEPS.length} steps are done, but the state file marks ${JSON.stringify(notCompleted)} as not completed — a stale completedSteps list would silently skip pending codemods; refresh it from the state file and re-run`
-    aborted = 'state-file-verification'
-    log(`Aborting before the scans — ${stateCheckError}`)
+            `completedSteps claims all ${CODEMOD_STEPS.length} steps are done, but the state file marks ${JSON.stringify(notCompleted)} as not completed — a stale completedSteps list would silently skip pending codemods; refresh it from the state file and re-run`;
+    aborted = 'state-file-verification';
+    log(`Aborting before the scans — ${stateCheckError}`);
   } else {
-    stateCheckReport = stateCheck
+    stateCheckReport = stateCheck;
     log(
       `state file verified (targets match, all ${CODEMOD_STEPS.length} steps completed) — running scans only`,
-    )
+    );
   }
 }
 
 for (const step of CODEMOD_STEPS) {
   // A failed state-file verification must never be followed by a codemod invocation.
-  if (aborted) break
+  if (aborted) break;
 
   if (completedSteps.includes(step.id)) {
     // Deterministic orchestrator-level skip. The step agent's own state-file check
     // (procedure step 1) stays as the second layer, guarding runs launched with a
     // stale completedSteps list.
-    log(`${step.id}: skipped (state file marks it completed)`)
+    log(`${step.id}: skipped (state file marks it completed)`);
     stepResults.push({
       step: step.id,
       status: 'skipped',
       filesChanged: 0,
       committed: false,
       verifyFindings: [],
-    })
-    continue
+    });
+    continue;
   }
 
   // On state-file recreation the agent must mark every step that already ran in THIS
@@ -602,9 +669,11 @@ for (const step of CODEMOD_STEPS) {
   const stepsDoneByNow = JSON.stringify([
     ...new Set([
       ...completedSteps,
-      ...CODEMOD_STEPS.slice(0, CODEMOD_STEPS.indexOf(step) + 1).map((s) => s.id),
+      ...CODEMOD_STEPS.slice(0, CODEMOD_STEPS.indexOf(step) + 1).map(
+        (s) => s.id,
+      ),
     ]),
-  ])
+  ]);
 
   // Structural gate: only the form-control-migration agent ever receives a MOVE-OUT list —
   // any other step moving files out would silently skip their transformation. Every step
@@ -612,7 +681,7 @@ for (const step of CODEMOD_STEPS) {
   // step 1 (a resume that drops the arg must fail loudly at the FIRST step, not only at ⑥
   // or on the scan-only path).
   const stepExcludeFiles =
-    step.id === 'form-control-migration' ? excludeFilesJson : '[]'
+    step.id === 'form-control-migration' ? excludeFilesJson : '[]';
 
   const result = await agent(
     `You are executing ONE step of the Montage v3 → v4 migration in the repo at ${args.repoRoot}.
@@ -647,35 +716,42 @@ If ANY dirty path is not explainable by a completed step's rename surface, repor
 7. If the codemod failed partway, NEVER leave a half-transformed tree (re-running a codemod over one is the documented corruption path for steps 5–6 — list-card-migration and form-control-migration — and excluding the partially-transformed files later is the WRONG fix): when autoCommit is true (tree was clean at step start), restore with \`git -C ${repoRootSh} checkout -- <each shell-quoted target>\`; when autoCommit is false, restore the targets from the snapshot recorded in step 5 (\`git -C ${repoRootSh} checkout <snapshot-hash> -- <each shell-quoted target>\` — this reverts only this step's changes; earlier steps' uncommitted work is inside the snapshot; if no hash was printed the tree was clean, so plain \`git checkout -- <each shell-quoted target>\` is equivalent). Move any excluded files back per step 8, then report status "failed" with the error.
 8. If files were moved out in step 4: move each back to its exact original path, re-run the path+hash command and diff against the recording from step 4 — must be empty (do NOT rely on a plain \`git status\` no-diff check — it is only meaningful when autoCommit is true; with autoCommit false the excluded files legitimately carry earlier steps' uncommitted changes and show as modified), and confirm the temp dir is empty. If the hash diff is NON-empty, or \`find "$EXCL" -type f\` still lists files, STOP: report status "failed" with the unrestored paths, KEEP the recovery record, do NOT update the state file and do NOT commit — the orchestrator must surface this to the user. Only on a clean move-back, delete the \`.claude/montage-migration-v4.exclusions.json\` recovery record from step 4. Do this BEFORE the state update and commit — a commit must never contain their deletions.
 9. Post-step verification: ${step.verify} Record findings in verifyFindings; apply only the fixes the verification instructions explicitly assign to this step — leave everything marked M1–M16 to the manual phase.
-10. Update the state file: set steps.${step.id} to "completed", and — for form-control-migration with a non-empty move-out list — write that list to the state file\'s \`excludeFiles:\` key, so later sessions can tell a ring-fenced file from a migration leftover (the final verification depends on it). For css-variable-migration and dom-identifier-migration, append every revert from step 9 to the \`revertedNames:\` key as a file-scoped entry — \`- file: <repo-relative path>\` on one line, \`  name: <reverted name>\` on the next, one entry per (file, name) occurrence — for the same reason — the final verification cannot otherwise tell your deliberate revert from an unmigrated leftover. If the file is missing, recreate it from the template below FIRST — but set every step in this list to "completed" before writing (they all ran, either in earlier sessions or earlier in THIS run; an all-pending file would trigger corrupting re-runs on a later resume): ${stepsDoneByNow}. Report the recreation in verifyFindings together with the recreated \`targets\`, \`autoCommit\`, \`codemodVersion\` AND the fact that every \`manual:\` mark was reset to "pending". Report the two carried-over lists precisely, because they behave differently: \`revertedNames:\` ALWAYS comes back empty (the template cannot recover it, so steps ③/④'s deliberate reverts are no longer distinguishable from leftovers at final verification), while \`excludeFiles:\` is rebuilt from THIS invocation's \`excludeFiles\` arg — currently ${excludeFilesInput.length ? JSON.stringify(excludeFilesInput) : 'EMPTY, so an earlier session\'s ring-fenced list is lost and must be re-established with the user before the final verification'} — all of it comes from this invocation's args and the template, not the lost original, so the orchestrator must confirm each with the user (a finished M-section silently reset to pending is as damaging as a wrong targets list). Ensure the file's path is ignored so it never enters commits: resolve the exclude file with \`git -C ${repoRootSh} rev-parse --git-path info/exclude\` (in a linked worktree or submodule \`.git\` is a FILE, so a literal .git/info/exclude path fails), append the entry only if missing — do the same for \`.claude/montage-migration-v4.exclusions.json\`, the step-⑥ recovery record, which must never enter a commit either — then confirm both with \`git -C ${repoRootSh} check-ignore -q <shell-quoted path>\`. Template:
+10. Update the state file: set steps.${step.id} to "completed", and — for form-control-migration with a non-empty move-out list — write that list to the state file\'s \`excludeFiles:\` key, so later sessions can tell a ring-fenced file from a migration leftover (the final verification depends on it). For css-variable-migration and dom-identifier-migration, append every revert from step 9 to the \`revertedNames:\` key as a file-scoped entry — \`- file: <repo-relative path>\` on one line, \`  name: <reverted name>\` on the next, one entry per (file, name) occurrence — for the same reason — the final verification cannot otherwise tell your deliberate revert from an unmigrated leftover. If the file is missing, recreate it from the template below FIRST — but set every step in this list to "completed" before writing (they all ran, either in earlier sessions or earlier in THIS run; an all-pending file would trigger corrupting re-runs on a later resume): ${stepsDoneByNow}. Report the recreation in verifyFindings together with the recreated \`targets\`, \`autoCommit\`, \`codemodVersion\` AND the fact that every \`manual:\` mark was reset to "pending". Report the two carried-over lists precisely, because they behave differently: \`revertedNames:\` ALWAYS comes back empty (the template cannot recover it, so steps ③/④'s deliberate reverts are no longer distinguishable from leftovers at final verification), while \`excludeFiles:\` is rebuilt from THIS invocation's \`excludeFiles\` arg — currently ${excludeFilesInput.length ? JSON.stringify(excludeFilesInput) : "EMPTY, so an earlier session's ring-fenced list is lost and must be re-established with the user before the final verification"} — all of it comes from this invocation's args and the template, not the lost original, so the orchestrator must confirm each with the user (a finished M-section silently reset to pending is as damaging as a wrong targets list). Ensure the file's path is ignored so it never enters commits: resolve the exclude file with \`git -C ${repoRootSh} rev-parse --git-path info/exclude\` (in a linked worktree or submodule \`.git\` is a FILE, so a literal .git/info/exclude path fails), append the entry only if missing — do the same for \`.claude/montage-migration-v4.exclusions.json\`, the step-⑥ recovery record, which must never enter a commit either — then confirm both with \`git -C ${repoRootSh} check-ignore -q <shell-quoted path>\`. Template:
 ${STATE_FILE_TEMPLATE}
 11. Refuse to commit while \`${args.repoRoot}/.claude/montage-migration-v4.exclusions.json\` exists — its presence means excluded files are still moved out, and \`git add -A\` would commit their deletion. If autoCommit is true: \`git -C ${repoRootSh} add -A && git -C ${repoRootSh} commit${commitNoVerify ? ' --no-verify' : ''} -m "chore(montage): v4 codemod — ${step.id}"\` and record the commit hash. ${
       commitNoVerify
-        ? 'The `--no-verify` flag is deliberate: preflight confirmed with the user that this repo\'s pre-commit hooks would reject the intentionally non-building codemod commits.'
+        ? "The `--no-verify` flag is deliberate: preflight confirmed with the user that this repo's pre-commit hooks would reject the intentionally non-building codemod commits."
         : 'No `--no-verify` was agreed at preflight, so run the commit as written. If a pre-commit hook (.husky/, core.hooksPath, lint-staged) rejects it, do NOT retry with --no-verify on your own and do NOT amend the hook config: report status "failed" with the hook output, so the orchestrator can settle the policy with the user and re-run with commitNoVerify: true.'
     } The state file is ignored via the resolved \`info/exclude\` path from step 10, so it must not appear in the commit — if \`git check-ignore\` there reported it as NOT ignored, fix the ignore entry before committing rather than committing the state file.
 
 Report filesChanged for THIS step only: with autoCommit true, use the commit stat; with autoCommit false, diff against the step-5 snapshot (\`git -C ${repoRootSh} diff --stat <snapshot-hash> -- <each shell-quoted target>\`) — a plain \`git diff --stat\` there also counts every earlier step's uncommitted output and would report an inflated, cumulative number. Your final output is structured data for the orchestrator, not prose.`,
-    { label: `codemod:${step.id}`, phase: 'Codemods', schema: STEP_RESULT_SCHEMA },
-  )
+    {
+      label: `codemod:${step.id}`,
+      phase: 'Codemods',
+      schema: STEP_RESULT_SCHEMA,
+    },
+  );
 
-  stepResults.push(result)
+  stepResults.push(result);
 
   if (!result || result.status === 'failed') {
-    aborted = step.id
-    log(`Aborting migration at step ${step.id} — fix the reported error, then resume; completed steps will be skipped.`)
-    break
+    aborted = step.id;
+    log(
+      `Aborting migration at step ${step.id} — fix the reported error, then resume; completed steps will be skipped.`,
+    );
+    break;
   }
-  log(`${step.id}: ${result.status} (${result.filesChanged} files)`)
+  log(`${step.id}: ${result.status} (${result.filesChanged} files)`);
 }
 
-let scanResults = []
+let scanResults = [];
 
 if (!aborted) {
   scanResults = await parallel(
-    MANUAL_SCAN_SECTIONS.map((section) => () =>
-      agent(
-        `You are scanning (READ-ONLY — do not edit any file) the repo at ${args.repoRoot} for Montage v3 → v4 manual-migration targets.
+    MANUAL_SCAN_SECTIONS.map(
+      (section) => () =>
+        agent(
+          `You are scanning (READ-ONLY — do not edit any file) the repo at ${args.repoRoot} for Montage v3 → v4 manual-migration targets.
 
 Section: ${section.id} — ${section.title}
 State file: ${args.stateFile} — read its \`excludeFiles:\` and \`revertedNames:\` lists BEFORE assessing hits. A hit inside an \`excludeFiles\` path is a file the user ring-fenced from step ⑥ (M5's pattern reaches them, and they must never be edited). A \`revertedNames\` entry excuses a hit only when BOTH its \`file\` and \`name\` match the hit — the same name in another file is still a work item, since steps ③/④ judged it per file. Mark matching hits as expected survivors, not work items.
@@ -684,10 +760,14 @@ State file: ${args.stateFile} — read its \`excludeFiles:\` and \`revertedNames
 2. Run the section's scan patterns over the repo. Scan the WHOLE repo (configs, E2E tests, stylesheets), not just source targets, but skip .git, node_modules, .next, dist, build output, and lockfiles.
 3. For each hit, assess it against the fix rules: does it actually need the manual migration, or is it a false positive (e.g. theme token used inside a CSS template literal is fine)? Record file, line, a one-line snippet, and your assessment.
 4. Do not fix anything. Your final output is structured data for the orchestrator.`,
-        { label: `scan:${section.id}`, phase: 'Scan', schema: SCAN_RESULT_SCHEMA },
-      ),
+          {
+            label: `scan:${section.id}`,
+            phase: 'Scan',
+            schema: SCAN_RESULT_SCHEMA,
+          },
+        ),
     ),
-  )
+  );
 }
 
 return {
@@ -696,4 +776,4 @@ return {
   stateCheckError,
   steps: stepResults.filter(Boolean),
   manualScan: scanResults.filter(Boolean),
-}
+};

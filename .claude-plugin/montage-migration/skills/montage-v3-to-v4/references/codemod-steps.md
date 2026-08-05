@@ -158,10 +158,28 @@ grep -rnE -- "--grid-(column|row)-spacing" <targets>
 grep -rn "data-component" <targets>
 # ⑤ list-card-migration
 grep -rnE "\b(ListCard|CardBody|CardRow)" <targets>
-# ⑥ form-control-migration — the Props alternate matters: a type-only
-#    `import type { FormControlProps }` file is invisible to bare \bFormControl\b, and the
-#    step-⑥ pre-check uses \bFormControl(Props)?\b for the same reason
-grep -rnE "\bFormControl(\b|Props|Field|Label|Message|NegativeMessage|PositiveMessage)" <targets>
+# ⑥ form-control-migration — two TOP-LEVEL alternatives, deliberately. The first covers a
+#    tree whose only new name is the plain root (see the caveat below); the second covers
+#    the sub-components and the Props types, including a type-only
+#    `import type { FormControlProps }` file that `\bFormControl\b` alone would miss (the
+#    step-⑥ pre-check uses \bFormControl(Props)?\b for the same reason).
+#    Do NOT collapse it to a single group with \b as a BRANCH — \bFormControl(\b|Props|…) —
+#    that is an empty subexpression, which ugrep (the grep Claude Code shadows `grep` with)
+#    REJECTS: "empty (sub)expression", printed to stderr with NO matches. Zero output from
+#    the one already-applied detector reads as "step ⑥ never ran" and walks straight into
+#    the double-swap corruption; BSD/GNU grep accept the form, so the break is
+#    environment-dependent and easy to miss.
+#    Do NOT widen it to a bare prefix `\bFormControl` either: that also matches consumer
+#    identifiers like FormControls / FormControlPanel / FormControlled, and a false "new
+#    names present" reading is what triggers the spurious HALF-migrated stop-and-reconcile.
+#    The sub-component group carries `(Props)?\b` — every sub-component ships a Props type
+#    (FormControlFieldProps, FormControlLabelProps, FormControlNegativeMessageProps, …), so
+#    a `\b` placed directly after the group instead — \bFormControl(Field|Label|…)\b —
+#    matches NONE of them (the char after `FormControlField` is `P`, a word character) and
+#    returns ZERO on a type-only tree: the same "step ⑥ never ran" misread as the empty
+#    branch above. Keep MessageAccessory ahead of Message so a leftmost-first engine cannot
+#    stop at the shorter alternative.
+grep -rnE "\bFormControl\b|\bFormControl(Field|Label|MessageAccessory|Message|NegativeMessage|PositiveMessage)?(Props)?\b" <targets>
 # ⑦ push-badge-migration — single-quoted so the pattern's own double quotes reach grep
 #    intact. Anchored on PushBadge on purpose: a bare `text=` matches TextField / Chip /
 #    analytics code everywhere and is no evidence at all. Multi-line props escape it — see
@@ -184,8 +202,9 @@ reconcile with the user, never re-run the codemod over it.
 
 **Step ⑥ caveat — a bare `FormControl` is ambiguous.** A v3 tree using only the plain
 `FormField` root migrates to a plain `FormControl` with no sub-components — which is exactly
-why the presence pattern includes bare `\bFormControl\b`: without it both greps would return
-zero on such a tree and the already-applied direction would be invisible. A bare hit is still
+why the presence pattern carries `\bFormControl\b` as its own alternative: without it both
+greps would return zero on such a tree and the already-applied direction would be
+invisible. A bare hit is still
 ambiguous (the correct new root OR a surviving v3 inner slot), so the step-⑥ pre-check, not
 these greps, is the authoritative test for the already-applied direction.
 
@@ -221,7 +240,7 @@ file; on a repo whose only v3 `invalid` usage was the Checkbox family, prefer th
 commit / `git log -S"invalid"` over either grep.
 
 **Step ③ caveat — the weakest signal of the eight.** `css-variable-migration` covers the
-69 `KNOWN_WDS_VARIABLES`: 67 come out with the `--wds-` prefix simply stripped
+68 `KNOWN_WDS_VARIABLES`: 66 come out with the `--wds-` prefix simply stripped
 (`--modal-translate`, `--switch-width`, `--card-content-item-*`, …) and the remaining two,
 `--wds-column-spacing` / `--wds-row-spacing`, are renamed to `--grid-*-spacing`. Only
 `--grid-column-spacing` / `--grid-row-spacing` are unambiguous evidence; the stripped
