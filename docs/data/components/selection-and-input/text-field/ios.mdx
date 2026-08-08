@@ -238,6 +238,28 @@ TextField(text: $inputText)
 </details>
 <details>
 
+<summary>``func secured(Bool) -> TextField``</summary>
+
+
+입력한 내용을 가릴지 설정합니다.
+
+- **Parameters**
+  | Parameter | Description |
+  | --- | --- |
+  | `secured` | 입력 내용을 가릴지 여부, 생략하면 기본값으로 `true` 적용 |
+- **Return Value**
+
+  수정된 텍스트 필드 인스턴스
+- **Discussion**
+
+  비밀번호처럼 노출되면 안 되는 값을 입력받을 때 사용합니다.
+  >  **Note**
+  >
+  > 자동완성은 가려진 입력에서 동작하지 않습니다.
+
+</details>
+<details>
+
 <summary>``func status(Status) -> TextField``</summary>
 
 
