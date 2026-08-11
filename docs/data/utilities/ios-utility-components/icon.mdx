@@ -937,6 +937,11 @@ Button(action: {}) {
 </details>
 <details>
 
+<summary>``case hashTag``</summary>
+
+</details>
+<details>
+
 <summary>``case heart``</summary>
 
 </details>
