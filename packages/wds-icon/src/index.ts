@@ -178,6 +178,7 @@ export { default as IconGraduation } from './icon-graduation';
 export { default as IconGraduationFill } from './icon-graduation-fill';
 export { default as IconHandle } from './icon-handle';
 export { default as IconHandleDesktop } from './icon-handle-desktop';
+export { default as IconHashTag } from './icon-hash-tag';
 export { default as IconHeart } from './icon-heart';
 export { default as IconHeartFill } from './icon-heart-fill';
 export { default as IconHeartInHeart } from './icon-heart-in-heart';
