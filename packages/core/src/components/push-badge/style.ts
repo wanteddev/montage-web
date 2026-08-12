@@ -86,7 +86,7 @@ const pushBadgeSizeStyle = (
 
             ${shouldFixedWidth &&
             css`
-              width: ${theme.dimension[16]};
+              letter-spacing: -0.003em;
             `}
 
             --push-badge-outline-border-width: 1px;
@@ -100,7 +100,7 @@ const pushBadgeSizeStyle = (
 
             ${shouldFixedWidth &&
             css`
-              width: ${theme.dimension[20]};
+              letter-spacing: -0.003em;
             `}
 
             --push-badge-outline-border-width: 1.5px;
@@ -114,7 +114,7 @@ const pushBadgeSizeStyle = (
 
             ${shouldFixedWidth &&
             css`
-              width: ${theme.dimension[24]};
+              letter-spacing: -0.003em;
             `}
 
             --push-badge-outline-border-width: 2px;
