@@ -19,7 +19,6 @@ const Chip = forwardRef(
       variant = 'solid',
       disabled = false,
       disableInteraction = false,
-      iconOnly,
       leadingContent,
       trailingContent,
       size = 'medium',
@@ -50,7 +49,7 @@ const Chip = forwardRef(
       >
         <Box
           as={as || 'button'}
-          aria-labelledby={iconOnly ? undefined : id}
+          aria-labelledby={id}
           role="button"
           type="button"
           ref={ref}
@@ -62,7 +61,6 @@ const Chip = forwardRef(
           {...props}
           sx={[
             chipStyle({
-              iconOnly,
               active,
               variant,
               size,
@@ -75,15 +73,9 @@ const Chip = forwardRef(
             props.sx,
           ]}
         >
-          {iconOnly ? (
-            children
-          ) : (
-            <>
-              {Boolean(leadingContent) && leadingContent}
-              <span id={id}>{children}</span>
-              {Boolean(trailingContent) && trailingContent}
-            </>
-          )}
+          {Boolean(leadingContent) && leadingContent}
+          <span id={id}>{children}</span>
+          {Boolean(trailingContent) && trailingContent}
         </Box>
       </WithInteraction>
     );
