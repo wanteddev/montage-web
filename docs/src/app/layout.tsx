@@ -41,16 +41,7 @@ const RootLayout = async ({ children }: LayoutProps<'/'>) => {
   return (
     <html suppressHydrationWarning lang="ko">
       <head>
-        <meta
-          name="theme-color"
-          content="#ffffff"
-          media="(prefers-color-scheme: light)"
-        />
-        <meta
-          name="msapplication-TileColor"
-          content="#ffffff"
-          media="(prefers-color-scheme: light)"
-        />
+        <meta name="text-scale" content="scale" />
         <link rel="preconnect" href="https://static.wanted.co.kr" />
         <meta
           name="msapplication-TileImage"
