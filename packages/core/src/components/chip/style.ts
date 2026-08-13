@@ -7,7 +7,7 @@ import type { ChipProps } from './types';
 import type { Theme } from '@montage-ui/engine';
 
 export const chipStyle =
-  ({ xs, sm, md, lg, xl, size, iconOnly, variant }: ChipProps) =>
+  ({ xs, sm, md, lg, xl, size, variant }: ChipProps) =>
   (theme: Theme) => css`
     display: inline-flex;
     align-items: center;
@@ -32,20 +32,20 @@ export const chipStyle =
     }
 
     ${chipVariantStyle({ variant }, theme)}
-    ${chipSizeStyle({ size, iconOnly }, theme)}
+    ${chipSizeStyle({ size }, theme)}
 
   ${createResponsiveStyle(
       { xs, sm, md, lg, xl },
       theme,
     )(
       (params) => css`
-        ${chipSizeStyle({ size: params?.size, iconOnly }, theme)}
+        ${chipSizeStyle({ size: params?.size }, theme)}
         ${params?.sx}
       `,
     )}
   `;
 
-const chipSizeStyle = ({ size, iconOnly }: ChipProps = {}, theme: Theme) => {
+const chipSizeStyle = ({ size }: ChipProps = {}, theme: Theme) => {
   switch (size) {
     case 'xsmall':
       return css`
@@ -66,7 +66,7 @@ const chipSizeStyle = ({ size, iconOnly }: ChipProps = {}, theme: Theme) => {
       return css`
         border-radius: ${theme.radius[10]};
         min-height: ${theme.dimension[32]};
-        padding: ${iconOnly ? '9px' : theme.spacing[8]};
+        padding: ${theme.spacing[8]};
         gap: ${theme.spacing[2]};
 
         svg {
@@ -81,7 +81,7 @@ const chipSizeStyle = ({ size, iconOnly }: ChipProps = {}, theme: Theme) => {
       return css`
         border-radius: ${theme.radius[10]};
         min-height: ${theme.dimension[36]};
-        padding: ${iconOnly ? '11px' : `9px ${theme.spacing[10]}`};
+        padding: 9px ${theme.spacing[10]};
         gap: ${theme.spacing[2]};
 
         svg {
@@ -97,9 +97,7 @@ const chipSizeStyle = ({ size, iconOnly }: ChipProps = {}, theme: Theme) => {
       return css`
         border-radius: ${theme.radius[12]};
         min-height: ${theme.dimension[40]};
-        padding: ${iconOnly
-          ? theme.spacing[12]
-          : `${theme.spacing[10]} ${theme.spacing[12]}`};
+        padding: ${theme.spacing[10]} ${theme.spacing[12]};
         gap: ${theme.spacing[2]};
 
         svg {
