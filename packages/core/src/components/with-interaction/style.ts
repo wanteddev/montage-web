@@ -38,6 +38,7 @@ export const getWrapperStyle =
   ({ disabled, variant, scale }: WithInteractionProps) =>
   (theme: Theme) => css`
     position: relative;
+    -webkit-tap-highlight-color: transparent;
 
     &:focus-visible {
       outline-style: solid;
