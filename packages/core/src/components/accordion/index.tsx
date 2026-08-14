@@ -7,7 +7,12 @@ import { useComposedRefs } from '@radix-ui/react-compose-refs';
 import { usePrevious } from '@radix-ui/react-use-previous';
 import { useSize } from '@radix-ui/react-use-size';
 
-import { ListCell, ListCellContent } from '../list';
+import {
+  ListCell,
+  ListCellContent,
+  ListCellExtraContent,
+  ListCellLabelTrailing,
+} from '../list';
 import { Typography } from '../typography';
 import { Divider } from '../divider';
 import { FlexBox } from '../flex-box';
@@ -19,6 +24,8 @@ import {
   ACCORDION_DETAILS_NAME,
   ACCORDION_NAME,
   ACCORDION_SUMMARY_CONTENT_NAME,
+  ACCORDION_SUMMARY_EXTRA_CONTENT_NAME,
+  ACCORDION_SUMMARY_LABEL_TRAILING_NAME,
   ACCORDION_SUMMARY_NAME,
 } from './constants';
 import { AccordionProvider, useAccordionContext } from './contexts';
@@ -33,6 +40,10 @@ import {
   accordionSummaryTextStyle,
 } from './style';
 
+import type {
+  ListCellExtraContentProps,
+  ListCellLabelTrailingProps,
+} from '../list';
 import type {
   CSSProperties,
   ComponentRef,
@@ -164,7 +175,9 @@ const AccordionSummary = forwardRef<
             >
               <IconChevronDownSmall
                 sx={(theme) => ({
-                  color: theme.semantic.foreground.neutral.primary,
+                  color: disabled
+                    ? theme.semantic.foreground.disable.primary
+                    : theme.semantic.foreground.neutral.primary,
                 })}
               />
             </AccordionSummaryContent>
@@ -210,7 +223,6 @@ const AccordionSummaryContent = forwardRef<
       variant={variant}
       sx={[
         accordionSummaryContentStyle({
-          variant,
           expanded,
           disableAnimation,
           rotate,
@@ -222,6 +234,25 @@ const AccordionSummaryContent = forwardRef<
 });
 
 AccordionSummaryContent.displayName = ACCORDION_SUMMARY_CONTENT_NAME;
+
+const AccordionSummaryLabelTrailing = forwardRef<
+  HTMLDivElement,
+  DefaultComponentPropsInternal<ListCellLabelTrailingProps, 'div'>
+>((props, ref) => {
+  return <ListCellLabelTrailing ref={ref} {...props} />;
+});
+
+AccordionSummaryLabelTrailing.displayName =
+  ACCORDION_SUMMARY_LABEL_TRAILING_NAME;
+
+const AccordionSummaryExtraContent = forwardRef<
+  HTMLDivElement,
+  DefaultComponentPropsInternal<ListCellExtraContentProps, 'div'>
+>((props, ref) => {
+  return <ListCellExtraContent ref={ref} {...props} />;
+});
+
+AccordionSummaryExtraContent.displayName = ACCORDION_SUMMARY_EXTRA_CONTENT_NAME;
 
 const AccordionDetails = forwardRef(
   <T extends ElementType = 'div'>(
@@ -363,6 +394,8 @@ export {
   Accordion,
   AccordionSummary,
   AccordionSummaryContent,
+  AccordionSummaryLabelTrailing,
+  AccordionSummaryExtraContent,
   AccordionDetails,
   AccordionDescription,
   AccordionContent,
@@ -372,6 +405,8 @@ export type {
   AccordionProps,
   AccordionSummaryProps,
   AccordionSummaryContentProps,
+  ListCellLabelTrailingProps as AccordionSummaryLabelTrailingProps,
+  ListCellExtraContentProps as AccordionSummaryExtraContentProps,
   AccordionDetailsProps,
   AccordionDescriptionProps,
   AccordionContentProps,

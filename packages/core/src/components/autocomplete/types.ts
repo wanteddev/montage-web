@@ -73,6 +73,16 @@ export type AutocompleteOptionProps = Merge<
      * Pass an element wrapped with `AutocompleteOptionContent`.
      */
     trailingContent?: ReactNode;
+    /**
+     * Content displayed in the label's trailing area.
+     * Pass an element wrapped with `AutocompleteOptionLabelTrailing`.
+     */
+    labelTrailing?: ReactNode;
+    /**
+     * Content displayed in the trailing area.
+     * Pass an element wrapped with `AutocompleteOptionExtraContent`.
+     */
+    extraContent?: ReactNode;
   },
   ListCellProps
 >;

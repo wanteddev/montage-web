@@ -342,7 +342,7 @@ const TimeItem = forwardRef<
       >
         <ListCell
           ref={ref}
-          fillWidth
+          variant="full"
           verticalPadding="small"
           selected={active}
           value={value}

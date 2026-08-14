@@ -76,6 +76,16 @@ export type OptionProps = Merge<
     leadingContent?: ReactNode;
     /** The trailing content of the option. Pass an element wrapped with `OptionContent`. */
     trailingContent?: ReactNode;
+    /**
+     * Content displayed in the label's trailing area.
+     * Pass an element wrapped with `OptionLabelTrailing`.
+     */
+    labelTrailing?: ReactNode;
+    /**
+     * Content displayed in the trailing area.
+     * Pass an element wrapped with `OptionExtraContent`.
+     */
+    extraContent?: ReactNode;
   },
   MenuItemProps
 >;

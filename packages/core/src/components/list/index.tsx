@@ -3,12 +3,14 @@ import {
   Box,
   type PolymorphicComponentInternal,
   type PolymorphicPropsInternal,
-  type ThemeColorsToken,
 } from '@montage-ui/engine';
 import { composeEventHandlers } from '@radix-ui/primitive';
 import { useComposedRefs } from '@radix-ui/react-compose-refs';
-import { IconChevronRightTightSmall } from '@montage-ui/icon';
-import { Slot } from '@radix-ui/react-slot';
+import {
+  IconCheck,
+  IconChevronRightTightSmall,
+  IconVerifiedCheckFill,
+} from '@montage-ui/icon';
 
 import { Divider } from '../divider';
 import { FlexBox } from '../flex-box';
@@ -23,14 +25,21 @@ import { isElementDisabled } from '../../utils/internal/element';
 
 import {
   LIST_CELL_CONTENT_NAME,
+  LIST_CELL_EXTRA_CONTENT_NAME,
+  LIST_CELL_LABEL_TRAILING_NAME,
   LIST_CELL_NAME,
+  LIST_CELL_SELECTED_ICON_NAME,
   LIST_NAME,
   LIST_TEXT_NAME,
 } from './constants';
 import {
   listCellContentStyle,
   listCellDividerStyle,
+  listCellExtraContentStyle,
+  listCellLabelTrailingStyle,
+  listCellLeadingContentAreaStyle,
   listCellStyle,
+  listCellTrailingContentAreaStyle,
   listStyle,
   listTextContentWrapperStyle,
   listTextEllipsisStyle,
@@ -43,6 +52,8 @@ import type { ElementType, ForwardedRef } from 'react';
 import type { TypographyWeight } from '../typography/types';
 import type {
   ListCellContentProps,
+  ListCellExtraContentProps,
+  ListCellLabelTrailingProps,
   ListCellProps,
   ListProps,
   ListTextProps,
@@ -75,10 +86,9 @@ const ListCell = forwardRef(
     {
       as,
       verticalPadding = 'medium',
-      fillWidth = false,
+      variant = 'inset',
       divider,
       ellipsis = false,
-      interactionPadding = fillWidth ? undefined : '12px',
       alignItems = 'flex-start',
 
       selected = false,
@@ -87,7 +97,9 @@ const ListCell = forwardRef(
 
       textProps,
       leadingContent,
-      trailingContent,
+      trailingContent = selected ? <ListCellSelectedIcon /> : undefined,
+      labelTrailing,
+      extraContent,
       children,
       xs,
       sm,
@@ -117,7 +129,6 @@ const ListCell = forwardRef(
         selected={selected}
         disabled={disabled}
         ellipsis={ellipsis}
-        alignItems={alignItems}
         textId={textId}
         captionId={captionId}
       >
@@ -182,9 +193,8 @@ const ListCell = forwardRef(
             })}
             sx={[
               listCellStyle({
+                variant,
                 verticalPadding,
-                fillWidth,
-                interactionPadding,
                 selected,
                 disabled,
                 disableInteraction,
@@ -197,18 +207,40 @@ const ListCell = forwardRef(
               sx,
             ]}
           >
-            {Boolean(leadingContent) && leadingContent}
-            <ListText {...textProps}>{children}</ListText>
+            {Boolean(leadingContent) && (
+              <FlexBox
+                data-role="list-cell-leading-content"
+                sx={listCellLeadingContentAreaStyle}
+                alignItems={alignItems}
+              >
+                {leadingContent}
+              </FlexBox>
+            )}
+
+            <ListText
+              labelTrailing={labelTrailing}
+              extraContent={extraContent}
+              {...textProps}
+            >
+              {children}
+            </ListText>
+
             {divider && (
               <Divider
                 data-role="list-cell-divider"
+                color="semantic.line.neutral.tertiary"
                 sx={listCellDividerStyle}
               />
             )}
+
             {Boolean(trailingContent) && (
-              <Slot data-role="list-item-trailing-content">
+              <FlexBox
+                data-role="list-cell-trailing-content"
+                sx={listCellTrailingContentAreaStyle}
+                alignItems="center"
+              >
                 {trailingContent}
-              </Slot>
+              </FlexBox>
             )}
           </FlexBox>
         </WithInteraction>
@@ -222,86 +254,80 @@ ListCell.displayName = LIST_CELL_NAME;
 const ListCellContent = forwardRef<
   HTMLDivElement,
   DefaultComponentPropsInternal<ListCellContentProps, 'div'>
->(({ variant = 'custom', children, chevron = true, sx, ...props }, ref) => {
-  const { alignItems } = useListCellContext(LIST_CELL_CONTENT_NAME);
+>(({ variant = 'custom', children, chevron = false, sx, ...props }, ref) => {
+  const { disabled } = useListCellContext(LIST_CELL_CONTENT_NAME);
+
+  const chevronIcon = chevron && (
+    <IconChevronRightTightSmall
+      data-role="list-cell-content-chevron"
+      aria-hidden
+      sx={(theme) => ({
+        fontSize: theme.dimension[16],
+        color: disabled
+          ? theme.semantic.foreground.disable.primary
+          : theme.semantic.foreground.neutral.quaternary,
+        flexShrink: 0,
+      })}
+    />
+  );
 
   switch (variant) {
     case 'large-icon':
       return (
-        <FlexBox
-          data-component="list-cell-content"
-          alignItems={alignItems}
-          ref={ref}
-          {...props}
-          sx={[listCellContentStyle({ variant }), sx]}
-        >
-          <FlexBox>{children}</FlexBox>
-        </FlexBox>
+        <>
+          <FlexBox
+            data-component="list-cell-content"
+            data-parent-disabled={disabled}
+            alignItems="center"
+            ref={ref}
+            {...props}
+            sx={[listCellContentStyle({ variant }), sx]}
+          >
+            <FlexBox>{children}</FlexBox>
+          </FlexBox>
+
+          {chevronIcon}
+        </>
       );
 
-    case 'button':
+    case 'text-button':
       return (
-        <FlexBox
-          data-component="list-cell-content"
-          alignItems={alignItems}
-          ref={ref}
-          {...props}
-          sx={[listCellContentStyle({ variant }), sx]}
-        >
-          <TextButtonProvider assistive="semantic.foreground.neutral.tertiary">
-            {children}
-          </TextButtonProvider>
-        </FlexBox>
+        <>
+          <FlexBox
+            data-component="list-cell-content"
+            data-parent-disabled={disabled}
+            alignItems="center"
+            ref={ref}
+            {...props}
+            sx={[listCellContentStyle({ variant }), sx]}
+          >
+            <TextButtonProvider assistive="semantic.foreground.neutral.tertiary">
+              {children}
+            </TextButtonProvider>
+          </FlexBox>
+
+          {chevronIcon}
+        </>
       );
 
     case 'icon-button':
       return (
-        <FlexBox
-          data-component="list-cell-content"
-          alignItems={alignItems}
-          ref={ref}
-          {...props}
-          sx={[listCellContentStyle({ variant }), sx]}
-        >
-          <IconButtonProvider normal="semantic.foreground.neutral.tertiary">
-            {children}
-          </IconButtonProvider>
-        </FlexBox>
-      );
-
-    case 'chevron':
-      return (
-        <FlexBox
-          role="button"
-          alignItems={alignItems}
-          data-component="list-cell-content"
-          gap="8px"
-          ref={ref}
-          tabIndex={props.onClick ? 0 : -1}
-          {...props}
-          sx={sx}
-        >
-          {Boolean(children) && (
-            <FlexBox
-              justifyContent="flex-end"
-              alignItems={alignItems}
-              sx={listCellContentStyle({
-                variant,
-              })}
-            >
+        <>
+          <FlexBox
+            data-component="list-cell-content"
+            data-parent-disabled={disabled}
+            alignItems="center"
+            ref={ref}
+            {...props}
+            sx={[listCellContentStyle({ variant }), sx]}
+          >
+            <IconButtonProvider normal="semantic.foreground.neutral.tertiary">
               {children}
-            </FlexBox>
-          )}
-          {chevron && (
-            <FlexBox alignItems="center" sx={{ height: '24px' }}>
-              <IconChevronRightTightSmall
-                sx={(theme) => ({
-                  color: theme.semantic.foreground.neutral.quaternary,
-                })}
-              />
-            </FlexBox>
-          )}
-        </FlexBox>
+            </IconButtonProvider>
+          </FlexBox>
+
+          {chevronIcon}
+        </>
       );
 
     case 'checkbox':
@@ -309,13 +335,16 @@ const ListCellContent = forwardRef<
         <CheckboxProvider tight>
           <FlexBox
             data-component="list-cell-content"
-            alignItems={alignItems}
+            data-parent-disabled={disabled}
+            alignItems="center"
             ref={ref}
             {...props}
             sx={[listCellContentStyle({ variant }), sx]}
           >
             {children}
           </FlexBox>
+
+          {chevronIcon}
         </CheckboxProvider>
       );
     case 'radio':
@@ -323,30 +352,83 @@ const ListCellContent = forwardRef<
         <RadioProvider tight>
           <FlexBox
             data-component="list-cell-content"
-            alignItems={alignItems}
+            data-parent-disabled={disabled}
+            alignItems="center"
             ref={ref}
             {...props}
             sx={[listCellContentStyle({ variant }), sx]}
           >
             {children}
           </FlexBox>
+
+          {chevronIcon}
         </RadioProvider>
       );
+    case 'button':
+    case 'toggle-icon':
     case 'icon':
     case 'avatar':
-    case 'badge':
+    case 'content-badge':
     case 'switch':
     case 'thumbnail':
     case 'value':
     case 'custom':
     default:
       return (
+        <>
+          <FlexBox
+            data-component="list-cell-content"
+            data-parent-disabled={disabled}
+            alignItems="center"
+            ref={ref}
+            {...props}
+            sx={[listCellContentStyle({ variant }), sx]}
+          >
+            {children}
+          </FlexBox>
+
+          {chevronIcon}
+        </>
+      );
+  }
+});
+
+ListCellContent.displayName = LIST_CELL_CONTENT_NAME;
+
+const ListCellLabelTrailing = forwardRef<
+  HTMLDivElement,
+  DefaultComponentPropsInternal<ListCellLabelTrailingProps, 'div'>
+>(({ variant = 'custom', children, sx, ...props }, ref) => {
+  const { disabled } = useListCellContext(LIST_CELL_LABEL_TRAILING_NAME);
+
+  switch (variant) {
+    case 'verified-check':
+      return (
         <FlexBox
-          data-component="list-cell-content"
-          alignItems={alignItems}
+          data-component="list-cell-label-trailing"
+          data-parent-disabled={disabled}
           ref={ref}
           {...props}
-          sx={[listCellContentStyle({ variant }), sx]}
+          sx={[listCellLabelTrailingStyle, sx]}
+        >
+          <IconVerifiedCheckFill
+            sx={(theme) => ({
+              fontSize: '22px',
+              color: theme.semantic.foreground.brand.primary,
+            })}
+          />
+        </FlexBox>
+      );
+    case 'content-badge':
+    case 'custom':
+    default:
+      return (
+        <FlexBox
+          data-component="list-cell-label-trailing"
+          data-parent-disabled={disabled}
+          ref={ref}
+          {...props}
+          sx={[listCellLabelTrailingStyle, sx]}
         >
           {children}
         </FlexBox>
@@ -354,23 +436,93 @@ const ListCellContent = forwardRef<
   }
 });
 
-ListCellContent.displayName = LIST_CELL_CONTENT_NAME;
+ListCellLabelTrailing.displayName = LIST_CELL_LABEL_TRAILING_NAME;
+
+const ListCellExtraContent = forwardRef<
+  HTMLDivElement,
+  DefaultComponentPropsInternal<ListCellExtraContentProps, 'div'>
+>(({ variant = 'custom', children, sx, ...props }, ref) => {
+  const { disabled } = useListCellContext(LIST_CELL_EXTRA_CONTENT_NAME);
+
+  switch (variant) {
+    case 'text':
+      return (
+        <Typography
+          data-component="list-cell-extra-content"
+          ref={ref}
+          variant="label2"
+          weight="regular"
+          data-parent-disabled={disabled}
+          {...props}
+          color="semantic.foreground.neutral.tertiary"
+          sx={[listCellExtraContentStyle({ variant }), sx]}
+        >
+          {children}
+        </Typography>
+      );
+    case 'content-badge':
+      return (
+        <FlexBox
+          data-component="list-cell-extra-content"
+          ref={ref}
+          data-parent-disabled={disabled}
+          {...props}
+          sx={[
+            listCellExtraContentStyle({ variant }),
+            (theme) => ({
+              paddingTop: theme.spacing[2],
+            }),
+            sx,
+          ]}
+        >
+          {children}
+        </FlexBox>
+      );
+    case 'custom':
+    default:
+      return (
+        <FlexBox
+          data-component="list-cell-extra-content"
+          data-parent-disabled={disabled}
+          ref={ref}
+          {...props}
+          sx={[listCellExtraContentStyle({ variant }), sx]}
+        >
+          {children}
+        </FlexBox>
+      );
+  }
+});
+
+ListCellExtraContent.displayName = LIST_CELL_EXTRA_CONTENT_NAME;
+
+const ListCellSelectedIcon = forwardRef<HTMLDivElement>((_, ref) => {
+  return (
+    <ListCellContent data-role="list-cell-selected-icon-check" ref={ref}>
+      <IconCheck sx={{ fontSize: '22px' }} />
+    </ListCellContent>
+  );
+});
+
+ListCellSelectedIcon.displayName = LIST_CELL_SELECTED_ICON_NAME;
 
 const ListText = forwardRef(
-  <T extends ElementType = 'p'>(
+  <T extends ElementType = 'div'>(
     {
-      variant = 'body1',
+      variant = 'body2',
       weight: givenWeight,
       color,
       children,
       caption,
       captionProps,
       as,
+      extraContent,
+      labelTrailing,
       ...props
     }: PolymorphicPropsInternal<ListTextProps, T>,
     ref: ForwardedRef<T>,
   ) => {
-    const { selected, disabled, ellipsis, textId, captionId } =
+    const { selected, ellipsis, textId, captionId } =
       useListCellContext(LIST_TEXT_NAME);
     const { selected: menuItemSelected } = useMenuItemContext() || {};
 
@@ -379,28 +531,17 @@ const ListText = forwardRef(
     }
 
     const weight: TypographyWeight =
-      givenWeight ?? (selected || menuItemSelected ? 'medium' : 'regular');
-
-    const getTextColor = (): ThemeColorsToken => {
-      if (disabled) {
-        return 'semantic.foreground.neutral.tertiary';
-      }
-      if (selected) {
-        return 'semantic.foreground.brand.primary';
-      }
-
-      return color ?? 'semantic.foreground.neutral.primary';
-    };
+      givenWeight ?? (selected || menuItemSelected ? 'bold' : 'medium');
 
     return (
       <Typography
         ref={ref}
-        color={getTextColor()}
+        color={color}
         variant={variant}
         weight={weight}
         data-role="list-text-wrapper"
         {...props}
-        as={as || 'p'}
+        as={as || 'div'}
         sx={[listTextStyle, props.sx]}
       >
         <Box
@@ -408,14 +549,16 @@ const ListText = forwardRef(
           data-role="list-text-content-wrapper"
           sx={listTextContentWrapperStyle(ellipsis)}
         >
-          <Box as="span" data-role="list-text-content" id={textId}>
+          <Box as="p" data-role="list-text-content" id={textId}>
             {children}
           </Box>
+
+          {labelTrailing}
         </Box>
 
         {Boolean(caption) && (
           <Typography
-            variant="label1"
+            variant="label2"
             color="semantic.foreground.neutral.tertiary"
             data-role="list-text-caption"
             id={captionId}
@@ -425,6 +568,16 @@ const ListText = forwardRef(
             {caption}
           </Typography>
         )}
+
+        {Boolean(extraContent) && (
+          <FlexBox
+            data-role="list-extra-content-area"
+            gap="6px"
+            alignItems="center"
+          >
+            {extraContent}
+          </FlexBox>
+        )}
       </Typography>
     );
   },
@@ -432,6 +585,18 @@ const ListText = forwardRef(
 
 ListText.displayName = LIST_TEXT_NAME;
 
-export { List, ListCell, ListCellContent };
+export {
+  List,
+  ListCell,
+  ListCellContent,
+  ListCellLabelTrailing,
+  ListCellExtraContent,
+};
 
-export type { ListProps, ListCellProps, ListCellContentProps };
+export type {
+  ListProps,
+  ListCellProps,
+  ListCellContentProps,
+  ListCellLabelTrailingProps,
+  ListCellExtraContentProps,
+};

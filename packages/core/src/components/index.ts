@@ -48,6 +48,7 @@ export * from './progress-step-indicator';
 export * from './progress-tracker';
 export * from './stepper';
 export * from './push-badge';
+export * from './radio';
 export * from './radio-group';
 export * from './region-config';
 export * from './remove-scroll';

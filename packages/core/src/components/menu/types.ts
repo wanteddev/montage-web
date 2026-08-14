@@ -78,6 +78,16 @@ export type MenuItemDefaultProps = WithSxProps<{
    * Pass an element wrapped with `MenuItemContent`.
    */
   trailingContent?: ReactNode;
+  /**
+   * Content displayed in the label's trailing area.
+   * Pass an element wrapped with `MenuItemLabelTrailing`.
+   */
+  labelTrailing?: ReactNode;
+  /**
+   * Content displayed in the trailing area.
+   * Pass an element wrapped with `MenuItemExtraContent`.
+   */
+  extraContent?: ReactNode;
   children?: ReactNode;
   value: string;
 }>;
@@ -102,6 +112,7 @@ export type MenuActionAreaProps = WithSxProps<{
    */
   children?: ReactNode;
 }>;
+
 export type MenuActionAreaContentProps = WithSxProps<{
   variant?:
     | 'icon'
