@@ -1,12 +1,12 @@
 ---
 name: montage-v3-to-v4
-description: This skill should be used when the user asks to migrate a project from Montage (WDS) v3 to v4, upgrade @wanteddev/wds to @montage-ui/* 4.x, run any Montage v4 codemod (package-name-migration, semantic-token-migration, css-variable-migration, dom-identifier-migration, list-card-migration, form-control-migration, push-badge-migration, status-migration), or resume an in-progress v4 migration. Triggers include "montage v4 마이그레이션", "montage 4 적용해줘", "몬타지 v4로 올려줘", "wds 4.0으로 업그레이드", "디자인시스템 v4로 올려줘", "@montage-ui로 전환해줘", "마이그레이션 이어서 해줘", "form-control 코드모드만 돌려줘", "semantic 토큰 코드모드 돌려줘", "시멘틱 토큰 마이그레이션 해줘", "패키지명 마이그레이션만 해줘", "css 변수 코드모드 돌려줘", "dom 식별자 코드모드만 돌려줘", "list-card 코드모드만 돌려줘", "push-badge 코드모드만 돌려줘", "푸시뱃지 마이그레이션 해줘", "status 코드모드만 돌려줘", "invalid를 status로 바꿔줘", "migrate to montage v4", "resume the montage migration", "run the form-control codemod", "run the semantic token codemod", "run the push-badge codemod", "run the status codemod". Covers v3→v4 only (earlier migrations live in the wanteddev/montage-web repo's MIGRATION.md). Orchestrates the 8 codemods strictly in sequence with run-once protection, then guides the manual migrations.
+description: This skill should be used when the user asks to migrate a project from Montage (WDS) v3 to v4, upgrade @wanteddev/wds to @montage-ui/* 4.x, run any Montage v4 codemod (package-name-migration, semantic-token-migration, css-variable-migration, dom-identifier-migration, list-card-migration, form-control-migration, push-badge-migration, status-migration, list-cell-variant-migration), or resume an in-progress v4 migration. Triggers include "montage v4 마이그레이션", "montage 4 적용해줘", "몬타지 v4로 올려줘", "wds 4.0으로 업그레이드", "디자인시스템 v4로 올려줘", "@montage-ui로 전환해줘", "마이그레이션 이어서 해줘", "form-control 코드모드만 돌려줘", "semantic 토큰 코드모드 돌려줘", "시멘틱 토큰 마이그레이션 해줘", "패키지명 마이그레이션만 해줘", "css 변수 코드모드 돌려줘", "dom 식별자 코드모드만 돌려줘", "list-card 코드모드만 돌려줘", "push-badge 코드모드만 돌려줘", "푸시뱃지 마이그레이션 해줘", "status 코드모드만 돌려줘", "invalid를 status로 바꿔줘", "list-cell 코드모드만 돌려줘", "리스트셀 마이그레이션 해줘", "fillWidth를 variant로 바꿔줘", "migrate to montage v4", "resume the montage migration", "run the form-control codemod", "run the semantic token codemod", "run the push-badge codemod", "run the status codemod", "run the list-cell codemod". Covers v3→v4 only (earlier migrations live in the wanteddev/montage-web repo's MIGRATION.md). Orchestrates the 9 codemods strictly in sequence with run-once protection, then guides the manual migrations.
 ---
 
 # montage-v3-to-v4
 
 Migrate a consumer project from Montage (Wanted Design System) v3 (`@wanteddev/wds*` 3.x)
-to v4 (`@montage-ui/*` 4.x). The migration is: 8 codemods run **strictly in sequence,
+to v4 (`@montage-ui/*` 4.x). The migration is: 9 codemods run **strictly in sequence,
 each exactly once**, followed by manual migrations the codemods cannot express, followed
 by verification.
 
@@ -14,21 +14,27 @@ by verification.
 
 1. **Never run a codemod twice on the same tree.** `form-control-migration` swaps
    `FormField→FormControl` while renaming `FormControl→FormControlField`; a second run
-   renames the new root again and silently corrupts the code. Treat all 8 steps as
+   renames the new root again and silently corrupts the code. `list-cell-variant-migration`
+   is the same class of hazard from the other direction: v4 reuses the content variant name
+   `button`, so a re-run (or a run over hand-migrated code) silently renames a legitimate
+   v4 `variant="button"` to `text-button` with no type error. Treat all 9 steps as
    run-once; the state file is the source of truth.
 2. **Fixed order, one step at a time.** Complete (and commit) step N before starting
    step N+1: ① `package-name-migration` ② `semantic-token-migration`
    ③ `css-variable-migration` ④ `dom-identifier-migration` ⑤ `list-card-migration`
-   ⑥ `form-control-migration` ⑦ `push-badge-migration` ⑧ `status-migration`. Manual steps
-   reference post-codemod names, so they come after all 8.
+   ⑥ `form-control-migration` ⑦ `push-badge-migration` ⑧ `status-migration`
+   ⑨ `list-cell-variant-migration`. Manual steps
+   reference post-codemod names, so they come after all 9.
 3. **Codemods first, hand-edits after.** Do not hand-migrate any `Form*` / `Card*` usage
    (or adopt new v4 APIs) before the codemods run — `form-control-migration` corrupts
-   hand-migrated files even on its first run.
+   hand-migrated files even on its first run, and a hand-authored v4
+   `variant="button"` (the NEW general-Button content variant) is exactly what step ⑨
+   mis-renames.
 4. **Start from a clean git tree** and keep one commit per step so any step can be
    reverted in isolation.
 5. **The tree does not install / typecheck / build between step ① and M1.** Step ① rewrites
    every import to `@montage-ui/*` while `package.json` still lists `@wanteddev/wds*` (M1
-   owns package.json and ends with the install). The eight codemod commits are intentionally
+   owns package.json and ends with the install). The nine codemod commits are intentionally
    non-building — do NOT try to fix resolution errors during the codemod phase, and expect
    pre-commit hooks (`.husky/`, `core.hooksPath`, `lint-staged`) to fail: detect them at
    preflight and agree with the user on `--no-verify` or disabling them for the phase. An
@@ -50,8 +56,9 @@ rewrites `package.json` a resume looks exactly like "already migrated".
    exists, this is a resume; apply these rules:
    - **Resume.** Skip every step marked `completed`, continue from the first `pending`
      step. A step or manual key missing from an older state file (e.g.
-     `semantic-token-migration`, `push-badge-migration`, `status-migration`, `M9`, `M10`,
-     `M11`, `M12`, `M13`, `M14`, `M15`, or `M16`, added after the file was created) is `pending` —
+     `semantic-token-migration`, `push-badge-migration`, `status-migration`,
+     `list-cell-variant-migration`, `M9`, `M10`,
+     `M11`, `M12`, `M13`, `M14`, `M15`, `M16`, or `M17`, added after the file was created) is `pending` —
      add it to the file and run it. `semantic-token-migration` sits at position ② BEFORE
      steps an older migration may already have completed: it still runs, and running it
      after the later steps is safe (its token namespace is disjoint from every other
@@ -82,7 +89,9 @@ rewrites `package.json` a resume looks exactly like "already migrated".
      `\bSearchField\b[^>]*size="medium"` — post-conversion `size="medium"` hits are the
      converted smalls …, M15's `\bFallbackView` /
      `\bFallbackViewImage(Props)?\b` — a kept deprecated image is a recorded decision, not a
-     leftover, M16's `status=` / `aria-invalid` — both are the correct v4 shape), so they are
+     leftover, M16's `status=` / `aria-invalid` — both are the correct v4 shape, M17's
+     `variant=\{` on the content components / `selected` on the cells /
+     `list-text-wrapper|list-text-content` — all valid v4 shapes), so they are
      never mismatch evidence. Detect the pending-but-already-applied direction with the
      **presence greps** in `references/codemod-steps.md` — each step's verify grep is an
      ABSENCE check that returns zero both when the codemod ran and when the repo never used
@@ -111,7 +120,10 @@ rewrites `package.json` a resume looks exactly like "already migrated".
      the user, run the catch-up invocation with the move-out/move-back exclusion around it, and
      append those paths to the state file's `excludeFiles`. A positive step-⑤ pre-check is
      resolved the same way its abort bullet describes (reconcile the file to one API, or collapse
-     duplicate specifiers) before the catch-up run.
+     duplicate specifiers) before the catch-up run. A positive step-⑨ pre-check likewise
+     follows its abort bullet: there is no exclusion for it, so the flagged file must stop
+     matching first — hand-rename, revert to pure v3, or park the intended v4 general-Button
+     element and re-apply it after the catch-up run.
    - **Single-codemod origin.** If the file carries `origin: single-codemod`, its `targets`
      were chosen for ONE ad-hoc step, not for a migration — re-confirm them with the user in
      the one `AskUserQuestion` before starting the full run (the one sanctioned exception to
@@ -136,7 +148,7 @@ rewrites `package.json` a resume looks exactly like "already migrated".
      `npx -y @montage-ui/codemod@<resolved> __probe__` — which prints
      `Invalid transform choice, pick one of:` followed by every id and exits 1 (the non-zero exit
      is expected; the run stays non-interactive). `--help` cannot serve this purpose: it prints
-     only the usage block and names no transform. **Check that list contains all eight step ids.** On a RESUME this check is not a formality: a
+     only the usage block and names no transform. **Check that list contains all nine step ids.** On a RESUME this check is not a formality: a
      step key added to this skill after the pin was recorded may not exist in the pinned
      build, and the CLI then rejects it mid-migration with "Invalid transform choice" after
      earlier steps have already committed. If a step is missing from the pinned build, stop
@@ -174,11 +186,17 @@ rewrites `package.json` a resume looks exactly like "already migrated".
      the leftover greps from `references/codemod-steps.md` plus every M-section scan
      pattern from `references/manual-migrations.md` (steps and M-sections added after a
      consumer finished migrating — e.g. step ② `semantic-token-migration`, step ⑦
-     `push-badge-migration`, step ⑧ `status-migration`, M9, M10, M11, M12, M13, M14, M15, and M16 — surface only through these scans)
-     and report instead of migrating.
+     `push-badge-migration`, step ⑧ `status-migration`, step ⑨
+     `list-cell-variant-migration`, M9, M10, M11, M12, M13, M14, M15, M16, and M17 — surface only through these scans)
+     and report instead of migrating. On such a tree NEVER run step ⑨'s codemod to "fix"
+     its leftover hits: hand-authored v4 `variant="button"` is valid there and the codemod
+     would mis-rename it (Critical rule 1) — fix leftovers by hand against the step-⑨
+     rename table.
    - BOTH `@wanteddev/wds*` and `@montage-ui/*` present → the project is partially
-     hand-migrated. Run the step ⑤/⑥ pre-checks from `references/codemod-steps.md` before
-     anything else and expect file exclusions in step ⑥.
+     hand-migrated. Run the step ⑤/⑥/⑨ pre-checks from `references/codemod-steps.md` before
+     anything else and expect file exclusions in step ⑥. Step ⑨'s pre-check matters most on
+     exactly this tree: a hand-authored v4 `variant="button"` lives here, and it has no
+     exclusion machinery — see its three terminating paths.
    - NEITHER package present → check nested/workspace `package.json` files; if still
      absent, stop and tell the user this repo does not appear to use Montage/WDS.
 
@@ -228,7 +246,9 @@ rewrites `package.json` a resume looks exactly like "already migrated".
    grep from `references/codemod-steps.md` over the dirty files, and skim `git diff` for
    hunks outside those steps' rename surfaces (imports, semantic tokens, CSS variables,
    DOM identifiers, Card/Form identifiers, PushBadge `variant`/`count`/`text`,
-   `invalid`/`positive` → `status`/`aria-invalid`) — anything unexplained goes to the user before
+   `invalid`/`positive` → `status`/`aria-invalid`, ListCell-family
+   `fillWidth`/`interactionPadding` → `variant` and content-variant renames) — anything
+   unexplained goes to the user before
    proceeding (or offer to commit the consistent dirty set as a baseline).
 4. **Targets.** Identify source directories to transform (default `src`). Include
    directories containing stylesheets that reference `--wds-*` / `--semantic-*` variables
@@ -292,7 +312,7 @@ re-enumerating). A new codemod step or M-section must be updated in ALL of these
 3. SKILL.md Step 2 decision bullets, Step 3 verification checklist, and preflight item 3's
    parenthetical listing each completed step's rename surface,
 4. `references/codemod-steps.md` — step table, step section, presence grep, and the
-   "After all 8 steps" checklist,
+   "After all 9 steps" checklist,
 5. `references/manual-migrations.md` — the M-section and its scan patterns,
 6. `scripts/migration-workflow.js` — `CODEMOD_STEPS`, `MANUAL_SCAN_SECTIONS`,
    `STATE_FILE_TEMPLATE`, the step-agent prompt's `M1–M<last>` deferral range
@@ -324,6 +344,7 @@ steps:
   form-control-migration: pending
   push-badge-migration: pending
   status-migration: pending
+  list-cell-variant-migration: pending
 manual:
   M1: pending
   M2: pending
@@ -341,6 +362,7 @@ manual:
   M14: pending
   M15: pending
   M16: pending
+  M17: pending
 ---
 ```
 
@@ -409,7 +431,7 @@ ALWAYS pass `codemodVersion` as the concrete version
 resolved in preflight (first run) or read from the state file (resume) — the script
 rejects dist-tags, since the value is recorded in the state file and a dist-tag would
 re-resolve on resume and break the same-build guarantee. The workflow returns per-step results plus a
-`manualScan` report (assessed occurrences for manual steps M1–M16).
+`manualScan` report (assessed occurrences for manual steps M1–M17).
 
 - If the workflow reports `aborted`, surface the failed step's error to the user, fix the
   cause, and re-run the same Workflow invocation with `completedSteps` refreshed from the
@@ -419,6 +441,17 @@ re-resolve on resume and break the same-build guarantee. The workflow returns pe
     performs the move-out/move-back exclusion inside the run (after its clean-tree check,
     moving back before the commit). Do NOT move files out yourself between runs; that
     dirties the tree and deadlocks the clean-tree check.
+  - **Step ⑨ precheck found hand-migrated v4 `variant="button"` files**: unlike step ⑥
+    there is NO exclusion machinery for this step — a mixed file cannot be ring-fenced, and
+    there is no acknowledge-and-proceed flag, so **the file must stop matching before the
+    re-run** or the precheck aborts identically every time. Confirm the reported files with
+    the user and take one of the three terminating paths in `references/codemod-steps.md`
+    step 9: hand-rename to `text-button` if the old TextButton style was intended; revert the
+    file to pure v3 if it was never migrated; or, when the element is a genuinely intended v4
+    general-Button slot, PARK it — record the markup, revert those elements (or drop the
+    `variant` attribute) so the file stops matching, run step ⑨, and re-apply the parked
+    markup during the manual phase, where post-codemod v4 adoption is sanctioned. Commit the
+    cleanup as its own commit, then re-run with `completedSteps` refreshed.
   - **A codemod failed partway** (either `autoCommit` mode): the step agent restores the tree
     first — from `git checkout -- <targets>` when `autoCommit: true` (the tree was clean at step
     start), from its pre-step `git stash create` snapshot when `autoCommit: false`. If its report
@@ -493,14 +526,14 @@ re-resolve on resume and break the same-build guarantee. The workflow returns pe
     `--no-verify` and does not touch the hook config. Settle the policy with the user, then
     re-run with `commitNoVerify: true` (or with the hooks disabled for the phase).
   - **State-file verification failed on a scan-only re-run** (`aborted:
-"state-file-verification"`, all 8 steps already completed): read `stateCheckError` — the
+"state-file-verification"`, all 9 steps already completed): read `stateCheckError` — the
     script produces six distinct causes with different remediations, so never assume which.
     (a) The verification agent returned nothing — re-run. (b) State file missing — reconcile
     with the user, never recreate silently. (c) `targets` disagree — follow the target-lock
     path in preflight item 1. (d) A LOCKED FIELD disagrees (`codemodVersion` or `autoCommit`
     differs from the recorded value) — re-run with the recorded value; changing the pin
     mid-migration forfeits the same-build guarantee and flipping `autoCommit` changes the
-    failure handling every step branches on. (e) `completedSteps` claims all eight are done while
+    failure handling every step branches on. (e) `completedSteps` claims all nine are done while
     the state file still marks some `pending` — the list is stale; refresh it from the state
     file and re-run, since those steps must still RUN. (f) The state file's recorded
     `excludeFiles` disagree with the invocation's — re-run passing the recorded list
@@ -513,7 +546,7 @@ re-resolve on resume and break the same-build guarantee. The workflow returns pe
   marks that were already `completed`, before continuing.
 - **Fallback without the Workflow tool:** execute the exact per-step procedure embedded in
   `scripts/migration-workflow.js` (read it) inline — one step at a time, same order, same
-  state-file checks. Never parallelize the codemod steps. After all 8 steps, produce the
+  state-file checks. Never parallelize the codemod steps. After all 9 steps, produce the
   manual worklist yourself: run each M-section's scan patterns from
   `references/manual-migrations.md` (read-only, whole repo minus
   `.git`/node_modules/.next/dist/build output/lockfiles) and use those hits as Step 2's
@@ -548,10 +581,10 @@ where double-runs happen.
 
 ## Step 2 — Manual migrations
 
-Work through `references/manual-migrations.md` (M1–M16) using the workflow's `manualScan`
-hits as the worklist. On a resume where all 8 codemod steps are already `completed` but no
+Work through `references/manual-migrations.md` (M1–M17) using the workflow's `manualScan`
+hits as the worklist. On a resume where all 9 codemod steps are already `completed` but no
 workflow ran this session, there is no `manualScan` report — rebuild the worklist first:
-re-run the same Workflow invocation with `completedSteps` listing all 8 (every step is
+re-run the same Workflow invocation with `completedSteps` listing all 9 (every step is
 skipped deterministically; the run only regenerates the scans — but it still verifies the
 state file exists and its `targets` match, and aborts with `stateCheckError` otherwise), or run each pending
 M-section's scan patterns from `references/manual-migrations.md` yourself. Never work
@@ -647,6 +680,19 @@ both together when an M-section changes):
   Picker `status` is also auto-promoted to `negative` on unparseable values in uncontrolled
   mode, which `status="normal"` cannot override — per occurrence, decide whether to keep the
   promotion or take control with `onChange`.
+- **M17 (ListCell 개편):** `MenuItem` / `Option`'s enabled `fillWidth` has NO replacement
+  prop (their `variant` means `normal`/`radio`/`checkbox`) — per occurrence, reproduce the
+  full-width interaction with `sx` or drop it. Responsive `fillWidth` keys were deleted and
+  `variant` is not responsive — where per-breakpoint layout was intended, write the `sx`
+  branch by hand. A `selected` cell without a `trailingContent` now shows a default check
+  icon — keep it or pass `trailingContent={null}` per occurrence. Dynamic content
+  `variant={expr}` was skipped SILENTLY by step ⑨ — trace whether the expression can
+  produce `badge`/`button`/`chevron` and rewrite its sources. The renamed
+  `list-item-trailing-content` / `menu-item-active-icon-check` DOM identifiers are a
+  mechanical **[zero]** rename of every consumer selector and test query that references
+  them (stylesheets included) — they match nothing until renamed. Typography (label
+  body1→body2·medium, caption label1→label2), the `ListText` `p`→`div` DOM change, and the
+  opacity→disable-token disabled restyle are review-and-QA items, not code rewrites.
 
 M1 (package.json + configs) ends with a dependency install to refresh the lockfile.
 Mark each M-section `completed` in the state file as it finishes.
@@ -668,25 +714,34 @@ Mark each M-section `completed` in the state file as it finishes.
      **in both `file` and `name`** (steps ③/④ reverted it deliberately as consumer-owned — an
      expected survivor, not an M3 leftover; the same name in a file that is not in the list stays
      a leftover candidate). Read both lists from the state file before judging any hit.
-   - The 8 codemod verify greps are zero-criterion WITH their documented exceptions
+   - The 9 codemod verify greps are zero-criterion WITH their documented exceptions
      (step ①: `@wanteddev/montage-mcp` hits are the correct post-migration name; step ⑥:
      hits inside a file listed in the state file's `excludeFiles` — read it before judging
      them; step ⑧: a `status={…}` whose FOLDED EXPRESSION mentions a bare `invalid` /
      `positive` (`status={hasError || invalid ? …}`) is the transform's own correct output —
      never edit it and never count it against the criterion, since deleting that identifier
      breaks the ternary. Only a SECOND `invalid` / `positive` ATTRIBUTE on the element is an
-     M16 leftover. `FormControl` is NOT an exception to list here: step ⑥'s grep is
+     M16 leftover. Step ⑨'s one genuine exception is its `variant="button"` content grep,
+     which is a JUDGED criterion at this stage: the manual phase may have introduced
+     legitimate v4 general-Button usages, and renaming one to `text-button` is the exact
+     corruption Critical rule 1 names.
+     `FormControl` is NOT an exception to list here: step ⑥'s grep is
      `\bForm(Field|Label|Message|ErrorMessage)`, which cannot match inside `FormControl*`
      at all, so a `FormControl` "hit" never comes from it — old inner-slot `FormControl`
      usages are covered by the separate namespace/subpath inspection in step ⑥).
-     Steps ②, ③ and ④ are different — their leftovers are M-section-owned (M9 for ②, M3
-     for ③/④), not permanent exceptions: a Montage-related hit at final verification means
-     that M-section is incomplete, so reopen it rather than accepting the hit. All three
+     Steps ②, ③, ④ and ⑨ are different — their leftovers are M-section-owned (M9 for ②, M3
+     for ③/④, M17 for ⑨'s `fillWidth` / `interactionPadding` hits, including the
+     `MenuItem` / `Option` ones the transform deliberately skipped: M17's scan for them is
+     **[zero]** and both of its fix branches remove the prop), not permanent exceptions: a
+     Montage-related hit at final verification means
+     that M-section is incomplete, so reopen it rather than accepting the hit — and for
+     step ⑨ never "resolve" such a hit by converting it to `variant="full"`, which is not
+     valid on `MenuItem` / `Option`. All four
      share one carve-out: a hit assessed as non-Montage code — a false positive REVERTED
      during that step's own diff review (steps ③/④ mandate reverting consumer-owned
      `--wds-*` variables and non-identifier strings, so those names legitimately survive),
      or unrelated consumer code — may remain and is listed in the final summary; only a
-     genuine Montage reference reopens M9/M3. Re-read each step's verification note
+     genuine Montage reference reopens M9/M3/M17. Re-read each step's verification note
      in `references/codemod-steps.md` before judging its hits.
 2. Project checks: install, typecheck, lint, build, unit tests — whatever the project
    defines.
@@ -701,16 +756,20 @@ Mark each M-section `completed` in the state file as it finishes.
    while an image is present — so it is gone from every image-less view, including each one
    where M15's decision dropped the deprecated image (see M15) — and TextFields that used to
    show BOTH the negative border and the positive icon, which `status` can no longer express
-   at once (see M16) — plus screens that used the
+   at once (see M16) — plus every ListCell-family list (ListCell / Accordion / Select and
+   Autocomplete options / Menu items: label typography dropped to body2·medium with bold
+   selection, captions to label2, icons 24→20, inset radius 12→16, disabled restyled from
+   opacity to disable tokens, and `selected` cells without a trailingContent now show a
+   default check icon — see M17) and screens that used the
    deleted accent tokens (their replacement values differ — see M9).
 4. Delete the state file, then summarize: steps run, commits created, manual fixes
    applied, items intentionally left (with reasons).
 
 ## Additional resources
 
-- **`references/codemod-steps.md`** — the 8 codemods in order: exact commands,
+- **`references/codemod-steps.md`** — the 9 codemods in order: exact commands,
   idempotency analysis, pre-checks, post-step verification greps, hazards.
-- **`references/manual-migrations.md`** — manual migrations M1–M16 with scan patterns and
+- **`references/manual-migrations.md`** — manual migrations M1–M17 with scan patterns and
   fix rules.
 - **`scripts/migration-workflow.js`** — Workflow-tool script for the codemod phase; also
   the canonical per-step procedure for inline fallback execution.
