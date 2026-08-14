@@ -201,9 +201,121 @@ const Demo = () => {
 export default Demo;`}
 />
 
+### Label trailing
+
+`labelTrailing`을 사용해서 레이블 우측에 콘텐츠를 추가할 수 있습니다.
+콘텐츠를 추가할 때는 `AccordionSummaryLabelTrailing`으로 래핑해서 사용합니다.
+
+아래 variant들을 사용합니다.
+- verified-check
+- content-badge
+- custom
+
+<Demo code={`import { Accordion, AccordionSummary, AccordionDetails, AccordionDescription, AccordionSummaryLabelTrailing, ContentBadge, FlexBox } from '@montage-ui/core';
+
+const Demo = () => {
+  return (
+    <FlexBox flexDirection="column" gap="12px" sx={{ width: '100%' }}>
+      <Accordion>
+        <AccordionSummary
+          labelTrailing={
+            <AccordionSummaryLabelTrailing variant="verified-check" />
+          }
+        >
+          LabelTrailing, Verified check
+        </AccordionSummary>
+        <AccordionDetails>
+          <AccordionDescription>
+            제목에 대한 상세 내용을 입력해주세요.<br />
+            긴 컨텐츠라면 접은 상태를 기본 값으로 사용하세요.
+          </AccordionDescription>
+        </AccordionDetails>
+      </Accordion>
+
+      <Accordion>
+        <AccordionSummary
+          labelTrailing={
+            <AccordionSummaryLabelTrailing variant="content-badge">
+              <ContentBadge color="neutral">Badge</ContentBadge>
+            </AccordionSummaryLabelTrailing>
+          }
+        >
+          LabelTrailing, Content badge
+        </AccordionSummary>
+        <AccordionDetails>
+          <AccordionDescription>
+            제목에 대한 상세 내용을 입력해주세요.<br />
+            긴 컨텐츠라면 접은 상태를 기본 값으로 사용하세요.
+          </AccordionDescription>
+        </AccordionDetails>
+      </Accordion>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+### Extra content
+
+`extraContent`를 사용해서 텍스트 영역 하단에 추가 콘텐츠를 추가할 수 있습니다.
+콘텐츠를 추가할 때는 `AccordionSummaryExtraContent`로 래핑해서 사용합니다.
+
+아래 variant들을 사용합니다.
+- text
+- content-badge
+- custom
+
+<Demo code={`import { Accordion, AccordionSummary, AccordionDetails, AccordionDescription, AccordionSummaryExtraContent, ContentBadge, FlexBox } from '@montage-ui/core';
+
+const Demo = () => {
+  return (
+    <FlexBox flexDirection="column" gap="12px" sx={{ width: '100%' }}>
+      <Accordion>
+        <AccordionSummary
+          extraContent={
+            <AccordionSummaryExtraContent variant="text">
+              Extra text
+            </AccordionSummaryExtraContent>
+          }
+        >
+          ExtraContent, Text
+        </AccordionSummary>
+        <AccordionDetails>
+          <AccordionDescription>
+            제목에 대한 상세 내용을 입력해주세요.<br />
+            긴 컨텐츠라면 접은 상태를 기본 값으로 사용하세요.
+          </AccordionDescription>
+        </AccordionDetails>
+      </Accordion>
+
+      <Accordion>
+        <AccordionSummary
+          extraContent={
+            <AccordionSummaryExtraContent variant="content-badge">
+              <ContentBadge color="neutral">Badge</ContentBadge>
+            </AccordionSummaryExtraContent>
+          }
+        >
+          ExtraContent, Content badge
+        </AccordionSummary>
+        <AccordionDetails>
+          <AccordionDescription>
+            제목에 대한 상세 내용을 입력해주세요.<br />
+            긴 컨텐츠라면 접은 상태를 기본 값으로 사용하세요.
+          </AccordionDescription>
+        </AccordionDetails>
+      </Accordion>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
 ### Padding
 
-AccordionSummary의 `verticalPadding`, `fillWidth`으로 간격을 조정할 수 있습니다.
+AccordionSummary의 `verticalPadding`, `variant`로 간격을 조정할 수 있습니다.
 
 <Demo code={`import { Accordion, AccordionSummary, AccordionDetails, AccordionDescription, FlexBox } from '@montage-ui/core';
 
@@ -211,8 +323,8 @@ const Demo = () => {
   return (
     <FlexBox flexDirection="column" gap="12px" sx={{ width: '100%' }}>
       <Accordion>
-        <AccordionSummary fillWidth>
-          FillWidth, true
+        <AccordionSummary variant="full">
+          Variant, full
         </AccordionSummary>
         <AccordionDetails>
           <AccordionDescription>
@@ -281,7 +393,7 @@ export default Demo;`}
 Accordion을 중첩해서 사용할 수 있습니다.
 
 > 중첩 인터렉션 영역이 잘리는 경우가 생길 수 있습니다.
-> `disableAnimation` 를 사용하거나 하위 Accordion은 `fillWidth` 로 사용하여 인터렉션 영역을 보호할 수 있습니다.
+> `disableAnimation` 를 사용하거나 하위 Accordion은 `variant="full"` 로 사용하여 인터렉션 영역을 보호할 수 있습니다.
 
 <Demo code={`import { FlexBox, Accordion, AccordionSummary, AccordionDetails, AccordionDescription } from '@montage-ui/core';
 import type { CSSProperties } from 'react';
@@ -320,13 +432,13 @@ const Demo = () => {
       </Accordion>
 
       <Accordion>
-        <AccordionSummary fillWidth>
-          최상위 Accordion, fillWidth
+        <AccordionSummary variant="full">
+          최상위 Accordion, variant full
         </AccordionSummary>
         <AccordionDetails sx={{ gap: '4px', padding: 0 }}>
           <Accordion divider={false}>
-            <AccordionSummary fillWidth>
-              하위 Accordion, fillWidth
+            <AccordionSummary variant="full">
+              하위 Accordion, variant full
             </AccordionSummary>
             <AccordionDetails>
               <AccordionDescription>
@@ -336,8 +448,8 @@ const Demo = () => {
             </AccordionDetails>
           </Accordion>
           <Accordion divider={false}>
-            <AccordionSummary fillWidth>
-              하위 Accordion, fillWidth
+            <AccordionSummary variant="full">
+              하위 Accordion, variant full
             </AccordionSummary>
             <AccordionDetails>
               <AccordionDescription>
@@ -411,6 +523,18 @@ export default Demo;`}
 `ListCellContent`과 유사한 props를 사용합니다.
 
 <PropsTable component="AccordionSummaryContent" />
+
+### AccordionSummaryLabelTrailing
+
+`ListCellLabelTrailing`과 동일한 props를 사용합니다.
+
+<PropsTable component="AccordionSummaryLabelTrailing" />
+
+### AccordionSummaryExtraContent
+
+`ListCellExtraContent`와 동일한 props를 사용합니다.
+
+<PropsTable component="AccordionSummaryExtraContent" />
 
 ### AccordionDetails
 

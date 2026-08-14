@@ -110,7 +110,7 @@ const LnbGroupItem = ({
             alignItems="center"
             ref={ref}
             {...routeProps}
-            fillWidth
+            variant="full"
             verticalPadding="small"
             data-depth={depth}
             aria-current={isActive ? 'page' : undefined}

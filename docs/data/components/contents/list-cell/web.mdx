@@ -9,7 +9,7 @@ updatedAt: 2025-06-17
 
 인터랙션이 가능한 리스트 셀입니다.
 
-<Demo code={`import { List, ListCell, ListCellContent, Checkbox } from '@montage-ui/core';
+<Demo code={`import { List, ListCell } from '@montage-ui/core';
 
 const Demo = () => {
   return (
@@ -113,6 +113,9 @@ export default Demo;`}
 - selected
 - disabled
 
+selected 상태일 때는 우측에 체크 아이콘이 기본으로 표시됩니다.
+`trailingContent`를 직접 지정하면 교체되며, `null`을 전달하면 제거할 수 있습니다.
+
 <Demo code={`import { List, ListCell } from '@montage-ui/core';
 
 const Demo = () => {
@@ -194,42 +197,6 @@ const Demo = () => {
 export default Demo;`}
 />
 
-## Vertical align
-
-기본 수직 정렬은 `flex-start`입니다. `alignItems`로 수직 정렬을 조정할 수 있습니다.
-
-<Demo code={`import { List, ListCell, ListCellContent, Switch } from '@montage-ui/core'; 
-
-const Demo = () => {
-  return (
-    <List sx={{ width: '80%' }}>
-      <ListCell
-        trailingContent={(
-          <ListCellContent variant="switch">
-            <Switch />
-          </ListCellContent>
-        )}
-      >
-        텍스트, Top 정렬
-      </ListCell>
-
-      <ListCell
-        alignItems="center"
-        trailingContent={(
-          <ListCellContent variant="switch">
-            <Switch />
-          </ListCellContent>
-        )}
-      >
-        텍스트, Center 정렬
-      </ListCell>
-    </List>
-  )
-}
-
-export default Demo;`}
-/>
-
 ## With content
 
 leadingContent, trailingContent를 사용해서 콘텐츠를 추가할 수 있습니다.
@@ -252,7 +219,7 @@ Cell을 클릭했을 때 자동으로 leadingContent, trailingContent 내부의 
 - thumbnail
 - custom
 
-<Demo code={`import { Checkbox, Thumbnail, Avatar, List, ListCell, ListCellContent, Checkbox, Radio } from '@montage-ui/core';
+<Demo code={`import { Checkbox, Thumbnail, Avatar, List, ListCell, ListCellContent, Radio } from '@montage-ui/core';
 import { IconBlank } from '@montage-ui/icon';
 
 const Demo = () => {
@@ -297,16 +264,6 @@ const Demo = () => {
         }
       >
         Label, with radio
-      </ListCell>
-      <ListCell
-        textProps={{ caption: 'Caption' }}
-        leadingContent={
-          <ListCellContent variant="avatar">
-            <Avatar variant="person" size="medium" />
-          </ListCellContent>
-        }
-      >
-        Label, with avatar
       </ListCell>
       <ListCell
         textProps={{ caption: 'Caption' }}
@@ -370,11 +327,8 @@ export default Demo;`}
 
 <Demo code={`import { List, ListCell, ListCellContent, CheckMark, TextButton, Button, ContentBadge, ToggleIcon, IconButton } from '@montage-ui/core';
 import { IconBlank } from '@montage-ui/icon';
-import { useState } from 'react';
 
 const Demo = () => {
-  const [selectedCheckMark, setSelectedCheckMark] = useState(false);
-
   return (
     <List gap="16px" sx={{ width: '80%' }}>
       <ListCell
@@ -411,10 +365,9 @@ const Demo = () => {
       </ListCell>
       <ListCell
         textProps={{ caption: 'Caption' }}
-        selected={selectedCheckMark}
         trailingContent={
           <ListCellContent variant="checkbox">
-            <CheckMark tabIndex={-1} checked={selectedCheckMark} onCheckedChange={setSelectedCheckMark} />
+            <CheckMark tabIndex={-1} />
           </ListCellContent>
         }
       >
@@ -499,36 +452,38 @@ export default Demo;`}
 />
 
 
-### Extra content
+### Label trailing
 
-텍스트 영역 하단에 추가 콘텐츠를 추가할 수 있습니다.
+`labelTrailing`을 사용해서 레이블 우측에 콘텐츠를 추가할 수 있습니다.
+콘텐츠를 추가할 때는 `ListCellLabelTrailing`으로 래핑해서 사용합니다.
 
-아래 variant를 사용할 수 있습니다.
+아래 variant들을 사용합니다.
+- verified-check
 - content-badge
-- text
 - custom
 
-<br/>
-`chevron` 을 활성화 하여 우측에 화살표 아이콘을 추가할 수 있습니다.
-
-`verticalPadding="none"` 일 때에는 인터렉션 영역이 비활성화됩니다.
-
-<Demo code={`import { List, ListCell } from '@montage-ui/core';
+<Demo code={`import { List, ListCell, ListCellLabelTrailing, ContentBadge } from '@montage-ui/core';
 
 const Demo = () => {
   return (
-    <List sx={{ width: '80%' }}>
-      <ListCell verticalPadding="none">
-        VerticalPadding, None
+    <List gap="16px" sx={{ width: '80%' }}>
+      <ListCell
+        textProps={{ caption: 'Caption' }}
+        labelTrailing={
+          <ListCellLabelTrailing variant="verified-check" />
+        }
+      >
+        Label, with verified check
       </ListCell>
-      <ListCell>
-        VerticalPadding, Medium (default)
-      </ListCell>
-      <ListCell verticalPadding="small">
-        VerticalPadding, Small
-      </ListCell>
-      <ListCell verticalPadding="large">
-        VerticalPadding, Large
+      <ListCell
+        textProps={{ caption: 'Caption' }}
+        labelTrailing={
+          <ListCellLabelTrailing variant="content-badge">
+            <ContentBadge color="neutral">Badge</ContentBadge>
+          </ListCellLabelTrailing>
+        }
+      >
+        Label, with content badge
       </ListCell>
     </List>
   )
@@ -536,6 +491,153 @@ const Demo = () => {
 
 export default Demo;`}
 />
+
+### Extra content
+
+`extraContent`를 사용해서 텍스트 영역 하단에 추가 콘텐츠를 추가할 수 있습니다.
+콘텐츠를 추가할 때는 `ListCellExtraContent`로 래핑해서 사용합니다.
+
+아래 variant들을 사용합니다.
+- text
+- content-badge
+- custom
+
+<Demo code={`import { List, ListCell, ListCellExtraContent, ContentBadge } from '@montage-ui/core';
+
+const Demo = () => {
+  return (
+    <List gap="16px" sx={{ width: '80%' }}>
+      <ListCell
+        textProps={{ caption: 'Caption' }}
+        extraContent={
+          <ListCellExtraContent variant="text">
+            Extra text
+          </ListCellExtraContent>
+        }
+      >
+        Label, with extra text
+      </ListCell>
+      <ListCell
+        textProps={{ caption: 'Caption' }}
+        extraContent={
+          <ListCellExtraContent variant="content-badge">
+            <ContentBadge color="neutral">Badge</ContentBadge>
+          </ListCellExtraContent>
+        }
+      >
+        Label, with extra content badge
+      </ListCell>
+      <ListCell
+        textProps={{ caption: 'Caption' }}
+        extraContent={
+          <>
+            <ListCellExtraContent variant="content-badge">
+              <ContentBadge color="neutral">Badge</ContentBadge>
+            </ListCellExtraContent>
+            <ListCellExtraContent variant="text">
+              Extra text
+            </ListCellExtraContent>
+          </>
+        }
+      >
+        Label, with multiple extra content
+      </ListCell>
+    </List>
+  )
+}
+
+export default Demo;`}
+/>
+
+
+## Vertical align
+
+기본 수직 정렬은 `flex-start`입니다. `alignItems`로 수직 정렬을 조정할 수 있습니다.
+
+<Demo code={`import { List, ListCell, ListCellContent, ContentBadge, ListCellExtraContent, Checkbox, Thumbnail } from '@montage-ui/core'; 
+
+const Demo = () => {
+  return (
+    <List sx={{ width: '80%' }}>
+      <ListCell
+        textProps={{ caption: 'Caption' }}
+        leadingContent={
+          <>
+            <ListCellContent variant="checkbox">
+              <Checkbox tabIndex={-1} />
+            </ListCellContent>
+            <ListCellContent variant="thumbnail">
+              <Thumbnail border radius ratio="1:1" width="56px" />
+            </ListCellContent>
+          </>
+        }
+        trailingContent={
+          <>
+            <ListCellContent variant="content-badge">
+              <ContentBadge color="neutral">Badge</ContentBadge>
+            </ListCellContent>
+            <ListCellContent variant="value" chevron>
+              Value
+            </ListCellContent>
+          </>
+        }
+        extraContent={
+          <>
+            <ListCellExtraContent variant="content-badge">
+              <ContentBadge color="neutral">Badge</ContentBadge>
+            </ListCellExtraContent>
+            <ListCellExtraContent variant="text">
+              Extra text
+            </ListCellExtraContent>
+          </>
+        }
+      >
+        Label, Align flex start
+      </ListCell>
+
+      <ListCell
+        alignItems="center"
+        textProps={{ caption: 'Caption' }}
+        leadingContent={
+          <>
+            <ListCellContent variant="checkbox">
+              <Checkbox tabIndex={-1} />
+            </ListCellContent>
+            <ListCellContent variant="thumbnail">
+              <Thumbnail border radius ratio="1:1" width="56px" />
+            </ListCellContent>
+          </>
+        }
+        trailingContent={
+          <>
+            <ListCellContent variant="content-badge">
+              <ContentBadge color="neutral">Badge</ContentBadge>
+            </ListCellContent>
+            <ListCellContent variant="value" chevron>
+              Value
+            </ListCellContent>
+          </>
+        }
+        extraContent={
+          <>
+            <ListCellExtraContent variant="content-badge">
+              <ContentBadge color="neutral">Badge</ContentBadge>
+            </ListCellExtraContent>
+            <ListCellExtraContent variant="text">
+              Extra text
+            </ListCellExtraContent>
+          </>
+        }
+      >
+        Label, Align center
+      </ListCell>
+    </List>
+  )
+}
+
+export default Demo;`}
+/>
+
 
 ## Text ellipsis
 
@@ -549,7 +651,7 @@ const CAPTION = '남산위에 저 소나무 철갑을 두른 듯 바람서리 �
 
 const Demo = () => {
   return (
-    <List gap="16px" sx={{ width: '80%' }}>
+    <List gap="16px" sx={{ width: '25ch' }}>
       <ListCell
         textProps={{ caption: CAPTION }}
         leadingContent={
@@ -558,7 +660,7 @@ const Demo = () => {
           </ListCellContent>
         }
         trailingContent={
-          <ListCellContent variant="chevron">
+          <ListCellContent variant="value" chevron>
             값
           </ListCellContent>
         }
@@ -574,7 +676,7 @@ const Demo = () => {
           </ListCellContent>
         }
         trailingContent={
-          <ListCellContent variant="chevron">
+          <ListCellContent variant="value" chevron>
             값
           </ListCellContent>
         }
@@ -601,3 +703,11 @@ export default Demo;`}
 ### ListCellContent
 
 <PropsTable component="ListCellContent" />
+
+### ListCellLabelTrailing
+
+<PropsTable component="ListCellLabelTrailing" />
+
+### ListCellExtraContent
+
+<PropsTable component="ListCellExtraContent" />

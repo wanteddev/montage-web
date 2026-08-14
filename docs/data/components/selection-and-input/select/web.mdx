@@ -867,7 +867,7 @@ const Demo = () => {
         <Option
           value="1"
           trailingContent={(
-            <OptionContent variant="chevron">
+            <OptionContent variant="value" chevron>
               값
             </OptionContent>
           )}
@@ -889,7 +889,7 @@ const Demo = () => {
           value="3"
           alignItems="center"
           trailingContent={(
-            <OptionContent variant="badge">
+            <OptionContent variant="content-badge">
               <ContentBadge>
                 Badge
               </ContentBadge>
@@ -897,6 +897,84 @@ const Demo = () => {
           )}
         >
           Badge
+        </Option>
+      </Select>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+### With option label trailing
+
+`Option` 컴포넌트에 `labelTrailing` prop 을 사용하여 레이블 우측에 콘텐츠를 추가할 수 있습니다.
+
+`OptionLabelTrailing` 으로 감싸서 사용합니다.
+
+<Demo code={`import { Select, Option, OptionLabelTrailing, FlexBox, ContentBadge } from '@montage-ui/core';
+
+const Demo = () => {
+  return (
+    <FlexBox gap="12px" flexDirection="column" alignItems="center">
+      <Select width="25ch" placeholder="Option label trailing">
+        <Option
+          value="1"
+          labelTrailing={(
+            <OptionLabelTrailing variant="verified-check" />
+          )}
+        >
+          Verified check
+        </Option>
+        <Option
+          value="2"
+          labelTrailing={(
+            <OptionLabelTrailing variant="content-badge">
+              <ContentBadge color="neutral">Badge</ContentBadge>
+            </OptionLabelTrailing>
+          )}
+        >
+          Content badge
+        </Option>
+      </Select>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+### With option extra content
+
+`Option` 컴포넌트에 `extraContent` prop 을 사용하여 텍스트 영역 하단에 추가 콘텐츠를 추가할 수 있습니다.
+
+`OptionExtraContent` 로 감싸서 사용합니다.
+
+<Demo code={`import { Select, Option, OptionExtraContent, FlexBox, ContentBadge } from '@montage-ui/core';
+
+const Demo = () => {
+  return (
+    <FlexBox gap="12px" flexDirection="column" alignItems="center">
+      <Select width="25ch" placeholder="Option extra content">
+        <Option
+          value="1"
+          extraContent={(
+            <OptionExtraContent variant="text">
+              Extra text
+            </OptionExtraContent>
+          )}
+        >
+          Text
+        </Option>
+        <Option
+          value="2"
+          extraContent={(
+            <OptionExtraContent variant="content-badge">
+              <ContentBadge color="neutral">Badge</ContentBadge>
+            </OptionExtraContent>
+          )}
+        >
+          Content badge
         </Option>
       </Select>
     </FlexBox>
@@ -1169,3 +1247,15 @@ export default Demo;`}
 ### OptionContent
 
 <PropsTable component="OptionContent" />
+
+### OptionLabelTrailing
+
+`ListCellLabelTrailing`과 동일한 props를 사용합니다.
+
+<PropsTable component="OptionLabelTrailing" />
+
+### OptionExtraContent
+
+`ListCellExtraContent`와 동일한 props를 사용합니다.
+
+<PropsTable component="OptionExtraContent" />

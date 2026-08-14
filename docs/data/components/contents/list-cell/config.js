@@ -20,7 +20,7 @@ module.exports = {
     ],
     icons: ['IconBlank'],
     render: (value) => {
-      const fillWidth = value['Fill width'] === 'True';
+      const variant = value['Fill width'] === 'True' ? 'full' : 'inset';
       const divider = value['Divider'] === 'True';
       const verticalPadding = value['Vertical padding'].toLowerCase();
       const verticalAlign = value['Vertical align'].toLowerCase();
@@ -64,7 +64,7 @@ module.exports = {
           break;
         case 'Badge':
           trailingContent =
-            '<ListCellContent variant="badge"><ContentBadge color="neutral">Badge</ContentBadge></ListCellContent>';
+            '<ListCellContent variant="content-badge"><ContentBadge color="neutral">Badge</ContentBadge></ListCellContent>';
           break;
         case 'Checkbox':
           trailingContent =
@@ -80,7 +80,7 @@ module.exports = {
           break;
         case 'Text button':
           trailingContent =
-            '<ListCellContent variant="button"><TextButton size="small" color="assistive">Text button</TextButton></ListCellContent>';
+            '<ListCellContent variant="text-button"><TextButton size="small" color="assistive">Text button</TextButton></ListCellContent>';
           break;
         case 'Value':
           trailingContent =
@@ -89,14 +89,14 @@ module.exports = {
       }
 
       return `
-        <List gap="0px" sx={theme => ({ width: '85%', backgroundColor: theme.semantic.background.neutral.primary, borderRadius: '12px', ${fillWidth ? "padding: '8px 0px'" : "padding: '8px 20px'"} })}>
-          <ListCell verticalPadding="${verticalPadding}" alignItems="${verticalAlign}" fillWidth={${fillWidth}} leadingContent={${leadingContent}} trailingContent={${trailingContent}} divider={${divider}} textProps={${textProps}}>
+        <List gap="0px" sx={theme => ({ width: '85%', backgroundColor: theme.semantic.background.neutral.primary, borderRadius: '12px', ${variant === 'full' ? "padding: '8px 0px'" : "padding: '8px 20px'"} })}>
+          <ListCell verticalPadding="${verticalPadding}" alignItems="${verticalAlign}" variant="${variant}" leadingContent={${leadingContent}} trailingContent={${trailingContent}} divider={${divider}} textProps={${textProps}}>
             Label
           </ListCell>
-          <ListCell verticalPadding="${verticalPadding}" alignItems="${verticalAlign}" fillWidth={${fillWidth}} leadingContent={${leadingContent}} trailingContent={${trailingContent}} divider={${divider}} textProps={${textProps}}>
+          <ListCell verticalPadding="${verticalPadding}" alignItems="${verticalAlign}" variant="${variant}" leadingContent={${leadingContent}} trailingContent={${trailingContent}} divider={${divider}} textProps={${textProps}}>
             Label
           </ListCell>
-          <ListCell verticalPadding="${verticalPadding}" alignItems="${verticalAlign}" fillWidth={${fillWidth}} leadingContent={${leadingContent}} trailingContent={${trailingContent}} divider={${divider}} textProps={${textProps}}>
+          <ListCell verticalPadding="${verticalPadding}" alignItems="${verticalAlign}" variant="${variant}" leadingContent={${leadingContent}} trailingContent={${trailingContent}} divider={${divider}} textProps={${textProps}}>
             Label
           </ListCell>
         </List>
