@@ -16,7 +16,6 @@ module.exports = {
       'IconButton',
       'CheckMark',
       'TextButton',
-      'Switch',
     ],
     icons: ['IconBlank'],
     render: (value) => {
@@ -73,10 +72,6 @@ module.exports = {
         case 'Icon button':
           trailingContent =
             '<ListCellContent variant="icon-button"><IconButton><IconBlank /></IconButton></ListCellContent>';
-          break;
-        case 'Switch':
-          trailingContent =
-            '<ListCellContent variant="switch"><Switch /></ListCellContent>';
           break;
         case 'Text button':
           trailingContent =
@@ -157,7 +152,6 @@ module.exports = {
           { label: 'Badge', value: {} },
           { label: 'Checkbox', value: {} },
           { label: 'Icon button', value: {} },
-          { label: 'Switch', value: {} },
           { label: 'Text button', value: {} },
           { label: 'Value', value: {} },
         ],
