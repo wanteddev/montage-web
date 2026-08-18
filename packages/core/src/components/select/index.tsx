@@ -29,7 +29,11 @@ import {
 import { FlexBox } from '../flex-box';
 import { Typography } from '../typography';
 import { VirtualValueInput } from '../virtual-input';
-import { ListCellContent } from '../list';
+import {
+  ListCellContent,
+  ListCellExtraContent,
+  ListCellLabelTrailing,
+} from '../list';
 import { IconButtonProvider } from '../icon-button/contexts';
 import { ellipsisTypographyStyle } from '../../utils';
 import { Chip } from '../chip';
@@ -44,7 +48,9 @@ import {
 import { convertChildrenToData } from './helpers';
 import {
   OPTION_CONTENT_NAME,
+  OPTION_EXTRA_CONTENT_NAME,
   OPTION_GROUP_NAME,
+  OPTION_LABEL_TRAILING_NAME,
   OPTION_NAME,
   SELECT_CONTENT_NAME,
   SELECT_NAME,
@@ -52,7 +58,11 @@ import {
 } from './constants';
 import { SelectProvider, useSelectContext } from './context';
 
-import type { ListCellContentProps } from '../list';
+import type {
+  ListCellContentProps,
+  ListCellExtraContentProps,
+  ListCellLabelTrailingProps,
+} from '../list';
 import type {
   DefaultComponentPropsInternal,
   PolymorphicComponentInternal,
@@ -460,6 +470,24 @@ const OptionContent = forwardRef<
 
 OptionContent.displayName = OPTION_CONTENT_NAME;
 
+const OptionLabelTrailing = forwardRef<
+  HTMLDivElement,
+  DefaultComponentPropsInternal<ListCellLabelTrailingProps, 'div'>
+>((props, ref) => {
+  return <ListCellLabelTrailing ref={ref} {...props} />;
+});
+
+OptionLabelTrailing.displayName = OPTION_LABEL_TRAILING_NAME;
+
+const OptionExtraContent = forwardRef<
+  HTMLDivElement,
+  DefaultComponentPropsInternal<ListCellExtraContentProps, 'div'>
+>((props, ref) => {
+  return <ListCellExtraContent ref={ref} {...props} />;
+});
+
+OptionExtraContent.displayName = OPTION_EXTRA_CONTENT_NAME;
+
 export {
   Select,
   SelectContent,
@@ -467,6 +495,8 @@ export {
   Option,
   OptionGroup,
   OptionContent,
+  OptionLabelTrailing,
+  OptionExtraContent,
 };
 
 export type {
@@ -475,5 +505,7 @@ export type {
   SelectRenderChipProps,
   OptionGroupProps,
   ListCellContentProps as OptionContentProps,
+  ListCellLabelTrailingProps as OptionLabelTrailingProps,
+  ListCellExtraContentProps as OptionExtraContentProps,
   OptionProps,
 };

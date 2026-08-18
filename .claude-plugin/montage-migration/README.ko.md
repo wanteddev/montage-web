@@ -30,17 +30,18 @@ Montage(Wanted Design System for Web) 메이저 버전 간 마이그레이션을
 
 1. **사전 점검** — 마이그레이션 상태 파일을 가장 먼저 확인하고(재개를 신규 실행으로 오인하지
    않도록), 이어서 버전 확인, git 클린 상태 확인, 대상 디렉토리 선택.
-2. **Codemod 단계** — 8개 v4 codemod를 **엄격한 순서로, 각각 정확히 한 번씩** 실행
+2. **Codemod 단계** — 9개 v4 codemod를 **엄격한 순서로, 각각 정확히 한 번씩** 실행
    (`package-name-migration` → `semantic-token-migration` → `css-variable-migration` →
    `dom-identifier-migration` → `list-card-migration` → `form-control-migration` →
-   `push-badge-migration` → `status-migration`).
+   `push-badge-migration` → `status-migration` → `list-cell-variant-migration`).
    Workflow 도구로 오케스트레이션되어 codemod는 순차 실행(단계별 검증·선택적 단계별
    커밋), 이후 수동 마이그레이션 대상 스캔은 병렬로 수행됩니다.
 3. **수동 마이그레이션** — theme 토큰 `var(--...)` 산술 코드, package.json/설정 파일의
    패키지명 변경, semantic 토큰 후속 작업(foreground/surface 재분류, 삭제된 accent 토큰),
    CSS 변수·DOM 식별자 잔여물(동적으로 조립된 이름, 변환 대상 밖 파일), Card/ListCard·FormControl 후속 작업,
    Modal/TextField/TextArea/SegmentedControl/Select/PushBadge/SearchField/FallbackView 동작
-   변경 대응, `invalid`/`positive` → `status` 잔여물, ThemeProvider 쿠키 저장소 전환.
+   변경 대응, `invalid`/`positive` → `status` 잔여물, ListCell 개편 후속 작업(MenuItem/Option의
+   `fillWidth`, selected 기본 체크 아이콘, 타이포·DOM 변경), ThemeProvider 쿠키 저장소 전환.
 4. **최종 검증** — 잔여 패턴 grep, install/typecheck/lint/build/tests, 결과 요약.
 
 codemod는 순서에 민감하고 두 번 실행하면 안 됩니다(`form-control-migration` 재실행 시

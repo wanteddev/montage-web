@@ -19,7 +19,13 @@ import { useCallbackRef } from '@radix-ui/react-use-callback-ref';
 import { Box } from '@montage-ui/engine';
 
 import { Popper, PopperAnchor, PopperContent } from '../popper';
-import { List, ListCell, ListCellContent } from '../list';
+import {
+  List,
+  ListCell,
+  ListCellContent,
+  ListCellExtraContent,
+  ListCellLabelTrailing,
+} from '../list';
 import { ScrollArea } from '../scroll-area';
 import { FlexBox } from '../flex-box';
 import { Typography } from '../typography';
@@ -30,6 +36,8 @@ import {
   AUTOCOMPLETE_LIST_NAME,
   AUTOCOMPLETE_NAME,
   AUTOCOMPLETE_OPTION_CONTENT_NAME,
+  AUTOCOMPLETE_OPTION_EXTRA_CONTENT_NAME,
+  AUTOCOMPLETE_OPTION_LABEL_TRAILING_NAME,
   AUTOCOMPLETE_OPTION_NAME,
   AUTOCOMPLETE_ROOT_NAME,
   AUTOCOMPLETE_SCOPE,
@@ -44,7 +52,11 @@ import {
 } from './style';
 import { focusSelectedOption, setAttributeSelection } from './helpers';
 
-import type { ListCellContentProps } from '../list';
+import type {
+  ListCellContentProps,
+  ListCellExtraContentProps,
+  ListCellLabelTrailingProps,
+} from '../list';
 import type {
   DefaultComponentProps,
   DefaultComponentPropsInternal,
@@ -687,6 +699,26 @@ const AutocompleteOptionContent = forwardRef<
 
 AutocompleteOptionContent.displayName = AUTOCOMPLETE_OPTION_CONTENT_NAME;
 
+const AutocompleteOptionLabelTrailing = forwardRef<
+  HTMLDivElement,
+  DefaultComponentPropsInternal<ListCellLabelTrailingProps, 'div'>
+>((props, ref) => {
+  return <ListCellLabelTrailing ref={ref} {...props} />;
+});
+
+AutocompleteOptionLabelTrailing.displayName =
+  AUTOCOMPLETE_OPTION_LABEL_TRAILING_NAME;
+
+const AutocompleteOptionExtraContent = forwardRef<
+  HTMLDivElement,
+  DefaultComponentPropsInternal<ListCellExtraContentProps, 'div'>
+>((props, ref) => {
+  return <ListCellExtraContent ref={ref} {...props} />;
+});
+
+AutocompleteOptionExtraContent.displayName =
+  AUTOCOMPLETE_OPTION_EXTRA_CONTENT_NAME;
+
 export {
   Autocomplete,
   AutocompleteField,
@@ -694,6 +726,8 @@ export {
   AutocompleteGroup,
   AutocompleteOption,
   AutocompleteOptionContent,
+  AutocompleteOptionLabelTrailing,
+  AutocompleteOptionExtraContent,
 };
 
 export type {
@@ -703,4 +737,6 @@ export type {
   AutocompleteOptionProps,
   AutocompleteGroupProps,
   ListCellContentProps as AutocompleteOptionContentProps,
+  ListCellLabelTrailingProps as AutocompleteOptionLabelTrailingProps,
+  ListCellExtraContentProps as AutocompleteOptionExtraContentProps,
 };

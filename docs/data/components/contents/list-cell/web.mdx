@@ -9,30 +9,16 @@ updatedAt: 2025-06-17
 
 인터랙션이 가능한 리스트 셀입니다.
 
-leadingContent, trailingContent에 요소를 추가할 때는 `ListCellContent`로 감싸서 사용합니다.
-<br/>
-`ListCell` 클릭 시 자동으로 leadingContent, trailingContent 내부의 컨트롤 요소를 클릭 처리합니다.
-
-> 단, `Switch` 컴포넌트는 클릭 처리하지 않습니다.
-
-<Demo code={`import { List, ListCell, ListCellContent, Checkbox } from '@montage-ui/core';
+<Demo code={`import { List, ListCell } from '@montage-ui/core';
 
 const Demo = () => {
   return (
-    <List sx={{ width: '100%' }}>
-      <ListCell leadingContent={(
-        <ListCellContent variant="checkbox">
-          <Checkbox tabIndex={-1} />
-        </ListCellContent>
-      )}>
-        텍스트
+    <List sx={{ width: '80%' }}>
+      <ListCell>
+        Label
       </ListCell>
-      <ListCell textProps={{ caption: 'Caption' }} leadingContent={(
-        <ListCellContent variant="checkbox">
-          <Checkbox tabIndex={-1} />
-        </ListCellContent>
-      )}>
-        텍스트
+      <ListCell textProps={{ description: 'Description' }}>
+        Label
       </ListCell>
     </List>
   )
@@ -48,38 +34,68 @@ export default Demo;`}
 ```tsx
 <List>
   <ListCell
+    trailingContent={(
+      <ListCellContent variant="value" chevron>
+        Value
+      </ListCellContent>
+    )}
     leadingContent={(
       <ListCellContent variant="checkbox">
         <Checkbox />
       </ListCellContent>
     )}
-  />
-
-  <ListCell
-    trailingContent={(
-      <ListCellContent variant="switch">
-        <Switch />
-      </ListCellContent>
-    )}
-  />
+  >
+    Clickable list
+  </ListCell>
 </List>
 ```
 
-## States
+## Variants
 
-selected, disabled, disableInteraction으로 상태를 표시할 수 있습니다.
+2가지 variant를 사용할 수 있습니다.
 
-### Selected
+- inset (default)
+- full
 
-현재 선택된 셀을 표시합니다.
+### Inset
+
+좌/우측 padding이 없으며, 인터렉션 레이어만 바깥으로 넘어가서 노출됩니다.
 
 <Demo code={`import { List, ListCell } from '@montage-ui/core';
 
 const Demo = () => {
   return (
-    <List sx={{ width: '100%' }}>
-      <ListCell selected>
-        Selected list cell
+    <List sx={{ width: '80%' }}>
+      <ListCell variant="inset">
+        Inset variant cell
+      </ListCell>
+
+      <ListCell variant="inset" sx={theme => ({ border: \`1px solid \${theme.semantic.line.neutral.primary}\` })}>
+        Inset variant cell
+      </ListCell>
+    </List>
+  )
+}
+
+export default Demo;`}
+/>
+
+### Full
+
+좌/우측 padding이 생기며, 인터렉션 레이어와 너비가 일치하도록 합니다.
+또한 Border radius를 제거합니다.
+
+<Demo code={`import { List, ListCell } from '@montage-ui/core';
+
+const Demo = () => {
+  return (
+    <List sx={{ width: '80%' }}>
+      <ListCell variant="full">
+        Full variant cell
+      </ListCell>
+
+      <ListCell variant="full" sx={theme => ({ border: \`1px solid \${theme.semantic.line.neutral.primary}\` })}>
+        Full variant cell
       </ListCell>
     </List>
   )
@@ -89,15 +105,27 @@ export default Demo;`}
 />
 
 
-### Disabled
+## States
 
-disabled 상태의 셀을 표시할 수 있으며 클릭 이벤트는 비활성화됩니다.
+여러 상태를 표시할 수 있습니다.
+- default
+- selected
+- disabled
+
+selected 상태일 때는 우측에 체크 아이콘이 기본으로 표시됩니다.
+`trailingContent`를 직접 지정하면 교체되며, `null`을 전달하면 제거할 수 있습니다.
 
 <Demo code={`import { List, ListCell } from '@montage-ui/core';
 
 const Demo = () => {
   return (
-    <List sx={{ width: '100%' }}>
+    <List sx={{ width: '80%' }}>
+      <ListCell>
+        Default list cell
+      </ListCell>
+      <ListCell selected>
+        Selected list cell
+      </ListCell>
       <ListCell disabled>
         Disabled list cell
       </ListCell>
@@ -108,74 +136,22 @@ const Demo = () => {
 export default Demo;`}
 />
 
-## Fill width
-
-Cell을 화면 가득 채워야할 때 `fillWidth` 속성을 사용하여 UI를 표시합니다.
-
-<Demo code={`import { List, ListCell } from '@montage-ui/core';
-
-const Demo = () => {
-  return (
-    <List sx={{ width: '100%' }}>
-      <ListCell fillWidth>
-        Fill width list cell
-      </ListCell>
-    </List>
-  )
-}
-
-export default Demo;`}
-/>
-
-## Vertical align
-
-기본 수직 정렬은 `flex-start`입니다. `alignItems`로 수직 정렬을 조정할 수 있습니다.
-
-<Demo code={`import { List, ListCell, ListCellContent, Switch } from '@montage-ui/core'; 
-
-const Demo = () => {
-  return (
-    <List sx={{ width: '100%' }}>
-      <ListCell
-        trailingContent={(
-          <ListCellContent variant="switch">
-            <Switch />
-          </ListCellContent>
-        )}
-      >
-        텍스트, Top 정렬
-      </ListCell>
-
-      <ListCell
-        alignItems="center"
-        trailingContent={(
-          <ListCellContent variant="switch">
-            <Switch />
-          </ListCellContent>
-        )}
-      >
-        텍스트, Center 정렬
-      </ListCell>
-    </List>
-  )
-}
-
-export default Demo;`}
-/>
 
 ## Divider
 
 `divider` 속성을 사용하여 셀 사이에 구분선을 추가할 수 있습니다.
 
+인터렉션 효과가 발생할 때는 자동 숨김처리 됩니다.
+
 <Demo code={`import { List, ListCell } from '@montage-ui/core';
 
 const Demo = () => {
   return (
-    <List sx={{ width: '100%' }}>
+    <List sx={{ width: '80%' }}>
       <ListCell divider>
         Divider list cell
       </ListCell>
-      <ListCell>
+      <ListCell divider>
         Divider list cell
       </ListCell>
     </List>
@@ -184,6 +160,7 @@ const Demo = () => {
 
 export default Demo;`}
 />
+
 
 ## Vertical padding
 
@@ -199,7 +176,7 @@ export default Demo;`}
 
 const Demo = () => {
   return (
-    <List sx={{ width: '100%' }}>
+    <List sx={{ width: '80%' }}>
       <ListCell verticalPadding="none">
         VerticalPadding, None
       </ListCell>
@@ -224,189 +201,105 @@ export default Demo;`}
 leadingContent, trailingContent를 사용해서 콘텐츠를 추가할 수 있습니다.
 콘텐츠를 추가할 때는 `ListCellContent`로 래핑해서 사용합니다.
 
-Cell을 클릭했을 때 콘텐츠 영역이 클릭되지 않게 하려면 `e.stopPropagation` 을 사용해서 방지할 수 있습니다.
+Cell을 클릭했을 때 자동으로 leadingContent, trailingContent 내부의 컨트롤 요소를 클릭 처리합니다.
+콘텐츠 영역이 클릭되지 않게 하려면 `e.stopPropagation` 을 사용해서 방지할 수 있습니다.
+<br/>
 
-<Demo code={`import { Checkbox, Thumbnail, Avatar, List, ListCell, ListCellContent, IconButton, CheckMark, TextButton, ContentBadge, Switch } from '@montage-ui/core';
+> 단, `Switch` 컴포넌트는 클릭 처리하지 않습니다.
+
+### Leading content
+
+아래 variant들을 사용합니다.
+- icon
+- large-icon
+- checkbox
+- radio
+- avatar
+- thumbnail
+- custom
+
+<Demo code={`import { Checkbox, Thumbnail, Avatar, List, ListCell, ListCellContent, Radio } from '@montage-ui/core';
 import { IconBlank } from '@montage-ui/icon';
 
 const Demo = () => {
   return (
-    <List gap="16px" sx={{ width: '100%' }}>
+    <List gap="16px" sx={{ width: '80%' }}>
       <ListCell
-        trailingContent={
-          <ListCellContent variant="icon">
-            <IconBlank />
-          </ListCellContent>
-        }
-      >
-        텍스트, Normal
-      </ListCell>
-      <ListCell
-        trailingContent={
-          <ListCellContent variant="checkbox">
-            <CheckMark tabIndex={-1} />
-          </ListCellContent>
-        }
-      >
-        텍스트, Normal
-      </ListCell>
-      <ListCell
-        trailingContent={
-          <ListCellContent variant="button">
-            <TextButton size="small" color="assistive" tabIndex={-1}>
-              Button
-            </TextButton>
-          </ListCellContent>
-        }
-      >
-        텍스트, Normal
-      </ListCell>
-      <ListCell
-        trailingContent={
-          <ListCellContent>
-            <ContentBadge color="neutral">Badge</ContentBadge>
-          </ListCellContent>
-        }
-      >
-        텍스트, Normal
-      </ListCell>
-      <ListCell
-        trailingContent={
-          <ListCellContent variant="chevron">
-            값
-          </ListCellContent>
-        }
-      >
-        텍스트, Normal
-      </ListCell>
-      <ListCell
-        trailingContent={
-          <ListCellContent variant="value">
-            값
-          </ListCellContent>
-        }
-      >
-        텍스트, Normal
-      </ListCell>
-      <ListCell
+        textProps={{ description: 'Description' }}
         leadingContent={
           <ListCellContent variant="icon">
             <IconBlank />
           </ListCellContent>
         }
-        trailingContent={
-          <ListCellContent variant="chevron" chevron={false}>
-            값
+      >
+        Label, with icon
+      </ListCell>
+      <ListCell
+        textProps={{ description: 'Description' }}
+        leadingContent={
+          <ListCellContent variant="large-icon">
+            <IconBlank />
           </ListCellContent>
         }
       >
-        텍스트, Normal
+        Label, with large icon
       </ListCell>
       <ListCell
+        textProps={{ description: 'Description' }}
         leadingContent={
           <ListCellContent variant="checkbox">
             <Checkbox tabIndex={-1} />
           </ListCellContent>
         }
-        trailingContent={
-          <ListCellContent variant="chevron" chevron={false}>
-            값
+      >
+        Label, with checkbox
+      </ListCell>
+      <ListCell
+        textProps={{ description: 'Description' }}
+        leadingContent={
+          <ListCellContent variant="radio">
+            <Radio tabIndex={-1} checked />
           </ListCellContent>
         }
       >
-        텍스트, Normal
+        Label, with radio
       </ListCell>
       <ListCell
-        alignItems="center"
+        textProps={{ description: 'Description' }}
         leadingContent={
           <ListCellContent variant="avatar">
             <Avatar variant="person" size="medium" />
           </ListCellContent>
         }
-        trailingContent={
-          <ListCellContent variant="chevron" chevron={false}>
-            값
-          </ListCellContent>
-        }
       >
-        텍스트, Medium
+        Label, with avatar
       </ListCell>
       <ListCell
-        alignItems="center"
+        textProps={{ description: 'Description' }}
         leadingContent={
           <ListCellContent variant="thumbnail">
             <Thumbnail border radius ratio="1:1" width="56px" />
           </ListCellContent>
         }
-        trailingContent={
-          <ListCellContent variant="checkbox">
-            <CheckMark tabIndex={-1} />
-          </ListCellContent>
-        }
       >
-        텍스트, Medium
+        Label, with thumbnail
       </ListCell>
+
+
       <ListCell
-        alignItems="center"
-        disableInteraction
-        trailingContent={
-          <ListCellContent variant="switch">
-            <Switch />
-          </ListCellContent>
-        }
-      >
-        텍스트, Medium
-      </ListCell>
-      <ListCell
-        textProps={{ caption: 'Caption' }}
+        textProps={{ description: 'Description' }}
         leadingContent={
-          <ListCellContent variant="large-icon">
-            <IconBlank />
-          </ListCellContent>
-        }
-        trailingContent={
-          <ListCellContent variant="chevron" chevron={false}>
-            값
-          </ListCellContent>
-        }
-      >
-        Content, Large
-      </ListCell>
-      <ListCell
-        alignItems="center"
-        textProps={{ caption: 'Caption' }}
-        leadingContent={
-          <ListCellContent variant="large-icon">
-            <IconBlank />
-          </ListCellContent>
-        }
-        trailingContent={
-          <ListCellContent variant="checkbox">
-            <CheckMark tabIndex={-1} />
-          </ListCellContent>
+          <>
+            <ListCellContent variant="checkbox">
+              <Checkbox tabIndex={-1} />
+            </ListCellContent>
+            <ListCellContent variant="thumbnail">
+              <Thumbnail border radius ratio="1:1" width="56px" />
+            </ListCellContent>
+          </>
         }
       >
-        Content, Large
-      </ListCell>
-      <ListCell
-        textProps={{ caption: 'Caption' }}
-        leadingContent={
-          <ListCellContent variant="custom">
-            <Thumbnail
-              src="https://static.wanted.co.kr/images/company/79/elpzxpmgh94xesrf__1080_790.png"
-              alt="Wanted Company Image"
-              width="56px"
-              ratio="1:1"
-            />
-          </ListCellContent>
-        }
-        trailingContent={
-          <ListCellContent variant="checkbox">
-            <CheckMark tabIndex={-1} />
-          </ListCellContent>
-        }
-      >
-        Content, Large
+        Label, with multiple content
       </ListCell>
     </List>
   )
@@ -415,82 +308,346 @@ const Demo = () => {
 export default Demo;`}
 />
 
-### Switch
+### Trailing content
 
-Switch를 사용하는 경우 `ListCell` 영역을 클릭해서 토글되지 않습니다. 스위치 영역을 직접 클릭해야만 스위치가 토글됩니다.
+아래 variant들을 사용합니다.
+- value
+- icon-button
+- icon
+- text-button
+- content-badge
+- toggle-icon
+- button
+- checkbox
+- switch
+- custom
 
-`disableInteraction`과 함께 사용하면 자연스러운 동작으로 사용 가능합니다.
+<br/>
+`chevron` 을 활성화 하여 우측에 화살표 아이콘을 추가할 수 있습니다.
 
-<Demo code={`import { Button, FlexBox, Switch, List, ListCell, ListCellContent, FormControl, FormControlField, FormControlLabel } from '@montage-ui/core';
-import { useForm, Controller } from 'react-hook-form';
+<Demo code={`import { List, ListCell, ListCellContent, CheckMark, TextButton, Button, ContentBadge, ToggleIcon, IconButton, Switch } from '@montage-ui/core';
+import { IconBlank } from '@montage-ui/icon';
 
 const Demo = () => {
-  const form = useForm();
-
   return (
-    <FlexBox
-      as="form"
-      flexDirection="column"
-      gap="20px"
-      onSubmit={form.handleSubmit((v) => alert(JSON.stringify(v)))}
-      sx={{ width: '100%' }}
-    >
-      <List>
-        <Controller
-          control={form.control}
-          name="notification"
-          render={({ field, formState }) => (
-            <ListCell
-              as={FormControl}
-              disableInteraction
-              trailingContent={
-                <FormControlField>
-                  <ListCellContent variant="switch">
-                    <Switch
-                      {...field}
-                      checked={field.value} 
-                      onCheckedChange={field.onChange}
-                    />
-                  </ListCellContent>
-                </FormControlField>
-              }
-            >
-              알림 받기
-            </ListCell>
-          )}
-        />
-        <Controller
-          control={form.control}
-          name="darkMode"
-          render={({ field, formState }) => (
-            <ListCell
-              as={FormControl}
-              disableInteraction
-              trailingContent={
-                <FormControlField>
-                  <ListCellContent variant="switch">
-                    <Switch
-                      {...field}
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                    />
-                  </ListCellContent>
-                </FormControlField>
-              }
-            >
-              다크 모드
-            </ListCell>
-          )}
-        />
-      </List>
-      
-      <Button type="submit">제출</Button>
-    </FlexBox>
+    <List gap="16px" sx={{ width: '80%' }}>
+      <ListCell
+        textProps={{ description: 'Description' }}
+        trailingContent={
+          <ListCellContent variant="value">
+            Value
+          </ListCellContent>
+        }
+      >
+        Label, with value
+      </ListCell>
+      <ListCell
+        textProps={{ description: 'Description' }}
+        trailingContent={
+          <ListCellContent variant="icon-button">
+            <IconButton size={32} tabIndex={-1}>
+              <IconBlank />
+            </IconButton>
+          </ListCellContent>
+        }
+      >
+        Label, with icon button
+      </ListCell>
+      <ListCell
+        textProps={{ description: 'Description' }}
+        trailingContent={
+          <ListCellContent variant="icon">
+            <IconBlank />
+          </ListCellContent>
+        }
+      >
+        Label, with icon
+      </ListCell>
+      <ListCell
+        textProps={{ description: 'Description' }}
+        trailingContent={
+          <ListCellContent variant="checkbox">
+            <CheckMark tabIndex={-1} />
+          </ListCellContent>
+        }
+      >
+        Label, with checkbox
+      </ListCell>
+      <ListCell
+        textProps={{ description: 'Description' }}
+        trailingContent={
+          <ListCellContent variant="text-button">
+            <TextButton size="small" color="assistive" tabIndex={-1}>
+              Button
+            </TextButton>
+          </ListCellContent>
+        }
+      >
+        Label, with text button
+      </ListCell>
+      <ListCell
+        textProps={{ description: 'Description' }}
+        trailingContent={
+          <ListCellContent variant="content-badge">
+            <ContentBadge color="neutral" size="small">Badge</ContentBadge>
+          </ListCellContent>
+        }
+      >
+        Label, with content badge
+      </ListCell>
+      <ListCell
+        textProps={{ description: 'Description' }}
+        trailingContent={
+          <ListCellContent variant="toggle-icon">
+            <ToggleIcon size={20}>
+              <IconBlank />
+            </ToggleIcon>
+          </ListCellContent>
+        }
+      >
+        Label, with toggle icon
+      </ListCell>
+      <ListCell
+        textProps={{ description: 'Description' }}
+        trailingContent={
+          <ListCellContent variant="button">
+            <Button variant="solid" color="assistive" size="small" tabIndex={-1}>
+              Button
+            </Button>
+          </ListCellContent>
+        }
+      >
+        Label, with button
+      </ListCell>
+      <ListCell
+        textProps={{ description: 'Description' }}
+        trailingContent={
+          <ListCellContent variant="value" chevron>
+            Value
+          </ListCellContent>
+        }
+      >
+        Label, with chevron
+      </ListCell>
+      <ListCell
+        textProps={{ description: 'Description' }}
+        trailingContent={
+          <ListCellContent variant="switch">
+            <Switch />
+          </ListCellContent>
+        }
+      >
+        Label, with switch
+      </ListCell>
+      <ListCell
+        textProps={{ description: 'Description' }}
+        trailingContent={
+          <>
+            <ListCellContent variant="content-badge">
+              <ContentBadge color="neutral" size="small">Badge</ContentBadge>
+            </ListCellContent>
+            <ListCellContent variant="value" chevron>
+              Value
+            </ListCellContent>
+          </>
+        }
+      >
+        Label, with multiple content
+      </ListCell>
+    </List>
   )
 }
 
 export default Demo;`}
 />
+
+
+### Label trailing
+
+`labelTrailing`을 사용해서 레이블 우측에 콘텐츠를 추가할 수 있습니다.
+콘텐츠를 추가할 때는 `ListCellLabelTrailing`으로 래핑해서 사용합니다.
+
+아래 variant들을 사용합니다.
+- verified-check
+- content-badge
+- custom
+
+<Demo code={`import { List, ListCell, ListCellLabelTrailing, ContentBadge } from '@montage-ui/core';
+
+const Demo = () => {
+  return (
+    <List gap="16px" sx={{ width: '80%' }}>
+      <ListCell
+        textProps={{ description: 'Description' }}
+        labelTrailing={
+          <ListCellLabelTrailing variant="verified-check" />
+        }
+      >
+        Label, with verified check
+      </ListCell>
+      <ListCell
+        textProps={{ description: 'Description' }}
+        labelTrailing={
+          <ListCellLabelTrailing variant="content-badge">
+            <ContentBadge color="neutral" size="small">Badge</ContentBadge>
+          </ListCellLabelTrailing>
+        }
+      >
+        Label, with content badge
+      </ListCell>
+    </List>
+  )
+}
+
+export default Demo;`}
+/>
+
+### Extra content
+
+`extraContent`를 사용해서 텍스트 영역 하단에 추가 콘텐츠를 추가할 수 있습니다.
+콘텐츠를 추가할 때는 `ListCellExtraContent`로 래핑해서 사용합니다.
+
+아래 variant들을 사용합니다.
+- text
+- content-badge
+- custom
+
+<Demo code={`import { List, ListCell, ListCellExtraContent, ContentBadge } from '@montage-ui/core';
+
+const Demo = () => {
+  return (
+    <List gap="16px" sx={{ width: '80%' }}>
+      <ListCell
+        textProps={{ description: 'Description' }}
+        extraContent={
+          <ListCellExtraContent variant="text">
+            Extra text
+          </ListCellExtraContent>
+        }
+      >
+        Label, with extra text
+      </ListCell>
+      <ListCell
+        textProps={{ description: 'Description' }}
+        extraContent={
+          <ListCellExtraContent variant="content-badge">
+            <ContentBadge color="neutral" size="small">Badge</ContentBadge>
+          </ListCellExtraContent>
+        }
+      >
+        Label, with extra content badge
+      </ListCell>
+      <ListCell
+        textProps={{ description: 'Description' }}
+        extraContent={
+          <>
+            <ListCellExtraContent variant="content-badge">
+              <ContentBadge color="neutral" size="small">Badge</ContentBadge>
+            </ListCellExtraContent>
+            <ListCellExtraContent variant="text">
+              Extra text
+            </ListCellExtraContent>
+          </>
+        }
+      >
+        Label, with multiple extra content
+      </ListCell>
+    </List>
+  )
+}
+
+export default Demo;`}
+/>
+
+
+## Vertical align
+
+기본 수직 정렬은 `flex-start`입니다. `alignItems`로 수직 정렬을 조정할 수 있습니다.
+
+<Demo code={`import { List, ListCell, ListCellContent, ContentBadge, ListCellExtraContent, Checkbox, Thumbnail } from '@montage-ui/core'; 
+
+const Demo = () => {
+  return (
+    <List sx={{ width: '80%' }}>
+      <ListCell
+        textProps={{ description: 'Description' }}
+        leadingContent={
+          <>
+            <ListCellContent variant="checkbox">
+              <Checkbox tabIndex={-1} />
+            </ListCellContent>
+            <ListCellContent variant="thumbnail">
+              <Thumbnail border radius ratio="1:1" width="56px" />
+            </ListCellContent>
+          </>
+        }
+        trailingContent={
+          <>
+            <ListCellContent variant="content-badge">
+              <ContentBadge color="neutral" size="small">Badge</ContentBadge>
+            </ListCellContent>
+            <ListCellContent variant="value" chevron>
+              Value
+            </ListCellContent>
+          </>
+        }
+        extraContent={
+          <>
+            <ListCellExtraContent variant="content-badge">
+              <ContentBadge color="neutral" size="small">Badge</ContentBadge>
+            </ListCellExtraContent>
+            <ListCellExtraContent variant="text">
+              Extra text
+            </ListCellExtraContent>
+          </>
+        }
+      >
+        Label, Align flex start
+      </ListCell>
+
+      <ListCell
+        alignItems="center"
+        textProps={{ description: 'Description' }}
+        leadingContent={
+          <>
+            <ListCellContent variant="checkbox">
+              <Checkbox tabIndex={-1} />
+            </ListCellContent>
+            <ListCellContent variant="thumbnail">
+              <Thumbnail border radius ratio="1:1" width="56px" />
+            </ListCellContent>
+          </>
+        }
+        trailingContent={
+          <>
+            <ListCellContent variant="content-badge">
+              <ContentBadge color="neutral" size="small">Badge</ContentBadge>
+            </ListCellContent>
+            <ListCellContent variant="value" chevron>
+              Value
+            </ListCellContent>
+          </>
+        }
+        extraContent={
+          <>
+            <ListCellExtraContent variant="content-badge">
+              <ContentBadge color="neutral" size="small">Badge</ContentBadge>
+            </ListCellExtraContent>
+            <ListCellExtraContent variant="text">
+              Extra text
+            </ListCellExtraContent>
+          </>
+        }
+      >
+        Label, Align center
+      </ListCell>
+    </List>
+  )
+}
+
+export default Demo;`}
+/>
+
 
 ## Text ellipsis
 
@@ -500,20 +657,20 @@ export default Demo;`}
 import { IconBlank } from '@montage-ui/icon';
 
 const TITLE = '동해물과 백두산이 마르고 닳도록 하느님이 보우하사 우리나라 만세 무궁화 삼천리 화려 강산 대한사람 대한으로 길이 보전하세.';
-const CAPTION = '남산위에 저 소나무 철갑을 두른 듯 바람서리 불변함은 우리 기상일세 무궁화 삼천리 화려 강산 대한사람 대한으로 길이 보전하세.';
+const DESCRIPTION = '남산위에 저 소나무 철갑을 두른 듯 바람서리 불변함은 우리 기상일세 무궁화 삼천리 화려 강산 대한사람 대한으로 길이 보전하세.';
 
 const Demo = () => {
   return (
-    <List gap="16px" sx={{ width: '100%' }}>
+    <List gap="16px" sx={{ width: '25ch' }}>
       <ListCell
-        textProps={{ caption: CAPTION }}
+        textProps={{ description: DESCRIPTION }}
         leadingContent={
           <ListCellContent variant="large-icon">
             <IconBlank />
           </ListCellContent>
         }
         trailingContent={
-          <ListCellContent variant="chevron">
+          <ListCellContent variant="value" chevron>
             값
           </ListCellContent>
         }
@@ -522,14 +679,14 @@ const Demo = () => {
       </ListCell>
       <ListCell
         ellipsis
-        textProps={{ caption: CAPTION }}
+        textProps={{ description: DESCRIPTION }}
         leadingContent={
           <ListCellContent variant="large-icon">
             <IconBlank />
           </ListCellContent>
         }
         trailingContent={
-          <ListCellContent variant="chevron">
+          <ListCellContent variant="value" chevron>
             값
           </ListCellContent>
         }
@@ -556,3 +713,11 @@ export default Demo;`}
 ### ListCellContent
 
 <PropsTable component="ListCellContent" />
+
+### ListCellLabelTrailing
+
+<PropsTable component="ListCellLabelTrailing" />
+
+### ListCellExtraContent
+
+<PropsTable component="ListCellExtraContent" />

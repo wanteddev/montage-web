@@ -5,10 +5,15 @@ import {
   RovingFocusGroupItem,
 } from '@radix-ui/react-roving-focus';
 import { composeEventHandlers } from '@radix-ui/primitive';
-import { IconCheck } from '@montage-ui/icon';
 import { Slot } from '@radix-ui/react-slot';
 
-import { List, ListCell, ListCellContent } from '../list';
+import {
+  List,
+  ListCell,
+  ListCellContent,
+  ListCellExtraContent,
+  ListCellLabelTrailing,
+} from '../list';
 import { ScrollArea } from '../scroll-area';
 import { Radio } from '../radio';
 import { Checkbox } from '../checkbox';
@@ -26,6 +31,8 @@ import {
   MENU_GROUP_NAME,
   MENU_ITEM_CHECKBOX_NAME,
   MENU_ITEM_CONTENT_NAME,
+  MENU_ITEM_EXTRA_CONTENT_NAME,
+  MENU_ITEM_LABEL_TRAILING_NAME,
   MENU_ITEM_NAME,
   MENU_ITEM_RADIO_NAME,
   MENU_LIST_NAME,
@@ -44,7 +51,11 @@ import {
 } from './style';
 import { MenuItemProvider, MenuProvider, useMenuContext } from './contexts';
 
-import type { ListCellContentProps } from '../list';
+import type {
+  ListCellContentProps,
+  ListCellExtraContentProps,
+  ListCellLabelTrailingProps,
+} from '../list';
 import type {
   MenuActionAreaContentProps,
   MenuActionAreaProps,
@@ -248,13 +259,6 @@ const MenuItem = forwardRef<any, MenuItemProps>(
           selected={normalActive}
           aria-current={undefined}
           aria-checked={normalActive}
-          trailingContent={
-            normalActive ? (
-              <ListCellContent variant="icon">
-                <IconCheck data-role="menu-item-active-icon-check" />
-              </ListCellContent>
-            ) : null
-          }
           {...props}
           sx={[menuItemStyle, sx]}
           onClick={composeEventHandlers(props.onClick, (e) => {
@@ -321,6 +325,7 @@ const MenuItemRadio = forwardRef<any, MenuItemRadioProps>(
             <Radio tabIndex={-1} checked={checked} value={value} />
           </ListCellContent>
         }
+        trailingContent={null}
         aria-current={undefined}
         {...props}
         onClick={composeEventHandlers(props.onClick, (e) => {
@@ -368,6 +373,7 @@ const MenuItemCheckbox = forwardRef<any, MenuItemRadioProps>(
             />
           </ListCellContent>
         }
+        trailingContent={null}
         aria-current={undefined}
         {...props}
         onClick={composeEventHandlers(props.onClick, (e) => {
@@ -391,6 +397,24 @@ const MenuItemContent = forwardRef<
 });
 
 MenuItemContent.displayName = MENU_ITEM_CONTENT_NAME;
+
+const MenuItemLabelTrailing = forwardRef<
+  HTMLDivElement,
+  DefaultComponentPropsInternal<ListCellLabelTrailingProps, 'div'>
+>((props, ref) => {
+  return <ListCellLabelTrailing ref={ref} {...props} />;
+});
+
+MenuItemLabelTrailing.displayName = MENU_ITEM_LABEL_TRAILING_NAME;
+
+const MenuItemExtraContent = forwardRef<
+  HTMLDivElement,
+  DefaultComponentPropsInternal<ListCellExtraContentProps, 'div'>
+>((props, ref) => {
+  return <ListCellExtraContent ref={ref} {...props} />;
+});
+
+MenuItemExtraContent.displayName = MENU_ITEM_EXTRA_CONTENT_NAME;
 
 const MenuActionArea = forwardRef<
   HTMLDivElement,
@@ -486,6 +510,8 @@ export {
   MenuGroup,
   MenuItem,
   MenuItemContent,
+  MenuItemLabelTrailing,
+  MenuItemExtraContent,
   MenuActionArea,
   MenuActionAreaContent,
 };
@@ -498,6 +524,8 @@ export type {
   MenuGroupProps,
   MenuItemProps,
   ListCellContentProps as MenuItemContentProps,
+  ListCellLabelTrailingProps as MenuItemLabelTrailingProps,
+  ListCellExtraContentProps as MenuItemExtraContentProps,
   MenuActionAreaProps,
   MenuActionAreaContentProps,
 };

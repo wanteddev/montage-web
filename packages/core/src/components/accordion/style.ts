@@ -1,6 +1,6 @@
 import { css, keyframes } from '@montage-ui/engine';
 
-import type { AccordionSummaryContentProps } from './types';
+import type { Theme } from '@montage-ui/engine';
 
 export const accordionStyle = ({
   disabled,
@@ -55,60 +55,40 @@ export const accordionSummaryTextStyle = css`
   justify-content: center;
 `;
 
-export const accordionSummaryContentStyle = ({
-  expanded,
-  disableAnimation,
-  rotate,
-  variant,
-}: {
-  rotate: boolean;
-  expanded: boolean;
-  disableAnimation: boolean;
-  variant: AccordionSummaryContentProps['variant'];
-}) => css`
-  min-width: 20px;
-  font-size: 20px;
-  min-height: 24px;
-  z-index: 1;
+export const accordionSummaryContentStyle =
+  ({
+    expanded,
+    disableAnimation,
+    rotate,
+  }: {
+    rotate: boolean;
+    expanded: boolean;
+    disableAnimation: boolean;
+  }) =>
+  (theme: Theme) => css`
+    min-width: ${theme.dimension[20]};
+    font-size: ${theme.dimension[20]};
+    min-height: ${theme.dimension[24]};
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
 
-  ${variant === 'icon' &&
-  css`
-    &[data-role='list-item-trailing-content'],
-    &[data-role='accordion-summary-expand-icon'] {
-      padding: 2px 0px;
-    }
-
-    &:not(
-      :is(
-        [data-role='list-item-trailing-content'],
-        [data-role='accordion-summary-expand-icon']
-      )
-    ) {
-      padding: 2px;
-    }
-  `}
-
-  [data-component='icon-button'] {
-    width: 100%;
-    height: 100%;
-  }
-
-  ${rotate &&
-  css`
-    will-change: transform;
-    transform: rotate(0deg);
-
-    ${!disableAnimation &&
+    ${rotate &&
     css`
-      transition: transform 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
-    `}
+      will-change: transform;
+      transform: rotate(0deg);
 
-    ${expanded &&
-    css`
-      transform: rotate(180deg);
+      ${!disableAnimation &&
+      css`
+        transition: transform 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+      `}
+
+      ${expanded &&
+      css`
+        transform: rotate(180deg);
+      `}
     `}
-  `}
-`;
+  `;
 
 const mountKeyframes = keyframes`
   from {
