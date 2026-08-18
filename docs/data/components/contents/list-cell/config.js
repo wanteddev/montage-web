@@ -64,7 +64,7 @@ module.exports = {
           break;
         case 'Badge':
           trailingContent =
-            '<ListCellContent variant="content-badge"><ContentBadge color="neutral">Badge</ContentBadge></ListCellContent>';
+            '<ListCellContent variant="content-badge"><ContentBadge color="neutral" size="small">Badge</ContentBadge></ListCellContent>';
           break;
         case 'Checkbox':
           trailingContent =

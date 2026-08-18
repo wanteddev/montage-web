@@ -102,6 +102,7 @@ export const listCellLeadingContentAreaStyle = (theme: Theme) => css`
   min-height: ${theme.dimension[24]};
   gap: ${theme.spacing[8]};
 
+  --list-cell-content-icon-size: 22px;
   --list-cell-content-icon-padding: ${theme.spacing[4]};
   --list-cell-content-control-padding: ${theme.spacing[2]};
   --list-cell-content-image-padding: ${theme.spacing[8]};
@@ -109,7 +110,6 @@ export const listCellLeadingContentAreaStyle = (theme: Theme) => css`
 `;
 
 export const listCellTrailingContentAreaStyle = (theme: Theme) => css`
-  padding-left: ${theme.spacing[8]};
   min-height: ${theme.dimension[24]};
   gap: ${theme.spacing[8]};
 
@@ -294,7 +294,8 @@ const listCellContentVariantStyle = (
           --list-cell-content-icon-color,
           ${theme.semantic.foreground.neutral.tertiary}
         );
-        font-size: ${theme.dimension[20]};
+        font-size: var(--list-cell-content-icon-size, ${theme.dimension[20]});
+        margin-right: var(--list-cell-content-icon-padding, 0px);
 
         &[data-role='list-cell-selected-icon-check'] {
           color: ${theme.semantic.foreground.brand.primary};
