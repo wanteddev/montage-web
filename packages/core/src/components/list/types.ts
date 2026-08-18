@@ -6,7 +6,7 @@ import type {
   SxProp,
   WithSxProps,
 } from '@montage-ui/engine';
-import type { CSSProperties, ComponentProps, ReactNode } from 'react';
+import type { ComponentProps, ReactNode } from 'react';
 import type { FlexBoxProps } from '../flex-box/types';
 
 export type ListProps = FlexBoxProps;
@@ -16,12 +16,11 @@ export type ListCellDefaultProps = WithSxProps<{
   /** The vertical padding of the cell. */
   verticalPadding?: 'small' | 'medium' | 'large' | 'none';
   /**
-   * Whether to fill the width of the parent.
-   * Now, the interaction's padding inline is included in the overall width and the interaction's border radius has been removed.
+   * The layout variant of the cell. Defaults to `inset`.
+   * `inset` removes the horizontal padding and rounds the cell's corners.
+   * `full` adds horizontal padding, stretches the interaction area to the full width, and removes the border radius.
    */
-  fillWidth?: boolean;
-  /** When `fillWidth` is false, the left and right padding of the interaction can be specified. */
-  interactionPadding?: CSSProperties['paddingLeft'];
+  variant?: 'inset' | 'full';
   /** Show ellipsis when text overflows. */
   ellipsis?: boolean;
   /** Whether to show the divider. */
@@ -39,8 +38,8 @@ export type ListCellDefaultProps = WithSxProps<{
   textProps?: Merge<
     TypographyProps,
     {
-      caption?: ReactNode;
-      captionProps?: ComponentProps<typeof Typography>;
+      description?: ReactNode;
+      descriptionProps?: ComponentProps<typeof Typography>;
       children?: ReactNode;
       sx?: SxProp;
     }
@@ -55,13 +54,20 @@ export type ListCellDefaultProps = WithSxProps<{
    * Pass an element wrapped with `ListCellContent`.
    */
   trailingContent?: ReactNode;
+  /**
+   * Content displayed in the label's trailing area.
+   * Pass an element wrapped with `ListCellLabelTrailing`.
+   */
+  labelTrailing?: ReactNode;
+  /**
+   * Content displayed below the label and description.
+   * Pass an element wrapped with `ListCellExtraContent`.
+   */
+  extraContent?: ReactNode;
 }>;
 
 export type ListCellResponsiveProps = ResponsiveProps<
-  Pick<
-    ListCellDefaultProps,
-    'verticalPadding' | 'fillWidth' | 'interactionPadding'
-  >
+  Pick<ListCellDefaultProps, 'verticalPadding'>
 >;
 
 export type ListCellProps = Merge<
@@ -75,22 +81,35 @@ export type ListCellContentProps = WithSxProps<{
     | 'icon'
     | 'radio'
     | 'checkbox'
-    | 'chevron'
     | 'icon-button'
+    | 'toggle-icon'
+    | 'text-button'
     | 'button'
     | 'switch'
-    | 'badge'
+    | 'content-badge'
     | 'avatar'
     | 'large-icon'
     | 'value'
     | 'thumbnail'
     | 'custom';
-  disabled?: boolean;
   /**
-   * Displays the chevron when the variant is 'chevron'.
+   * Displays the chevron.
    */
   chevron?: boolean;
   children?: ReactNode;
 }>;
 
-export type ListTextProps = ListCellProps['textProps'];
+export type ListCellLabelTrailingProps = WithSxProps<{
+  /** The variant of the label trailing. */
+  variant?: 'content-badge' | 'verified-check' | 'custom';
+}>;
+
+export type ListCellExtraContentProps = WithSxProps<{
+  /** The variant of the extra content. */
+  variant?: 'content-badge' | 'text' | 'custom';
+}>;
+
+export type ListTextProps = Merge<
+  Pick<ListCellProps, 'extraContent' | 'labelTrailing'>,
+  ListCellProps['textProps']
+>;

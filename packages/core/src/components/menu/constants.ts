@@ -7,6 +7,9 @@ export const MENU_GROUP_NAME = 'MenuGroup';
 
 export const MENU_ITEM_NAME = 'MenuItem';
 export const MENU_ITEM_CONTENT_NAME = 'MenuItemContent';
+export const MENU_ITEM_LABEL_TRAILING_NAME = 'MenuItemLabelTrailing';
+export const MENU_ITEM_EXTRA_CONTENT_NAME = 'MenuItemExtraContent';
+
 export const MENU_ITEM_RADIO_NAME = 'MenuItemRadio';
 export const MENU_ITEM_CHECKBOX_NAME = 'MenuItemCheckbox';
 
