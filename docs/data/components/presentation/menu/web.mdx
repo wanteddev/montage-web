@@ -280,7 +280,7 @@ const Demo = () => {
             variant="radio"
             value="item1"
             trailingContent={(
-              <MenuItemContent variant="badge">
+              <MenuItemContent variant="content-badge">
                 <ContentBadge color="neutral" size="xsmall">
                   Badge
                 </ContentBadge>
@@ -306,7 +306,7 @@ const Demo = () => {
             variant="radio"
             value="item3"
             trailingContent={(
-              <MenuItemContent variant="button">
+              <MenuItemContent variant="text-button">
                 <TextButton size="small" color="assistive">
                   Button
                 </TextButton>
@@ -314,6 +314,96 @@ const Demo = () => {
             )}
           >
             Item 3
+          </MenuItem>
+        </MenuList>
+      </MenuContent>
+    </Menu>
+  )
+}
+
+export default Demo;`}
+/>
+
+### Label trailing
+
+`MenuItem` 컴포넌트에 `labelTrailing` prop 을 사용하여 레이블 우측에 콘텐츠를 추가할 수 있습니다.
+
+`MenuItemLabelTrailing` 으로 감싸서 사용합니다.
+
+<Demo code={`import { Button, Menu, MenuTrigger, MenuContent, MenuItem, MenuList, MenuItemLabelTrailing, ContentBadge } from '@montage-ui/core';
+
+const Demo = () => {
+  return (
+    <Menu>
+      <MenuTrigger>
+        <Button>Click me</Button>
+      </MenuTrigger>
+
+      <MenuContent>
+        <MenuList>
+          <MenuItem
+            value="item1"
+            labelTrailing={(
+              <MenuItemLabelTrailing variant="verified-check" />
+            )}
+          >
+            Item 1
+          </MenuItem>
+          <MenuItem
+            value="item2"
+            labelTrailing={(
+              <MenuItemLabelTrailing variant="content-badge">
+                <ContentBadge color="neutral" size="xsmall">Badge</ContentBadge>
+              </MenuItemLabelTrailing>
+            )}
+          >
+            Item 2
+          </MenuItem>
+        </MenuList>
+      </MenuContent>
+    </Menu>
+  )
+}
+
+export default Demo;`}
+/>
+
+### Extra content
+
+`MenuItem` 컴포넌트에 `extraContent` prop 을 사용하여 텍스트 영역 하단에 추가 콘텐츠를 추가할 수 있습니다.
+
+`MenuItemExtraContent` 로 감싸서 사용합니다.
+
+<Demo code={`import { Button, Menu, MenuTrigger, MenuContent, MenuItem, MenuList, MenuItemExtraContent, ContentBadge } from '@montage-ui/core';
+
+const Demo = () => {
+  return (
+    <Menu>
+      <MenuTrigger>
+        <Button>Click me</Button>
+      </MenuTrigger>
+
+      <MenuContent>
+        <MenuList>
+          <MenuItem
+            value="item1"
+            extraContent={(
+              <MenuItemExtraContent variant="text">
+                Extra text
+              </MenuItemExtraContent>
+            )}
+          >
+            Item 1
+          </MenuItem>
+          <MenuItem
+            value="item2"
+            extraContent={(
+              <MenuItemExtraContent variant="content-badge">
+                <ContentBadge color="neutral" size="xsmall">Badge</ContentBadge>
+              </MenuItemExtraContent>
+            )}
+          >
+            Item 2
           </MenuItem>
         </MenuList>
       </MenuContent>
@@ -557,6 +647,18 @@ export default Demo;`}
 ### MenuItemContent
 
 <PropsTable component="MenuItemContent" />
+
+### MenuItemLabelTrailing
+
+`ListCellLabelTrailing`과 동일한 props를 사용합니다.
+
+<PropsTable component="MenuItemLabelTrailing" />
+
+### MenuItemExtraContent
+
+`ListCellExtraContent`와 동일한 props를 사용합니다.
+
+<PropsTable component="MenuItemExtraContent" />
 
 ### MenuActionArea
 

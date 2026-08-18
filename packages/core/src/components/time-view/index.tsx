@@ -342,7 +342,7 @@ const TimeItem = forwardRef<
       >
         <ListCell
           ref={ref}
-          fillWidth
+          variant="full"
           verticalPadding="small"
           selected={active}
           value={value}
@@ -351,6 +351,7 @@ const TimeItem = forwardRef<
           aria-selected={active}
           aria-label={text}
           data-role={`time-item-${view}`}
+          trailingContent={null}
           disabled={isDisabled}
           {...{
             [`data-${view}`]: textValue,
