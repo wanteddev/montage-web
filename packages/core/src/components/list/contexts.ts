@@ -8,7 +8,7 @@ type ListCellContextType = Required<
   Pick<ListCellProps, 'selected' | 'disabled' | 'ellipsis'>
 > & {
   textId: string;
-  captionId: string;
+  descriptionId: string;
 };
 
 export const [ListCellProvider, useListCellContext] =

@@ -57,7 +57,7 @@ export const listCellStyle =
       pointer-events: none;
       color: ${theme.semantic.foreground.disable.primary};
 
-      [data-role='list-text-caption'],
+      [data-role='list-text-description'],
       [data-role='list-text-wrapper'] {
         color: ${theme.semantic.foreground.disable.primary};
       }

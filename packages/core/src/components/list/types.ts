@@ -38,8 +38,8 @@ export type ListCellDefaultProps = WithSxProps<{
   textProps?: Merge<
     TypographyProps,
     {
-      caption?: ReactNode;
-      captionProps?: ComponentProps<typeof Typography>;
+      description?: ReactNode;
+      descriptionProps?: ComponentProps<typeof Typography>;
       children?: ReactNode;
       sx?: SxProp;
     }
@@ -60,7 +60,7 @@ export type ListCellDefaultProps = WithSxProps<{
    */
   labelTrailing?: ReactNode;
   /**
-   * Content displayed below the label and caption.
+   * Content displayed below the label and description.
    * Pass an element wrapped with `ListCellExtraContent`.
    */
   extraContent?: ReactNode;

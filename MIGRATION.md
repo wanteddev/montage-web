@@ -1164,6 +1164,27 @@ ListCell을 기반으로 하는 컴포넌트에 공통 적용됩니다:
 - `chevron`은 독립 variant에서 **모든 variant에 조합 가능한 prop**이 되었고, 기본값이 `true`에서 `false`로 바뀌었습니다. v3에서 `variant="chevron"`은 화살표가 기본 표시였으므로 변환 시 `chevron`을 켜야 동작이 보존됩니다.
 - 신규 variant: `toggle-icon`(ToggleIcon용), `text-button`(TextButton용), `button`(일반 Button용).
 
+#### `textProps`의 `caption` → `description`
+
+셀 하단 보조 텍스트의 이름이 `caption`에서 `description`으로 바뀌었습니다. 셀 계열 전부(`ListCell`, `AccordionSummary`, `AutocompleteOption`, `Option`, `MenuItem`)가 같은 `textProps`를 물려받으므로 공통 적용됩니다.
+
+| AS-IS                                   | TO-BE                                       |
+| --------------------------------------- | ------------------------------------------- |
+| `textProps={{ caption: '설명' }}`       | `textProps={{ description: '설명' }}`       |
+| `textProps={{ captionProps: { ... } }}` | `textProps={{ descriptionProps: { ... } }}` |
+| `data-role="list-text-caption"`         | `data-role="list-text-description"`         |
+
+```tsx
+// AS-IS
+<ListCell textProps={{ caption: '보조 설명' }}>레이블</ListCell>
+
+// TO-BE
+<ListCell textProps={{ description: '보조 설명' }}>레이블</ListCell>
+```
+
+- 타입에서 사라진 이름이라 객체 리터럴로 넘기던 `caption` / `captionProps`는 초과 프로퍼티 검사에 걸려 타입 에러로 드러납니다. 다만 `textProps`를 변수로 조립해 넘기던 코드는 조용히 무시되므로 직접 확인해야 합니다.
+- `data-role="list-text-caption"`을 CSS 셀렉터나 테스트 쿼리로 타겟팅하던 코드는 함께 바꿔야 합니다.
+
 #### `selected` 기본 체크 아이콘
 
 `selected`일 때 `trailingContent` 기본값으로 브랜드 컬러 체크 아이콘이 표시됩니다.
@@ -1240,6 +1261,7 @@ CSS 셀렉터나 테스트 쿼리로 내부 DOM을 타겟팅하던 코드는 확
 | ----------------------------------------- | ------------------------------------------- |
 | `data-role="list-item-trailing-content"`  | `data-role="list-cell-trailing-content"`    |
 | `data-role="menu-item-active-icon-check"` | `data-role="list-cell-selected-icon-check"` |
+| `data-role="list-text-caption"`           | `data-role="list-text-description"`         |
 
 신규 식별자: `list-cell-leading-content`, `list-cell-label-trailing`, `list-cell-extra-content`, `list-cell-extra-content-area`, `list-cell-content-chevron`.
 
@@ -1263,12 +1285,15 @@ npx @montage-ui/codemod@latest list-cell-variant-migration src
 - `xs`/`sm`/`md`/`lg`/`xl` 객체 안의 `fillWidth` / `interactionPadding` 키 제거 (리포트 출력)
 - 콘텐츠 계열의 `variant="badge"` → `"content-badge"`, `variant="button"` → `"text-button"`, `variant="chevron"` → `variant="value" chevron`
 - 콘텐츠 계열의 `disabled` prop 제거
+- 셀 계열 `textProps` 객체 안의 `caption` → `description`, `captionProps` → `descriptionProps` (축약형 `{ caption }`은 `{ description: caption }`으로 펼쳐 지역 변수 이름은 그대로 둡니다)
 
 코드모드가 변환하지 못하는 것(수동 확인 필요):
 
 - `MenuItem` / `Option`의 켜진 `fillWidth` — 대체 prop이 없어 건드리지 않고 리포트만 남깁니다(정적으로 꺼진 `fillWidth={false}`는 죽은 prop이라 제거).
 - `variant={someVariable}`처럼 문자열 리터럴이 아닌 `variant`.
 - `{...props}` 스프레드나 컴포넌트 밖에서 조립된 props 객체.
+- 객체 리터럴이 아닌 `textProps`(`textProps={props.textProps}`)나 스프레드가 섞인 `textProps` — 키를 정적으로 볼 수 없어 리포트만 남깁니다.
+- `data-role="list-text-caption"`을 참조하던 CSS 셀렉터·테스트 쿼리.
 - `fillWidth`와 `variant`가 한 요소에 같이 있는 경우 — 손으로 옮기다 만 파일로 보고 건드리지 않습니다(리포트 출력).
 - 반응형 `fillWidth`의 대체 — 키는 제거되지만 `variant`가 반응형을 지원하지 않아 필요 시 `sx` 분기를 직접 작성해야 합니다.
 - `selected`만 쓰고 `trailingContent`가 없던 셀의 체크 아이콘 노출 여부 — 의도 판단이 필요해 코드를 바꾸지 않습니다. 다만 `leadingContent`에 Checkbox / Radio / Switch가 있으면서 `trailingContent`가 없는 셀은 어포던스가 중복되므로 `trailingContent={null}`을 직접 넣어야 합니다.

@@ -128,7 +128,8 @@ inputs and outputs, and it is not import-gated) — its position follows the MIG
 section order. Steps 7, 8 and 9 are likewise order-independent (step 7's surface is the
 `PushBadge` `variant` / `count` / `text` props, step 8's is the `invalid` / `positive` props
 of the input-family components and `framedStyle`, and step 9's is the ListCell-family
-`fillWidth` / `interactionPadding` / content-`variant` props — its import gate accepts both
+`fillWidth` / `interactionPadding` / content-`variant` props and the `caption` /
+`captionProps` keys inside `textProps` — its import gate accepts both
 `@wanteddev/wds` and `@montage-ui/core`, so it works before or after step ①, and no other
 transform reads or writes any of its attributes: step ⑦ also rewrites an attribute literally
 named `variant`, but only on `PushBadge`, a disjoint component set with disjoint values);
@@ -206,8 +207,13 @@ grep -rnE '<(TextField|TextArea|Select|SelectMultiple|DatePicker|DateRangePicker
 #    without the anchor: MenuActionAreaContent is out of the transform's scope, and
 #    hand-authored v4 code writes these values too — which still counts as presence (the
 #    pair rule's "by codemod or by hand"), but only on the components the transform owns.
+#    The third alternative is the textProps rename's own signal: `descriptionProps` is a
+#    Montage-specific token that needs no component anchor, and it is the ONLY presence
+#    evidence in a repo whose sole step-⑨ surface was `textProps={{ caption }}` (the bare
+#    key `description:` is deliberately NOT in the pattern — consumers own that word
+#    everywhere and it would make the grep fire on any repo).
 #    Aliased imports (ListCell as Cell) and multi-line props escape it — see the caveat below
-grep -rnE '<(ListCell|AccordionSummary|AutocompleteOption)[[:space:]][^>]*variant="(inset|full)"|<(ListCellContent|OptionContent|MenuItemContent|AutocompleteOptionContent|AccordionSummaryContent)[[:space:]][^>]*variant="(content-badge|text-button)"' <targets>
+grep -rnE '<(ListCell|AccordionSummary|AutocompleteOption)[[:space:]][^>]*variant="(inset|full)"|<(ListCellContent|OptionContent|MenuItemContent|AutocompleteOptionContent|AccordionSummaryContent)[[:space:]][^>]*variant="(content-badge|text-button)"|\bdescriptionProps\b' <targets>
 ```
 
 Read the pair together, never either alone: both zero means the repo simply never used that
@@ -936,11 +942,20 @@ Migrates the v4 ListCell rework across the ListCell family:
 |                                                                                                                            | 켜진 / 동적 `fillWidth`             | **변환 안 함** — 리포트만 남기고 M17로 (아래) |
 | 셀 5종 모두                                                                                                                | `interactionPadding`                | 제거 + 리포트 (v4는 12px 고정)                |
 |                                                                                                                            | `xs`–`xl` 객체의 위 두 키           | 키 제거 + 리포트 (variant는 반응형 미지원)    |
+|                                                                                                                            | `textProps`의 `caption`             | `description`                                 |
+|                                                                                                                            | `textProps`의 `captionProps`        | `descriptionProps`                            |
 | 콘텐츠 5종 (`ListCellContent`, `OptionContent`, `MenuItemContent`, `AutocompleteOptionContent`, `AccordionSummaryContent`) | `variant="badge"`                   | `variant="content-badge"`                     |
 |                                                                                                                            | `variant="button"`                  | `variant="text-button"`                       |
 |                                                                                                                            | `variant="chevron"`                 | `variant="value" chevron`                     |
 |                                                                                                                            | `variant="chevron" chevron={false}` | `variant="value"`                             |
 |                                                                                                                            | `disabled`                          | 제거 (셀의 disabled가 context로 전파)         |
+
+`textProps`는 셀 5종이 모두 ListCell에서 그대로 물려받는 prop이라 `caption` → `description`
+변환은 다섯 컴포넌트에 동일하게 적용된다(`MenuItem` / `Option` 포함 — 이 rename에는
+variant 충돌 문제가 없다). 축약형 `{ caption }`은 값이 같은 이름의 지역 변수이므로
+`{ description: caption }`으로 펼쳐 변수 이름은 건드리지 않는다. 삼항·논리식 양쪽의 객체
+리터럴까지 훑지만, `textProps={props.textProps}`처럼 객체 리터럴이 아니거나 스프레드가
+섞인 경우는 키를 정적으로 볼 수 없어 **리포트만 남기고 M17로 넘긴다**.
 
 `MenuItem` / `Option`의 켜진 `fillWidth`를 변환하지 않는 이유: 두 컴포넌트의 `variant`는
 자체 값(`'normal' | 'radio' | 'checkbox'`)이 ListCell의 variant를 덮어쓰므로
@@ -952,7 +967,8 @@ Migrates the v4 ListCell rework across the ListCell family:
 
 **No-op on its own output, but NOT safe on hand-authored v4 code.** Within the transform's
 own map no rename VALUE re-enters as a rename KEY (`content-badge` / `text-button` / `value`
-/ `full` / `inset` are never inputs), so a second run over its own output changes nothing —
+/ `full` / `inset` / `description` / `descriptionProps` are never inputs), so a second run
+over its own output changes nothing —
 the skip-and-report cases (MenuItem/Option `fillWidth`, `fillWidth`+`variant` coexistence)
 just report again. The corruption vector is different: **v4 reuses the name `button`** — the
 new content variant union carries BOTH `text-button` (old TextButton style) and `button` (a
@@ -1001,14 +1017,15 @@ the choice is the user's:
    manual phase, where post-codemod v4 adoption is sanctioned. Re-running with the file
    unchanged aborts identically every time — there is no "acknowledge and proceed" flag.
 
-Post-step verification (four greps; ① is a conditional-zero and ④ is report-only, see the
-classes):
+Post-step verification (five greps; ① is a conditional-zero, ④ is report-only, and ⑤ is
+split zero/judged — see the classes):
 
 ```sh
 grep -rnE '\b(fillWidth|interactionPadding)\b' <targets>
 grep -rnE 'variant="chevron"' <targets>
 grep -rnE '<(ListCellContent|OptionContent|MenuItemContent|AutocompleteOptionContent|AccordionSummaryContent)[[:space:]][^>]*variant="(badge|button)"' <targets>
 grep -rnE '<(ListCellContent|OptionContent|MenuItemContent|AutocompleteOptionContent|AccordionSummaryContent)[[:space:]][^>]*variant=\{' <targets>
+grep -rnE '\bcaptionProps\b|\bcaption\b[[:space:]]*[:,}]' <targets>
 ```
 
 Remaining hits come from these places, none a reason to re-run the codemod:
@@ -1016,7 +1033,9 @@ Remaining hits come from these places, none a reason to re-run the codemod:
 - **MenuItem / Option `fillWidth`** the transform deliberately left (reported during the
   run) — M17 owns the sx decision; do not convert them to `variant="full"`.
 - **Props objects and `{...spread}`** built outside the JSX element — invisible to the
-  transform; M17's scans are the net.
+  transform; M17's scans are the net. The same applies to a non-literal or spread-carrying
+  `textProps` (`textProps={props.textProps}`, `textProps={{ ...base }}`): the transform
+  reports it and leaves the `caption` key alone.
 - **Gate-skipped files** (namespace / re-export / subpath imports) — fix by hand NOW against
   the table above; confirm each identifier really comes from a montage source first.
 - **Duplicate-specifier files** (the SAME component imported plain + aliased): the import
@@ -1037,7 +1056,19 @@ Remaining hits come from these places, none a reason to re-run the codemod:
   same scan as its own net) — judging whether an expression can produce
   `badge` / `button` / `chevron` is M17's, not this step's.
 
-All four greps are line-based over an AST transform: multi-line props escape them all, and
+- The fifth grep covers the `textProps` rename and splits into two criteria. The
+  `captionProps` half is expected **ZERO** — it is a Montage-only token with no other
+  owner. The `caption` half (`caption:` / `caption,` / `caption }`, which also catches the
+  shorthand `{ caption }`) is **JUDGED**: a hit inside a Montage `textProps` object is a
+  leftover for M17 (props objects built outside the JSX, non-literal `textProps`, and
+  gate-skipped files all land here), but the word has other legitimate owners in v4 —
+  **`ActionArea`'s own `caption` prop is valid v4 API and must never be renamed**, and
+  consumer or third-party objects (chart configs, i18n bundles) carry `caption:` keys of
+  their own. Confirm each hit really is a ListCell-family `textProps` before touching it.
+  Note the pattern deliberately does not match `caption=`, so `<ActionArea caption={…}>`
+  never appears in the output at all.
+
+All five greps are line-based over an AST transform: multi-line props escape them all, and
 aliased content components escape the anchored ones. A clean result is "nothing obvious",
 and M17's scans are the wider net.
 

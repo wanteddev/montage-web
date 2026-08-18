@@ -1,6 +1,6 @@
 ---
 name: montage-v3-to-v4
-description: This skill should be used when the user asks to migrate a project from Montage (WDS) v3 to v4, upgrade @wanteddev/wds to @montage-ui/* 4.x, run any Montage v4 codemod (package-name-migration, semantic-token-migration, css-variable-migration, dom-identifier-migration, list-card-migration, form-control-migration, push-badge-migration, status-migration, list-cell-variant-migration), or resume an in-progress v4 migration. Triggers include "montage v4 마이그레이션", "montage 4 적용해줘", "몬타지 v4로 올려줘", "wds 4.0으로 업그레이드", "디자인시스템 v4로 올려줘", "@montage-ui로 전환해줘", "마이그레이션 이어서 해줘", "form-control 코드모드만 돌려줘", "semantic 토큰 코드모드 돌려줘", "시멘틱 토큰 마이그레이션 해줘", "패키지명 마이그레이션만 해줘", "css 변수 코드모드 돌려줘", "dom 식별자 코드모드만 돌려줘", "list-card 코드모드만 돌려줘", "push-badge 코드모드만 돌려줘", "푸시뱃지 마이그레이션 해줘", "status 코드모드만 돌려줘", "invalid를 status로 바꿔줘", "list-cell 코드모드만 돌려줘", "리스트셀 마이그레이션 해줘", "fillWidth를 variant로 바꿔줘", "migrate to montage v4", "resume the montage migration", "run the form-control codemod", "run the semantic token codemod", "run the push-badge codemod", "run the status codemod", "run the list-cell codemod". Covers v3→v4 only (earlier migrations live in the wanteddev/montage-web repo's MIGRATION.md). Orchestrates the 9 codemods strictly in sequence with run-once protection, then guides the manual migrations.
+description: This skill should be used when the user asks to migrate a project from Montage (WDS) v3 to v4, upgrade @wanteddev/wds to @montage-ui/* 4.x, run any Montage v4 codemod (package-name-migration, semantic-token-migration, css-variable-migration, dom-identifier-migration, list-card-migration, form-control-migration, push-badge-migration, status-migration, list-cell-variant-migration), or resume an in-progress v4 migration. Triggers include "montage v4 마이그레이션", "montage 4 적용해줘", "몬타지 v4로 올려줘", "wds 4.0으로 업그레이드", "디자인시스템 v4로 올려줘", "@montage-ui로 전환해줘", "마이그레이션 이어서 해줘", "form-control 코드모드만 돌려줘", "semantic 토큰 코드모드 돌려줘", "시멘틱 토큰 마이그레이션 해줘", "패키지명 마이그레이션만 해줘", "css 변수 코드모드 돌려줘", "dom 식별자 코드모드만 돌려줘", "list-card 코드모드만 돌려줘", "push-badge 코드모드만 돌려줘", "푸시뱃지 마이그레이션 해줘", "status 코드모드만 돌려줘", "invalid를 status로 바꿔줘", "list-cell 코드모드만 돌려줘", "리스트셀 마이그레이션 해줘", "fillWidth를 variant로 바꿔줘", "listcell caption을 description으로 바꿔줘", "migrate to montage v4", "resume the montage migration", "run the form-control codemod", "run the semantic token codemod", "run the push-badge codemod", "run the status codemod", "run the list-cell codemod". Covers v3→v4 only (earlier migrations live in the wanteddev/montage-web repo's MIGRATION.md). Orchestrates the 9 codemods strictly in sequence with run-once protection, then guides the manual migrations.
 ---
 
 # montage-v3-to-v4
@@ -247,7 +247,8 @@ rewrites `package.json` a resume looks exactly like "already migrated".
    hunks outside those steps' rename surfaces (imports, semantic tokens, CSS variables,
    DOM identifiers, Card/Form identifiers, PushBadge `variant`/`count`/`text`,
    `invalid`/`positive` → `status`/`aria-invalid`, ListCell-family
-   `fillWidth`/`interactionPadding` → `variant` and content-variant renames) — anything
+   `fillWidth`/`interactionPadding` → `variant`, content-variant renames, and
+   `textProps`'s `caption`/`captionProps` → `description`/`descriptionProps`) — anything
    unexplained goes to the user before
    proceeding (or offer to commit the consistent dirty set as a baseline).
 4. **Targets.** Identify source directories to transform (default `src`). Include
@@ -692,12 +693,17 @@ both together when an M-section changes):
   already passes its own `trailingContent` never renders the default — never overwrite it
   with `null`. Dynamic content
   `variant={expr}` was skipped SILENTLY by step ⑨ — trace whether the expression can
-  produce `badge`/`button`/`chevron` and rewrite its sources. The renamed
-  `list-item-trailing-content` / `menu-item-active-icon-check` DOM identifiers are a
+  produce `badge`/`button`/`chevron` and rewrite its sources. `textProps`'s `caption` /
+  `captionProps` became `description` / `descriptionProps`: step ⑨ rewrote every object
+  literal, so what is left is the non-literal or spread-carrying `textProps` it reported,
+  props objects built outside the JSX, and consumer wrappers forwarding their own
+  `caption` — a **[decision]** scan, because `ActionArea`'s `caption` prop is valid v4 API
+  and must never be renamed. The renamed `list-item-trailing-content` /
+  `menu-item-active-icon-check` / `list-text-caption` DOM identifiers are a
   mechanical **[zero]** rename of every consumer selector and test query that references
   them (stylesheets included) — they match nothing until renamed. Typography (label
-  body1→body2·medium, caption label1→label2), the `ListText` `p`→`div` DOM change, and the
-  opacity→disable-token disabled restyle are review-and-QA items, not code rewrites.
+  body1→body2·medium, description label1→label2), the `ListText` `p`→`div` DOM change, and
+  the opacity→disable-token disabled restyle are review-and-QA items, not code rewrites.
 
 M1 (package.json + configs) ends with a dependency install to refresh the lockfile.
 Mark each M-section `completed` in the state file as it finishes.
@@ -763,7 +769,8 @@ Mark each M-section `completed` in the state file as it finishes.
    show BOTH the negative border and the positive icon, which `status` can no longer express
    at once (see M16) — plus every ListCell-family list (ListCell / Accordion / Select and
    Autocomplete options / Menu items: label typography dropped to body2·medium with bold
-   selection, captions to label2, icons 24→20, inset radius 12→16, disabled restyled from
+   selection, the sub-label (`textProps.caption`, now `description`) to label2,
+   icons 24→20, inset radius 12→16, disabled restyled from
    opacity to disable tokens, and `selected` cells without a trailingContent now show a
    default check icon, which must be suppressed with `trailingContent={null}` wherever
    `leadingContent` already carries a selection control and no explicit `trailingContent`

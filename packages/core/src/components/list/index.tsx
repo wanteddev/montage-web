@@ -122,7 +122,7 @@ const ListCell = forwardRef(
     const clickable = !disabled && !disableInteraction;
 
     const textId = useId();
-    const captionId = useId();
+    const descriptionId = useId();
 
     return (
       <ListCellProvider
@@ -130,7 +130,7 @@ const ListCell = forwardRef(
         disabled={disabled}
         ellipsis={ellipsis}
         textId={textId}
-        captionId={captionId}
+        descriptionId={descriptionId}
       >
         <WithInteraction
           disabled={disabled || disableInteraction}
@@ -147,7 +147,7 @@ const ListCell = forwardRef(
             disabled={disabled}
             tabIndex={clickable ? 0 : undefined}
             aria-labelledby={textId}
-            aria-describedby={captionId}
+            aria-describedby={descriptionId}
             aria-current={selected}
             data-disable-interaction={
               disabled || disableInteraction || verticalPadding === 'none'
@@ -517,8 +517,8 @@ const ListText = forwardRef(
       weight: givenWeight,
       color,
       children,
-      caption,
-      captionProps,
+      description,
+      descriptionProps,
       as,
       extraContent,
       labelTrailing,
@@ -526,7 +526,7 @@ const ListText = forwardRef(
     }: PolymorphicPropsInternal<ListTextProps, T>,
     ref: ForwardedRef<T>,
   ) => {
-    const { selected, ellipsis, textId, captionId } =
+    const { selected, ellipsis, textId, descriptionId } =
       useListCellContext(LIST_TEXT_NAME);
     const { selected: menuItemSelected } = useMenuItemContext() || {};
 
@@ -560,16 +560,16 @@ const ListText = forwardRef(
           {labelTrailing}
         </Box>
 
-        {Boolean(caption) && (
+        {Boolean(description) && (
           <Typography
             variant="label2"
             color="semantic.foreground.neutral.tertiary"
-            data-role="list-text-caption"
-            id={captionId}
-            {...captionProps}
-            sx={[listTextEllipsisStyle(ellipsis), captionProps?.sx]}
+            data-role="list-text-description"
+            id={descriptionId}
+            {...descriptionProps}
+            sx={[listTextEllipsisStyle(ellipsis), descriptionProps?.sx]}
           >
-            {caption}
+            {description}
           </Typography>
         )}
 

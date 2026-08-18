@@ -111,3 +111,107 @@ describe('list-cell-variant-migration — fillWidth', () => {
     });
   });
 });
+
+describe('list-cell-variant-migration — textProps', () => {
+  it('caption을 description으로 바꾼다', () => {
+    const { output } = applyTransform(
+      withImport(`<ListCell textProps={{ caption: '설명' }}>레이블</ListCell>`),
+    );
+
+    expect(output).toContain(`textProps={{ description: '설명' }}`);
+    expect(output).not.toContain('caption');
+  });
+
+  it('captionProps를 descriptionProps로 바꾼다', () => {
+    const { output } = applyTransform(
+      withImport(
+        `<ListCell textProps={{ captionProps: { color: 'red' } }}>레이블</ListCell>`,
+      ),
+    );
+
+    expect(output).toContain('descriptionProps');
+    expect(output).not.toContain('captionProps');
+  });
+
+  // 축약형에서 키만 바꾸면 값으로 쓰인 지역 변수 이름까지 함께 바뀐다.
+  it('축약형 { caption }을 { description: caption }으로 펼친다', () => {
+    const { output } = applyTransform(
+      withImport('<ListCell textProps={{ caption }}>레이블</ListCell>'),
+    );
+
+    expect(output).toContain('description: caption');
+  });
+
+  it('문자열 키도 식별자 키로 정규화하며 바꾼다', () => {
+    const { output } = applyTransform(
+      withImport(
+        `<ListCell textProps={{ 'caption': '설명' }}>레이블</ListCell>`,
+      ),
+    );
+
+    expect(output).toContain(`description: '설명'`);
+    expect(output).not.toContain('caption');
+  });
+
+  it('나머지 textProps 키는 건드리지 않는다', () => {
+    const { output } = applyTransform(
+      withImport(
+        `<ListCell textProps={{ variant: 'body1', caption: '설명' }}>레이블</ListCell>`,
+      ),
+    );
+
+    expect(output).toContain(`variant: 'body1'`);
+    expect(output).toContain(`description: '설명'`);
+  });
+
+  it('삼항식 양쪽 객체를 모두 바꾼다', () => {
+    const { output } = applyTransform(
+      withImport(
+        `<ListCell textProps={dense ? { caption: 'a' } : { caption: 'b' }}>레이블</ListCell>`,
+      ),
+    );
+
+    expect(output).toContain(`description: 'a'`);
+    expect(output).toContain(`description: 'b'`);
+    expect(output).not.toContain('caption');
+  });
+
+  it('MenuItem의 textProps에도 적용한다', () => {
+    const { output } = applyTransform(
+      `import { MenuItem } from '@montage-ui/core';\n\nconst App = () => <MenuItem textProps={{ caption: '설명' }}>레이블</MenuItem>;\n`,
+    );
+
+    expect(output).toContain(`description: '설명'`);
+  });
+
+  it('객체 리터럴이 아니면 건드리지 않고 리포트를 남긴다', () => {
+    const { output, reports } = applyTransform(
+      withImport('<ListCell textProps={textProps}>레이블</ListCell>'),
+    );
+
+    expect(output).toContain('textProps={textProps}');
+    expect(reports).toHaveLength(1);
+    expect(reports[0]).toContain('객체 리터럴이 아니라');
+  });
+
+  it('스프레드가 섞이면 명시된 키만 바꾸고 리포트를 남긴다', () => {
+    const { output, reports } = applyTransform(
+      withImport(
+        `<ListCell textProps={{ ...base, caption: '설명' }}>레이블</ListCell>`,
+      ),
+    );
+
+    expect(output).toContain(`description: '설명'`);
+    expect(output).toContain('...base');
+    expect(reports).toHaveLength(1);
+    expect(reports[0]).toContain('스프레드');
+  });
+
+  it('textProps가 없으면 리포트하지 않는다', () => {
+    const { reports } = applyTransform(
+      withImport('<ListCell>레이블</ListCell>'),
+    );
+
+    expect(reports).toHaveLength(0);
+  });
+});

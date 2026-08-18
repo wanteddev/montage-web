@@ -25,7 +25,9 @@ module.exports = {
       const verticalPadding = value['Vertical padding'].toLowerCase();
       const verticalAlign = value['Vertical align'].toLowerCase();
       const textProps =
-        value['Description'] === 'True' ? "{ caption: 'Description' }" : '{}';
+        value['Description'] === 'True'
+          ? "{ description: 'Description' }"
+          : '{}';
 
       let leadingContent = null;
 

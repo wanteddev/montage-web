@@ -1111,8 +1111,8 @@ Step ⑨ `list-cell-variant-migration` already rewrote every literal JSX case on
 What is left is what the transform deliberately skipped, what a JSX-attribute transform
 cannot see, and the behavioral/visual changes no codemod expresses. The step's own run
 reports (MenuItem/Option `fillWidth`, removed `interactionPadding` values, removed
-responsive keys) are the primary worklist for the first three bullets — the removals leave
-nothing behind for a scan to find.
+responsive keys, unreadable `textProps`) are the primary worklist for the first three
+bullets and the `textProps` one — the removals leave nothing behind for a scan to find.
 
 - **`MenuItem` / `Option` with an enabled or dynamic `fillWidth`.** Left untouched by
   step ⑨ (reported): their own `variant` is `'normal' | 'radio' | 'checkbox'`, which
@@ -1151,6 +1151,23 @@ nothing behind for a scan to find.
   values were traced. Aliased imports of these components escape the anchor — check files
   step ⑨'s verify flagged for aliasing by hand.
 
+- **`textProps`의 `caption` / `captionProps` → `description` / `descriptionProps`.** The
+  cell's sub-label was renamed; step ⑨ rewrote it inside every `textProps` object literal
+  (including both branches of a ternary, and expanding the shorthand `{ caption }` to
+  `{ description: caption }` so the local variable keeps its name). What is left is what an
+  object-literal transform cannot see: a non-literal `textProps={props.textProps}` and an
+  object carrying a `{...spread}` (both REPORTED by the run — the primary worklist here),
+  props objects assembled outside the JSX, gate-skipped or aliased files, and consumer
+  wrapper components that declare their own `caption` prop and forward it into `textProps`.
+  An object literal written inline surfaces as a type error (excess property check), but a
+  `textProps` built as a variable does NOT — it type-checks and silently renders nothing.
+  Scan **[decision]** repo-wide: `\bcaptionProps\b|\bcaption\b[[:space:]]*[:,}]` — the
+  `captionProps` half is effectively **[zero]** (a Montage-only token), while the `caption`
+  half needs judgement: rename only hits that reach a ListCell-family `textProps`.
+  **`ActionArea`'s `caption` prop is valid v4 API — never rename it**, and consumer or
+  third-party objects own `caption:` keys of their own. The pattern deliberately excludes
+  `caption=`, so JSX attributes such as `<ActionArea caption={…}>` never appear in it.
+
 - **`selected` cells now show a default check icon.** v4 renders a brand-colored check as
   the default `trailingContent` when `selected` is true and no `trailingContent` is given.
   `MenuItem` / `Option` selection looked like this in v3 already (the menu drew its own
@@ -1181,20 +1198,22 @@ nothing behind for a scan to find.
   `trailingContent={null}`; every other cell keeps whatever `trailingContent` it has and
   falls back to the keep-or-suppress decision.
 
-- **Renamed internal DOM identifiers.** Two v3 identifiers were renamed and step ④'s map
+- **Renamed internal DOM identifiers.** Three v3 identifiers were renamed and step ④'s map
   does NOT cover them (they carry no `wds-` prefix), so selectors and test queries keep
   matching nothing silently — including in stylesheets, which step ⑨ never touches:
-  `data-role="list-item-trailing-content"` → `data-role="list-cell-trailing-content"`, and
+  `data-role="list-item-trailing-content"` → `data-role="list-cell-trailing-content"`,
   `data-role="menu-item-active-icon-check"` → `data-role="list-cell-selected-icon-check"`
-  (the menu's own check icon was replaced by the ListCell default).
+  (the menu's own check icon was replaced by the ListCell default), and
+  `data-role="list-text-caption"` → `data-role="list-text-description"` (renamed with the
+  `textProps` key above).
   Scan **[zero]** repo-wide including `.css/.scss/.sass/.less`:
-  `list-item-trailing-content|menu-item-active-icon-check` — rename hits to the new
-  identifiers.
+  `list-item-trailing-content|menu-item-active-icon-check|list-text-caption` — rename hits
+  to the new identifiers.
 
 - **Typography, icon sizing and DOM structure changed under every cell.** Labels dropped
   from
-  `body1`·regular to `body2`·medium (selected: medium → bold), captions from `label1` to
-  `label2`, the content `value` variant from `body1` to `body2`, the `icon` variant's font
+  `body1`·regular to `body2`·medium (selected: medium → bold), the sub-label (v3 `caption`,
+  now `description`) from `label1` to `label2`, the content `value` variant from `body1` to `body2`, the `icon` variant's font
   size from 24px to 20px (and `large-icon`'s inner icon from 32px to 20px), trailing icons
   from `neutral.tertiary` to `neutral.secondary`, and `ListText` renders a
   `div` root with a `p` content node instead of a `p` root with a `span` — a `p`-anchored

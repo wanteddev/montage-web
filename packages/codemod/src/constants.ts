@@ -51,6 +51,6 @@ export const MIGRATION_TRANSFORMS = {
     'form-control-migration': 'Form Control Naming Migration',
     'push-badge-migration': 'PushBadge Variant & Count Migration',
     'status-migration': 'Invalid & Positive to Status Migration',
-    'list-cell-variant-migration': 'ListCell Variant & Content Migration',
+    'list-cell-variant-migration': 'ListCell Variant, Content & Text Migration',
   },
 };

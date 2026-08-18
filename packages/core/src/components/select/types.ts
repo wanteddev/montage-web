@@ -82,7 +82,7 @@ export type OptionProps = Merge<
      */
     labelTrailing?: ReactNode;
     /**
-     * Content displayed below the label and caption.
+     * Content displayed below the label and description.
      * Pass an element wrapped with `OptionExtraContent`.
      */
     extraContent?: ReactNode;

@@ -5,7 +5,9 @@ import type {
   API,
   FileInfo,
   JSXAttribute,
+  JSXExpressionContainer,
   JSXOpeningElement,
+  ObjectExpression,
   ObjectProperty,
   Options,
   Property,
@@ -27,6 +29,10 @@ import type {
  *     (인터랙션 영역이 12px 고정으로 바뀌어 커스텀 값은 시각 확인이 필요합니다)
  *   xs·sm·md·lg·xl 객체 안의 fillWidth/interactionPadding → 키 제거 + 리포트
  *     (variant는 반응형을 지원하지 않아 수동 대응이 필요합니다 — manual step)
+ *   textProps 안의 caption / captionProps → description / descriptionProps
+ *     (셀 계열 전부에 공통. 축약형 `{ caption }`은 `{ description: caption }`으로
+ *      펼쳐서 지역 변수 이름을 건드리지 않습니다. 객체 리터럴이 아니거나
+ *      스프레드가 섞인 textProps는 키를 찾을 수 없어 리포트만 남깁니다)
  *
  * MenuItem, Option은 자체 variant('normal' | 'radio' | 'checkbox')가 ListCell의
  * variant를 덮어쓰므로 fillWidth를 variant로 옮길 수 없습니다. 정적으로 꺼진
@@ -75,6 +81,12 @@ const CONTENT_COMPONENTS = [
 
 const RESPONSIVE_PROPS = ['xs', 'sm', 'md', 'lg', 'xl'];
 const REMOVED_RESPONSIVE_KEYS = ['fillWidth', 'interactionPadding'];
+
+/** textProps 안에서 이름이 바뀐 키 */
+const TEXT_PROPS_RENAMES: Record<string, string> = {
+  caption: 'description',
+  captionProps: 'descriptionProps',
+};
 
 const findAttribute = (element: JSXOpeningElement, name: string) =>
   element.attributes?.find(
@@ -163,6 +175,36 @@ const readStringValue = (attribute: JSXAttribute | undefined) => {
   }
 
   return undefined;
+};
+
+/**
+ * textProps에서 정적으로 읽을 수 있는 객체 리터럴을 모은다. 삼항·논리식은
+ * 양쪽을 모두 훑어 `textProps={dense ? { caption } : { caption, variant }}`
+ * 같은 형태도 놓치지 않는다. 식별자나 함수 호출처럼 값이 다른 곳에서
+ * 조립되는 경우에는 빈 배열이 나와 호출부가 리포트를 남긴다.
+ */
+const collectObjectExpressions = (
+  expression: JSXExpressionContainer['expression'],
+): Array<ObjectExpression> => {
+  if (expression.type === 'ObjectExpression') {
+    return [expression];
+  }
+
+  if (expression.type === 'ConditionalExpression') {
+    return [
+      ...collectObjectExpressions(expression.consequent),
+      ...collectObjectExpressions(expression.alternate),
+    ];
+  }
+
+  if (expression.type === 'LogicalExpression') {
+    return [
+      ...collectObjectExpressions(expression.left),
+      ...collectObjectExpressions(expression.right),
+    ];
+  }
+
+  return [];
 };
 
 const isPropertyNamed = (
@@ -349,6 +391,74 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
     });
   };
 
+  /**
+   * textProps 객체 안의 caption / captionProps를 description /
+   * descriptionProps로 옮긴다. 셀 계열은 전부 ListCell의 textProps를 그대로
+   * 물려받으므로 MenuItem·Option에도 동일하게 적용된다.
+   */
+  const renameTextPropsKeys = (object: ObjectExpression, name: string) => {
+    // 펼쳐지는 객체의 내용은 여기서 볼 수 없다.
+    const hasSpread = object.properties.some(
+      (property) =>
+        property.type === 'SpreadElement' || property.type === 'SpreadProperty',
+    );
+
+    object.properties.forEach((property) => {
+      if (property.type !== 'Property' && property.type !== 'ObjectProperty') {
+        return;
+      }
+
+      // `{ [key]: value }`는 키 이름을 정적으로 읽을 수 없다.
+      if (property.computed) return;
+
+      const key = property.key;
+      const current =
+        key.type === 'Identifier'
+          ? key.name
+          : key.type === 'Literal' || key.type === 'StringLiteral'
+            ? key.value?.toString()
+            : undefined;
+
+      const next = current ? TEXT_PROPS_RENAMES[current] : undefined;
+
+      if (!next) return;
+
+      // `{ caption }` 축약형은 값이 같은 이름의 지역 변수다. 키만 바꾸면 변수
+      // 참조까지 바뀌므로 `{ description: caption }`으로 펼친다.
+      property.shorthand = false;
+      property.key = j.identifier(next);
+      hasChanges = true;
+    });
+
+    if (hasSpread) {
+      api.report(
+        `${file.path}: <${name} textProps>에 스프레드가 있어 그 안의 caption/captionProps는 확인하지 못했습니다 — 펼쳐지는 객체를 직접 확인하세요.`,
+      );
+    }
+  };
+
+  const migrateTextProps = (element: JSXOpeningElement, name: string) => {
+    const attribute = findAttribute(element, 'textProps');
+    const value = attribute?.value;
+
+    if (!attribute) return;
+
+    const objects =
+      value?.type === 'JSXExpressionContainer' &&
+      value.expression.type !== 'JSXEmptyExpression'
+        ? collectObjectExpressions(value.expression)
+        : [];
+
+    if (objects.length === 0) {
+      api.report(
+        `${file.path}: <${name} textProps>가 객체 리터럴이 아니라 caption/captionProps를 옮기지 못했습니다 — description/descriptionProps로 직접 바꾸세요.`,
+      );
+      return;
+    }
+
+    objects.forEach((object) => renameTextPropsKeys(object, name));
+  };
+
   const migrateContentVariant = (element: JSXOpeningElement) => {
     const variantAttribute = findAttribute(element, 'variant');
     const variant = readStringValue(variantAttribute);
@@ -415,6 +525,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
         migrateFillWidth(path.value, localName);
         migrateInteractionPadding(path.value, localName);
         migrateResponsiveProps(path.value, localName);
+        migrateTextProps(path.value, localName);
       });
   });
 
@@ -429,6 +540,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
         migrateMenuFillWidth(path.value, localName);
         migrateInteractionPadding(path.value, localName);
         migrateResponsiveProps(path.value, localName);
+        migrateTextProps(path.value, localName);
       });
   });
 
