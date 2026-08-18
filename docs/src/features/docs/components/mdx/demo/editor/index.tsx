@@ -60,6 +60,7 @@ import { collapsedStyle, editorStyle, focusGuardStyle } from './style';
 import SearchCode from './search-code';
 import { getDefaultSearchQuery } from './helpers';
 
+import type { SxProp } from '@montage-ui/core';
 import type { SearchQuery } from '@codemirror/search';
 import type { ViewUpdate } from '@codemirror/view';
 import type { Dispatch, SetStateAction } from 'react';
@@ -71,6 +72,7 @@ type Props = {
   onCollapseChange: Dispatch<SetStateAction<boolean>>;
   isResetting: boolean;
   handleResetComplete: () => void;
+  sx?: SxProp;
 };
 
 const Editor = ({
@@ -80,6 +82,7 @@ const Editor = ({
   onCollapseChange,
   isResetting,
   handleResetComplete,
+  sx,
 }: Props) => {
   const [node, setNode] = useState<HTMLDivElement | null>(null);
   const focusGuardRef = useRef<HTMLDivElement>(null);
@@ -284,7 +287,7 @@ const Editor = ({
           />
         )}
 
-        <Box ref={setNode} sx={editorStyle} />
+        <Box ref={setNode} sx={[editorStyle, sx]} />
       </ScrollArea>
 
       {collapsed && (

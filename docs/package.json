@@ -38,6 +38,7 @@
     "gray-matter": "^4.0.3",
     "hast-util-to-html": "^9.0.5",
     "lottie-web": "^5.13.0",
+    "lz-string": "^1.5.0",
     "mdast-util-mdx-jsx": "^3.2.0",
     "next": "^16.2.6",
     "next-mdx-remote": "^6.0.0",

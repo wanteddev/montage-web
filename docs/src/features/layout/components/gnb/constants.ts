@@ -1,3 +1,5 @@
+export const GNB_HIDDEN_SEGMENTS = ['playground'];
+
 export const GNB_NAVIGATION_LINKS = [
   {
     label: 'Getting started',

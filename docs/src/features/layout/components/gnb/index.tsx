@@ -9,7 +9,7 @@ import {
 } from '@montage-ui/core';
 import { IconMenu, IconMoon, IconSearch, IconSun } from '@montage-ui/icon';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useSelectedLayoutSegments } from 'next/navigation';
 import { useCallback } from 'react';
 
 import Logo from '@/assets/logo';
@@ -26,12 +26,14 @@ import {
 } from './style';
 import { useSearch } from './hooks';
 import { DocSearchModal } from './search-modal';
-import { GNB_NAVIGATION_LINKS } from './constants';
+import { GNB_HIDDEN_SEGMENTS, GNB_NAVIGATION_LINKS } from './constants';
 
 const Gnb = () => {
   const { setTheme, theme: currentTheme } = useThemeControl();
   const pathname = usePathname();
   const [, ...currentSlug] = pathname.split('/').filter(Boolean);
+
+  const segments = useSelectedLayoutSegments();
 
   const lnbContext = useLnbContext();
 
@@ -46,6 +48,10 @@ const Gnb = () => {
   const handleThemeChange = useCallback(() => {
     setTheme(currentTheme === 'light' ? 'dark' : 'light');
   }, [currentTheme, setTheme]);
+
+  if (GNB_HIDDEN_SEGMENTS.includes(segments.at(0) ?? '')) {
+    return null;
+  }
 
   return (
     <>
