@@ -116,7 +116,7 @@ export const listCellTrailingContentAreaStyle = (theme: Theme) => css`
   --list-cell-content-icon-color: ${theme.semantic.foreground.neutral
     .secondary};
 
-  [data-role='list-cell-content'] {
+  [data-component='list-cell-content'] {
     justify-content: flex-end;
   }
 `;

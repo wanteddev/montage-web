@@ -84,7 +84,7 @@ export type MenuItemDefaultProps = WithSxProps<{
    */
   labelTrailing?: ReactNode;
   /**
-   * Content displayed in the trailing area.
+   * Content displayed below the label and caption.
    * Pass an element wrapped with `MenuItemExtraContent`.
    */
   extraContent?: ReactNode;

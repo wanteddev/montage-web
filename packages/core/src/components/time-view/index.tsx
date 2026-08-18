@@ -351,6 +351,7 @@ const TimeItem = forwardRef<
           aria-selected={active}
           aria-label={text}
           data-role={`time-item-${view}`}
+          trailingContent={null}
           disabled={isDisabled}
           {...{
             [`data-${view}`]: textValue,

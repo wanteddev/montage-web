@@ -16,8 +16,9 @@ export type ListCellDefaultProps = WithSxProps<{
   /** The vertical padding of the cell. */
   verticalPadding?: 'small' | 'medium' | 'large' | 'none';
   /**
-   * Whether to fill the width of the parent.
-   * Now, the interaction's padding inline is included in the overall width and the interaction's border radius has been removed.
+   * The layout variant of the cell. Defaults to `inset`.
+   * `inset` removes the horizontal padding and rounds the cell's corners.
+   * `full` adds horizontal padding, stretches the interaction area to the full width, and removes the border radius.
    */
   variant?: 'inset' | 'full';
   /** Show ellipsis when text overflows. */
@@ -59,7 +60,7 @@ export type ListCellDefaultProps = WithSxProps<{
    */
   labelTrailing?: ReactNode;
   /**
-   * Content displayed in the trailing area.
+   * Content displayed below the label and caption.
    * Pass an element wrapped with `ListCellExtraContent`.
    */
   extraContent?: ReactNode;

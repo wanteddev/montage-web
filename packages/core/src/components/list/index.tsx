@@ -498,8 +498,12 @@ ListCellExtraContent.displayName = LIST_CELL_EXTRA_CONTENT_NAME;
 
 const ListCellSelectedIcon = forwardRef<HTMLDivElement>((_, ref) => {
   return (
-    <ListCellContent data-role="list-cell-selected-icon-check" ref={ref}>
-      <IconCheck sx={{ fontSize: '22px' }} />
+    <ListCellContent
+      data-role="list-cell-selected-icon-check"
+      variant="icon"
+      ref={ref}
+    >
+      <IconCheck />
     </ListCellContent>
   );
 });
@@ -549,7 +553,7 @@ const ListText = forwardRef(
           data-role="list-text-content-wrapper"
           sx={listTextContentWrapperStyle(ellipsis)}
         >
-          <Box as="p" data-role="list-text-content" id={textId}>
+          <Box as="span" data-role="list-text-content" id={textId}>
             {children}
           </Box>
 
@@ -571,7 +575,7 @@ const ListText = forwardRef(
 
         {Boolean(extraContent) && (
           <FlexBox
-            data-role="list-extra-content-area"
+            data-role="list-cell-extra-content-area"
             gap="6px"
             alignItems="center"
           >
@@ -581,7 +585,7 @@ const ListText = forwardRef(
       </Typography>
     );
   },
-) as PolymorphicComponentInternal<ListTextProps, 'p'>;
+) as PolymorphicComponentInternal<ListTextProps, 'div'>;
 
 ListText.displayName = LIST_TEXT_NAME;
 
