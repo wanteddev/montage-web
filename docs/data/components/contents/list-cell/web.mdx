@@ -319,12 +319,13 @@ export default Demo;`}
 - toggle-icon
 - button
 - checkbox
+- switch
 - custom
 
 <br/>
 `chevron` 을 활성화 하여 우측에 화살표 아이콘을 추가할 수 있습니다.
 
-<Demo code={`import { List, ListCell, ListCellContent, CheckMark, TextButton, Button, ContentBadge, ToggleIcon, IconButton } from '@montage-ui/core';
+<Demo code={`import { List, ListCell, ListCellContent, CheckMark, TextButton, Button, ContentBadge, ToggleIcon, IconButton, Switch } from '@montage-ui/core';
 import { IconBlank } from '@montage-ui/icon';
 
 const Demo = () => {
@@ -427,6 +428,16 @@ const Demo = () => {
         }
       >
         Label, with chevron
+      </ListCell>
+      <ListCell
+        textProps={{ caption: 'Caption' }}
+        trailingContent={
+          <ListCellContent variant="switch">
+            <Switch />
+          </ListCellContent>
+        }
+      >
+        Label, with switch
       </ListCell>
       <ListCell
         textProps={{ caption: 'Caption' }}

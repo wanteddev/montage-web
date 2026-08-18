@@ -17,7 +17,7 @@ updatedAt: 2026-02-02
   
 
 <SectionVariants
-  components={['List', 'ListCell', 'ListCellContent', 'Thumbnail', 'RadioGroup', 'RadioGroupItem', 'Checkbox', 'Avatar', 'ContentBadge', 'IconButton', 'CheckMark', 'TextButton']}
+  components={['List', 'ListCell', 'ListCellContent', 'Thumbnail', 'RadioGroup', 'RadioGroupItem', 'Checkbox', 'Avatar', 'ContentBadge', 'IconButton', 'CheckMark', 'TextButton', 'Switch']}
   icons={['IconBlank']}
   render={(value) => {
       const variant = value['Fill width'] === 'True' ? 'full' : 'inset';
@@ -73,6 +73,10 @@ updatedAt: 2026-02-02
         case 'Icon button':
           trailingContent =
             '<ListCellContent variant="icon-button"><IconButton><IconBlank /></IconButton></ListCellContent>';
+          break;
+        case 'Switch':
+          trailingContent =
+            '<ListCellContent variant="switch"><Switch /></ListCellContent>';
           break;
         case 'Text button':
           trailingContent =
@@ -153,6 +157,7 @@ updatedAt: 2026-02-02
         { label: 'Badge', value: {} },
         { label: 'Checkbox', value: {} },
         { label: 'Icon button', value: {} },
+        { label: 'Switch', value: {} },
         { label: 'Text button', value: {} },
         { label: 'Value', value: {} }
       ]
