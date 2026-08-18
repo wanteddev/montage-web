@@ -1025,8 +1025,14 @@ grep -rnE '\b(fillWidth|interactionPadding)\b' <targets>
 grep -rnE 'variant="chevron"' <targets>
 grep -rnE '<(ListCellContent|OptionContent|MenuItemContent|AutocompleteOptionContent|AccordionSummaryContent)[[:space:]][^>]*variant="(badge|button)"' <targets>
 grep -rnE '<(ListCellContent|OptionContent|MenuItemContent|AutocompleteOptionContent|AccordionSummaryContent)[[:space:]][^>]*variant=\{' <targets>
-grep -rnE '\bcaptionProps\b|\bcaption\b[[:space:]]*[:,}]' <targets>
+grep -rnE "\bcaptionProps\b|\bcaption\b['\"]?[[:space:]]*[:,}]" <targets>
 ```
+
+⑤ is the one grep in this step written with DOUBLE quotes: its pattern carries a literal
+`'` (to reach a quoted `{ 'caption': … }` key), which cannot survive inside the
+single-quoted form the other four use. Inside double quotes bash leaves `\b` and
+`[[:space:]]` untouched and unescapes `\"` to a bare `"`, so grep receives
+`['"]?` intact (verified on BSD `/usr/bin/grep` and ugrep).
 
 Remaining hits come from these places, none a reason to re-run the codemod:
 
@@ -1035,7 +1041,9 @@ Remaining hits come from these places, none a reason to re-run the codemod:
 - **Props objects and `{...spread}`** built outside the JSX element — invisible to the
   transform; M17's scans are the net. The same applies to a non-literal or spread-carrying
   `textProps` (`textProps={props.textProps}`, `textProps={{ ...base }}`): the transform
-  reports it and leaves the `caption` key alone.
+  reports it and leaves the `caption` key alone. A ternary with only ONE readable branch
+  (`textProps={dense ? props.textProps : { caption }}`) is reported too — the object branch
+  is rewritten and the dynamic one is named in the report.
 - **Gate-skipped files** (namespace / re-export / subpath imports) — fix by hand NOW against
   the table above; confirm each identifier really comes from a montage source first.
 - **Duplicate-specifier files** (the SAME component imported plain + aliased): the import
@@ -1058,8 +1066,9 @@ Remaining hits come from these places, none a reason to re-run the codemod:
 
 - The fifth grep covers the `textProps` rename and splits into two criteria. The
   `captionProps` half is expected **ZERO** — it is a Montage-only token with no other
-  owner. The `caption` half (`caption:` / `caption,` / `caption }`, which also catches the
-  shorthand `{ caption }`) is **JUDGED**: a hit inside a Montage `textProps` object is a
+  owner. The `caption` half (`caption:` / `caption,` / `caption }` plus the quoted
+  `'caption':` / `"caption":` key forms, which also catches the shorthand `{ caption }`)
+  is **JUDGED**: a hit inside a Montage `textProps` object is a
   leftover for M17 (props objects built outside the JSX, non-literal `textProps`, and
   gate-skipped files all land here), but the word has other legitimate owners in v4 —
   **`ActionArea`'s own `caption` prop is valid v4 API and must never be renamed**, and

@@ -32,7 +32,8 @@ import type {
  *   textProps 안의 caption / captionProps → description / descriptionProps
  *     (셀 계열 전부에 공통. 축약형 `{ caption }`은 `{ description: caption }`으로
  *      펼쳐서 지역 변수 이름을 건드리지 않습니다. 객체 리터럴이 아니거나
- *      스프레드가 섞인 textProps는 키를 찾을 수 없어 리포트만 남깁니다)
+ *      스프레드가 섞인 textProps는 키를 찾을 수 없어 리포트만 남기고, 삼항식
+ *      한쪽만 객체인 경우에는 읽은 쪽만 고친 뒤 나머지를 리포트합니다)
  *
  * MenuItem, Option은 자체 variant('normal' | 'radio' | 'checkbox')가 ListCell의
  * variant를 덮어쓰므로 fillWidth를 variant로 옮길 수 없습니다. 정적으로 꺼진
@@ -177,34 +178,69 @@ const readStringValue = (attribute: JSXAttribute | undefined) => {
   return undefined;
 };
 
+type CollectedTextProps = {
+  objects: Array<ObjectExpression>;
+  /** 값이 다른 곳에서 조립되어 키를 볼 수 없는 분기가 하나라도 있었는지 */
+  dynamic: boolean;
+};
+
+const mergeCollected = (
+  results: Array<CollectedTextProps>,
+): CollectedTextProps => ({
+  objects: results.flatMap((result) => result.objects),
+  dynamic: results.some((result) => result.dynamic),
+});
+
+/** `null` / `undefined` 분기는 caption을 실을 수 없어 dynamic으로 세지 않는다. */
+const isNullishExpression = (
+  expression: JSXExpressionContainer['expression'],
+) =>
+  expression.type === 'NullLiteral' ||
+  (expression.type === 'Literal' && expression.value === null) ||
+  (expression.type === 'Identifier' && expression.name === 'undefined');
+
 /**
- * textProps에서 정적으로 읽을 수 있는 객체 리터럴을 모은다. 삼항·논리식은
- * 양쪽을 모두 훑어 `textProps={dense ? { caption } : { caption, variant }}`
- * 같은 형태도 놓치지 않는다. 식별자나 함수 호출처럼 값이 다른 곳에서
- * 조립되는 경우에는 빈 배열이 나와 호출부가 리포트를 남긴다.
+ * textProps에서 정적으로 읽을 수 있는 객체 리터럴을 모으고, 키를 볼 수 없는
+ * 분기가 섞여 있었는지 함께 알린다. 삼항·논리식은 양쪽을 모두 훑어
+ * `textProps={dense ? { caption } : { caption, variant }}` 같은 형태도 놓치지
+ * 않는다.
+ *
+ * 한쪽만 객체인 `textProps={dense ? props.textProps : { caption }}`가 중요한
+ * 이유: 객체 분기만 고치고 넘어가면 동적 분기에 남은 caption이 v4에서 그냥
+ * 사라지는데 리포트도 없어 아무도 모른다. dynamic을 함께 돌려 호출부가 반드시
+ * 리포트를 남기게 한다.
  */
 const collectObjectExpressions = (
   expression: JSXExpressionContainer['expression'],
-): Array<ObjectExpression> => {
+): CollectedTextProps => {
   if (expression.type === 'ObjectExpression') {
-    return [expression];
+    return { objects: [expression], dynamic: false };
+  }
+
+  if (isNullishExpression(expression)) {
+    return { objects: [], dynamic: false };
   }
 
   if (expression.type === 'ConditionalExpression') {
-    return [
-      ...collectObjectExpressions(expression.consequent),
-      ...collectObjectExpressions(expression.alternate),
-    ];
+    return mergeCollected([
+      collectObjectExpressions(expression.consequent),
+      collectObjectExpressions(expression.alternate),
+    ]);
   }
 
   if (expression.type === 'LogicalExpression') {
-    return [
-      ...collectObjectExpressions(expression.left),
-      ...collectObjectExpressions(expression.right),
-    ];
+    // `cond && { … }`의 left는 값이 아니라 가드다 — falsy로 끝나면 prop 값이
+    // `false`가 되고 `{...false}`는 no-op이라 caption이 실릴 수 없다. `||`와
+    // `??`는 양쪽 다 값이 되므로 둘 다 본다.
+    return expression.operator === '&&'
+      ? collectObjectExpressions(expression.right)
+      : mergeCollected([
+          collectObjectExpressions(expression.left),
+          collectObjectExpressions(expression.right),
+        ]);
   }
 
-  return [];
+  return { objects: [], dynamic: true };
 };
 
 const isPropertyNamed = (
@@ -443,20 +479,23 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
 
     if (!attribute) return;
 
-    const objects =
+    const { objects, dynamic } =
       value?.type === 'JSXExpressionContainer' &&
       value.expression.type !== 'JSXEmptyExpression'
         ? collectObjectExpressions(value.expression)
-        : [];
-
-    if (objects.length === 0) {
-      api.report(
-        `${file.path}: <${name} textProps>가 객체 리터럴이 아니라 caption/captionProps를 옮기지 못했습니다 — description/descriptionProps로 직접 바꾸세요.`,
-      );
-      return;
-    }
+        : { objects: [], dynamic: true };
 
     objects.forEach((object) => renameTextPropsKeys(object, name));
+
+    // 읽은 객체가 하나도 없든 일부 분기만 읽었든, 못 본 분기가 있으면 남긴다 —
+    // 정적 분기만 고치고 조용히 지나가면 동적 분기의 caption이 사라진다.
+    if (dynamic) {
+      api.report(
+        objects.length === 0
+          ? `${file.path}: <${name} textProps>가 객체 리터럴이 아니라 caption/captionProps를 옮기지 못했습니다 — description/descriptionProps로 직접 바꾸세요.`
+          : `${file.path}: <${name} textProps>의 일부 분기가 객체 리터럴이 아니라 그쪽 caption/captionProps는 옮기지 못했습니다 — description/descriptionProps로 직접 바꾸세요.`,
+      );
+    }
   };
 
   const migrateContentVariant = (element: JSXOpeningElement) => {

@@ -1140,9 +1140,9 @@ bullets and the `textProps` one — the removals leave nothing behind for a scan
   (step ⑨'s report lists the sites; the keys are already gone from the code).
 
 - **Dynamic content `variant={expr}`.** Step ⑨ skips non-literal variants SILENTLY — the
-  transform emits no report for them, and none of its three verify greps can match
-  `variant={`; the step's verify INSTRUCTION asks the step agent to report them, and the
-  scan below is this section's own net. If the expression can produce `'badge'`, `'button'`, or
+  TRANSFORM emits no report for them. They surface only through step ⑨'s fourth verify
+  grep, which is report-only for exactly this purpose and hands the list to this section;
+  the scan below is the same pattern re-run as this section's own net. If the expression can produce `'badge'`, `'button'`, or
   `'chevron'`, rewrite its source values (`badge` → `content-badge`, `button` →
   `text-button`; a produced `chevron` needs restructuring to `value` + the `chevron` prop).
   Scan **[decision]**:
@@ -1156,14 +1156,20 @@ bullets and the `textProps` one — the removals leave nothing behind for a scan
   (including both branches of a ternary, and expanding the shorthand `{ caption }` to
   `{ description: caption }` so the local variable keeps its name). What is left is what an
   object-literal transform cannot see: a non-literal `textProps={props.textProps}` and an
-  object carrying a `{...spread}` (both REPORTED by the run — the primary worklist here),
-  props objects assembled outside the JSX, gate-skipped or aliased files, and consumer
-  wrapper components that declare their own `caption` prop and forward it into `textProps`.
+  object carrying a `{...spread}`, and a ternary whose branches are not all objects
+  (`textProps={dense ? props.textProps : { caption }}` — the object branch IS rewritten and
+  the unreadable one reported); all three are REPORTED by the run and are the primary
+  worklist here. Then: props objects assembled outside the JSX, gate-skipped or aliased
+  files, and consumer wrapper components that declare their own `caption` prop and forward
+  it into `textProps`.
   An object literal written inline surfaces as a type error (excess property check), but a
   `textProps` built as a variable does NOT — it type-checks and silently renders nothing.
-  Scan **[decision]** repo-wide: `\bcaptionProps\b|\bcaption\b[[:space:]]*[:,}]` — the
-  `captionProps` half is effectively **[zero]** (a Montage-only token), while the `caption`
-  half needs judgement: rename only hits that reach a ListCell-family `textProps`.
+  Scan **[decision]** repo-wide, DOUBLE-quoted so the literal `'` in the pattern survives
+  the shell: `grep -rnE "\bcaptionProps\b|\bcaption\b['\"]?[[:space:]]*[:,}]"` — the
+  optional quote is what reaches a `{ 'caption': … }` / `{ "caption": … }` key, which the
+  codemod normalizes but a gate-skipped file still carries. The `captionProps` half is
+  effectively **[zero]** (a Montage-only token), while the `caption` half needs judgement:
+  rename only hits that reach a ListCell-family `textProps`.
   **`ActionArea`'s `caption` prop is valid v4 API — never rename it**, and consumer or
   third-party objects own `caption:` keys of their own. The pattern deliberately excludes
   `caption=`, so JSX attributes such as `<ActionArea caption={…}>` never appear in it.

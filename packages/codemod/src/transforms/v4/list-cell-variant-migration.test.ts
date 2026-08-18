@@ -207,6 +207,72 @@ describe('list-cell-variant-migration — textProps', () => {
     expect(reports[0]).toContain('스프레드');
   });
 
+  // 객체 분기만 고치고 넘어가면 동적 분기에 남은 caption이 v4에서 조용히
+  // 사라진다. 읽지 못한 분기가 있으면 반드시 리포트가 남아야 한다.
+  describe('분기가 섞인 textProps', () => {
+    it('삼항식 한쪽만 객체면 읽은 쪽만 고치고 리포트를 남긴다', () => {
+      const { output, reports } = applyTransform(
+        withImport(
+          `<ListCell textProps={dense ? props.textProps : { caption: '설명' }}>레이블</ListCell>`,
+        ),
+      );
+
+      expect(output).toContain(`description: '설명'`);
+      expect(output).toContain('props.textProps');
+      expect(reports).toHaveLength(1);
+      expect(reports[0]).toContain('일부 분기가 객체 리터럴이 아니라');
+    });
+
+    it('삼항식 안에 논리식이 중첩돼도 동적 분기를 리포트한다', () => {
+      const { output, reports } = applyTransform(
+        withImport(
+          `<ListCell textProps={dense ? { caption: 'a' } : base || { caption: 'b' }}>레이블</ListCell>`,
+        ),
+      );
+
+      expect(output).toContain(`description: 'a'`);
+      expect(output).toContain(`description: 'b'`);
+      expect(reports).toHaveLength(1);
+      expect(reports[0]).toContain('일부 분기가 객체 리터럴이 아니라');
+    });
+
+    // `cond && { … }`의 left는 값이 아니라 가드다. falsy로 끝나면 prop 값이
+    // false가 되고 `{...false}`는 no-op이라 caption이 실릴 수 없다.
+    it('cond && { … }의 가드는 동적 분기로 세지 않는다', () => {
+      const { output, reports } = applyTransform(
+        withImport(
+          `<ListCell textProps={dense && { caption: '설명' }}>레이블</ListCell>`,
+        ),
+      );
+
+      expect(output).toContain(`description: '설명'`);
+      expect(reports).toHaveLength(0);
+    });
+
+    it('?? 왼쪽이 동적이면 리포트한다', () => {
+      const { reports } = applyTransform(
+        withImport(
+          `<ListCell textProps={props.textProps ?? { caption: '설명' }}>레이블</ListCell>`,
+        ),
+      );
+
+      expect(reports).toHaveLength(1);
+      expect(reports[0]).toContain('일부 분기가 객체 리터럴이 아니라');
+    });
+
+    // null/undefined 분기는 caption을 실을 수 없으므로 리포트가 노이즈가 된다.
+    it('null 분기는 리포트하지 않는다', () => {
+      const { output, reports } = applyTransform(
+        withImport(
+          `<ListCell textProps={dense ? { caption: '설명' } : null}>레이블</ListCell>`,
+        ),
+      );
+
+      expect(output).toContain(`description: '설명'`);
+      expect(reports).toHaveLength(0);
+    });
+  });
+
   it('textProps가 없으면 리포트하지 않는다', () => {
     const { reports } = applyTransform(
       withImport('<ListCell>레이블</ListCell>'),

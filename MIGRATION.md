@@ -1292,7 +1292,7 @@ npx @montage-ui/codemod@latest list-cell-variant-migration src
 - `MenuItem` / `Option`의 켜진 `fillWidth` — 대체 prop이 없어 건드리지 않고 리포트만 남깁니다(정적으로 꺼진 `fillWidth={false}`는 죽은 prop이라 제거).
 - `variant={someVariable}`처럼 문자열 리터럴이 아닌 `variant`.
 - `{...props}` 스프레드나 컴포넌트 밖에서 조립된 props 객체.
-- 객체 리터럴이 아닌 `textProps`(`textProps={props.textProps}`)나 스프레드가 섞인 `textProps` — 키를 정적으로 볼 수 없어 리포트만 남깁니다.
+- 객체 리터럴이 아닌 `textProps`(`textProps={props.textProps}`), 스프레드가 섞인 `textProps`, 삼항식 한쪽만 객체인 `textProps`(`dense ? props.textProps : { caption }`) — 읽을 수 있는 객체는 변환하고 나머지 분기는 리포트로 남깁니다.
 - `data-role="list-text-caption"`을 참조하던 CSS 셀렉터·테스트 쿼리.
 - `fillWidth`와 `variant`가 한 요소에 같이 있는 경우 — 손으로 옮기다 만 파일로 보고 건드리지 않습니다(리포트 출력).
 - 반응형 `fillWidth`의 대체 — 키는 제거되지만 `variant`가 반응형을 지원하지 않아 필요 시 `sx` 분기를 직접 작성해야 합니다.

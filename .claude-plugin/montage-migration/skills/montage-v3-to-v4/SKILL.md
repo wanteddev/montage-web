@@ -695,10 +695,11 @@ both together when an M-section changes):
   `variant={expr}` was skipped SILENTLY by step ⑨ — trace whether the expression can
   produce `badge`/`button`/`chevron` and rewrite its sources. `textProps`'s `caption` /
   `captionProps` became `description` / `descriptionProps`: step ⑨ rewrote every object
-  literal, so what is left is the non-literal or spread-carrying `textProps` it reported,
-  props objects built outside the JSX, and consumer wrappers forwarding their own
-  `caption` — a **[decision]** scan, because `ActionArea`'s `caption` prop is valid v4 API
-  and must never be renamed. The renamed `list-item-trailing-content` /
+  literal, so what is left is what it REPORTED (a non-literal or spread-carrying
+  `textProps`, or a ternary branch it could not read — there the object branch is still
+  rewritten), props objects built outside the JSX, and consumer wrappers forwarding their
+  own `caption` — a **[decision]** scan, because `ActionArea`'s `caption` prop is valid v4
+  API and must never be renamed. The renamed `list-item-trailing-content` /
   `menu-item-active-icon-check` / `list-text-caption` DOM identifiers are a
   mechanical **[zero]** rename of every consumer selector and test query that references
   them (stylesheets included) — they match nothing until renamed. Typography (label
