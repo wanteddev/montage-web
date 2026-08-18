@@ -1,6 +1,6 @@
 # Manual Migrations (v3 → v4)
 
-Changes the codemods cannot apply automatically. Run these AFTER all 8 codemod steps
+Changes the codemods cannot apply automatically. Run these AFTER all 9 codemod steps
 completed (see `codemod-steps.md`). Each section lists scan patterns to locate affected
 code — scan first, then apply fixes only where a real occurrence exists.
 
@@ -1104,13 +1104,140 @@ forces.
 })` call matches, so the criterion is that each call's argument shape was assessed, not a
   zero count. `selected` is unchanged and stays a boolean.
 
+## M17. ListCell 개편 follow-ups
+
+Step ⑨ `list-cell-variant-migration` already rewrote every literal JSX case on
+`ListCell` / `AccordionSummary` / `AutocompleteOption` and the five content components.
+What is left is what the transform deliberately skipped, what a JSX-attribute transform
+cannot see, and the behavioral/visual changes no codemod expresses. The step's own run
+reports (MenuItem/Option `fillWidth`, removed `interactionPadding` values, removed
+responsive keys, unreadable `textProps`) are the primary worklist for the first three
+bullets and the `textProps` one — the removals leave nothing behind for a scan to find.
+
+- **`MenuItem` / `Option` with an enabled or dynamic `fillWidth`.** Left untouched by
+  step ⑨ (reported): their own `variant` is `'normal' | 'radio' | 'checkbox'`, which
+  overrides ListCell's, so `variant="full"` is neither type-valid nor meaningful — there is
+  NO replacement prop. Per occurrence, reproduce the old full-width interaction with `sx`
+  (the v3 effect was the interaction layer matching the cell width instead of extending
+  12px past it) or drop the prop if the layout never depended on it.
+  Scan **[zero]**: `\bfillWidth\b` — after this section is done, zero Montage-related hits;
+  a consumer-owned object property named `fillWidth` (no path to a Montage component) may
+  remain and is listed in the summary. This same scan is also the net for `fillWidth`
+  reaching ANY cell component through `{...props}` or a props object built outside the JSX
+  — invisible to step ⑨ — and for out-of-target files (MDX docs, `.snap` snapshots, E2E
+  specs): run it over the WHOLE repo, not just `<targets>`.
+
+- **Removed `interactionPadding` values.** v4 fixes the interaction layer at 12px each
+  side, so every removal step ⑨ reported with a non-12px former value changes the pressed
+  /hover area's width — visual QA per occurrence, and where the old width matters,
+  reproduce it with `sx` on `> [data-component='with-interaction']`.
+  Scan **[zero]**: `\binteractionPadding\b` repo-wide — same carve-outs as `fillWidth`
+  above (spread/props-object and out-of-target survivors are this section's to fix).
+
+- **Removed responsive `fillWidth` / `interactionPadding` keys.** `variant` does not
+  support responsive values, so a per-breakpoint `fillWidth` has no prop equivalent — where
+  the layout genuinely changed per breakpoint, write the `sx` media-query branch by hand
+  (step ⑨'s report lists the sites; the keys are already gone from the code).
+
+- **Dynamic content `variant={expr}`.** Step ⑨ skips non-literal variants SILENTLY — the
+  TRANSFORM emits no report for them. They surface only through step ⑨'s fourth verify
+  grep, which is report-only for exactly this purpose and hands the list to this section;
+  the scan below is the same pattern re-run as this section's own net. If the expression can produce `'badge'`, `'button'`, or
+  `'chevron'`, rewrite its source values (`badge` → `content-badge`, `button` →
+  `text-button`; a produced `chevron` needs restructuring to `value` + the `chevron` prop).
+  Scan **[decision]**:
+  `<(ListCellContent|OptionContent|MenuItemContent|AutocompleteOptionContent|AccordionSummaryContent)[[:space:]][^>]*variant=\{`
+  — matches valid v4 dynamic variants too; the criterion is that every expression's possible
+  values were traced. Aliased imports of these components escape the anchor — check files
+  step ⑨'s verify flagged for aliasing by hand.
+
+- **`textProps`의 `caption` / `captionProps` → `description` / `descriptionProps`.** The
+  cell's sub-label was renamed; step ⑨ rewrote it inside every `textProps` object literal
+  (including both branches of a ternary, and expanding the shorthand `{ caption }` to
+  `{ description: caption }` so the local variable keeps its name). What is left is what an
+  object-literal transform cannot see: a non-literal `textProps={props.textProps}` and an
+  object carrying a `{...spread}`, and a ternary whose branches are not all objects
+  (`textProps={dense ? props.textProps : { caption }}` — the object branch IS rewritten and
+  the unreadable one reported); all three are REPORTED by the run and are the primary
+  worklist here. Then: props objects assembled outside the JSX, gate-skipped or aliased
+  files, and consumer wrapper components that declare their own `caption` prop and forward
+  it into `textProps`.
+  An object literal written inline surfaces as a type error (excess property check), but a
+  `textProps` built as a variable does NOT — it type-checks and silently renders nothing.
+  Scan **[decision]** repo-wide, DOUBLE-quoted so the literal `'` in the pattern survives
+  the shell: `grep -rnE "\bcaptionProps\b|\bcaption\b['\"]?[[:space:]]*[:,}]"` — the
+  optional quote is what reaches a `{ 'caption': … }` / `{ "caption": … }` key, which the
+  codemod normalizes but a gate-skipped file still carries. The `captionProps` half is
+  effectively **[zero]** (a Montage-only token), while the `caption` half needs judgement:
+  rename only hits that reach a ListCell-family `textProps`.
+  **`ActionArea`'s `caption` prop is valid v4 API — never rename it**, and consumer or
+  third-party objects own `caption:` keys of their own. The pattern deliberately excludes
+  `caption=`, so JSX attributes such as `<ActionArea caption={…}>` never appear in it.
+
+- **`selected` cells now show a default check icon.** v4 renders a brand-colored check as
+  the default `trailingContent` when `selected` is true and no `trailingContent` is given.
+  `MenuItem` / `Option` selection looked like this in v3 already (the menu drew its own
+  check); a plain `ListCell` / `AutocompleteOption` that used `selected` for styling alone
+  gains a NEW icon. Per occurrence, keep it (the v4 design) or pass
+  `trailingContent={null}` to suppress it.
+  Scan **[decision]**: `<(ListCell|AutocompleteOption|Option|MenuItem)[[:space:]][^>]*selected`
+  — every hit assessed: with an explicit `trailingContent` the default never renders
+  (nothing to do); without one, decide. `AccordionSummary` omits `selected` and is not
+  affected.
+
+  **The decision is NOT open when `leadingContent` already carries a selection control
+  AND the cell has no explicit `trailingContent`.** A leading `Checkbox` / `Radio` /
+  `Switch` — typically wrapped in a `ListCellContent` with `variant="checkbox"` or
+  `variant="radio"` — already expresses selection, so the defaulted right-hand check is a
+  duplicate affordance: `trailingContent={null}` is the answer, not a judgement call. A
+  cell that already passes its own `trailingContent` (a value, a chevron, an action)
+  never renders the default in the first place — leave it alone; writing `null` over it
+  would DELETE real content. v4's own `MenuItemCheckbox` / `MenuItemRadio` are the
+  reference implementation — they pass `trailingContent={null}` alongside the leading
+  control, and `MenuItemProvider` withholds `selected` from those two variants entirely.
+  The failure case is a hand-rolled cell that copies that shape without copying the
+  `null`; the in-repo `TimeItem` regression was this exact class.
+  Scan **[decision]**: over the files the previous scan hit, `\b(Checkbox|Radio|Switch)\b`
+  — narrows to the cells worth reading. Multi-line props escape the single-line anchor
+  above, so each `selected` cell's `leadingContent` must be READ, not grepped. A cell with
+  a leading selection control and NO explicit `trailingContent` gets
+  `trailingContent={null}`; every other cell keeps whatever `trailingContent` it has and
+  falls back to the keep-or-suppress decision.
+
+- **Renamed internal DOM identifiers.** Three v3 identifiers were renamed and step ④'s map
+  does NOT cover them (they carry no `wds-` prefix), so selectors and test queries keep
+  matching nothing silently — including in stylesheets, which step ⑨ never touches:
+  `data-role="list-item-trailing-content"` → `data-role="list-cell-trailing-content"`,
+  `data-role="menu-item-active-icon-check"` → `data-role="list-cell-selected-icon-check"`
+  (the menu's own check icon was replaced by the ListCell default), and
+  `data-role="list-text-caption"` → `data-role="list-text-description"` (renamed with the
+  `textProps` key above).
+  Scan **[zero]** repo-wide including `.css/.scss/.sass/.less`:
+  `list-item-trailing-content|menu-item-active-icon-check|list-text-caption` — rename hits
+  to the new identifiers.
+
+- **Typography, icon sizing and DOM structure changed under every cell.** Labels dropped
+  from
+  `body1`·regular to `body2`·medium (selected: medium → bold), the sub-label (v3 `caption`,
+  now `description`) from `label1` to `label2`, the content `value` variant from `body1` to `body2`, the `icon` variant's font
+  size from 24px to 20px (and `large-icon`'s inner icon from 32px to 20px), trailing icons
+  from `neutral.tertiary` to `neutral.secondary`, and `ListText` renders a
+  `div` root with a `p` content node instead of a `p` root with a `span` — a `p`-anchored
+  descendant selector or test query (`cell.querySelector('p')`, `p[data-role]`) now matches
+  a different node. `disabled` cells changed from a whole-cell `opacity: 0.43` to
+  `foreground.disable.primary` coloring (thumbnail/avatar keep opacity), and the `inset`
+  radius grew 12px → 16px. None of this needs a code change by default — flag it for
+  snapshot/visual-test refresh and design QA.
+  Scan **[decision]**: `list-text-wrapper|list-text-content` — consumer selectors into the
+  text DOM; assess each against the new structure.
+
 ## Suggested commit boundary
 
 Manual fixes get their own commits, after the codemod phase — with the recommended
-auto-commit flow the eight codemod commits already exist by the time any M-section runs, so
+auto-commit flow the nine codemod commits already exist by the time any M-section runs, so
 do not try to "group" a manual fix into a codemod step's commit (that would mean rewriting
 history and defeats per-step revertability). One commit per M-section (or per coherent
 group, e.g. M3+M4) keeps review and revert straightforward. Only in a non-auto-commit
-inline run, where nothing is committed until the end, may M1/M3/M4/M5/M9/M13/M16 share a commit
-with their related codemod step (M9 ↔ step ② `semantic-token-migration`, the same
-relationship as M1 ↔ ①, M3 ↔ ③/④, M4 ↔ ⑤, M5 ↔ ⑥, M13 ↔ ⑦, M16 ↔ ⑧).
+inline run, where nothing is committed until the end, may M1/M3/M4/M5/M9/M13/M16/M17 share a
+commit with their related codemod step (M9 ↔ step ② `semantic-token-migration`, the same
+relationship as M1 ↔ ①, M3 ↔ ③/④, M4 ↔ ⑤, M5 ↔ ⑥, M13 ↔ ⑦, M16 ↔ ⑧, M17 ↔ ⑨).

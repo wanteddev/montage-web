@@ -29,12 +29,12 @@ module.exports = {
       },
     ],
     render: (value) => {
-      const fillWidth = value['Fill width'] === 'True';
+      const variant = value['Fill width'] === 'True' ? 'full' : 'inset';
       const verticalPadding = value['Vertical padding'];
 
       return `
         <Accordion sx={{ width: '80%' }}>
-          <AccordionSummary fillWidth={${fillWidth}} verticalPadding="${verticalPadding.toLowerCase()}">
+          <AccordionSummary variant="${variant}" verticalPadding="${verticalPadding.toLowerCase()}">
             Heading
           </AccordionSummary>
           <AccordionDetails>

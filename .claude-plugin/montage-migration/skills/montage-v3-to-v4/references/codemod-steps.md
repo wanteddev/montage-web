@@ -1,6 +1,6 @@
 # Codemod Steps (v3 → v4)
 
-The 8 v4 codemods, in canonical execution order. Run each step **exactly once**, strictly
+The 9 v4 codemods, in canonical execution order. Run each step **exactly once**, strictly
 in this order, completing (and ideally committing) one step before starting the next.
 
 ```sh
@@ -44,7 +44,7 @@ npx -y @montage-ui/codemod@<codemodVersion> <transform> <target>
   "**Never make build output a target**" in SKILL.md preflight item 4 for the rule and the
   discovery-command exclusions that enforce it.
 - **Every transform parses with the `tsx` parser** (`api.jscodeshift.withParser('tsx')`, all
-  eight), and the CLI passes `--extensions=tsx,ts,jsx,js` with no per-extension override. A
+  nine), and the CLI passes `--extensions=tsx,ts,jsx,js` with no per-extension override. A
   `.ts` file using legacy angle-bracket casts (`const y = <string>value;`) therefore fails to
   parse — the CLI reports `Transformation error (Unterminated JSX contents…)` and leaves THAT
   file untransformed while the rest of the run succeeds: a silent partial migration. Scan for
@@ -106,35 +106,42 @@ npx -y @montage-ui/codemod@<codemodVersion> <transform> <target>
 
 ## Why the order and the run-once rule matter
 
-| Step | Transform                  | Re-run on migrated code                                                                                                                                                                         |
-| ---- | -------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1    | `package-name-migration`   | safe (no-op)                                                                                                                                                                                    |
-| 2    | `semantic-token-migration` | safe (no-op — the rename map is prefix-free and no new path matches an old key)                                                                                                                 |
-| 3    | `css-variable-migration`   | safe (no-op) for every Montage-shipped variable; a consumer-defined `--wds-wds-*` name would be stripped again                                                                                  |
-| 4    | `dom-identifier-migration` | safe (no-op)                                                                                                                                                                                    |
-| 5    | `list-card-migration`      | safe (no-op), EXCEPT on half-hand-migrated files and files importing the same old name via two specifiers (see below)                                                                           |
-| 6    | `form-control-migration`   | **CORRUPTS CODE** — never re-run (see below)                                                                                                                                                    |
-| 7    | `push-badge-migration`     | safe (no-op — the shapes it skips on the first run are skipped identically on the next; see below)                                                                                              |
-| 8    | `status-migration`         | safe (no-op — after the first run no `invalid` / `positive` is left to rewrite, and the `status`+`invalid` half-hand-migrated shape it skips is skipped identically on the next run; see below) |
+| Step | Transform                     | Re-run on migrated code                                                                                                                                                                         |
+| ---- | ----------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1    | `package-name-migration`      | safe (no-op)                                                                                                                                                                                    |
+| 2    | `semantic-token-migration`    | safe (no-op — the rename map is prefix-free and no new path matches an old key)                                                                                                                 |
+| 3    | `css-variable-migration`      | safe (no-op) for every Montage-shipped variable; a consumer-defined `--wds-wds-*` name would be stripped again                                                                                  |
+| 4    | `dom-identifier-migration`    | safe (no-op)                                                                                                                                                                                    |
+| 5    | `list-card-migration`         | safe (no-op), EXCEPT on half-hand-migrated files and files importing the same old name via two specifiers (see below)                                                                           |
+| 6    | `form-control-migration`      | **CORRUPTS CODE** — never re-run (see below)                                                                                                                                                    |
+| 7    | `push-badge-migration`        | safe (no-op — the shapes it skips on the first run are skipped identically on the next; see below)                                                                                              |
+| 8    | `status-migration`            | safe (no-op — after the first run no `invalid` / `positive` is left to rewrite, and the `status`+`invalid` half-hand-migrated shape it skips is skipped identically on the next run; see below) |
+| 9    | `list-cell-variant-migration` | no-op on its OWN output, **BUT mis-renames hand-authored v4 `variant="button"` to `text-button`** — v4 reuses the name, so post-migration code is not safe input (see below)                    |
 
 Even for the "safe" steps, treat every step as run-once: the state file is the single
 source of truth, and mixed states (a step applied to half the tree) are hard to diagnose.
 The hard inter-step constraints are between codemods and MANUAL steps: manual fixes
-reference post-codemod names, so all 8 codemods run first, manual migrations after
-(see `manual-migrations.md`). Step 2 has no ordering constraint against the other seven
+reference post-codemod names, so all 9 codemods run first, manual migrations after
+(see `manual-migrations.md`). Step 2 has no ordering constraint against the other eight
 (its `semantic.*` / `--semantic-*` namespace is disjoint from every other transform's
 inputs and outputs, and it is not import-gated) — its position follows the MIGRATION.md
-section order. Steps 7 and 8 are likewise order-independent (step 7's surface is the
+section order. Steps 7, 8 and 9 are likewise order-independent (step 7's surface is the
 `PushBadge` `variant` / `count` / `text` props, step 8's is the `invalid` / `positive` props
-of the input-family components and `framedStyle`; no other transform reads or writes
-either); they sit last in the order they were added, so an older state file simply gains a
+of the input-family components and `framedStyle`, and step 9's is the ListCell-family
+`fillWidth` / `interactionPadding` / content-`variant` props and the `caption` /
+`captionProps` keys inside `textProps` — its import gate accepts both
+`@wanteddev/wds` and `@montage-ui/core`, so it works before or after step ①, and no other
+transform reads or writes any of its attributes: step ⑦ also rewrites an attribute literally
+named `variant`, but only on `PushBadge`, a disjoint component set with disjoint values);
+they sit last in the order they were added, so an older state file simply gains a
 `pending` key.
 
 ## Presence greps — "was this step already run?"
 
 Every step's post-step verification is an ABSENCE check, so it returns zero both when the
-codemod ran and when the repo never used that API — **except step ⑧'s, which is not a zero
-criterion at all** (see its caveat below before applying the pair rule to it). That makes it useless for the
+codemod ran and when the repo never used that API — **except step ⑧'s and step ⑨'s, which
+are not zero criteria at all** (see their caveats below before applying the pair rule to
+either). That makes it useless for the
 `pending`-but-already-applied mismatch direction (SKILL.md preflight item 1) — the direction
 that walks into the step ⑥ double-swap. Pair it with the matching PRESENCE grep: new names
 present + old names absent means the transform already ran (by codemod or by hand).
@@ -152,7 +159,7 @@ grep -rn "@montage-ui/" <targets>
 #    (foreground|surface|effect) is blind to a repo whose only v3 usage was background.normal.*
 #    or line.*, which land on background.neutral.* / line.* and would read as "never used"
 grep -rnE -- "semantic\.(foreground|surface|effect|background\.neutral|line\.(neutral|brand|negative|cautionary|positive))\.|--semantic-(foreground|surface|effect|background-neutral|line-(neutral|brand|negative|cautionary|positive))-" <targets>
-# ③ css-variable-migration — weakest signal of the eight, see the caveat below
+# ③ css-variable-migration — weakest signal of the nine, see the caveat below
 grep -rnE -- "--grid-(column|row)-spacing" <targets>
 # ④ dom-identifier-migration
 grep -rn "data-component" <targets>
@@ -194,6 +201,19 @@ grep -rnE 'PushBadge[^>]*(variant="(text|max-count)"|text=)' <targets>
 #    migrates to aria-invalid and never gains a `status` — without it a Checkbox-only repo
 #    has no presence signal at all. Multi-line props escape it — see the caveat below
 grep -rnE '<(TextField|TextArea|Select|SelectMultiple|DatePicker|DateRangePicker|TimePicker)[[:space:]][^>]*status=|<(Checkbox|Radio|CheckMark|RoundCheckbox)[[:space:]][^>]*aria-invalid' <targets>
+# ⑨ list-cell-variant-migration — component-anchored on both surfaces the transform writes:
+#    the cell variant values ("full"; "inset" is the default and rarely written explicitly)
+#    and the renamed content variants. `variant="content-badge"` alone is no evidence
+#    without the anchor: MenuActionAreaContent is out of the transform's scope, and
+#    hand-authored v4 code writes these values too — which still counts as presence (the
+#    pair rule's "by codemod or by hand"), but only on the components the transform owns.
+#    The third alternative is the textProps rename's own signal: `descriptionProps` is a
+#    Montage-specific token that needs no component anchor, and it is the ONLY presence
+#    evidence in a repo whose sole step-⑨ surface was `textProps={{ caption }}` (the bare
+#    key `description:` is deliberately NOT in the pattern — consumers own that word
+#    everywhere and it would make the grep fire on any repo).
+#    Aliased imports (ListCell as Cell) and multi-line props escape it — see the caveat below
+grep -rnE '<(ListCell|AccordionSummary|AutocompleteOption)[[:space:]][^>]*variant="(inset|full)"|<(ListCellContent|OptionContent|MenuItemContent|AutocompleteOptionContent|AccordionSummaryContent)[[:space:]][^>]*variant="(content-badge|text-button)"|\bdescriptionProps\b' <targets>
 ```
 
 Read the pair together, never either alone: both zero means the repo simply never used that
@@ -239,7 +259,14 @@ tree may already have had. Treat it as evidence only alongside a Montage import 
 file; on a repo whose only v3 `invalid` usage was the Checkbox family, prefer the step-⑧
 commit / `git log -S"invalid"` over either grep.
 
-**Step ③ caveat — the weakest signal of the eight.** `css-variable-migration` covers the
+**Step ⑨ caveat — its absence grep is not a zero criterion.** The transform deliberately
+leaves `fillWidth` on `MenuItem` / `Option` in place (their own `variant` type leaves no
+replacement prop — see Step 9), so `fillWidth` hits after a perfectly correct run are the
+NORMAL post-⑨ state on such a repo. "Old present + new present" therefore does not read as
+HALF-migrated for this step: triage the old-side hits against Step 9's verify classes before
+concluding anything, and prefer the step-⑨ commit / `git log -S"fillWidth"` when in doubt.
+
+**Step ③ caveat — the weakest signal of the nine.** `css-variable-migration` covers the
 68 `KNOWN_WDS_VARIABLES`: 66 come out with the `--wds-` prefix simply stripped
 (`--modal-translate`, `--switch-width`, `--card-content-item-*`, …) and the remaining two,
 `--wds-column-spacing` / `--wds-row-spacing`, are renamed to `--grid-*-spacing`. Only
@@ -897,17 +924,179 @@ the object built outside the call is a third member of the same class: the trans
 rewrites an inline object literal, so such a call keeps its `invalid` key silently, and the
 JSX-anchored grep above can never see it (M16).
 
-## After all 8 steps
+## Step 9 — `list-cell-variant-migration`
 
-Proceed to `manual-migrations.md` (all M-sections, M1–M16), then final verification:
+Import-gated like steps 5–8: the transform fires only on components imported from exactly
+`@montage-ui/core` or `@wanteddev/wds` (per-name specifier lookup, alias-aware) — namespace,
+re-export, and subpath imports do not trigger it. No stylesheet pass (it is not registered
+in the CLI's `STYLE_TEXT_TRANSFORMS`; its surface is JSX-only).
+
+Migrates the v4 ListCell rework across the ListCell family:
+
+| 컴포넌트                                                                                                                   | 기존                                | 변경                                          |
+| -------------------------------------------------------------------------------------------------------------------------- | ----------------------------------- | --------------------------------------------- |
+| `ListCell`, `AccordionSummary`, `AutocompleteOption`                                                                       | `fillWidth` / `fillWidth={true}`    | `variant="full"`                              |
+|                                                                                                                            | `fillWidth={false}`                 | 제거 (`inset`이 기본값)                       |
+|                                                                                                                            | `fillWidth={expr}`                  | `variant={expr ? 'full' : 'inset'}`           |
+| `MenuItem`, `Option`                                                                                                       | `fillWidth={false}`                 | 제거 (v3에서도 no-op이던 죽은 prop)           |
+|                                                                                                                            | 켜진 / 동적 `fillWidth`             | **변환 안 함** — 리포트만 남기고 M17로 (아래) |
+| 셀 5종 모두                                                                                                                | `interactionPadding`                | 제거 + 리포트 (v4는 12px 고정)                |
+|                                                                                                                            | `xs`–`xl` 객체의 위 두 키           | 키 제거 + 리포트 (variant는 반응형 미지원)    |
+|                                                                                                                            | `textProps`의 `caption`             | `description`                                 |
+|                                                                                                                            | `textProps`의 `captionProps`        | `descriptionProps`                            |
+| 콘텐츠 5종 (`ListCellContent`, `OptionContent`, `MenuItemContent`, `AutocompleteOptionContent`, `AccordionSummaryContent`) | `variant="badge"`                   | `variant="content-badge"`                     |
+|                                                                                                                            | `variant="button"`                  | `variant="text-button"`                       |
+|                                                                                                                            | `variant="chevron"`                 | `variant="value" chevron`                     |
+|                                                                                                                            | `variant="chevron" chevron={false}` | `variant="value"`                             |
+|                                                                                                                            | `disabled`                          | 제거 (셀의 disabled가 context로 전파)         |
+
+`textProps`는 셀 5종이 모두 ListCell에서 그대로 물려받는 prop이라 `caption` → `description`
+변환은 다섯 컴포넌트에 동일하게 적용된다(`MenuItem` / `Option` 포함 — 이 rename에는
+variant 충돌 문제가 없다). 축약형 `{ caption }`은 값이 같은 이름의 지역 변수이므로
+`{ description: caption }`으로 펼쳐 변수 이름은 건드리지 않는다. 삼항·논리식 양쪽의 객체
+리터럴까지 훑지만, `textProps={props.textProps}`처럼 객체 리터럴이 아니거나 스프레드가
+섞인 경우는 키를 정적으로 볼 수 없어 **리포트만 남기고 M17로 넘긴다**.
+
+`MenuItem` / `Option`의 켜진 `fillWidth`를 변환하지 않는 이유: 두 컴포넌트의 `variant`는
+자체 값(`'normal' | 'radio' | 'checkbox'`)이 ListCell의 variant를 덮어쓰므로
+`variant="full"`이 타입도 의미도 깨진다 — 대체 prop이 없어 `sx` 재작성이 필요한 수동
+결정(M17)이다. `MenuActionAreaContent`는 자체 variant 타입(v4에서도 `badge` / `button`
+유지)이라 대상이 아니다. 문자열 리터럴이 아닌 `variant={expr}`는 **리포트 없이 조용히
+건너뛴다** — 아래 verify의 네 번째 grep이 그 목록을 만들어 M17로 넘긴다(M17도 같은 스캔을
+자체 net으로 갖고 있다).
+
+**No-op on its own output, but NOT safe on hand-authored v4 code.** Within the transform's
+own map no rename VALUE re-enters as a rename KEY (`content-badge` / `text-button` / `value`
+/ `full` / `inset` / `description` / `descriptionProps` are never inputs), so a second run
+over its own output changes nothing —
+the skip-and-report cases (MenuItem/Option `fillWidth`, `fillWidth`+`variant` coexistence)
+just report again. The corruption vector is different: **v4 reuses the name `button`** — the
+new content variant union carries BOTH `text-button` (old TextButton style) and `button` (a
+general Button slot), so a hand-written v4 `variant="button"` is textually identical to v3
+input and gets silently renamed to `text-button` with no type error. That is why this step
+is run-once and why it must run BEFORE any new v4 API adoption (Critical rule 3 covers it).
+`badge` and `chevron` are not valid v4 variants, so `button` is the only ambiguous key.
+
+Pre-check (hand-migrated v4 detection — the analogue of step ⑥'s, without exclusion
+machinery). **It must be FILE-level and two-pass, for the same reason step ⑥'s is**: a
+single-line anchored grep cannot see a prettier-formatted element whose `variant="button"`
+sits on its own line, and that miss is the corruption this pre-check exists to prevent
+(verified: the anchored one-liner returns nothing on such a file, and the codemod then
+renames it to `text-button` with no type error). Intersect the two file lists:
+
+```sh
+comm -12 \
+  <(grep -rlE 'variant="button"' <targets> | sort) \
+  <(grep -rlE '\b(ListCellContent|OptionContent|MenuItemContent|AutocompleteOptionContent|AccordionSummaryContent)\b' <targets> | sort)
+```
+
+Then inspect every file the intersection returns (the anchored single-line form below is
+useful only to LOCATE the element inside a file already flagged, never as the gate):
+
+```sh
+grep -rnE '<(ListCellContent|OptionContent|MenuItemContent|AutocompleteOptionContent|AccordionSummaryContent)[[:space:]][^>]*variant="button"' <flagged file>
+```
+
+On a pure v3 tree every hit IS the old TextButton-styled variant — the rename is exactly
+right; proceed. A hit in a file that ALSO shows v4-only ListCell markers (`labelTrailing=`,
+`extraContent=`, `ListCellLabelTrailing` / `ListCellExtraContent` / `ListCellSelectedIcon`
+imports, `variant="content-badge"` / `"text-button"` on these components, `variant="inset"` /
+`"full"` on the cells) is hand-migrated v4 code the codemod would corrupt: reconcile with the
+user first. There is no per-file exclusion for this step; a mixed file cannot be ring-fenced,
+so the file itself must stop matching before the codemod runs. Three terminating paths, and
+the choice is the user's:
+
+1. The element's intended variant is the OLD TextButton style → hand-rename it to
+   `text-button` now; the codemod then finds nothing to do there.
+2. The element is v3 code that was never migrated → revert the file to pure v3 (drop the v4
+   markers) and let the codemod transform it.
+3. **The element is a genuinely intended v4 general-Button slot** → it is premature v4
+   adoption under Critical rule 3. PARK it: record the file, element, and intended markup,
+   revert those elements to their pre-adoption form (or temporarily drop the `variant`
+   attribute so the file stops matching), run step ⑨, then re-apply the parked markup in the
+   manual phase, where post-codemod v4 adoption is sanctioned. Re-running with the file
+   unchanged aborts identically every time — there is no "acknowledge and proceed" flag.
+
+Post-step verification (five greps; ① is a conditional-zero, ④ is report-only, and ⑤ is
+split zero/judged — see the classes):
+
+```sh
+grep -rnE '\b(fillWidth|interactionPadding)\b' <targets>
+grep -rnE 'variant="chevron"' <targets>
+grep -rnE '<(ListCellContent|OptionContent|MenuItemContent|AutocompleteOptionContent|AccordionSummaryContent)[[:space:]][^>]*variant="(badge|button)"' <targets>
+grep -rnE '<(ListCellContent|OptionContent|MenuItemContent|AutocompleteOptionContent|AccordionSummaryContent)[[:space:]][^>]*variant=\{' <targets>
+grep -rnE "\bcaptionProps\b|\bcaption\b['\"]?[[:space:]]*[:,}]" <targets>
+```
+
+⑤ is the one grep in this step written with DOUBLE quotes: its pattern carries a literal
+`'` (to reach a quoted `{ 'caption': … }` key), which cannot survive inside the
+single-quoted form the other four use. Inside double quotes bash leaves `\b` and
+`[[:space:]]` untouched and unescapes `\"` to a bare `"`, so grep receives
+`['"]?` intact (verified on BSD `/usr/bin/grep` and ugrep).
+
+Remaining hits come from these places, none a reason to re-run the codemod:
+
+- **MenuItem / Option `fillWidth`** the transform deliberately left (reported during the
+  run) — M17 owns the sx decision; do not convert them to `variant="full"`.
+- **Props objects and `{...spread}`** built outside the JSX element — invisible to the
+  transform; M17's scans are the net. The same applies to a non-literal or spread-carrying
+  `textProps` (`textProps={props.textProps}`, `textProps={{ ...base }}`): the transform
+  reports it and leaves the `caption` key alone. A ternary with only ONE readable branch
+  (`textProps={dense ? props.textProps : { caption }}`) is reported too — the object branch
+  is rewritten and the dynamic one is named in the report.
+- **Gate-skipped files** (namespace / re-export / subpath imports) — fix by hand NOW against
+  the table above; confirm each identifier really comes from a montage source first.
+- **Duplicate-specifier files** (the SAME component imported plain + aliased): the import
+  lookup resolves ONE local name, and the other local name's usages are silently MISSED —
+  under-transform, never corruption. Fix the leftovers by hand.
+- `variant="chevron"` is expected ZERO — `chevron` is not a valid variant on any v4
+  component; rewrite a hit to `variant="value" chevron` (v3's chevron variant showed the
+  arrow by default, and the v4 `chevron` prop defaults to OFF, so the prop must be added).
+- `variant="badge"` / `variant="button"` on the five content components is expected ZERO at
+  this point in the canonical order (rule 3 forbids adopting new v4 APIs before the
+  codemods, so a hit is v3 usage in a gate-skipped file — `badge` → `content-badge`,
+  `button` → `text-button` by hand). At FINAL verification the same pattern becomes a
+  judged criterion instead: by then M-sections may have introduced legitimate v4
+  `variant="button"` (general Button) usages — never rename those.
+
+- The fourth grep is **report-only**, never a criterion: it lists the dynamic
+  `variant={expr}` sites the transform skipped silently. Report them for M17 (which runs the
+  same scan as its own net) — judging whether an expression can produce
+  `badge` / `button` / `chevron` is M17's, not this step's.
+
+- The fifth grep covers the `textProps` rename and splits into two criteria. The
+  `captionProps` half is expected **ZERO** — it is a Montage-only token with no other
+  owner. The `caption` half (`caption:` / `caption,` / `caption }` plus the quoted
+  `'caption':` / `"caption":` key forms, which also catches the shorthand `{ caption }`)
+  is **JUDGED**: a hit inside a Montage `textProps` object is a
+  leftover for M17 (props objects built outside the JSX, non-literal `textProps`, and
+  gate-skipped files all land here), but the word has other legitimate owners in v4 —
+  **`ActionArea`'s own `caption` prop is valid v4 API and must never be renamed**, and
+  consumer or third-party objects (chart configs, i18n bundles) carry `caption:` keys of
+  their own. Confirm each hit really is a ListCell-family `textProps` before touching it.
+  Note the pattern deliberately does not match `caption=`, so `<ActionArea caption={…}>`
+  never appears in the output at all.
+
+All five greps are line-based over an AST transform: multi-line props escape them all, and
+aliased content components escape the anchored ones. A clean result is "nothing obvious",
+and M17's scans are the wider net.
+
+## After all 9 steps
+
+Proceed to `manual-migrations.md` (all M-sections, M1–M17), then final verification:
 
 1. Each step's verify grep zero, with its documented exceptions (step ①:
    `@wanteddev/montage-mcp`; step ⑥: hits inside the state file's `excludeFiles`; step ⑧:
    a `status={…}` whose folded expression mentions a bare `invalid` / `positive` — the
-   transform's own correct output, never edit it).
-   Steps ②/③/④ are NOT plain zero-criterion: their leftovers are M-section-owned (M9 for ②,
-   M3 for ③/④), so a Montage-related hit means that section is incomplete — reopen it. All
-   three share one carve-out: a hit assessed as non-Montage code — a false positive REVERTED
+   transform's own correct output, never edit it; step ⑨: at this final stage
+   `variant="button"` on the content components is a JUDGED criterion, since the manual
+   phase may have introduced legitimate v4 general-Button usages — never rename those).
+   Steps ②/③/④/⑨ are NOT plain zero-criterion: their leftovers are M-section-owned (M9 for ②,
+   M3 for ③/④, M17 for ⑨'s `fillWidth` / `interactionPadding` — including the
+   `MenuItem` / `Option` ones the transform deliberately skipped, whose M17 scan is
+   **[zero]**), so a Montage-related hit means that section is incomplete — reopen it (never
+   by converting a `MenuItem` / `Option` hit to `variant="full"`, which is invalid there). All
+   four share one carve-out: a hit assessed as non-Montage code — a false positive REVERTED
    during that step's own diff review (steps ③/④ mandate those reverts, so the original
    `--wds-*` / `wds-*` names legitimately survive), or unrelated consumer code — may remain
    and is listed in the summary. Every M-section **[zero]**
@@ -924,6 +1113,10 @@ Proceed to `manual-migrations.md` (all M-sections, M1–M16), then final verific
    rename, see M14; fallback views, whose content padding now applies only while an image
    is present — gone from every image-less view, including each one where M15's decision
    dropped the deprecated image, see M15; TextFields that used to show BOTH the negative
-   border and the positive icon, which `status` can no longer express at once, see M16) and
-   screens that used the deleted accent tokens (see M9) —
+   border and the positive icon, which `status` can no longer express at once, see M16),
+   screens that used the deleted accent tokens (see M9), and every ListCell-family list
+   (ListCell / Accordion / Select and Autocomplete options / Menu items — label typography
+   dropped to body2·medium with bold selection, captions to label2, icons 24→20, inset
+   radius 12→16, disabled restyled from opacity to disable tokens, and `selected` cells
+   without a trailingContent now show a default check icon, see M17) —
    behavioral and visual changes, not just renames.

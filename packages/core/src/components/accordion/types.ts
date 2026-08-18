@@ -30,6 +30,16 @@ export type AccordionSummaryProps = Merge<
      * Pass an element wrapped with `AccordionSummaryContent`.
      */
     trailingContent?: ReactNode;
+    /**
+     * Content displayed in the label's trailing area.
+     * Pass an element wrapped with `AccordionSummaryLabelTrailing`.
+     */
+    labelTrailing?: ReactNode;
+    /**
+     * Content displayed below the label and description.
+     * Pass an element wrapped with `AccordionSummaryExtraContent`.
+     */
+    extraContent?: ReactNode;
   },
   Omit<ListCellProps, 'selected' | 'divider'>
 >;

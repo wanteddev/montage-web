@@ -6,3 +6,7 @@ export const AUTOCOMPLETE_FIELD_NAME = 'AutocompleteField';
 export const AUTOCOMPLETE_LIST_NAME = 'AutocompleteList';
 export const AUTOCOMPLETE_OPTION_NAME = 'AutocompleteOption';
 export const AUTOCOMPLETE_OPTION_CONTENT_NAME = 'AutocompleteOptionContent';
+export const AUTOCOMPLETE_OPTION_LABEL_TRAILING_NAME =
+  'AutocompleteOptionLabelTrailing';
+export const AUTOCOMPLETE_OPTION_EXTRA_CONTENT_NAME =
+  'AutocompleteOptionExtraContent';

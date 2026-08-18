@@ -13,7 +13,8 @@ consumer checkout.
 `.claude-plugin/montage-migration/.claude-plugin/plugin.json` (1.0.0) and
 `.claude-plugin/marketplace.json` (1.1.0) are intentionally NOT bumped during the 4.0.0
 work — the maintainer stacks these changes on `feature/4.0.0` and bumps once, when 4.0.0
-merges to `main`. Both must be bumped then (plugin minor for the new M12/M13/M14/M15/M16 content,
+merges to `main`. Both must be bumped then (plugin minor for the new
+M12/M13/M14/M15/M16/M17 and step ⑨ `list-cell-variant-migration` content,
 marketplace alongside it) before the plugin ships.
 
 ## SKILL.md exceeds the lean-entry-point budget
@@ -25,7 +26,7 @@ exclusions) and the abort-cause catalogue. Both are consumed BEFORE any referenc
 fresh instance that skips them can corrupt a consumer repo, so they stay in the entry point until
 someone designs a split that keeps them on the first-load path. The frontmatter description is
 likewise over the usual length because it carries Korean and English triggers for the full
-migration, the resume, and each of the eight single-codemod phrasings.
+migration, the resume, and each of the nine single-codemod phrasings.
 
 ## Scan patterns are line-based heuristics
 

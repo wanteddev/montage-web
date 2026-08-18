@@ -45,7 +45,7 @@ export const menuListStyle = css`
   padding: 8px 0;
 `;
 
-export const menuItemStyle = (theme: Theme) => css`
+export const menuItemStyle = css`
   width: calc(100% - 40px);
 
   &:focus-visible {
@@ -54,10 +54,6 @@ export const menuItemStyle = (theme: Theme) => css`
     > [data-component='with-interaction'] {
       opacity: 0.06;
     }
-  }
-
-  [data-role='menu-item-active-icon-check'] {
-    color: ${theme.semantic.foreground.brand.primary};
   }
 `;
 

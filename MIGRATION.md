@@ -1125,6 +1125,179 @@ CSP를 사용하는 프로젝트를 위해 `nonce` prop이 추가되었습니다
 <ThemeProvider enableDarkMode nonce={nonce} />
 ```
 
+### ListCell
+
+ListCell 구조가 개편되었습니다. `fillWidth` / `interactionPadding`이 `variant`로 통합되고, 콘텐츠 variant 이름이 정리되었으며, 레이블 우측(`labelTrailing`)과 텍스트 하단(`extraContent`) 슬롯이 추가되었습니다.
+
+ListCell을 기반으로 하는 컴포넌트에 공통 적용됩니다:
+
+- 셀 계열 — `ListCell`, `AccordionSummary`, `AutocompleteOption`, `Option`, `MenuItem`
+- 콘텐츠 계열 — `ListCellContent`, `AccordionSummaryContent`, `AutocompleteOptionContent`, `OptionContent`, `MenuItemContent`
+
+> `MenuActionAreaContent`는 자체 variant 타입이라 이번 변경에 해당하지 않습니다(`badge` / `button` 유지).
+
+#### `fillWidth` / `interactionPadding` → `variant`
+
+| AS-IS                       | TO-BE                                    |
+| --------------------------- | ---------------------------------------- |
+| `fillWidth` (true)          | `variant="full"`                         |
+| `fillWidth={false}` / 생략  | 생략 (`inset`이 기본값)                  |
+| `fillWidth={expr}`          | `variant={expr ? 'full' : 'inset'}`      |
+| `interactionPadding="20px"` | 제거 — 인터랙션 영역이 12px로 고정됩니다 |
+
+- `interactionPadding`에 12px가 아닌 값을 쓰던 곳은 인터랙션 영역 너비가 달라지므로 시각 확인이 필요합니다.
+- `variant`는 **반응형(`xs`/`sm`/`md`/`lg`/`xl`)을 지원하지 않습니다.** 브레이크포인트별로 `fillWidth`를 바꾸던 코드는 대응할 수 없어 필요 시 `sx`로 직접 분기해야 합니다.
+- **`MenuItem` / `Option`은 `variant`로 옮길 수 없습니다.** 두 컴포넌트의 `variant`는 자체 값(`'normal' | 'radio' | 'checkbox'`)이 ListCell의 variant를 덮어쓰므로, v3에서 이들에 지정하던 `fillWidth`는 v4에 대응 prop이 없습니다. 필요하면 `sx`로 직접 재현하세요(코드모드는 변환하지 않고 리포트만 남깁니다).
+- `inset`의 border radius가 12px에서 **16px**로 커졌습니다.
+
+#### 콘텐츠 variant 정리
+
+| AS-IS                                    | TO-BE                                   |
+| ---------------------------------------- | --------------------------------------- |
+| `variant="badge"`                        | `variant="content-badge"`               |
+| `variant="button"`                       | `variant="text-button"`                 |
+| `variant="chevron"` (children 있음/없음) | `variant="value" chevron`               |
+| `variant="chevron" chevron={false}`      | `variant="value"`                       |
+| `disabled` prop                          | 제거 — 셀의 `disabled`가 context로 전파 |
+
+- **`button`은 이름이 재사용됩니다.** v3의 `button`은 TextButton 스타일(`TextButtonProvider`)이었고, v4의 `button`은 일반 `Button`용입니다. 코드모드 없이 이름을 그대로 두면 타입 에러 없이 **조용히 스타일이 깨집니다.**
+- `chevron`은 독립 variant에서 **모든 variant에 조합 가능한 prop**이 되었고, 기본값이 `true`에서 `false`로 바뀌었습니다. v3에서 `variant="chevron"`은 화살표가 기본 표시였으므로 변환 시 `chevron`을 켜야 동작이 보존됩니다.
+- 신규 variant: `toggle-icon`(ToggleIcon용), `text-button`(TextButton용), `button`(일반 Button용).
+
+#### `textProps`의 `caption` → `description`
+
+셀 하단 보조 텍스트의 이름이 `caption`에서 `description`으로 바뀌었습니다. 셀 계열 전부(`ListCell`, `AccordionSummary`, `AutocompleteOption`, `Option`, `MenuItem`)가 같은 `textProps`를 물려받으므로 공통 적용됩니다.
+
+| AS-IS                                   | TO-BE                                       |
+| --------------------------------------- | ------------------------------------------- |
+| `textProps={{ caption: '설명' }}`       | `textProps={{ description: '설명' }}`       |
+| `textProps={{ captionProps: { ... } }}` | `textProps={{ descriptionProps: { ... } }}` |
+| `data-role="list-text-caption"`         | `data-role="list-text-description"`         |
+
+```tsx
+// AS-IS
+<ListCell textProps={{ caption: '보조 설명' }}>레이블</ListCell>
+
+// TO-BE
+<ListCell textProps={{ description: '보조 설명' }}>레이블</ListCell>
+```
+
+- 타입에서 사라진 이름이라 객체 리터럴로 넘기던 `caption` / `captionProps`는 초과 프로퍼티 검사에 걸려 타입 에러로 드러납니다. 다만 `textProps`를 변수로 조립해 넘기던 코드는 조용히 무시되므로 직접 확인해야 합니다.
+- `data-role="list-text-caption"`을 CSS 셀렉터나 테스트 쿼리로 타겟팅하던 코드는 함께 바꿔야 합니다.
+
+#### `selected` 기본 체크 아이콘
+
+`selected`일 때 `trailingContent` 기본값으로 브랜드 컬러 체크 아이콘이 표시됩니다.
+
+```tsx
+// selected만 지정하면 우측에 체크 아이콘이 자동 표시됩니다.
+<ListCell selected>레이블</ListCell>
+
+// 체크 아이콘을 원치 않으면 null을 전달하세요.
+<ListCell selected trailingContent={null}>레이블</ListCell>
+```
+
+- `trailingContent`를 직접 지정하면 체크 대신 그 콘텐츠가 표시됩니다.
+- `MenuItem`의 선택 체크 표시가 이 공통 동작으로 통합되었습니다(시각 결과 동일). `selected`만 쓰고 `trailingContent`가 없던 **일반 ListCell에는 체크가 새로 생기므로** 의도에 맞는지 확인하세요.
+
+##### `leadingContent`에 선택 컨트롤이 있고 `trailingContent`가 없으면 반드시 꺼야 합니다
+
+좌측 Checkbox / Radio / Switch가 이미 선택 상태를 표현하는데 우측 체크 아이콘까지 붙으면 **선택 어포던스가 중복**됩니다. 이 조합은 판단 대상이 아니라 `trailingContent={null}`이 정답입니다.
+
+**단, `trailingContent`를 이미 넘기고 있다면 손대지 마세요.** 명시적 `trailingContent`가 있으면 기본 체크는 애초에 렌더링되지 않습니다. 여기에 `null`을 덮어쓰면 기존 value·chevron·액션 콘텐츠가 사라집니다.
+
+```tsx
+// 🚫 좌측 체크박스와 우측 체크 아이콘이 함께 표시됩니다.
+<ListCell
+  selected={checked}
+  leadingContent={
+    <ListCellContent variant="checkbox">
+      <Checkbox checked={checked} />
+    </ListCellContent>
+  }
+>
+  레이블
+</ListCell>
+
+// ✅ 우측 체크를 명시적으로 끕니다.
+<ListCell
+  selected={checked}
+  trailingContent={null}
+  leadingContent={
+    <ListCellContent variant="checkbox">
+      <Checkbox checked={checked} />
+    </ListCellContent>
+  }
+>
+  레이블
+</ListCell>
+```
+
+| `leadingContent`                          | `trailingContent` | 조치                                     |
+| ----------------------------------------- | ----------------- | ---------------------------------------- |
+| Checkbox / Radio / Switch 등 선택 컨트롤  | 없음              | `trailingContent={null}` — 어포던스 중복 |
+| Checkbox / Radio / Switch 등 선택 컨트롤  | 있음              | 그대로 둠 — 기본 체크가 렌더되지 않음    |
+| 아이콘 / 썸네일 / 아바타 등 비선택 콘텐츠 | 없음              | 체크 유지가 v4 기본 디자인               |
+| 없음 (스타일 목적의 `selected`)           | 없음              | 체크 노출 여부를 새로 결정               |
+
+`MenuItemCheckbox` / `MenuItemRadio`가 참고 구현입니다. 선택 컨트롤을 `leadingContent`에 두고 `trailingContent={null}`을 함께 넘기며, `MenuItemProvider`는 `checkbox`/`radio` variant에 `selected`를 아예 전달하지 않습니다. 같은 모양을 손으로 조립하면서 `trailingContent={null}`만 빠뜨린 코드가 이 케이스에 해당합니다.
+
+#### 타이포그래피 · DOM 변경
+
+- 레이블: `body1` · regular → **`body2` · medium** (선택 시 medium → **bold**)
+- 캡션: `label1` → **`label2`**
+- `value` variant: `body1` → **`body2`**
+- `ListText` 기본 태그가 `p` → `div`로, 내부 텍스트가 `span` → `p`로 바뀌었습니다. `p` 태그를 타겟팅하던 CSS 셀렉터·테스트 쿼리는 확인이 필요합니다.
+
+#### disabled 스타일 변경
+
+셀 전체에 `opacity: 0.43`을 씌우던 방식에서 `foreground.disable.primary` 색상 기반으로 바뀌었습니다(thumbnail / avatar만 opacity 유지). 스냅샷·시각 테스트 갱신이 필요할 수 있습니다.
+
+#### 내부 DOM 식별자 변경
+
+CSS 셀렉터나 테스트 쿼리로 내부 DOM을 타겟팅하던 코드는 확인이 필요합니다:
+
+| 기존                                      | 변경                                        |
+| ----------------------------------------- | ------------------------------------------- |
+| `data-role="list-item-trailing-content"`  | `data-role="list-cell-trailing-content"`    |
+| `data-role="menu-item-active-icon-check"` | `data-role="list-cell-selected-icon-check"` |
+| `data-role="list-text-caption"`           | `data-role="list-text-description"`         |
+
+신규 식별자: `list-cell-leading-content`, `list-cell-label-trailing`, `list-cell-extra-content`, `list-cell-extra-content-area`, `list-cell-content-chevron`.
+
+#### 신규 슬롯 (breaking 아님)
+
+- `labelTrailing` — 레이블 우측 콘텐츠. `ListCellLabelTrailing`(`verified-check` / `content-badge` / `custom`)으로 래핑.
+- `extraContent` — 캡션 하단 콘텐츠. `ListCellExtraContent`(`text` / `content-badge` / `custom`)으로 래핑.
+- 파생 컴포넌트별 래퍼: `AccordionSummaryLabelTrailing` / `AutocompleteOptionLabelTrailing` / `OptionLabelTrailing` / `MenuItemLabelTrailing`과 `*ExtraContent`.
+
+#### codemod
+
+```sh
+npx @montage-ui/codemod@latest list-cell-variant-migration src
+```
+
+코드모드가 변환하는 것:
+
+- `ListCell` / `AccordionSummary` / `AutocompleteOption`의 `fillWidth` → `variant` (불리언 리터럴은 확정값으로, 동적 식은 삼항식으로)
+  - `fillWidth="true"` 같은 문자열 리터럴은 JSX에서 문자열 그대로 전달돼 v3 런타임에서도 truthy였으므로 같은 의미로 읽습니다(빈 문자열만 falsy). `fillWidth="false"`도 런타임상 truthy라 `variant="full"`로 옮기고 오타 가능성을 리포트로 남깁니다.
+- 셀 계열의 `interactionPadding` 제거 (제거한 위치를 리포트로 출력)
+- `xs`/`sm`/`md`/`lg`/`xl` 객체 안의 `fillWidth` / `interactionPadding` 키 제거 (리포트 출력)
+- 콘텐츠 계열의 `variant="badge"` → `"content-badge"`, `variant="button"` → `"text-button"`, `variant="chevron"` → `variant="value" chevron`
+- 콘텐츠 계열의 `disabled` prop 제거
+- 셀 계열 `textProps` 객체 안의 `caption` → `description`, `captionProps` → `descriptionProps` (축약형 `{ caption }`은 `{ description: caption }`으로 펼쳐 지역 변수 이름은 그대로 둡니다)
+
+코드모드가 변환하지 못하는 것(수동 확인 필요):
+
+- `MenuItem` / `Option`의 켜진 `fillWidth` — 대체 prop이 없어 건드리지 않고 리포트만 남깁니다(정적으로 꺼진 `fillWidth={false}`는 죽은 prop이라 제거).
+- `variant={someVariable}`처럼 문자열 리터럴이 아닌 `variant`.
+- `{...props}` 스프레드나 컴포넌트 밖에서 조립된 props 객체.
+- 객체 리터럴이 아닌 `textProps`(`textProps={props.textProps}`), 스프레드가 섞인 `textProps`, 삼항식 한쪽만 객체인 `textProps`(`dense ? props.textProps : { caption }`) — 읽을 수 있는 객체는 변환하고 나머지 분기는 리포트로 남깁니다.
+- `data-role="list-text-caption"`을 참조하던 CSS 셀렉터·테스트 쿼리.
+- `fillWidth`와 `variant`가 한 요소에 같이 있는 경우 — 손으로 옮기다 만 파일로 보고 건드리지 않습니다(리포트 출력).
+- 반응형 `fillWidth`의 대체 — 키는 제거되지만 `variant`가 반응형을 지원하지 않아 필요 시 `sx` 분기를 직접 작성해야 합니다.
+- `selected`만 쓰고 `trailingContent`가 없던 셀의 체크 아이콘 노출 여부 — 의도 판단이 필요해 코드를 바꾸지 않습니다. 다만 `leadingContent`에 Checkbox / Radio / Switch가 있으면서 `trailingContent`가 없는 셀은 어포던스가 중복되므로 `trailingContent={null}`을 직접 넣어야 합니다.
+
 ## 3.0.0 (2025-11-12)
 
 ### Button
