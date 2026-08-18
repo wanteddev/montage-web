@@ -231,7 +231,7 @@ const MANUAL_SCAN_SECTIONS = [
   {
     id: 'M17',
     title:
-      'ListCell rework follow-ups (MenuItem/Option fillWidth left by step ⑨ — no replacement prop, sx rework; responsive fillWidth/interactionPadding keys deleted — variant is not responsive, sx branches by hand; dynamic content variant silently skipped by step ⑨; selected now shows a default check icon; renamed DOM identifiers list-item-trailing-content / menu-item-active-icon-check incl. stylesheets; label body1→body2 + caption label1→label2 + ListText p→div; disabled restyled from opacity to disable tokens)',
+      'ListCell rework follow-ups (MenuItem/Option fillWidth left by step ⑨ — no replacement prop, sx rework; responsive fillWidth/interactionPadding keys deleted — variant is not responsive, sx branches by hand; dynamic content variant silently skipped by step ⑨; selected now shows a default check icon — mandatory trailingContent={null} where leadingContent already holds a Checkbox/Radio/Switch; renamed DOM identifiers list-item-trailing-content / menu-item-active-icon-check incl. stylesheets; label body1→body2 + caption label1→label2 + ListText p→div; disabled restyled from opacity to disable tokens)',
   },
 ];
 

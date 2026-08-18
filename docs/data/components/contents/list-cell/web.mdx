@@ -34,20 +34,19 @@ export default Demo;`}
 ```tsx
 <List>
   <ListCell
+    trailingContent={(
+      <ListCellContent variant="value" chevron>
+        Value
+      </ListCellContent>
+    )}
     leadingContent={(
       <ListCellContent variant="checkbox">
         <Checkbox />
       </ListCellContent>
     )}
-  />
-
-  <ListCell
-    trailingContent={(
-      <ListCellContent variant="switch">
-        <Switch />
-      </ListCellContent>
-    )}
-  />
+  >
+    Clickable list
+  </ListCell>
 </List>
 ```
 

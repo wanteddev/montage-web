@@ -1179,6 +1179,45 @@ ListCell을 기반으로 하는 컴포넌트에 공통 적용됩니다:
 - `trailingContent`를 직접 지정하면 체크 대신 그 콘텐츠가 표시됩니다.
 - `MenuItem`의 선택 체크 표시가 이 공통 동작으로 통합되었습니다(시각 결과 동일). `selected`만 쓰고 `trailingContent`가 없던 **일반 ListCell에는 체크가 새로 생기므로** 의도에 맞는지 확인하세요.
 
+##### `leadingContent`에 선택 컨트롤이 있으면 반드시 꺼야 합니다
+
+좌측 Checkbox / Radio / Switch가 이미 선택 상태를 표현하는데 우측 체크 아이콘까지 붙으면 **선택 어포던스가 중복**됩니다. 이 조합은 판단 대상이 아니라 `trailingContent={null}`이 정답입니다.
+
+```tsx
+// 🚫 좌측 체크박스와 우측 체크 아이콘이 함께 표시됩니다.
+<ListCell
+  selected={checked}
+  leadingContent={
+    <ListCellContent variant="checkbox">
+      <Checkbox checked={checked} />
+    </ListCellContent>
+  }
+>
+  레이블
+</ListCell>
+
+// ✅ 우측 체크를 명시적으로 끕니다.
+<ListCell
+  selected={checked}
+  trailingContent={null}
+  leadingContent={
+    <ListCellContent variant="checkbox">
+      <Checkbox checked={checked} />
+    </ListCellContent>
+  }
+>
+  레이블
+</ListCell>
+```
+
+| `leadingContent`                          | 조치                                     |
+| ----------------------------------------- | ---------------------------------------- |
+| Checkbox / Radio / Switch 등 선택 컨트롤  | `trailingContent={null}` — 어포던스 중복 |
+| 아이콘 / 썸네일 / 아바타 등 비선택 콘텐츠 | 체크 유지가 v4 기본 디자인               |
+| 없음 (스타일 목적의 `selected`)           | 체크 노출 여부를 새로 결정               |
+
+`MenuItemCheckbox` / `MenuItemRadio`가 참고 구현입니다. 선택 컨트롤을 `leadingContent`에 두고 `trailingContent={null}`을 함께 넘기며, `MenuItemProvider`는 `checkbox`/`radio` variant에 `selected`를 아예 전달하지 않습니다. 같은 모양을 손으로 조립하면서 `trailingContent={null}`만 빠뜨린 코드가 이 케이스에 해당합니다.
+
 #### 타이포그래피 · DOM 변경
 
 - 레이블: `body1` · regular → **`body2` · medium** (선택 시 medium → **bold**)
@@ -1199,7 +1238,7 @@ CSS 셀렉터나 테스트 쿼리로 내부 DOM을 타겟팅하던 코드는 확
 | `data-role="list-item-trailing-content"`  | `data-role="list-cell-trailing-content"`    |
 | `data-role="menu-item-active-icon-check"` | `data-role="list-cell-selected-icon-check"` |
 
-신규 식별자: `list-cell-leading-content`, `list-cell-label-trailing`, `list-cell-extra-content`, `list-extra-content-area`, `list-cell-content-chevron`.
+신규 식별자: `list-cell-leading-content`, `list-cell-label-trailing`, `list-cell-extra-content`, `list-cell-extra-content-area`, `list-cell-content-chevron`.
 
 #### 신규 슬롯 (breaking 아님)
 
@@ -1216,6 +1255,7 @@ npx @montage-ui/codemod@latest list-cell-variant-migration src
 코드모드가 변환하는 것:
 
 - `ListCell` / `AccordionSummary` / `AutocompleteOption`의 `fillWidth` → `variant` (불리언 리터럴은 확정값으로, 동적 식은 삼항식으로)
+  - `fillWidth="true"` 같은 문자열 리터럴은 JSX에서 문자열 그대로 전달돼 v3 런타임에서도 truthy였으므로 같은 의미로 읽습니다(빈 문자열만 falsy). `fillWidth="false"`도 런타임상 truthy라 `variant="full"`로 옮기고 오타 가능성을 리포트로 남깁니다.
 - 셀 계열의 `interactionPadding` 제거 (제거한 위치를 리포트로 출력)
 - `xs`/`sm`/`md`/`lg`/`xl` 객체 안의 `fillWidth` / `interactionPadding` 키 제거 (리포트 출력)
 - 콘텐츠 계열의 `variant="badge"` → `"content-badge"`, `variant="button"` → `"text-button"`, `variant="chevron"` → `variant="value" chevron`
@@ -1228,7 +1268,7 @@ npx @montage-ui/codemod@latest list-cell-variant-migration src
 - `{...props}` 스프레드나 컴포넌트 밖에서 조립된 props 객체.
 - `fillWidth`와 `variant`가 한 요소에 같이 있는 경우 — 손으로 옮기다 만 파일로 보고 건드리지 않습니다(리포트 출력).
 - 반응형 `fillWidth`의 대체 — 키는 제거되지만 `variant`가 반응형을 지원하지 않아 필요 시 `sx` 분기를 직접 작성해야 합니다.
-- `selected`만 쓰고 `trailingContent`가 없던 셀의 체크 아이콘 노출 여부 — 의도 판단이 필요해 코드를 바꾸지 않습니다.
+- `selected`만 쓰고 `trailingContent`가 없던 셀의 체크 아이콘 노출 여부 — 의도 판단이 필요해 코드를 바꾸지 않습니다. 다만 `leadingContent`에 Checkbox / Radio / Switch가 있는 셀은 어포던스가 중복되므로 `trailingContent={null}`을 직접 넣어야 합니다.
 
 ## 3.0.0 (2025-11-12)
 

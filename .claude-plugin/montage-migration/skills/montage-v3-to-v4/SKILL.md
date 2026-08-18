@@ -685,7 +685,10 @@ both together when an M-section changes):
   full-width interaction with `sx` or drop it. Responsive `fillWidth` keys were deleted and
   `variant` is not responsive — where per-breakpoint layout was intended, write the `sx`
   branch by hand. A `selected` cell without a `trailingContent` now shows a default check
-  icon — keep it or pass `trailingContent={null}` per occurrence. Dynamic content
+  icon — keep it or pass `trailingContent={null}` per occurrence, except where
+  `leadingContent` already holds a Checkbox / Radio / Switch: there the right-hand check
+  duplicates the leading affordance and `trailingContent={null}` is mandatory, not a
+  decision. Dynamic content
   `variant={expr}` was skipped SILENTLY by step ⑨ — trace whether the expression can
   produce `badge`/`button`/`chevron` and rewrite its sources. The renamed
   `list-item-trailing-content` / `menu-item-active-icon-check` DOM identifiers are a
@@ -760,7 +763,8 @@ Mark each M-section `completed` in the state file as it finishes.
    Autocomplete options / Menu items: label typography dropped to body2·medium with bold
    selection, captions to label2, icons 24→20, inset radius 12→16, disabled restyled from
    opacity to disable tokens, and `selected` cells without a trailingContent now show a
-   default check icon — see M17) and screens that used the
+   default check icon, which must be suppressed with `trailingContent={null}` wherever
+   `leadingContent` already carries a selection control — see M17) and screens that used the
    deleted accent tokens (their replacement values differ — see M9).
 4. Delete the state file, then summarize: steps run, commits created, manual fixes
    applied, items intentionally left (with reasons).

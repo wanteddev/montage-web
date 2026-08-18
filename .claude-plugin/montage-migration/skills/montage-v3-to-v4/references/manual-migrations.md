@@ -1162,6 +1162,21 @@ nothing behind for a scan to find.
   (nothing to do); without one, decide. `AccordionSummary` omits `selected` and is not
   affected.
 
+  **The decision is NOT open when `leadingContent` already carries a selection control.**
+  A leading `Checkbox` / `Radio` / `Switch` — typically wrapped in a `ListCellContent`
+  with `variant="checkbox"` or `variant="radio"` — already expresses selection, so the
+  new right-hand check is a duplicate affordance: `trailingContent={null}` is the answer,
+  not a judgement call. v4's own `MenuItemCheckbox` / `MenuItemRadio` are the reference
+  implementation — they pass `trailingContent={null}` alongside the leading control, and
+  `MenuItemProvider` withholds `selected` from those two variants entirely. The failure
+  case is a hand-rolled cell that copies that shape without copying the `null`; the
+  in-repo `TimeItem` regression was this exact class.
+  Scan **[decision]**: over the files the previous scan hit, `\b(Checkbox|Radio|Switch)\b`
+  — narrows to the cells worth reading. Multi-line props escape the single-line anchor
+  above, so each `selected` cell's `leadingContent` must be READ, not grepped. Every cell
+  whose leading content is a selection control ends with `trailingContent={null}`; the
+  rest fall back to the keep-or-suppress decision.
+
 - **Renamed internal DOM identifiers.** Two v3 identifiers were renamed and step ④'s map
   does NOT cover them (they carry no `wds-` prefix), so selectors and test queries keep
   matching nothing silently — including in stylesheets, which step ⑨ never touches:
