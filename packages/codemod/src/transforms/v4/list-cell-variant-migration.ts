@@ -19,6 +19,10 @@ import type {
  *   fillWidth / fillWidth={true}  → variant="full"
  *   fillWidth={false}             → 제거 (inset이 기본값)
  *   fillWidth={expr}              → variant={expr ? 'full' : 'inset'}
+ *   fillWidth="…"(문자열 리터럴)  → 런타임 truthy/falsy로 읽음
+ *     (JSX 문자열은 boolean이 아니라 문자열 그대로 전달되므로 v3에서도
+ *      truthy로 평가됐습니다. 빈 문자열만 falsy이며, `fillWidth="false"`는
+ *      의미를 보존해 variant="full"로 옮기고 오타 가능성을 리포트합니다)
  *   interactionPadding            → 제거 + 리포트
  *     (인터랙션 영역이 12px 고정으로 바뀌어 커스텀 값은 시각 확인이 필요합니다)
  *   xs·sm·md·lg·xl 객체 안의 fillWidth/interactionPadding → 키 제거 + 리포트
@@ -79,8 +83,14 @@ const findAttribute = (element: JSXOpeningElement, name: string) =>
   );
 
 /**
- * `fillWidth`, `fillWidth={true}`, `fillWidth={false}`는 정적으로 읽고, 그 외
- * (식별자, 비교식, 논리식 등)는 'dynamic'으로 표시해 삼항식으로 접게 한다.
+ * `fillWidth`, `fillWidth={true}`, `fillWidth={false}`, `fillWidth="true"`는
+ * 정적으로 읽고, 그 외(식별자, 비교식, 논리식 등)는 'dynamic'으로 표시해
+ * 삼항식으로 접게 한다.
+ *
+ * 문자열 리터럴은 boolean이 아니라 문자열 그대로 prop에 전달되므로 v3
+ * 런타임에서도 truthy/falsy로 평가됐다. 빈 문자열만 false로 읽어 그 의미를
+ * 보존한다 — 'dynamic'으로 두면 호출부가 속성 이름만 바꾸고 값을 남겨
+ * `variant="true"`처럼 v4 타입에 없는 값이 만들어진다.
  */
 const readBooleanAttribute = (
   attribute: JSXAttribute | undefined,
@@ -92,6 +102,10 @@ const readBooleanAttribute = (
   // shorthand(`<ListCell fillWidth />`)는 값이 없다.
   if (!value) return true;
 
+  if (value.type === 'Literal' || value.type === 'StringLiteral') {
+    return typeof value.value === 'string' ? value.value.length > 0 : 'dynamic';
+  }
+
   if (value.type === 'JSXExpressionContainer') {
     const expression = value.expression;
 
@@ -100,6 +114,13 @@ const readBooleanAttribute = (
       typeof expression.value === 'boolean'
     ) {
       return expression.value;
+    }
+
+    if (
+      (expression.type === 'Literal' || expression.type === 'StringLiteral') &&
+      typeof expression.value === 'string'
+    ) {
+      return expression.value.length > 0;
     }
   }
 
@@ -220,6 +241,16 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
       // inset이 기본값이라 정적으로 꺼진 fillWidth는 그냥 지운다.
       removeAttribute(element, fillWidthAttribute);
       return;
+    }
+
+    // `fillWidth="false"`처럼 truthy로 읽히는 문자열은 v3 런타임 의미를 보존해
+    // variant="full"로 옮기지만, 작성자 의도는 false였을 가능성이 높다.
+    const literal = readStringValue(fillWidthAttribute);
+
+    if (literal !== undefined && literal !== 'true') {
+      api.report(
+        `${file.path}: <${name} fillWidth="${literal}">를 variant="full"로 옮겼습니다 — JSX 문자열은 런타임에서 truthy라 v3 동작을 보존한 결과입니다. 의도가 false였다면 직접 제거하세요.`,
+      );
     }
 
     fillWidthAttribute.name = j.jsxIdentifier('variant');
