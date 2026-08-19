@@ -31,6 +31,7 @@ import {
   usePopperContext,
 } from './contexts';
 import {
+  getCollisionPaddingX,
   getPlacementMapper,
   getSideAlignFromPlacement,
   roundByDPR,
@@ -174,6 +175,7 @@ const PopperContent = forwardRef<
       offset: givenOffset = 10,
       referenceHidden = false,
       referenceHiddenOffsets,
+      collisionPadding = 20,
       setContext,
       container,
       disablePortal,
@@ -196,6 +198,8 @@ const PopperContent = forwardRef<
 
     const floatingPlacement = getPlacementMapper(position);
 
+    const collisionPaddingX = getCollisionPaddingX(collisionPadding);
+
     const {
       refs,
       floatingStyles,
@@ -216,9 +220,32 @@ const PopperContent = forwardRef<
           mainAxis: true,
           crossAxis: false,
           limiter: limitShift(),
+          padding: collisionPadding,
         }),
         flip(),
-        size(),
+        size({
+          padding: collisionPadding,
+          apply: ({ elements, availableHeight }) => {
+            const { clientWidth } =
+              elements.floating.ownerDocument.documentElement;
+            const availableWidth = clientWidth - collisionPaddingX;
+
+            // Keeps the fallback of the css variables when the viewport cannot be measured.
+            if (availableWidth > 0) {
+              elements.floating.style.setProperty(
+                '--popper-available-width',
+                `${availableWidth}px`,
+              );
+            }
+
+            if (availableHeight > 0) {
+              elements.floating.style.setProperty(
+                '--popper-available-height',
+                `${availableHeight}px`,
+              );
+            }
+          },
+        }),
         arrow &&
           floatingUIarrow(({ placement }) => {
             return {
