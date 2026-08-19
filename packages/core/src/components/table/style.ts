@@ -62,6 +62,8 @@ export const tableHeadCellStyle = css`
   display: table-cell;
   border: none;
   border-bottom: 1px solid var(--table-border-color);
+  word-break: keep-all;
+  overflow-wrap: anywhere;
 `;
 
 export const tableCellStyle = css`
@@ -72,6 +74,8 @@ export const tableCellStyle = css`
   border: none;
   height: var(--table-cell-min-height, 44px);
   border-bottom: 1px solid var(--table-border-color);
+  word-break: keep-all;
+  overflow-wrap: anywhere;
 `;
 
 export const tableRowStyle = (interaction?: boolean) => (theme: Theme) => css`

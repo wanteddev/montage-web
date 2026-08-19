@@ -99,6 +99,8 @@ export const segmentedControlItemStyle =
       font: inherit;
       display: block;
       ${ellipsisTypographyStyle(1)}
+      word-break: keep-all;
+      overflow-wrap: anywhere;
     }
 
     & > :not([data-role='segmented-control-item-text']) {

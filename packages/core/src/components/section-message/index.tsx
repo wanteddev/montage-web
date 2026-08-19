@@ -105,6 +105,7 @@ const SectionMessage = forwardRef<
             data-role="section-message-content-title"
             id={titleId}
             as="h2"
+            sx={{ wordBreak: 'keep-all', overflowWrap: 'anywhere' }}
           >
             {children}
           </Typography>
@@ -117,6 +118,7 @@ const SectionMessage = forwardRef<
               id={descriptionId}
               color="semantic.foreground.neutral.secondary"
               as="p"
+              sx={{ wordBreak: 'keep-all', overflowWrap: 'anywhere' }}
             >
               {description}
             </Typography>

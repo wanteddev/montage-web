@@ -245,6 +245,8 @@ export const cardThumbnailContentToggleIconStyle = (theme: Theme) => css`
 
 export const cardTitleStyle = (props: CardTitleProps) => (theme: Theme) => css`
   ${ellipsisTypographyStyle(2)}
+  word-break: keep-all;
+  overflow-wrap: anywhere;
 
   &[data-component='card-title'] {
     ${cardTypographyStyle(props, 'bold')(theme)}
@@ -254,6 +256,8 @@ export const cardTitleStyle = (props: CardTitleProps) => (theme: Theme) => css`
 export const cardCaptionStyle =
   (props: TypographyProps) => (theme: Theme) => css`
     ${ellipsisTypographyStyle()}
+    word-break: keep-all;
+    overflow-wrap: anywhere;
 
     &[data-component='card-caption'] {
       ${cardTypographyStyle(props, 'medium')(theme)}

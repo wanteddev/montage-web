@@ -366,6 +366,13 @@ const AccordionDescription = forwardRef<
       weight="regular"
       color="semantic.foreground.neutral.secondary"
       {...props}
+      sx={[
+        {
+          wordBreak: 'keep-all',
+          overflowWrap: 'anywhere',
+        },
+        props.sx,
+      ]}
     />
   );
 });

@@ -223,6 +223,8 @@ const PopoverContent = forwardRef(
                               data-role="popover-content-heading"
                               sx={{
                                 width: '100%',
+                                wordBreak: 'keep-all',
+                                overflowWrap: 'anywhere',
                               }}
                             >
                               {heading}
@@ -256,7 +258,12 @@ const PopoverContent = forwardRef(
                             weight="medium"
                             color="semantic.foreground.neutral.secondary"
                             data-role="popover-content-description"
-                            sx={{ padding: '2px 0px', width: '100%' }}
+                            sx={{
+                              padding: '2px 0px',
+                              width: '100%',
+                              wordBreak: 'keep-all',
+                              overflowWrap: 'anywhere',
+                            }}
                           >
                             {children}
                           </Typography>
@@ -269,7 +276,12 @@ const PopoverContent = forwardRef(
                             weight="medium"
                             color="semantic.foreground.neutral.secondary"
                             data-role="popover-content-description"
-                            sx={{ padding: '2px 0px', width: '100%' }}
+                            sx={{
+                              padding: '2px 0px',
+                              width: '100%',
+                              wordBreak: 'keep-all',
+                              overflowWrap: 'anywhere',
+                            }}
                           >
                             {children}
                           </Typography>
