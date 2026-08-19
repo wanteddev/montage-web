@@ -54,11 +54,9 @@ export const iconDetailWrapperStyle = (theme: Theme) => css`
   box-shadow: inset 0 0 0 1px ${theme.semantic.line.neutral.tertiary};
 `;
 
-export const iconPopoverWrapperStyle = css`
-  min-width: unset !important;
-  max-width: 100%;
-  width: 380px;
-  padding-inline: var(--layout-padding-inline);
+export const iconPopoverStyle = css`
+  width: 300px;
+  padding: 20px 24px 24px;
 
   ${respondTo('500px')} {
     width: 100%;
