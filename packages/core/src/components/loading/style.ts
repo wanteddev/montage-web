@@ -122,7 +122,6 @@ export const loadingWantedAnimatedSvgStyle = (theme: Theme) => css`
   }
 
   g path {
-    will-change: transform;
     animation: animation-circular-bounce calc(var(--time) * 3s)
       cubic-bezier(0.8, 0, 0.2, 1) infinite;
     transform: scale(0);

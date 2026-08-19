@@ -97,7 +97,6 @@ export const checkboxStyle =
         transform 0.2s ease;
       pointer-events: none;
       transform: scale(0.75);
-      will-change: transform;
     }
 
     ${checkboxSizeStyle({ size, bold, tight })}
