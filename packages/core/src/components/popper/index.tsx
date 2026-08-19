@@ -222,7 +222,7 @@ const PopperContent = forwardRef<
           limiter: limitShift(),
           padding: collisionPadding,
         }),
-        flip(),
+        flip({ padding: collisionPadding }),
         size({
           padding: collisionPadding,
           apply: ({ elements, availableHeight }) => {
