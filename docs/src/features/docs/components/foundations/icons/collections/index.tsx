@@ -21,7 +21,7 @@ import {
   iconDetailWrapperStyle,
   iconGridStyle,
   iconItemStyle,
-  iconPopoverWrapperStyle,
+  iconPopoverStyle,
 } from './style';
 
 import type { MouseEvent } from 'react';
@@ -103,11 +103,8 @@ const Collections = ({ icons }: Props) => {
 
               <PopoverContent
                 variant="custom"
-                sx={{
-                  padding: '20px 24px 24px',
-                }}
+                sx={iconPopoverStyle}
                 data-role="icon-detail-popover"
-                wrapperProps={{ sx: iconPopoverWrapperStyle }}
               >
                 <FlexBox flexDirection="column" gap="16px" flex="1">
                   <FlexBox gap="12px" justifyContent="space-between">

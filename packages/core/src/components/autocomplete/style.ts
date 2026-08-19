@@ -14,7 +14,7 @@ export const autocompleteScrollAreaStyle = (theme: Theme) => css`
   border-radius: 16px;
   min-width: 140px;
   height: auto;
-  max-height: 400px;
+  max-height: min(400px, var(--popper-available-height, 100vh));
   border-radius: inherit;
 `;
 
