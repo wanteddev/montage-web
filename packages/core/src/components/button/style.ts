@@ -220,7 +220,6 @@ const buttonColorStyle = (
         background-color: ${theme.semantic.surface.neutral.secondary};
         box-shadow: none;
         backdrop-filter: blur(32px);
-        will-change: backdrop-filter;
 
         [data-role='button-loading'] {
           color: inherit;

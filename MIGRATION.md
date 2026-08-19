@@ -1308,7 +1308,7 @@ Button의 `color="secondary"` 가 제거되었습니다. 기존 secondary는 ass
 npx @montage-ui/codemod@latest button-secondary-migration
 ```
 
-## ListCell
+### ListCell
 
 ListCell 컴포넌트의 active 옵션이 selected로 변경됩니다.
 

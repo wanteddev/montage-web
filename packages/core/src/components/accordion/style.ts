@@ -156,7 +156,6 @@ export const accordionDividerStyle = ({
 }) => css`
   margin: 0 auto;
   width: calc(100% - (var(--list-cell-horizontal-padding, 0px) * 2));
-  will-change: opacity;
 
   ${!disableAnimation &&
   css`

@@ -175,7 +175,6 @@ export const cardThumbnailStyle =
       overflow: hidden;
 
       img {
-        will-change: transform;
         transition: transform 0.2s ease;
       }
     }
