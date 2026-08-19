@@ -20,6 +20,11 @@ export const sectionHeaderStyle =
       color: inherit;
     }
 
+    [data-role='section-header-content-heading'] {
+      word-break: keep-all;
+      overflow-wrap: anywhere;
+    }
+
     [data-role='section-header-trailing-content']
       [data-component='icon-button'][data-variant='normal'],
     [data-role='section-header-heading-content']

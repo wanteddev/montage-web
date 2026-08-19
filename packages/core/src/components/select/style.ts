@@ -220,6 +220,8 @@ export const selectIconStyle =
 export const selectTextStyle = css`
   user-select: none;
   flex: 1;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
 `;
 
 export const selectRenderChipStyle =
