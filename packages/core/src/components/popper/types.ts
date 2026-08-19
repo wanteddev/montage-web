@@ -25,6 +25,11 @@ export type PopperContentProps = {
   referenceHidden?: boolean;
   /** When the element is hidden, the offset is adjusted. */
   referenceHiddenOffsets?: SideObject;
+  /**
+   * Specifies the distance in pixels from the collision boundary(viewport) edges.
+   * The content is shifted to stay within the boundary inset by this value.
+   */
+  collisionPadding?: number | Partial<SideObject>;
   /** The props of the wrapper. */
   wrapperProps?: DefaultComponentProps<{}, 'div'>;
   /** The floating ui context can be obtained through a callback. */

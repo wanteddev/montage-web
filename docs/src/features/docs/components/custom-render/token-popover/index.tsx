@@ -8,7 +8,7 @@ import { IconMoon, IconSun } from '@montage-ui/icon';
 
 import { breakWordStyle } from '@/styles/text';
 
-import { palettePopoverWrapperStyle, popoverIconStyle } from './style';
+import { popoverIconStyle } from './style';
 
 import type { PropsWithChildren, ReactNode } from 'react';
 
@@ -33,7 +33,6 @@ const TokenPopover = ({
       offset={offset}
       variant="custom"
       sx={{ padding: '20px 24px' }}
-      wrapperProps={{ sx: palettePopoverWrapperStyle }}
       position="bottom-center"
     >
       <FlexBox gap="20px" flexDirection="column">

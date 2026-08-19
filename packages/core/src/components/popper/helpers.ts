@@ -6,6 +6,16 @@ import type {
 } from '@floating-ui/react';
 import type { PopperContentProps } from './types';
 
+export const getCollisionPaddingX = (
+  collisionPadding: PopperContentProps['collisionPadding'],
+) => {
+  if (typeof collisionPadding === 'number') {
+    return collisionPadding * 2;
+  }
+
+  return (collisionPadding?.left ?? 0) + (collisionPadding?.right ?? 0);
+};
+
 export const roundByDPR = (value: number) => {
   const dpr = window.devicePixelRatio || 1;
   return Math.round(value * dpr) / dpr;
