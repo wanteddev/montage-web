@@ -25,13 +25,14 @@ const popoverVariantStyle = (variant: PopoverContentProps['variant']) => {
     case 'custom':
       return css`
         padding: 16px;
+        max-width: var(--popper-available-width, 100vw);
       `;
     case 'normal':
     default:
       return css`
         border-radius: 12px;
         padding: 12px 14px;
-        max-width: 360px;
+        max-width: min(360px, var(--popper-available-width, 100vw));
         flex-direction: column;
         gap: 0px;
       `;
