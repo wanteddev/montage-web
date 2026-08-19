@@ -18,10 +18,14 @@ export const fallbackViewStyle =
     [data-role='fallback-view-text-title'] {
       text-align: center;
       color: ${theme.semantic.foreground.neutral.primary};
+      word-break: keep-all;
+      overflow-wrap: anywhere;
     }
     [data-role='fallback-view-text-description'] {
       text-align: center;
       color: ${theme.semantic.foreground.neutral.secondary};
+      word-break: keep-all;
+      overflow-wrap: anywhere;
     }
 
     ${createResponsiveStyle(

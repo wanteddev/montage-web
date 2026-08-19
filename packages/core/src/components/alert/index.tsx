@@ -292,6 +292,13 @@ const AlertHeading = forwardRef<
       as="h2"
       id={headingId}
       {...props}
+      sx={[
+        {
+          wordBreak: 'keep-all',
+          overflowWrap: 'anywhere',
+        },
+        props.sx,
+      ]}
     >
       {children}
     </Typography>
