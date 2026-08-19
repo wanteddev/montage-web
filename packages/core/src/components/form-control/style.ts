@@ -237,6 +237,8 @@ export const formLabelStyle =
 
       [data-role='label-content-text'] {
         ${ellipsisTypographyStyle(1)}
+        word-break: keep-all;
+        overflow-wrap: anywhere;
       }
 
       [data-role='label-required-mark'] {
@@ -318,6 +320,8 @@ export const formMessageStyle = (theme: Theme) => css`
     min-width: 0px;
     display: flex;
     width: min-content;
+    word-break: keep-all;
+    overflow-wrap: anywhere;
   }
 `;
 

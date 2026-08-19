@@ -335,7 +335,12 @@ const ProgressTrackerItemLabel = ({
   if (isCompleted) {
     return Boolean(completedLabel) ? (
       <Typography
-        sx={{ padding: '1px 0px', height: 'fit-content' }}
+        sx={{
+          padding: '1px 0px',
+          height: 'fit-content',
+          wordBreak: 'keep-all',
+          overflowWrap: 'anywhere',
+        }}
         data-role="progress-tracker-item-label"
         color={
           isActive
@@ -353,7 +358,12 @@ const ProgressTrackerItemLabel = ({
 
   return Boolean(label) ? (
     <Typography
-      sx={{ padding: '1px 0px', height: 'fit-content' }}
+      sx={{
+        padding: '1px 0px',
+        height: 'fit-content',
+        wordBreak: 'keep-all',
+        overflowWrap: 'anywhere',
+      }}
       data-role="progress-tracker-item-label"
       color={
         isActive
