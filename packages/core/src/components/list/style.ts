@@ -376,6 +376,9 @@ const listCellExtraContentVariantStyle = (
   switch (variant) {
     case 'text':
       return css`
+        word-break: keep-all;
+        overflow-wrap: anywhere;
+
         &[data-parent-disabled='true'] {
           color: ${theme.semantic.foreground.disable.primary};
         }
