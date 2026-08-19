@@ -44,7 +44,7 @@ export const sectionVariantsControlMobileTriggerStyle = (theme: Theme) => css`
   position: absolute;
   right: 24px;
   top: 24px;
-  z-index: 1;
+  z-index: 3;
 
   &[aria-expanded='true'] {
     & > [data-component='with-interaction'] {

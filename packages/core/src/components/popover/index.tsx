@@ -122,6 +122,7 @@ const PopoverContent = forwardRef(
       onUnmountAutoFocus,
       referenceHidden = false,
       referenceHiddenOffsets,
+      collisionPadding,
       setContext,
       wrapperProps,
       forceMount = false,
@@ -161,6 +162,7 @@ const PopoverContent = forwardRef(
           container={container}
           referenceHidden={referenceHidden}
           referenceHiddenOffsets={referenceHiddenOffsets}
+          collisionPadding={collisionPadding}
           setContext={setContext}
           wrapperProps={wrapperProps}
         >

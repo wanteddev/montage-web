@@ -42,6 +42,7 @@ export type MenuContentProps = Pick<
   | 'loop'
   | 'referenceHidden'
   | 'referenceHiddenOffsets'
+  | 'collisionPadding'
   | 'setContext'
   | 'wrapperProps'
   | 'forceMount'

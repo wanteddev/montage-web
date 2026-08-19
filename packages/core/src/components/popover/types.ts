@@ -32,6 +32,11 @@ export type PopoverContentProps = WithSxProps<
     referenceHidden?: PopperContentProps['referenceHidden'];
     /** When the element is hidden, the offset is adjusted. */
     referenceHiddenOffsets?: PopperContentProps['referenceHiddenOffsets'];
+    /**
+     * Specifies the distance in pixels from the collision boundary(viewport) edges.
+     * The content is shifted to stay within the boundary inset by this value.
+     */
+    collisionPadding?: PopperContentProps['collisionPadding'];
     /** The floating ui context can be obtained through a callback. */
     setContext?: PopperContentProps['setContext'];
     /** Specifies the container to be displayed by Portal. */

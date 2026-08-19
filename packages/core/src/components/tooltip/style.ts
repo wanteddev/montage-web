@@ -28,7 +28,7 @@ export const tooltipWrapperStyle =
   ({ size, xs, sm, md, lg, xl }: TooltipContentProps) =>
   (theme: Theme) => css`
     backdrop-filter: blur(32px);
-    max-width: 280px;
+    max-width: min(280px, var(--popper-available-width, 100vw));
 
     &[data-status='open'] {
       animation: ${mountKeyframes} 200ms ease-in-out;
