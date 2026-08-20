@@ -6,19 +6,25 @@ import type { ActionAreaButtonProps, ActionAreaProps } from './types';
 import type { Merge, Theme } from '@montage-ui/engine';
 
 export const actionAreaStyle =
-  ({ divider, background, extra }: ActionAreaProps) =>
+  ({ divider, background, extra, gradientColor }: ActionAreaProps) =>
   (theme: Theme) => css`
     width: 100%;
     padding: var(--action-area-margin-y, 20px) var(--action-area-margin-x, 20px);
     position: relative;
 
-    ${actionAreaBackgroundStyle({ divider, background, extra }, theme)}
+    ${actionAreaBackgroundStyle(
+      { divider, background, extra, gradientColor },
+      theme,
+    )}
   `;
 
 const actionAreaBackgroundStyle = (
-  { divider, background, extra }: ActionAreaProps,
+  { divider, background, extra, gradientColor }: ActionAreaProps,
   theme: Theme,
 ) => {
+  const resolvedGradientColor =
+    gradientColor ?? theme.semantic.surface.elevated.primary;
+
   switch (extra) {
     case true:
       return css`
@@ -26,7 +32,7 @@ const actionAreaBackgroundStyle = (
         css`
           border-top: 1px solid ${theme.semantic.line.neutral.secondary};
         `}
-        background-color: ${theme.semantic.surface.elevated.primary};
+        background-color: ${resolvedGradientColor};
       `;
     case false:
     default:
@@ -36,7 +42,7 @@ const actionAreaBackgroundStyle = (
               &::before {
                 pointer-events: none;
                 ${gradient(
-                  theme.semantic.surface.elevated.primary,
+                  resolvedGradientColor,
                   'top',
                   'calc(var(--action-area-margin-y, 20px) * 2)',
                   'mask',

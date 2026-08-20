@@ -32,6 +32,7 @@ const ActionArea = forwardRef<
       caption,
       background,
       divider = true,
+      gradientColor,
       ...props
     },
     ref,
@@ -54,6 +55,7 @@ const ActionArea = forwardRef<
               divider,
               extra,
               background: extra ? false : (background ?? modalSticky),
+              gradientColor,
             }),
             props.sx,
           ]}

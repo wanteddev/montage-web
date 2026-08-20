@@ -242,6 +242,25 @@ const Demo = () => {
 export default Demo;`}
 />
 
+`gradientColor` prop 을 이용하여 배경/그라데이션 색상을 원하는 색상으로 재정의할 수 있습니다. 생략하면 기존과 동일하게 `theme.semantic.surface.elevated.primary` 를 사용합니다.
+
+<Demo
+  defaultIsTransparent
+  code={`import { FlexBox, ActionArea, ActionAreaButton } from '@montage-ui/core';
+
+const Demo = () => {
+  return (
+    <FlexBox sx={{ width: '100%' }}>
+      <ActionArea background gradientColor="#FFE6EC">
+        <ActionAreaButton variant="main">Main</ActionAreaButton>
+      </ActionArea>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
 ## Customize
 
 `ActionAreaButton` 의 버튼 variant를 교체할 수 있습니다.

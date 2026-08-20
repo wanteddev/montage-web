@@ -36,6 +36,11 @@ export type ActionAreaProps = WithSxProps<{
    * When `extra=true`, a line is displayed at the top.
    */
   divider?: boolean;
+  /**
+   * Overrides the color used for the background/gradient (see `background`).
+   * When omitted, falls back to `theme.semantic.surface.elevated.primary`.
+   */
+  gradientColor?: string;
 }>;
 
 export type ActionAreaButtonProps = WithSxProps<{
