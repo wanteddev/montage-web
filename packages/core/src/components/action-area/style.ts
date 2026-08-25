@@ -86,9 +86,12 @@ export const captionStyle = (theme: Theme) => css`
   gap: ${theme.spacing[4]};
   color: ${theme.semantic.foreground.neutral.tertiary};
   ${typographyStyle('label2', 'medium')}
+  word-break: keep-all;
+  overflow-wrap: anywhere;
 
   svg {
     display: block;
+    flex-shrink: 0;
     margin-block: 1px;
     font-size: ${theme.dimension[16]};
   }
