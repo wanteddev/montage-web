@@ -1,14 +1,13 @@
 import { forwardRef } from 'react';
 
 import { FlexBox } from '../flex-box';
-import { Typography } from '../typography';
 import { Button } from '../button';
 import { TextButton } from '../text-button';
 import { useModalActionAreaContext } from '../modal/contexts';
 
 import { ACTION_AREA_BUTTON_NAME, ACTION_AREA_NAME } from './constants';
 import { ActionAreaProvider, useActionAreaContext } from './contexts';
-import { actionAreaStyle, actionButtonCancel } from './style';
+import { actionAreaStyle, actionButtonCancel, captionStyle } from './style';
 
 import type { ActionAreaButtonProps, ActionAreaProps } from './types';
 import type { ElementType, ForwardedRef, ReactNode } from 'react';
@@ -30,7 +29,9 @@ const ActionArea = forwardRef<
       variant = 'strong',
       children,
       caption,
+      captionIcon,
       background,
+      backgroundColor = 'semantic.surface.elevated.primary',
       divider = true,
       ...props
     },
@@ -54,6 +55,7 @@ const ActionArea = forwardRef<
               divider,
               extra,
               background: extra ? false : (background ?? modalSticky),
+              backgroundColor,
             }),
             props.sx,
           ]}
@@ -64,33 +66,61 @@ const ActionArea = forwardRef<
               flexDirection="column"
               alignItems="center"
               data-role="action-area-extra-content"
-              sx={{
-                marginBottom: 'calc(4px + var(--action-area-margin-y, 20px))',
-              }}
+              sx={(theme) => ({
+                padding: `${theme.spacing[0]} ${theme.spacing[4]} var(--action-area-margin-y, 20px)`,
+              })}
             >
               {extraContent}
             </FlexBox>
           )}
 
-          {Boolean(caption) && (
-            <Typography
-              align="center"
-              variant="label2"
-              weight="regular"
-              data-role="action-area-caption"
-              color="semantic.foreground.neutral.tertiary"
-              sx={{ marginBottom: '16px' }}
-            >
-              {caption}
-            </Typography>
-          )}
-          {variant === 'compact' && Boolean(compactContent) ? (
-            <FlexBox justifyContent="space-between" alignItems="center">
+          {variant !== 'compact' &&
+            variant !== 'cancel' &&
+            Boolean(caption) && (
               <FlexBox
-                flexDirection="row"
-                data-role="action-area-compact-content"
+                as="span"
+                data-role="action-area-caption"
+                sx={[
+                  captionStyle,
+                  (theme) => ({ marginBottom: theme.spacing[16] }),
+                ]}
+                justifyContent="center"
               >
-                {compactContent}
+                {captionIcon}
+                <span>{caption}</span>
+              </FlexBox>
+            )}
+          {variant === 'compact' &&
+          (Boolean(compactContent) || Boolean(caption)) ? (
+            <FlexBox
+              alignItems="center"
+              gap="12px"
+              justifyContent="space-between"
+              data-role="action-area-compact-wrapper"
+            >
+              <FlexBox
+                alignItems="center"
+                gap="12px"
+                data-role="action-area-compact-content-wrapper"
+              >
+                {caption && (
+                  <FlexBox
+                    as="span"
+                    data-role="action-area-caption"
+                    sx={captionStyle}
+                  >
+                    {captionIcon}
+                    <span>{caption}</span>
+                  </FlexBox>
+                )}
+                {compactContent && (
+                  <FlexBox
+                    flexDirection="row"
+                    data-role="action-area-compact-content"
+                  >
+                    {compactContent}
+                  </FlexBox>
+                )}
               </FlexBox>
               <FlexBox
                 flexShrink={0}
@@ -139,9 +169,7 @@ const ActionAreaButton = forwardRef(
       main: (
         <Button
           ref={ref}
-          variant={
-            buttonVariant ?? (parentVariant === 'cancel' ? 'outlined' : 'solid')
-          }
+          variant={buttonVariant ?? 'solid'}
           color={
             buttonColor ??
             (parentVariant === 'cancel' ? 'assistive' : 'primary')
@@ -157,7 +185,7 @@ const ActionAreaButton = forwardRef(
           ref={ref}
           variant={buttonVariant ?? 'outlined'}
           size="large"
-          color={buttonColor ?? 'primary'}
+          color={buttonColor ?? 'assistive'}
           fullWidth={parentVariant === 'strong'}
           {...props}
           sx={[actionButtonCancel({ variant, parentVariant }), props.sx]}

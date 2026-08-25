@@ -1,4 +1,4 @@
-import type { WithSxProps } from '@montage-ui/engine';
+import type { ThemeColorsToken, WithSxProps } from '@montage-ui/engine';
 import type { TextButtonProps } from '../text-button/types';
 import type { ButtonProps } from '../button/types';
 import type { ReactNode } from 'react';
@@ -17,8 +17,17 @@ export type ActionAreaProps = WithSxProps<{
    * If `extra` is true, you can use `extraContent` to add content such as a checkbox above the buttons.
    */
   extra?: boolean;
-  /** Displays a caption above the buttons. */
+  /**
+   * Displays a caption next to the buttons.
+   * When `variant=compact`, it is displayed inline on the left of the buttons.
+   * It is not displayed when `variant=cancel`.
+   */
   caption?: ReactNode;
+  /**
+   * Displays an icon in front of the `caption`.
+   * The icon size and the gap between the caption are handled by the component.
+   */
+  captionIcon?: ReactNode;
   /**
    * When `extra=true`, this prop is used to display the content such as checkbox area above the button.
    */
@@ -32,6 +41,12 @@ export type ActionAreaProps = WithSxProps<{
    * When used inside a Modal, it is handled by the Modal's internal logic.
    */
   background?: boolean;
+  /**
+   * Customizes the background color applied when `background=true` or `extra=true`.
+   * When `background=true`, it is also used as the start color of the gradient.
+   * default is `semantic.surface.elevated.primary`
+   */
+  backgroundColor?: ThemeColorsToken;
   /**
    * When `extra=true`, a line is displayed at the top.
    */
