@@ -14,10 +14,20 @@ export const actionAreaStyle =
 
     --action-area-background-color: ${getColorByToken(theme, backgroundColor!)};
 
+    [data-role='action-area-extra-content'] {
+      [data-role='label-content'] > [data-role='label-content-text'] {
+        white-space: initial;
+      }
+    }
+
     [data-role='action-area-compact-content-wrapper'] {
       min-width: 0;
       word-break: keep-all;
       overflow-wrap: anywhere;
+
+      [data-role='label-content'] > [data-role='label-content-text'] {
+        white-space: initial;
+      }
     }
 
     ${actionAreaBackgroundStyle({ divider, background, extra }, theme)}
