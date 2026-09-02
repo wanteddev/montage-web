@@ -1,16 +1,34 @@
-import { css } from '@montage-ui/engine';
+import { css, getColorByToken } from '@montage-ui/engine';
 
-import { gradient } from '../../utils';
+import { gradient, typographyStyle } from '../../utils';
 
 import type { ActionAreaButtonProps, ActionAreaProps } from './types';
 import type { Merge, Theme } from '@montage-ui/engine';
 
 export const actionAreaStyle =
-  ({ divider, background, extra }: ActionAreaProps) =>
+  ({ divider, background, extra, backgroundColor }: ActionAreaProps) =>
   (theme: Theme) => css`
     width: 100%;
     padding: var(--action-area-margin-y, 20px) var(--action-area-margin-x, 20px);
     position: relative;
+
+    --action-area-background-color: ${getColorByToken(theme, backgroundColor!)};
+
+    [data-role='action-area-extra-content'] {
+      [data-role='label-content'] > [data-role='label-content-text'] {
+        white-space: initial;
+      }
+    }
+
+    [data-role='action-area-compact-content-wrapper'] {
+      min-width: 0;
+      word-break: keep-all;
+      overflow-wrap: anywhere;
+
+      [data-role='label-content'] > [data-role='label-content-text'] {
+        white-space: initial;
+      }
+    }
 
     ${actionAreaBackgroundStyle({ divider, background, extra }, theme)}
   `;
@@ -24,9 +42,9 @@ const actionAreaBackgroundStyle = (
       return css`
         ${divider &&
         css`
-          border-top: 1px solid ${theme.semantic.line.neutral.secondary};
+          border-top: 1px solid ${theme.semantic.line.neutral.tertiary};
         `}
-        background-color: ${theme.semantic.surface.elevated.primary};
+        background-color: var(--action-area-background-color);
       `;
     case false:
     default:
@@ -36,7 +54,7 @@ const actionAreaBackgroundStyle = (
               &::before {
                 pointer-events: none;
                 ${gradient(
-                  theme.semantic.surface.elevated.primary,
+                  'var(--action-area-background-color)',
                   'top',
                   'calc(var(--action-area-margin-y, 20px) * 2)',
                   'mask',
@@ -74,6 +92,21 @@ const actionAreaBackgroundStyle = (
   }
 };
 
+export const captionStyle = (theme: Theme) => css`
+  gap: ${theme.spacing[4]};
+  color: ${theme.semantic.foreground.neutral.tertiary};
+  ${typographyStyle('label2', 'medium')}
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+
+  svg {
+    display: block;
+    flex-shrink: 0;
+    margin-block: 1px;
+    font-size: ${theme.dimension[16]};
+  }
+`;
+
 export const actionButtonCancel = ({
   variant,
   parentVariant,
@@ -84,7 +117,6 @@ export const actionButtonCancel = ({
   if (parentVariant === 'neutral' && variant !== 'sub') {
     return css`
       flex: 1 1 0;
-      padding: 12px 15px;
     `;
   }
 

@@ -230,7 +230,7 @@ export const formLabelStyle =
     padding: ${theme.spacing[0]} ${theme.spacing[2]};
     ${formLabelSizeStyle({ size, variant, weight })}
 
-    & > [data-role='label-content'] {
+    [data-role='label-content'] {
       display: inline-flex;
       max-width: 100%;
       min-width: 0;
