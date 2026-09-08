@@ -7,8 +7,8 @@ export const mdxRootStyle = (theme: Theme) => css`
   ${typographyStyle('body2-reading', 'medium')}
 
   & > :not(:is([data-role="demo"])):not(:is([data-role="hierarchy"])):not(:is([data-role="variants"])) {
+    overflow-wrap: anywhere;
     word-break: keep-all;
-    overflow-wrap: break-word;
 
     [data-role='property-type'] {
       font-family: inherit !important;
