@@ -1298,6 +1298,42 @@ npx @montage-ui/codemod@latest list-cell-variant-migration src
 - 반응형 `fillWidth`의 대체 — 키는 제거되지만 `variant`가 반응형을 지원하지 않아 필요 시 `sx` 분기를 직접 작성해야 합니다.
 - `selected`만 쓰고 `trailingContent`가 없던 셀의 체크 아이콘 노출 여부 — 의도 판단이 필요해 코드를 바꾸지 않습니다. 다만 `leadingContent`에 Checkbox / Radio / Switch가 있으면서 `trailingContent`가 없는 셀은 어포던스가 중복되므로 `trailingContent={null}`을 직접 넣어야 합니다.
 
+### IconButton
+
+#### `disableInteraction` → `interactionEffect`
+
+`disableInteraction` prop이 제거되고, hover / press 인터랙션 방식을 선택하는 `interactionEffect` prop으로 대체되었습니다.
+
+| AS-IS                | TO-BE                                 |
+| -------------------- | ------------------------------------- |
+| (기본 동작)          | `interactionEffect="normal"` (기본값) |
+| `disableInteraction` | `interactionEffect="none"`            |
+| —                    | `interactionEffect="dim"` (신규)      |
+
+- `normal`(기본값): 기존과 동일하게 `interactionColor`로 채워진 인터랙션 레이어가 나타납니다.
+- `dim`(신규): 인터랙션 레이어 대신 아이콘 색상을 `interactionColor`로 바꾸고 투명도를 낮춥니다(hover 52% / press 22%). `variant="normal"`에서만 동작하며 다른 variant는 `normal`처럼 동작합니다.
+- `none`: 인터랙션 효과를 끕니다. 기존 `disableInteraction`과 동일합니다.
+
+```tsx
+// AS-IS
+<IconButton disableInteraction aria-label="Close">
+  <IconClose />
+</IconButton>
+
+// TO-BE
+<IconButton interactionEffect="none" aria-label="Close">
+  <IconClose />
+</IconButton>
+```
+
+`disableInteraction={flag}`처럼 조건부로 넘기던 코드는 `interactionEffect={flag ? 'none' : 'normal'}`로 바꿔주세요. 별도 codemod는 제공되지 않으므로 수동으로 변경해야 합니다.
+
+`interactionColor`는 기존과 같이 인터랙션 레이어 색상으로 쓰이며, `dim`에서는 hover / press 시 아이콘 색상으로 쓰입니다. `none`일 때는 무시됩니다.
+
+#### `TopNavigationButton` 인터랙션 변경
+
+`variant="icon"`인 `TopNavigationButton`은 내부 `IconButton`에 `interactionEffect="dim"`을 기본 적용합니다. hover / press 시 배경 레이어 대신 아이콘 색상이 어두워지는 방식으로 바뀌었습니다. 별도 마이그레이션은 필요 없습니다.
+
 ## 3.0.0 (2025-11-12)
 
 ### Button

@@ -67,7 +67,6 @@ export const getWrapperStyle =
       ${scale &&
       css`
         & > [data-component='with-interaction'] {
-          will-change: transform;
           transform: translate(-50%, -50%) scale(0.95);
         }
 
@@ -76,9 +75,17 @@ export const getWrapperStyle =
         }
 
         @media not (pointer: fine) {
-          & > [data-component='with-interaction'] {
-            transform: translate(-50%, -50%) scale(1);
+          &:hover > [data-component='with-interaction'] {
+            transform: translate(-50%, -50%) scale(0.95);
           }
+        }
+
+        &:active > [data-component='with-interaction'] {
+          transform: translate(-50%, -50%) scale(1);
+        }
+
+        &:focus-visible > [data-component='with-interaction'] {
+          transform: translate(-50%, -50%) scale(0.95);
         }
       `}
     `}

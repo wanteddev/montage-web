@@ -45,7 +45,8 @@ What it does:
    Modal/TextField/TextArea/SegmentedControl/Select/PushBadge/SearchField/FallbackView
    behavioral changes, `invalid`/`positive` → `status` leftovers, ListCell rework follow-ups
    (MenuItem/Option `fillWidth`, the default selected check icon, typography/DOM changes),
-   ThemeProvider cookie storage.
+   ThemeProvider cookie storage, IconButton `disableInteraction` → `interactionEffect`
+   (TopNavigation icon buttons now dim instead of drawing the interaction layer).
 4. **Verification** — leftover greps, install/typecheck/lint/build/tests, summary.
 
 The codemods are order-sensitive and must not run twice (re-running

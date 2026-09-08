@@ -321,7 +321,9 @@ const ListCellContent = forwardRef<
             {...props}
             sx={[listCellContentStyle({ variant }), sx]}
           >
-            <IconButtonProvider normal="semantic.foreground.neutral.tertiary">
+            <IconButtonProvider
+              normal={{ color: 'semantic.foreground.neutral.tertiary' }}
+            >
               {children}
             </IconButtonProvider>
           </FlexBox>

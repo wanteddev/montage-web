@@ -58,7 +58,7 @@ rewrites `package.json` a resume looks exactly like "already migrated".
      step. A step or manual key missing from an older state file (e.g.
      `semantic-token-migration`, `push-badge-migration`, `status-migration`,
      `list-cell-variant-migration`, `M9`, `M10`,
-     `M11`, `M12`, `M13`, `M14`, `M15`, `M16`, or `M17`, added after the file was created) is `pending` —
+     `M11`, `M12`, `M13`, `M14`, `M15`, `M16`, `M17`, or `M18`, added after the file was created) is `pending` —
      add it to the file and run it. `semantic-token-migration` sits at position ② BEFORE
      steps an older migration may already have completed: it still runs, and running it
      after the later steps is safe (its token namespace is disjoint from every other
@@ -91,7 +91,10 @@ rewrites `package.json` a resume looks exactly like "already migrated".
      `\bFallbackViewImage(Props)?\b` — a kept deprecated image is a recorded decision, not a
      leftover, M16's `status=` / `aria-invalid` — both are the correct v4 shape, M17's
      `variant=\{` on the content components / `selected` on the cells /
-     `list-text-wrapper|list-text-content` — all valid v4 shapes), so they are
+     `list-text-wrapper|list-text-content` — all valid v4 shapes, M18's
+     `\bdisableInteraction\b` — still a valid prop on every component that carried it in v3
+     except `IconButton` — /
+     `\bTopNavigationButton\b`), so they are
      never mismatch evidence. Detect the pending-but-already-applied direction with the
      **presence greps** in `references/codemod-steps.md` — each step's verify grep is an
      ABSENCE check that returns zero both when the codemod ran and when the repo never used
@@ -187,7 +190,7 @@ rewrites `package.json` a resume looks exactly like "already migrated".
      pattern from `references/manual-migrations.md` (steps and M-sections added after a
      consumer finished migrating — e.g. step ② `semantic-token-migration`, step ⑦
      `push-badge-migration`, step ⑧ `status-migration`, step ⑨
-     `list-cell-variant-migration`, M9, M10, M11, M12, M13, M14, M15, M16, and M17 — surface only through these scans)
+     `list-cell-variant-migration`, M9, M10, M11, M12, M13, M14, M15, M16, M17, and M18 — surface only through these scans)
      and report instead of migrating. On such a tree NEVER run step ⑨'s codemod to "fix"
      its leftover hits: hand-authored v4 `variant="button"` is valid there and the codemod
      would mis-rename it (Critical rule 1) — fix leftovers by hand against the step-⑨
@@ -364,6 +367,7 @@ manual:
   M15: pending
   M16: pending
   M17: pending
+  M18: pending
 ---
 ```
 
@@ -432,7 +436,7 @@ ALWAYS pass `codemodVersion` as the concrete version
 resolved in preflight (first run) or read from the state file (resume) — the script
 rejects dist-tags, since the value is recorded in the state file and a dist-tag would
 re-resolve on resume and break the same-build guarantee. The workflow returns per-step results plus a
-`manualScan` report (assessed occurrences for manual steps M1–M17).
+`manualScan` report (assessed occurrences for manual steps M1–M18).
 
 - If the workflow reports `aborted`, surface the failed step's error to the user, fix the
   cause, and re-run the same Workflow invocation with `completedSteps` refreshed from the
@@ -582,7 +586,7 @@ where double-runs happen.
 
 ## Step 2 — Manual migrations
 
-Work through `references/manual-migrations.md` (M1–M17) using the workflow's `manualScan`
+Work through `references/manual-migrations.md` (M1–M18) using the workflow's `manualScan`
 hits as the worklist. On a resume where all 9 codemod steps are already `completed` but no
 workflow ran this session, there is no `manualScan` report — rebuild the worklist first:
 re-run the same Workflow invocation with `completedSteps` listing all 9 (every step is
@@ -705,6 +709,15 @@ both together when an M-section changes):
   them (stylesheets included) — they match nothing until renamed. Typography (label
   body1→body2·medium, description label1→label2), the `ListText` `p`→`div` DOM change, and
   the opacity→disable-token disabled restyle are review-and-QA items, not code rewrites.
+- **M18 (IconButton interaction):** `disableInteraction` → `interactionEffect="none"` is
+  mechanical and type-visible on inline JSX, but `{...props}` carrying it onto an
+  `IconButton` compiles and falls through to the DOM `<button>`, where React drops it (a
+  dev-only console warning is the sole trace) — the button regains its hover / press
+  feedback — so the repo-wide `\bdisableInteraction\b` scan is a **[decision]** scan: the
+  prop still exists on the other components that carried it in v3 (`Button`, `TextButton`,
+  `Chip`, … — see M18 for the full list) and only `IconButton` hits are work. `TopNavigationButton`'s icon buttons now dim the
+  icon instead of drawing the interaction layer, with no opt-out prop — a visual-QA item,
+  not a rewrite.
 
 M1 (package.json + configs) ends with a dependency install to refresh the lockfile.
 Mark each M-section `completed` in the state file as it finishes.
@@ -776,7 +789,9 @@ Mark each M-section `completed` in the state file as it finishes.
    default check icon, which must be suppressed with `trailingContent={null}` wherever
    `leadingContent` already carries a selection control and no explicit `trailingContent`
    is passed — see M17) and screens that used the
-   deleted accent tokens (their replacement values differ — see M9).
+   deleted accent tokens (their replacement values differ — see M9), and every top
+   navigation, whose icon buttons now dim the icon on hover / press instead of drawing the
+   interaction layer (see M18).
 4. Delete the state file, then summarize: steps run, commits created, manual fixes
    applied, items intentionally left (with reasons).
 
@@ -784,7 +799,7 @@ Mark each M-section `completed` in the state file as it finishes.
 
 - **`references/codemod-steps.md`** — the 9 codemods in order: exact commands,
   idempotency analysis, pre-checks, post-step verification greps, hazards.
-- **`references/manual-migrations.md`** — manual migrations M1–M17 with scan patterns and
+- **`references/manual-migrations.md`** — manual migrations M1–M18 with scan patterns and
   fix rules.
 - **`scripts/migration-workflow.js`** — Workflow-tool script for the codemod phase; also
   the canonical per-step procedure for inline fallback execution.
