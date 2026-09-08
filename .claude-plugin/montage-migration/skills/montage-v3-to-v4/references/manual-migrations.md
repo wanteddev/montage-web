@@ -1231,6 +1231,53 @@ bullets and the `textProps` one — the removals leave nothing behind for a scan
   Scan **[decision]**: `list-text-wrapper|list-text-content` — consumer selectors into the
   text DOM; assess each against the new structure.
 
+## M18. IconButton interaction changes
+
+No codemod covers this section. `IconButton` lost its `disableInteraction` prop; the
+replacement is `interactionEffect`, which selects the hover / press feedback:
+
+- `normal` (default) — the interaction layer filled with `interactionColor`, exactly the v3
+  behavior.
+- `dim` (new) — the layer is hidden and the icon itself switches to `interactionColor` at
+  reduced opacity (52% on hover, 22% on press). `variant="normal"` only; every other variant
+  behaves like `normal`.
+- `none` — no feedback. This is the former `disableInteraction`.
+
+`interactionColor` keeps its v3 meaning under `normal`, becomes the icon color under `dim`,
+and is ignored under `none`.
+
+- **`disableInteraction` on `IconButton` → `interactionEffect="none"`.** Rewrite per shape:
+  a bare `disableInteraction` / `disableInteraction={true}` → `interactionEffect="none"`;
+  `disableInteraction={flag}` → `interactionEffect={flag ? 'none' : 'normal'}`;
+  `disableInteraction={false}` → delete the attribute. `disableInteraction` STILL EXISTS in
+  v4 on `Button`, `TextButton`, `Chip`, `FilterButton`, `ToggleIcon`, `AvatarButton`,
+  `ListCell` and the `SectionHeader` family — only `IconButton` changed, so never rename the
+  prop on another component.
+  Scan **[zero]** repo-wide: `<IconButton[[:space:]][^>]*disableInteraction` — the inline
+  single-line JSX case. It is also a type error once M1's install lands v4 (the prop is gone
+  from `IconButtonProps`), so the typecheck is a second net for this shape only. A consumer
+  component that happens to be named `IconButton` (no Montage import) is unrelated code and
+  may remain, listed in the summary.
+  Scan **[decision]** repo-wide: `\bdisableInteraction\b` — judge every hit by the component
+  it reaches. This scan exists for the type-INVISIBLE surface: `{...props}` carrying
+  `disableInteraction` onto an `IconButton` compiles (spreads are not excess-property-checked),
+  and at runtime the prop falls through to the DOM `<button>` — React drops it, with a "does
+  not recognize the prop" console warning in development builds only — so the button regains
+  its hover / press feedback (the dev warning is a secondary net; this scan is the primary
+  one); a consumer wrapper that declares its own `disableInteraction` prop and forwards
+  it to an `IconButton` is the same class — rewrite the forwarding to `interactionEffect`.
+  Hits on the other components listed above are valid v4 code and stay. Multi-line JSX props
+  escape the [zero] anchor and land here instead — read each `IconButton` file the hit list
+  names.
+- **`TopNavigationButton` icon buttons dim instead of drawing the interaction layer.** With
+  `variant="icon"` (its DEFAULT variant) the inner `IconButton` now receives
+  `interactionEffect="dim"` from a provider, so hover / press changes the icon color instead
+  of showing the layer. `TopNavigationButtonProps` exposes no `interactionEffect`, so there
+  is no opt-out prop — this is the v4 design; nothing to rewrite, flag every top navigation
+  for visual QA.
+  Scan **[decision]**: `\bTopNavigationButton\b` — locates the screens to QA; every hit is
+  valid v4 code.
+
 ## Suggested commit boundary
 
 Manual fixes get their own commits, after the codemod phase — with the recommended
