@@ -3,6 +3,7 @@ import type { Type } from 'ts-morph';
 export class Resolver {
   private readonly preservedTypeNames = new Set([
     'ReactNode',
+    'ElementType',
     'ReactElement',
     'ReactFragment',
     'ReactPortal',
@@ -21,7 +22,10 @@ export class Resolver {
    * 보존할 타입 이름인지 확인
    */
   public isPreservedType(name: string): boolean {
-    return this.preservedTypeNames.has(name);
+    return (
+      this.preservedTypeNames.has(name) ||
+      this.preservedTypeNames.has(name.replace(/<.*>$/, ''))
+    );
   }
 
   /**
