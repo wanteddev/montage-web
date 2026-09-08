@@ -18,9 +18,9 @@ const IconButton = forwardRef(
     {
       as,
       disabled = false,
-      disableInteraction = false,
       size,
       variant = 'normal',
+      interactionEffect: originInteractionEffect,
       interactionColor = 'semantic.foreground.neutral.primary',
       alternative,
       color: originColor,
@@ -41,8 +41,8 @@ const IconButton = forwardRef(
         return originColor;
       }
 
-      if (context?.[variant]) {
-        return context[variant];
+      if (context?.[variant]?.color) {
+        return context[variant].color;
       }
 
       switch (variant) {
@@ -56,6 +56,18 @@ const IconButton = forwardRef(
           return 'semantic.foreground.neutral.primary';
       }
     }, [context, originColor, variant]);
+
+    const interactionEffect = useMemo(() => {
+      if (originInteractionEffect) {
+        return originInteractionEffect;
+      }
+
+      if (context?.[variant]?.interactionEffect) {
+        return context[variant].interactionEffect;
+      }
+
+      return 'normal';
+    }, [context, originInteractionEffect, variant]);
 
     const getInteractionSize = () => {
       switch (variant) {
@@ -86,7 +98,7 @@ const IconButton = forwardRef(
         width="auto"
         height={interactionSize}
         color={interactionColor}
-        disabled={disableInteraction || disabled}
+        disabled={interactionEffect === 'none' || disabled}
         variant={getInteractionVariant()}
         scale={variant === 'normal'}
       >
@@ -104,6 +116,8 @@ const IconButton = forwardRef(
               variant,
               size,
               alternative,
+              interactionEffect,
+              interactionColor,
               color,
               xs,
               sm,
