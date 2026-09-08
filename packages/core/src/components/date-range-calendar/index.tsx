@@ -44,7 +44,6 @@ import {
   isDateInRangeForView,
   isDateInVisiblePanels,
   isSameDateForView,
-  scrollIntoViewRangeDate,
 } from './helpers';
 import {
   rangeCalendarContainerStyle,
@@ -814,7 +813,6 @@ const RangeMonthPanel = memo(() => {
       if (selectedDateIdx !== -1) {
         setFocusedIdx(selectedDateIdx);
         const mv = `${dayjsTimezone(dayjs(defaultSelectedDate), timezone).year()}-${String(monthRange[selectedDateIdx]!.value + 1).padStart(2, '0')}`;
-        scrollIntoViewRangeDate('month', mv, containerRef);
         focusRangeDate('month', mv, containerRef);
         return;
       }
@@ -1224,11 +1222,6 @@ const RangeYearPanel = memo(({ yearsOrder = 'asc' }: RangeYearPanelProps) => {
         : -1;
 
       if (selectedDateIdx !== -1) {
-        scrollIntoViewRangeDate(
-          'year',
-          String(yearRange[selectedDateIdx]!),
-          containerRef,
-        );
         focusRangeDate(
           'year',
           String(yearRange[selectedDateIdx]!),
@@ -1243,11 +1236,6 @@ const RangeYearPanel = memo(({ yearsOrder = 'asc' }: RangeYearPanelProps) => {
         : -1;
 
       if (todayDateIdx !== -1) {
-        scrollIntoViewRangeDate(
-          'year',
-          String(yearRange[todayDateIdx]!),
-          containerRef,
-        );
         focusRangeDate('year', String(yearRange[todayDateIdx]!), containerRef);
         setFocusedIdx(todayDateIdx);
         return;

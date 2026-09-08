@@ -54,7 +54,6 @@ import {
   getWeekdays,
   isDisabledDate,
   isValidDate,
-  scrollIntoViewDate,
 } from './helpers';
 
 import type { Dayjs } from 'dayjs';
@@ -403,7 +402,6 @@ const YearCalendar = forwardRef<
         : -1;
 
       if (selectedDateIdx !== -1) {
-        scrollIntoViewDate('year', yearRange[selectedDateIdx]!, containerRef);
         focusDate('year', yearRange[selectedDateIdx]!, containerRef);
         setFocusedIdx(selectedDateIdx);
         return;
@@ -414,7 +412,6 @@ const YearCalendar = forwardRef<
         : -1;
 
       if (todayDateIdx !== -1) {
-        scrollIntoViewDate('year', yearRange[todayDateIdx]!, containerRef);
         focusDate('year', yearRange[todayDateIdx]!, containerRef);
         setFocusedIdx(todayDateIdx);
         return;
@@ -656,11 +653,6 @@ const MonthCalendar = memo(
           : -1;
 
         if (selectedDateIdx !== -1) {
-          scrollIntoViewDate(
-            'month',
-            monthRange[selectedDateIdx]!.value,
-            containerRef,
-          );
           focusDate('month', monthRange[selectedDateIdx]!.value, containerRef);
           setFocusedIdx(selectedDateIdx);
           return;
@@ -677,11 +669,6 @@ const MonthCalendar = memo(
           : -1;
 
         if (todayDateIdx !== -1) {
-          scrollIntoViewDate(
-            'month',
-            monthRange[todayDateIdx]!.value,
-            containerRef,
-          );
           focusDate('month', monthRange[todayDateIdx]!.value, containerRef);
           setFocusedIdx(todayDateIdx);
           return;
