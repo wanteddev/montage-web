@@ -15,7 +15,7 @@ import { IconCopy } from '@montage-ui/icon';
 
 import { codeBlockStyle, copyButtonStyle, inlineCodeStyle } from './style';
 
-import type { WithSxProps } from '@montage-ui/engine';
+import type { SxProp } from '@montage-ui/core';
 import type { ComponentPropsWithoutRef } from 'react';
 
 refractor.register(js);
@@ -28,7 +28,7 @@ refractor.register(diff);
 refractor.register(kotlin);
 refractor.register(swift);
 
-type Props = WithSxProps<ComponentPropsWithoutRef<'code'>>;
+type Props = ComponentPropsWithoutRef<'code'> & { sx?: SxProp };
 
 const CodeBlock = ({ children, ...props }: Props) => {
   const toast = useToast();
