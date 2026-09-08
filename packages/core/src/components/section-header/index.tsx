@@ -3,6 +3,7 @@ import { Box, type DefaultComponentPropsInternal } from '@montage-ui/engine';
 
 import { FlexBox } from '../flex-box';
 import { WithInteraction } from '../with-interaction';
+import { IconButtonProvider } from '../icon-button/contexts';
 
 import {
   sectionHeaderNavigationButtonStyle,
@@ -69,7 +70,13 @@ const SectionHeader = forwardRef<
               gap="10px"
               alignItems="center"
             >
-              {headingContent}
+              <IconButtonProvider
+                normal={{
+                  color: 'semantic.foreground.neutral.quaternary',
+                }}
+              >
+                {headingContent}
+              </IconButtonProvider>
             </FlexBox>
           )}
         </FlexBox>
@@ -81,7 +88,13 @@ const SectionHeader = forwardRef<
             alignItems="center"
             alignSelf="end"
           >
-            {trailingContent}
+            <IconButtonProvider
+              normal={{
+                color: 'semantic.foreground.neutral.quaternary',
+              }}
+            >
+              {trailingContent}
+            </IconButtonProvider>
           </FlexBox>
         )}
       </FlexBox>

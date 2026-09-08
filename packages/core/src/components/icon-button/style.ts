@@ -159,10 +159,15 @@ const iconButtonColorStyle = (
     variant,
     color,
     interactionColor,
+    interactionEffect,
     alternative,
   }: Pick<
     IconButtonProps,
-    'variant' | 'color' | 'interactionColor' | 'alternative'
+    | 'variant'
+    | 'color'
+    | 'interactionColor'
+    | 'alternative'
+    | 'interactionEffect'
   >,
   theme: Theme,
 ) => {
@@ -176,6 +181,29 @@ const iconButtonColorStyle = (
         `}
         border: none;
         box-shadow: none;
+
+        ${interactionEffect === 'dim' &&
+        css`
+          transition:
+            color 0.15s ease,
+            opacity 0.15s ease;
+
+          @media (pointer: fine) {
+            &:hover {
+              color: ${getColorByToken(theme, interactionColor!)};
+              opacity: ${theme.opacity[52]};
+            }
+          }
+
+          &:active {
+            color: ${getColorByToken(theme, interactionColor!)};
+            opacity: ${theme.opacity[22]};
+          }
+
+          & > [data-component='with-interaction'] {
+            display: none;
+          }
+        `}
 
         ${Boolean(interactionColor) &&
         css`

@@ -25,13 +25,6 @@ export const sectionHeaderStyle =
       overflow-wrap: anywhere;
     }
 
-    [data-role='section-header-trailing-content']
-      [data-component='icon-button'][data-variant='normal'],
-    [data-role='section-header-heading-content']
-      [data-component='icon-button'][data-variant='normal'] {
-      color: ${theme.semantic.foreground.neutral.quaternary};
-    }
-
     ${sectionHeaderSizeStyle({ size, color, platform }, theme)}
 
     ${createResponsiveStyle(

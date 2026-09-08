@@ -41,7 +41,9 @@ Montage(Wanted Design System for Web) 메이저 버전 간 마이그레이션을
    CSS 변수·DOM 식별자 잔여물(동적으로 조립된 이름, 변환 대상 밖 파일), Card/ListCard·FormControl 후속 작업,
    Modal/TextField/TextArea/SegmentedControl/Select/PushBadge/SearchField/FallbackView 동작
    변경 대응, `invalid`/`positive` → `status` 잔여물, ListCell 개편 후속 작업(MenuItem/Option의
-   `fillWidth`, selected 기본 체크 아이콘, 타이포·DOM 변경), ThemeProvider 쿠키 저장소 전환.
+   `fillWidth`, selected 기본 체크 아이콘, 타이포·DOM 변경), ThemeProvider 쿠키 저장소 전환,
+   IconButton `disableInteraction` → `interactionEffect` 전환(TopNavigation 아이콘 버튼은
+   인터랙션 레이어 대신 아이콘이 어두워지는 방식으로 변경).
 4. **최종 검증** — 잔여 패턴 grep, install/typecheck/lint/build/tests, 결과 요약.
 
 codemod는 순서에 민감하고 두 번 실행하면 안 됩니다(`form-control-migration` 재실행 시
