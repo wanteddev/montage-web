@@ -57,7 +57,12 @@ const PropsTable = ({ component, fallback }: Props) => {
             <TableRow key={name}>
               <TableCell>
                 <FlexBox alignItems="center" gap="4px">
-                  <CodeBlock>
+                  <CodeBlock
+                    sx={{
+                      wordBreak: 'keep-all',
+                      overflowWrap: 'initial',
+                    }}
+                  >
                     {`${name}${!isOptional && name !== 'as' ? ' *' : ''}`}
                   </CodeBlock>
                   {description && (
@@ -65,6 +70,7 @@ const PropsTable = ({ component, fallback }: Props) => {
                       <TooltipTrigger>
                         <IconCircleInfo
                           sx={(theme) => ({
+                            flexShrink: 0,
                             color: theme.semantic.foreground.neutral.tertiary,
                           })}
                         />

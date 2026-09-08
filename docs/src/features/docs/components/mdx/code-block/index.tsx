@@ -15,6 +15,7 @@ import { IconCopy } from '@montage-ui/icon';
 
 import { codeBlockStyle, copyButtonStyle, inlineCodeStyle } from './style';
 
+import type { SxProp } from '@montage-ui/core';
 import type { ComponentPropsWithoutRef } from 'react';
 
 refractor.register(js);
@@ -27,14 +28,14 @@ refractor.register(diff);
 refractor.register(kotlin);
 refractor.register(swift);
 
-type Props = ComponentPropsWithoutRef<'code'>;
+type Props = ComponentPropsWithoutRef<'code'> & { sx?: SxProp };
 
 const CodeBlock = ({ children, ...props }: Props) => {
   const toast = useToast();
 
   if (!props.className) {
     return (
-      <Box as="code" {...props} sx={inlineCodeStyle}>
+      <Box as="code" {...props} sx={[inlineCodeStyle, props.sx]}>
         {children}
       </Box>
     );
@@ -49,7 +50,7 @@ const CodeBlock = ({ children, ...props }: Props) => {
     <>
       <Box
         {...props}
-        sx={codeBlockStyle}
+        sx={[codeBlockStyle, props.sx]}
         dangerouslySetInnerHTML={{
           __html: toHtml(result as Parameters<typeof toHtml>[0]),
         }}
