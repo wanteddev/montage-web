@@ -1,10 +1,13 @@
 import createLooseContext from '../../hooks/internal/use-loose-context';
 
 import type { ThemeColorsToken } from '@montage-ui/engine';
-import type { IconButtonVariant } from './types';
+import type { IconButtonProps, IconButtonVariant } from './types';
 
 type IconButtonContextValue = {
-  [key in IconButtonVariant]?: ThemeColorsToken;
+  [key in IconButtonVariant]?: {
+    color?: ThemeColorsToken;
+    interactionEffect?: IconButtonProps['interactionEffect'];
+  };
 };
 
 /**

@@ -327,7 +327,9 @@ const TextFieldContent = forwardRef<
           ]}
           {...props}
         >
-          <IconButtonProvider normal="semantic.foreground.neutral.tertiary">
+          <IconButtonProvider
+            normal={{ color: 'semantic.foreground.neutral.tertiary' }}
+          >
             {children}
           </IconButtonProvider>
         </FlexBox>
