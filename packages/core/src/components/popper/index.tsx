@@ -88,7 +88,11 @@ const PopperAnchor = forwardRef<
   const composedRefs = useComposedRefs(forwardedRef, ref);
 
   useEffect(() => {
-    context.onAnchorChange(ref.current);
+    const anchor = ref.current;
+
+    if (context.anchor !== anchor) {
+      context.onAnchorChange(anchor);
+    }
   });
 
   return <Slot ref={composedRefs} {...props} />;

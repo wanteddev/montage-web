@@ -24,6 +24,7 @@ import {
   isValidDate,
 } from '../date-calendar/helpers';
 import { extendDayjs } from '../../utils/internal/date';
+import { scrollIntoViewIfNeeded } from '../../utils/internal/element';
 
 import {
   // ACCESSIBLE_MAX_TIME,
@@ -167,7 +168,26 @@ const TimeList = memo(
       }, [currentTimeValue]);
 
       return (
-        <RovingFocusGroup tabIndex={0} orientation="vertical" dir="ltr" asChild>
+        <RovingFocusGroup
+          tabIndex={0}
+          orientation="vertical"
+          dir="ltr"
+          asChild
+          preventScrollOnEntryFocus
+          onEntryFocus={() => {
+            const firstSelectedItem =
+              scrollViewportRef.current?.querySelector<HTMLElement>(
+                '[aria-selected="true"]',
+              );
+
+            if (scrollViewportRef.current && firstSelectedItem) {
+              scrollIntoViewIfNeeded(
+                scrollViewportRef.current,
+                firstSelectedItem,
+              );
+            }
+          }}
+        >
           <ScrollArea
             viewportRef={scrollViewportRef}
             size="small"

@@ -1,5 +1,7 @@
 import dayjs from 'dayjs';
 
+import { focusIntoView } from '../../utils/internal/element';
+
 import type { Dayjs } from 'dayjs';
 import type { RefObject } from 'react';
 import type { DateType, ViewType } from './types';
@@ -162,35 +164,22 @@ export const focusDate = (
 ) => {
   switch (type) {
     case 'year':
-      return containerRef.current
-        ?.querySelector<HTMLDivElement>(`[data-year='${value}']`)
-        ?.focus();
+      return focusIntoView(
+        containerRef.current?.querySelector<HTMLElement>(
+          `[data-year='${value}']`,
+        ),
+      );
     case 'month':
-      return containerRef.current
-        ?.querySelector<HTMLDivElement>(`[data-month='${value}']`)
-        ?.focus();
+      return focusIntoView(
+        containerRef.current?.querySelector<HTMLElement>(
+          `[data-month='${value}']`,
+        ),
+      );
     case 'day':
-      return containerRef.current
-        ?.querySelector<HTMLDivElement>(
+      return focusIntoView(
+        containerRef.current?.querySelector<HTMLElement>(
           `[data-date='${value}']:not([aria-disabled='true'])[data-other-month='false']`,
-        )
-        ?.focus();
-  }
-};
-
-export const scrollIntoViewDate = (
-  type: Omit<ViewType, 'day'>,
-  value: number,
-  containerRef: RefObject<HTMLDivElement | null>,
-) => {
-  switch (type) {
-    case 'year':
-      return containerRef.current
-        ?.querySelector<HTMLDivElement>(`[data-year='${value}']`)
-        ?.scrollIntoView();
-    case 'month':
-      return containerRef.current
-        ?.querySelector<HTMLDivElement>(`[data-month='${value}']`)
-        ?.scrollIntoView();
+        ),
+      );
   }
 };

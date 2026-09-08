@@ -1,4 +1,4 @@
-import { forwardRef } from 'react';
+import { forwardRef, useRef } from 'react';
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
 import {
   RovingFocusGroup,
@@ -22,7 +22,10 @@ import { FlexBox } from '../flex-box';
 import { Typography } from '../typography';
 import { usePopoverContext } from '../popover/contexts';
 import { createScope } from '../../hooks/internal/use-scope-context';
-import { isElementDisabled } from '../../utils/internal/element';
+import {
+  isElementDisabled,
+  scrollIntoViewIfNeeded,
+} from '../../utils/internal/element';
 
 import {
   MENU_ACTION_AREA_CONTENT_NAME,
@@ -146,14 +149,21 @@ const MenuContent = forwardRef(
       sx,
       children,
       forceMount,
+      onMountAutoFocus,
       ...props
     }: PolymorphicPropsInternal<MenuContentProps, T>,
     ref: ForwardedRef<T>,
   ) => {
     const scopes = useMenuScope('Menu');
+    const viewportRef = useRef<HTMLDivElement | null>(null);
 
     return (
-      <RovingFocusGroup orientation="vertical" dir="ltr" asChild>
+      <RovingFocusGroup
+        orientation="vertical"
+        dir="ltr"
+        asChild
+        preventScrollOnEntryFocus
+      >
         <PopoverContent
           ref={ref}
           position={position}
@@ -163,11 +173,30 @@ const MenuContent = forwardRef(
           forceMount={forceMount}
           aria-label="Select menu"
           variant="custom"
+          // RovingFocusGroup's onEntryFocus never fires here: the group mounts
+          // while the popover is closed, and Radix only attaches the listener
+          // to the node present at mount. FocusScope's mount event fires on
+          // every open, right before the active item receives focus.
+          onMountAutoFocus={composeEventHandlers(onMountAutoFocus, () => {
+            const firstSelectedItem =
+              viewportRef.current?.querySelector<HTMLElement>(
+                '[data-menu-selected="true"]',
+              );
+
+            if (viewportRef.current && firstSelectedItem) {
+              scrollIntoViewIfNeeded(viewportRef.current, firstSelectedItem);
+            }
+          })}
           {...props}
           {...scopes}
           sx={[menuPopoverContentStyle, sx]}
         >
-          <ScrollArea zIndex={11} sx={menuScrollAreaStyle} size="small">
+          <ScrollArea
+            zIndex={11}
+            sx={menuScrollAreaStyle}
+            size="small"
+            viewportRef={viewportRef}
+          >
             {children}
           </ScrollArea>
         </PopoverContent>
@@ -253,6 +282,7 @@ const MenuItem = forwardRef<any, MenuItemProps>(
       ),
       normal: (
         <ListCell
+          data-menu-selected={normalActive}
           disabled={disabled}
           role="menuitemradio"
           ref={ref}
@@ -327,6 +357,7 @@ const MenuItemRadio = forwardRef<any, MenuItemRadioProps>(
         }
         trailingContent={null}
         aria-current={undefined}
+        data-menu-selected={checked}
         {...props}
         onClick={composeEventHandlers(props.onClick, (e) => {
           if (!e.defaultPrevented) {
@@ -375,6 +406,7 @@ const MenuItemCheckbox = forwardRef<any, MenuItemRadioProps>(
         }
         trailingContent={null}
         aria-current={undefined}
+        data-menu-selected={checked}
         {...props}
         onClick={composeEventHandlers(props.onClick, (e) => {
           if (!e.defaultPrevented) {
