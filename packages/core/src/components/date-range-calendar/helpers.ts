@@ -5,6 +5,7 @@ import {
   dayjsTimezone,
   isValidDate,
 } from '../date-calendar/helpers';
+import { focusIntoView } from '../../utils/internal/element';
 
 import type { Dayjs } from 'dayjs';
 import type { DateType, ViewType } from '../date-calendar/types';
@@ -75,36 +76,23 @@ export const focusRangeDate = (
 ) => {
   switch (type) {
     case 'day':
-      return containerRef.current
-        ?.querySelector<HTMLButtonElement>(
+      return focusIntoView(
+        containerRef.current?.querySelector<HTMLElement>(
           `[data-date="${value}"]:not([aria-disabled='true'])`,
-        )
-        ?.focus();
+        ),
+      );
     case 'month':
-      return containerRef.current
-        ?.querySelector<HTMLButtonElement>(`[data-month="${value}"]`)
-        ?.focus();
+      return focusIntoView(
+        containerRef.current?.querySelector<HTMLElement>(
+          `[data-month="${value}"]`,
+        ),
+      );
     case 'year':
-      return containerRef.current
-        ?.querySelector<HTMLButtonElement>(`[data-year="${value}"]`)
-        ?.focus();
-  }
-};
-
-export const scrollIntoViewRangeDate = (
-  type: ViewType,
-  value: string,
-  containerRef: { current: HTMLDivElement | null },
-) => {
-  switch (type) {
-    case 'year':
-      return containerRef.current
-        ?.querySelector<HTMLButtonElement>(`[data-year="${value}"]`)
-        ?.scrollIntoView({ block: 'center' });
-    case 'month':
-      return containerRef.current
-        ?.querySelector<HTMLButtonElement>(`[data-month="${value}"]`)
-        ?.scrollIntoView({ block: 'center' });
+      return focusIntoView(
+        containerRef.current?.querySelector<HTMLElement>(
+          `[data-year="${value}"]`,
+        ),
+      );
   }
 };
 

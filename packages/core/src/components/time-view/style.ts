@@ -66,7 +66,7 @@ export const timeItemStyle =
           `};
 
     &,
-    p {
+    span {
       text-align: center;
       font-weight: 400;
     }
@@ -75,7 +75,7 @@ export const timeItemStyle =
     active &&
     css`
       &,
-      p {
+      span {
         color: ${theme.semantic.foreground.neutral.primary};
       }
 
