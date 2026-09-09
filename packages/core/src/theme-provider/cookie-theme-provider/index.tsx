@@ -4,20 +4,16 @@ import { ThemeContextProvider } from '../contexts';
 
 import {
   clearHostOnlyThemeCookie,
+  detectBlockedThemeScript,
   disableAnimation,
   getSystemTheme,
   getThemeCookie,
   isThemeMode,
-  safeCookieAttribute,
-  safeCookieKey,
+  reportBlockedThemeScript,
+  resolveThemeCookieOptions,
   setThemeCookie,
 } from './helpers';
-import {
-  COLOR_SCHEME_QUERY,
-  DEFAULT_THEME_COOKIE_KEY,
-  DEFAULT_THEME_COOKIE_PATH,
-  THEME_ATTRIBUTE,
-} from './constants';
+import { COLOR_SCHEME_QUERY, THEME_ATTRIBUTE } from './constants';
 import ThemeScript from './theme-script';
 
 import type {
@@ -48,51 +44,80 @@ const CookieThemeProvider = ({
     key: cookieKeyOption,
     domain: cookieDomainOption,
     path: cookiePathOption,
-    maxAge: cookieMaxAge,
-    sameSite: cookieSameSite,
-    secure: cookieSecure,
+    maxAge: cookieMaxAgeOption,
+    sameSite: cookieSameSiteOption,
+    secure: cookieSecureOption,
   } = cookie ?? {};
 
   // Memoized so an invalid option is reported once per value, not per render
-  const { cookieKey, cookieDomain, resolvedCookiePath } = useMemo(
-    () => ({
-      cookieKey: safeCookieKey(cookieKeyOption) ?? DEFAULT_THEME_COOKIE_KEY,
-      cookieDomain: safeCookieAttribute('domain', cookieDomainOption),
-      resolvedCookiePath:
-        safeCookieAttribute('path', cookiePathOption) ??
-        DEFAULT_THEME_COOKIE_PATH,
-    }),
-    [cookieKeyOption, cookieDomainOption, cookiePathOption],
+  const resolvedCookie = useMemo(
+    () =>
+      resolveThemeCookieOptions({
+        key: cookieKeyOption,
+        domain: cookieDomainOption,
+        path: cookiePathOption,
+        maxAge: cookieMaxAgeOption,
+        sameSite: cookieSameSiteOption,
+        secure: cookieSecureOption,
+      }),
+    [
+      cookieKeyOption,
+      cookieDomainOption,
+      cookiePathOption,
+      cookieMaxAgeOption,
+      cookieSameSiteOption,
+      cookieSecureOption,
+    ],
   );
+
+  const {
+    key: cookieKey,
+    domain: cookieDomain,
+    path: resolvedCookiePath,
+  } = resolvedCookie;
 
   const defaultTheme: ThemeMode = enableSystem ? 'system' : 'light';
 
   const [theme, setThemeState] = useState<ThemeMode | undefined>(() => {
     // Runs before the first read for the client-render path, where the inline
-    // script never executes (React does not run scripts set via innerHTML)
-    if (cookieDomain) {
-      clearHostOnlyThemeCookie(cookieKey, resolvedCookiePath);
+    // script never executes (React does not run scripts set via innerHTML).
+    // A forced provider never mutates cookies — it renders one theme whatever
+    // is stored, so deleting a sibling app's cookie is pure collateral. The
+    // inline script skips the cleanup when forced for the same reason.
+    if (!cookieDomain || forcedTheme) {
+      return getThemeCookie(cookieKey);
     }
 
-    return getThemeCookie(cookieKey);
+    // Read before clearing as well as after: on the first load where a host
+    // gains a domain, the host-only cookie is the only one holding a value and
+    // dropping it blind would reset the user's choice. The persist effect
+    // writes the kept value back with the domain attached.
+    const shadowed = getThemeCookie(cookieKey);
+
+    clearHostOnlyThemeCookie(cookieKey, resolvedCookiePath);
+
+    return getThemeCookie(cookieKey) ?? shadowed;
   });
   const [systemTheme, setSystemTheme] = useState<ResolvedThemeMode | undefined>(
     getSystemTheme,
   );
 
+  // Must be sampled during render — see detectBlockedThemeScript, the signal
+  // it reads is gone once React commits
+  const blockedThemeScript = useRef(detectBlockedThemeScript());
+
+  useEffect(() => {
+    reportBlockedThemeScript(blockedThemeScript.current, nonce);
+  }, [nonce]);
+
   const appliedTheme = theme ?? defaultTheme;
   const resolvedTheme =
     forcedTheme ?? (appliedTheme === 'system' ? systemTheme : appliedTheme);
 
-  const cookieOptions = useRef<ThemeCookieOptions>({});
-  cookieOptions.current = {
-    key: cookieKey,
-    domain: cookieDomain,
-    path: resolvedCookiePath,
-    maxAge: cookieMaxAge,
-    sameSite: cookieSameSite,
-    secure: cookieSecure,
-  };
+  // Held in a ref so changing an option does not re-run the persist effect and
+  // re-write a cookie the user did not touch
+  const cookieOptions = useRef(resolvedCookie);
+  cookieOptions.current = resolvedCookie;
 
   const setTheme: Dispatch<SetStateAction<string>> = useCallback(
     (value) => {
@@ -108,12 +133,16 @@ const CookieThemeProvider = ({
     [defaultTheme],
   );
 
-  // Persist theme changes to the cookie
+  // Persist theme changes to the cookie. A forced provider never writes: it
+  // renders one theme regardless of the stored value, so persisting would push
+  // its own cookie options onto a value it does not own — creating a
+  // same-named cookie at a different scope on every mount, and letting a
+  // `setTheme` call that changes nothing on screen change every sibling app.
   useEffect(() => {
-    if (theme) {
+    if (theme && !forcedTheme) {
       setThemeCookie(theme, cookieOptions.current);
     }
-  }, [theme]);
+  }, [theme, forcedTheme]);
 
   // Apply the resolved theme to the document
   useEffect(() => {
@@ -157,7 +186,16 @@ const CookieThemeProvider = ({
     }
 
     const syncThemeFromCookie = () => {
-      setThemeState(getThemeCookie(cookieKey));
+      const stored = getThemeCookie(cookieKey);
+
+      // Only adopt a value that is actually there. A missing cookie almost
+      // always means the write never stuck (blocked cookies, a rejected
+      // `Domain`, Safari evicting script-written storage) rather than a
+      // deliberate reset, and overwriting with `undefined` would drop the
+      // user's choice every time the tab regains focus.
+      if (stored) {
+        setThemeState(stored);
+      }
     };
 
     const handleVisibilityChange = () => {
@@ -166,14 +204,18 @@ const CookieThemeProvider = ({
       }
     };
 
-    // Cookies have no change event of their own (unlike localStorage's
-    // `storage`), so without the Cookie Store API the best we can do is
-    // re-read whenever the page comes back to the user. `visibilitychange`
-    // covers tab switches and minimize; `focus` additionally covers two
-    // windows side by side, where both documents stay `visible` and only
-    // focus moves between them.
+    // Cookie Store `change` covers every cookie visible to this document, so a
+    // write from another subdomain notifies us too — measured on Chrome 141: a
+    // document on `a.example.test` is notified when `b.example.test` writes a
+    // `Domain`-scoped cookie, even while backgrounded. A sibling's host-only
+    // cookie is correctly not reported, since this document cannot see it.
     // lib.dom types cookieStore as always present, but Safari < 18.5,
-    // Firefox < 138, non-HTTPS contexts, and jsdom do not provide it.
+    // Firefox < 138, non-HTTPS contexts, and jsdom do not provide it. There
+    // cookies have no change event of their own (unlike localStorage's
+    // `storage`), so the best we can do is re-read whenever the page comes
+    // back to the user. `visibilitychange` covers tab switches and minimize;
+    // `focus` additionally covers two windows side by side, where both
+    // documents stay `visible` and only focus moves between them.
     const { cookieStore } = window as { cookieStore?: CookieStore };
 
     cookieStore?.addEventListener('change', syncThemeFromCookie);
