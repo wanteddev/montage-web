@@ -9,14 +9,7 @@ export const sliderProgressWrapperStyle =
     padding: 8px;
     border-radius: 1000px;
     position: relative;
-
-    /*
-     * A touch device hands a horizontal swipe to its own pan gesture before a
-     * single pointermove reaches us, and cancels the pointer on the way out.
-     * Calling preventDefault on pointerdown cannot claim the gesture back --
-     * only touch-action can, so the drag never starts without this.
-     */
-    touch-action: none;
+    touch-action: ${disabled ? 'auto' : 'none'};
     user-select: none;
     -webkit-tap-highlight-color: transparent;
 
