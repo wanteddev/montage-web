@@ -1,4 +1,8 @@
-import { COLOR_SCHEME_QUERY, THEME_ATTRIBUTE } from '../constants';
+import {
+  COLOR_SCHEME_QUERY,
+  DEFAULT_THEME_COOKIE_PATH,
+  THEME_ATTRIBUTE,
+} from '../constants';
 
 import type { ThemeScriptProps } from './types';
 
@@ -33,11 +37,18 @@ export const buildThemeScript = ({
 
   // A same-named host-only cookie would shadow the domain-scoped one on read
   // (see clearHostOnlyThemeCookie); drop it before reading so the value the
-  // script paints and the value the provider reads cannot diverge. Keep the
+  // script paints and the value the provider reads cannot diverge. The paths
+  // are derived in the browser rather than serialized here because the sweep
+  // has to cover every path that can send a cookie to this URL — deleting
+  // needs an exact Path match while reading prefers the deepest one, and the
+  // server cannot know the pathname of a statically rendered page. Keep the
   // pre-clear read as the fallback, matching the provider, so the first load
   // after a host gains a domain does not reset the stored choice.
+  const configuredPaths = [...new Set([DEFAULT_THEME_COOKIE_PATH, cookiePath])];
   const clearHostOnly = cookieDomain
-    ? `document.cookie=k+'=; Path='+${JSON.stringify(cookiePath)}+'; Max-Age=0';t=g()||t;`
+    ? `var y=${JSON.stringify(configuredPaths)},z='';` +
+      `location.pathname.split('/').forEach(function(s){if(s){y.push(z+='/'+s)}});` +
+      `y.forEach(function(a){document.cookie=k+'=; Path='+a+'; Max-Age=0'});t=g()||t;`
     : '';
 
   return (

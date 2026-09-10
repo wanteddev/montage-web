@@ -227,6 +227,21 @@ describe('resolveThemeCookieOptions', () => {
     expect(console.error).not.toHaveBeenCalled();
   });
 
+  it('forces Secure when sameSite is none even if secure is false', () => {
+    // `SameSite=None` without `Secure` is rejected outright, so honoring
+    // secure=false would serialize a cookie the browser silently drops
+    const resolved = resolveThemeCookieOptions({
+      sameSite: 'none',
+      secure: false,
+    });
+
+    expect(resolved.secure).toBe(true);
+    expect(serializeThemeCookie('dark', resolved)).toContain('Secure');
+    expect(console.error).toHaveBeenCalledWith(
+      expect.stringContaining('cookie.sameSite "none" requires the Secure'),
+    );
+  });
+
   it('reports domain "none" left on the shared default key', () => {
     // the sibling apps' cookie is still sent here and would be copied into this
     // app's host-only one, which then wins every later read

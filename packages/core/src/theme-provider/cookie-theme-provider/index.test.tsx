@@ -7,6 +7,7 @@
  * @vitest-environment jsdom
  * @vitest-environment-options { "url": "https://help.wanted.co.kr/" }
  */
+import { StrictMode } from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 
 import useThemeControl from '../../hooks/use-theme-control';
@@ -51,8 +52,26 @@ describe('detectCookieDomain', () => {
     expect(detectCookieDomain()).toBe('.wanted.co.kr');
   });
 
-  it('leaves no probe cookie behind', () => {
-    detectCookieDomain();
+  it('leaves no probe cookie behind', async () => {
+    // the detected value is cached per host at module scope, so a warm cache
+    // would skip the probe entirely and leave nothing to assert on
+    vi.resetModules();
+
+    const { detectCookieDomain: detectUncached } = await import('./helpers');
+    const setCookie = vi.spyOn(document, 'cookie', 'set');
+
+    detectUncached();
+
+    const probeWrites = setCookie.mock.calls
+      .map(([value]) => String(value))
+      .filter((value) => value.startsWith('__montage-theme-probe='));
+
+    // the probe has to have actually run for the cleanup assertion to mean
+    // anything: one write per candidate domain plus the deletion
+    expect(probeWrites.length).toBeGreaterThan(1);
+    expect(probeWrites.at(-1)).toContain('Max-Age=0');
+
+    setCookie.mockRestore();
 
     expect(document.cookie).not.toContain('__montage-theme-probe');
   });
@@ -147,10 +166,34 @@ describe('when given theme provider component', () => {
 
     // a forced provider renders light whatever is stored, so it neither
     // persists nor clears — deleting a sibling app's cookie would be pure
-    // collateral, and the inline script skips the cleanup when forced too
-    expect(setCookie).not.toHaveBeenCalled();
+    // collateral, and the inline script skips the cleanup when forced too.
+    // Domain detection writes a throwaway probe cookie on a cold cache, so
+    // only theme-cookie writes are in scope here.
+    expect(
+      setCookie.mock.calls.filter(([value]) =>
+        String(value).startsWith('montage-theme='),
+      ),
+    ).toEqual([]);
 
     setCookie.mockRestore();
+  });
+
+  it('should keep the migrated value when the initializer runs twice', () => {
+    document.cookie = 'montage-theme=dark; Path=/';
+
+    render(
+      <StrictMode>
+        <ThemeProvider enableDarkMode>
+          <ThemeConsumer />
+        </ThemeProvider>
+      </StrictMode>,
+    );
+
+    // StrictMode double-invokes the state initializer and keeps only one of
+    // the results, so the second call has to observe the same cookies as the
+    // first and reach the same answer
+    expect(screen.getByRole('button')).toHaveTextContent('dark:dark');
+    expect(document.cookie).toContain('montage-theme=dark');
   });
 
   it('should keep a host-only value on the first load that gains a domain', () => {

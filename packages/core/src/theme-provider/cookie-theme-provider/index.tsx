@@ -90,13 +90,25 @@ const CookieThemeProvider = ({
 
     // Read before clearing as well as after: on the first load where a host
     // gains a domain, the host-only cookie is the only one holding a value and
-    // dropping it blind would reset the user's choice. The persist effect
-    // writes the kept value back with the domain attached.
+    // dropping it blind would reset the user's choice.
     const shadowed = getThemeCookie(cookieKey);
 
     clearHostOnlyThemeCookie(cookieKey, resolvedCookiePath);
 
-    return getThemeCookie(cookieKey) ?? shadowed;
+    const stored = getThemeCookie(cookieKey);
+
+    if (stored === undefined && shadowed !== undefined) {
+      // Re-home the value that was just deleted, rather than leaving it only
+      // in the return value. React double-invokes this initializer under
+      // StrictMode and keeps just one of the results, so a second call has to
+      // observe the same cookies and reach the same answer — otherwise it
+      // reads an empty jar and the migrated theme depends on which result
+      // React happens to keep. The persist effect writes the same value a
+      // moment later regardless.
+      setThemeCookie(shadowed, resolvedCookie);
+    }
+
+    return stored ?? shadowed;
   });
   const [systemTheme, setSystemTheme] = useState<ResolvedThemeMode | undefined>(
     getSystemTheme,

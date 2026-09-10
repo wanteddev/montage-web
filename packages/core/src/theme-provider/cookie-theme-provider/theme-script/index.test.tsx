@@ -1,6 +1,6 @@
 import { act, render, within } from '@testing-library/react';
 import { renderToString } from 'react-dom/server';
-import { hydrateRoot } from 'react-dom/client';
+import { type Root, hydrateRoot } from 'react-dom/client';
 
 import ThemeProvider from '../..';
 
@@ -38,11 +38,26 @@ const themeScript = (container: HTMLElement) =>
     'script[data-montage-theme-script]',
   );
 
+const roots: Array<Root> = [];
+
+/** Kept so the provider's document/window listeners are removed between tests */
+const hydrate = (container: HTMLElement, element: typeof tree) => {
+  act(() => {
+    roots.push(hydrateRoot(container, element));
+  });
+};
+
 beforeEach(() => {
   vi.spyOn(console, 'error').mockImplementation(() => {});
 });
 
 afterEach(() => {
+  act(() => {
+    roots.splice(0).forEach((root) => {
+      root.unmount();
+    });
+  });
+
   vi.restoreAllMocks();
   document.documentElement.removeAttribute('data-theme');
   document.cookie = 'montage-theme=; Path=/; Max-Age=0';
@@ -60,9 +75,7 @@ describe('when given theme script', () => {
     expect(themeScript(container)?.type).toBe('');
     expect(document.documentElement.hasAttribute('data-theme')).toBe(false);
 
-    act(() => {
-      hydrateRoot(container, tree);
-    });
+    hydrate(container, tree);
 
     // The detection has to have happened during render: React rewrites this
     // element on the client (measured in Chrome 141, where a hydration
@@ -86,14 +99,12 @@ describe('when given theme script', () => {
     ).replace(' type="application/json"', '');
     document.body.append(container);
 
-    act(() => {
-      hydrateRoot(
-        container,
-        <ThemeProvider enableDarkMode nonce="abc">
-          <Child />
-        </ThemeProvider>,
-      );
-    });
+    hydrate(
+      container,
+      <ThemeProvider enableDarkMode nonce="abc">
+        <Child />
+      </ThemeProvider>,
+    );
 
     expect(console.error).toHaveBeenCalledWith(
       expect.stringContaining('verify that the `nonce`'),
@@ -106,9 +117,7 @@ describe('when given theme script', () => {
     // stand in for the inline script having run during parse
     document.documentElement.setAttribute('data-theme', 'light');
 
-    act(() => {
-      hydrateRoot(container, tree);
-    });
+    hydrate(container, tree);
 
     expect(console.error).not.toHaveBeenCalled();
   });

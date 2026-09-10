@@ -512,16 +512,27 @@ export const resolveThemeCookieOptions = ({
     );
   }
 
+  const resolvedSameSite = safeCookieSameSite(sameSite);
+  // `SameSite=None` without `Secure` is rejected outright, so the pair is not a
+  // combination the caller can opt out of half-way
+  const requireSecureForSameSite = resolvedSameSite === 'none';
+
+  if (requireSecureForSameSite && secure === false) {
+    console.error(
+      '[Montage] ThemeProvider cookie.sameSite "none" requires the Secure attribute. cookie.secure=false was ignored.',
+    );
+  }
+
   const resolved: ResolvedThemeCookieOptions = {
     key: resolvedKey,
     domain: requireHostOnly ? undefined : resolveCookieDomain(domain),
     path: requireHostOnly ? DEFAULT_THEME_COOKIE_PATH : resolvedPath,
     maxAge: safeCookieMaxAge(maxAge),
-    sameSite: safeCookieSameSite(sameSite),
-    secure: requireSecure || secure,
+    sameSite: resolvedSameSite,
+    secure: requireSecure || requireSecureForSameSite || secure,
   };
 
-  reportInsecureContext(resolved.secure ?? resolved.sameSite === 'none');
+  reportInsecureContext(Boolean(resolved.secure));
 
   return resolved;
 };
