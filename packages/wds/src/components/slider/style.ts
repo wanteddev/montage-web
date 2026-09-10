@@ -9,6 +9,9 @@ export const sliderProgressWrapperStyle =
     padding: 8px;
     border-radius: 1000px;
     position: relative;
+    touch-action: ${disabled ? 'auto' : 'none'};
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
 
     ${disabled
       ? css`

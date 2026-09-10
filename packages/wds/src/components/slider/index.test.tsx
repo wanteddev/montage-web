@@ -19,15 +19,20 @@ const TRACK_WIDTH = 100;
  */
 const firePointer = (
   element: Element,
-  type: 'pointerdown' | 'pointermove' | 'pointerup',
+  type: 'pointerdown' | 'pointermove' | 'pointerup' | 'pointercancel',
   clientX: number,
+  {
+    pointerId = 1,
+    buttons = type === 'pointerdown' || type === 'pointermove' ? 1 : 0,
+  }: { pointerId?: number; buttons?: number } = {},
 ) => {
   const event = new MouseEvent(type, {
     bubbles: true,
     cancelable: true,
     clientX,
+    buttons,
   });
-  Object.defineProperty(event, 'pointerId', { value: 1 });
+  Object.defineProperty(event, 'pointerId', { value: pointerId });
   fireEvent(element, event);
 };
 
@@ -461,6 +466,114 @@ describe('when operating a slider with a pointer', () => {
 
     dragThumb(container, 0, -80);
     expect(getValues(container)).toEqual(['0']);
+  });
+
+  it('should report completion when a touch gesture is cancelled mid-drag', () => {
+    const onValueChangeComplete = vi.fn();
+    const { container } = render(
+      <Slider
+        min={0}
+        max={100}
+        defaultValue={[20]}
+        onValueChangeComplete={onValueChangeComplete}
+      />,
+    );
+    stubTrackRect(container);
+
+    const thumb = getThumbs(container)[0]!;
+    firePointer(thumb, 'pointerdown', 20);
+    fireEvent.focus(thumb);
+    firePointer(thumb, 'pointermove', 70);
+    firePointer(thumb, 'pointercancel', 70);
+
+    expect(getValues(container)).toEqual(['70']);
+    expect(onValueChangeComplete).toHaveBeenCalledTimes(1);
+    expect(onValueChangeComplete).toHaveBeenCalledWith([70]);
+  });
+
+  it('should accept a fresh drag after a cancelled one', () => {
+    const { container } = render(
+      <Slider min={0} max={100} defaultValue={[20]} />,
+    );
+    stubTrackRect(container);
+
+    const thumb = getThumbs(container)[0]!;
+    firePointer(thumb, 'pointerdown', 20);
+    fireEvent.focus(thumb);
+    firePointer(thumb, 'pointercancel', 20);
+
+    dragThumb(container, 0, 80);
+
+    expect(getValues(container)).toEqual(['80']);
+  });
+
+  it('should ignore a second pointer while a drag is in flight', () => {
+    const { container } = render(
+      <Slider min={0} max={100} defaultValue={[20]} />,
+    );
+    stubTrackRect(container);
+
+    const thumb = getThumbs(container)[0]!;
+    firePointer(thumb, 'pointerdown', 20);
+    fireEvent.focus(thumb);
+    firePointer(thumb, 'pointermove', 40);
+
+    const track = getTrack(container);
+    firePointer(track, 'pointerdown', 90, { pointerId: 2 });
+    firePointer(track, 'pointermove', 95, { pointerId: 2 });
+    firePointer(track, 'pointerup', 95, { pointerId: 2 });
+
+    expect(getValues(container)).toEqual(['40']);
+
+    firePointer(thumb, 'pointermove', 55);
+    firePointer(thumb, 'pointerup', 55);
+
+    expect(getValues(container)).toEqual(['55']);
+  });
+
+  it('should let go of a drag whose release never arrived', () => {
+    const onValueChangeComplete = vi.fn();
+    const { container } = render(
+      <Slider
+        min={0}
+        max={100}
+        defaultValue={[20]}
+        onValueChangeComplete={onValueChangeComplete}
+      />,
+    );
+    stubTrackRect(container);
+
+    const thumb = getThumbs(container)[0]!;
+    firePointer(thumb, 'pointerdown', 20);
+    fireEvent.focus(thumb);
+    firePointer(thumb, 'pointermove', 70);
+
+    // The button came up off-window, so the next move reports nothing held.
+    firePointer(thumb, 'pointermove', 95, { buttons: 0 });
+
+    expect(getValues(container)).toEqual(['70']);
+    expect(onValueChangeComplete).toHaveBeenCalledTimes(1);
+    expect(onValueChangeComplete).toHaveBeenCalledWith([70]);
+
+    firePointer(thumb, 'pointermove', 10, { buttons: 0 });
+    expect(getValues(container)).toEqual(['70']);
+  });
+
+  it('should let the same pointer take over a drag it never released', () => {
+    const { container } = render(
+      <Slider min={0} max={100} defaultValue={[20]} />,
+    );
+    stubTrackRect(container);
+
+    const thumb = getThumbs(container)[0]!;
+    firePointer(thumb, 'pointerdown', 20);
+    fireEvent.focus(thumb);
+    firePointer(thumb, 'pointermove', 40);
+
+    // No pointerup ever lands, so the next press has to break the deadlock.
+    clickTrack(container, 80);
+
+    expect(getValues(container)).toEqual(['80']);
   });
 
   it('should still run the consumer pointer handlers', () => {

@@ -28,7 +28,7 @@ import {
   sliderThumbStyle,
 } from './style';
 
-import type { ReactNode } from 'react';
+import type { PointerEvent, ReactNode } from 'react';
 import type {
   SliderLabelProps,
   SliderProps,
@@ -61,6 +61,7 @@ const Slider = forwardRef<
       onPointerDown,
       onPointerUp,
       onPointerMove,
+      onPointerCancel,
       onKeyDown,
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       onChange: _,
@@ -72,6 +73,7 @@ const Slider = forwardRef<
     const thumbRefs = useRef<Set<HTMLSpanElement>>(new Set());
     const currentFocusedIndex = useRef(0);
     const rect = useRef<DOMRect | undefined>(undefined);
+    const activePointerId = useRef<number | null>(null);
     const [node, setNode] = useState<HTMLSpanElement | null>(null);
 
     const [values = [], setValues] = useControllableState({
@@ -158,6 +160,35 @@ const Slider = forwardRef<
       return cb(pointerPosition - newRect.left);
     };
 
+    /**
+     * A touch gesture can be taken away at any moment — a system swipe, an
+     * incoming call — and `pointercancel` is the only notice we get. Treat it
+     * exactly like a release so the values the user already dragged to are
+     * reported and the cached rect cannot leak into the next drag.
+     */
+    const endSlide = (event: PointerEvent<HTMLElement>) => {
+      if (activePointerId.current !== event.pointerId) return;
+
+      const target = event.target as HTMLElement;
+      if (target.hasPointerCapture(event.pointerId)) {
+        target.releasePointerCapture(event.pointerId);
+      }
+
+      activePointerId.current = null;
+      rect.current = undefined;
+
+      /**
+       * Comparing a single index misses changes whenever thumbs end up
+       * stacked or swapped, so compare the whole set instead.
+       */
+      const hasChanged =
+        slideStartValues.current.toString() !== values.toString();
+
+      if (hasChanged) {
+        onValueChangeComplete?.(values);
+      }
+    };
+
     const initialValuesRef = useRef(values);
 
     useEffect(() => {
@@ -233,6 +264,21 @@ const Slider = forwardRef<
           onPointerDown={composeEventHandlers(onPointerDown, (event) => {
             if (disabled) return;
 
+            /**
+             * A touch device happily starts a second pointer mid-drag. Letting
+             * it through would reset the drag origin and teleport the thumb
+             * under the finger that is already dragging. The *same* pointer
+             * pressing again means we missed its release, so let it take the
+             * drag over rather than deadlocking the slider.
+             */
+            if (
+              activePointerId.current !== null &&
+              activePointerId.current !== event.pointerId
+            ) {
+              return;
+            }
+
+            activePointerId.current = event.pointerId;
             slideStartValues.current = values;
 
             const target = event.target as HTMLElement;
@@ -244,7 +290,7 @@ const Slider = forwardRef<
             );
 
             if (closestThumb && thumbRefs.current.has(closestThumb)) {
-              target.focus();
+              closestThumb.focus();
             } else {
               const newValue = getValueFromPointer(event.clientX);
               if (newValue === undefined) return;
@@ -254,36 +300,27 @@ const Slider = forwardRef<
             }
           })}
           onPointerMove={composeEventHandlers(onPointerMove, (event) => {
-            if (disabled) return;
+            if (disabled || activePointerId.current !== event.pointerId) return;
 
-            const target = event.target as HTMLElement;
-            if (target.hasPointerCapture(event.pointerId)) {
-              const newValue = getValueFromPointer(event.clientX);
-              if (newValue === undefined) return;
-
-              handleValueChange(newValue, currentFocusedIndex.current);
+            /**
+             * A release can go missing entirely — the button comes up outside
+             * the window, the window loses focus mid-drag, the captured node
+             * is torn out from under us. `buttons` is the ground truth for
+             * "still held", so trust it over our own bookkeeping instead of
+             * trailing a pointer that was let go a long time ago.
+             */
+            if (event.buttons === 0) {
+              endSlide(event);
+              return;
             }
+
+            const newValue = getValueFromPointer(event.clientX);
+            if (newValue === undefined) return;
+
+            handleValueChange(newValue, currentFocusedIndex.current);
           })}
-          onPointerUp={composeEventHandlers(onPointerUp, (event) => {
-            if (disabled) return;
-
-            const target = event.target as HTMLElement;
-            if (target.hasPointerCapture(event.pointerId)) {
-              target.releasePointerCapture(event.pointerId);
-
-              /**
-               * Comparing a single index misses changes whenever thumbs end up
-               * stacked or swapped, so compare the whole set instead.
-               */
-              const hasChanged =
-                slideStartValues.current.toString() !== values.toString();
-              rect.current = undefined;
-
-              if (hasChanged) {
-                onValueChangeComplete?.(values);
-              }
-            }
-          })}
+          onPointerUp={composeEventHandlers(onPointerUp, endSlide)}
+          onPointerCancel={composeEventHandlers(onPointerCancel, endSlide)}
         >
           <Box sx={sliderProgressStyle} data-role="slider-progress-range">
             <Box
