@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.12.1](https://github.com/wanteddev/montage-web/compare/v3.12.0...v3.12.1) (2026-09-10)
+
+### Bug Fixes
+
+- **wds:** slider 터치 드래그 불가 및 드래그 고착 수정 ([#639](https://github.com/wanteddev/montage-web/issues/639)) ([38cc56c](https://github.com/wanteddev/montage-web/commit/38cc56cf25a66fb41a23a74aba094343589383f0))
+
 # [3.12.0](https://github.com/wanteddev/montage-web/compare/v3.11.1...v3.12.0) (2026-08-11)
 
 ### Features
