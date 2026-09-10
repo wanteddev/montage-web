@@ -1,5 +1,7 @@
 import { memo } from 'react';
 
+import { THEME_SCRIPT_ATTRIBUTE } from '../constants';
+
 import { buildThemeScript } from './helpers';
 
 import type { ThemeScriptProps } from './types';
@@ -14,6 +16,7 @@ const ThemeScript = memo(({ nonce, ...scriptOptions }: ThemeScriptProps) => {
   return (
     <script
       suppressHydrationWarning
+      {...{ [THEME_SCRIPT_ATTRIBUTE]: '' }}
       nonce={nonce}
       {...scriptProps}
       dangerouslySetInnerHTML={{ __html: buildThemeScript(scriptOptions) }}

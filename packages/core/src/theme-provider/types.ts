@@ -14,10 +14,18 @@ export type ThemeCookieOptions = {
   /** Cookie name used to persist the theme setting. @default 'montage-theme' */
   key?: string;
   /**
-   * Cookie `Domain` attribute (e.g. `.wanted.co.kr`) that shares the theme
-   * across every subdomain of the given domain. When omitted, the attribute
-   * is not set at all and the cookie is host-only — readable from the exact
-   * current host only.
+   * Cookie `Domain` attribute, which decides how far the theme is shared.
+   *
+   * - `'auto'` (default) — detect the widest domain the current host is
+   *   allowed to write (`help.wanted.co.kr` resolves to `.wanted.co.kr`) so
+   *   every app under one root domain shares the theme without having to
+   *   agree on a value. Hosts that cannot carry the attribute at all —
+   *   `localhost`, an IP, a preview domain — fall back to host-only.
+   * - `'none'` — opt out and keep the cookie host-only, readable from the
+   *   exact current host only.
+   * - Any other value is used verbatim (e.g. `.wanted.co.kr`).
+   *
+   * @default 'auto'
    */
   domain?: string;
   /** Cookie `Path` attribute. @default '/' */

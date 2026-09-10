@@ -6,6 +6,9 @@ import { buildThemeScript } from './cookie-theme-provider/theme-script/helpers';
 import {
   clearHostOnlyThemeCookie,
   getThemeCookie,
+  reportInsecureContext,
+  resolveCookieDomain,
+  resolveThemeCookieOptions,
   safeCookieAttribute,
   safeCookieKey,
   serializeThemeCookie,
@@ -68,8 +71,6 @@ describe('safeCookieAttribute', () => {
 
   afterEach(() => {
     vi.restoreAllMocks();
-    clearThemeCookie();
-    document.documentElement.removeAttribute('data-theme');
   });
 
   it('passes through a normal value', () => {
@@ -85,6 +86,16 @@ describe('safeCookieAttribute', () => {
   ])('rejects a value containing a %s', (_label, value) => {
     expect(safeCookieAttribute('path', value)).toBeUndefined();
     expect(console.error).toHaveBeenCalledOnce();
+  });
+});
+
+describe('safeCookieKey', () => {
+  beforeEach(() => {
+    vi.spyOn(console, 'error').mockImplementation(() => {});
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
   });
 
   it('accepts a valid cookie name', () => {
@@ -103,32 +114,161 @@ describe('safeCookieAttribute', () => {
     expect(safeCookieKey(value)).toBeUndefined();
     expect(console.error).toHaveBeenCalledOnce();
   });
+});
 
-  it('falls back to the default key when cookie.key is invalid', () => {
-    render(
-      <ThemeProvider enableDarkMode cookie={{ key: 'theme=other' }}>
-        <ThemeConsumer />
-      </ThemeProvider>,
-    );
+describe('resolveCookieDomain', () => {
+  it('falls back to host-only on a host that cannot carry a Domain', () => {
+    // this file runs on `localhost`, a single-label host
+    expect(resolveCookieDomain(undefined)).toBeUndefined();
+    expect(resolveCookieDomain('none')).toBeUndefined();
+  });
+});
 
-    fireEvent.click(screen.getByRole('button'));
-
-    expect(console.error).toHaveBeenCalled();
-    // written under the default key, not the malformed one
-    expect(getThemeCookie('montage-theme')).toBe('dark');
+describe('resolveThemeCookieOptions', () => {
+  beforeEach(() => {
+    vi.spyOn(console, 'error').mockImplementation(() => {});
   });
 
-  it('reports and drops an injected path instead of writing it', () => {
-    render(
-      <ThemeProvider
-        enableDarkMode
-        cookie={{ domain: '.wanted.co.kr', path: '/; Max-Age=0' }}
-      >
-        <ThemeConsumer />
-      </ThemeProvider>,
-    );
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
 
-    expect(console.error).toHaveBeenCalled();
+  it.each([
+    ['NaN', Number('x')],
+    ['zero, which expires the cookie on write', 0],
+    ['a negative value', -1],
+    ['a non-integer', 1.5],
+  ])('reports and drops a maxAge of %s', (_label, maxAge) => {
+    // an invalid Max-Age is dropped by the browser, leaving a session cookie
+    expect(resolveThemeCookieOptions({ maxAge }).maxAge).toBeUndefined();
+    expect(console.error).toHaveBeenCalledOnce();
+  });
+
+  it('keeps a valid maxAge', () => {
+    expect(resolveThemeCookieOptions({ maxAge: 100 }).maxAge).toBe(100);
+    expect(console.error).not.toHaveBeenCalled();
+  });
+
+  it('reports and drops an unrecognized sameSite', () => {
+    // serializes to `SameSite=undefined`, which the browser ignores
+    expect(
+      resolveThemeCookieOptions({ sameSite: 'Lax' as never }).sameSite,
+    ).toBeUndefined();
+    expect(console.error).toHaveBeenCalledOnce();
+  });
+
+  it('keeps a valid sameSite', () => {
+    expect(resolveThemeCookieOptions({ sameSite: 'none' }).sameSite).toBe(
+      'none',
+    );
+    expect(console.error).not.toHaveBeenCalled();
+  });
+
+  it('adds Secure for a __Secure- prefixed key', () => {
+    expect(resolveThemeCookieOptions({ key: '__Secure-theme' }).secure).toBe(
+      true,
+    );
+  });
+
+  it('reports an explicit secure=false that the prefix forbids', () => {
+    expect(
+      resolveThemeCookieOptions({ key: '__Secure-theme', secure: false })
+        .secure,
+    ).toBe(true);
+    expect(console.error).toHaveBeenCalledOnce();
+  });
+
+  it('forces a __Host- prefixed key to a host-only cookie at the root path', () => {
+    const resolved = resolveThemeCookieOptions({
+      key: '__Host-theme',
+      domain: '.wanted.co.kr',
+      path: '/app',
+    });
+
+    expect(resolved).toMatchObject({
+      key: '__Host-theme',
+      domain: undefined,
+      path: '/',
+      secure: true,
+    });
+    // one report for the forbidden Domain, one for the pinned Path
+    expect(console.error).toHaveBeenCalledTimes(2);
+  });
+
+  it('does not report a __Host- key that already opted out of sharing', () => {
+    expect(
+      resolveThemeCookieOptions({ key: '__Host-theme', domain: 'none' }).domain,
+    ).toBeUndefined();
+    expect(console.error).not.toHaveBeenCalled();
+  });
+
+  it('serializes a prefixed key into a cookie the browser will accept', () => {
+    expect(
+      serializeThemeCookie(
+        'dark',
+        resolveThemeCookieOptions({ key: '__Host-theme', domain: 'none' }),
+      ),
+    ).toBe('__Host-theme=dark; Path=/; Max-Age=31536000; SameSite=Lax; Secure');
+  });
+
+  it.each([
+    ['an empty string', ''],
+    ['a relative path', 'app'],
+    ['a bare segment', 'settings'],
+  ])('reports and drops a cookie.path that is %s', (_label, path) => {
+    // the browser resolves these to the URL's default-path instead of
+    // rejecting them, scattering the cookie across entry points
+    expect(resolveThemeCookieOptions({ path }).path).toBe('/');
+    expect(console.error).toHaveBeenCalledOnce();
+  });
+
+  it('keeps an absolute cookie.path', () => {
+    expect(resolveThemeCookieOptions({ path: '/app' }).path).toBe('/app');
+    expect(console.error).not.toHaveBeenCalled();
+  });
+
+  it('forces Secure when sameSite is none even if secure is false', () => {
+    // `SameSite=None` without `Secure` is rejected outright, so honoring
+    // secure=false would serialize a cookie the browser silently drops
+    const resolved = resolveThemeCookieOptions({
+      sameSite: 'none',
+      secure: false,
+    });
+
+    expect(resolved.secure).toBe(true);
+    expect(serializeThemeCookie('dark', resolved)).toContain('Secure');
+    expect(console.error).toHaveBeenCalledWith(
+      expect.stringContaining('cookie.sameSite "none" requires the Secure'),
+    );
+  });
+
+  it('reports domain "none" left on the shared default key', () => {
+    // the sibling apps' cookie is still sent here and would be copied into this
+    // app's host-only one, which then wins every later read
+    resolveThemeCookieOptions({ domain: 'none' });
+
+    expect(console.error).toHaveBeenCalledWith(
+      expect.stringContaining('own cookie.key'),
+    );
+  });
+
+  it('stays quiet when domain "none" is paired with its own key', () => {
+    expect(
+      resolveThemeCookieOptions({ domain: 'none', key: 'admin-theme' }),
+    ).toMatchObject({ key: 'admin-theme', domain: undefined });
+    expect(console.error).not.toHaveBeenCalled();
+  });
+
+  it('reports a Secure cookie written from an insecure context', () => {
+    vi.stubGlobal('isSecureContext', false);
+
+    reportInsecureContext(true);
+    expect(console.error).toHaveBeenCalledOnce();
+
+    reportInsecureContext(false);
+    expect(console.error).toHaveBeenCalledOnce();
+
+    vi.unstubAllGlobals();
   });
 });
 
@@ -181,10 +321,38 @@ describe('buildThemeScript', () => {
     expect(script).toContain('Max-Age=0');
     // no Domain attribute, so only the host-only variant is expired
     expect(script).not.toContain('Domain=');
-    // the cleanup must precede the read, otherwise the shadow still wins
+    // the cleanup must precede the re-read that decides the value, and that
+    // re-read must precede the light/dark/system check
     expect(script.indexOf('Max-Age=0')).toBeLessThan(
-      script.indexOf('document.cookie.split'),
+      script.indexOf('t=g()||t'),
     );
+    expect(script.indexOf('t=g()||t')).toBeLessThan(
+      script.indexOf("if(t!=='light'"),
+    );
+  });
+
+  it('keeps the pre-clear value when only the host-only cookie held one', () => {
+    const script = buildThemeScript({
+      ...baseOptions,
+      cookieDomain: '.wanted.co.kr',
+    });
+
+    // `||` means the post-clear read only wins when it actually found a value
+    expect(script).toContain('t=g()||t');
+  });
+
+  it('survives a cookie value that is not valid percent-encoding', () => {
+    document.cookie = 'montage-theme=100%; Path=/';
+
+    const script = buildThemeScript(baseOptions);
+
+    expect(() => new Function(script)()).not.toThrow();
+    // the junk value is rejected, so the default applies and the document is
+    // still painted rather than left untouched by the outer catch
+    expect(document.documentElement.getAttribute('data-theme')).toBeTruthy();
+
+    document.cookie = 'montage-theme=; Path=/; Max-Age=0';
+    document.documentElement.removeAttribute('data-theme');
   });
 
   it('does not touch cookies when no domain is set', () => {
@@ -208,13 +376,18 @@ describe('buildThemeScript', () => {
   });
 });
 
-describe('ThemeProvider', () => {
+describe('when given theme provider component', () => {
+  beforeEach(() => {
+    vi.spyOn(console, 'error').mockImplementation(() => {});
+  });
+
   afterEach(() => {
+    vi.restoreAllMocks();
     clearThemeCookie();
     document.documentElement.removeAttribute('data-theme');
   });
 
-  it('falls back to the system theme when nothing is stored', () => {
+  it('should fall back to the system theme when nothing is stored', () => {
     render(
       <ThemeProvider enableDarkMode>
         <ThemeConsumer />
@@ -225,7 +398,7 @@ describe('ThemeProvider', () => {
     expect(screen.getByRole('button')).toHaveTextContent('light:system');
   });
 
-  it('reads the initial theme from the cookie', () => {
+  it('should read the initial theme from the cookie', () => {
     document.cookie = 'montage-theme=dark; Path=/';
 
     render(
@@ -238,7 +411,7 @@ describe('ThemeProvider', () => {
     expect(document.documentElement.getAttribute('data-theme')).toBe('dark');
   });
 
-  it('persists theme changes to the cookie and the document', () => {
+  it('should persist theme changes to the cookie and the document', () => {
     render(
       <ThemeProvider enableDarkMode>
         <ThemeConsumer />
@@ -252,7 +425,7 @@ describe('ThemeProvider', () => {
     expect(getThemeCookie('montage-theme')).toBe('dark');
   });
 
-  it('forces the light theme when dark mode is disabled', () => {
+  it('should force the light theme when dark mode is disabled', () => {
     document.cookie = 'montage-theme=dark; Path=/';
 
     render(
@@ -265,7 +438,7 @@ describe('ThemeProvider', () => {
     expect(document.documentElement.getAttribute('data-theme')).toBe('light');
   });
 
-  it('stores the theme under a custom cookie key', () => {
+  it('should store the theme under a custom cookie key', () => {
     render(
       <ThemeProvider enableDarkMode cookie={{ key: 'wanted-theme' }}>
         <ThemeConsumer />
@@ -277,7 +450,7 @@ describe('ThemeProvider', () => {
     expect(getThemeCookie('wanted-theme')).toBe('dark');
   });
 
-  it('picks up a theme written elsewhere when the window regains focus', () => {
+  it('should pick up a theme written elsewhere when the window regains focus', () => {
     render(
       <ThemeProvider enableDarkMode>
         <ThemeConsumer />
@@ -293,7 +466,7 @@ describe('ThemeProvider', () => {
     expect(screen.getByRole('button')).toHaveTextContent('dark:dark');
   });
 
-  it('exposes the nonce through the theme context', () => {
+  it('should expose the nonce through the theme context', () => {
     render(
       <ThemeProvider enableDarkMode nonce="test-nonce">
         <NonceConsumer />
@@ -301,5 +474,100 @@ describe('ThemeProvider', () => {
     );
 
     expect(screen.getByTestId('nonce')).toHaveTextContent('test-nonce');
+  });
+
+  it('should render through a cookie value that is not valid percent-encoding', () => {
+    // a same-named cookie written by something else; decodeURIComponent throws
+    // on this, and the read happens inside a useState initializer
+    document.cookie = 'montage-theme=100%; Path=/';
+
+    expect(() =>
+      render(
+        <ThemeProvider enableDarkMode>
+          <ThemeConsumer />
+        </ThemeProvider>,
+      ),
+    ).not.toThrow();
+
+    expect(screen.getByRole('button')).toHaveTextContent('light:system');
+  });
+
+  it('should not write the cookie when the theme is forced', () => {
+    document.cookie = 'montage-theme=dark; Path=/';
+
+    const setCookie = vi.spyOn(document, 'cookie', 'set');
+
+    render(
+      <ThemeProvider enableDarkMode={false}>
+        <ThemeConsumer />
+      </ThemeProvider>,
+    );
+
+    // a forced provider renders light regardless of the stored value, so
+    // re-writing it would only push this app's cookie options onto a value it
+    // does not own
+    expect(setCookie).not.toHaveBeenCalled();
+    expect(screen.getByRole('button')).toHaveTextContent('light:dark');
+
+    setCookie.mockRestore();
+  });
+
+  it('should not leak setTheme into the cookie when the theme is forced', () => {
+    render(
+      <ThemeProvider enableDarkMode={false}>
+        <ThemeConsumer />
+      </ThemeProvider>,
+    );
+
+    fireEvent.click(screen.getByRole('button'));
+
+    // nothing changed on screen, so nothing may change for sibling apps either
+    expect(getThemeCookie('montage-theme')).toBeUndefined();
+    expect(screen.getByRole('button')).toHaveTextContent('light:dark');
+  });
+
+  it('should keep the current theme when the cookie is gone on focus', () => {
+    render(
+      <ThemeProvider enableDarkMode>
+        <ThemeConsumer />
+      </ThemeProvider>,
+    );
+
+    fireEvent.click(screen.getByRole('button'));
+    expect(screen.getByRole('button')).toHaveTextContent('dark:dark');
+
+    // the write never stuck — blocked cookies, a rejected Domain, or Safari
+    // evicting script-written storage
+    clearThemeCookie();
+    fireEvent.focus(window);
+
+    expect(screen.getByRole('button')).toHaveTextContent('dark:dark');
+  });
+
+  it('should store under the default key when cookie.key is invalid', () => {
+    render(
+      <ThemeProvider enableDarkMode cookie={{ key: 'theme=other' }}>
+        <ThemeConsumer />
+      </ThemeProvider>,
+    );
+
+    fireEvent.click(screen.getByRole('button'));
+
+    expect(console.error).toHaveBeenCalled();
+    // written under the default key, not the malformed one
+    expect(getThemeCookie('montage-theme')).toBe('dark');
+  });
+
+  it('should report an injected cookie.path instead of writing it', () => {
+    render(
+      <ThemeProvider
+        enableDarkMode
+        cookie={{ domain: '.wanted.co.kr', path: '/; Max-Age=0' }}
+      >
+        <ThemeConsumer />
+      </ThemeProvider>,
+    );
+
+    expect(console.error).toHaveBeenCalled();
   });
 });
