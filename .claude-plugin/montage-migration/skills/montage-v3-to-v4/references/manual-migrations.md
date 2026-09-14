@@ -509,6 +509,22 @@ keeps working as-is. The items below are what does break, plus one new opportuni
   <ThemeProvider enableDarkMode cookie={{ key: 'app-theme' }} />
   ```
 
+  A key starting with `__Secure-` or `__Host-` is a browser-enforced contract, not a naming
+  convention. `ThemeProvider` lines the attributes up (`__Secure-` forces `Secure`; `__Host-`
+  forces `Secure`, pins `Path=/`, and drops `Domain`) and reports what it adjusted — but note
+  that **`__Host-` makes cross-subdomain sharing impossible**, since the prefix forbids the
+  `Domain` attribute outright. Pair it with `domain: 'none'` if that is intended.
+
+- **Other `cookie` options are validated too**, each with the same failure mode: the browser
+  refuses the write, `document.cookie` shows nothing, and the theme just stops persisting.
+  `maxAge` must be a positive integer (a decimal, a negative, or a `NaN` from a bad env var
+  makes the browser drop the attribute and store a SESSION cookie; `0` expires it on write),
+  and `sameSite` must be lowercase `'lax' | 'strict' | 'none'` (anything else serializes to
+  `SameSite=undefined` and silently degrades to Lax). A `Secure` cookie written from a
+  non-HTTPS host is reported as well.
+  Scan **[decision]**: `cookie=\{\{` — check any `maxAge` / `sameSite` value that comes from
+  a variable or environment rather than a literal.
+
 - **Direct `next-themes` usage breaks silently.** In v3 `ThemeProvider` rendered
   next-themes' provider internally, so calling next-themes' `useTheme` from consumer code
   worked. In v4 nothing connects them: the hook throws no error and returns `undefined`
@@ -541,32 +557,35 @@ keeps working as-is. The items below are what does break, plus one new opportuni
   const { theme, themeOriginValue, setTheme } = useThemeControl();
   ```
 
-- **Cross-subdomain sharing is now possible** via `cookie={{ domain: '.example.com' }}`.
-  Omitting `domain` leaves the attribute unset — a host-only cookie, the correct default for
-  a single-host app. Like the old localStorage it does not reach sibling subdomains, but the
-  scopes are not identical: cookies ignore the port (localStorage is per origin, so
-  `:3000` and `:4000` were separate stores), are scoped by `path`, and ride along on every
-  request to the host. The value must be a registrable domain; a public suffix (`co.kr`,
-  `com`) makes the browser reject the cookie.
-  Scan **[decision]**: `<ThemeProvider` — per app, decide whether it should share a theme
-  with sibling subdomains, and whether to pass `nonce` (new prop; applies to the theme
-  inline script and ScrollArea's injected inline styles) if the project uses CSP.
+- **Cross-subdomain sharing is on by default.** `cookie.domain` defaults to `'auto'`, which
+  detects the widest `Domain` the current host is allowed to write and shares the theme
+  across every app under that root domain with no configuration — `help.wanted.co.kr`
+  resolves to `.wanted.co.kr`, `example.com` to `.example.com`, and hosts that cannot carry
+  the attribute at all (`localhost`, an IP literal) fall back to host-only. Pass
+  `domain: 'none'` to opt out, or a literal value to override.
+  Scopes are not identical to the old localStorage: cookies ignore the port (localStorage is
+  per origin, so `:3000` and `:4000` were separate stores), are scoped by `path`, and ride
+  along on every request to the host — check CDN cookie-strip policy if static assets sit
+  under the same root domain.
+  Scan **[decision]**: `<ThemeProvider` — per app, decide whether sharing across sibling
+  subdomains is wanted (it now happens by default), and whether to pass `nonce` (new prop;
+  applies to the theme inline script and ScrollArea's injected inline styles) if the project
+  uses CSP.
 
-  **When `domain` is adopted, every app under that root domain must use the SAME `key`,
-  `domain`, and `path`.** A host-only cookie and a `Domain=`-scoped one of the same name
-  are separate cookies that coexist, `document.cookie` exposes no `Domain` attribute to
-  tell them apart, and the order is no help either — RFC 6265 §4.2.2 says not to rely on it
-  when two cookies share a name, and browsers differ (Chrome moves a cookie to the end when
-  its value changes, so reading the first entry always yields the stale one; Safari has been
-  reported to put the more specific cookie first). The symptom is "the theme does not
-  persist": toggling repaints, reloading reverts, refocusing the tab reverts — no error, no
-  warning.
-  `ThemeProvider` deletes a same-named host-only cookie before reading whenever `domain`
-  is set, so a host-only-first → `domain`-later rollout self-heals (at the cost of one
-  theme reset for users who only had the host-only cookie). It cannot heal a MIXED setup —
-  an app left without `domain` has no basis to delete its own host-only cookie while a
-  sibling's domain cookie shadows it. Verify the configs match across the whole subdomain
-  family; this is a review item, not something a scan can catch.
+  **Every app under one root domain must still use the same `key` and `path`.** A host-only
+  cookie and a `Domain=`-scoped one of the same name are separate cookies that coexist,
+  `document.cookie` exposes no `Domain` attribute to tell them apart, and the order is no
+  help either — RFC 6265 §4.2.2 says not to rely on it when two cookies share a name, and
+  browsers differ (Chrome moves a cookie to the end when its value changes, so reading the
+  first entry always yields the stale one; Safari has been reported to put the more specific
+  cookie first). The symptom is "the theme does not persist": toggling repaints, reloading
+  reverts, refocusing the tab reverts — no error, no warning.
+  `'auto'` removes the `domain` half of that hazard, since every app resolves to the same
+  value. `ThemeProvider` also deletes a same-named host-only cookie before reading, and
+  reads the value BEFORE deleting so a host-only → domain transition keeps the user's
+  choice. What remains a review item: a custom `key`, a non-default `path`, and mixing
+  `domain: 'none'` with the default `'auto'` on the same host — the `'auto'` app will keep
+  deleting the opt-out app's host-only cookie.
 
 - **End users' stored theme resets once** on the release that ships v4 — no localStorage
   fallback is read. Nothing to fix in code; call it out in the release notes and expect
