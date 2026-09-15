@@ -203,9 +203,17 @@ const Slider = forwardRef<
       }
     };
 
+    /**
+     * Outside a drag the ref only mirrors what is rendered, so a controlled
+     * update or a form reset reaches it. During one it must not: a controlled
+     * parent can re-render with the value it has not applied yet, which would
+     * hand the drag back its own starting point and swallow the completion.
+     */
     useEffect(() => {
+      if (activePointerId.current !== null) return;
+
       committedValues.current = values;
-    }, [values]);
+    });
 
     const initialValuesRef = useRef(values);
 

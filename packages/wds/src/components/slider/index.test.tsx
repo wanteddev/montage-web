@@ -639,6 +639,33 @@ describe('when operating a slider with a pointer', () => {
     expect(getValues(container)).toEqual(['85']);
   });
 
+  it('should survive a controlled re-render that lands mid-drag', () => {
+    const onValueChangeComplete = vi.fn();
+    const props = {
+      min: 0,
+      max: 100,
+      onValueChangeComplete,
+    };
+    const { container, rerender } = render(<Slider {...props} value={[20]} />);
+    stubTrackRect(container);
+
+    const thumb = getThumbs(container)[0]!;
+    firePointer(thumb, 'pointerdown', 20);
+    fireEvent.focus(thumb);
+    firePointer(thumb, 'pointermove', 70);
+
+    /**
+     * A controlled parent has not applied the change yet, but re-renders for
+     * its own reasons — handing back a fresh array holding the old value.
+     */
+    rerender(<Slider {...props} value={[20]} />);
+
+    firePointer(thumb, 'pointerup', 70);
+
+    expect(onValueChangeComplete).toHaveBeenCalledTimes(1);
+    expect(onValueChangeComplete).toHaveBeenCalledWith([70]);
+  });
+
   it('should still run the consumer pointer handlers', () => {
     const onPointerDown = vi.fn();
     const onPointerMove = vi.fn();
