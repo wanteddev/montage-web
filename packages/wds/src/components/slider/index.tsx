@@ -87,6 +87,15 @@ const Slider = forwardRef<
 
     const slideStartValues = useRef(values);
 
+    /**
+     * `values` is a render closure, and a fast drag lands several moves — and
+     * its release — inside one batch, before React re-renders. Every one of
+     * those would compute from, and compare against, the values the drag
+     * started at. This ref carries what was last committed so each step sees
+     * the one before it.
+     */
+    const committedValues = useRef(values);
+
     const handleValueChange = useCallback(
       (nextValue: number, index: number, isCompleted = false) => {
         const decimalCount = nextValue.toString().split('.')[1]?.length ?? 0;
@@ -98,44 +107,48 @@ const Slider = forwardRef<
 
         const calculatedNextValue = clamp(snapToStep, [min, max]);
 
-        setValues((prevValues = []) => {
-          const nextValues = [
-            ...prevValues.slice(0, index),
-            calculatedNextValue,
-            ...prevValues.slice(index + 1),
-          ];
+        const prevValues = committedValues.current;
 
-          const stepsBetweenValue = Math.min(
-            ...nextValues.slice(0, -1).map((v, i) => nextValues[i + 1]! - v),
-          );
+        const nextValues = [
+          ...prevValues.slice(0, index),
+          calculatedNextValue,
+          ...prevValues.slice(index + 1),
+        ];
 
-          if (
-            (disableSwapThumbs && stepsBetweenValue < minStepBetweenThumbs) ||
-            (minStepBetweenThumbs > 0 &&
-              stepsBetweenValue < minStepBetweenThumbs)
-          ) {
-            return prevValues;
-          }
+        const stepsBetweenValue = Math.min(
+          ...nextValues.slice(0, -1).map((v, i) => nextValues[i + 1]! - v),
+        );
 
-          const sortedNextValues = [...nextValues].sort((a, b) => a - b);
+        if (
+          (disableSwapThumbs && stepsBetweenValue < minStepBetweenThumbs) ||
+          (minStepBetweenThumbs > 0 && stepsBetweenValue < minStepBetweenThumbs)
+        ) {
+          return;
+        }
 
-          /**
-           * `indexOf` resolves to the leftmost slot when thumbs share a value,
-           * which would hand the focus over to a thumb the user never touched.
-           * Keep the dragged thumb where it is unless sorting actually moved it.
-           */
-          currentFocusedIndex.current =
-            sortedNextValues[index] === calculatedNextValue
-              ? index
-              : sortedNextValues.indexOf(calculatedNextValue);
+        const sortedNextValues = [...nextValues].sort((a, b) => a - b);
 
-          const hasChanged =
-            sortedNextValues.toString() !== prevValues.toString();
-          if (hasChanged && isCompleted) {
-            onValueChangeComplete?.(sortedNextValues);
-          }
-          return hasChanged ? sortedNextValues : prevValues;
-        });
+        /**
+         * `indexOf` resolves to the leftmost slot when thumbs share a value,
+         * which would hand the focus over to a thumb the user never touched.
+         * Keep the dragged thumb where it is unless sorting actually moved it.
+         */
+        currentFocusedIndex.current =
+          sortedNextValues[index] === calculatedNextValue
+            ? index
+            : sortedNextValues.indexOf(calculatedNextValue);
+
+        if (sortedNextValues.toString() === prevValues.toString()) {
+          return;
+        }
+
+        committedValues.current = sortedNextValues;
+
+        if (isCompleted) {
+          onValueChangeComplete?.(sortedNextValues);
+        }
+
+        setValues(sortedNextValues);
       },
       [
         max,
@@ -181,13 +194,26 @@ const Slider = forwardRef<
        * Comparing a single index misses changes whenever thumbs end up
        * stacked or swapped, so compare the whole set instead.
        */
+      const finalValues = committedValues.current;
       const hasChanged =
-        slideStartValues.current.toString() !== values.toString();
+        slideStartValues.current.toString() !== finalValues.toString();
 
       if (hasChanged) {
-        onValueChangeComplete?.(values);
+        onValueChangeComplete?.(finalValues);
       }
     };
+
+    /**
+     * Outside a drag the ref only mirrors what is rendered, so a controlled
+     * update or a form reset reaches it. During one it must not: a controlled
+     * parent can re-render with the value it has not applied yet, which would
+     * hand the drag back its own starting point and swallow the completion.
+     */
+    useEffect(() => {
+      if (activePointerId.current !== null) return;
+
+      committedValues.current = values;
+    });
 
     const initialValuesRef = useRef(values);
 
@@ -280,6 +306,7 @@ const Slider = forwardRef<
 
             activePointerId.current = event.pointerId;
             slideStartValues.current = values;
+            committedValues.current = values;
 
             const target = event.target as HTMLElement;
             target.setPointerCapture(event.pointerId);
