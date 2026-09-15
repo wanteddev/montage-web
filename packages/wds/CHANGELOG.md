@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.12.2](https://github.com/wanteddev/montage-web/compare/v3.12.1...v3.12.2) (2026-09-15)
+
+### Bug Fixes
+
+- **wds:** slider onValueChangeComplete 간헐적으로 호출되지 않음 ([#641](https://github.com/wanteddev/montage-web/issues/641)) ([bf26260](https://github.com/wanteddev/montage-web/commit/bf262605009ee8d031bf6b8080ac6fa8f6186203))
+
 ## [3.12.1](https://github.com/wanteddev/montage-web/compare/v3.12.0...v3.12.1) (2026-09-10)
 
 ### Bug Fixes
