@@ -1,4 +1,10 @@
-import { cleanup, fireEvent, render, screen } from '@testing-library/react';
+import {
+  act,
+  cleanup,
+  fireEvent,
+  render,
+  screen,
+} from '@testing-library/react';
 import { axe } from 'vitest-axe';
 
 import {
@@ -17,8 +23,7 @@ const TRACK_WIDTH = 100;
  * coordinates `fireEvent.pointerMove` passes in — dispatch a `MouseEvent` so
  * `clientX` survives.
  */
-const firePointer = (
-  element: Element,
+const makePointerEvent = (
   type: 'pointerdown' | 'pointermove' | 'pointerup' | 'pointercancel',
   clientX: number,
   {
@@ -33,7 +38,16 @@ const firePointer = (
     buttons,
   });
   Object.defineProperty(event, 'pointerId', { value: pointerId });
-  fireEvent(element, event);
+  return event;
+};
+
+const firePointer = (
+  element: Element,
+  type: 'pointerdown' | 'pointermove' | 'pointerup' | 'pointercancel',
+  clientX: number,
+  options: { pointerId?: number; buttons?: number } = {},
+) => {
+  fireEvent(element, makePointerEvent(type, clientX, options));
 };
 
 const getTrack = (container: HTMLElement) =>
@@ -574,6 +588,55 @@ describe('when operating a slider with a pointer', () => {
     clickTrack(container, 80);
 
     expect(getValues(container)).toEqual(['80']);
+  });
+
+  it('should report completion when the release outruns the re-render', () => {
+    const onValueChangeComplete = vi.fn();
+    const { container } = render(
+      <Slider
+        min={0}
+        max={100}
+        defaultValue={[20]}
+        onValueChangeComplete={onValueChangeComplete}
+      />,
+    );
+    stubTrackRect(container);
+
+    const thumb = getThumbs(container)[0]!;
+    firePointer(thumb, 'pointerdown', 20);
+    fireEvent.focus(thumb);
+
+    /**
+     * A fast drag lands its last move and its release in the same batch, so
+     * the pointerup handler still closes over the values from before the move.
+     */
+    act(() => {
+      thumb.dispatchEvent(makePointerEvent('pointermove', 70));
+      thumb.dispatchEvent(makePointerEvent('pointerup', 70));
+    });
+
+    expect(getValues(container)).toEqual(['70']);
+    expect(onValueChangeComplete).toHaveBeenCalledTimes(1);
+    expect(onValueChangeComplete).toHaveBeenCalledWith([70]);
+  });
+
+  it('should land on the last position when a drag is batched into one frame', () => {
+    const { container } = render(
+      <Slider min={0} max={100} defaultValue={[20]} />,
+    );
+    stubTrackRect(container);
+
+    const thumb = getThumbs(container)[0]!;
+    firePointer(thumb, 'pointerdown', 20);
+    fireEvent.focus(thumb);
+
+    act(() => {
+      thumb.dispatchEvent(makePointerEvent('pointermove', 40));
+      thumb.dispatchEvent(makePointerEvent('pointermove', 60));
+      thumb.dispatchEvent(makePointerEvent('pointermove', 85));
+    });
+
+    expect(getValues(container)).toEqual(['85']);
   });
 
   it('should still run the consumer pointer handlers', () => {
