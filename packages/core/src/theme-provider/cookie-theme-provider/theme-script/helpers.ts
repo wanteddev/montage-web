@@ -3,6 +3,7 @@ import {
   DEFAULT_THEME_COOKIE_PATH,
   THEME_ATTRIBUTE,
 } from '../constants';
+import { getCookieNamePrefixRule } from '../helpers';
 
 import type { ThemeScriptProps } from './types';
 
@@ -52,10 +53,15 @@ export const buildThemeScript = ({
   // pre-clear read as the fallback, matching the provider, so the first load
   // after a host gains a domain does not reset the stored choice.
   const configuredPaths = [...new Set([DEFAULT_THEME_COOKIE_PATH, cookiePath])];
+  // a `__Secure-` name rejects an expiring write without `Secure`, same as
+  // clearHostOnlyThemeCookie
+  const secure = getCookieNamePrefixRule(cookieKey).requireSecure
+    ? '; Secure'
+    : '';
   const clearHostOnly = cookieDomain
     ? `var y=${JSON.stringify(configuredPaths)},z='';` +
       `location.pathname.split('/').forEach(function(s){if(s){y.push(z+='/'+s)}});` +
-      `y.forEach(function(a){document.cookie=k+'=; Path='+a+'; Max-Age=0'});t=g()||t;`
+      `y.forEach(function(a){document.cookie=k+'=; Path='+a+'; Max-Age=0${secure}'});t=g()||t;`
     : '';
 
   return (

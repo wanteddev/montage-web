@@ -379,6 +379,14 @@ const hostOnlyCleanupPaths = (configuredPath: string): Array<string> => {
 };
 
 /**
+ * A `__Secure-` or `__Host-` name makes the browser reject ANY `Set-Cookie`
+ * without the `Secure` attribute — the expiring one included. Without this the
+ * sweep resolves normally and the cookie silently stays in place.
+ */
+const expiringCookieSecureAttribute = (key: string): string =>
+  getCookieNamePrefixRule(key).requireSecure ? '; Secure' : '';
+
+/**
  * Delete a same-named host-only cookie that would shadow the domain-scoped one.
  *
  * A host-only cookie and a `Domain=`-scoped cookie of the same name are
@@ -399,8 +407,10 @@ export const clearHostOnlyThemeCookie = (
     return;
   }
 
+  const secure = expiringCookieSecureAttribute(key);
+
   for (const candidate of hostOnlyCleanupPaths(path)) {
-    document.cookie = `${key}=; Path=${candidate}; Max-Age=0`;
+    document.cookie = `${key}=; Path=${candidate}; Max-Age=0${secure}`;
   }
 };
 
@@ -549,7 +559,7 @@ export const deleteThemeCookieAt = (
     attributes.push(`Domain=${item.domain}`);
   }
 
-  document.cookie = attributes.join('; ');
+  document.cookie = attributes.join('; ') + expiringCookieSecureAttribute(key);
 };
 
 export const getSystemTheme = (): ResolvedThemeMode | undefined => {

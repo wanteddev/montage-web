@@ -5,6 +5,7 @@ import useThemeControl from '../hooks/use-theme-control';
 import { buildThemeScript } from './cookie-theme-provider/theme-script/helpers';
 import {
   clearHostOnlyThemeCookie,
+  deleteThemeCookieAt,
   getThemeCookie,
   reportInsecureContext,
   resolveCookieDomain,
@@ -336,6 +337,83 @@ describe('clearHostOnlyThemeCookie', () => {
       'montage-theme=; Path=/app; Max-Age=0',
     );
   });
+
+  it('adds Secure for a __Secure- key so the expiring write is not rejected', () => {
+    const setCookie = vi.fn();
+
+    Object.defineProperty(document, 'cookie', {
+      configurable: true,
+      get: () => '',
+      set: setCookie,
+    });
+
+    try {
+      clearHostOnlyThemeCookie('__Secure-theme');
+    } finally {
+      delete (document as Partial<Document>).cookie;
+    }
+
+    // the prefix makes the browser drop any Set-Cookie without Secure, the
+    // deletion included — it would resolve fine and leave the cookie in place
+    expect(setCookie).toHaveBeenCalledWith(
+      '__Secure-theme=; Path=/; Max-Age=0; Secure',
+    );
+  });
+});
+
+describe('deleteThemeCookieAt', () => {
+  let setCookie: ReturnType<typeof vi.fn<(value: string) => void>>;
+
+  beforeEach(() => {
+    setCookie = vi.fn();
+    Object.defineProperty(document, 'cookie', {
+      configurable: true,
+      get: () => '',
+      set: setCookie,
+    });
+  });
+
+  afterEach(() => {
+    delete (document as Partial<Document>).cookie;
+  });
+
+  it('expires exactly the scope the Cookie Store reported', () => {
+    deleteThemeCookieAt('montage-theme', {
+      name: 'montage-theme',
+      value: 'dark',
+      domain: 'wanted.co.kr',
+      path: '/app',
+    });
+
+    // Path verbatim: cookieStore.delete() would normalize it to /app/ and miss
+    expect(setCookie).toHaveBeenCalledWith(
+      'montage-theme=; Path=/app; Max-Age=0; Domain=wanted.co.kr',
+    );
+  });
+
+  it('omits Domain for a host-only entry', () => {
+    deleteThemeCookieAt('montage-theme', {
+      name: 'montage-theme',
+      value: 'dark',
+      domain: null,
+      path: '/',
+    });
+
+    expect(setCookie).toHaveBeenCalledWith('montage-theme=; Path=/; Max-Age=0');
+  });
+
+  it('adds Secure for a __Secure- key', () => {
+    deleteThemeCookieAt('__Secure-theme', {
+      name: '__Secure-theme',
+      value: 'dark',
+      domain: 'help.wanted.co.kr',
+      path: '/',
+    });
+
+    expect(setCookie).toHaveBeenCalledWith(
+      '__Secure-theme=; Path=/; Max-Age=0; Domain=help.wanted.co.kr; Secure',
+    );
+  });
 });
 
 describe('buildThemeScript', () => {
@@ -431,6 +509,19 @@ describe('buildThemeScript', () => {
     const script = buildThemeScript(baseOptions);
 
     expect(script).not.toContain('Max-Age=0');
+  });
+
+  it('adds Secure to the host-only sweep for a __Secure- key', () => {
+    const script = buildThemeScript({
+      ...baseOptions,
+      cookieKey: '__Secure-theme',
+      cookieDomain: '.wanted.co.kr',
+    });
+
+    expect(script).toContain("Max-Age=0; Secure'");
+    expect(
+      buildThemeScript({ ...baseOptions, cookieDomain: '.wanted.co.kr' }),
+    ).not.toContain('Secure');
   });
 
   it('serializes cookiePath as a literal so a crafted path cannot execute code', () => {
