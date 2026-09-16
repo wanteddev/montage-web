@@ -3,6 +3,7 @@ import {
   DEFAULT_THEME_COOKIE_PATH,
   THEME_ATTRIBUTE,
 } from '../constants';
+import { getCookieNamePrefixRule } from '../helpers';
 
 import type { ThemeScriptProps } from './types';
 
@@ -26,14 +27,21 @@ export const buildThemeScript = ({
     ? `if(t==='system')t=window.matchMedia('${COLOR_SCHEME_QUERY}').matches?'dark':'light';`
     : `if(t==='system')t='light';`;
 
-  // Reader shared by both passes. decodeURIComponent throws on a value that is
-  // not valid percent-encoding, and the outer catch would swallow the whole
-  // script — leaving the document unpainted — so guard the decode on its own
-  // and let the light/dark/system check reject a junk value instead.
+  // Reader shared by both passes. Same-named cookies at different scopes all
+  // come back as bare `k=v` pairs: when they agree the value is safe, when they
+  // disagree the order says nothing about which is current (Chrome lists the
+  // most recently changed one last), so treat the theme as unset and let the
+  // provider repair the jar after hydration — the same rule as getThemeCookie,
+  // so the value the script paints and the value the provider reads cannot
+  // diverge. decodeURIComponent throws on a value that is not valid
+  // percent-encoding, and the outer catch would swallow the whole script —
+  // leaving the document unpainted — so guard the decode on its own and let
+  // the light/dark/system check drop a junk value instead of counting it.
   const read =
-    `g=function(){var p=document.cookie.split('; ');` +
+    `g=function(){var p=document.cookie.split('; '),r;` +
     `for(var i=0;i<p.length;i++){var c=p[i],x=c.indexOf('=');if(c.slice(0,x)===k){` +
-    `var v=c.slice(x+1);try{v=decodeURIComponent(v)}catch(e){}return v}}}`;
+    `var v=c.slice(x+1);try{v=decodeURIComponent(v)}catch(e){}` +
+    `if(v==='light'||v==='dark'||v==='system'){if(r!==undefined&&r!==v)return;r=v}}}return r}`;
 
   // A same-named host-only cookie would shadow the domain-scoped one on read
   // (see clearHostOnlyThemeCookie); drop it before reading so the value the
@@ -45,10 +53,15 @@ export const buildThemeScript = ({
   // pre-clear read as the fallback, matching the provider, so the first load
   // after a host gains a domain does not reset the stored choice.
   const configuredPaths = [...new Set([DEFAULT_THEME_COOKIE_PATH, cookiePath])];
+  // a `__Secure-` name rejects an expiring write without `Secure`, same as
+  // clearHostOnlyThemeCookie
+  const secure = getCookieNamePrefixRule(cookieKey).requireSecure
+    ? '; Secure'
+    : '';
   const clearHostOnly = cookieDomain
     ? `var y=${JSON.stringify(configuredPaths)},z='';` +
       `location.pathname.split('/').forEach(function(s){if(s){y.push(z+='/'+s)}});` +
-      `y.forEach(function(a){document.cookie=k+'=; Path='+a+'; Max-Age=0'});t=g()||t;`
+      `y.forEach(function(a){document.cookie=k+'=; Path='+a+'; Max-Age=0${secure}'});t=g()||t;`
     : '';
 
   return (
