@@ -184,15 +184,21 @@ const decodeThemeValue = (raw: string): string => {
   }
 };
 
-const readCookie = (key: string): string | undefined => {
-  const entry = document.cookie
+/**
+ * Every value stored under `key` that reaches this document, in the order the
+ * browser lists them. More than one entry means same-named cookies at different
+ * scopes — host-only next to `Domain`-scoped, or a different `Path` — since a
+ * cookie is identified by (name, domain, path) and `document.cookie` flattens
+ * all of them to bare `key=value` pairs.
+ */
+const readCookieValues = (key: string): Array<string> =>
+  document.cookie
     .split('; ')
-    .find((cookie) => cookie.slice(0, cookie.indexOf('=')) === key);
+    .filter((cookie) => cookie.slice(0, cookie.indexOf('=')) === key)
+    .map((cookie) => decodeThemeValue(cookie.slice(cookie.indexOf('=') + 1)));
 
-  return entry === undefined
-    ? undefined
-    : decodeThemeValue(entry.slice(entry.indexOf('=') + 1));
-};
+const readCookie = (key: string): string | undefined =>
+  readCookieValues(key)[0];
 
 /**
  * `Path` must be an absolute path. The browser does not reject an empty or
@@ -216,14 +222,37 @@ export const safeCookiePath = (
   return attribute;
 };
 
+/**
+ * Reduce the values found under one cookie name to a single theme.
+ *
+ * When same-named cookies at different scopes agree, the value is safe to use.
+ * When they disagree there is no way to tell which one is current: RFC 6265
+ * §4.2.2 says not to rely on the order, and browsers differ — Chrome lists the
+ * cookie that changed most recently LAST, so the first match is exactly the
+ * stale one. Guessing is not a cosmetic miss here: the persist effect would
+ * write the stale value back over the current one, and every later toggle
+ * would snap back to it. Treat a disagreement as "nothing stored" instead and
+ * let the Cookie Store sync repair the jar. A value that is not a theme at all
+ * is ignored rather than counted as a disagreement — it belongs to whatever
+ * else wrote a cookie of this name.
+ */
+export const pickUnanimousTheme = (
+  values: Array<string>,
+): ThemeMode | undefined => {
+  const themes = values.filter(isThemeMode);
+  const [first] = themes;
+
+  return first !== undefined && themes.every((theme) => theme === first)
+    ? first
+    : undefined;
+};
+
 export const getThemeCookie = (key: string): ThemeMode | undefined => {
   if (typeof document === 'undefined') {
     return undefined;
   }
 
-  const value = readCookie(key);
-
-  return isThemeMode(value) ? value : undefined;
+  return pickUnanimousTheme(readCookieValues(key));
 };
 
 /**
@@ -413,6 +442,114 @@ export const setThemeCookie = (
   }
 
   document.cookie = serializeThemeCookie(value, options);
+};
+
+export type ThemeCookieScope = {
+  key: string;
+  /** `Domain` attribute this provider writes; `undefined` for a host-only cookie */
+  domain: string | undefined;
+  path: string;
+};
+
+/**
+ * A Cookie Store entry with the scope fields browsers actually return. lib.dom
+ * stops at `name`/`value`; Chrome reports `domain` without the leading dot
+ * (`wanted.co.kr`) and `null` for a host-only cookie, and `path` exactly as it
+ * was stored.
+ */
+export type CookieScopeItem = CookieListItem & {
+  domain?: string | null;
+  path?: string;
+};
+
+/**
+ * lib.dom types `cookieStore` as always present, but Safari < 18.5, Firefox <
+ * 138, non-HTTPS contexts, and jsdom do not provide it.
+ */
+export const getCookieStore = (): CookieStore | undefined =>
+  typeof window === 'undefined'
+    ? undefined
+    : (window as { cookieStore?: CookieStore }).cookieStore;
+
+const normalizeCookieDomain = (domain: string): string =>
+  domain.replace(/^\./, '').toLowerCase();
+
+/**
+ * Whether a Cookie Store entry is the cookie this provider writes, as opposed
+ * to a same-named one at another scope.
+ */
+export const isThemeCookieInScope = (
+  item: CookieScopeItem,
+  scope: ThemeCookieScope,
+): boolean => {
+  const itemDomain = item.domain ?? undefined;
+  const sameDomain =
+    scope.domain === undefined
+      ? itemDomain === undefined
+      : itemDomain !== undefined &&
+        normalizeCookieDomain(itemDomain) ===
+          normalizeCookieDomain(scope.domain);
+
+  return sameDomain && (item.path ?? DEFAULT_THEME_COOKIE_PATH) === scope.path;
+};
+
+export type ThemeCookieSnapshot = {
+  /** Value stored at this provider's own scope, if any */
+  own: ThemeMode | undefined;
+  /** Same-named cookies at every other scope that reach this document */
+  strays: Array<CookieScopeItem>;
+};
+
+/**
+ * Read the theme through the Cookie Store API, which — unlike `document.cookie`
+ * — reports each cookie's `domain` and `path`. That makes the read
+ * deterministic whatever order the browser lists the cookies in: the value at
+ * this provider's own scope is the one to adopt, and every same-named cookie
+ * elsewhere is returned separately so it can be cleaned up.
+ */
+export const readThemeCookieSnapshot = async (
+  store: CookieStore,
+  scope: ThemeCookieScope,
+): Promise<ThemeCookieSnapshot> => {
+  const items = (await store.getAll(scope.key)) as Array<CookieScopeItem>;
+  const own = items.find((item) => isThemeCookieInScope(item, scope));
+  const ownValue = own?.value;
+
+  return {
+    own: isThemeMode(ownValue) ? ownValue : undefined,
+    strays: items.filter((item) => item !== own),
+  };
+};
+
+/**
+ * Delete a same-named cookie at exactly the scope the Cookie Store reported.
+ *
+ * Written through `document.cookie` rather than `cookieStore.delete()`: the
+ * Cookie Store API normalizes `path` to end in `/`, so it cannot reach a cookie
+ * stored at `/app` — measured in Chrome 141, `delete({ path: '/app' })`
+ * resolves and the cookie stays. A `Set-Cookie` string carries the attributes
+ * verbatim. Omitting `Domain` targets the host-only cookie, which is how the
+ * Cookie Store reports it (`domain: null`).
+ */
+export const deleteThemeCookieAt = (
+  key: string,
+  item: CookieScopeItem,
+): void => {
+  if (typeof document === 'undefined') {
+    return;
+  }
+
+  const attributes = [
+    `${key}=`,
+    `Path=${item.path ?? DEFAULT_THEME_COOKIE_PATH}`,
+    'Max-Age=0',
+  ];
+
+  if (item.domain) {
+    attributes.push(`Domain=${item.domain}`);
+  }
+
+  document.cookie = attributes.join('; ');
 };
 
 export const getSystemTheme = (): ResolvedThemeMode | undefined => {

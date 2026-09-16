@@ -272,6 +272,40 @@ describe('resolveThemeCookieOptions', () => {
   });
 });
 
+describe('getThemeCookie', () => {
+  const stubDocumentCookie = (value: string) => {
+    Object.defineProperty(document, 'cookie', {
+      configurable: true,
+      get: () => value,
+      set: () => {},
+    });
+  };
+
+  afterEach(() => {
+    delete (document as Partial<Document>).cookie;
+  });
+
+  it('treats same-named cookies that disagree as nothing stored', () => {
+    // two scopes, no way to tell which is current — and in Chrome the first
+    // one listed is the stale one
+    stubDocumentCookie('montage-theme=dark; montage-theme=light');
+
+    expect(getThemeCookie('montage-theme')).toBeUndefined();
+  });
+
+  it('accepts same-named cookies that agree', () => {
+    stubDocumentCookie('montage-theme=dark; montage-theme=dark');
+
+    expect(getThemeCookie('montage-theme')).toBe('dark');
+  });
+
+  it('ignores a same-named cookie that does not hold a theme', () => {
+    stubDocumentCookie('montage-theme=dark; montage-theme=junk');
+
+    expect(getThemeCookie('montage-theme')).toBe('dark');
+  });
+});
+
 describe('clearHostOnlyThemeCookie', () => {
   it('removes a host-only cookie of the given name', () => {
     document.cookie = 'montage-theme=dark; Path=/';
@@ -352,6 +386,44 @@ describe('buildThemeScript', () => {
     expect(document.documentElement.getAttribute('data-theme')).toBeTruthy();
 
     document.cookie = 'montage-theme=; Path=/; Max-Age=0';
+    document.documentElement.removeAttribute('data-theme');
+  });
+
+  it('paints the default when same-named cookies disagree', () => {
+    Object.defineProperty(document, 'cookie', {
+      configurable: true,
+      get: () => 'montage-theme=dark; montage-theme=light',
+      set: () => {},
+    });
+
+    try {
+      new Function(buildThemeScript(baseOptions))();
+    } finally {
+      delete (document as Partial<Document>).cookie;
+    }
+
+    // the same rule as getThemeCookie, so the first paint and the hydrated
+    // provider agree; the matchMedia mock resolves `system` to light
+    expect(document.documentElement.getAttribute('data-theme')).toBe('light');
+
+    document.documentElement.removeAttribute('data-theme');
+  });
+
+  it('paints the stored theme when same-named cookies agree', () => {
+    Object.defineProperty(document, 'cookie', {
+      configurable: true,
+      get: () => 'montage-theme=dark; montage-theme=dark',
+      set: () => {},
+    });
+
+    try {
+      new Function(buildThemeScript(baseOptions))();
+    } finally {
+      delete (document as Partial<Document>).cookie;
+    }
+
+    expect(document.documentElement.getAttribute('data-theme')).toBe('dark');
+
     document.documentElement.removeAttribute('data-theme');
   });
 
