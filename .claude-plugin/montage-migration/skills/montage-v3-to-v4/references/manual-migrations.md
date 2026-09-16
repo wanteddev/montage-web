@@ -583,7 +583,16 @@ keeps working as-is. The items below are what does break, plus one new opportuni
   `'auto'` removes the `domain` half of that hazard, since every app resolves to the same
   value. `ThemeProvider` also deletes a same-named host-only cookie before reading, and
   reads the value BEFORE deleting so a host-only → domain transition keeps the user's
-  choice. What remains a review item: a custom `key`, a non-default `path`, and mixing
+  choice. Two more guards cover cookies that sweep cannot reach (an earlier deploy's
+  `.sub.example.com` scope, a `Domain` cookie at another `Path`): when `document.cookie`
+  lists same-named values that DISAGREE, both the inline script and the provider treat the
+  theme as unset instead of taking the first match — taking it would let the persist effect
+  overwrite the current cookie with the stale value and snap every later toggle back to it;
+  and where the Cookie Store API exists (Chrome, Safari 18.5+, Firefox 138+, HTTPS) the
+  provider reads `cookieStore.getAll()`, adopts only the value at its own `Domain`/`Path`,
+  and deletes same-named cookies at any other scope on mount and on every change event.
+  Only a provider that resolved a `domain` deletes; forced providers and `domain: 'none'`
+  apps leave other apps' cookies alone. What remains a review item: a custom `key`, a non-default `path`, and mixing
   `domain: 'none'` with the default `'auto'` on the same host — the `'auto'` app will keep
   deleting the opt-out app's host-only cookie.
 
