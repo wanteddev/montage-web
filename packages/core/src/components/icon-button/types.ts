@@ -17,8 +17,16 @@ export type IconButtonDefaultProps = WithSxProps<{
    * - `normal` variant: token maps to box/icon size (`xlarge` = 36/24, `large` = 32/20, `medium` = 28/18, `small` = 24/16).
    * - `outlined` / `solid` variant: `medium` = 40px box, `small` = 32px box. `xlarge` / `large` is not supported and falls back to `medium`.
    * - `number`: box size in px (clamped to ≥ 24); icon size and radius snap to the nearest tokens.
+   * - With `useLegacyInteractionLayer`, `size` is the icon size instead (a token contributes only its icon size) — see that prop.
    */
   size?: number | 'xlarge' | 'large' | 'medium' | 'small';
+  /**
+   * Restores the pre-4.0 layout of the `normal` variant for backward compatibility.
+   * `size` is the icon size (a `number` in px, or a token's icon size — `xlarge` = 24 by default) and the box is exactly the icon, so the button takes up the same space as before.
+   * The interaction layer and radius still follow the current size policy (e.g. a 24px icon gets the 36px / radius 10 of `xlarge`)
+   * but overlay the icon without affecting layout. Ignored by other variants, where `size` has always been the box size.
+   */
+  useLegacyInteractionLayer?: boolean;
   /** The color of the icon. */
   color?: ThemeColorsToken;
   /**
