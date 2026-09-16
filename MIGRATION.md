@@ -1350,6 +1350,47 @@ npx @montage-ui/codemod@latest list-cell-variant-migration src
 
 ### IconButton
 
+#### `size` 의미 변경 (아이콘 크기 → 박스 크기)
+
+`normal` variant 의 `size` 가 **아이콘 크기** 에서 **박스(컨테이너) 크기** 로 바뀌었습니다. 기존에는 박스가 아이콘과 같은 크기였고 인터랙션 레이어가 박스 밖으로 넘치며 레이아웃에 영향을 주지 않았지만, 4.0.0 에서는 인터랙션 레이어가 박스 자체가 되어 레이아웃 공간을 차지합니다.
+
+| AS-IS (3.x)                                                     | TO-BE (4.0.0)                                                           |
+| --------------------------------------------------------------- | ----------------------------------------------------------------------- |
+| `size={24}` (기본값) → 아이콘 24 / 박스 24 / 인터랙션 40 (넘침) | `size={24}` → 박스 24 / 아이콘 16 / radius 8                            |
+| `size="medium"`, `size="small"` → 아이콘 24 (문자열 무시)       | `size="xlarge"` (기본값) → 박스 36 / 아이콘 24 / radius 10              |
+| —                                                               | `size="large"` 32 / 20, `size="medium"` 28 / 18, `size="small"` 24 / 16 |
+
+- `size={number}` 는 이제 모든 variant 에서 박스 크기입니다. 아이콘 크기와 radius 는 가장 가까운 토큰으로 자동 매핑되고, 박스는 24px 미만으로 줄지 않습니다(WCAG 2.2 SC 2.5.8).
+- 3.x 에서 `size={24}` 또는 `size` 생략으로 쓰던 아이콘 버튼은 4.0.0 에서 `size="xlarge"`(기본값)가 같은 24px 아이콘을 렌더합니다. 단, 박스가 36px 로 커지므로(양쪽 6px 씩) 인접 요소와의 간격이 그만큼 좁아집니다.
+- `normal` variant 에 `size="medium"` / `size="small"` 을 넘기던 코드는 3.x 에서는 24px 아이콘이었지만 4.0.0 에서는 각 프리셋(18px / 16px 아이콘)으로 렌더됩니다.
+
+**레이아웃을 유지해야 하는 경우** `useLegacyInteractionLayer` 를 사용하세요. `normal` variant 에서 3.x 레이아웃을 복원합니다.
+
+- `size={number}` 는 기존처럼 아이콘 크기로 적용되고 박스도 아이콘과 같은 크기입니다.
+- 문자열 토큰은 해당 프리셋의 **아이콘 크기** 가 박스가 됩니다(`xlarge` 24(기본값), `large` 20, `medium` 18, `small` 16). 3.x 에서 `medium` / `small` 을 24px 아이콘으로 쓰던 곳은 `size` 를 생략하거나 `xlarge` 로 바꿔야 같은 크기가 유지됩니다.
+- 인터랙션 레이어와 radius 는 4.0.0 사이즈 정책을 그대로 따릅니다. 아이콘 크기에 짝이 되는 박스 크기(24 → 36 / radius 10, 20 → 32 / 10, 18 → 28 / 8, 16 → 24 / 8)로 그려지되, 레이아웃에 영향을 주지 않고 아이콘 위에 겹쳐집니다. 3.x 의 `아이콘 + 16px` 레이어보다 작습니다.
+- 그 외 숫자는 `아이콘 ÷ (2/3)` 을 가장 가까운 dimension 토큰으로 올림한 값이 레이어이며, 24 와 아이콘 크기보다 작아지지 않습니다. radius 는 레이어의 30% 에 가장 가까운 radius 토큰입니다.
+- 다른 variant 에서는 무시됩니다(`size` 가 원래부터 박스 크기).
+
+```tsx
+// AS-IS (3.x): 24px 아이콘, 박스 24px
+<IconButton size={24} aria-label="Close">
+  <IconClose />
+</IconButton>
+
+// TO-BE (권장): 새 사이즈 정책으로 이동 (24px 아이콘, 박스 36px)
+<IconButton size="xlarge" aria-label="Close">
+  <IconClose />
+</IconButton>
+
+// TO-BE (호환): 레이아웃을 유지해야 할 때
+<IconButton size={24} useLegacyInteractionLayer aria-label="Close">
+  <IconClose />
+</IconButton>
+```
+
+새로 작성하는 코드에서는 `useLegacyInteractionLayer` 를 사용하지 말고, 기존 화면의 레이아웃을 깨지 않고 옮길 때만 사용하세요. 별도 codemod 는 제공되지 않습니다.
+
 #### `disableInteraction` → `interactionEffect`
 
 `disableInteraction` prop이 제거되고, hover / press 인터랙션 방식을 선택하는 `interactionEffect` prop으로 대체되었습니다.
