@@ -76,3 +76,22 @@ export const NormalIconButton = () => {
     </>
   );
 };
+
+export const LegacyNormalIconButton = () => {
+  return (
+    <>
+      <IconButton variant="normal" size={24} useLegacyInteractionLayer>
+        <IconBlank />
+      </IconButton>
+      <IconButton variant="normal" size={20} useLegacyInteractionLayer>
+        <IconBlank />
+      </IconButton>
+      <IconButton variant="normal" size="small" useLegacyInteractionLayer>
+        <IconBlank />
+      </IconButton>
+      <IconButton variant="normal" size={24} useLegacyInteractionLayer disabled>
+        <IconBlank />
+      </IconButton>
+    </>
+  );
+};
