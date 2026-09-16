@@ -5,11 +5,14 @@ import { createResponsiveStyle } from '../../utils/internal/responsive-props';
 
 import {
   BACKGROUND_PRESET,
+  ICON_SIZE_RATIO,
   MIN_INTERACTION_SIZE_PX,
   NORMAL_PRESETS,
   OUTLINED_SOLID_PRESETS,
+  RADIUS_RATIO,
 } from './constants';
 import {
+  legacyBoxForIcon,
   maxDimensionToken,
   nearestDimensionToken,
   nearestRadiusToken,
@@ -41,7 +44,14 @@ export const iconButtonStyle =
       aspect-ratio: 1 / 1;
     }
 
-    ${iconButtonSizeStyle({ size: props.size, variant: props.variant }, theme)}
+    ${iconButtonSizeStyle(
+      {
+        size: props.size,
+        variant: props.variant,
+        useLegacyInteractionLayer: props.useLegacyInteractionLayer,
+      },
+      theme,
+    )}
     ${iconButtonColorStyle(props, theme)}
 
   ${createResponsiveStyle(
@@ -50,7 +60,11 @@ export const iconButtonStyle =
     )(
       (params = {}) => css`
         ${iconButtonSizeStyle(
-          { size: params.size, variant: props.variant },
+          {
+            size: params.size,
+            variant: props.variant,
+            useLegacyInteractionLayer: props.useLegacyInteractionLayer,
+          },
           theme,
         )}
         ${params.sx}
@@ -68,18 +82,6 @@ const badgeInsetStyle = (inset: string) => css`
     --push-badge-additional-inset: ${inset};
   }
 `;
-
-// Icon size ratio for custom `number` sizes. normal / background use 2/3 of the
-// box; outlined / solid use a tighter 0.47. The result snaps to a dimension token.
-const ICON_SIZE_RATIO: Record<
-  NonNullable<IconButtonProps['variant']>,
-  number
-> = {
-  normal: 2 / 3,
-  background: 2 / 3,
-  outlined: 0.47,
-  solid: 0.47,
-};
 
 // Inset compensates the PushBadge for the gap between the box edge and the icon
 // edge: (box − iconSize) / 2.
@@ -103,7 +105,7 @@ const numberSizeStyle = (
     height: ${box}px;
     ${variant === 'normal' &&
     css`
-      border-radius: ${nearestRadiusToken(theme, box * 0.3)};
+      border-radius: ${nearestRadiusToken(theme, box * RADIUS_RATIO)};
       ${badgeInsetStyle(insetPx(box, iconSize))}
     `}
 
@@ -130,11 +132,57 @@ const presetSizeStyle = (
   }
 `;
 
-const iconButtonSizeStyle = (
-  params: Pick<IconButtonProps, 'size' | 'variant'>,
+// Legacy (pre-4.0) layout for the normal variant: the box is the icon itself
+// and the interaction layer floats over it — sized and rounded per the current
+// size policy — without affecting layout. A preset uses its icon as the box and
+// its own box / radius for the layer (default xlarge); a `number` is the icon in
+// px and gets the box the policy pairs with it (see `legacyBoxForIcon`). No
+// badge inset: the box edge already is the icon edge.
+const resolveLegacyNormalSize = (
+  size: IconButtonProps['size'],
   theme: Theme,
 ) => {
-  const { variant, size } = params;
+  const iconSize =
+    typeof size === 'number' ? size : NORMAL_PRESETS[size ?? 'xlarge'].iconSize;
+  const boxSize = legacyBoxForIcon(theme, iconSize);
+
+  return {
+    iconSize: `${iconSize}px`,
+    box: `${boxSize}px`,
+    radius: nearestRadiusToken(theme, boxSize * RADIUS_RATIO),
+  };
+};
+
+const legacyNormalSizeStyle = (size: IconButtonProps['size'], theme: Theme) => {
+  const { iconSize, box, radius } = resolveLegacyNormalSize(size, theme);
+  return css`
+    width: ${iconSize};
+    height: ${iconSize};
+    border-radius: ${radius};
+
+    & > [data-component='with-interaction'] {
+      width: ${box};
+      height: ${box};
+    }
+
+    svg {
+      font-size: ${iconSize};
+    }
+  `;
+};
+
+const iconButtonSizeStyle = (
+  params: Pick<
+    IconButtonProps,
+    'size' | 'variant' | 'useLegacyInteractionLayer'
+  >,
+  theme: Theme,
+) => {
+  const { variant, size, useLegacyInteractionLayer } = params;
+
+  if (useLegacyInteractionLayer && variant === 'normal') {
+    return legacyNormalSizeStyle(size, theme);
+  }
 
   if (typeof size === 'number') {
     return numberSizeStyle(variant, size, theme);

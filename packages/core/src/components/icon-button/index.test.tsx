@@ -1,10 +1,17 @@
+import { axe } from 'vitest-axe';
 import { cleanup, render } from '@testing-library/react';
 import { theme } from '@montage-ui/engine';
+
+import { NORMAL_PRESETS } from './constants';
+import { legacyBoxForIcon, nearestRadiusToken } from './helpers';
 
 import { IconButton } from '.';
 
 const getButton = (container: HTMLElement) =>
   container.querySelector('[data-component="icon-button"]') as HTMLElement;
+
+const getInteractionLayer = (container: HTMLElement) =>
+  container.querySelector('[data-component="with-interaction"]') as HTMLElement;
 
 const getSvg = (container: HTMLElement) =>
   container.querySelector('svg') as unknown as HTMLElement;
@@ -276,6 +283,164 @@ describe('IconButton — size policy', () => {
       expect(atMax.box).toBe(`${MAX_DIMENSION}px`);
       expect(beyondMax.box).toBe(`${MAX_DIMENSION}px`);
       expect(beyondMax.icon).toBe(atMax.icon);
+    },
+  );
+});
+
+// useLegacyInteractionLayer restores the pre-4.0 layout of the normal variant:
+// the box is the icon itself, and the interaction layer floats over it at the
+// size / radius the current policy would give that icon.
+describe('IconButton — useLegacyInteractionLayer', () => {
+  afterEach(() => {
+    cleanup();
+  });
+
+  it('should pass accessibility tests', async () => {
+    const { container } = render(
+      <IconButton size={24} useLegacyInteractionLayer aria-label="Close">
+        <svg />
+      </IconButton>,
+    );
+
+    expect(await axe(container)).toHaveNoViolations();
+  });
+
+  // Tokens contribute only their icon size (default xlarge = 24), which then
+  // goes through the same pairing formula as a number — so everything renders
+  // as literal px, and the results match the preset's box / radius.
+  it.each([
+    [
+      'xlarge',
+      {
+        iconSize: '24px',
+        layer: '36px',
+        borderRadius: 'var(--radius-10)',
+      },
+    ],
+    [
+      'large',
+      {
+        iconSize: '20px',
+        layer: '32px',
+        borderRadius: 'var(--radius-10)',
+      },
+    ],
+    [
+      'medium',
+      {
+        iconSize: '18px',
+        layer: '28px',
+        borderRadius: 'var(--radius-8)',
+      },
+    ],
+    [
+      'small',
+      {
+        iconSize: '16px',
+        layer: '24px',
+        borderRadius: 'var(--radius-8)',
+      },
+    ],
+    [
+      undefined,
+      {
+        iconSize: '24px',
+        layer: '36px',
+        borderRadius: 'var(--radius-10)',
+      },
+    ],
+  ] as const)(
+    'normal variant size=%s boxes the preset icon with the paired layer',
+    (size, expected) => {
+      const { container } = render(
+        <IconButton variant="normal" size={size} useLegacyInteractionLayer>
+          <svg />
+        </IconButton>,
+      );
+
+      const style = computedStyle(getButton(container));
+      const svgStyle = computedStyle(getSvg(container));
+      const layerStyle = computedStyle(getInteractionLayer(container));
+
+      expect(style.width).toBe(expected.iconSize);
+      expect(style.height).toBe(expected.iconSize);
+      expect(style.borderRadius).toBe(expected.borderRadius);
+      expect(svgStyle.fontSize).toBe(expected.iconSize);
+      expect(layerStyle.width).toBe(expected.layer);
+      expect(layerStyle.height).toBe(expected.layer);
+    },
+  );
+
+  // size={number}: the icon is N literal px (as in 3.x). The layer is the box
+  // the current policy pairs with it — N ÷ (2/3) snapped to a dimension token
+  // (ties round up), never below 24 or the icon — and the radius snaps from it.
+  it.each([
+    [24, { layer: '36px', borderRadius: 'var(--radius-10)' }],
+    // 30 is equidistant from 28 / 32 — rounds up, matching the `large` preset.
+    [20, { layer: '32px', borderRadius: 'var(--radius-10)' }],
+    [18, { layer: '28px', borderRadius: 'var(--radius-8)' }],
+    [16, { layer: '24px', borderRadius: 'var(--radius-8)' }],
+    // 18 would be the paired box — clamped to 24 (WCAG 2.2).
+    [12, { layer: '24px', borderRadius: 'var(--radius-8)' }],
+    [32, { layer: '48px', borderRadius: 'var(--radius-14)' }],
+    // 192 exceeds the token set — the layer never shrinks below the icon.
+    [128, { layer: '128px', borderRadius: 'var(--radius-24)' }],
+  ] as const)(
+    'normal variant size=%i renders the icon at that size with the paired layer',
+    (size, expected) => {
+      const { container } = render(
+        <IconButton variant="normal" size={size} useLegacyInteractionLayer>
+          <svg />
+        </IconButton>,
+      );
+
+      const style = computedStyle(getButton(container));
+      const svgStyle = computedStyle(getSvg(container));
+      const layerStyle = computedStyle(getInteractionLayer(container));
+
+      expect(style.width).toBe(`${size}px`);
+      expect(style.height).toBe(`${size}px`);
+      expect(style.borderRadius).toBe(expected.borderRadius);
+      expect(svgStyle.fontSize).toBe(`${size}px`);
+      expect(layerStyle.width).toBe(expected.layer);
+      expect(layerStyle.height).toBe(expected.layer);
+    },
+  );
+
+  // Guards the inverse mapping against preset drift: a number equal to a
+  // preset's icon must land on that preset's box and radius.
+  it('legacyBoxForIcon reproduces every normal preset from its icon size', () => {
+    Object.values(NORMAL_PRESETS).forEach((preset) => {
+      const box = legacyBoxForIcon(theme.light, preset.iconSize);
+
+      expect(box).toBe(preset.box);
+      expect(nearestRadiusToken(theme.light, box * 0.3)).toBe(
+        theme.light.radius[preset.radius],
+      );
+    });
+  });
+
+  // Other variants never changed what `size` means (always the box), so the
+  // flag is a no-op there.
+  it.each([
+    ['background', 32, 'var(--dimension-20)'],
+    ['outlined', 32, 'var(--dimension-16)'],
+    ['solid', 40, 'var(--dimension-18)'],
+  ] as const)(
+    '%s variant size=%i ignores useLegacyInteractionLayer',
+    (variant, size, iconSize) => {
+      const { container } = render(
+        <IconButton variant={variant} size={size} useLegacyInteractionLayer>
+          <svg />
+        </IconButton>,
+      );
+
+      const style = computedStyle(getButton(container));
+      const svgStyle = computedStyle(getSvg(container));
+
+      expect(style.width).toBe(`${size}px`);
+      expect(style.height).toBe(`${size}px`);
+      expect(svgStyle.fontSize).toBe(iconSize);
     },
   );
 });

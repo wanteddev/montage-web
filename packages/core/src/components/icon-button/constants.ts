@@ -1,7 +1,21 @@
 import type { Theme } from '@montage-ui/engine';
+import type { IconButtonVariant } from './types';
 
 // WCAG 2.2 SC 2.5.8 Target Size (Minimum): interactive targets must be ≥ 24×24 CSS px.
 export const MIN_INTERACTION_SIZE_PX = 24;
+
+// Icon size ratio for custom `number` sizes. normal / background use 2/3 of the
+// box; outlined / solid use a tighter 0.47. The result snaps to a dimension token.
+export const ICON_SIZE_RATIO: Record<IconButtonVariant, number> = {
+  normal: 2 / 3,
+  background: 2 / 3,
+  outlined: 0.47,
+  solid: 0.47,
+};
+
+// normal variant radius for custom `number` sizes: 30% of the box, snapped to a
+// radius token.
+export const RADIUS_RATIO = 0.3;
 
 export type FixedSize = 'xlarge' | 'large' | 'medium' | 'small';
 export type CompactSize = 'medium' | 'small';

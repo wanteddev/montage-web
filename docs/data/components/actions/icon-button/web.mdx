@@ -1,7 +1,7 @@
 ---
 title: Icon button
 createdAt: 2025-05-12
-updatedAt: 2026-09-08
+updatedAt: 2026-09-10
 ---
 
 ## Basic icon button
@@ -320,6 +320,178 @@ const Demo = () => {
       </FlexBox>
 
       <Slider value={[num]} min={4} max={128} onValueChange={([a]) => setNum(a)} />
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Legacy interaction layer
+
+4.0.0 부터 `normal` variant 의 `size` 는 아이콘이 아닌 **박스(컨테이너) 크기** 를 의미합니다. 3.x 에서 `size={24}` 로 24px 아이콘을 렌더하던 코드는 4.0.0 에서 24px 박스 안의 16px 아이콘으로 렌더되고, 인터랙션 레이어가 레이아웃 공간을 차지하게 되어 주변 요소와의 간격도 달라집니다.
+
+`useLegacyInteractionLayer` prop 을 사용하면 `normal` variant 에서 3.x 레이아웃을 유지할 수 있습니다.
+
+- `size={number}` 는 기존처럼 **아이콘 크기** 로 적용되고, 박스도 아이콘과 같은 크기입니다.
+- 문자열 `size` 는 해당 프리셋의 **아이콘 크기** 가 박스가 됩니다. (`xlarge` 24(기본값), `large` 20, `medium` 18, `small` 16)
+- 인터랙션 레이어와 border-radius 는 현재 사이즈 정책을 따릅니다. 아이콘 크기에 대응하는 박스 크기(24 → 36, 20 → 32, 18 → 28, 16 → 24)와 radius 로 그려지되, 레이아웃에 영향을 주지 않고 아이콘 위에 겹쳐집니다.
+- `normal` 이외의 variant 에서는 무시됩니다. `size` 가 원래부터 박스 크기였기 때문입니다.
+
+새로 작성하는 코드에서는 사용하지 말고, 기존 화면의 레이아웃을 깨지 않고 마이그레이션할 때만 사용하세요.
+
+아래 데모에서 점선은 버튼이 실제로 차지하는 레이아웃 영역입니다. 각 행의 왼쪽은 `useLegacyInteractionLayer` 를 켠 버튼, 오른쪽은 같은 `size` 의 기본 버튼입니다. hover 하면 레이아웃 바깥으로 그려지는 인터랙션 레이어를 확인할 수 있습니다.
+
+<Demo code={`import { FlexBox, IconButton, Slider, Typography } from '@montage-ui/core';
+import { IconBlank } from '@montage-ui/icon';
+import { useState } from 'react';
+
+const Frame = ({ children }) => {
+  return (
+    <FlexBox sx={{ outline: '1px dashed currentColor' }}>
+      {children}
+    </FlexBox>
+  );
+};
+
+const Demo = () => {
+  const [num, setNum] = useState(24);
+
+  return (
+    <FlexBox gap="12px" flexDirection="column" alignItems="center">
+      <FlexBox gap="12px" alignItems="center">
+        <Typography variant="body2-reading">Default</Typography>
+        <FlexBox gap="12px" alignItems="center" flexWrap="wrap">
+          <Frame>
+            <IconButton useLegacyInteractionLayer aria-label="Default size legacy icon button">
+              <IconBlank />
+            </IconButton>
+          </Frame>
+          <Frame>
+            <IconButton aria-label="Default size icon button">
+              <IconBlank />
+            </IconButton>
+          </Frame>
+        </FlexBox>
+      </FlexBox>
+
+      <FlexBox gap="12px" alignItems="center">
+        <Typography variant="body2-reading">Medium</Typography>
+        <FlexBox gap="12px" alignItems="center" flexWrap="wrap">
+          <Frame>
+            <IconButton size="medium" useLegacyInteractionLayer aria-label="Medium size legacy icon button">
+              <IconBlank />
+            </IconButton>
+          </Frame>
+          <Frame>
+            <IconButton size="medium" aria-label="Medium size icon button">
+              <IconBlank />
+            </IconButton>
+          </Frame>
+        </FlexBox>
+      </FlexBox>
+
+      <FlexBox gap="12px" alignItems="center">
+        <Typography variant="body2-reading">Small</Typography>
+        <FlexBox gap="12px" alignItems="center" flexWrap="wrap">
+          <Frame>
+            <IconButton size="small" useLegacyInteractionLayer aria-label="Small size legacy icon button">
+              <IconBlank />
+            </IconButton>
+          </Frame>
+          <Frame>
+            <IconButton size="small" aria-label="Small size icon button">
+              <IconBlank />
+            </IconButton>
+          </Frame>
+        </FlexBox>
+      </FlexBox>
+
+      <FlexBox gap="12px" alignItems="center">
+        <Typography variant="body2-reading">{num}(Number)</Typography>
+        <FlexBox gap="12px" alignItems="center" flexWrap="wrap">
+          <Frame>
+            <IconButton size={num} useLegacyInteractionLayer aria-label={\`\$\{num\} legacy icon button\`}>
+              <IconBlank />
+            </IconButton>
+          </Frame>
+          <Frame>
+            <IconButton size={num} aria-label={\`\$\{num\} icon button\`}>
+              <IconBlank />
+            </IconButton>
+          </Frame>
+        </FlexBox>
+      </FlexBox>
+
+      <Slider value={[num]} min={4} max={128} onValueChange={([a]) => setNum(a)} />
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+### With push badge
+
+[PushBadge](/components/feedback/push-badge/web) 와 함께 사용할 때도 동작은 같습니다. 배지는 두 모드 모두 **아이콘 모서리** 에 정렬되므로, 레거시 모드로 옮겨도 `offsetX` / `offsetY` 를 다시 맞출 필요가 없습니다. 인터랙션 레이어는 배지 뒤로 레이아웃 바깥에 겹쳐 그려집니다.
+
+<Demo code={`import { FlexBox, IconButton, PushBadge, Typography } from '@montage-ui/core';
+import { IconBlank } from '@montage-ui/icon';
+
+const Demo = () => {
+  return (
+    <FlexBox gap="12px" flexDirection="column" alignItems="center">
+      <FlexBox gap="12px" alignItems="center">
+        <Typography variant="body2-reading">Legacy</Typography>
+        <FlexBox gap="12px" alignItems="center" flexWrap="wrap">
+          <PushBadge variant="dot">
+            <IconButton size={24} useLegacyInteractionLayer aria-label="Legacy icon button with dot badge">
+              <IconBlank />
+            </IconButton>
+          </PushBadge>
+          <PushBadge variant="text" text="N">
+            <IconButton size={24} useLegacyInteractionLayer aria-label="Legacy icon button with text N badge">
+              <IconBlank />
+            </IconButton>
+          </PushBadge>
+          <PushBadge variant="text" text={3}>
+            <IconButton size={24} useLegacyInteractionLayer aria-label="Legacy icon button with text badge">
+              <IconBlank />
+            </IconButton>
+          </PushBadge>
+          <PushBadge variant="max-count" text={100}>
+            <IconButton size={24} useLegacyInteractionLayer aria-label="Legacy icon button with max count badge">
+              <IconBlank />
+            </IconButton>
+          </PushBadge>
+        </FlexBox>
+      </FlexBox>
+
+      <FlexBox gap="12px" alignItems="center">
+        <Typography variant="body2-reading">Default</Typography>
+        <FlexBox gap="12px" alignItems="center" flexWrap="wrap">
+          <PushBadge variant="dot">
+            <IconButton aria-label="Icon button with dot badge">
+              <IconBlank />
+            </IconButton>
+          </PushBadge>
+          <PushBadge variant="text" text="N">
+            <IconButton aria-label="Icon button with text N badge">
+              <IconBlank />
+            </IconButton>
+          </PushBadge>
+          <PushBadge variant="text" text={3}>
+            <IconButton aria-label="Icon button with text badge">
+              <IconBlank />
+            </IconButton>
+          </PushBadge>
+          <PushBadge variant="max-count" text={100}>
+            <IconButton aria-label="Icon button with max count badge">
+              <IconBlank />
+            </IconButton>
+          </PushBadge>
+        </FlexBox>
+      </FlexBox>
     </FlexBox>
   )
 }
