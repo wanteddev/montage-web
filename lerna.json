@@ -6,10 +6,12 @@
   "command": {
     "version": {
       "conventionalCommits": true,
+      "exact": true,
       "message": "chore(ci): publish packages"
     },
     "publish": {
-      "conventionalCommits": true
+      "conventionalCommits": true,
+      "exact": true
     }
   }
 }

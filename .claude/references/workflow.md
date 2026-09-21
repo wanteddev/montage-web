@@ -108,3 +108,45 @@ The following run automatically on every pull request:
 - commitlint on commit messages
 
 A red CI is a real signal — investigate before requesting review.
+
+## Release publishing auth
+
+The `Deploy` workflow (`.github/workflows/version.yml`) publishes without any long-lived npm credential:
+
+| Target                   | Registry        | Auth                                                      |
+| ------------------------ | --------------- | --------------------------------------------------------- |
+| `@montage-ui/*`          | npmjs           | npm trusted publishing (OIDC) — no token stored anywhere  |
+| `@wanteddev/montage-mcp` | GitHub Packages | the GitHub App token, via `NODE_AUTH_TOKEN` on `Publish`  |
+| git tags, GitHub release | —               | the same GitHub App token (`checkout` token / `GH_TOKEN`) |
+
+Lerna v9 exchanges the workflow's GitHub OIDC id_token for a short-lived registry token per package, which is
+why the job needs `id-token: write`. Auth is split by registry host: the `.npmrc` that `setup-node` writes only
+carries a `//npm.pkg.github.com/:_authToken` line, so npmjs has no stored credential and lerna fills it in at
+publish time. Things to know before touching the release pipeline:
+
+- **The job deliberately grants `GITHUB_TOKEN` almost nothing** (`contents: read` + `id-token: write`) because
+  everything runs on the App token. Pointing `NODE_AUTH_TOKEN` back at `GITHUB_TOKEN` needs `packages: write`;
+  dropping `GH_TOKEN` from the `Publish` step needs `contents: write` for release creation.
+- **The trust config is bound to the workflow filename.** npm stores `wanteddev/montage-web` + `version.yml`.
+  Renaming or moving that file breaks publishing until the trust config is re-created.
+- **One trust config per package**, so no second workflow can publish these packages over OIDC.
+- **New packages can't start on OIDC.** npm only accepts a trusted publisher for a package that already exists,
+  so a brand-new package needs one manual `npm publish` first, then the `npm trust` command below.
+- **A missing trust config fails late.** Lerna's OIDC exchange fails silently and only surfaces as a 401 at
+  publish time, package by package, so a misconfigured package leaves the release half-published.
+- **GitHub Packages is the fragile half.** GitHub documents only classic PATs and `GITHUB_TOKEN` for its npm
+  registry, so the App token working there is unverified; and `GITHUB_TOKEN` cannot create a brand-new
+  org-scoped package, which `@wanteddev/montage-mcp` still is. Publish it once by hand if the job fails on it —
+  it runs last (it depends on `@montage-ui/theme`), so everything else is already out by then.
+- Cross-dependency ranges are pinned exactly, not with a caret — `exact: true` in `lerna.json`, matching what
+  pnpm produces when it replaces `workspace:*` at pack time.
+- Provenance attestation is enabled automatically for public packages (this repo is public); nothing to configure.
+
+Set up or inspect the trust config from a local machine logged into npm with write access to the package
+(`npm trust` needs npm 11.15.0 or newer, hence `npx`):
+
+```bash
+npx -y npm@latest trust github @montage-ui/core \
+  --file version.yml --repo wanteddev/montage-web --allow-publish
+npx -y npm@latest trust list @montage-ui/core
+```
