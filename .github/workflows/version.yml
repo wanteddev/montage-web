@@ -17,17 +17,14 @@ on:
           - major
 
 env:
-  NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
   SERVICE: 'Montage web'
 
 jobs:
   deploy:
     permissions:
-      packages: write
-      contents: write
+      contents: read
+      id-token: write
     runs-on: ubuntu-latest
-    env:
-      NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
     steps:
       - name: Generate GitHub App Token
@@ -42,14 +39,6 @@ jobs:
         with:
           fetch-depth: 0
           token: ${{ steps.app-token.outputs.token }}
-
-      - name: Install dependencies
-        uses: ./.github/actions/pnpm-install
-
-      - name: Build packages
-        uses: ./.github/actions/package-build
-        env:
-          MCP_TRACK_CLIENT_ID: ${{ secrets.MCP_TRACK_CLIENT_ID }}
 
       - name: Get GitHub App user info
         id: app-user
@@ -66,11 +55,21 @@ jobs:
           echo "name=${APP_SLUG}[bot]" >> "$GITHUB_OUTPUT"
           echo "email=${USER_ID}+${APP_SLUG}[bot]@users.noreply.github.com" >> "$GITHUB_OUTPUT"
 
+      - name: Install dependencies
+        uses: ./.github/actions/pnpm-install
+
+      - name: Build packages
+        uses: ./.github/actions/package-build
+        env:
+          MCP_TRACK_CLIENT_ID: ${{ secrets.MCP_TRACK_CLIENT_ID }}
+
       - run: git config user.name "${{ steps.app-user.outputs.name }}"
       - run: git config user.email "${{ steps.app-user.outputs.email }}"
+
       - name: Publish
         env:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
+          NODE_AUTH_TOKEN: ${{ steps.app-token.outputs.token }}
         run: pnpm run lerna-deploy ${{ inputs.increment }} --force-publish --dist-tag ${{ contains(inputs.increment, 'pre') && 'alpha' || 'latest' }} ${{ contains(inputs.increment, 'pre') && '--conventional-prerelease' || '--conventional-commits' }} --create-release=github --yes
 
       - name: Get published version
