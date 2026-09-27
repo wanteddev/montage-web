@@ -22,6 +22,18 @@ Object.defineProperty(window.Element.prototype, 'scrollTo', {
   writable: true,
 });
 
+/**
+ * 로케일의 오전/오후 표기는 런타임 ICU 버전에 따라 달라진다.
+ * (ko-KR 기준 ICU 77은 "오전", ICU 78은 "AM"을 반환한다.)
+ * 기대값을 하드코딩하면 Node 버전에 따라 테스트가 깨지므로,
+ * 컴포넌트가 쓰는 것과 같은 경로로 기대값을 만든다.
+ */
+const meridiemOf = (locale: string, hour: number) =>
+  new Intl.DateTimeFormat(locale, { hour: 'numeric', hour12: true })
+    .formatToParts(new Date(2025, 0, 1, hour, 30))
+    .find((part) => part.type === 'dayPeriod')
+    ?.value.toUpperCase();
+
 describe('when given time picker component', () => {
   const defaultProps = {
     defaultValue: new Date('2025-01-01T10:30:00'),
@@ -120,7 +132,9 @@ describe('when given time picker component', () => {
     );
 
     expect(screen.getByTestId('time-picker')).toBeInTheDocument();
-    expect(screen.getByTestId('time-picker')).toHaveValue('오전 10:30:00');
+    expect(screen.getByTestId('time-picker')).toHaveValue(
+      `${meridiemOf('ko-KR', 10)} 10:30:00`,
+    );
   });
 
   it('should render with custom timezone', () => {
@@ -136,7 +150,9 @@ describe('when given time picker component', () => {
     );
 
     expect(screen.getByTestId('time-picker')).toBeInTheDocument();
-    expect(screen.getByTestId('time-picker')).toHaveValue('오전 01:30:00');
+    expect(screen.getByTestId('time-picker')).toHaveValue(
+      `${meridiemOf('ko-KR', 1)} 01:30:00`,
+    );
   });
 
   it('should render with 12-hour format', () => {
