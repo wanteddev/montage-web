@@ -12,7 +12,6 @@ on:
           - 'false'
 
 env:
-  NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
   FIGMA_TOKEN: ${{ secrets.FIGMA_TOKEN }}
 
 permissions:

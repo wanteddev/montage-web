@@ -49,7 +49,7 @@ on:
         type: boolean
 
 env:
-  NODE_VERSION: 22.18.0
+  NODE_VERSION: 24.21.0
   AWS_REGION: ap-northeast-2
   BUCKET: montage.wanted.co.kr
   DEV_BUCKET: dev-montage.wanted.co.kr
