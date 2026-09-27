@@ -19,7 +19,6 @@ on:
         type: string
 
 env:
-  NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
   AWS_REGION: ap-northeast-2
 
   SERVICE: 'montage-mcp'
