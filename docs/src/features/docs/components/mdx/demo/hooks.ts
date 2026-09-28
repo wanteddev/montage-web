@@ -6,7 +6,7 @@ import * as Montage from '@montage-ui/core';
 import * as MontageIcon from '@montage-ui/icon';
 import * as reactVirtual from '@tanstack/react-virtual';
 import * as HookForm from 'react-hook-form';
-import * as reactSpring from 'react-spring';
+import * as reactSpring from '@react-spring/web';
 // @ts-expect-error
 import * as autosuggestParse from 'autosuggest-highlight/parse';
 // @ts-expect-error
@@ -39,7 +39,7 @@ export const useReactDemoRunner = ({ code }: UseReactDemoRunnerParams) => {
         'copy-to-clipboard': copy,
         'autosuggest-highlight/match': autosuggestMatch,
         'autosuggest-highlight/parse': autosuggestParse,
-        'react-spring': reactSpring,
+        '@react-spring/web': reactSpring,
       },
     };
   }, []);
