@@ -1371,13 +1371,13 @@ npx @montage-ui/codemod@latest list-cell-variant-migration src
 - 3.x 에서 `size={24}` 또는 `size` 생략으로 쓰던 아이콘 버튼은 4.0.0 에서 `size="xlarge"`(기본값)가 같은 24px 아이콘을 렌더합니다. 단, 박스가 36px 로 커지므로(양쪽 6px 씩) 인접 요소와의 간격이 그만큼 좁아집니다.
 - `normal` variant 에 `size="medium"` / `size="small"` 을 넘기던 코드는 3.x 에서는 24px 아이콘이었지만 4.0.0 에서는 각 프리셋(18px / 16px 아이콘)으로 렌더됩니다.
 
-**레이아웃을 유지해야 하는 경우** `useLegacyInteractionLayer` 를 사용하세요. `normal` variant 에서 3.x 레이아웃을 복원합니다.
+**대부분의 경우 `interactionOverflow` 를 함께 지정하는 것을 권장합니다.** `normal` variant 에서 레이아웃이 아이콘 크기가 되고 인터랙션 영역은 레이아웃 밖으로 넘쳐 그려지므로, 3.x 와 같은 레이아웃이 유지되어 주변 요소의 간격이 바뀌지 않습니다.
 
 - `size={number}` 는 기존처럼 아이콘 크기로 적용되고 박스도 아이콘과 같은 크기입니다.
 - 문자열 토큰은 해당 프리셋의 **아이콘 크기** 가 박스가 됩니다(`xlarge` 24(기본값), `large` 20, `medium` 18, `small` 16). 3.x 에서 `medium` / `small` 을 24px 아이콘으로 쓰던 곳은 `size` 를 생략하거나 `xlarge` 로 바꿔야 같은 크기가 유지됩니다.
 - 인터랙션 레이어와 radius 는 4.0.0 사이즈 정책을 그대로 따릅니다. 아이콘 크기에 짝이 되는 박스 크기(24 → 36 / radius 10, 20 → 32 / 10, 18 → 28 / 8, 16 → 24 / 8)로 그려지되, 레이아웃에 영향을 주지 않고 아이콘 위에 겹쳐집니다. 3.x 의 `아이콘 + 16px` 레이어보다 작습니다.
-- 그 외 숫자는 `아이콘 ÷ (2/3)` 을 가장 가까운 dimension 토큰으로 올림한 값이 레이어이며, 24 와 아이콘 크기보다 작아지지 않습니다. radius 는 레이어의 30% 에 가장 가까운 radius 토큰입니다.
-- 다른 variant 에서는 무시됩니다(`size` 가 원래부터 박스 크기).
+- 레이어 크기는 `max(24, ceil(아이콘 × 1.5 ÷ 4) × 4)` 입니다. 아이콘의 1.5배를 4의 배수로 올린 값이며, 24 미만으로 줄지 않습니다. radius 는 레이어의 30% 에 가장 가까운 radius 토큰입니다(동점이면 작은 쪽).
+- 다른 variant 에서는 무시됩니다(`size` 가 원래부터 박스 크기). 단, `background` variant 는 레이아웃이 바뀌었습니다. 3.x 기본값은 박스 24 / 아이콘 20 이었지만 4.0.0 은 박스 32 / 아이콘 20 이고, 숫자 `size` 는 박스가 같아도 아이콘이 박스의 2/3 로 작아집니다(3.x 는 `size − 4`).
 
 ```tsx
 // AS-IS (3.x): 24px 아이콘, 박스 24px
@@ -1385,18 +1385,45 @@ npx @montage-ui/codemod@latest list-cell-variant-migration src
   <IconClose />
 </IconButton>
 
-// TO-BE (권장): 새 사이즈 정책으로 이동 (24px 아이콘, 박스 36px)
-<IconButton size="xlarge" aria-label="Close">
-  <IconClose />
-</IconButton>
-
-// TO-BE (호환): 레이아웃을 유지해야 할 때
-<IconButton size={24} useLegacyInteractionLayer aria-label="Close">
+// TO-BE (권장): 레이아웃 유지 (24px 아이콘, 박스 24px, 인터랙션 영역 36px 은 넘쳐 그려짐)
+<IconButton interactionOverflow aria-label="Close">
   <IconClose />
 </IconButton>
 ```
 
-새로 작성하는 코드에서는 `useLegacyInteractionLayer` 를 사용하지 말고, 기존 화면의 레이아웃을 깨지 않고 옮길 때만 사용하세요. 별도 codemod 는 제공되지 않습니다.
+**컴포넌트의 리소스(슬롯)로 넣는 IconButton 에는 `interactionOverflow` 를 사용하지 마세요.** 아래 슬롯은 IconButton 을 담는 영역의 너비 / 높이를 컴포넌트가 직접 제한합니다.
+
+| 컴포넌트                                                                                                               | 슬롯                                                                        | 제한                                |
+| ---------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------- | ----------------------------------- |
+| `ListCellContent` 및 파생 (`MenuItemContent`, `OptionContent`, `AutocompleteOptionContent`, `AccordionSummaryContent`) | `variant="icon-button"`                                                     | 너비 22px / 높이 24px               |
+| `TextFieldContent`                                                                                                     | `variant="icon-button"`                                                     | 너비 24px (medium 20px)             |
+| `TextAreaContent`                                                                                                      | `variant="icon-button"` (기본값 — `variant` 생략 시 포함), `variant="icon"` | 너비 22px / 높이 20px (medium 22px) |
+| `SelectContent`                                                                                                        | `variant="icon-button"`                                                     | 너비 24px (medium 20px) / 높이 24px |
+| `SectionHeader`                                                                                                        | `headingContent`, `trailingContent`                                         | size 별 max-height (20 ~ 38px)      |
+| `MenuActionAreaContent`                                                                                                | `variant="icon-button"`                                                     | 액션 영역 높이 56px                 |
+
+`TabList`, `CategoryList` 의 `iconButton` 은 슬롯이지만 `interactionOverflow` 를 사용합니다. 넘친 컨테이너가 리스트와의 간격 20 안에서 끝나므로 탭 / 칩을 가리지 않습니다.
+
+| 컴포넌트       | 리스트 `size`                         | IconButton                                               |
+| -------------- | ------------------------------------- | -------------------------------------------------------- |
+| `TabList`      | `small`, `medium` / `large`           | `size="large"` / `size="xlarge"` + `interactionOverflow` |
+| `CategoryList` | `small`, `medium` / `large`, `xlarge` | `size="large"` / `size="xlarge"` + `interactionOverflow` |
+
+3.x 에서 `medium` 에 쓰던 22px 아이콘은 4.0.0 사이즈에 없어 20px(`large`)을 사용합니다. 리스트 `size` 를 생략하면 기본값을 따릅니다(`TabList` `large` → `xlarge`, `CategoryList` `medium` → `large`).
+
+컴포넌트가 직접 렌더하는 아래 IconButton 에는 `interactionOverflow` 가 이미 적용되어 있으므로 따로 지정할 필요가 없습니다.
+
+| 컴포넌트                                                                             | IconButton                                                               | 레이아웃 | 인터랙션 영역 |
+| ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------ | -------- | ------------- |
+| `TopNavigationButton` (`ModalNavigationButton`, `ModalClose` 포함, `variant="icon"`) | `size={24}`, `interactionEffect="dim"`                                   | 24       | 36            |
+| `SnackbarCloseButton` (`useSnackbar({ closeButton: true })` 포함)                    | `size="large"`                                                           | 20       | 32            |
+| `Popover` 닫기 버튼                                                                  | `size={16}`                                                              | 16       | 24            |
+| `TooltipContent` 닫기 버튼 (`size="medium"`)                                         | `size="small"`, `interactionColor="semantic.foreground.neutral.inverse"` | 16       | 24            |
+| `TooltipContent` 닫기 버튼 (`size="small"`)                                          | `size={10}`, `interactionColor="semantic.foreground.neutral.inverse"`    | 10       | 18 ¹          |
+
+¹ Tooltip 자체의 `calc(100% + 8px)` 규칙이 IconButton 의 최소 24px 보다 우선합니다.
+
+`interactionOverflow` 는 Figma 의 `Interaction Overflow` 속성과 대응하는 정식 속성입니다. 별도 codemod 는 제공되지 않습니다.
 
 #### `disableInteraction` → `interactionEffect`
 
@@ -1430,7 +1457,7 @@ npx @montage-ui/codemod@latest list-cell-variant-migration src
 
 #### `TopNavigationButton` 인터랙션 변경
 
-`variant="icon"`인 `TopNavigationButton`은 내부 `IconButton`에 `interactionEffect="dim"`을 기본 적용합니다. hover / press 시 배경 레이어 대신 아이콘 색상이 어두워지는 방식으로 바뀌었습니다. 별도 마이그레이션은 필요 없습니다.
+`variant="icon"`인 `TopNavigationButton`(이를 렌더하는 `ModalNavigationButton`, `ModalClose` 포함)은 내부 `IconButton`에 `interactionEffect="dim"`을 기본 적용합니다. hover / press 시 배경 레이어 대신 아이콘 색상이 어두워지는 방식으로 바뀌었습니다. 별도 마이그레이션은 필요 없습니다.
 
 ## 3.0.0 (2025-11-12)
 
