@@ -58,17 +58,17 @@ env:
   CLOUDFRONT_DISTRIBUTION_ID: E43YG4RN0PRN4
   DEV_CLOUDFRONT_DISTRIBUTION_ID: E39V7XGT2FMQNT
 
-permissions:
-  id-token: write
-  contents: read
+permissions: {}
 
 jobs:
   set-env:
     name: Set Env
     if: "${{ github.event_name == 'workflow_call' || github.event_name == 'workflow_dispatch' || (github.event_name == 'pull_request' && github.event.pull_request.draft == false && !contains(github.event.pull_request.labels.*.name, 'ci: skip document deploy')) }}"
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           ref: ${{ inputs.ref || github.ref }}
 
@@ -114,8 +114,11 @@ jobs:
   deploy-docs:
     needs: [set-env]
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write # AWS OIDC
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           ref: ${{ inputs.ref || github.ref }}
 
@@ -141,14 +144,14 @@ jobs:
 
       - name: Configure AWS credentials DEV
         if: ${{ startsWith(needs.set-env.outputs.server_type, 'dev') }}
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: aws-actions/configure-aws-credentials@e1253824e5c10ff9df46874f81ed3ec929e19cfd # v6.3.0
         with:
           role-to-assume: ${{ secrets.AWS_DEPLOY_ROLE_DEV }}
           aws-region: ap-northeast-2
 
       - name: Configure AWS credentials
         if: ${{ !startsWith(needs.set-env.outputs.server_type, 'dev') }}
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: aws-actions/configure-aws-credentials@e1253824e5c10ff9df46874f81ed3ec929e19cfd # v6.3.0
         with:
           role-to-assume: ${{ secrets.AWS_DEPLOY_ROLE }}
           aws-region: ap-northeast-2
@@ -178,16 +181,15 @@ jobs:
     if: ${{ needs.set-env.outputs.is_preview == 'true' }}
     permissions:
       contents: read
-      pull-requests: write
     steps:
       - name: Generate GitHub App Token
         id: app-token
-        uses: actions/create-github-app-token@v1
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
         with:
           app-id: ${{ secrets.BOT_APP_ID }}
           private-key: ${{ secrets.BOT_APP_PRIVATE_KEY }}
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Get existing comment ID
         id: get-comment
         run: |
@@ -226,11 +228,13 @@ jobs:
     needs: [deploy-docs]
     if: ${{ inputs.algolia && inputs.server_type == 'www' }}
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
 
     steps:
       - name: Push indices to Algolia
         id: algolia-crawler
-        uses: algolia/algoliasearch-crawler-github-actions@v1.0.10
+        uses: algolia/algoliasearch-crawler-github-actions@3ae4def15d82c60aa02b0e528b50167593cbaaf6 # v1.1.13
         with:
           crawler-user-id: ${{ secrets.CRAWLER_USER_ID }}
           crawler-api-key: ${{ secrets.CRAWLER_API_KEY }}

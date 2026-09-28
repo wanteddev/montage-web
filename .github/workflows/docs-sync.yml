@@ -27,23 +27,27 @@ on:
 env:
   FIGMA_TOKEN: ${{ secrets.FIGMA_TOKEN }}
 
+permissions: {}
+
 jobs:
   sync-mobile-docs:
     if: ${{ inputs.platform == 'mobile' }}
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     outputs:
       branch: ${{ steps.check-branch.outputs.branch }}
       has_changes: ${{ steps.commit.outputs.has_changes }}
     steps:
       - name: Generate GitHub App Token
         id: app-token
-        uses: actions/create-github-app-token@v1
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
         with:
           app-id: ${{ secrets.BOT_APP_ID }}
           private-key: ${{ secrets.BOT_APP_PRIVATE_KEY }}
 
       - name: Checkout Repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           token: ${{ steps.app-token.outputs.token }}
 
@@ -123,19 +127,21 @@ jobs:
   sync-design-docs:
     if: ${{ inputs.platform == 'design' }}
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     outputs:
       branch: ${{ steps.check-branch.outputs.branch }}
       has_changes: ${{ steps.commit.outputs.has_changes }}
     steps:
       - name: Generate GitHub App Token
         id: app-token
-        uses: actions/create-github-app-token@v1
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
         with:
           app-id: ${{ secrets.BOT_APP_ID }}
           private-key: ${{ secrets.BOT_APP_PRIVATE_KEY }}
 
       - name: Checkout Repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           token: ${{ steps.app-token.outputs.token }}
 
@@ -216,6 +222,9 @@ jobs:
   deploy-mobile-docs:
     needs: sync-mobile-docs
     if: ${{ inputs.deploy && needs.sync-mobile-docs.outputs.has_changes == 'true' }}
+    permissions:
+      contents: read
+      id-token: write
     uses: ./.github/workflows/docs-deploy.yml
     with:
       server_type: ${{ inputs.server_type }}
@@ -226,6 +235,9 @@ jobs:
   deploy-design-docs:
     needs: sync-design-docs
     if: ${{ inputs.deploy && needs.sync-design-docs.outputs.has_changes == 'true' }}
+    permissions:
+      contents: read
+      id-token: write
     uses: ./.github/workflows/docs-deploy.yml
     with:
       server_type: ${{ inputs.server_type }}

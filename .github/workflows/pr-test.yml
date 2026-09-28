@@ -10,24 +10,24 @@ on:
       - 'figma/**'
       - '.github/**'
 
-permissions:
-  contents: read
-  pull-requests: write
+permissions: {}
 
 jobs:
   size-limit:
     if: "${{ github.event.pull_request.draft == false && github.event_name == 'pull_request' && !contains(github.event.pull_request.labels.*.name, 'ci: skip test') }}"
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - name: Generate GitHub App Token
         id: app-token
-        uses: actions/create-github-app-token@v1
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
         with:
           app-id: ${{ secrets.BOT_APP_ID }}
           private-key: ${{ secrets.BOT_APP_PRIVATE_KEY }}
 
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Install dependencies
         uses: ./.github/actions/pnpm-install
@@ -38,7 +38,7 @@ jobs:
           cache: false
 
       - name: Run Size Limit
-        uses: andresz1/size-limit-action@v1.8.0
+        uses: andresz1/size-limit-action@94bc357df29c36c8f8d50ea497c3e225c3c95d1d # v1.8.0
         with:
           github_token: ${{ steps.app-token.outputs.token }}
           package_manager: pnpm
@@ -47,9 +47,11 @@ jobs:
   unit-test:
     if: "${{ github.event.pull_request.draft == false && github.event_name == 'pull_request' && !contains(github.event.pull_request.labels.*.name, 'ci: skip test') }}"
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Install dependencies
         uses: ./.github/actions/pnpm-install
@@ -65,9 +67,11 @@ jobs:
   e2e-test:
     if: "${{ github.event.pull_request.draft == false && github.event_name == 'pull_request' && !contains(github.event.pull_request.labels.*.name, 'ci: skip test') }}"
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Install dependencies
         uses: ./.github/actions/pnpm-install
@@ -86,9 +90,11 @@ jobs:
   visual-test:
     if: "${{ github.event.pull_request.draft == false && github.event_name == 'pull_request' && !contains(github.event.pull_request.labels.*.name, 'ci: skip test') }}"
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Install dependencies
         uses: ./.github/actions/pnpm-install
@@ -107,9 +113,11 @@ jobs:
   commonjs-test:
     if: "${{ github.event.pull_request.draft == false && github.event_name == 'pull_request' && !contains(github.event.pull_request.labels.*.name, 'ci: skip test') }}"
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Install dependencies
         uses: ./.github/actions/pnpm-install
@@ -125,9 +133,11 @@ jobs:
   tree-shaking-test:
     if: "${{ github.event.pull_request.draft == false && github.event_name == 'pull_request' && !contains(github.event.pull_request.labels.*.name, 'ci: skip test') }}"
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Install dependencies
         uses: ./.github/actions/pnpm-install

@@ -1,0 +1,9 @@
+name: montage-codeql
+
+paths-ignore:
+  # committed bundle output of a local action
+  - .github/actions/generate-mobile-docs/dist
+  # test fixtures and bundling checks
+  - tests
+  - '**/*.test.ts'
+  - '**/*.test.tsx'
