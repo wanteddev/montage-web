@@ -76,9 +76,43 @@ jobs:
           git pull
           VERSION=$(node -e "console.log(require('./lerna.json').version)")
           VERSION_PATH=$(echo $VERSION | sed 's/\.[0-9]*$/.x/')
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
           echo "version_path=$VERSION_PATH" >> $GITHUB_OUTPUT
     outputs:
+      version: ${{ steps.version.outputs.version }}
       version_path: ${{ steps.version.outputs.version_path }}
+
+  close-milestone:
+    runs-on: ubuntu-latest
+    needs: [deploy]
+    if: ${{ needs.deploy.result == 'success' && !contains(inputs.increment, 'pre') }}
+    permissions:
+      issues: write
+    steps:
+      - name: Close released milestone
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ needs.deploy.outputs.version }}
+        run: |
+          set -euo pipefail
+          # prerelease(4.0.0-alpha.N)는 마일스톤(4.0.0)을 닫지 않는다
+          if [[ -z "$VERSION" || "$VERSION" == *-* ]]; then
+            echo "::notice::stable 버전이 아님($VERSION) — skip"
+            exit 0
+          fi
+          MILESTONE=$(gh api --paginate "repos/${{ github.repository }}/milestones?state=open&per_page=100" \
+            --jq ".[] | select(.title == \"$VERSION\") | \"\(.number) \(.open_issues)\"")
+          if [ -z "$MILESTONE" ]; then
+            echo "::notice::열린 $VERSION 마일스톤 없음 — skip"
+            exit 0
+          fi
+          read -r NUMBER OPEN_ISSUES <<< "$MILESTONE"
+          if [ "$OPEN_ISSUES" -gt 0 ]; then
+            echo "::warning::$VERSION 마일스톤에 열린 이슈/PR ${OPEN_ISSUES}건이 남아 있어 닫지 않음"
+            exit 0
+          fi
+          gh api -X PATCH "repos/${{ github.repository }}/milestones/$NUMBER" -f state=closed --silent
+          echo "::notice::$VERSION 마일스톤(#$NUMBER) 완료 처리"
 
   deploy-success:
     runs-on: ubuntu-latest
