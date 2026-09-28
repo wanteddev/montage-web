@@ -119,7 +119,7 @@ The `Deploy` workflow (`.github/workflows/version.yml`) publishes without any lo
 | `@wanteddev/montage-mcp` | GitHub Packages | the GitHub App token, via `NODE_AUTH_TOKEN` on `Publish`  |
 | git tags, GitHub release | —               | the same GitHub App token (`checkout` token / `GH_TOKEN`) |
 
-Lerna v9 exchanges the workflow's GitHub OIDC id_token for a short-lived registry token per package, which is
+Lerna v10 exchanges the workflow's GitHub OIDC id_token for a short-lived registry token per package, which is
 why the job needs `id-token: write`. Auth is split by registry host: the `.npmrc` that `setup-node` writes only
 carries a `//npm.pkg.github.com/:_authToken` line, so npmjs has no stored credential and lerna fills it in at
 publish time. Things to know before touching the release pipeline:
