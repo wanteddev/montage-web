@@ -72,6 +72,12 @@ export const tooltipWrapperSizeStyle = ({
           padding: 5px 8px;
         }
 
+        [data-role='tooltip-content-close-button']
+          > [data-component='with-interaction'] {
+          width: calc(100% + 8px);
+          height: calc(100% + 8px);
+        }
+
         [data-role='tooltip-content-close-button-wrapper'] {
           padding: 2px 0px;
         }
