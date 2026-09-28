@@ -4,16 +4,20 @@ on:
   pull_request:
     types: [opened, synchronize, reopened, ready_for_review]
 
+permissions: {}
+
 jobs:
   send_slack:
     if: "${{ github.event.pull_request.draft == false && github.event_name == 'pull_request' && !contains(github.event.pull_request.labels.*.name, 'ci: skip slack noti') }}"
     name: Send Slack Notification
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    permissions:
+      pull-requests: read
     steps:
       - name: Parse Title
         id: parse-title
-        uses: actions/github-script@v7
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
         with:
           result-encoding: string
           script: |
