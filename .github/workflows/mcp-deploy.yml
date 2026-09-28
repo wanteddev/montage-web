@@ -23,17 +23,17 @@ env:
 
   SERVICE: 'montage-mcp'
 
-permissions:
-  id-token: write
-  contents: read
+permissions: {}
 
 jobs:
   set-env:
     name: Set Env
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - name: Checkout Repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           ref: ${{ github.ref }}
 
@@ -57,9 +57,12 @@ jobs:
   deploy:
     needs: [set-env]
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write # AWS OIDC
     steps:
       - name: Checkout Repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           ref: ${{ github.ref }}
 
@@ -76,21 +79,21 @@ jobs:
 
       - name: Configure AWS credentials DEV
         if: ${{ startsWith(needs.set-env.outputs.server_type, 'dev') }}
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: aws-actions/configure-aws-credentials@e1253824e5c10ff9df46874f81ed3ec929e19cfd # v6.3.0
         with:
           role-to-assume: ${{ secrets.AWS_DEPLOY_ROLE_DEV }}
           aws-region: ${{ env.AWS_REGION }}
 
       - name: Configure AWS credentials
         if: ${{ !startsWith(needs.set-env.outputs.server_type, 'dev') }}
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: aws-actions/configure-aws-credentials@e1253824e5c10ff9df46874f81ed3ec929e19cfd # v6.3.0
         with:
           role-to-assume: ${{ secrets.AWS_DEPLOY_ROLE }}
           aws-region: ${{ env.AWS_REGION }}
 
       - name: Login to Amazon ECR Private
         id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v2
+        uses: aws-actions/amazon-ecr-login@03f1aad4c6c7ffd436567f42f9384779290529bd # v2.1.7
 
       - name: Build and Push Mcp docker image
         env:
@@ -111,17 +114,19 @@ jobs:
   deploy-ecs:
     needs: [set-env, deploy]
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write # AWS OIDC
     steps:
       - name: Configure AWS credentials DEV
         if: ${{ startsWith(needs.set-env.outputs.server_type, 'dev') }}
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: aws-actions/configure-aws-credentials@e1253824e5c10ff9df46874f81ed3ec929e19cfd # v6.3.0
         with:
           role-to-assume: ${{ secrets.AWS_DEPLOY_ROLE_DEV }}
           aws-region: ${{ env.AWS_REGION }}
 
       - name: Configure AWS credentials
         if: ${{ !startsWith(needs.set-env.outputs.server_type, 'dev') }}
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: aws-actions/configure-aws-credentials@e1253824e5c10ff9df46874f81ed3ec929e19cfd # v6.3.0
         with:
           role-to-assume: ${{ secrets.AWS_DEPLOY_ROLE }}
           aws-region: ${{ env.AWS_REGION }}
@@ -134,7 +139,7 @@ jobs:
 
       - name: Deploy Amazon ECS task definition
         id: ecs-deploy
-        uses: aws-actions/amazon-ecs-deploy-task-definition@v2
+        uses: aws-actions/amazon-ecs-deploy-task-definition@c465972ecbd160473f22e683363b422a5412a3de # v2.6.3
         timeout-minutes: 10
         with:
           task-definition: task-definition.json
