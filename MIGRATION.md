@@ -1417,7 +1417,7 @@ npx @montage-ui/codemod@latest list-cell-variant-migration src
 | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------ | -------- | ------------- |
 | `TopNavigationButton` (`ModalNavigationButton`, `ModalClose` 포함, `variant="icon"`) | `size={24}`, `interactionEffect="dim"`                                   | 24       | 36            |
 | `SnackbarCloseButton` (`useSnackbar({ closeButton: true })` 포함)                    | `size="large"`                                                           | 20       | 32            |
-| `Popover` 닫기 버튼                                                                  | `size={16}`                                                              | 16       | 24            |
+| `Popover` 닫기 버튼                                                                  | `size="small"`                                                           | 16       | 24            |
 | `TooltipContent` 닫기 버튼 (`size="medium"`)                                         | `size="small"`, `interactionColor="semantic.foreground.neutral.inverse"` | 16       | 24            |
 | `TooltipContent` 닫기 버튼 (`size="small"`)                                          | `size={10}`, `interactionColor="semantic.foreground.neutral.inverse"`    | 10       | 18 ¹          |
 

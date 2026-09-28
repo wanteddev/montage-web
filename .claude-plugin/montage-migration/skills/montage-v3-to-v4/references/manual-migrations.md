@@ -1356,7 +1356,7 @@ and is ignored under `none`.
     | ---------------------------------------------------------------------------------------- | ------------------------------------------------------------------------ | ------ | ---------------- |
     | `TopNavigationButton` (incl. `ModalNavigationButton` and `ModalClose`, `variant="icon"`) | `size={24}`, `interactionEffect="dim"`                                   | 24     | 36               |
     | `SnackbarCloseButton` (incl. `useSnackbar({ closeButton: true })`)                       | `size="large"`                                                           | 20     | 32               |
-    | `Popover` close button                                                                   | `size={16}`                                                              | 16     | 24               |
+    | `Popover` close button                                                                   | `size="small"`                                                           | 16     | 24               |
     | `TooltipContent` close button (`size="medium"`)                                          | `size="small"`, `interactionColor="semantic.foreground.neutral.inverse"` | 16     | 24               |
     | `TooltipContent` close button (`size="small"`)                                           | `size={10}`, `interactionColor="semantic.foreground.neutral.inverse"`    | 10     | 18 ¹             |
 

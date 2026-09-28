@@ -241,7 +241,7 @@ const PopoverContent = forwardRef(
                                 sx={{ padding: '3px', height: 'fit-content' }}
                               >
                                 <IconButton
-                                  size={16}
+                                  size="small"
                                   interactionOverflow
                                   onClick={() => onOpenChange(false)}
                                   aria-label="Close dialog"
@@ -297,7 +297,7 @@ const PopoverContent = forwardRef(
                               sx={{ padding: '3px', height: 'fit-content' }}
                             >
                               <IconButton
-                                size={16}
+                                size="small"
                                 interactionOverflow
                                 onClick={() => onOpenChange(false)}
                                 aria-label="Close dialog"
