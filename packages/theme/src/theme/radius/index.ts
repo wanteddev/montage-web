@@ -10,6 +10,8 @@ const radius = {
   16: primitive[16],
   20: primitive[20],
   24: primitive[24],
+  28: primitive[28],
+  32: primitive[32],
   full: primitive[9999],
 } as const;
 
