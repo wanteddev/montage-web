@@ -19,23 +19,25 @@ on:
 env:
   SERVICE: 'Montage web'
 
+permissions: {}
+
 jobs:
   deploy:
     permissions:
       contents: read
-      id-token: write
+      id-token: write # npm trusted publishing
     runs-on: ubuntu-latest
 
     steps:
       - name: Generate GitHub App Token
         id: app-token
-        uses: actions/create-github-app-token@v1
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
         with:
           app-id: ${{ secrets.BOT_APP_ID }}
           private-key: ${{ secrets.BOT_APP_PRIVATE_KEY }}
 
       - name: Checkout Repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0
           token: ${{ steps.app-token.outputs.token }}
@@ -118,10 +120,12 @@ jobs:
 
   deploy-success:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     needs: [deploy]
     if: ${{ needs.deploy.result == 'success' }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Get current versions
         run: |
@@ -185,6 +189,9 @@ jobs:
   deploy-docs:
     uses: ./.github/workflows/docs-deploy.yml
     secrets: inherit
+    permissions:
+      contents: read
+      id-token: write
     needs: [deploy]
     if: ${{ needs.deploy.result == 'success' && !contains(inputs.increment, 'pre') && (inputs.increment == 'minor' || inputs.increment == 'major') }}
     with:
@@ -194,6 +201,9 @@ jobs:
   deploy-mcp-server:
     uses: ./.github/workflows/mcp-deploy.yml
     secrets: inherit
+    permissions:
+      contents: read
+      id-token: write
     needs: [deploy]
     if: ${{ needs.deploy.result == 'success' && !contains(inputs.increment, 'pre') && (inputs.increment == 'minor' || inputs.increment == 'major') }}
     with:

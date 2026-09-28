@@ -14,23 +14,24 @@ on:
 env:
   FIGMA_TOKEN: ${{ secrets.FIGMA_TOKEN }}
 
+permissions: {}
+
 jobs:
   sync:
     runs-on: ubuntu-latest
     permissions:
-      packages: write
-      contents: write
+      contents: read
     outputs:
       figma-output-cache-key: ${{ steps.create-cache-key.outputs.figma-output-cache-key }}
     steps:
       - name: Checkout Repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Create cache key
         id: create-cache-key
         run: echo "figma-output-cache-key=${{ github.run_id }}-${{ github.sha }}-${{ github.ref }}" >> $GITHUB_OUTPUT
 
-      - uses: actions/github-script@v7
+      - uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
         env:
           FIGMA_TOKEN: ${{ env.FIGMA_TOKEN }}
           OUTPUT_DIR: ${{ inputs.output_dir }}
@@ -329,7 +330,7 @@ jobs:
 
             await main();
 
-      - uses: actions/cache/save@v4
+      - uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         name: Save cache
         with:
           path: |
