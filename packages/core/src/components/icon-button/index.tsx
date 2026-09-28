@@ -1,10 +1,11 @@
 import { forwardRef, useMemo } from 'react';
-import { Box } from '@montage-ui/engine';
+import { Box, useTheme } from '@montage-ui/engine';
 
 import { WithInteraction } from '../with-interaction';
 
 import { backgroundBlendStyle, iconButtonStyle } from './style';
 import { useIconButtonContext } from './contexts';
+import { maxDimensionToken } from './helpers';
 
 import type {
   PolymorphicComponentInternal,
@@ -23,7 +24,7 @@ const IconButton = forwardRef(
       interactionEffect: originInteractionEffect,
       interactionColor = 'semantic.foreground.neutral.primary',
       alternative,
-      useLegacyInteractionLayer = false,
+      interactionOverflow = false,
       color: originColor,
       children,
       xs,
@@ -36,6 +37,23 @@ const IconButton = forwardRef(
     ref: ForwardedRef<T>,
   ) => {
     const context = useIconButtonContext();
+    const theme = useTheme();
+
+    // A numeric box size is capped at the largest dimension token. Under
+    // interactionOverflow the normal variant's size is the icon, which is not capped.
+    if (
+      process.env.NODE_ENV !== 'production' &&
+      !(interactionOverflow && variant === 'normal')
+    ) {
+      const maxSize = maxDimensionToken(theme);
+      [size, xs?.size, sm?.size, md?.size, lg?.size, xl?.size].forEach((s) => {
+        if (typeof s === 'number' && s > maxSize) {
+          console.warn(
+            `IconButton: size={${s}} exceeds the largest dimension token and is clamped to ${maxSize}px.`,
+          );
+        }
+      });
+    }
 
     const color = useMemo(() => {
       if (originColor) {
@@ -117,7 +135,7 @@ const IconButton = forwardRef(
               variant,
               size,
               alternative,
-              useLegacyInteractionLayer,
+              interactionOverflow,
               interactionEffect,
               interactionColor,
               color,

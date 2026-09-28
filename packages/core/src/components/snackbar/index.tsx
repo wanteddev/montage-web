@@ -282,7 +282,8 @@ const SnackbarCloseButton = forwardRef<
   return (
     <IconButton
       ref={ref}
-      size={20}
+      size="large"
+      interactionOverflow
       color="semantic.static.white"
       aria-label="Close snackbar"
       {...props}

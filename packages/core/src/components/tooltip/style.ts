@@ -72,15 +72,6 @@ export const tooltipWrapperSizeStyle = ({
           padding: 5px 8px;
         }
 
-        [data-role='tooltip-content-close-button'] {
-          font-size: 10px;
-
-          & > [data-component='with-interaction'] {
-            width: calc(100% + 8px);
-            height: calc(100% + 8px);
-          }
-        }
-
         [data-role='tooltip-content-close-button-wrapper'] {
           padding: 2px 0px;
         }
@@ -108,15 +99,6 @@ export const tooltipWrapperSizeStyle = ({
 
         [data-role='tooltip-content'] {
           padding: 8px 10px;
-        }
-
-        [data-role='tooltip-content-close-button'] {
-          font-size: 16px;
-
-          & > [data-component='with-interaction'] {
-            width: calc(100% + 16px);
-            height: calc(100% + 16px);
-          }
         }
 
         [data-role='tooltip-content-close-button-wrapper'] {
@@ -159,10 +141,6 @@ export const tooltipContentStyle = (theme: Theme) => css`
       theme.semantic.foreground.neutral.inverse,
       theme.opacity[61],
     )} !important;
-  }
-
-  [data-component='with-interaction'] {
-    background: ${theme.semantic.foreground.neutral.inverse};
   }
 `;
 

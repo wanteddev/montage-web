@@ -242,6 +242,7 @@ const PopoverContent = forwardRef(
                               >
                                 <IconButton
                                   size={16}
+                                  interactionOverflow
                                   onClick={() => onOpenChange(false)}
                                   aria-label="Close dialog"
                                   sx={(theme) => ({
@@ -297,6 +298,7 @@ const PopoverContent = forwardRef(
                             >
                               <IconButton
                                 size={16}
+                                interactionOverflow
                                 onClick={() => onOpenChange(false)}
                                 aria-label="Close dialog"
                                 sx={(theme) => ({ opacity: theme.opacity[61] })}
