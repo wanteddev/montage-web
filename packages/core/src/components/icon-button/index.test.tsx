@@ -384,7 +384,7 @@ describe('IconButton — useLegacyInteractionLayer', () => {
     [12, { layer: '24px', borderRadius: 'var(--radius-8)' }],
     [32, { layer: '48px', borderRadius: 'var(--radius-14)' }],
     // 192 exceeds the token set — the layer never shrinks below the icon.
-    [128, { layer: '128px', borderRadius: 'var(--radius-24)' }],
+    [128, { layer: '128px', borderRadius: 'var(--radius-32)' }],
   ] as const)(
     'normal variant size=%i renders the icon at that size with the paired layer',
     (size, expected) => {
