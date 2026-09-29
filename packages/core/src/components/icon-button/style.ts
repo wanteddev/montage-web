@@ -12,10 +12,10 @@ import {
   RADIUS_RATIO,
 } from './constants';
 import {
-  legacyBoxForIcon,
   maxDimensionToken,
   nearestDimensionToken,
   nearestRadiusToken,
+  overflowBoxForIcon,
   resolveCompactSize,
 } from './helpers';
 
@@ -48,7 +48,7 @@ export const iconButtonStyle =
       {
         size: props.size,
         variant: props.variant,
-        useLegacyInteractionLayer: props.useLegacyInteractionLayer,
+        interactionOverflow: props.interactionOverflow,
       },
       theme,
     )}
@@ -63,7 +63,7 @@ export const iconButtonStyle =
           {
             size: params.size,
             variant: props.variant,
-            useLegacyInteractionLayer: props.useLegacyInteractionLayer,
+            interactionOverflow: props.interactionOverflow,
           },
           theme,
         )}
@@ -132,19 +132,15 @@ const presetSizeStyle = (
   }
 `;
 
-// Legacy (pre-4.0) layout for the normal variant: the box is the icon itself
-// and the interaction layer floats over it — sized and rounded per the current
-// size policy — without affecting layout. A preset uses its icon as the box and
-// its own box / radius for the layer (default xlarge); a `number` is the icon in
-// px and gets the box the policy pairs with it (see `legacyBoxForIcon`). No
-// badge inset: the box edge already is the icon edge.
-const resolveLegacyNormalSize = (
+// Layout is the icon; the interaction layer overflows it (see
+// `overflowBoxForIcon`). No badge inset: the box edge is the icon edge.
+const resolveOverflowNormalSize = (
   size: IconButtonProps['size'],
   theme: Theme,
 ) => {
   const iconSize =
     typeof size === 'number' ? size : NORMAL_PRESETS[size ?? 'xlarge'].iconSize;
-  const boxSize = legacyBoxForIcon(theme, iconSize);
+  const boxSize = overflowBoxForIcon(iconSize);
 
   return {
     iconSize: `${iconSize}px`,
@@ -153,8 +149,11 @@ const resolveLegacyNormalSize = (
   };
 };
 
-const legacyNormalSizeStyle = (size: IconButtonProps['size'], theme: Theme) => {
-  const { iconSize, box, radius } = resolveLegacyNormalSize(size, theme);
+const overflowNormalSizeStyle = (
+  size: IconButtonProps['size'],
+  theme: Theme,
+) => {
+  const { iconSize, box, radius } = resolveOverflowNormalSize(size, theme);
   return css`
     width: ${iconSize};
     height: ${iconSize};
@@ -172,16 +171,13 @@ const legacyNormalSizeStyle = (size: IconButtonProps['size'], theme: Theme) => {
 };
 
 const iconButtonSizeStyle = (
-  params: Pick<
-    IconButtonProps,
-    'size' | 'variant' | 'useLegacyInteractionLayer'
-  >,
+  params: Pick<IconButtonProps, 'size' | 'variant' | 'interactionOverflow'>,
   theme: Theme,
 ) => {
-  const { variant, size, useLegacyInteractionLayer } = params;
+  const { variant, size, interactionOverflow } = params;
 
-  if (useLegacyInteractionLayer && variant === 'normal') {
-    return legacyNormalSizeStyle(size, theme);
+  if (interactionOverflow && variant === 'normal') {
+    return overflowNormalSizeStyle(size, theme);
   }
 
   if (typeof size === 'number') {

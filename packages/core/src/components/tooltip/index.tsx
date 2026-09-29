@@ -31,6 +31,7 @@ import {
   tooltipWrapperStyle,
 } from './style';
 import { useTooltip } from './hooks';
+import { closeButtonResponsiveSize, closeButtonSize } from './helpers';
 
 import type {
   DefaultComponentPropsInternal,
@@ -324,7 +325,14 @@ const TooltipContent = forwardRef(
                         <IconButton
                           data-role="tooltip-content-close-button"
                           variant="normal"
-                          size={16}
+                          size={closeButtonSize(size)}
+                          xs={closeButtonResponsiveSize(xs)}
+                          sm={closeButtonResponsiveSize(sm)}
+                          md={closeButtonResponsiveSize(md)}
+                          lg={closeButtonResponsiveSize(lg)}
+                          xl={closeButtonResponsiveSize(xl)}
+                          interactionOverflow
+                          interactionColor="semantic.foreground.neutral.inverse"
                           aria-label="Close tooltip"
                           onClick={handleDismiss}
                         >
