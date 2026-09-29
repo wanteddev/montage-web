@@ -1352,13 +1352,14 @@ and is ignored under `none`.
   - These component-rendered `IconButton`s already apply `interactionOverflow` internally —
     nothing to add:
 
-    | Component                                                                                | IconButton                                                               | Layout | Interaction area |
-    | ---------------------------------------------------------------------------------------- | ------------------------------------------------------------------------ | ------ | ---------------- |
-    | `TopNavigationButton` (incl. `ModalNavigationButton` and `ModalClose`, `variant="icon"`) | `size={24}`, `interactionEffect="dim"`                                   | 24     | 36               |
-    | `SnackbarCloseButton` (incl. `useSnackbar({ closeButton: true })`)                       | `size="large"`                                                           | 20     | 32               |
-    | `Popover` close button                                                                   | `size="small"`                                                           | 16     | 24               |
-    | `TooltipContent` close button (`size="medium"`)                                          | `size="small"`, `interactionColor="semantic.foreground.neutral.inverse"` | 16     | 24               |
-    | `TooltipContent` close button (`size="small"`)                                           | `size={10}`, `interactionColor="semantic.foreground.neutral.inverse"`    | 10     | 18 ¹             |
+    | Component                                                                                | IconButton                                                                       | Layout | Interaction area |
+    | ---------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- | ------ | ---------------- |
+    | `TopNavigationButton` (incl. `ModalNavigationButton` and `ModalClose`, `variant="icon"`) | `size={24}`, `interactionEffect="dim"`                                           | 24     | 36               |
+    | `SnackbarCloseButton` (incl. `useSnackbar({ closeButton: true })`)                       | `size="large"`                                                                   | 20     | 32               |
+    | `Popover` close button                                                                   | `size="small"`                                                                   | 16     | 24               |
+    | `SectionMessage` close button                                                            | `size={20}`, `color` / `interactionColor="semantic.foreground.neutral.tertiary"` | 20     | 32               |
+    | `TooltipContent` close button (`size="medium"`)                                          | `size="small"`, `interactionColor="semantic.foreground.neutral.inverse"`         | 16     | 24               |
+    | `TooltipContent` close button (`size="small"`)                                           | `size={10}`, `interactionColor="semantic.foreground.neutral.inverse"`            | 10     | 18 ¹             |
 
     ¹ The Tooltip's own `calc(100% + 8px)` rule outranks the IconButton's 24px minimum.
 

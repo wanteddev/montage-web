@@ -1413,13 +1413,14 @@ npx @montage-ui/codemod@latest list-cell-variant-migration src
 
 컴포넌트가 직접 렌더하는 아래 IconButton 에는 `interactionOverflow` 가 이미 적용되어 있으므로 따로 지정할 필요가 없습니다.
 
-| 컴포넌트                                                                             | IconButton                                                               | 레이아웃 | 인터랙션 영역 |
-| ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------ | -------- | ------------- |
-| `TopNavigationButton` (`ModalNavigationButton`, `ModalClose` 포함, `variant="icon"`) | `size={24}`, `interactionEffect="dim"`                                   | 24       | 36            |
-| `SnackbarCloseButton` (`useSnackbar({ closeButton: true })` 포함)                    | `size="large"`                                                           | 20       | 32            |
-| `Popover` 닫기 버튼                                                                  | `size="small"`                                                           | 16       | 24            |
-| `TooltipContent` 닫기 버튼 (`size="medium"`)                                         | `size="small"`, `interactionColor="semantic.foreground.neutral.inverse"` | 16       | 24            |
-| `TooltipContent` 닫기 버튼 (`size="small"`)                                          | `size={10}`, `interactionColor="semantic.foreground.neutral.inverse"`    | 10       | 18 ¹          |
+| 컴포넌트                                                                             | IconButton                                                                       | 레이아웃 | 인터랙션 영역 |
+| ------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------- | -------- | ------------- |
+| `TopNavigationButton` (`ModalNavigationButton`, `ModalClose` 포함, `variant="icon"`) | `size={24}`, `interactionEffect="dim"`                                           | 24       | 36            |
+| `SnackbarCloseButton` (`useSnackbar({ closeButton: true })` 포함)                    | `size="large"`                                                                   | 20       | 32            |
+| `Popover` 닫기 버튼                                                                  | `size="small"`                                                                   | 16       | 24            |
+| `SectionMessage` 닫기 버튼                                                           | `size={20}`, `color` · `interactionColor="semantic.foreground.neutral.tertiary"` | 20       | 32            |
+| `TooltipContent` 닫기 버튼 (`size="medium"`)                                         | `size="small"`, `interactionColor="semantic.foreground.neutral.inverse"`         | 16       | 24            |
+| `TooltipContent` 닫기 버튼 (`size="small"`)                                          | `size={10}`, `interactionColor="semantic.foreground.neutral.inverse"`            | 10       | 18 ¹          |
 
 ¹ Tooltip 자체의 `calc(100% + 8px)` 규칙이 IconButton 의 최소 24px 보다 우선합니다.
 
