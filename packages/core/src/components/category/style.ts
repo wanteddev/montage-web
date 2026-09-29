@@ -1,12 +1,12 @@
 import { css } from '@montage-ui/engine';
 
-import { getGradientMaskImage, typographyStyle } from '../../utils';
+import { getGradientMaskImage } from '../../utils';
 import {
   createResponsiveStyle,
   getPreviousValue,
 } from '../../utils/internal/responsive-props';
 
-import type { ResponsiveProps, Theme } from '@montage-ui/engine';
+import type { Theme } from '@montage-ui/engine';
 import type { CategoryListProps } from './types';
 
 export const categoryListStyle =
@@ -261,94 +261,29 @@ export const scrollWrapperStyle = css`
   }
 `;
 
+// Chip sizes come from the Chip itself (see CATEGORY_CHIP_SIZE); only the
+// category-specific active colors are layered on top.
 export const categoryListItemStyle =
-  ({
-    size,
-    xs,
-    sm,
-    md,
-    lg,
-    xl,
-  }: Pick<CategoryListProps, 'size'> &
-    ResponsiveProps<Pick<CategoryListProps, 'size'>>) =>
+  ({ variant }: Pick<CategoryListProps, 'variant'>) =>
   (theme: Theme) => css`
     scroll-margin-inline: 25px;
     position: relative;
-    ${categoryListItemSizeStyle({ size })}
 
-    ${createResponsiveStyle(
-      { xs, sm, md, lg, xl },
-      theme,
-    )(
-      (params) => css`
-        ${categoryListItemSizeStyle(params)}
-      `,
-    )}
+    &[data-active='true']:not(:disabled):not([aria-disabled='true']) {
+      ${variant === 'alternative'
+        ? css`
+            box-shadow: inset 0 0 0 1px ${theme.semantic.line.brand.strong};
+          `
+        : css`
+            color: ${theme.semantic.foreground.neutral.inverse};
+            background-color: ${theme.semantic.foreground.neutral.strong};
+
+            & > [data-component='with-interaction'] {
+              background-color: ${theme.semantic.foreground.neutral.inverse};
+            }
+          `}
+    }
   `;
-
-const categoryListItemSizeStyle = ({
-  size,
-}: Pick<CategoryListProps, 'size'> = {}) => {
-  switch (size) {
-    case 'small':
-      return css`
-        border-radius: 6px;
-        padding: 4px 7px;
-        gap: 2px;
-
-        svg {
-          font-size: 12px;
-        }
-        & > span {
-          ${typographyStyle('caption1', 'medium')}
-          padding: 0 1px;
-        }
-      `;
-    case 'medium':
-      return css`
-        border-radius: 8px;
-        padding: 6px 8px;
-        gap: 2px;
-
-        svg {
-          font-size: 14px;
-        }
-        & > span {
-          ${typographyStyle('label1', 'medium')}
-          padding: 0 2px;
-        }
-      `;
-    case 'large':
-      return css`
-        border-radius: 8px;
-        padding: 7px 11px;
-        gap: 3px;
-
-        svg {
-          font-size: 14px;
-        }
-
-        & > span {
-          ${typographyStyle('body2', 'medium')}
-          padding: 0 2px;
-        }
-      `;
-    case 'xlarge':
-      return css`
-        border-radius: 10px;
-        padding: 9px 12px;
-        gap: 3px;
-
-        svg {
-          font-size: 16px;
-        }
-        & > span {
-          ${typographyStyle('body2', 'medium')}
-          padding: 0 2px;
-        }
-      `;
-  }
-};
 
 export const stickyButtonStyle = css`
   position: sticky;

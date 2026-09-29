@@ -375,10 +375,12 @@ export default Demo;`}
 
 iconButton prop 으로 우측에 아이콘 버튼을 추가할 수 있습니다.
 
-size별로 icon button 의 크기를 각각 지정해주어야 합니다.
-- small: 20px
-- medium: 22px
-- large: 24px
+size별로 icon button 의 `size` 를 각각 지정하고 `interactionOverflow` 를 함께 사용해야 합니다. 레이아웃은 아이콘 크기가 되고, 인터랙션 영역은 레이아웃 밖으로 넘쳐 그려집니다.
+
+| Tab size        | IconButton size | 레이아웃 (아이콘) | 인터랙션 영역 |
+| --------------- | --------------- | ----------------- | ------------- |
+| small, medium   | `large`         | 20px              | 32px          |
+| large           | `xlarge`        | 24px              | 36px          |
 
 <Demo code={`import {
   Tab,
@@ -396,7 +398,7 @@ const Demo = () => {
         <TabList
           size="small"
           iconButton={(
-            <IconButton size={20}>
+            <IconButton size="large" interactionOverflow>
               <IconBlank />
             </IconButton>
           )}
@@ -420,7 +422,7 @@ const Demo = () => {
         <TabList
           size="medium"
           iconButton={(
-            <IconButton size={22}>
+            <IconButton size="large" interactionOverflow>
               <IconBlank />
             </IconButton>
           )}
@@ -444,7 +446,7 @@ const Demo = () => {
         <TabList
           size="large"
           iconButton={(
-            <IconButton size={24}>
+            <IconButton size="xlarge" interactionOverflow>
               <IconBlank />
             </IconButton>
           )}

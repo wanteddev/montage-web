@@ -74,11 +74,15 @@ jobs:
 
       - name: Set Environment Variable
         id: env-vars
+        env:
+          PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
         run: |
           SERVER_TYPE=$SERVER_TYPE
           SHORT_COMMIT_HASH=$(git rev-parse --short HEAD)
 
           if [ "${{ github.event_name == 'pull_request' }}" = "true" ]; then
+            # HEAD is the synthetic merge commit on pull_request; show the PR head instead
+            SHORT_COMMIT_HASH=${PR_HEAD_SHA::7}
             SERVER_TYPE=dev
             IS_PREVIEW=true
           else

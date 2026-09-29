@@ -236,7 +236,7 @@ const MANUAL_SCAN_SECTIONS = [
   {
     id: 'M18',
     title:
-      'IconButton interaction changes (disableInteraction removed → interactionEffect="none" — a JUDGED scan, since disableInteraction still exists on Button/TextButton/Chip/FilterButton/ToggleIcon/AvatarButton/ListCell/SectionHeader; a spread-carried disableInteraction compiles and falls through to the DOM button, where React drops it (dev-only console warning); TopNavigationButton icon buttons now dim instead of drawing the interaction layer — QA only, no opt-out prop)',
+      'IconButton interaction changes (disableInteraction removed → interactionEffect="none" — a JUDGED scan, since disableInteraction still exists on Button/TextButton/Chip/FilterButton/ToggleIcon/AvatarButton/ListCell/SectionHeader; a spread-carried disableInteraction compiles and falls through to the DOM button, where React drops it (dev-only console warning); TopNavigationButton icon buttons (and ModalNavigationButton / ModalClose, which render one) now dim instead of drawing the interaction layer — QA only, no opt-out prop; normal-variant size is now the box, not the icon — add interactionOverflow to standalone IconButtons to keep the v3 layout, but NEVER to one passed as a slot resource (ListCellContent and its Menu/Option/AutocompleteOption/AccordionSummary derivatives, TextField/TextArea/Select content, SectionHeader heading/trailing content, MenuActionAreaContent — TabList/CategoryList iconButton is the exception and takes interactionOverflow with size large/xlarge by list size) — a JUDGED scan)',
   },
 ];
 
