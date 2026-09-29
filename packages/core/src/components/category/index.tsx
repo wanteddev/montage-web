@@ -42,7 +42,7 @@ import {
   CATEGORY_NAME,
   CATEGORY_PANEL_NAME,
 } from './constants';
-import { getCategoryListItemSize } from './helpers';
+import { getCategoryChipSize, getCategoryListItemSize } from './helpers';
 
 import type {
   ComponentRef,
@@ -253,9 +253,11 @@ const CategoryListItem = forwardRef<any, CategoryListItemProps>(
       useCategoryListContext(CATEGORY_LIST_ITEM_NAME);
     const isDisabled = disabled;
 
-    const sizeProps = useMemo(
+    const chipSizeProps = useMemo(
       () =>
-        getCategoryListItemSize(categoryListContext, { xs, sm, md, lg, xl }),
+        getCategoryChipSize(
+          getCategoryListItemSize(categoryListContext, { xs, sm, md, lg, xl }),
+        ),
       [xs, sm, md, lg, xl, categoryListContext],
     );
 
@@ -334,13 +336,14 @@ const CategoryListItem = forwardRef<any, CategoryListItemProps>(
               : undefined
           }
           {...props}
+          {...chipSizeProps}
           disabled={disabled}
           active={isActive}
           variant={
             originVariant ??
             (isActive && variant !== 'alternative' ? 'solid' : 'outlined')
           }
-          sx={[categoryListItemStyle(sizeProps), props.sx]}
+          sx={[categoryListItemStyle({ variant }), props.sx]}
           onKeyDown={composeEventHandlers(props.onKeyDown, (event) => {
             if (disabled) {
               return;
