@@ -77,19 +77,19 @@ export const NormalIconButton = () => {
   );
 };
 
-export const LegacyNormalIconButton = () => {
+export const InteractionOverflowNormalIconButton = () => {
   return (
     <>
-      <IconButton variant="normal" size={24} useLegacyInteractionLayer>
+      <IconButton variant="normal" size={24} interactionOverflow>
         <IconBlank />
       </IconButton>
-      <IconButton variant="normal" size={20} useLegacyInteractionLayer>
+      <IconButton variant="normal" size={20} interactionOverflow>
         <IconBlank />
       </IconButton>
-      <IconButton variant="normal" size="small" useLegacyInteractionLayer>
+      <IconButton variant="normal" size="small" interactionOverflow>
         <IconBlank />
       </IconButton>
-      <IconButton variant="normal" size={24} useLegacyInteractionLayer disabled>
+      <IconButton variant="normal" size={24} interactionOverflow disabled>
         <IconBlank />
       </IconButton>
     </>

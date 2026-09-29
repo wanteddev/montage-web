@@ -5,6 +5,12 @@ import { IconButton, PushBadge } from '@montage-ui/core';
 figma.connect(IconButton, '<FIGMA_ICON_BUTTON_NORMAL>', {
   props: {
     disabled: figma.boolean('Disable'),
+    interactionOverflow: figma.boolean('Interaction Overflow'),
+    interactionEffect: figma.enum('Interaction Effect', {
+      Highlight: undefined,
+      Dim: 'dim',
+      None: 'none',
+    }),
     children: figma.children('Icon'),
   },
   variant: {
@@ -20,6 +26,12 @@ figma.connect(IconButton, '<FIGMA_ICON_BUTTON_NORMAL>', {
 figma.connect(IconButton, '<FIGMA_ICON_BUTTON_NORMAL>', {
   props: {
     disabled: figma.boolean('Disable'),
+    interactionOverflow: figma.boolean('Interaction Overflow'),
+    interactionEffect: figma.enum('Interaction Effect', {
+      Highlight: undefined,
+      Dim: 'dim',
+      None: 'none',
+    }),
     children: figma.children('Icon'),
   },
   variant: {

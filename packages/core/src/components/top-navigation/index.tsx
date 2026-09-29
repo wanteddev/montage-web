@@ -194,6 +194,7 @@ const TopNavigationButton = forwardRef(
           <IconButton
             variant="normal"
             size={24}
+            interactionOverflow
             {...props}
             data-component="top-navigation-button"
             ref={ref}

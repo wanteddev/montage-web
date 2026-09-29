@@ -1119,5 +1119,6 @@ Proceed to `manual-migrations.md` (all M-sections, M1–M18), then final verific
    dropped to body2·medium with bold selection, captions to label2, icons 24→20, inset
    radius 12→16, disabled restyled from opacity to disable tokens, and `selected` cells
    without a trailingContent now show a default check icon, see M17), and every top
-   navigation, whose icon buttons now dim the icon on hover / press instead of drawing the
-   interaction layer (see M18) — behavioral and visual changes, not just renames.
+   navigation and modal navigation / close button, whose icon buttons now dim the icon on hover / press instead of drawing the
+   interaction layer (see M18); and every screen M18's `<IconButton\b` scan changed, plus every
+   slot `IconButton` hit, for its layout (see M18) — behavioral and visual changes, not just renames.

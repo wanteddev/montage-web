@@ -56,21 +56,21 @@ module.exports = {
 
       switch (size) {
         case 'small':
-          iconButtonSize = 20;
+          iconButtonSize = 'large';
           break;
         case 'medium':
-          iconButtonSize = 22;
+          iconButtonSize = 'large';
           break;
         case 'large':
-          iconButtonSize = 24;
+          iconButtonSize = 'xlarge';
           break;
         case 'xlarge':
-          iconButtonSize = 24;
+          iconButtonSize = 'xlarge';
           break;
       }
 
       if (value['Icon button'] === 'True') {
-        iconButton = `<IconButton size={${iconButtonSize}}><IconBlank /></IconButton>`;
+        iconButton = `<IconButton size="${iconButtonSize}" interactionOverflow><IconBlank /></IconButton>`;
       }
 
       return `

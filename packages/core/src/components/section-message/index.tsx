@@ -153,6 +153,7 @@ const SectionMessage = forwardRef<
             interactionColor="semantic.foreground.neutral.tertiary"
             onClick={handleClose}
             size={20}
+            interactionOverflow
             aria-label="Close message"
             sx={sectionMessageCloseButtonStyle}
           >

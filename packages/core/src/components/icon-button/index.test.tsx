@@ -3,7 +3,7 @@ import { cleanup, render } from '@testing-library/react';
 import { theme } from '@montage-ui/engine';
 
 import { NORMAL_PRESETS } from './constants';
-import { legacyBoxForIcon, nearestRadiusToken } from './helpers';
+import { nearestRadiusToken, overflowBoxForIcon } from './helpers';
 
 import { IconButton } from '.';
 
@@ -287,17 +287,14 @@ describe('IconButton — size policy', () => {
   );
 });
 
-// useLegacyInteractionLayer restores the pre-4.0 layout of the normal variant:
-// the box is the icon itself, and the interaction layer floats over it at the
-// size / radius the current policy would give that icon.
-describe('IconButton — useLegacyInteractionLayer', () => {
+describe('IconButton — interactionOverflow', () => {
   afterEach(() => {
     cleanup();
   });
 
   it('should pass accessibility tests', async () => {
     const { container } = render(
-      <IconButton size={24} useLegacyInteractionLayer aria-label="Close">
+      <IconButton size={24} interactionOverflow aria-label="Close">
         <svg />
       </IconButton>,
     );
@@ -353,7 +350,7 @@ describe('IconButton — useLegacyInteractionLayer', () => {
     'normal variant size=%s boxes the preset icon with the paired layer',
     (size, expected) => {
       const { container } = render(
-        <IconButton variant="normal" size={size} useLegacyInteractionLayer>
+        <IconButton variant="normal" size={size} interactionOverflow>
           <svg />
         </IconButton>,
       );
@@ -371,25 +368,23 @@ describe('IconButton — useLegacyInteractionLayer', () => {
     },
   );
 
-  // size={number}: the icon is N literal px (as in 3.x). The layer is the box
-  // the current policy pairs with it — N ÷ (2/3) snapped to a dimension token
-  // (ties round up), never below 24 or the icon — and the radius snaps from it.
+  // size={number}: the icon is N literal px (as in 3.x). The layer is N × 1.5
+  // rounded up to a multiple of 4, never below 24, and the radius snaps from it.
   it.each([
     [24, { layer: '36px', borderRadius: 'var(--radius-10)' }],
-    // 30 is equidistant from 28 / 32 — rounds up, matching the `large` preset.
     [20, { layer: '32px', borderRadius: 'var(--radius-10)' }],
     [18, { layer: '28px', borderRadius: 'var(--radius-8)' }],
     [16, { layer: '24px', borderRadius: 'var(--radius-8)' }],
-    // 18 would be the paired box — clamped to 24 (WCAG 2.2).
+    // 18 → 20 would be the layer — clamped to 24 (WCAG 2.2).
     [12, { layer: '24px', borderRadius: 'var(--radius-8)' }],
     [32, { layer: '48px', borderRadius: 'var(--radius-14)' }],
-    // 192 exceeds the token set — the layer never shrinks below the icon.
-    [128, { layer: '128px', borderRadius: 'var(--radius-32)' }],
+    // Not capped by the dimension token set.
+    [128, { layer: '192px', borderRadius: 'var(--radius-32)' }],
   ] as const)(
     'normal variant size=%i renders the icon at that size with the paired layer',
     (size, expected) => {
       const { container } = render(
-        <IconButton variant="normal" size={size} useLegacyInteractionLayer>
+        <IconButton variant="normal" size={size} interactionOverflow>
           <svg />
         </IconButton>,
       );
@@ -409,15 +404,23 @@ describe('IconButton — useLegacyInteractionLayer', () => {
 
   // Guards the inverse mapping against preset drift: a number equal to a
   // preset's icon must land on that preset's box and radius.
-  it('legacyBoxForIcon reproduces every normal preset from its icon size', () => {
+  it('overflowBoxForIcon reproduces every normal preset from its icon size', () => {
     Object.values(NORMAL_PRESETS).forEach((preset) => {
-      const box = legacyBoxForIcon(theme.light, preset.iconSize);
+      const box = overflowBoxForIcon(preset.iconSize);
 
       expect(box).toBe(preset.box);
       expect(nearestRadiusToken(theme.light, box * 0.3)).toBe(
         theme.light.radius[preset.radius],
       );
     });
+  });
+
+  it('overflowBoxForIcon never shrinks as the icon grows', () => {
+    for (let icon = 12; icon <= 128; icon += 1) {
+      expect(overflowBoxForIcon(icon)).toBeGreaterThanOrEqual(
+        overflowBoxForIcon(icon - 1),
+      );
+    }
   });
 
   // Other variants never changed what `size` means (always the box), so the
@@ -427,10 +430,10 @@ describe('IconButton — useLegacyInteractionLayer', () => {
     ['outlined', 32, 'var(--dimension-16)'],
     ['solid', 40, 'var(--dimension-18)'],
   ] as const)(
-    '%s variant size=%i ignores useLegacyInteractionLayer',
+    '%s variant size=%i ignores interactionOverflow',
     (variant, size, iconSize) => {
       const { container } = render(
-        <IconButton variant={variant} size={size} useLegacyInteractionLayer>
+        <IconButton variant={variant} size={size} interactionOverflow>
           <svg />
         </IconButton>,
       );
@@ -443,4 +446,43 @@ describe('IconButton — useLegacyInteractionLayer', () => {
       expect(svgStyle.fontSize).toBe(iconSize);
     },
   );
+});
+
+describe('IconButton — oversized size warning', () => {
+  afterEach(() => {
+    cleanup();
+    vi.restoreAllMocks();
+  });
+
+  it('warns when a number size is clamped to the max dimension token', () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
+
+    render(
+      <IconButton size={MAX_DIMENSION + 1}>
+        <svg />
+      </IconButton>,
+    );
+
+    expect(warn).toHaveBeenCalledWith(
+      expect.stringContaining(`size={${MAX_DIMENSION + 1}}`),
+    );
+  });
+
+  it.each([
+    ['at the max dimension token', { size: MAX_DIMENSION }],
+    [
+      'with interactionOverflow on the normal variant',
+      { size: MAX_DIMENSION + 1, interactionOverflow: true },
+    ],
+  ] as const)('does not warn %s', (_, props) => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
+
+    render(
+      <IconButton {...props}>
+        <svg />
+      </IconButton>,
+    );
+
+    expect(warn).not.toHaveBeenCalled();
+  });
 });
