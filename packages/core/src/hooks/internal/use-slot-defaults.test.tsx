@@ -103,12 +103,20 @@ describe('useInheritedSize', () => {
     });
   });
 
-  // Own per-breakpoint sizes drop the inherited breakpoints at or below them
-  // (same cascade rule as `mergeResponsiveProps`).
-  it('drops inherited breakpoints below own responsive sizes', () => {
+  // Breakpoints below own per-breakpoint sizes keep following the slot.
+  it('keeps inherited breakpoints below own responsive sizes', () => {
     expect(
       renderInheritedBadgeSize(wrapper, undefined, { md: { size: 'medium' } }),
-    ).toEqual({ size: 'small', responsive: { md: { size: 'medium' } } });
+    ).toEqual({
+      size: 'small',
+      responsive: { sm: { size: 'xsmall' }, md: { size: 'medium' } },
+    });
+  });
+
+  it('drops inherited breakpoints above own lower responsive sizes', () => {
+    expect(
+      renderInheritedBadgeSize(wrapper, undefined, { xs: { size: 'medium' } }),
+    ).toEqual({ size: 'small', responsive: { xs: { size: 'medium' } } });
   });
 });
 

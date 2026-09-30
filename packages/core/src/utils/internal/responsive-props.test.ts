@@ -1,4 +1,7 @@
-import { resolveInheritedResponsive } from './responsive-props';
+import {
+  mergeResponsiveProps,
+  resolveInheritedResponsive,
+} from './responsive-props';
 
 type SizeProps = { size?: 'small' | 'xsmall'; width?: string };
 
@@ -36,13 +39,60 @@ describe('resolveInheritedResponsive', () => {
     });
   });
 
-  it('drops inherited breakpoints overridden by own higher breakpoints', () => {
+  it('keeps inherited breakpoints below own responsive sizes', () => {
     expect(
       resolveInheritedResponsive<SizeProps, 'size'>(
         { base: undefined, responsive: { md: { size: 'small' } } },
         { base: 'small', responsive: { sm: { size: 'xsmall' } } },
         'size',
       ),
-    ).toEqual({ base: 'small', responsive: { md: { size: 'small' } } });
+    ).toEqual({
+      base: 'small',
+      responsive: { sm: { size: 'xsmall' }, md: { size: 'small' } },
+    });
+  });
+
+  it('drops inherited breakpoints overridden by own lower breakpoints', () => {
+    expect(
+      resolveInheritedResponsive<SizeProps, 'size'>(
+        { base: undefined, responsive: { xs: { size: 'small' } } },
+        { base: 'small', responsive: { sm: { size: 'xsmall' } } },
+        'size',
+      ),
+    ).toEqual({ base: 'small', responsive: { xs: { size: 'small' } } });
+  });
+});
+
+describe('mergeResponsiveProps', () => {
+  type FieldProps = { size?: 'large' | 'medium'; width?: string };
+
+  it('keeps fallback breakpoints below the user override', () => {
+    expect(
+      mergeResponsiveProps<FieldProps, 'size'>(
+        { md: { size: 'large' } },
+        { sm: { size: 'medium' } },
+        'size',
+      ),
+    ).toEqual({ sm: { size: 'medium' }, md: { size: 'large' } });
+  });
+
+  it('drops fallback breakpoints the user override cascades over', () => {
+    expect(
+      mergeResponsiveProps<FieldProps, 'size'>(
+        { xs: { size: 'large' } },
+        { sm: { size: 'medium' } },
+        'size',
+      ),
+    ).toEqual({ xs: { size: 'large' } });
+  });
+
+  it('merges fallback into breakpoints without the key', () => {
+    expect(
+      mergeResponsiveProps<FieldProps, 'size'>(
+        { xs: { width: '100%' } },
+        { sm: { size: 'medium' } },
+        'size',
+      ),
+    ).toEqual({ xs: { width: '100%' }, sm: { size: 'medium' } });
   });
 });

@@ -239,17 +239,23 @@ export const mapResponsiveProps = <T extends object, K extends keyof T, R>(
  * Merges fallback responsive props into user responsive props for a specific key,
  * respecting the cascade nature of responsive breakpoints.
  *
- * For each breakpoint B in `fallback` that carries `key`:
- * - If any breakpoint at B or higher in `user` already specifies `key`, the
- *   fallback at B is dropped — keeping it would cause the lower-breakpoint
- *   fallback to cascade up and conflict with the user's explicit override.
- * - Otherwise the fallback value is merged in (user props take precedence on
+ * A user value at breakpoint U applies from U upward (min-width cascade), so
+ * for each breakpoint B in `fallback` that carries `key`:
+ * - If any breakpoint at B or lower in `user` already specifies `key`, the
+ *   fallback at B is dropped — keeping it would override the user's value
+ *   cascading up from below.
+ * - Otherwise the fallback value is merged in, so breakpoints below the user's
+ *   lowest override still follow the fallback (user props take precedence on
  *   any direct conflict within the same breakpoint).
  *
  * @example
  * // FormControl: sm={ size: 'medium' }  /  TextField: md={ size: 'large' }
  * mergeResponsiveProps({ md: { size: 'large' } }, { sm: { size: 'medium' } }, 'size');
- * // → { md: { size: 'large' } }  (sm fallback dropped — md user overrides it)
+ * // → { sm: { size: 'medium' }, md: { size: 'large' } }  (sm..md follows FormControl, md+ user)
+ *
+ * // FormControl: sm={ size: 'medium' }  /  TextField: xs={ size: 'large' }
+ * mergeResponsiveProps({ xs: { size: 'large' } }, { sm: { size: 'medium' } }, 'size');
+ * // → { xs: { size: 'large' } }  (sm fallback dropped — xs user cascades up over it)
  *
  * // FormControl: sm={ size: 'medium' }  /  TextField: xs={ width: '100%' }
  * mergeResponsiveProps({ xs: { width: '100%' } }, { sm: { size: 'medium' } }, 'size');
@@ -273,13 +279,11 @@ export const mergeResponsiveProps = <T extends object, K extends keyof T>(
       continue;
     }
 
-    const userHasKeyAtOrAbove = order
-      .slice(i)
-      .some(
-        (higherBp) => (user[higherBp] as T | undefined)?.[key] !== undefined,
-      );
+    const userHasKeyAtOrBelow = order
+      .slice(0, i + 1)
+      .some((lowerBp) => (user[lowerBp] as T | undefined)?.[key] !== undefined);
 
-    if (userHasKeyAtOrAbove) {
+    if (userHasKeyAtOrBelow) {
       if (userBp !== undefined) merged[bp] = userBp;
     } else {
       merged[bp] = { ...fallbackBp, ...userBp };
