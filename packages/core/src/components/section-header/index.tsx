@@ -3,13 +3,14 @@ import { Box, type DefaultComponentPropsInternal } from '@montage-ui/engine';
 
 import { FlexBox } from '../flex-box';
 import { WithInteraction } from '../with-interaction';
-import { IconButtonProvider } from '../icon-button/contexts';
+import { SlotDefaultsProvider } from '../../hooks/internal/use-slot-defaults';
 
 import {
   sectionHeaderNavigationButtonStyle,
   sectionHeaderNavigationStyle,
   sectionHeaderStyle,
 } from './style';
+import { SECTION_HEADER_SLOT_DEFAULTS } from './constants';
 
 import type { ElementType, ForwardedRef } from 'react';
 import type {
@@ -70,13 +71,9 @@ const SectionHeader = forwardRef<
               gap="10px"
               alignItems="center"
             >
-              <IconButtonProvider
-                normal={{
-                  color: 'semantic.foreground.neutral.quaternary',
-                }}
-              >
+              <SlotDefaultsProvider value={SECTION_HEADER_SLOT_DEFAULTS}>
                 {headingContent}
-              </IconButtonProvider>
+              </SlotDefaultsProvider>
             </FlexBox>
           )}
         </FlexBox>
@@ -88,13 +85,9 @@ const SectionHeader = forwardRef<
             alignItems="center"
             alignSelf="end"
           >
-            <IconButtonProvider
-              normal={{
-                color: 'semantic.foreground.neutral.quaternary',
-              }}
-            >
+            <SlotDefaultsProvider value={SECTION_HEADER_SLOT_DEFAULTS}>
               {trailingContent}
-            </IconButtonProvider>
+            </SlotDefaultsProvider>
           </FlexBox>
         )}
       </FlexBox>

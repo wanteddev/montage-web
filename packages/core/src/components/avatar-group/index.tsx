@@ -4,8 +4,10 @@ import { FlexBox } from '../flex-box';
 import { Typography } from '../typography';
 import { TextButtonProvider } from '../text-button/contexts';
 import { typographyStyle } from '../../utils';
+import { SlotDefaultsProvider } from '../../hooks/internal/use-slot-defaults';
 
 import { avatarGroupStyle } from './style';
+import { AVATAR_GROUP_CONTENT_SLOT_DEFAULTS } from './constants';
 
 import type { DefaultComponentPropsInternal } from '@montage-ui/engine';
 import type { AvatarGroupContentProps, AvatarGroupProps } from './types';
@@ -71,7 +73,11 @@ const AvatarGroupContent = forwardRef<
           ]}
         >
           <TextButtonProvider assistive="semantic.foreground.neutral.secondary">
-            {children}
+            <SlotDefaultsProvider
+              value={AVATAR_GROUP_CONTENT_SLOT_DEFAULTS[variant]}
+            >
+              {children}
+            </SlotDefaultsProvider>
           </TextButtonProvider>
         </FlexBox>
       );

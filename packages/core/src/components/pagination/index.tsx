@@ -149,7 +149,8 @@ const Pagination = forwardRef<
             {!hidePrevButton && (
               <IconButton
                 type="button"
-                size={variant === 'compact' ? 24 : 16}
+                size={variant === 'compact' ? 'xlarge' : 'small'}
+                interactionOverflow
                 color="semantic.foreground.neutral.tertiary"
                 disabled={disabled || disabledPrevButton}
                 data-role="pagination-prev-button"
@@ -193,7 +194,8 @@ const Pagination = forwardRef<
             {!hideNextButton && (
               <IconButton
                 type="button"
-                size={variant === 'compact' ? 24 : 16}
+                size={variant === 'compact' ? 'xlarge' : 'small'}
+                interactionOverflow
                 color="semantic.foreground.neutral.tertiary"
                 disabled={disabled || disabledNextButton}
                 data-role="pagination-next-button"

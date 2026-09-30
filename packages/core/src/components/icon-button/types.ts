@@ -28,15 +28,15 @@ export type IconButtonDefaultProps = WithSxProps<{
   /** The color of the icon. */
   color?: ThemeColorsToken;
   /**
-   * The interaction effect shown on hover / press. Defaults to `normal`.
-   * - `normal`: Overlays the interaction layer filled with `interactionColor`.
-   * - `dim`: Hides the interaction layer and instead switches the icon color to `interactionColor` with reduced opacity. Only applies to the `normal` variant; other variants behave like `normal`.
+   * The interaction effect shown on hover / press. Defaults to `highlight`.
+   * - `highlight`: Overlays the interaction layer filled with `interactionColor`.
+   * - `dim`: Hides the interaction layer and instead switches the icon color to `interactionColor` with reduced opacity. Only applies to the `normal` variant; other variants behave like `highlight`.
    * - `none`: Disables the interaction effect.
    */
-  interactionEffect?: 'normal' | 'dim' | 'none';
+  interactionEffect?: 'highlight' | 'dim' | 'none';
   /**
    * The color used for the hover / press feedback. Defaults to `semantic.foreground.neutral.primary`.
-   * - `normal` effect: Fills the interaction layer that fades in.
+   * - `highlight` effect: Fills the interaction layer that fades in.
    * - `dim` effect: Applied to the icon itself (with reduced opacity).
    * Ignored when `interactionEffect` is `none`.
    */

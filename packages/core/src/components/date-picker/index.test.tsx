@@ -5,7 +5,7 @@ import {
   screen,
   waitFor,
 } from '@testing-library/react';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { axe } from 'vitest-axe';
 
 import {
@@ -175,4 +175,26 @@ describe('when given date picker component', () => {
 
     expect(input).toHaveValue('2050.12.01');
   });
+});
+
+describe('when given date picker calendar button', () => {
+  afterEach(() => {
+    cleanup();
+  });
+
+  // interactionOverflow: the layout is the icon (large 20, medium 18).
+  it.each([
+    ['large', '20px'],
+    ['medium', '18px'],
+  ] as const)(
+    'should size the calendar button by the %s field',
+    (size, width) => {
+      render(<DatePicker size={size} />);
+
+      expect(
+        window.getComputedStyle(screen.getByLabelText('Toggle date picker'))
+          .width,
+      ).toBe(width);
+    },
+  );
 });
