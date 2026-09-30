@@ -11,7 +11,6 @@ import { Typography } from '../typography';
 import { IconButton } from '../icon-button';
 import { TextButton } from '../text-button';
 import { TextButtonProvider } from '../text-button/contexts';
-import { IconButtonProvider } from '../icon-button/contexts';
 
 import {
   topNavigationButtonTextStyle,
@@ -186,22 +185,17 @@ const TopNavigationButton = forwardRef(
   ) => {
     if (variant === 'icon') {
       return (
-        <IconButtonProvider
-          normal={{
-            interactionEffect: 'dim',
-          }}
+        <IconButton
+          variant="normal"
+          interactionEffect="dim"
+          size={24}
+          interactionOverflow
+          {...props}
+          data-component="top-navigation-button"
+          ref={ref}
         >
-          <IconButton
-            variant="normal"
-            size={24}
-            interactionOverflow
-            {...props}
-            data-component="top-navigation-button"
-            ref={ref}
-          >
-            {children}
-          </IconButton>
-        </IconButtonProvider>
+          {children}
+        </IconButton>
       );
     }
 

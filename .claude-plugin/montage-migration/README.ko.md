@@ -44,7 +44,8 @@ Montage(Wanted Design System for Web) 메이저 버전 간 마이그레이션을
    `fillWidth`, selected 기본 체크 아이콘, 타이포·DOM 변경), ThemeProvider 쿠키 저장소 전환,
    IconButton `disableInteraction` → `interactionEffect` 전환(TopNavigation 아이콘 버튼은
    인터랙션 레이어 대신 아이콘이 어두워지는 방식으로 변경), 단독 아이콘 버튼의
-   `interactionOverflow` 적용(컴포넌트 슬롯 안은 제외, TabList / CategoryList `iconButton` 은 적용).
+   `interactionOverflow` 적용(TabList / CategoryList `iconButton` 을 포함한 컴포넌트 슬롯 안에서
+   슬롯이 값을 적용하는 variant 의 아이콘 버튼은 3.x 의 `size` / `interactionOverflow` 를 제거).
 4. **최종 검증** — 잔여 패턴 grep, install/typecheck/lint/build/tests, 결과 요약.
 
 codemod는 순서에 민감하고 두 번 실행하면 안 됩니다(`form-control-migration` 재실행 시

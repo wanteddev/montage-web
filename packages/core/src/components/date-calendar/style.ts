@@ -37,6 +37,7 @@ export const dateCalendarHeaderLabelButtonStyle = (theme: Theme) => css`
   color: ${theme.semantic.foreground.neutral.primary};
   padding-top: 0px;
   padding-bottom: 0px;
+  min-height: initial;
 
   & > [data-component='with-interaction'] {
     height: calc(100% + 8px);

@@ -239,17 +239,23 @@ export const mapResponsiveProps = <T extends object, K extends keyof T, R>(
  * Merges fallback responsive props into user responsive props for a specific key,
  * respecting the cascade nature of responsive breakpoints.
  *
- * For each breakpoint B in `fallback` that carries `key`:
- * - If any breakpoint at B or higher in `user` already specifies `key`, the
- *   fallback at B is dropped — keeping it would cause the lower-breakpoint
- *   fallback to cascade up and conflict with the user's explicit override.
- * - Otherwise the fallback value is merged in (user props take precedence on
+ * A user value at breakpoint U applies from U upward (min-width cascade), so
+ * for each breakpoint B in `fallback` that carries `key`:
+ * - If any breakpoint at B or lower in `user` already specifies `key`, the
+ *   fallback at B is dropped — keeping it would override the user's value
+ *   cascading up from below.
+ * - Otherwise the fallback value is merged in, so breakpoints below the user's
+ *   lowest override still follow the fallback (user props take precedence on
  *   any direct conflict within the same breakpoint).
  *
  * @example
  * // FormControl: sm={ size: 'medium' }  /  TextField: md={ size: 'large' }
  * mergeResponsiveProps({ md: { size: 'large' } }, { sm: { size: 'medium' } }, 'size');
- * // → { md: { size: 'large' } }  (sm fallback dropped — md user overrides it)
+ * // → { sm: { size: 'medium' }, md: { size: 'large' } }  (sm..md follows FormControl, md+ user)
+ *
+ * // FormControl: sm={ size: 'medium' }  /  TextField: xs={ size: 'large' }
+ * mergeResponsiveProps({ xs: { size: 'large' } }, { sm: { size: 'medium' } }, 'size');
+ * // → { xs: { size: 'large' } }  (sm fallback dropped — xs user cascades up over it)
  *
  * // FormControl: sm={ size: 'medium' }  /  TextField: xs={ width: '100%' }
  * mergeResponsiveProps({ xs: { width: '100%' } }, { sm: { size: 'medium' } }, 'size');
@@ -273,13 +279,11 @@ export const mergeResponsiveProps = <T extends object, K extends keyof T>(
       continue;
     }
 
-    const userHasKeyAtOrAbove = order
-      .slice(i)
-      .some(
-        (higherBp) => (user[higherBp] as T | undefined)?.[key] !== undefined,
-      );
+    const userHasKeyAtOrBelow = order
+      .slice(0, i + 1)
+      .some((lowerBp) => (user[lowerBp] as T | undefined)?.[key] !== undefined);
 
-    if (userHasKeyAtOrAbove) {
+    if (userHasKeyAtOrBelow) {
       if (userBp !== undefined) merged[bp] = userBp;
     } else {
       merged[bp] = { ...fallbackBp, ...userBp };
@@ -287,4 +291,37 @@ export const mergeResponsiveProps = <T extends object, K extends keyof T>(
   }
 
   return merged as ResponsiveProps<T>;
+};
+
+/**
+ * Resolves a responsive value that a component can inherit from an ancestor
+ * (e.g. TextField `size` → ContentBadge `size`).
+ *
+ * - When `own.base` is set, the value is owned by the user: the inherited base
+ *   and responsive values are ignored entirely.
+ * - Otherwise the inherited base is used, and the inherited responsive values
+ *   are merged into the user's responsive values via `mergeResponsiveProps`.
+ *
+ * @example
+ * // TextField: size="large" md={{ size: 'medium' }}  /  ContentBadge: size="medium"
+ * resolveInheritedResponsive(
+ *   { base: 'medium', responsive: {} },
+ *   { base: 'small', responsive: { md: { size: 'xsmall' } } },
+ *   'size',
+ * );
+ * // → { base: 'medium', responsive: {} }  (user base wins at every breakpoint)
+ */
+export const resolveInheritedResponsive = <T extends object, K extends keyof T>(
+  own: { base: T[K] | undefined; responsive: ResponsiveProps<T> },
+  inherited:
+    | { base?: T[K]; responsive?: ResponsiveProps<Pick<T, K>> }
+    | undefined,
+  key: K,
+): { base: T[K] | undefined; responsive: ResponsiveProps<T> } => {
+  if (own.base !== undefined || !inherited) return own;
+
+  return {
+    base: inherited.base,
+    responsive: mergeResponsiveProps(own.responsive, inherited.responsive, key),
+  };
 };

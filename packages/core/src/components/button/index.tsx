@@ -4,6 +4,7 @@ import { composeEventHandlers } from '@radix-ui/primitive';
 
 import { WithInteraction } from '../with-interaction';
 import { Loading } from '../loading';
+import { useInheritedSize } from '../../hooks/internal/use-slot-defaults';
 
 import { buttonStyle } from './style';
 
@@ -27,7 +28,7 @@ const Button = forwardRef(
       iconOnly,
       leadingContent,
       trailingContent,
-      size = 'medium',
+      size: originSize,
       disableLoadingPreventEvents,
       children,
       xs,
@@ -39,6 +40,13 @@ const Button = forwardRef(
     }: PolymorphicPropsInternal<ButtonProps, T>,
     ref: ForwardedRef<T>,
   ) => {
+    const { size: inheritedSize, responsive } = useInheritedSize(
+      'Button',
+      originSize,
+      { xs, sm, md, lg, xl },
+    );
+    const size = inheritedSize ?? 'medium';
+
     const id = useId();
 
     const isUnsupportedNegativeOutlined =
@@ -110,11 +118,7 @@ const Button = forwardRef(
               size,
               fullWidth,
               color: resolvedColor,
-              xs,
-              sm,
-              md,
-              lg,
-              xl,
+              ...responsive,
             } as ButtonProps),
             props.sx,
           ]}

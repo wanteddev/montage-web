@@ -1,6 +1,8 @@
 import { forwardRef } from 'react';
 import { Box } from '@montage-ui/engine';
 
+import { useInheritedSize } from '../../hooks/internal/use-slot-defaults';
+
 import { contentBadgeStyle } from './style';
 
 import type { DefaultComponentPropsInternal } from '@montage-ui/engine';
@@ -13,7 +15,7 @@ const ContentBadge = forwardRef<
   (
     {
       variant = 'solid',
-      size = 'xsmall',
+      size: originSize,
       color = 'accent',
       accentColor = 'semantic.foreground.accent.cyan',
       neutralColor = 'semantic.foreground.neutral.tertiary',
@@ -29,6 +31,13 @@ const ContentBadge = forwardRef<
     },
     ref,
   ) => {
+    const { size: inheritedSize, responsive } = useInheritedSize(
+      'ContentBadge',
+      originSize,
+      { xs, sm, md, lg, xl },
+    );
+    const size = inheritedSize ?? 'xsmall';
+
     return (
       <Box
         as="span"
@@ -41,11 +50,7 @@ const ContentBadge = forwardRef<
             color,
             accentColor,
             neutralColor,
-            xs,
-            sm,
-            md,
-            lg,
-            xl,
+            ...responsive,
           }),
           props.sx,
         ]}

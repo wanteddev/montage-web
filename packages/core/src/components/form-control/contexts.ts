@@ -23,3 +23,17 @@ export type FormControlLayoutContextType = {
 
 export const [FormControlLayoutProvider, useFormControlLayoutContext] =
   createLooseContext<FormControlLayoutContextType>('AnyComponent');
+
+export type FormFieldLayoutContextType = {
+  /** Resolved base size of the form field (TextField, TextArea, ...). */
+  size?: FormControlProps['size'];
+  /** Resolved per-breakpoint sizes of the form field. */
+  responsive?: ResponsiveProps<Pick<FormControlProps, 'size'>>;
+};
+
+/**
+ * Shares a form field's resolved size with its content slots
+ * (TextFieldContent, TextAreaContent, ...).
+ */
+export const [FormFieldLayoutProvider, useFormFieldLayoutContext] =
+  createLooseContext<FormFieldLayoutContextType>('AnyComponent');

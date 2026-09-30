@@ -6,11 +6,18 @@ import { composeEventHandlers } from '@radix-ui/primitive';
 import { FlexBox } from '../flex-box';
 import { ScrollArea } from '../scroll-area';
 import useResizeObserver from '../../hooks/internal/use-resize-observer';
-import { IconButtonProvider } from '../icon-button/contexts';
-import { useFormControlLayoutContext } from '../form-control/contexts';
-import { mergeResponsiveProps } from '../../utils/internal/responsive-props';
+import { FormFieldLayoutProvider } from '../form-control/contexts';
+import {
+  useFormFieldSize,
+  useFormFieldSlotDefaults,
+} from '../form-control/hooks';
+import {
+  SlotDefaultsProvider,
+  mergeSlotDefaults,
+} from '../../hooks/internal/use-slot-defaults';
 
 import { getTextAreaDefaultHeight } from './helpers';
+import { TEXT_AREA_SLOT_DEFAULTS, TEXT_AREA_SLOT_SIZE } from './constants';
 import {
   textAreaBottomAreaStyle,
   textAreaContentStyle,
@@ -47,18 +54,10 @@ const TextArea = forwardRef<
     },
     ref,
   ) => {
-    const { size: formControlSize, responsive } =
-      useFormControlLayoutContext() || {};
-
-    const resolvedSize = size ?? formControlSize ?? 'large';
-
-    const {
-      xs: resolvedXs,
-      sm: resolvedSm,
-      md: resolvedMd,
-      lg: resolvedLg,
-      xl: resolvedXl,
-    } = mergeResponsiveProps({ xs, sm, md, lg, xl }, responsive, 'size');
+    const { size: resolvedSize, ...resolvedResponsive } = useFormFieldSize(
+      size,
+      { xs, sm, md, lg, xl },
+    );
 
     const parentRef = useRef<HTMLDivElement>(null);
 
@@ -192,11 +191,7 @@ const TextArea = forwardRef<
             status,
             disabled,
             size: resolvedSize,
-            xs: resolvedXs,
-            sm: resolvedSm,
-            md: resolvedMd,
-            lg: resolvedLg,
-            xl: resolvedXl,
+            ...resolvedResponsive,
             ...props,
           }),
           sx,
@@ -210,11 +205,7 @@ const TextArea = forwardRef<
             disabled={disabled}
             sx={textAreaStyle({
               size: resolvedSize,
-              xs: resolvedXs,
-              sm: resolvedSm,
-              md: resolvedMd,
-              lg: resolvedLg,
-              xl: resolvedXl,
+              ...resolvedResponsive,
               ...props,
             })}
             aria-invalid={status === 'negative' || undefined}
@@ -243,28 +234,33 @@ const TextArea = forwardRef<
         </ScrollArea>
 
         {(Boolean(leadingContent) || Boolean(trailingContent)) && (
-          <FlexBox
-            data-role="text-area-bottom-area"
-            sx={textAreaBottomAreaStyle}
-            alignItems="flex-end"
-            justifyContent="flex-end"
+          <FormFieldLayoutProvider
+            size={resolvedSize}
+            responsive={resolvedResponsive}
           >
             <FlexBox
-              alignItems="center"
-              data-role="text-area-bottom-area-leading-content"
-              flex="1 0 0"
-            >
-              {leadingContent}
-            </FlexBox>
-
-            <FlexBox
-              alignItems="center"
+              data-role="text-area-bottom-area"
+              sx={textAreaBottomAreaStyle}
+              alignItems="flex-end"
               justifyContent="flex-end"
-              data-role="text-area-bottom-area-trailing-content"
             >
-              {trailingContent}
+              <FlexBox
+                alignItems="center"
+                data-role="text-area-bottom-area-leading-content"
+                flex="1 0 0"
+              >
+                {leadingContent}
+              </FlexBox>
+
+              <FlexBox
+                alignItems="center"
+                justifyContent="flex-end"
+                data-role="text-area-bottom-area-trailing-content"
+              >
+                {trailingContent}
+              </FlexBox>
             </FlexBox>
-          </FlexBox>
+          </FormFieldLayoutProvider>
         )}
       </FlexBox>
     );
@@ -277,6 +273,11 @@ const TextAreaContent = forwardRef<
   HTMLDivElement,
   DefaultComponentPropsInternal<TextAreaContentProps, 'div'>
 >(({ variant = 'icon-button', children, sx, ...props }, ref) => {
+  const slotDefaults = mergeSlotDefaults(
+    TEXT_AREA_SLOT_DEFAULTS[variant],
+    useFormFieldSlotDefaults(TEXT_AREA_SLOT_SIZE[variant]),
+  );
+
   switch (variant) {
     case 'content-badge':
       return (
@@ -286,7 +287,9 @@ const TextAreaContent = forwardRef<
           sx={[textAreaContentStyle, sx]}
           {...props}
         >
-          {children}
+          <SlotDefaultsProvider value={slotDefaults}>
+            {children}
+          </SlotDefaultsProvider>
         </FlexBox>
       );
     case 'button':
@@ -299,7 +302,9 @@ const TextAreaContent = forwardRef<
           sx={[textAreaContentStyle, sx]}
           {...props}
         >
-          {children}
+          <SlotDefaultsProvider value={slotDefaults}>
+            {children}
+          </SlotDefaultsProvider>
         </FlexBox>
       );
     case 'icon':
@@ -326,11 +331,9 @@ const TextAreaContent = forwardRef<
           ]}
           {...props}
         >
-          <IconButtonProvider
-            normal={{ color: 'semantic.foreground.neutral.tertiary' }}
-          >
+          <SlotDefaultsProvider value={slotDefaults}>
             {children}
-          </IconButtonProvider>
+          </SlotDefaultsProvider>
         </FlexBox>
       );
     case 'primary-icon-button':
@@ -341,7 +344,9 @@ const TextAreaContent = forwardRef<
           sx={[textAreaContentStyle, sx]}
           {...props}
         >
-          {children}
+          <SlotDefaultsProvider value={slotDefaults}>
+            {children}
+          </SlotDefaultsProvider>
         </FlexBox>
       );
     case 'segmented-control':
@@ -354,7 +359,9 @@ const TextAreaContent = forwardRef<
           sx={[textAreaContentStyle, sx]}
           {...props}
         >
-          {children}
+          <SlotDefaultsProvider value={slotDefaults}>
+            {children}
+          </SlotDefaultsProvider>
         </FlexBox>
       );
   }

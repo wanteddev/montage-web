@@ -222,3 +222,20 @@ describe('when given date calendar component', () => {
     expect(await axe(screen.getByRole('radiogroup'))).toHaveNoViolations();
   });
 });
+
+describe('when given DateCalendar navigation buttons', () => {
+  afterEach(() => {
+    cleanup();
+  });
+
+  // medium + interactionOverflow: the layout is the 18px icon.
+  it('should render them at medium size with interactionOverflow', () => {
+    render(<DateCalendar />);
+
+    for (const label of ['Previous month', 'Next month']) {
+      expect(
+        window.getComputedStyle(screen.getAllByLabelText(label)[0]!).width,
+      ).toBe('18px');
+    }
+  });
+});

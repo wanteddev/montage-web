@@ -22,6 +22,7 @@ import { FlexBox } from '../flex-box';
 import { Typography } from '../typography';
 import { usePopoverContext } from '../popover/contexts';
 import { createScope } from '../../hooks/internal/use-scope-context';
+import { SlotDefaultsProvider } from '../../hooks/internal/use-slot-defaults';
 import {
   isElementDisabled,
   scrollIntoViewIfNeeded,
@@ -29,6 +30,7 @@ import {
 
 import {
   MENU_ACTION_AREA_CONTENT_NAME,
+  MENU_ACTION_AREA_CONTENT_SLOT_DEFAULTS,
   MENU_ACTION_AREA_NAME,
   MENU_CONTENT_NAME,
   MENU_GROUP_NAME,
@@ -512,7 +514,11 @@ const MenuActionAreaContent = forwardRef<
           {...props}
           sx={[menuActionAreaContentStyle(variant), sx]}
         >
-          {children}
+          <SlotDefaultsProvider
+            value={MENU_ACTION_AREA_CONTENT_SLOT_DEFAULTS[variant]}
+          >
+            {children}
+          </SlotDefaultsProvider>
         </FlexBox>
       );
 

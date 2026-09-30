@@ -34,7 +34,13 @@ import {
   ListCellExtraContent,
   ListCellLabelTrailing,
 } from '../list';
-import { IconButtonProvider } from '../icon-button/contexts';
+import { FORM_FIELD_ICON_BUTTON_SLOT_SIZE } from '../form-control/constants';
+import { FormFieldLayoutProvider } from '../form-control/contexts';
+import {
+  useFormFieldSize,
+  useFormFieldSlotDefaults,
+} from '../form-control/hooks';
+import { SlotDefaultsProvider } from '../../hooks/internal/use-slot-defaults';
 import { ellipsisTypographyStyle } from '../../utils';
 import { Chip } from '../chip';
 
@@ -89,7 +95,7 @@ const Select = forwardRef<
       defaultOpen,
       open: openProp,
       onOpenChange,
-      size = 'large',
+      size,
       width,
       height,
       status = 'normal',
@@ -111,6 +117,11 @@ const Select = forwardRef<
     },
     forwardedRef,
   ) => {
+    const { size: resolvedSize, ...resolvedResponsive } = useFormFieldSize(
+      size,
+      { xs, sm, md, lg, xl },
+    );
+
     const [node, setNode] = useState<HTMLDivElement | null>(null);
 
     const { width: contentWidth } = useSize(node) || {};
@@ -228,23 +239,26 @@ const Select = forwardRef<
               })}
               sx={[
                 selectStyle({
-                  size,
+                  size: resolvedSize,
                   disabled,
                   status,
                   width,
                   height,
-                  xs,
-                  sm,
-                  md,
-                  lg,
-                  xl,
+                  ...resolvedResponsive,
                   ...props,
                 }),
                 props.sx,
               ]}
             >
               <FlexBox flex="1" gap="2px" data-role="select-wrapper">
-                {Boolean(leadingContent) && leadingContent}
+                {Boolean(leadingContent) && (
+                  <FormFieldLayoutProvider
+                    size={resolvedSize}
+                    responsive={resolvedResponsive}
+                  >
+                    {leadingContent}
+                  </FormFieldLayoutProvider>
+                )}
 
                 {shouldShowPlaceholder && (
                   <Typography
@@ -319,6 +333,10 @@ const SelectContent = forwardRef<
   HTMLDivElement,
   DefaultComponentPropsInternal<SelectContentProps, 'div'>
 >(({ variant = 'icon', children, sx, color, ...props }, ref) => {
+  const slotDefaults = useFormFieldSlotDefaults(
+    variant === 'icon-button' ? FORM_FIELD_ICON_BUTTON_SLOT_SIZE : undefined,
+  );
+
   switch (variant) {
     case 'icon':
       return (
@@ -357,11 +375,9 @@ const SelectContent = forwardRef<
           ]}
           {...props}
         >
-          <IconButtonProvider
-            normal={{ color: 'semantic.foreground.neutral.tertiary' }}
-          >
+          <SlotDefaultsProvider value={slotDefaults}>
             {children}
-          </IconButtonProvider>
+          </SlotDefaultsProvider>
         </FlexBox>
       );
     case 'custom':

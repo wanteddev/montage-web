@@ -141,9 +141,9 @@ export default Demo;`}
 
 해당 옵션을 사용할 때에는 `TextAreaContent` 로 감싸서 사용합니다.
 
-`size` 에 따라 사용법이 일부 다릅니다.
-- IconButton의 size
-- Button의 size
+`icon-button` 의 IconButton 은 size 를 지정하지 않으면 TextArea size(반응형 포함)에 맞는 `size` 와 `interactionOverflow` 가 자동으로 적용됩니다. IconButton 에 직접 지정하면 지정한 값이 우선합니다.
+
+`primary-icon-button` 의 Button 은 size 를 지정하지 않으면 TextArea size(반응형 포함)에 맞는 size 가 자동으로 적용됩니다. Button 에 `size` 를 직접 지정하면 모든 breakpoint 에서 지정한 값이 우선합니다.
 
 ### Medium
 
@@ -155,6 +155,7 @@ const Demo = () => {
     <FlexBox gap="12px" flexDirection="column" alignItems="center" sx={{ width: '100%' }}>
       <TextArea
         width="25ch"
+        size="medium"
         placeholder="Icon"
         leadingContent={(
           <TextAreaContent variant="icon">
@@ -169,6 +170,7 @@ const Demo = () => {
       />
       <TextArea
         width="25ch"
+        size="medium"
         placeholder="Primary icon button"
         leadingContent={(
           <TextAreaContent variant="primary-icon-button">
@@ -176,7 +178,6 @@ const Demo = () => {
               variant="solid"
               color="primary"
               iconOnly
-              size="xsmall"
             >
               <IconBlank />
             </Button>
@@ -188,7 +189,6 @@ const Demo = () => {
               variant="solid"
               color="primary"
               iconOnly
-              size="xsmall"
             >
               <IconBlank />
             </Button>
@@ -197,17 +197,18 @@ const Demo = () => {
       />
       <TextArea
         width="25ch"
+        size="medium"
         placeholder="Content badge"
         leadingContent={(
           <TextAreaContent variant="content-badge">
-            <ContentBadge size="small" color="neutral">
+            <ContentBadge color="neutral">
               Badge
             </ContentBadge>
           </TextAreaContent>
         )}
         trailingContent={(
           <TextAreaContent variant="content-badge">
-            <ContentBadge size="small" color="neutral">
+            <ContentBadge color="neutral">
               Badge
             </ContentBadge>
           </TextAreaContent>
@@ -215,17 +216,18 @@ const Demo = () => {
       />
       <TextArea
         width="25ch"
+        size="medium"
         placeholder="Icon button"
         leadingContent={(
           <TextAreaContent variant="icon-button">
-            <IconButton variant="normal" size={28}>
+            <IconButton variant="normal">
               <IconCopy />
             </IconButton>
           </TextAreaContent>
         )}
         trailingContent={(
           <TextAreaContent variant="icon-button">
-            <IconButton variant="normal" size={28}>
+            <IconButton variant="normal">
               <IconSendFill />
             </IconButton>
           </TextAreaContent>
@@ -233,10 +235,11 @@ const Demo = () => {
       />
       <TextArea
         width="25ch"
+        size="medium"
         placeholder="Segmented control"
         leadingContent={(
           <TextAreaContent variant="segmented-control">
-            <SegmentedControl size="small" iconOnly defaultValue="1">
+            <SegmentedControl iconOnly defaultValue="1">
               <SegmentedControlItem value="1" aria-label="Item 1">
                 <IconBlank />
               </SegmentedControlItem>
@@ -248,7 +251,7 @@ const Demo = () => {
         )}
         trailingContent={(
           <TextAreaContent variant="segmented-control">
-            <SegmentedControl size="small" iconOnly defaultValue="1">
+            <SegmentedControl iconOnly defaultValue="1">
               <SegmentedControlItem value="1" aria-label="Item 1">
                 <IconBlank />
               </SegmentedControlItem>
@@ -297,7 +300,6 @@ const Demo = () => {
               variant="solid"
               color="primary"
               iconOnly
-              size="small"
             >
               <IconBlank />
             </Button>
@@ -309,7 +311,6 @@ const Demo = () => {
               variant="solid"
               color="primary"
               iconOnly
-              size="small"
             >
               <IconBlank />
             </Button>
@@ -321,14 +322,14 @@ const Demo = () => {
         placeholder="Content badge"
         leadingContent={(
           <TextAreaContent variant="content-badge">
-            <ContentBadge size="small" color="neutral">
+            <ContentBadge color="neutral">
               Badge
             </ContentBadge>
           </TextAreaContent>
         )}
         trailingContent={(
           <TextAreaContent variant="content-badge">
-            <ContentBadge size="small" color="neutral">
+            <ContentBadge color="neutral">
               Badge
             </ContentBadge>
           </TextAreaContent>
@@ -339,14 +340,14 @@ const Demo = () => {
         placeholder="Icon button"
         leadingContent={(
           <TextAreaContent variant="icon-button">
-            <IconButton variant="normal" size={32}>
+            <IconButton variant="normal">
               <IconCopy />
             </IconButton>
           </TextAreaContent>
         )}
         trailingContent={(
           <TextAreaContent variant="icon-button">
-            <IconButton variant="normal" size={32}>
+            <IconButton variant="normal">
               <IconSendFill />
             </IconButton>
           </TextAreaContent>
@@ -357,7 +358,7 @@ const Demo = () => {
         placeholder="Segmented control"
         leadingContent={(
           <TextAreaContent variant="segmented-control">
-            <SegmentedControl size="small" iconOnly defaultValue="1">
+            <SegmentedControl iconOnly defaultValue="1">
               <SegmentedControlItem value="1" aria-label="Item 1">
                 <IconBlank />
               </SegmentedControlItem>
@@ -369,7 +370,7 @@ const Demo = () => {
         )}
         trailingContent={(
           <TextAreaContent variant="segmented-control">
-            <SegmentedControl size="small" iconOnly defaultValue="1">
+            <SegmentedControl iconOnly defaultValue="1">
               <SegmentedControlItem value="1" aria-label="Item 1">
                 <IconBlank />
               </SegmentedControlItem>
