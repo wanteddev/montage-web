@@ -19,8 +19,13 @@ import { IconCheck, IconClose } from '@montage-ui/icon';
 
 const Example = () => (
   <>
-    <IconCheck size={24} />
-    <IconClose size={24} />
+    <IconCheck sx={{ fontSize: 24 }} />
+    <IconClose
+      sx={(theme) => ({
+        fontSize: 24,
+        color: theme.semantic.foreground.primary,
+      })}
+    />
   </>
 );
 ```
