@@ -215,3 +215,28 @@ describe('when given icon buttons inside text area content', () => {
     expect(widthOf('Send')).toBe('var(--dimension-32)');
   });
 });
+
+describe('when given icon button inside text area icon content', () => {
+  afterEach(() => {
+    cleanup();
+  });
+
+  it('should apply the same defaults as icon-button content', () => {
+    render(
+      <TextArea
+        size="medium"
+        leadingContent={
+          <TextAreaContent variant="icon">
+            <IconButton aria-label="Leading">
+              <svg />
+            </IconButton>
+          </TextAreaContent>
+        }
+      />,
+    );
+
+    expect(
+      window.getComputedStyle(screen.getByLabelText('Leading')).width,
+    ).toBe('18px');
+  });
+});
