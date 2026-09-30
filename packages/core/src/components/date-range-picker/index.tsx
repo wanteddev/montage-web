@@ -13,10 +13,8 @@ import { DismissableLayer } from '../dismissable-layer';
 import { FocusScope } from '../focus-scope';
 import { FlexBox } from '../flex-box';
 import { extendDayjs } from '../../utils/internal/date';
-import {
-  mapResponsiveProps,
-  splitResponsiveBreakpoints,
-} from '../../utils/internal/responsive-props';
+import { splitResponsiveBreakpoints } from '../../utils/internal/responsive-props';
+import { FormFieldLayoutProvider } from '../form-control/contexts';
 import { useFormFieldSize } from '../form-control/hooks';
 import { DEFAULT_RANGE_VALUE } from '../date-range-calendar/constants';
 import { PickerActionAreaProvider } from '../picker-action-area/contexts';
@@ -188,76 +186,67 @@ const DateRangePicker = forwardRef<
 
     return (
       <Popper>
-        <PopperAnchor
-          ref={composedRefs}
-          onChange={() => {}}
-          aria-haspopup="dialog"
-          aria-expanded={open}
-          data-role="date-range-picker-field"
-          role="combobox"
-          {...props}
-          {...({
-            ...responsiveRest,
-            type: 'text',
-            autoComplete: 'off',
-            readOnly,
-            disabled,
-            placeholder: resolvedPlaceholder,
-            inputMode: focusedSection?.type,
-            onFocus: composeEventHandlers(props.onFocus, handleFocus),
-            onClick: composeEventHandlers(props.onClick, handleClick),
-            onKeyDown: composeEventHandlers(props.onKeyDown, handleKeyDown),
-            onBlur: composeEventHandlers(props.onBlur, handleBlur),
-            onPaste: composeEventHandlers(props.onPaste, handlePaste),
-            value: inputValue,
-            inputRef: composedInputRef,
-            ...(isCustomInput
-              ? {}
-              : {
-                  status,
-                  size: resolvedSize,
-                  ...resolvedResponsive,
-                }),
-            trailingContent: (
-              <>
-                {props.trailingContent}
-                <TextFieldContent
-                  data-role="date-range-picker-calendar-icon"
-                  variant="icon-button"
-                >
-                  <IconButton
-                    aria-label="Toggle date range picker"
-                    disabled={disabled || readOnly}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleInputValueChange();
-                      setOpen((prev) => !prev);
-                    }}
-                    size={resolvedSize === 'medium' ? 28 : 32}
-                    {...mapResponsiveProps(
-                      {
-                        ...resolvedResponsive,
-                      },
-                      'size',
-                      (s) => {
-                        switch (s) {
-                          case 'large':
-                            return 32;
-                          case 'medium':
-                            return 28;
-                        }
-                      },
-                    )}
-                  >
-                    <IconCalendar />
-                  </IconButton>
-                </TextFieldContent>
-              </>
-            ),
-          } as unknown as SlotProps)}
+        {/* Keeps the calendar IconButton sized to the field even with a custom `input`. */}
+        <FormFieldLayoutProvider
+          size={resolvedSize}
+          responsive={resolvedResponsive}
         >
-          <Component />
-        </PopperAnchor>
+          <PopperAnchor
+            ref={composedRefs}
+            onChange={() => {}}
+            aria-haspopup="dialog"
+            aria-expanded={open}
+            data-role="date-range-picker-field"
+            role="combobox"
+            {...props}
+            {...({
+              ...responsiveRest,
+              type: 'text',
+              autoComplete: 'off',
+              readOnly,
+              disabled,
+              placeholder: resolvedPlaceholder,
+              inputMode: focusedSection?.type,
+              onFocus: composeEventHandlers(props.onFocus, handleFocus),
+              onClick: composeEventHandlers(props.onClick, handleClick),
+              onKeyDown: composeEventHandlers(props.onKeyDown, handleKeyDown),
+              onBlur: composeEventHandlers(props.onBlur, handleBlur),
+              onPaste: composeEventHandlers(props.onPaste, handlePaste),
+              value: inputValue,
+              inputRef: composedInputRef,
+              ...(isCustomInput
+                ? {}
+                : {
+                    status,
+                    size: resolvedSize,
+                    ...resolvedResponsive,
+                  }),
+              trailingContent: (
+                <>
+                  {props.trailingContent}
+                  <TextFieldContent
+                    data-role="date-range-picker-calendar-icon"
+                    variant="icon-button"
+                  >
+                    <IconButton
+                      aria-label="Toggle date range picker"
+                      disabled={disabled || readOnly}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleInputValueChange();
+                        setOpen((prev) => !prev);
+                      }}
+                    >
+                      <IconCalendar />
+                    </IconButton>
+                  </TextFieldContent>
+                </>
+              ),
+            } as unknown as SlotProps)}
+          >
+            <Component />
+          </PopperAnchor>
+        </FormFieldLayoutProvider>
 
         {open && (
           <PopperContent

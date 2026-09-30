@@ -3,6 +3,7 @@ import { cleanup, render, renderHook, screen } from '@testing-library/react';
 import { Avatar } from '../../components/avatar';
 import { Button } from '../../components/button';
 import { ContentBadge } from '../../components/content-badge';
+import { IconButton } from '../../components/icon-button';
 import {
   SegmentedControl,
   SegmentedControlItem,
@@ -131,7 +132,7 @@ describe('useFormFieldSlotDefaults', () => {
     const { result } = renderHook(
       () =>
         useFormFieldSlotDefaults({
-          ContentBadge: { large: 'small', medium: 'xsmall' },
+          ContentBadge: { size: { large: 'small', medium: 'xsmall' } },
         }),
       {
         wrapper: ({ children }) => (
@@ -153,7 +154,7 @@ describe('useFormFieldSlotDefaults', () => {
   it('returns undefined outside of a form field', () => {
     const { result } = renderHook(() =>
       useFormFieldSlotDefaults({
-        ContentBadge: { large: 'small', medium: 'xsmall' },
+        ContentBadge: { size: { large: 'small', medium: 'xsmall' } },
       }),
     );
 
@@ -231,4 +232,150 @@ describe('registered components', () => {
       expect(classNamesOf(inherited)).not.toEqual(classNamesOf(explicit));
     },
   );
+});
+
+describe('IconButton slot defaults', () => {
+  afterEach(() => {
+    cleanup();
+  });
+
+  const widthOf = (label: string) =>
+    window.getComputedStyle(screen.getByLabelText(label)).width;
+
+  it('should apply defaults of the matching variant only', () => {
+    render(
+      <SlotDefaultsProvider
+        value={{
+          IconButton: {
+            normal: { size: 'medium' },
+            solid: { size: 'small' },
+          },
+        }}
+      >
+        <IconButton aria-label="Normal">
+          <svg />
+        </IconButton>
+        <IconButton variant="solid" aria-label="Solid">
+          <svg />
+        </IconButton>
+        <IconButton variant="outlined" aria-label="Outlined">
+          <svg />
+        </IconButton>
+      </SlotDefaultsProvider>,
+    );
+
+    expect(widthOf('Normal')).toBe('var(--dimension-28)');
+    expect(widthOf('Solid')).toBe('var(--dimension-32)');
+    // outlined has no slot default → its own default (medium = 40)
+    expect(widthOf('Outlined')).toBe('var(--dimension-40)');
+  });
+
+  it('should inherit interactionOverflow unless set on the icon button', () => {
+    render(
+      <SlotDefaultsProvider
+        value={{
+          IconButton: { normal: { size: 'large', interactionOverflow: true } },
+        }}
+      >
+        <IconButton aria-label="Inherited">
+          <svg />
+        </IconButton>
+        <IconButton interactionOverflow={false} aria-label="Own">
+          <svg />
+        </IconButton>
+        <IconButton size="small" aria-label="Own size">
+          <svg />
+        </IconButton>
+      </SlotDefaultsProvider>,
+    );
+
+    expect(widthOf('Inherited')).toBe('20px');
+    expect(widthOf('Own')).toBe('var(--dimension-32)');
+    expect(widthOf('Own size')).toBe('16px');
+  });
+
+  it('should merge nested providers per variant', () => {
+    render(
+      <SlotDefaultsProvider
+        value={{ IconButton: { normal: { size: 'medium' } } }}
+      >
+        <SlotDefaultsProvider
+          value={{ IconButton: { solid: { size: 'small' } } }}
+        >
+          <IconButton aria-label="Normal">
+            <svg />
+          </IconButton>
+        </SlotDefaultsProvider>
+      </SlotDefaultsProvider>,
+    );
+
+    expect(widthOf('Normal')).toBe('var(--dimension-28)');
+  });
+
+  it('should apply color and interactionEffect defaults unless set', () => {
+    render(
+      <SlotDefaultsProvider
+        value={{
+          IconButton: {
+            normal: {
+              color: 'semantic.foreground.neutral.tertiary',
+              interactionEffect: 'none',
+            },
+          },
+        }}
+      >
+        <IconButton aria-label="Inherited">
+          <svg />
+        </IconButton>
+      </SlotDefaultsProvider>,
+    );
+    const inheritedClass = screen.getByLabelText('Inherited').className;
+    cleanup();
+
+    render(
+      <IconButton
+        color="semantic.foreground.neutral.tertiary"
+        interactionEffect="none"
+        aria-label="Explicit"
+      >
+        <svg />
+      </IconButton>,
+    );
+
+    expect(inheritedClass).toBe(screen.getByLabelText('Explicit').className);
+  });
+
+  it('should merge nested entries of the same variant', () => {
+    render(
+      <SlotDefaultsProvider
+        value={{
+          IconButton: {
+            normal: { color: 'semantic.foreground.neutral.tertiary' },
+          },
+        }}
+      >
+        <SlotDefaultsProvider
+          value={{ IconButton: { normal: { size: 'medium' } } }}
+        >
+          <IconButton aria-label="Merged">
+            <svg />
+          </IconButton>
+        </SlotDefaultsProvider>
+      </SlotDefaultsProvider>,
+    );
+    const mergedClass = screen.getByLabelText('Merged').className;
+    cleanup();
+
+    render(
+      <IconButton
+        size="medium"
+        color="semantic.foreground.neutral.tertiary"
+        aria-label="Explicit"
+      >
+        <svg />
+      </IconButton>,
+    );
+
+    expect(mergedClass).toBe(screen.getByLabelText('Explicit').className);
+  });
 });

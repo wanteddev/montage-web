@@ -10,7 +10,8 @@ import {
 } from './contexts';
 
 import type {
-  InheritedSize,
+  IconButtonSlotDefaults,
+  SizedSlotName,
   SlotDefaults,
   SlotDefaultsMap,
 } from '../../hooks/internal/use-slot-defaults';
@@ -62,14 +63,27 @@ export const useFormFieldSize = <T extends { size?: FormFieldSize }>(
 };
 
 /**
- * Per form field size, the size of each component placed in a content slot.
- * @example { ContentBadge: { large: 'small', medium: 'xsmall' } }
+ * A slot default whose `size` is given per form field size; the other values
+ * (e.g. `interactionOverflow`) are applied as-is.
+ */
+type FormFieldSizedEntry<E extends { size?: unknown }> = Omit<
+  E,
+  'size' | 'responsive'
+> & {
+  size: Record<FormFieldSize, NonNullable<E['size']>>;
+};
+
+/**
+ * Per form field size, the defaults of each component placed in a content slot.
+ * @example { ContentBadge: { size: { large: 'small', medium: 'xsmall' } } }
+ * @example { IconButton: { normal: { size: { large: 'large', medium: 'medium' }, interactionOverflow: true } } }
  */
 export type FormFieldSlotSizeTable = {
-  [K in keyof SlotDefaultsMap]?: Record<
-    FormFieldSize,
-    NonNullable<SlotDefaultsMap[K]['size']>
-  >;
+  [K in SizedSlotName]?: FormFieldSizedEntry<SlotDefaultsMap[K]>;
+} & {
+  IconButton?: {
+    [V in keyof SlotDefaultsMap['IconButton']]?: FormFieldSizedEntry<IconButtonSlotDefaults>;
+  };
 };
 
 /**
@@ -84,18 +98,32 @@ export const useFormFieldSlotDefaults = (
 
   if (!layout || !table) return undefined;
 
-  const toSlotSize = <S>(
-    sizes: Record<FormFieldSize, S>,
-  ): InheritedSize<S> => ({
+  const toEntry = <S, E extends object>({
+    size: sizes,
+    ...rest
+  }: E & { size: Record<FormFieldSize, S> }) => ({
+    ...rest,
     size: layout.size && sizes[layout.size],
     responsive:
       layout.responsive &&
       mapResponsiveProps(layout.responsive, 'size', (s) => sizes[s]),
   });
 
+  const { IconButton: iconButton, ...sized } = table;
+
   // Each entry keeps the value type of its own table row; the keys come from
   // `FormFieldSlotSizeTable`, which only allows registered component names.
-  return Object.fromEntries(
-    Object.entries(table).map(([name, sizes]) => [name, toSlotSize(sizes)]),
-  ) as SlotDefaults;
+  return {
+    ...(Object.fromEntries(
+      Object.entries(sized).map(([name, entry]) => [name, toEntry(entry)]),
+    ) as SlotDefaults),
+    ...(iconButton && {
+      IconButton: Object.fromEntries(
+        Object.entries(iconButton).map(([variant, entry]) => [
+          variant,
+          toEntry(entry),
+        ]),
+      ),
+    }),
+  };
 };

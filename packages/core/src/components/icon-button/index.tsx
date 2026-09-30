@@ -2,9 +2,10 @@ import { forwardRef, useMemo } from 'react';
 import { Box, useTheme } from '@montage-ui/engine';
 
 import { WithInteraction } from '../with-interaction';
+import { useSlotDefaults } from '../../hooks/internal/use-slot-defaults';
+import { resolveInheritedResponsive } from '../../utils/internal/responsive-props';
 
 import { backgroundBlendStyle, iconButtonStyle } from './style';
-import { useIconButtonContext } from './contexts';
 import { maxDimensionToken } from './helpers';
 
 import type {
@@ -19,12 +20,12 @@ const IconButton = forwardRef(
     {
       as,
       disabled = false,
-      size,
+      size: originSize,
       variant = 'normal',
       interactionEffect: originInteractionEffect,
       interactionColor = 'semantic.foreground.neutral.primary',
       alternative,
-      interactionOverflow = false,
+      interactionOverflow: originInteractionOverflow,
       color: originColor,
       children,
       xs,
@@ -36,8 +37,22 @@ const IconButton = forwardRef(
     }: PolymorphicPropsInternal<IconButtonProps, T>,
     ref: ForwardedRef<T>,
   ) => {
-    const context = useIconButtonContext();
     const theme = useTheme();
+
+    const inherited = useSlotDefaults().IconButton?.[variant];
+
+    // Sizes declared on the icon button win; otherwise the slot's
+    // base / per-breakpoint sizes (for this variant) are applied.
+    const { base: size, responsive } = resolveInheritedResponsive(
+      { base: originSize, responsive: { xs, sm, md, lg, xl } },
+      inherited && { base: inherited.size, responsive: inherited.responsive },
+      'size',
+    );
+
+    const interactionOverflow =
+      originInteractionOverflow ?? inherited?.interactionOverflow ?? false;
+    const inheritedColor = inherited?.color;
+    const inheritedInteractionEffect = inherited?.interactionEffect;
 
     // A numeric box size is capped at the largest dimension token. Under
     // interactionOverflow the normal variant's size is the icon, which is not capped.
@@ -46,7 +61,14 @@ const IconButton = forwardRef(
       !(interactionOverflow && variant === 'normal')
     ) {
       const maxSize = maxDimensionToken(theme);
-      [size, xs?.size, sm?.size, md?.size, lg?.size, xl?.size].forEach((s) => {
+      [
+        size,
+        responsive.xs?.size,
+        responsive.sm?.size,
+        responsive.md?.size,
+        responsive.lg?.size,
+        responsive.xl?.size,
+      ].forEach((s) => {
         if (typeof s === 'number' && s > maxSize) {
           console.warn(
             `IconButton: size={${s}} exceeds the largest dimension token and is clamped to ${maxSize}px.`,
@@ -60,8 +82,8 @@ const IconButton = forwardRef(
         return originColor;
       }
 
-      if (context?.[variant]?.color) {
-        return context[variant].color;
+      if (inheritedColor) {
+        return inheritedColor;
       }
 
       switch (variant) {
@@ -74,19 +96,19 @@ const IconButton = forwardRef(
         default:
           return 'semantic.foreground.neutral.primary';
       }
-    }, [context, originColor, variant]);
+    }, [inheritedColor, originColor, variant]);
 
     const interactionEffect = useMemo(() => {
       if (originInteractionEffect) {
         return originInteractionEffect;
       }
 
-      if (context?.[variant]?.interactionEffect) {
-        return context[variant].interactionEffect;
+      if (inheritedInteractionEffect) {
+        return inheritedInteractionEffect;
       }
 
       return 'normal';
-    }, [context, originInteractionEffect, variant]);
+    }, [inheritedInteractionEffect, originInteractionEffect]);
 
     const getInteractionSize = () => {
       switch (variant) {
@@ -139,11 +161,7 @@ const IconButton = forwardRef(
               interactionEffect,
               interactionColor,
               color,
-              xs,
-              sm,
-              md,
-              lg,
-              xl,
+              ...responsive,
             }),
             props.sx,
           ]}

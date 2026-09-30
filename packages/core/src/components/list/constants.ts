@@ -24,6 +24,15 @@ export const LIST_CELL_CONTENT_SLOT_DEFAULTS: Partial<
   button: { Button: { size: 'small' } },
   avatar: { Avatar: { size: 'medium' } },
   'content-badge': { ContentBadge: { size: 'small' } },
+  'icon-button': {
+    IconButton: {
+      normal: {
+        size: 'large',
+        interactionOverflow: true,
+        color: 'semantic.foreground.neutral.tertiary',
+      },
+    },
+  },
 };
 
 /** Per label trailing variant, the defaults of the components placed in it. */

@@ -23,6 +23,8 @@ import { FlexBox } from '../flex-box';
 import { ScrollArea } from '../scroll-area';
 import { Chip } from '../chip';
 import useResizeObserver from '../../hooks/internal/use-resize-observer';
+import { SlotDefaultsProvider } from '../../hooks/internal/use-slot-defaults';
+import { mapResponsiveProps } from '../../utils/internal/responsive-props';
 
 import {
   categoryListItemStyle,
@@ -37,6 +39,7 @@ import {
   useCategoryListContext,
 } from './contexts';
 import {
+  CATEGORY_ICON_BUTTON_SIZE,
   CATEGORY_LIST_ITEM_NAME,
   CATEGORY_LIST_NAME,
   CATEGORY_NAME,
@@ -216,7 +219,23 @@ const CategoryList = forwardRef<
                 as="span"
                 alignItems="center"
               >
-                {iconButton}
+                <SlotDefaultsProvider
+                  value={{
+                    IconButton: {
+                      normal: {
+                        size: CATEGORY_ICON_BUTTON_SIZE[size],
+                        responsive: mapResponsiveProps(
+                          { xs, sm, md, lg, xl },
+                          'size',
+                          (s) => CATEGORY_ICON_BUTTON_SIZE[s],
+                        ),
+                        interactionOverflow: true,
+                      },
+                    },
+                  }}
+                >
+                  {iconButton}
+                </SlotDefaultsProvider>
               </FlexBox>
             )}
           </FlexBox>

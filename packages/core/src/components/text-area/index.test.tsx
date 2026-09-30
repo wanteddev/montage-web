@@ -9,6 +9,7 @@ import {
 } from '../form-control';
 import { Button } from '../button';
 import { ContentBadge } from '../content-badge';
+import { IconButton } from '../icon-button';
 import { SegmentedControl, SegmentedControlItem } from '../segmented-control';
 import { TextButton } from '../text-button';
 
@@ -177,5 +178,40 @@ describe('when given components inside text area fixed size content', () => {
     expect(classNamesOf(area(child()))).not.toEqual(
       classNamesOf(area(child('medium'))),
     );
+  });
+});
+
+describe('when given icon buttons inside text area content', () => {
+  afterEach(() => {
+    cleanup();
+  });
+
+  const widthOf = (label: string) =>
+    window.getComputedStyle(screen.getByLabelText(label)).width;
+
+  it('should size normal icon buttons by the field and solid ones to small', () => {
+    render(
+      <FormControl size="medium">
+        <TextArea
+          leadingContent={
+            <TextAreaContent variant="icon-button">
+              <IconButton aria-label="Leading">
+                <svg />
+              </IconButton>
+            </TextAreaContent>
+          }
+          trailingContent={
+            <TextAreaContent variant="icon-button">
+              <IconButton variant="solid" aria-label="Send">
+                <svg />
+              </IconButton>
+            </TextAreaContent>
+          }
+        />
+      </FormControl>,
+    );
+
+    expect(widthOf('Leading')).toBe('18px');
+    expect(widthOf('Send')).toBe('var(--dimension-32)');
   });
 });

@@ -17,7 +17,6 @@ import { FlexBox } from '../flex-box';
 import { Typography } from '../typography';
 import { WithInteraction } from '../with-interaction';
 import { useMenuItemContext } from '../menu/contexts';
-import { IconButtonProvider } from '../icon-button/contexts';
 import { TextButtonProvider } from '../text-button/contexts';
 import { CheckboxProvider } from '../checkbox/contexts';
 import { RadioProvider } from '../radio/contexts';
@@ -329,11 +328,11 @@ const ListCellContent = forwardRef<
             {...props}
             sx={[listCellContentStyle({ variant }), sx]}
           >
-            <IconButtonProvider
-              normal={{ color: 'semantic.foreground.neutral.tertiary' }}
+            <SlotDefaultsProvider
+              value={LIST_CELL_CONTENT_SLOT_DEFAULTS[variant]}
             >
               {children}
-            </IconButtonProvider>
+            </SlotDefaultsProvider>
           </FlexBox>
 
           {chevronIcon}

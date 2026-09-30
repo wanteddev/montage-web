@@ -6,13 +6,15 @@ import { composeEventHandlers } from '@radix-ui/primitive';
 import { FlexBox } from '../flex-box';
 import { ScrollArea } from '../scroll-area';
 import useResizeObserver from '../../hooks/internal/use-resize-observer';
-import { IconButtonProvider } from '../icon-button/contexts';
 import { FormFieldLayoutProvider } from '../form-control/contexts';
 import {
   useFormFieldSize,
   useFormFieldSlotDefaults,
 } from '../form-control/hooks';
-import { SlotDefaultsProvider } from '../../hooks/internal/use-slot-defaults';
+import {
+  SlotDefaultsProvider,
+  mergeSlotDefaults,
+} from '../../hooks/internal/use-slot-defaults';
 
 import { getTextAreaDefaultHeight } from './helpers';
 import { TEXT_AREA_SLOT_DEFAULTS, TEXT_AREA_SLOT_SIZE } from './constants';
@@ -271,9 +273,10 @@ const TextAreaContent = forwardRef<
   HTMLDivElement,
   DefaultComponentPropsInternal<TextAreaContentProps, 'div'>
 >(({ variant = 'icon-button', children, sx, ...props }, ref) => {
-  const slotDefaults =
-    useFormFieldSlotDefaults(TEXT_AREA_SLOT_SIZE[variant]) ??
-    TEXT_AREA_SLOT_DEFAULTS[variant];
+  const slotDefaults = mergeSlotDefaults(
+    TEXT_AREA_SLOT_DEFAULTS[variant],
+    useFormFieldSlotDefaults(TEXT_AREA_SLOT_SIZE[variant]),
+  );
 
   switch (variant) {
     case 'content-badge':
@@ -328,11 +331,9 @@ const TextAreaContent = forwardRef<
           ]}
           {...props}
         >
-          <IconButtonProvider
-            normal={{ color: 'semantic.foreground.neutral.tertiary' }}
-          >
+          <SlotDefaultsProvider value={slotDefaults}>
             {children}
-          </IconButtonProvider>
+          </SlotDefaultsProvider>
         </FlexBox>
       );
     case 'primary-icon-button':

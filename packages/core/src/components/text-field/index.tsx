@@ -10,8 +10,6 @@ import { forwardRef, useEffect, useRef } from 'react';
 import { FlexBox } from '../flex-box';
 import { IconButton } from '../icon-button';
 import { Button } from '../button';
-import { IconButtonProvider } from '../icon-button/contexts';
-import { mapResponsiveProps } from '../../utils/internal/responsive-props';
 import { FormFieldLayoutProvider } from '../form-control/contexts';
 import {
   useFormFieldSize,
@@ -200,21 +198,6 @@ const TextField = forwardRef<
               >
                 <IconButton
                   type="button"
-                  size={resolvedSize === 'large' ? 32 : 28}
-                  {...mapResponsiveProps(
-                    {
-                      ...resolvedResponsive,
-                    },
-                    'size',
-                    (s) => {
-                      switch (s) {
-                        case 'large':
-                          return 32;
-                        case 'medium':
-                          return 28;
-                      }
-                    },
-                  )}
                   tabIndex={-1}
                   sx={(theme) => ({
                     color: theme.semantic.foreground.neutral.quaternary,
@@ -323,11 +306,9 @@ const TextFieldContent = forwardRef<
           ]}
           {...props}
         >
-          <IconButtonProvider
-            normal={{ color: 'semantic.foreground.neutral.tertiary' }}
-          >
+          <SlotDefaultsProvider value={slotDefaults}>
             {children}
-          </IconButtonProvider>
+          </SlotDefaultsProvider>
         </FlexBox>
       );
     case 'custom':

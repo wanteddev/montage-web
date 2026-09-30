@@ -14,6 +14,7 @@ import {
   FormControlMessage,
 } from '../form-control';
 import { ContentBadge } from '../content-badge';
+import { IconButton } from '../icon-button';
 import { useInheritedSize } from '../../hooks/internal/use-slot-defaults';
 
 import { TextField, TextFieldContent } from '.';
@@ -158,5 +159,74 @@ describe('when given responsive sizes to text field content badge', () => {
     expect(
       window.getComputedStyle(screen.getByTestId('badge')).paddingTop,
     ).toBe('3px');
+  });
+});
+
+describe('when given icon buttons inside text field content', () => {
+  afterEach(() => {
+    cleanup();
+  });
+
+  const widthOf = (label: string) =>
+    window.getComputedStyle(screen.getByLabelText(label)).width;
+
+  // interactionOverflow: the layout is the icon (large 20, medium 18).
+  it.each([
+    ['large', '20px'],
+    ['medium', '18px'],
+  ] as const)(
+    'should size icon buttons by the %s text field with interactionOverflow',
+    (size, width) => {
+      render(
+        <TextField
+          size={size}
+          leadingContent={
+            <TextFieldContent variant="icon-button">
+              <IconButton aria-label="Leading">
+                <svg />
+              </IconButton>
+            </TextFieldContent>
+          }
+        />,
+      );
+
+      expect(widthOf('Leading')).toBe(width);
+    },
+  );
+
+  it('should size the reset button by the form control size', () => {
+    const { container } = render(
+      <FormControl size="medium">
+        <TextField />
+      </FormControl>,
+    );
+
+    expect(
+      window.getComputedStyle(
+        container.querySelector(
+          '[data-role="text-field-reset"] [data-component="icon-button"]',
+        )!,
+      ).width,
+    ).toBe('18px');
+  });
+
+  it('should keep the size declared on the icon button', () => {
+    render(
+      <TextField
+        leadingContent={
+          <TextFieldContent variant="icon-button">
+            <IconButton
+              size="small"
+              interactionOverflow={false}
+              aria-label="Leading"
+            >
+              <svg />
+            </IconButton>
+          </TextFieldContent>
+        }
+      />,
+    );
+
+    expect(widthOf('Leading')).toBe('var(--dimension-24)');
   });
 });

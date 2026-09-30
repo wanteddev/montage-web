@@ -1,3 +1,5 @@
+import { FORM_FIELD_ICON_BUTTON_SLOT_SIZE } from '../form-control/constants';
+
 import type { FormFieldSlotSizeTable } from '../form-control/hooks';
 import type { TextFieldContentProps } from './types';
 
@@ -5,5 +7,6 @@ import type { TextFieldContentProps } from './types';
 export const TEXT_FIELD_SLOT_SIZE: Partial<
   Record<NonNullable<TextFieldContentProps['variant']>, FormFieldSlotSizeTable>
 > = {
-  badge: { ContentBadge: { large: 'small', medium: 'xsmall' } },
+  badge: { ContentBadge: { size: { large: 'small', medium: 'xsmall' } } },
+  'icon-button': FORM_FIELD_ICON_BUTTON_SLOT_SIZE,
 };

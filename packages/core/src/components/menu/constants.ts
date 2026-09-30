@@ -24,5 +24,6 @@ export const MENU_ACTION_AREA_CONTENT_SLOT_DEFAULTS: Partial<
   Record<NonNullable<MenuActionAreaContentProps['variant']>, SlotDefaults>
 > = {
   button: { Button: { size: 'small' } },
+  'icon-button': { IconButton: { solid: { size: 'small' } } },
   'text-button': { TextButton: { size: 'small' } },
 };

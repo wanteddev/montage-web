@@ -14,7 +14,7 @@ import { FocusScope } from '../focus-scope';
 import { FlexBox } from '../flex-box';
 import { PickerActionAreaProvider } from '../picker-action-area/contexts';
 import { extendDayjs } from '../../utils/internal/date';
-import { mapResponsiveProps } from '../../utils/internal/responsive-props';
+import { FormFieldLayoutProvider } from '../form-control/contexts';
 import { useFormFieldSize } from '../form-control/hooks';
 
 import { datePopperStyle } from './style';
@@ -181,74 +181,65 @@ const DatePicker = forwardRef<
 
     return (
       <Popper>
-        <PopperAnchor
-          ref={composedRefs}
-          onChange={() => {}}
-          inputMode={focusedSection?.type}
-          aria-haspopup="dialog"
-          aria-expanded={open}
-          data-role="date-picker-field"
-          role="combobox"
-          {...props}
-          {...({
-            type: 'text',
-            autoComplete: 'off',
-            readOnly,
-            disabled,
-            placeholder,
-            onFocus: composeEventHandlers(props.onFocus, handleFocus),
-            onClick: composeEventHandlers(props.onClick, handleClick),
-            onKeyDown: composeEventHandlers(props.onKeyDown, handleKeyDown),
-            onBlur: composeEventHandlers(props.onBlur, handleBlur),
-            onPaste: composeEventHandlers(props.onPaste, handlePaste),
-            value: inputValue,
-            inputRef: composedInputRef,
-            ...(isCustomInput
-              ? {}
-              : {
-                  status,
-                  size: resolvedSize,
-                  ...resolvedResponsive,
-                }),
-            trailingContent: (
-              <>
-                {props.trailingContent}
-                <TextFieldContent
-                  data-role="date-picker-calendar-icon"
-                  variant="icon-button"
-                >
-                  <IconButton
-                    aria-label="Toggle date picker"
-                    disabled={disabled || readOnly}
-                    size={resolvedSize === 'medium' ? 28 : 32}
-                    {...mapResponsiveProps(
-                      {
-                        ...resolvedResponsive,
-                      },
-                      'size',
-                      (s) => {
-                        switch (s) {
-                          case 'large':
-                            return 32;
-                          case 'medium':
-                            return 28;
-                        }
-                      },
-                    )}
-                    onClick={() => {
-                      handleInputValueChange();
-                      setOpen((prev) => !prev);
-                    }}
-                  >
-                    <IconCalendar />
-                  </IconButton>
-                </TextFieldContent>
-              </>
-            ),
-          } as unknown as SlotProps)}
+        {/* Keeps the calendar IconButton sized to the field even with a custom `input`. */}
+        <FormFieldLayoutProvider
+          size={resolvedSize}
+          responsive={resolvedResponsive}
         >
-          <Component />
-        </PopperAnchor>
+          <PopperAnchor
+            ref={composedRefs}
+            onChange={() => {}}
+            inputMode={focusedSection?.type}
+            aria-haspopup="dialog"
+            aria-expanded={open}
+            data-role="date-picker-field"
+            role="combobox"
+            {...props}
+            {...({
+              type: 'text',
+              autoComplete: 'off',
+              readOnly,
+              disabled,
+              placeholder,
+              onFocus: composeEventHandlers(props.onFocus, handleFocus),
+              onClick: composeEventHandlers(props.onClick, handleClick),
+              onKeyDown: composeEventHandlers(props.onKeyDown, handleKeyDown),
+              onBlur: composeEventHandlers(props.onBlur, handleBlur),
+              onPaste: composeEventHandlers(props.onPaste, handlePaste),
+              value: inputValue,
+              inputRef: composedInputRef,
+              ...(isCustomInput
+                ? {}
+                : {
+                    status,
+                    size: resolvedSize,
+                    ...resolvedResponsive,
+                  }),
+              trailingContent: (
+                <>
+                  {props.trailingContent}
+                  <TextFieldContent
+                    data-role="date-picker-calendar-icon"
+                    variant="icon-button"
+                  >
+                    <IconButton
+                      aria-label="Toggle date picker"
+                      disabled={disabled || readOnly}
+                      onClick={() => {
+                        handleInputValueChange();
+                        setOpen((prev) => !prev);
+                      }}
+                    >
+                      <IconCalendar />
+                    </IconButton>
+                  </TextFieldContent>
+                </>
+              ),
+            } as unknown as SlotProps)}
+          >
+            <Component />
+          </PopperAnchor>
+        </FormFieldLayoutProvider>
 
         {open && (
           <PopperContent

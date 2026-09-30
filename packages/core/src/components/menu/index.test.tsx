@@ -1,6 +1,7 @@
-import { cleanup, render } from '@testing-library/react';
+import { cleanup, render, screen } from '@testing-library/react';
 
 import { Button } from '../button';
+import { IconButton } from '../icon-button';
 import { TextButton } from '../text-button';
 
 import { MenuActionAreaContent } from '.';
@@ -49,5 +50,25 @@ describe('when given buttons inside menu action area content', () => {
         </MenuActionAreaContent>,
       ),
     ).toEqual(classNamesOf(child('small')));
+  });
+});
+
+describe('when given icon button inside menu action area content', () => {
+  afterEach(() => {
+    cleanup();
+  });
+
+  it('should render solid icon buttons at small size', () => {
+    render(
+      <MenuActionAreaContent variant="icon-button">
+        <IconButton variant="solid" aria-label="Send">
+          <svg />
+        </IconButton>
+      </MenuActionAreaContent>,
+    );
+
+    expect(window.getComputedStyle(screen.getByLabelText('Send')).width).toBe(
+      'var(--dimension-32)',
+    );
   });
 });

@@ -1,7 +1,8 @@
-import { cleanup, render } from '@testing-library/react';
+import { cleanup, render, screen } from '@testing-library/react';
 
 import { Avatar } from '../avatar';
 import { Button } from '../button';
+import { IconButton } from '../icon-button';
 import { ContentBadge } from '../content-badge';
 import { TextButton } from '../text-button';
 
@@ -140,5 +141,30 @@ describe('when given components inside list cell slots', () => {
         }),
       ),
     ).toEqual(classNamesOf(badge));
+  });
+});
+
+describe('when given icon button inside list cell content', () => {
+  afterEach(() => {
+    cleanup();
+  });
+
+  // large + interactionOverflow: the layout is the 20px icon.
+  it('should render it at large size with interactionOverflow', () => {
+    render(
+      inCell({
+        trailingContent: (
+          <ListCellContent variant="icon-button">
+            <IconButton aria-label="Trailing">
+              <svg />
+            </IconButton>
+          </ListCellContent>
+        ),
+      }),
+    );
+
+    expect(
+      window.getComputedStyle(screen.getByLabelText('Trailing')).width,
+    ).toBe('20px');
   });
 });
