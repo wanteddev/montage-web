@@ -5,11 +5,9 @@ import { forwardRef, useEffect, useRef } from 'react';
 
 import { FlexBox } from '../flex-box';
 import { IconButton } from '../icon-button';
-import { useFormControlLayoutContext } from '../form-control/contexts';
-import {
-  mapResponsiveProps,
-  mergeResponsiveProps,
-} from '../../utils/internal/responsive-props';
+import { mapResponsiveProps } from '../../utils/internal/responsive-props';
+import { FORM_FIELD_ICON_BUTTON_SIZE } from '../form-control/constants';
+import { useFormFieldSize } from '../form-control/hooks';
 
 import { searchFieldContentStyle, searchFieldWrapperStyle } from './style';
 
@@ -43,18 +41,10 @@ const SearchField = forwardRef<
     const inputRef = useRef<HTMLInputElement>(null);
     const composedRefs = useComposedRefs(inputRef, ref);
 
-    const { size: formControlSize, responsive } =
-      useFormControlLayoutContext() || {};
-
-    const resolvedSize = size ?? formControlSize ?? 'large';
-
-    const {
-      xs: resolvedXs,
-      sm: resolvedSm,
-      md: resolvedMd,
-      lg: resolvedLg,
-      xl: resolvedXl,
-    } = mergeResponsiveProps({ xs, sm, md, lg, xl }, responsive, 'size');
+    const { size: resolvedSize, ...resolvedResponsive } = useFormFieldSize(
+      size,
+      { xs, sm, md, lg, xl },
+    );
 
     useEffect(() => {
       const container = parentRef.current;
@@ -92,11 +82,7 @@ const SearchField = forwardRef<
             size: resolvedSize,
             width,
             variant,
-            xs: resolvedXs,
-            sm: resolvedSm,
-            md: resolvedMd,
-            lg: resolvedLg,
-            xl: resolvedXl,
+            ...resolvedResponsive,
             ...props,
           }),
           sx,
@@ -131,25 +117,15 @@ const SearchField = forwardRef<
               type="button"
               tabIndex={-1}
               aria-label="Reset search"
-              size={resolvedSize === 'large' ? 32 : 28}
+              // The reset button sits outside of a content slot, so it maps
+              // the field size itself.
+              size={FORM_FIELD_ICON_BUTTON_SIZE[resolvedSize]}
               {...mapResponsiveProps(
-                {
-                  xs: resolvedXs,
-                  sm: resolvedSm,
-                  md: resolvedMd,
-                  lg: resolvedLg,
-                  xl: resolvedXl,
-                },
+                resolvedResponsive,
                 'size',
-                (s) => {
-                  switch (s) {
-                    case 'large':
-                      return 32;
-                    case 'medium':
-                      return 28;
-                  }
-                },
+                (s) => FORM_FIELD_ICON_BUTTON_SIZE[s],
               )}
+              interactionOverflow
               onPointerDown={(e) => e.preventDefault()}
               onClick={() => {
                 const input = inputRef.current;

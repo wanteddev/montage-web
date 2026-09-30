@@ -16,11 +16,8 @@ import { TimeView } from '../time-view';
 import { FlexBox } from '../flex-box';
 import { PickerActionAreaProvider } from '../picker-action-area/contexts';
 import { extendDayjs } from '../../utils/internal/date';
-import {
-  mapResponsiveProps,
-  mergeResponsiveProps,
-} from '../../utils/internal/responsive-props';
-import { useFormControlLayoutContext } from '../form-control/contexts';
+import { FormFieldLayoutProvider } from '../form-control/contexts';
+import { useFormFieldSize } from '../form-control/hooks';
 
 import { TIME_PICKER_FIELD_NAME, TIME_PICKER_NAME } from './constants';
 import { sectionsToViews } from './helpers';
@@ -143,20 +140,12 @@ const TimePicker = forwardRef<
         ? 'negative'
         : originStatus;
 
-    const { size: formControlSize, responsive } =
-      useFormControlLayoutContext() || {};
-
-    const resolvedSize = size ?? formControlSize ?? 'large';
+    const { size: resolvedSize, ...resolvedResponsive } = useFormFieldSize(
+      size,
+      { xs, sm, md, lg, xl },
+    );
 
     const isCustomInput = Boolean(input);
-
-    const {
-      xs: resolvedXs,
-      sm: resolvedSm,
-      md: resolvedMd,
-      lg: resolvedLg,
-      xl: resolvedXl,
-    } = mergeResponsiveProps({ xs, sm, md, lg, xl }, responsive, 'size');
 
     const handleChangeCompleteCallback = useCallbackRef(onChangeComplete);
 
@@ -196,82 +185,65 @@ const TimePicker = forwardRef<
 
     return (
       <Popper>
-        <PopperAnchor
-          ref={composedRefs}
-          onChange={() => {}}
-          inputMode={focusedSection?.type}
-          aria-haspopup="dialog"
-          aria-expanded={open}
-          data-role="time-picker-field"
-          role="combobox"
-          {...props}
-          {...({
-            autoComplete: 'off',
-            type: 'text',
-            readOnly,
-            disabled,
-            placeholder,
-            onFocus: composeEventHandlers(props.onFocus, handleFocus),
-            onClick: composeEventHandlers(props.onClick, handleClick),
-            onKeyDown: composeEventHandlers(props.onKeyDown, handleKeyDown),
-            onBlur: composeEventHandlers(props.onBlur, handleBlur),
-            onPaste: composeEventHandlers(props.onPaste, handlePaste),
-            value: inputValue,
-            inputRef: composedInputRef,
-            ...(isCustomInput
-              ? {}
-              : {
-                  status,
-                  size: resolvedSize,
-                  xs: resolvedXs,
-                  sm: resolvedSm,
-                  md: resolvedMd,
-                  lg: resolvedLg,
-                  xl: resolvedXl,
-                }),
-            trailingContent: (
-              <>
-                {props.trailingContent}
-                <TextFieldContent
-                  data-role="time-picker-clock-icon"
-                  variant="icon-button"
-                >
-                  <IconButton
-                    disabled={disabled || readOnly}
-                    onClick={() => {
-                      handleInputValueChange();
-                      setOpen(!open);
-                    }}
-                    size={resolvedSize === 'medium' ? 28 : 32}
-                    {...mapResponsiveProps(
-                      {
-                        xs: resolvedXs,
-                        sm: resolvedSm,
-                        md: resolvedMd,
-                        lg: resolvedLg,
-                        xl: resolvedXl,
-                      },
-                      'size',
-                      (s) => {
-                        switch (s) {
-                          case 'large':
-                            return 32;
-                          case 'medium':
-                            return 28;
-                        }
-                      },
-                    )}
-                    aria-label="Toggle time picker"
-                  >
-                    <IconClock />
-                  </IconButton>
-                </TextFieldContent>
-              </>
-            ),
-          } as unknown as SlotProps)}
+        {/* Keeps the calendar IconButton sized to the field even with a custom `input`. */}
+        <FormFieldLayoutProvider
+          size={resolvedSize}
+          responsive={resolvedResponsive}
         >
-          <Component />
-        </PopperAnchor>
+          <PopperAnchor
+            ref={composedRefs}
+            onChange={() => {}}
+            inputMode={focusedSection?.type}
+            aria-haspopup="dialog"
+            aria-expanded={open}
+            data-role="time-picker-field"
+            role="combobox"
+            {...props}
+            {...({
+              autoComplete: 'off',
+              type: 'text',
+              readOnly,
+              disabled,
+              placeholder,
+              onFocus: composeEventHandlers(props.onFocus, handleFocus),
+              onClick: composeEventHandlers(props.onClick, handleClick),
+              onKeyDown: composeEventHandlers(props.onKeyDown, handleKeyDown),
+              onBlur: composeEventHandlers(props.onBlur, handleBlur),
+              onPaste: composeEventHandlers(props.onPaste, handlePaste),
+              value: inputValue,
+              inputRef: composedInputRef,
+              ...(isCustomInput
+                ? {}
+                : {
+                    status,
+                    size: resolvedSize,
+                    ...resolvedResponsive,
+                  }),
+              trailingContent: (
+                <>
+                  {props.trailingContent}
+                  <TextFieldContent
+                    data-role="time-picker-clock-icon"
+                    variant="icon-button"
+                  >
+                    <IconButton
+                      disabled={disabled || readOnly}
+                      onClick={() => {
+                        handleInputValueChange();
+                        setOpen(!open);
+                      }}
+                      aria-label="Toggle time picker"
+                    >
+                      <IconClock />
+                    </IconButton>
+                  </TextFieldContent>
+                </>
+              ),
+            } as unknown as SlotProps)}
+          >
+            <Component />
+          </PopperAnchor>
+        </FormFieldLayoutProvider>
 
         {open && (
           <PopperContent

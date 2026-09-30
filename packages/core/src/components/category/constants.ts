@@ -10,3 +10,11 @@ export const CATEGORY_CHIP_SIZE = {
   large: 'medium',
   xlarge: 'large',
 } as const;
+
+// Each category size renders the `iconButton` at this IconButton size, with `interactionOverflow`.
+export const CATEGORY_ICON_BUTTON_SIZE = {
+  small: 'large',
+  medium: 'large',
+  large: 'xlarge',
+  xlarge: 'xlarge',
+} as const;

@@ -17,6 +17,8 @@ import { usePrevious } from '@radix-ui/react-use-previous';
 import { FlexBox } from '../flex-box';
 import { ScrollArea } from '../scroll-area';
 import useResizeObserver from '../../hooks/internal/use-resize-observer';
+import { SlotDefaultsProvider } from '../../hooks/internal/use-slot-defaults';
+import { mapResponsiveProps } from '../../utils/internal/responsive-props';
 import { calculateAnimationStyle } from '../../utils/internal/animation';
 
 import {
@@ -35,6 +37,7 @@ import {
   useTabListContext,
 } from './contexts';
 import {
+  TAB_ICON_BUTTON_SIZE,
   TAB_LIST_ITEM_NAME,
   TAB_LIST_NAME,
   TAB_NAME,
@@ -265,7 +268,23 @@ const TabList = forwardRef<
               as="span"
               alignItems="center"
             >
-              {iconButton}
+              <SlotDefaultsProvider
+                value={{
+                  IconButton: {
+                    normal: {
+                      size: TAB_ICON_BUTTON_SIZE[size],
+                      responsive: mapResponsiveProps(
+                        { xs, sm, md, lg, xl },
+                        'size',
+                        (s) => TAB_ICON_BUTTON_SIZE[s],
+                      ),
+                      interactionOverflow: true,
+                    },
+                  },
+                }}
+              >
+                {iconButton}
+              </SlotDefaultsProvider>
             </FlexBox>
           )}
         </FlexBox>

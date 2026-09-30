@@ -14,11 +14,8 @@ import { FocusScope } from '../focus-scope';
 import { FlexBox } from '../flex-box';
 import { PickerActionAreaProvider } from '../picker-action-area/contexts';
 import { extendDayjs } from '../../utils/internal/date';
-import {
-  mapResponsiveProps,
-  mergeResponsiveProps,
-} from '../../utils/internal/responsive-props';
-import { useFormControlLayoutContext } from '../form-control/contexts';
+import { FormFieldLayoutProvider } from '../form-control/contexts';
+import { useFormFieldSize } from '../form-control/hooks';
 
 import { datePopperStyle } from './style';
 import { useDateField } from './hooks';
@@ -137,20 +134,12 @@ const DatePicker = forwardRef<
         ? 'negative'
         : originStatus;
 
-    const { size: formControlSize, responsive } =
-      useFormControlLayoutContext() || {};
-
-    const resolvedSize = size ?? formControlSize ?? 'large';
+    const { size: resolvedSize, ...resolvedResponsive } = useFormFieldSize(
+      size,
+      { xs, sm, md, lg, xl },
+    );
 
     const isCustomInput = Boolean(input);
-
-    const {
-      xs: resolvedXs,
-      sm: resolvedSm,
-      md: resolvedMd,
-      lg: resolvedLg,
-      xl: resolvedXl,
-    } = mergeResponsiveProps({ xs, sm, md, lg, xl }, responsive, 'size');
 
     const handleChangeCompleteCallback = useCallbackRef(onChangeComplete);
 
@@ -192,82 +181,65 @@ const DatePicker = forwardRef<
 
     return (
       <Popper>
-        <PopperAnchor
-          ref={composedRefs}
-          onChange={() => {}}
-          inputMode={focusedSection?.type}
-          aria-haspopup="dialog"
-          aria-expanded={open}
-          data-role="date-picker-field"
-          role="combobox"
-          {...props}
-          {...({
-            type: 'text',
-            autoComplete: 'off',
-            readOnly,
-            disabled,
-            placeholder,
-            onFocus: composeEventHandlers(props.onFocus, handleFocus),
-            onClick: composeEventHandlers(props.onClick, handleClick),
-            onKeyDown: composeEventHandlers(props.onKeyDown, handleKeyDown),
-            onBlur: composeEventHandlers(props.onBlur, handleBlur),
-            onPaste: composeEventHandlers(props.onPaste, handlePaste),
-            value: inputValue,
-            inputRef: composedInputRef,
-            ...(isCustomInput
-              ? {}
-              : {
-                  status,
-                  size: resolvedSize,
-                  xs: resolvedXs,
-                  sm: resolvedSm,
-                  md: resolvedMd,
-                  lg: resolvedLg,
-                  xl: resolvedXl,
-                }),
-            trailingContent: (
-              <>
-                {props.trailingContent}
-                <TextFieldContent
-                  data-role="date-picker-calendar-icon"
-                  variant="icon-button"
-                >
-                  <IconButton
-                    aria-label="Toggle date picker"
-                    disabled={disabled || readOnly}
-                    size={resolvedSize === 'medium' ? 28 : 32}
-                    {...mapResponsiveProps(
-                      {
-                        xs: resolvedXs,
-                        sm: resolvedSm,
-                        md: resolvedMd,
-                        lg: resolvedLg,
-                        xl: resolvedXl,
-                      },
-                      'size',
-                      (s) => {
-                        switch (s) {
-                          case 'large':
-                            return 32;
-                          case 'medium':
-                            return 28;
-                        }
-                      },
-                    )}
-                    onClick={() => {
-                      handleInputValueChange();
-                      setOpen((prev) => !prev);
-                    }}
-                  >
-                    <IconCalendar />
-                  </IconButton>
-                </TextFieldContent>
-              </>
-            ),
-          } as unknown as SlotProps)}
+        {/* Keeps the calendar IconButton sized to the field even with a custom `input`. */}
+        <FormFieldLayoutProvider
+          size={resolvedSize}
+          responsive={resolvedResponsive}
         >
-          <Component />
-        </PopperAnchor>
+          <PopperAnchor
+            ref={composedRefs}
+            onChange={() => {}}
+            inputMode={focusedSection?.type}
+            aria-haspopup="dialog"
+            aria-expanded={open}
+            data-role="date-picker-field"
+            role="combobox"
+            {...props}
+            {...({
+              type: 'text',
+              autoComplete: 'off',
+              readOnly,
+              disabled,
+              placeholder,
+              onFocus: composeEventHandlers(props.onFocus, handleFocus),
+              onClick: composeEventHandlers(props.onClick, handleClick),
+              onKeyDown: composeEventHandlers(props.onKeyDown, handleKeyDown),
+              onBlur: composeEventHandlers(props.onBlur, handleBlur),
+              onPaste: composeEventHandlers(props.onPaste, handlePaste),
+              value: inputValue,
+              inputRef: composedInputRef,
+              ...(isCustomInput
+                ? {}
+                : {
+                    status,
+                    size: resolvedSize,
+                    ...resolvedResponsive,
+                  }),
+              trailingContent: (
+                <>
+                  {props.trailingContent}
+                  <TextFieldContent
+                    data-role="date-picker-calendar-icon"
+                    variant="icon-button"
+                  >
+                    <IconButton
+                      aria-label="Toggle date picker"
+                      disabled={disabled || readOnly}
+                      onClick={() => {
+                        handleInputValueChange();
+                        setOpen((prev) => !prev);
+                      }}
+                    >
+                      <IconCalendar />
+                    </IconButton>
+                  </TextFieldContent>
+                </>
+              ),
+            } as unknown as SlotProps)}
+          >
+            <Component />
+          </PopperAnchor>
+        </FormFieldLayoutProvider>
 
         {open && (
           <PopperContent

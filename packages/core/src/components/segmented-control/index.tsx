@@ -17,6 +17,7 @@ import { FlexBox } from '../flex-box';
 import useResizeObserver from '../../hooks/internal/use-resize-observer';
 import { calculateAnimationStyle } from '../../utils/internal/animation';
 import { VirtualCheckboxInput } from '../virtual-input';
+import { useInheritedSize } from '../../hooks/internal/use-slot-defaults';
 
 import {
   motionThumbStyle,
@@ -57,7 +58,7 @@ const SegmentedControl = forwardRef<
       value: valueProp,
       onValueChange,
       children,
-      size = 'medium',
+      size: originSize,
       iconOnly,
       name,
       xs,
@@ -69,6 +70,13 @@ const SegmentedControl = forwardRef<
     },
     ref,
   ) => {
+    const { size: inheritedSize, responsive } = useInheritedSize(
+      'SegmentedControl',
+      originSize,
+      { xs, sm, md, lg, xl },
+    );
+    const size = inheritedSize ?? 'medium';
+
     const [node, setNode] = useState<HTMLDivElement | null>(null);
     const composedRefs = useComposedRefs<HTMLDivElement>(ref, setNode);
 
@@ -141,13 +149,7 @@ const SegmentedControl = forwardRef<
         size={size}
         name={name}
         iconOnly={iconOnly}
-        responsive={{
-          xs,
-          sm,
-          md,
-          lg,
-          xl,
-        }}
+        responsive={responsive}
       >
         <RovingFocusGroup.Root asChild orientation="horizontal" loop dir="ltr">
           <FlexBox
@@ -157,7 +159,7 @@ const SegmentedControl = forwardRef<
             {...props}
             data-component="segmented-control"
             sx={[
-              segmentedControlStyle({ iconOnly, size, xs, sm, md, lg, xl }),
+              segmentedControlStyle({ iconOnly, size, ...responsive }),
               props.sx,
             ]}
           >

@@ -7,6 +7,8 @@ import {
 } from '@testing-library/react';
 import { axe } from 'vitest-axe';
 
+import { IconButton } from '../icon-button';
+
 import { Category, CategoryList, CategoryListItem, CategoryPanel } from '.';
 
 describe('when given category component with panel', () => {
@@ -69,5 +71,38 @@ describe('when given category component with panel', () => {
     expect(
       await axe(screen.getByTestId('category-panel-1')),
     ).toHaveNoViolations();
+  });
+});
+
+describe('when given category list with icon button', () => {
+  afterEach(() => {
+    cleanup();
+  });
+
+  // interactionOverflow: the layout is the icon (large 20, xlarge 24).
+  it.each([
+    ['small', '20px'],
+    ['medium', '20px'],
+    ['large', '24px'],
+    ['xlarge', '24px'],
+  ] as const)('should size the icon button for %s size', (size, width) => {
+    render(
+      <Category defaultValue="1">
+        <CategoryList
+          size={size}
+          iconButton={
+            <IconButton aria-label="More">
+              <svg />
+            </IconButton>
+          }
+        >
+          <CategoryListItem value="1">Item 1</CategoryListItem>
+        </CategoryList>
+      </Category>,
+    );
+
+    expect(window.getComputedStyle(screen.getByLabelText('More')).width).toBe(
+      width,
+    );
   });
 });

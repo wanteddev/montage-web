@@ -272,3 +272,20 @@ describe('when given date range calendar component', () => {
     }
   });
 });
+
+describe('when given DateRangeCalendar navigation buttons', () => {
+  afterEach(() => {
+    cleanup();
+  });
+
+  // medium + interactionOverflow: the layout is the 18px icon.
+  it('should render them at medium size with interactionOverflow', () => {
+    render(<DateRangeCalendar />);
+
+    for (const label of ['Previous month', 'Next month']) {
+      expect(
+        window.getComputedStyle(screen.getAllByLabelText(label)[0]!).width,
+      ).toBe('18px');
+    }
+  });
+});

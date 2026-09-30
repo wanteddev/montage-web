@@ -680,9 +680,10 @@ implementation. No codemod covers this section.
   a bare `variant="text"` scan would flag valid TextField code).
   Scan **[decision]**: `\bSelectContent\b` file-level, then review every JSX usage for a
   MISSING `variant` — it rendered a text slot in v3 and renders an icon wrapper in v4, a
-  silent visual change no line grep can see. In the same pass, check the `IconButton` inside
-  each `variant="icon-button"`: the documented example size changed from 22 to 32 (large) /
-  28 (medium), so verify the rendered result instead of porting the old number. `color` only
+  silent visual change no line grep can see. A `normal` (default-variant) `IconButton` inside
+  each `variant="icon-button"` now takes its `size` and `interactionOverflow` from the Select
+  `size` — M18's slot rule deletes its v3 `size`, never re-picked here; other variants keep
+  their `size` (see M18). `color` only
   applies to `variant="icon"` in v4.
   `variant="icon"`'s icon size is no longer the hardcoded 22px — it follows the Select `size`
   (large 20px / medium 18px), so an `sx`/`fontSize` override that pinned the old 22px should
@@ -1265,19 +1266,19 @@ No codemod covers this section. The `normal` variant's `size` changed meaning (s
 `interactionOverflow` bullet below), and `IconButton` lost its `disableInteraction` prop; the
 replacement is `interactionEffect`, which selects the hover / press feedback:
 
-- `normal` (default) — the interaction layer filled with `interactionColor`, exactly the v3
+- `highlight` (default) — the interaction layer filled with `interactionColor`, exactly the v3
   behavior.
 - `dim` (new) — the layer is hidden and the icon itself switches to `interactionColor` at
   reduced opacity (52% on hover, 22% on press). `variant="normal"` only; every other variant
-  behaves like `normal`.
+  behaves like `highlight`.
 - `none` — no feedback. This is the former `disableInteraction`.
 
-`interactionColor` keeps its v3 meaning under `normal`, becomes the icon color under `dim`,
+`interactionColor` keeps its v3 meaning under `highlight`, becomes the icon color under `dim`,
 and is ignored under `none`.
 
 - **`disableInteraction` on `IconButton` → `interactionEffect="none"`.** Rewrite per shape:
   a bare `disableInteraction` / `disableInteraction={true}` → `interactionEffect="none"`;
-  `disableInteraction={flag}` → `interactionEffect={flag ? 'none' : 'normal'}`;
+  `disableInteraction={flag}` → `interactionEffect={flag ? 'none' : 'highlight'}`;
   `disableInteraction={false}` → delete the attribute. `disableInteraction` STILL EXISTS in
   v4 on `Button`, `TextButton`, `Chip`, `FilterButton`, `ToggleIcon`, `AvatarButton`,
   `ListCell` and the `SectionHeader` family — only `IconButton` changed, so never rename the
@@ -1301,7 +1302,7 @@ and is ignored under `none`.
 - **`TopNavigationButton` icon buttons dim instead of drawing the interaction layer** (also
   `ModalNavigationButton` and `ModalClose`, which render one). With
   `variant="icon"` (its DEFAULT variant) the inner `IconButton` now receives
-  `interactionEffect="dim"` from a provider, so hover / press changes the icon color instead
+  `interactionEffect="dim"` by default, so hover / press changes the icon color instead
   of showing the layer. `TopNavigationButtonProps` exposes no `interactionEffect`, so there
   is no opt-out prop — this is the v4 design; nothing to rewrite, flag every top navigation
   and modal navigation / close button for visual QA.
@@ -1325,51 +1326,64 @@ and is ignored under `none`.
     (`background` / `outlined` / `solid`) ignore the prop — do not add it. Their layout still
     changed (e.g. the `background` default box grew from 24px to 32px, and a numeric `size`
     now gets a proportionally smaller icon), so flag every non-`normal` hit for visual QA.
-  - **Do NOT add it to an `IconButton` passed as a component's slot resource.** These slots
-    constrain the width / height of the area that holds the `IconButton`. The `size` change
-    still applies there: a v3 numeric `size` was the icon and is now the box, and an omitted
-    `size` is now the 36px `xlarge` box. Do not port the v3 number — re-pick the box from the
-    slot component's v4 docs (e.g. M12's `SelectContent` example moved 22 → 32 / 28 — the
-    documented box may be larger than the slot's constrained area and overflows it by design;
-    follow the docs example) and flag
-    every slot `IconButton` for visual QA.
+  - **Slot `IconButton`s the slot sizes — delete `size` and `interactionOverflow` there.**
+    The slots below pass the `IconButton` a slot-appropriate `size` (and `interactionOverflow`
+    where the design uses it); form-field slots follow the field `size`, including a
+    `FormControl` `size` and responsive `xs` / `sm` / `md` / `lg` / `xl` values. The values
+    apply ONLY to the variant(s) the row names: `variant="normal"` (the default — also when
+    `variant` is omitted) unless the row says otherwise, and only `variant="solid"` for
+    `MenuActionAreaContent`. A value declared on the `IconButton` wins at every breakpoint, so
+    on a slot hit whose variant the row sizes, the v3 `size` it carried (`size={32}` / `{28}` /
+    `{24}` sized to the slot) now overrides the slot and must be DELETED, together with any
+    `interactionOverflow` or responsive `size` keys on that element. Keep an explicit value only
+    where the screen deliberately wants a size the slot does not give. A slot hit whose variant
+    the row does NOT size gets nothing from the slot — deleting its `size` would drop it to the
+    default `xlarge` box: a `normal` one (e.g. a normal `IconButton` in `MenuActionAreaContent`)
+    is handled like a standalone `IconButton` (add `interactionOverflow`), any other variant
+    keeps its `size` (QA only). Flag every slot `IconButton` for visual QA.
 
-    | Component                                                                                                                      | Slot                                                                                        | Constraint                          |
-    | ------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------- | ----------------------------------- |
-    | `ListCellContent` and derivatives (`MenuItemContent`, `OptionContent`, `AutocompleteOptionContent`, `AccordionSummaryContent`) | `variant="icon-button"`                                                                     | 22px wide / 24px high               |
-    | `TextFieldContent`                                                                                                             | `variant="icon-button"`                                                                     | 24px wide (medium 20px)             |
-    | `TextAreaContent`                                                                                                              | `variant="icon-button"` (the DEFAULT — also when `variant` is omitted) and `variant="icon"` | 22px wide / 20px high (medium 22px) |
-    | `SelectContent`                                                                                                                | `variant="icon-button"`                                                                     | 24px wide (medium 20px) / 24px high |
-    | `SectionHeader`                                                                                                                | `headingContent`, `trailingContent`                                                         | per-size max-height (20–38px)       |
-    | `MenuActionAreaContent`                                                                                                        | `variant="icon-button"`                                                                     | 56px-high action area               |
+    | Component                                                                                                                      | Slot                                                                                        | Applied to the `IconButton`                                                                             |
+    | ------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
+    | `ListCellContent` and derivatives (`MenuItemContent`, `OptionContent`, `AutocompleteOptionContent`, `AccordionSummaryContent`) | `variant="icon-button"`                                                                     | `size="large"` + `interactionOverflow`                                                                  |
+    | `TextFieldContent`                                                                                                             | `variant="icon-button"`                                                                     | field `large` → `size="large"`, `medium` → `size="medium"`, + `interactionOverflow`                     |
+    | `TextAreaContent`                                                                                                              | `variant="icon-button"` (the DEFAULT — also when `variant` is omitted) and `variant="icon"` | same as `TextFieldContent`; `variant="solid"` → `size="small"`                                          |
+    | `SelectContent`                                                                                                                | `variant="icon-button"`                                                                     | same as `TextFieldContent`                                                                              |
+    | `TabList`                                                                                                                      | `iconButton`                                                                                | list `small` / `medium` → `size="large"`, `large` → `size="xlarge"`, + `interactionOverflow`            |
+    | `CategoryList`                                                                                                                 | `iconButton`                                                                                | list `small` / `medium` → `size="large"`, `large` / `xlarge` → `size="xlarge"`, + `interactionOverflow` |
+    | `SectionHeader`                                                                                                                | `headingContent`, `trailingContent`                                                         | `size="xlarge"`, no `interactionOverflow`                                                               |
+    | `MenuActionAreaContent`                                                                                                        | `variant="icon-button"`                                                                     | `variant="solid"` → `size="small"`                                                                      |
 
-  - **Exception — `TabList` / `CategoryList` `iconButton`**: a slot, but it DOES take
-    `interactionOverflow` (the overflow ends inside the 20px gap to the list). Size it by the
-    list `size`: `small` / `medium` → `size="large"` (20px icon; v3's 22px medium icon has no
-    v4 size), `large` / `xlarge` → `size="xlarge"` (24px icon). An omitted list `size` takes
-    the list default, which differs: `TabList` defaults to `large` (→ `size="xlarge"`),
-    `CategoryList` to `medium` (→ `size="large"`).
-  - These component-rendered `IconButton`s already apply `interactionOverflow` internally —
-    nothing to add:
+    With `interactionOverflow` the layout is the icon (`xlarge` 24, `large` 20, `medium` 18)
+    and the interaction area overflows it (36 / 32 / 28) inside the slot's padding. v3's
+    22px `medium` Tab / Category icon has no v4 size and becomes 20px (`large`). An omitted
+    list `size` takes the list default: `TabList` `large` (→ `xlarge`), `CategoryList`
+    `medium` (→ `large`).
 
-    | Component                                                                                | IconButton                                                                       | Layout | Interaction area |
-    | ---------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- | ------ | ---------------- |
-    | `TopNavigationButton` (incl. `ModalNavigationButton` and `ModalClose`, `variant="icon"`) | `size={24}`, `interactionEffect="dim"`                                           | 24     | 36               |
-    | `SnackbarCloseButton` (incl. `useSnackbar({ closeButton: true })`)                       | `size="large"`                                                                   | 20     | 32               |
-    | `Popover` close button                                                                   | `size="small"`                                                                   | 16     | 24               |
-    | `SectionMessage` close button                                                            | `size={20}`, `color` / `interactionColor="semantic.foreground.neutral.tertiary"` | 20     | 32               |
-    | `TooltipContent` close button (`size="medium"`)                                          | `size="small"`, `interactionColor="semantic.foreground.neutral.inverse"`         | 16     | 24               |
-    | `TooltipContent` close button (`size="small"`)                                           | `size={10}`, `interactionColor="semantic.foreground.neutral.inverse"`            | 10     | 18 ¹             |
+  - These component-rendered `IconButton`s already carry their v4 values — nothing to add:
+
+    | Component                                                                                                                      | IconButton                                                                          | Layout  | Interaction area |
+    | ------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------- | ------- | ---------------- |
+    | `TopNavigationButton` (incl. `ModalNavigationButton` and `ModalClose`, `variant="icon"`)                                       | `size={24}`, `interactionEffect="dim"`                                              | 24      | 36               |
+    | `SnackbarCloseButton` (incl. `useSnackbar({ closeButton: true })`)                                                             | `size="large"`                                                                      | 20      | 32               |
+    | `Popover` close button                                                                                                         | `size="small"`                                                                      | 16      | 24               |
+    | `SectionMessage` close button                                                                                                  | `size="large"`, `color` / `interactionColor="semantic.foreground.neutral.tertiary"` | 20      | 32               |
+    | `TooltipContent` close button (`size="medium"`)                                                                                | `size="small"`, `interactionColor="semantic.foreground.neutral.inverse"`            | 16      | 24               |
+    | `TooltipContent` close button (`size="small"`)                                                                                 | `size={10}`, `interactionColor="semantic.foreground.neutral.inverse"`               | 10      | 18 ¹             |
+    | `TextField` / `SearchField` reset button, `DatePicker` / `DateRangePicker` / `TimePicker` calendar button (`large` / `medium`) | `size="large"` / `size="medium"`                                                    | 20 / 18 | 32 / 28          |
+    | `DateCalendar` / `DateRangeCalendar` previous / next buttons                                                                   | `size="medium"`                                                                     | 18      | 28               |
+    | `Pagination` previous / next buttons (`extended`, `minimize` / `compact`)                                                      | `size="small"` / `size="xlarge"`                                                    | 16 / 24 | 24 / 36          |
 
     ¹ The Tooltip's own `calc(100% + 8px)` rule outranks the IconButton's 24px minimum.
 
-  - A hit that already carries `interactionOverflow` is done; never add it twice.
+  - A standalone hit that already carries `interactionOverflow` is done; never add it twice.
 
-  Scan **[decision]** repo-wide: `<IconButton\b` — judge every hit by where it renders:
-  inside one of the slots in the table (check the enclosing JSX and the props the element is
-  passed through), standalone, or a non-`normal` variant. Locate slot usages with
+  Scan **[decision]** repo-wide: `<IconButton\b` — judge every hit by where it renders and
+  its variant, in this order: inside one of the slots in the table with a variant the row
+  sizes (check the enclosing JSX and the props the element is passed through — delete its
+  `size` / `interactionOverflow`); otherwise a `normal` hit, standalone or in a slot that does
+  not size its variant (add `interactionOverflow`); otherwise a non-`normal` variant (QA only). Locate slot usages with
   `variant="icon-button"|<TextAreaContent\b|\bheadingContent=|\btrailingContent=|\biconButton=` to
-  cross-check (`<TextAreaContent` because its constrained slot is the default variant);
+  cross-check (`<TextAreaContent` because its icon slot is the default variant);
   `trailingContent` also exists on `ListCell`, whose own `ListCellContent` slot is in the table.
   A consumer wrapper that renders an `IconButton` is judged by where the WRAPPER is used.
   Line-based: multi-line JSX and `IconButton` elements built outside JSX literals escape the

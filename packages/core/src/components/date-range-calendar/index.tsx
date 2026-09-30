@@ -239,7 +239,8 @@ const RangeDayPanel = memo(({ panelIndex }: RangeDayPanelProps) => {
     return (
       <IconButton
         data-ignore-first-focus="true"
-        size={18}
+        size="medium"
+        interactionOverflow
         aria-label="Previous month"
         disabled={
           isValidDate(min) &&
@@ -269,7 +270,8 @@ const RangeDayPanel = memo(({ panelIndex }: RangeDayPanelProps) => {
     return (
       <IconButton
         data-ignore-first-focus="true"
-        size={18}
+        size="medium"
+        interactionOverflow
         aria-label="Next month"
         disabled={
           isValidDate(max) &&
@@ -1017,7 +1019,8 @@ const RangeMonthPanel = memo(() => {
             <FlexBox gap="18px" sx={rangePanelHeaderNavigationStyle}>
               <IconButton
                 data-ignore-first-focus="true"
-                size={18}
+                size="medium"
+                interactionOverflow
                 aria-label="Previous year"
                 disabled={
                   isValidDate(min) &&
@@ -1040,7 +1043,8 @@ const RangeMonthPanel = memo(() => {
               </IconButton>
               <IconButton
                 data-ignore-first-focus="true"
-                size={18}
+                size="medium"
+                interactionOverflow
                 aria-label="Next year"
                 disabled={
                   isValidDate(max) &&

@@ -25,6 +25,8 @@ import { selectIconStyle, selectStyle, selectTextStyle } from '../select/style';
 import useResizeObserver from '../../hooks/internal/use-resize-observer';
 import { VirtualValueInput } from '../virtual-input';
 import { SelectProvider } from '../select/context';
+import { FormFieldLayoutProvider } from '../form-control/contexts';
+import { useFormFieldSize } from '../form-control/hooks';
 
 import { customSelectMultipleRenderWrapperStyle } from './style';
 
@@ -48,7 +50,7 @@ const SelectMultiple = forwardRef<
       open: openProp,
       defaultOpen,
       onOpenChange,
-      size = 'large',
+      size,
       allSelectedLabel,
       leadingContent,
       render,
@@ -68,6 +70,11 @@ const SelectMultiple = forwardRef<
     },
     forwardedRef,
   ) => {
+    const { size: resolvedSize, ...resolvedResponsive } = useFormFieldSize(
+      size,
+      { xs, sm, md, lg, xl },
+    );
+
     const [node, setNode] = useState<HTMLDivElement | null>(null);
     const composedRefs = useComposedRefs<HTMLDivElement>(forwardedRef, setNode);
 
@@ -238,24 +245,27 @@ const SelectMultiple = forwardRef<
               })}
               sx={[
                 selectStyle({
-                  size,
+                  size: resolvedSize,
                   disabled,
                   status,
                   width,
                   height,
                   overflow,
-                  xs,
-                  sm,
-                  md,
-                  lg,
-                  xl,
+                  ...resolvedResponsive,
                   ...props,
                 }),
                 props.sx,
               ]}
             >
               <FlexBox gap="2px" data-role="select-multiple-wrapper">
-                {Boolean(leadingContent) && leadingContent}
+                {Boolean(leadingContent) && (
+                  <FormFieldLayoutProvider
+                    size={resolvedSize}
+                    responsive={resolvedResponsive}
+                  >
+                    {leadingContent}
+                  </FormFieldLayoutProvider>
+                )}
 
                 {shouldShowPlaceholder && (
                   <Typography

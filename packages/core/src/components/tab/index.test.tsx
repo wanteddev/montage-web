@@ -7,6 +7,8 @@ import {
 } from '@testing-library/react';
 import { axe } from 'vitest-axe';
 
+import { IconButton } from '../icon-button';
+
 import { Tab, TabList, TabListItem, TabPanel } from '.';
 
 describe('when given tab component with panel', () => {
@@ -59,5 +61,37 @@ describe('when given tab component with panel', () => {
     expect(await axe(screen.getByTestId('tab-list'))).toHaveNoViolations();
     expect(await axe(screen.getByTestId('tab-1'))).toHaveNoViolations();
     expect(await axe(screen.getByTestId('tab-panel-1'))).toHaveNoViolations();
+  });
+});
+
+describe('when given tab list with icon button', () => {
+  afterEach(() => {
+    cleanup();
+  });
+
+  // interactionOverflow: the layout is the icon (large 20, xlarge 24).
+  it.each([
+    ['small', '20px'],
+    ['medium', '20px'],
+    ['large', '24px'],
+  ] as const)('should size the icon button for %s size', (size, width) => {
+    render(
+      <Tab defaultValue="1">
+        <TabList
+          size={size}
+          iconButton={
+            <IconButton aria-label="More">
+              <svg />
+            </IconButton>
+          }
+        >
+          <TabListItem value="1">Item 1</TabListItem>
+        </TabList>
+      </Tab>,
+    );
+
+    expect(window.getComputedStyle(screen.getByLabelText('More')).width).toBe(
+      width,
+    );
   });
 });

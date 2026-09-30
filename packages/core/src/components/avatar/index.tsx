@@ -7,6 +7,7 @@ import {
 import { Box } from '@montage-ui/engine';
 
 import { ImageBase } from '../image-base';
+import { useInheritedSize } from '../../hooks/internal/use-slot-defaults';
 
 import { avatarWrapperStyle, fallbackWrapperStyle } from './style';
 
@@ -19,7 +20,7 @@ const Avatar = forwardRef<
 >(
   (
     {
-      size = 'small',
+      size: originSize,
       variant = 'person',
       className,
       style,
@@ -35,6 +36,13 @@ const Avatar = forwardRef<
     },
     ref,
   ) => {
+    const { size: inheritedSize, responsive } = useInheritedSize(
+      'Avatar',
+      originSize,
+      { xs, sm, md, lg, xl },
+    );
+    const size = inheritedSize ?? 'small';
+
     const defaultFallback = useMemo(() => {
       switch (variant) {
         case 'person':
@@ -80,7 +88,7 @@ const Avatar = forwardRef<
         ref={ref}
         className={className}
         data-component="avatar"
-        sx={[avatarWrapperStyle({ size, variant, xs, sm, md, lg, xl }), sx]}
+        sx={[avatarWrapperStyle({ size, variant, ...responsive }), sx]}
         data-state={imageLoadingStatus}
         style={style}
       >

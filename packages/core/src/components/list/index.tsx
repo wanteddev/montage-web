@@ -17,16 +17,19 @@ import { FlexBox } from '../flex-box';
 import { Typography } from '../typography';
 import { WithInteraction } from '../with-interaction';
 import { useMenuItemContext } from '../menu/contexts';
-import { IconButtonProvider } from '../icon-button/contexts';
 import { TextButtonProvider } from '../text-button/contexts';
 import { CheckboxProvider } from '../checkbox/contexts';
 import { RadioProvider } from '../radio/contexts';
 import { isElementDisabled } from '../../utils/internal/element';
+import { SlotDefaultsProvider } from '../../hooks/internal/use-slot-defaults';
 
 import {
   LIST_CELL_CONTENT_NAME,
+  LIST_CELL_CONTENT_SLOT_DEFAULTS,
   LIST_CELL_EXTRA_CONTENT_NAME,
+  LIST_CELL_EXTRA_CONTENT_SLOT_DEFAULTS,
   LIST_CELL_LABEL_TRAILING_NAME,
+  LIST_CELL_LABEL_TRAILING_SLOT_DEFAULTS,
   LIST_CELL_NAME,
   LIST_CELL_SELECTED_ICON_NAME,
   LIST_NAME,
@@ -302,7 +305,11 @@ const ListCellContent = forwardRef<
             sx={[listCellContentStyle({ variant }), sx]}
           >
             <TextButtonProvider assistive="semantic.foreground.neutral.tertiary">
-              {children}
+              <SlotDefaultsProvider
+                value={LIST_CELL_CONTENT_SLOT_DEFAULTS[variant]}
+              >
+                {children}
+              </SlotDefaultsProvider>
             </TextButtonProvider>
           </FlexBox>
 
@@ -321,11 +328,11 @@ const ListCellContent = forwardRef<
             {...props}
             sx={[listCellContentStyle({ variant }), sx]}
           >
-            <IconButtonProvider
-              normal={{ color: 'semantic.foreground.neutral.tertiary' }}
+            <SlotDefaultsProvider
+              value={LIST_CELL_CONTENT_SLOT_DEFAULTS[variant]}
             >
               {children}
-            </IconButtonProvider>
+            </SlotDefaultsProvider>
           </FlexBox>
 
           {chevronIcon}
@@ -386,7 +393,11 @@ const ListCellContent = forwardRef<
             {...props}
             sx={[listCellContentStyle({ variant }), sx]}
           >
-            {children}
+            <SlotDefaultsProvider
+              value={LIST_CELL_CONTENT_SLOT_DEFAULTS[variant]}
+            >
+              {children}
+            </SlotDefaultsProvider>
           </FlexBox>
 
           {chevronIcon}
@@ -432,7 +443,11 @@ const ListCellLabelTrailing = forwardRef<
           {...props}
           sx={[listCellLabelTrailingStyle, sx]}
         >
-          {children}
+          <SlotDefaultsProvider
+            value={LIST_CELL_LABEL_TRAILING_SLOT_DEFAULTS[variant]}
+          >
+            {children}
+          </SlotDefaultsProvider>
         </FlexBox>
       );
   }
@@ -477,7 +492,11 @@ const ListCellExtraContent = forwardRef<
             sx,
           ]}
         >
-          {children}
+          <SlotDefaultsProvider
+            value={LIST_CELL_EXTRA_CONTENT_SLOT_DEFAULTS[variant]}
+          >
+            {children}
+          </SlotDefaultsProvider>
         </FlexBox>
       );
     case 'custom':

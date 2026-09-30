@@ -264,7 +264,8 @@ const DateCalendar = forwardRef<
                       <>
                         <IconButton
                           data-ignore-first-focus="true"
-                          size={18}
+                          size="medium"
+                          interactionOverflow
                           aria-label="Previous month"
                           disabled={
                             isValidDate(min) &&
@@ -293,7 +294,8 @@ const DateCalendar = forwardRef<
 
                         <IconButton
                           data-ignore-first-focus="true"
-                          size={18}
+                          size="medium"
+                          interactionOverflow
                           aria-label="Next month"
                           disabled={
                             isValidDate(max) &&
