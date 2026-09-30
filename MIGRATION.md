@@ -1430,14 +1430,14 @@ npx @montage-ui/codemod@latest list-cell-variant-migration src
 
 `disableInteraction` prop이 제거되고, hover / press 인터랙션 방식을 선택하는 `interactionEffect` prop으로 대체되었습니다.
 
-| AS-IS                | TO-BE                                 |
-| -------------------- | ------------------------------------- |
-| (기본 동작)          | `interactionEffect="normal"` (기본값) |
-| `disableInteraction` | `interactionEffect="none"`            |
-| —                    | `interactionEffect="dim"` (신규)      |
+| AS-IS                | TO-BE                                    |
+| -------------------- | ---------------------------------------- |
+| (기본 동작)          | `interactionEffect="highlight"` (기본값) |
+| `disableInteraction` | `interactionEffect="none"`               |
+| —                    | `interactionEffect="dim"` (신규)         |
 
-- `normal`(기본값): 기존과 동일하게 `interactionColor`로 채워진 인터랙션 레이어가 나타납니다.
-- `dim`(신규): 인터랙션 레이어 대신 아이콘 색상을 `interactionColor`로 바꾸고 투명도를 낮춥니다(hover 52% / press 22%). `variant="normal"`에서만 동작하며 다른 variant는 `normal`처럼 동작합니다.
+- `highlight`(기본값): 기존과 동일하게 `interactionColor`로 채워진 인터랙션 레이어가 나타납니다.
+- `dim`(신규): 인터랙션 레이어 대신 아이콘 색상을 `interactionColor`로 바꾸고 투명도를 낮춥니다(hover 52% / press 22%). `variant="normal"`에서만 동작하며 다른 variant는 `highlight`처럼 동작합니다.
 - `none`: 인터랙션 효과를 끕니다. 기존 `disableInteraction`과 동일합니다.
 
 ```tsx
@@ -1452,7 +1452,7 @@ npx @montage-ui/codemod@latest list-cell-variant-migration src
 </IconButton>
 ```
 
-`disableInteraction={flag}`처럼 조건부로 넘기던 코드는 `interactionEffect={flag ? 'none' : 'normal'}`로 바꿔주세요. 별도 codemod는 제공되지 않으므로 수동으로 변경해야 합니다.
+`disableInteraction={flag}`처럼 조건부로 넘기던 코드는 `interactionEffect={flag ? 'none' : 'highlight'}`로 바꿔주세요. 별도 codemod는 제공되지 않으므로 수동으로 변경해야 합니다.
 
 `interactionColor`는 기존과 같이 인터랙션 레이어 색상으로 쓰이며, `dim`에서는 hover / press 시 아이콘 색상으로 쓰입니다. `none`일 때는 무시됩니다.
 

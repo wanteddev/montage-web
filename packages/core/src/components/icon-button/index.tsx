@@ -107,7 +107,7 @@ const IconButton = forwardRef(
         return inheritedInteractionEffect;
       }
 
-      return 'normal';
+      return 'highlight';
     }, [inheritedInteractionEffect, originInteractionEffect]);
 
     const getInteractionSize = () => {

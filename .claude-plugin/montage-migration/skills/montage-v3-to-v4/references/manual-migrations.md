@@ -1265,19 +1265,19 @@ No codemod covers this section. The `normal` variant's `size` changed meaning (s
 `interactionOverflow` bullet below), and `IconButton` lost its `disableInteraction` prop; the
 replacement is `interactionEffect`, which selects the hover / press feedback:
 
-- `normal` (default) — the interaction layer filled with `interactionColor`, exactly the v3
+- `highlight` (default) — the interaction layer filled with `interactionColor`, exactly the v3
   behavior.
 - `dim` (new) — the layer is hidden and the icon itself switches to `interactionColor` at
   reduced opacity (52% on hover, 22% on press). `variant="normal"` only; every other variant
-  behaves like `normal`.
+  behaves like `highlight`.
 - `none` — no feedback. This is the former `disableInteraction`.
 
-`interactionColor` keeps its v3 meaning under `normal`, becomes the icon color under `dim`,
+`interactionColor` keeps its v3 meaning under `highlight`, becomes the icon color under `dim`,
 and is ignored under `none`.
 
 - **`disableInteraction` on `IconButton` → `interactionEffect="none"`.** Rewrite per shape:
   a bare `disableInteraction` / `disableInteraction={true}` → `interactionEffect="none"`;
-  `disableInteraction={flag}` → `interactionEffect={flag ? 'none' : 'normal'}`;
+  `disableInteraction={flag}` → `interactionEffect={flag ? 'none' : 'highlight'}`;
   `disableInteraction={false}` → delete the attribute. `disableInteraction` STILL EXISTS in
   v4 on `Button`, `TextButton`, `Chip`, `FilterButton`, `ToggleIcon`, `AvatarButton`,
   `ListCell` and the `SectionHeader` family — only `IconButton` changed, so never rename the
@@ -1301,7 +1301,7 @@ and is ignored under `none`.
 - **`TopNavigationButton` icon buttons dim instead of drawing the interaction layer** (also
   `ModalNavigationButton` and `ModalClose`, which render one). With
   `variant="icon"` (its DEFAULT variant) the inner `IconButton` now receives
-  `interactionEffect="dim"` from a provider, so hover / press changes the icon color instead
+  `interactionEffect="dim"` by default, so hover / press changes the icon color instead
   of showing the layer. `TopNavigationButtonProps` exposes no `interactionEffect`, so there
   is no opt-out prop — this is the v4 design; nothing to rewrite, flag every top navigation
   and modal navigation / close button for visual QA.
