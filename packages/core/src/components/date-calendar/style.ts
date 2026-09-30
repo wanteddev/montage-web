@@ -26,7 +26,6 @@ export const dateCalendarHeaderStyle = css`
 
 export const dateCalendarHeaderLabelStyle = css`
   padding: 0px 12px;
-  height: 24px;
 `;
 
 export const weekdayCellStyle = css`
@@ -38,6 +37,7 @@ export const dateCalendarHeaderLabelButtonStyle = (theme: Theme) => css`
   color: ${theme.semantic.foreground.neutral.primary};
   padding-top: 0px;
   padding-bottom: 0px;
+  min-height: initial;
 
   & > [data-component='with-interaction'] {
     height: calc(100% + 8px);
