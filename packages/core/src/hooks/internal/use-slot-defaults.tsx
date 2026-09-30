@@ -4,8 +4,11 @@ import { resolveInheritedResponsive } from '../../utils/internal/responsive-prop
 
 import type { ResponsiveProps } from '@montage-ui/engine';
 import type { ReactNode } from 'react';
+import type { AvatarProps } from '../../components/avatar';
 import type { ButtonProps } from '../../components/button';
 import type { ContentBadgeProps } from '../../components/content-badge';
+import type { SegmentedControlProps } from '../../components/segmented-control';
+import type { TextButtonProps } from '../../components/text-button';
 
 export type InheritedSize<S> = {
   /** Base size applied when the component does not declare its own `size`. */
@@ -19,8 +22,11 @@ export type InheritedSize<S> = {
  * Register a component here, then read its defaults with `useInheritedSize`.
  */
 export type SlotDefaultsMap = {
+  Avatar: InheritedSize<AvatarProps['size']>;
   Button: InheritedSize<ButtonProps['size']>;
   ContentBadge: InheritedSize<ContentBadgeProps['size']>;
+  SegmentedControl: InheritedSize<SegmentedControlProps['size']>;
+  TextButton: InheritedSize<TextButtonProps['size']>;
 };
 
 export type SlotDefaults = {

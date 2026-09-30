@@ -16,7 +16,7 @@ import { SlotDefaultsProvider } from '../../hooks/internal/use-slot-defaults';
 import { mergeResponsiveProps } from '../../utils/internal/responsive-props';
 
 import { getTextAreaDefaultHeight } from './helpers';
-import { TEXT_AREA_SLOT_SIZE } from './constants';
+import { TEXT_AREA_SLOT_DEFAULTS, TEXT_AREA_SLOT_SIZE } from './constants';
 import {
   textAreaBottomAreaStyle,
   textAreaContentStyle,
@@ -294,7 +294,9 @@ const TextAreaContent = forwardRef<
   HTMLDivElement,
   DefaultComponentPropsInternal<TextAreaContentProps, 'div'>
 >(({ variant = 'icon-button', children, sx, ...props }, ref) => {
-  const slotDefaults = useFormFieldSlotDefaults(TEXT_AREA_SLOT_SIZE[variant]);
+  const slotDefaults =
+    useFormFieldSlotDefaults(TEXT_AREA_SLOT_SIZE[variant]) ??
+    TEXT_AREA_SLOT_DEFAULTS[variant];
 
   switch (variant) {
     case 'content-badge':
@@ -305,7 +307,9 @@ const TextAreaContent = forwardRef<
           sx={[textAreaContentStyle, sx]}
           {...props}
         >
-          {children}
+          <SlotDefaultsProvider value={slotDefaults}>
+            {children}
+          </SlotDefaultsProvider>
         </FlexBox>
       );
     case 'button':
@@ -318,7 +322,9 @@ const TextAreaContent = forwardRef<
           sx={[textAreaContentStyle, sx]}
           {...props}
         >
-          {children}
+          <SlotDefaultsProvider value={slotDefaults}>
+            {children}
+          </SlotDefaultsProvider>
         </FlexBox>
       );
     case 'icon':
@@ -375,7 +381,9 @@ const TextAreaContent = forwardRef<
           sx={[textAreaContentStyle, sx]}
           {...props}
         >
-          {children}
+          <SlotDefaultsProvider value={slotDefaults}>
+            {children}
+          </SlotDefaultsProvider>
         </FlexBox>
       );
   }

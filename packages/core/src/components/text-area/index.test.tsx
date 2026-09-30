@@ -8,8 +8,13 @@ import {
   FormControlMessage,
 } from '../form-control';
 import { Button } from '../button';
+import { ContentBadge } from '../content-badge';
+import { SegmentedControl, SegmentedControlItem } from '../segmented-control';
+import { TextButton } from '../text-button';
 
 import { TextArea, TextAreaContent } from '.';
+
+import type { ReactElement } from 'react';
 
 describe('when given text area component', () => {
   afterEach(() => {
@@ -110,5 +115,67 @@ describe('when given text area inside form control', () => {
     expect(
       window.getComputedStyle(screen.getByLabelText('Send')).minHeight,
     ).toBe('var(--dimension-28)');
+  });
+});
+
+describe('when given components inside text area fixed size content', () => {
+  afterEach(() => {
+    cleanup();
+  });
+
+  // Emotion class names are derived from the generated styles, so equal class
+  // names mean the slot default renders exactly like an explicit `size`.
+  const classNamesOf = (element: ReactElement) => {
+    const { container, unmount } = render(element);
+    const classNames = Array.from(
+      container.querySelectorAll(
+        '[data-testid="child"], [data-testid="child"] *',
+      ),
+    ).map((node) => node.getAttribute('class') ?? '');
+    unmount();
+    return classNames;
+  };
+
+  it.each([
+    [
+      'content-badge',
+      (size?: 'small' | 'medium') => (
+        <ContentBadge data-testid="child" size={size}>
+          Badge
+        </ContentBadge>
+      ),
+    ],
+    [
+      'button',
+      (size?: 'small' | 'medium') => (
+        <TextButton data-testid="child" size={size}>
+          Text
+        </TextButton>
+      ),
+    ],
+    [
+      'segmented-control',
+      (size?: 'small' | 'medium') => (
+        <SegmentedControl data-testid="child" size={size} defaultValue="1">
+          <SegmentedControlItem value="1">One</SegmentedControlItem>
+        </SegmentedControl>
+      ),
+    ],
+  ] as const)('should apply the small size in %s content', (variant, child) => {
+    const area = (element: ReactElement) => (
+      <TextArea
+        size="medium"
+        trailingContent={
+          <TextAreaContent variant={variant}>{element}</TextAreaContent>
+        }
+      />
+    );
+
+    expect(classNamesOf(area(child()))).toEqual(
+      classNamesOf(area(child('small'))),
+    );
+    expect(classNamesOf(area(child()))).not.toEqual(
+      classNamesOf(area(child('medium'))),
+    );
   });
 });

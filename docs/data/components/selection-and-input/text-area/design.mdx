@@ -17,7 +17,7 @@ updatedAt: 2026-02-11
   
 
 <SectionVariants
-  components={['FormControl', 'TextArea', 'TextAreaContent', 'TextFieldButton', 'FormControlField', 'FormControlMessage', 'FormControlLabel', 'ContentBadge', 'TextButton', 'FilterButton', 'IconButton']}
+  components={['FormControl', 'TextArea', 'TextAreaContent', 'TextFieldButton', 'FormControlField', 'FormControlMessage', 'FormControlLabel', 'ContentBadge', 'TextButton', 'IconButton']}
   icons={['IconBlank']}
   render={(value) => {
       let leadingContent = 'null';
@@ -31,7 +31,7 @@ updatedAt: 2026-02-11
           break;
         case 'Button':
           leadingContent =
-            '<TextAreaContent variant="button"><TextButton size="small" color="assistive">Button</TextButton></TextAreaContent>';
+            '<TextAreaContent variant="button"><TextButton color="assistive">Button</TextButton></TextAreaContent>';
           break;
         case 'Icon button':
           leadingContent =
@@ -43,11 +43,7 @@ updatedAt: 2026-02-11
           break;
         case 'Badge':
           leadingContent =
-            '<TextAreaContent variant="badge"><ContentBadge color="neutral" size="small">Badge</ContentBadge></TextAreaContent>';
-          break;
-        case 'Chip':
-          leadingContent =
-            '<TextAreaContent variant="chip"><FilterButton size="small">Chip</FilterButton></TextAreaContent>';
+            '<TextAreaContent variant="content-badge"><ContentBadge color="neutral">Badge</ContentBadge></TextAreaContent>';
           break;
         default:
           leadingContent = 'null';
@@ -60,7 +56,7 @@ updatedAt: 2026-02-11
           break;
         case 'Button':
           trailingContent =
-            '<TextAreaContent variant="button"><TextButton size="small" variant="primary">Button</TextButton></TextAreaContent>';
+            '<TextAreaContent variant="button"><TextButton variant="primary">Button</TextButton></TextAreaContent>';
           break;
         case 'Icon button':
           trailingContent =
@@ -72,11 +68,7 @@ updatedAt: 2026-02-11
           break;
         case 'Badge':
           trailingContent =
-            '<TextAreaContent variant="badge"><ContentBadge color="neutral" size="small">Badge</ContentBadge></TextAreaContent>';
-          break;
-        case 'Chip':
-          trailingContent =
-            '<TextAreaContent variant="chip"><FilterButton size="small">Chip</FilterButton></TextAreaContent>';
+            '<TextAreaContent variant="content-badge"><ContentBadge color="neutral">Badge</ContentBadge></TextAreaContent>';
           break;
         default:
           trailingContent = 'null';
@@ -130,8 +122,7 @@ updatedAt: 2026-02-11
         { label: 'Button', value: {} },
         { label: 'Icon button', value: {} },
         { label: 'Icon', value: {} },
-        { label: 'Badge', value: {} },
-        { label: 'Chip', value: {} }
+        { label: 'Badge', value: {} }
       ]
     },
     {
@@ -143,8 +134,7 @@ updatedAt: 2026-02-11
         { label: 'Button', value: {} },
         { label: 'Icon button', value: {} },
         { label: 'Icon', value: {} },
-        { label: 'Badge', value: {} },
-        { label: 'Chip', value: {} }
+        { label: 'Badge', value: {} }
       ]
     }
   ]}

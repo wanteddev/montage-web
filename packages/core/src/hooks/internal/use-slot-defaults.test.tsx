@@ -1,13 +1,19 @@
 import { cleanup, render, renderHook, screen } from '@testing-library/react';
 
+import { Avatar } from '../../components/avatar';
 import { Button } from '../../components/button';
 import { ContentBadge } from '../../components/content-badge';
+import {
+  SegmentedControl,
+  SegmentedControlItem,
+} from '../../components/segmented-control';
+import { TextButton } from '../../components/text-button';
 import { FormFieldLayoutProvider } from '../../components/form-control/contexts';
 import { useFormFieldSlotDefaults } from '../../components/form-control/hooks';
 
 import { SlotDefaultsProvider, useInheritedSize } from './use-slot-defaults';
 
-import type { ReactNode } from 'react';
+import type { ReactElement, ReactNode } from 'react';
 import type { SlotDefaults } from './use-slot-defaults';
 
 type BadgeSize = { size?: 'xsmall' | 'small' | 'medium' };
@@ -153,4 +159,76 @@ describe('useFormFieldSlotDefaults', () => {
 
     expect(result.current).toBeUndefined();
   });
+});
+
+// Emotion class names are derived from the generated styles, so equal class
+// names mean the slot default renders exactly like an explicit `size`.
+const classNamesOf = (element: ReactElement) => {
+  const { container, unmount } = render(element);
+  const classNames = Array.from(container.querySelectorAll('*')).map(
+    (node) => node.getAttribute('class') ?? '',
+  );
+  unmount();
+  return classNames;
+};
+
+describe('registered components', () => {
+  afterEach(() => {
+    cleanup();
+  });
+
+  it.each<[string, SlotDefaults, ReactElement, ReactElement]>([
+    [
+      'Avatar',
+      { Avatar: { size: 'medium' } },
+      <Avatar key="a" />,
+      <Avatar key="a" size="medium" />,
+    ],
+    [
+      'Button',
+      { Button: { size: 'small' } },
+      <Button key="a">Button</Button>,
+      <Button key="a" size="small">
+        Button
+      </Button>,
+    ],
+    [
+      'ContentBadge',
+      { ContentBadge: { size: 'small' } },
+      <ContentBadge key="a">Badge</ContentBadge>,
+      <ContentBadge key="a" size="small">
+        Badge
+      </ContentBadge>,
+    ],
+    [
+      'SegmentedControl',
+      { SegmentedControl: { size: 'small' } },
+      <SegmentedControl key="a" defaultValue="1">
+        <SegmentedControlItem value="1">One</SegmentedControlItem>
+      </SegmentedControl>,
+      <SegmentedControl key="a" size="small" defaultValue="1">
+        <SegmentedControlItem value="1">One</SegmentedControlItem>
+      </SegmentedControl>,
+    ],
+    [
+      'TextButton',
+      { TextButton: { size: 'small' } },
+      <TextButton key="a">Text</TextButton>,
+      <TextButton key="a" size="small">
+        Text
+      </TextButton>,
+    ],
+  ])(
+    '%s should render the slot default size',
+    (_, value, inherited, explicit) => {
+      expect(
+        classNamesOf(
+          <SlotDefaultsProvider value={value}>
+            {inherited}
+          </SlotDefaultsProvider>,
+        ),
+      ).toEqual(classNamesOf(explicit));
+      expect(classNamesOf(inherited)).not.toEqual(classNamesOf(explicit));
+    },
+  );
 });

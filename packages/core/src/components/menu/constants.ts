@@ -1,3 +1,6 @@
+import type { SlotDefaults } from '../../hooks/internal/use-slot-defaults';
+import type { MenuActionAreaContentProps } from './types';
+
 export const MENU_NAME = 'Menu';
 
 export const MENU_TRIGGER_NAME = 'MenuTrigger';
@@ -15,3 +18,11 @@ export const MENU_ITEM_CHECKBOX_NAME = 'MenuItemCheckbox';
 
 export const MENU_ACTION_AREA_NAME = 'MenuActionArea';
 export const MENU_ACTION_AREA_CONTENT_NAME = 'MenuActionAreaContent';
+
+/** Per action area content variant, the defaults of the components placed in it. */
+export const MENU_ACTION_AREA_CONTENT_SLOT_DEFAULTS: Partial<
+  Record<NonNullable<MenuActionAreaContentProps['variant']>, SlotDefaults>
+> = {
+  button: { Button: { size: 'small' } },
+  'text-button': { TextButton: { size: 'small' } },
+};

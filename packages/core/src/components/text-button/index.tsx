@@ -4,6 +4,7 @@ import { composeEventHandlers } from '@radix-ui/primitive';
 
 import { WithInteraction } from '../with-interaction';
 import { Loading } from '../loading';
+import { useInheritedSize } from '../../hooks/internal/use-slot-defaults';
 
 import { textButtonStyle } from './style';
 import { useTextButtonContext } from './contexts';
@@ -25,7 +26,7 @@ const TextButton = forwardRef(
       color = 'primary',
       leadingContent,
       trailingContent,
-      size = 'medium',
+      size: originSize,
       children,
       loading = false,
       disableLoadingPreventEvents,
@@ -38,6 +39,13 @@ const TextButton = forwardRef(
     }: PolymorphicPropsInternal<TextButtonProps, T>,
     ref: ForwardedRef<T>,
   ) => {
+    const { size: inheritedSize, responsive } = useInheritedSize(
+      'TextButton',
+      originSize,
+      { xs, sm, md, lg, xl },
+    );
+    const size = inheritedSize ?? 'medium';
+
     const id = useId();
     const context = useTextButtonContext();
 
@@ -97,11 +105,7 @@ const TextButton = forwardRef(
               size,
               loading,
               color,
-              xs,
-              sm,
-              md,
-              lg,
-              xl,
+              ...responsive,
             }),
             props.sx,
           ]}
