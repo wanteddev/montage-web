@@ -47,8 +47,9 @@ What it does:
    (MenuItem/Option `fillWidth`, the default selected check icon, typography/DOM changes),
    ThemeProvider cookie storage, IconButton `disableInteraction` → `interactionEffect`
    (TopNavigation icon buttons now dim instead of drawing the interaction layer) and
-   `interactionOverflow` for standalone icon buttons (never inside component slots, except the
-   TabList / CategoryList `iconButton`).
+   `interactionOverflow` for standalone icon buttons (icon buttons inside component slots,
+   incl. the TabList / CategoryList `iconButton`, whose variant the slot sizes drop their v3
+   `size` / `interactionOverflow` since the slot applies them).
 4. **Verification** — leftover greps, install/typecheck/lint/build/tests, summary.
 
 The codemods are order-sensitive and must not run twice (re-running

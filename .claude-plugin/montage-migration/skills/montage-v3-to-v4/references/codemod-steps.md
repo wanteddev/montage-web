@@ -1121,4 +1121,5 @@ Proceed to `manual-migrations.md` (all M-sections, M1–M18), then final verific
    without a trailingContent now show a default check icon, see M17), and every top
    navigation and modal navigation / close button, whose icon buttons now dim the icon on hover / press instead of drawing the
    interaction layer (see M18); and every screen M18's `<IconButton\b` scan changed, plus every
-   slot `IconButton` hit, for its layout (see M18) — behavioral and visual changes, not just renames.
+   slot `IconButton` hit, for its layout, and `compact` `Pagination` screens, whose
+   navigation icons shrank from 24px to 16px (see M18) — behavioral and visual changes, not just renames.

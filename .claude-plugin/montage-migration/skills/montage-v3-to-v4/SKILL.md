@@ -95,8 +95,9 @@ rewrites `package.json` a resume looks exactly like "already migrated".
      `\bdisableInteraction\b` — still a valid prop on every component that carried it in v3
      except `IconButton` — /
      `\b(TopNavigationButton|ModalNavigationButton|ModalClose)\b` / `<IconButton\b` and its slot cross-check — standalone `normal` hits
-     carry `interactionOverflow`; slot hits (except the TabList /
-     CategoryList `iconButton`) and non-`normal` variants correctly lack it), so they are
+     carry `interactionOverflow`; slot hits the slot sizes (TabList / CategoryList `iconButton`
+     included) correctly lack the v3 `size` / `interactionOverflow` (unless deliberately
+     kept), and non-`normal` variants correctly lack `interactionOverflow`), so they are
      never mismatch evidence. Detect the pending-but-already-applied direction with the
      **presence greps** in `references/codemod-steps.md` — each step's verify grep is an
      ABSENCE check that returns zero both when the codemod ran and when the repo never used
@@ -721,9 +722,11 @@ both together when an M-section changes):
   `ModalNavigationButton` / `ModalClose`, which render one) now dim the
   icon instead of drawing the interaction layer, with no opt-out prop — a visual-QA item,
   not a rewrite. The `normal` variant's `size` is now the box, not the icon: add
-  `interactionOverflow` to standalone `IconButton`s to keep the v3 layout, but never to one
-  passed as a component slot resource (the slots that constrain its size are tabled in M18),
-  except the TabList / CategoryList `iconButton`, which takes it —
+  `interactionOverflow` to standalone `IconButton`s to keep the v3 layout; an `IconButton`
+  passed as a component slot resource (tabled in M18, incl. the TabList / CategoryList
+  `iconButton`) whose variant the slot sizes gets its `size` / `interactionOverflow` from the
+  slot, so DELETE the v3 `size` / `interactionOverflow` it carries instead (a slot hit whose
+  variant the slot does not size is handled as standalone or QA only — see M18) —
   a **[decision]** scan over every `<IconButton` hit.
 
 M1 (package.json + configs) ends with a dependency install to refresh the lockfile.
@@ -799,7 +802,8 @@ Mark each M-section `completed` in the state file as it finishes.
    deleted accent tokens (their replacement values differ — see M9), and every top
    navigation and modal navigation / close button, whose icon buttons now dim the icon on hover / press instead of drawing the
    interaction layer (see M18); and every screen M18's `<IconButton\b` scan changed, plus every
-   slot `IconButton` hit, for its layout (see M18).
+   slot `IconButton` hit, for its layout, and `compact` `Pagination` screens, whose
+   navigation icons shrank from 24px to 16px (see M18).
 4. Delete the state file, then summarize: steps run, commits created, manual fixes
    applied, items intentionally left (with reasons).
 

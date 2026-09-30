@@ -1406,7 +1406,7 @@ npx @montage-ui/codemod@latest list-cell-variant-migration src
 | `SectionHeader`                                                                                                        | `headingContent`, `trailingContent`                                         | `size="xlarge"`, `interactionOverflow` 미적용                                                          |
 | `MenuActionAreaContent`                                                                                                | `variant="icon-button"`                                                     | `variant="solid"` 는 `size="small"`                                                                    |
 
-- 자동 적용 값은 `variant="normal"` IconButton 에 적용됩니다. 별도로 적힌 경우(`solid`)만 해당 variant 에 적용됩니다.
+- 자동 적용 값은 `variant="normal"` IconButton 에 적용됩니다. 별도로 적힌 경우(`solid`)만 해당 variant 에 적용됩니다. 표에 적히지 않은 variant 는 자동 적용 대상이 아니므로 `size` 를 지우지 마세요. 예를 들어 `MenuActionAreaContent` 의 `normal` IconButton 은 단독 IconButton 처럼 다룹니다.
 - `interactionOverflow` 가 적용된 슬롯은 레이아웃이 아이콘 크기(`xlarge` 24, `large` 20, `medium` 18)이고, 인터랙션 영역은 레이아웃 밖으로 넘쳐 그려집니다(36 / 32 / 28). 넘친 영역은 슬롯 여백 안에서 끝나므로 인접 요소를 가리지 않습니다.
 - `TabList`, `CategoryList` 에서 3.x `medium` 에 쓰던 22px 아이콘은 4.0.0 사이즈에 없어 20px(`large`)을 사용합니다. 리스트 `size` 를 생략하면 기본값을 따릅니다(`TabList` `large` → `xlarge`, `CategoryList` `medium` → `large`).
 
