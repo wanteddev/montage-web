@@ -85,7 +85,6 @@ const RouteTab = ({ tabs, sx }: Props) => {
             <TabListItem
               as={Link}
               scroll={false}
-              prefetch
               href={tab.value}
               key={tab.title}
               value={tab.value}

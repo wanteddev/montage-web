@@ -26,6 +26,7 @@ export const dateCalendarHeaderStyle = css`
 
 export const dateCalendarHeaderLabelStyle = css`
   padding: 0px 12px;
+  height: 24px;
 `;
 
 export const weekdayCellStyle = css`
