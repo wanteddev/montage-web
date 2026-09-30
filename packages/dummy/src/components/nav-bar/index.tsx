@@ -139,6 +139,7 @@ const NavBar = forwardRef<HTMLDivElement, DefaultComponentProps<{}, 'div'>>(
                   <li>
                     <IconButton
                       type="button"
+                      interactionOverflow
                       size={24}
                       sx={{ margin: '0px 8px' }}
                       aria-label={'검색'}
@@ -177,7 +178,12 @@ const NavBar = forwardRef<HTMLDivElement, DefaultComponentProps<{}, 'div'>>(
                     </Button>
                   </Box>
                   <Box as="li" sx={menuButtonWrapperStyle}>
-                    <IconButton size={24} type="button" aria-label="더보기">
+                    <IconButton
+                      size={24}
+                      type="button"
+                      aria-label="더보기"
+                      interactionOverflow
+                    >
                       <IconMenu />
                     </IconButton>
                   </Box>

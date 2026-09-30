@@ -253,6 +253,7 @@ const Footer = forwardRef<HTMLDivElement, DefaultComponentProps<{}, 'div'>>(
             >
               <IconButton
                 size={20}
+                interactionOverflow
                 color="semantic.foreground.neutral.tertiary"
                 aria-label="인스타그램"
               >
@@ -260,6 +261,7 @@ const Footer = forwardRef<HTMLDivElement, DefaultComponentProps<{}, 'div'>>(
               </IconButton>
               <IconButton
                 size={20}
+                interactionOverflow
                 color="semantic.foreground.neutral.tertiary"
                 aria-label="페이스북"
               >
@@ -267,6 +269,7 @@ const Footer = forwardRef<HTMLDivElement, DefaultComponentProps<{}, 'div'>>(
               </IconButton>
               <IconButton
                 size={20}
+                interactionOverflow
                 color="semantic.foreground.neutral.tertiary"
                 aria-label="유튜브"
               >
@@ -274,6 +277,7 @@ const Footer = forwardRef<HTMLDivElement, DefaultComponentProps<{}, 'div'>>(
               </IconButton>
               <IconButton
                 size={20}
+                interactionOverflow
                 color="semantic.foreground.neutral.tertiary"
                 aria-label="네이버 블로그"
               >
@@ -281,6 +285,7 @@ const Footer = forwardRef<HTMLDivElement, DefaultComponentProps<{}, 'div'>>(
               </IconButton>
               <IconButton
                 size={20}
+                interactionOverflow
                 color="semantic.foreground.neutral.tertiary"
                 aria-label="App Store"
               >
@@ -288,6 +293,7 @@ const Footer = forwardRef<HTMLDivElement, DefaultComponentProps<{}, 'div'>>(
               </IconButton>
               <IconButton
                 size={20}
+                interactionOverflow
                 color="semantic.foreground.neutral.tertiary"
                 aria-label="Google Play"
               >
