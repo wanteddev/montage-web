@@ -288,3 +288,36 @@ export const mergeResponsiveProps = <T extends object, K extends keyof T>(
 
   return merged as ResponsiveProps<T>;
 };
+
+/**
+ * Resolves a responsive value that a component can inherit from an ancestor
+ * (e.g. TextField `size` → ContentBadge `size`).
+ *
+ * - When `own.base` is set, the value is owned by the user: the inherited base
+ *   and responsive values are ignored entirely.
+ * - Otherwise the inherited base is used, and the inherited responsive values
+ *   are merged into the user's responsive values via `mergeResponsiveProps`.
+ *
+ * @example
+ * // TextField: size="large" md={{ size: 'medium' }}  /  ContentBadge: size="medium"
+ * resolveInheritedResponsive(
+ *   { base: 'medium', responsive: {} },
+ *   { base: 'small', responsive: { md: { size: 'xsmall' } } },
+ *   'size',
+ * );
+ * // → { base: 'medium', responsive: {} }  (user base wins at every breakpoint)
+ */
+export const resolveInheritedResponsive = <T extends object, K extends keyof T>(
+  own: { base: T[K] | undefined; responsive: ResponsiveProps<T> },
+  inherited:
+    | { base?: T[K]; responsive?: ResponsiveProps<Pick<T, K>> }
+    | undefined,
+  key: K,
+): { base: T[K] | undefined; responsive: ResponsiveProps<T> } => {
+  if (own.base !== undefined || !inherited) return own;
+
+  return {
+    base: inherited.base,
+    responsive: mergeResponsiveProps(own.responsive, inherited.responsive, key),
+  };
+};

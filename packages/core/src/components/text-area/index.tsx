@@ -7,10 +7,16 @@ import { FlexBox } from '../flex-box';
 import { ScrollArea } from '../scroll-area';
 import useResizeObserver from '../../hooks/internal/use-resize-observer';
 import { IconButtonProvider } from '../icon-button/contexts';
-import { useFormControlLayoutContext } from '../form-control/contexts';
+import {
+  FormFieldLayoutProvider,
+  useFormControlLayoutContext,
+} from '../form-control/contexts';
+import { useFormFieldSlotDefaults } from '../form-control/hooks';
+import { SlotDefaultsProvider } from '../../hooks/internal/use-slot-defaults';
 import { mergeResponsiveProps } from '../../utils/internal/responsive-props';
 
 import { getTextAreaDefaultHeight } from './helpers';
+import { TEXT_AREA_SLOT_SIZE } from './constants';
 import {
   textAreaBottomAreaStyle,
   textAreaContentStyle,
@@ -243,28 +249,39 @@ const TextArea = forwardRef<
         </ScrollArea>
 
         {(Boolean(leadingContent) || Boolean(trailingContent)) && (
-          <FlexBox
-            data-role="text-area-bottom-area"
-            sx={textAreaBottomAreaStyle}
-            alignItems="flex-end"
-            justifyContent="flex-end"
+          <FormFieldLayoutProvider
+            size={resolvedSize}
+            responsive={{
+              xs: resolvedXs,
+              sm: resolvedSm,
+              md: resolvedMd,
+              lg: resolvedLg,
+              xl: resolvedXl,
+            }}
           >
             <FlexBox
-              alignItems="center"
-              data-role="text-area-bottom-area-leading-content"
-              flex="1 0 0"
-            >
-              {leadingContent}
-            </FlexBox>
-
-            <FlexBox
-              alignItems="center"
+              data-role="text-area-bottom-area"
+              sx={textAreaBottomAreaStyle}
+              alignItems="flex-end"
               justifyContent="flex-end"
-              data-role="text-area-bottom-area-trailing-content"
             >
-              {trailingContent}
+              <FlexBox
+                alignItems="center"
+                data-role="text-area-bottom-area-leading-content"
+                flex="1 0 0"
+              >
+                {leadingContent}
+              </FlexBox>
+
+              <FlexBox
+                alignItems="center"
+                justifyContent="flex-end"
+                data-role="text-area-bottom-area-trailing-content"
+              >
+                {trailingContent}
+              </FlexBox>
             </FlexBox>
-          </FlexBox>
+          </FormFieldLayoutProvider>
         )}
       </FlexBox>
     );
@@ -277,6 +294,8 @@ const TextAreaContent = forwardRef<
   HTMLDivElement,
   DefaultComponentPropsInternal<TextAreaContentProps, 'div'>
 >(({ variant = 'icon-button', children, sx, ...props }, ref) => {
+  const slotDefaults = useFormFieldSlotDefaults(TEXT_AREA_SLOT_SIZE[variant]);
+
   switch (variant) {
     case 'content-badge':
       return (
@@ -341,7 +360,9 @@ const TextAreaContent = forwardRef<
           sx={[textAreaContentStyle, sx]}
           {...props}
         >
-          {children}
+          <SlotDefaultsProvider value={slotDefaults}>
+            {children}
+          </SlotDefaultsProvider>
         </FlexBox>
       );
     case 'segmented-control':

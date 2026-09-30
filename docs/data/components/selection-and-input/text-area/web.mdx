@@ -143,7 +143,8 @@ export default Demo;`}
 
 `size` 에 따라 사용법이 일부 다릅니다.
 - IconButton의 size
-- Button의 size
+
+`primary-icon-button` 의 Button 은 size 를 지정하지 않으면 TextArea size(반응형 포함)에 맞는 size 가 자동으로 적용됩니다. Button 에 `size` 를 직접 지정하면 모든 breakpoint 에서 지정한 값이 우선합니다.
 
 ### Medium
 
@@ -155,6 +156,7 @@ const Demo = () => {
     <FlexBox gap="12px" flexDirection="column" alignItems="center" sx={{ width: '100%' }}>
       <TextArea
         width="25ch"
+        size="medium"
         placeholder="Icon"
         leadingContent={(
           <TextAreaContent variant="icon">
@@ -169,6 +171,7 @@ const Demo = () => {
       />
       <TextArea
         width="25ch"
+        size="medium"
         placeholder="Primary icon button"
         leadingContent={(
           <TextAreaContent variant="primary-icon-button">
@@ -176,7 +179,6 @@ const Demo = () => {
               variant="solid"
               color="primary"
               iconOnly
-              size="xsmall"
             >
               <IconBlank />
             </Button>
@@ -188,7 +190,6 @@ const Demo = () => {
               variant="solid"
               color="primary"
               iconOnly
-              size="xsmall"
             >
               <IconBlank />
             </Button>
@@ -197,6 +198,7 @@ const Demo = () => {
       />
       <TextArea
         width="25ch"
+        size="medium"
         placeholder="Content badge"
         leadingContent={(
           <TextAreaContent variant="content-badge">
@@ -215,6 +217,7 @@ const Demo = () => {
       />
       <TextArea
         width="25ch"
+        size="medium"
         placeholder="Icon button"
         leadingContent={(
           <TextAreaContent variant="icon-button">
@@ -233,6 +236,7 @@ const Demo = () => {
       />
       <TextArea
         width="25ch"
+        size="medium"
         placeholder="Segmented control"
         leadingContent={(
           <TextAreaContent variant="segmented-control">
@@ -297,7 +301,6 @@ const Demo = () => {
               variant="solid"
               color="primary"
               iconOnly
-              size="small"
             >
               <IconBlank />
             </Button>
@@ -309,7 +312,6 @@ const Demo = () => {
               variant="solid"
               color="primary"
               iconOnly
-              size="small"
             >
               <IconBlank />
             </Button>

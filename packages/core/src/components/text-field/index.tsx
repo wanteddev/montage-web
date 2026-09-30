@@ -15,7 +15,12 @@ import {
   mapResponsiveProps,
   mergeResponsiveProps,
 } from '../../utils/internal/responsive-props';
-import { useFormControlLayoutContext } from '../form-control/contexts';
+import {
+  FormFieldLayoutProvider,
+  useFormControlLayoutContext,
+} from '../form-control/contexts';
+import { useFormFieldSlotDefaults } from '../form-control/hooks';
+import { SlotDefaultsProvider } from '../../hooks/internal/use-slot-defaults';
 
 import {
   positiveIconWrapperStyle,
@@ -23,6 +28,7 @@ import {
   textFieldContentStyle,
   textFieldWrapperStyle,
 } from './style';
+import { TEXT_FIELD_SLOT_SIZE } from './constants';
 
 import type {
   PolymorphicComponentInternal,
@@ -107,148 +113,159 @@ const TextField = forwardRef<
     }, [disabled]);
 
     return (
-      <Box
-        className={className}
-        style={style}
-        data-component="text-field"
-        ref={useComposedRefs(parentRef, wrapperRef)}
-        sx={[
-          textFieldWrapperStyle({
-            size: resolvedSize,
-            status,
-            width,
-            height,
-            readOnly,
-            disabled,
-            type,
-            xs: resolvedXs,
-            sm: resolvedSm,
-            md: resolvedMd,
-            lg: resolvedLg,
-            xl: resolvedXl,
-            ...props,
-          }),
-          sx,
-        ]}
+      <FormFieldLayoutProvider
+        size={resolvedSize}
+        responsive={{
+          xs: resolvedXs,
+          sm: resolvedSm,
+          md: resolvedMd,
+          lg: resolvedLg,
+          xl: resolvedXl,
+        }}
       >
-        <FlexBox gap="2px" data-role="text-field-wrapper">
-          {leadingContent && (
+        <Box
+          className={className}
+          style={style}
+          data-component="text-field"
+          ref={useComposedRefs(parentRef, wrapperRef)}
+          sx={[
+            textFieldWrapperStyle({
+              size: resolvedSize,
+              status,
+              width,
+              height,
+              readOnly,
+              disabled,
+              type,
+              xs: resolvedXs,
+              sm: resolvedSm,
+              md: resolvedMd,
+              lg: resolvedLg,
+              xl: resolvedXl,
+              ...props,
+            }),
+            sx,
+          ]}
+        >
+          <FlexBox gap="2px" data-role="text-field-wrapper">
+            {leadingContent && (
+              <FlexBox
+                gap="8px"
+                alignItems="center"
+                data-role="text-field-leading-content"
+              >
+                {leadingContent}
+              </FlexBox>
+            )}
+
+            <input
+              ref={composedRefs}
+              type={type}
+              readOnly={readOnly}
+              disabled={disabled}
+              aria-readonly={readOnly}
+              aria-invalid={status === 'negative' || undefined}
+              aria-disabled={disabled}
+              {...props}
+            />
+
             <FlexBox
               gap="8px"
               alignItems="center"
-              data-role="text-field-leading-content"
+              data-role="text-field-trailing-content"
             >
-              {leadingContent}
-            </FlexBox>
-          )}
+              {status === 'positive' && (
+                <TextFieldContent
+                  data-role="text-field-positive"
+                  sx={positiveIconWrapperStyle}
+                  variant="icon"
+                >
+                  <IconCircleCheckFill />
+                </TextFieldContent>
+              )}
 
-          <input
-            ref={composedRefs}
-            type={type}
-            readOnly={readOnly}
-            disabled={disabled}
-            aria-readonly={readOnly}
-            aria-invalid={status === 'negative' || undefined}
-            aria-disabled={disabled}
-            {...props}
-          />
-
-          <FlexBox
-            gap="8px"
-            alignItems="center"
-            data-role="text-field-trailing-content"
-          >
-            {status === 'positive' && (
               <TextFieldContent
-                data-role="text-field-positive"
-                sx={positiveIconWrapperStyle}
-                variant="icon"
-              >
-                <IconCircleCheckFill />
-              </TextFieldContent>
-            )}
+                data-role="text-field-reset"
+                variant="icon-button"
+                onPointerDown={(e) => e.preventDefault()}
+                onClick={() => {
+                  const input = inputRef.current;
 
-            <TextFieldContent
-              data-role="text-field-reset"
-              variant="icon-button"
-              onPointerDown={(e) => e.preventDefault()}
-              onClick={() => {
-                const input = inputRef.current;
+                  if (!input) return;
 
-                if (!input) return;
+                  requestAnimationFrame(() => {
+                    const prevValue = input.value;
 
-                requestAnimationFrame(() => {
-                  const prevValue = input.value;
+                    const event = new Event('change', { bubbles: true });
+                    input.value = '';
 
-                  const event = new Event('change', { bubbles: true });
-                  input.value = '';
-
-                  props.onChange?.({
-                    ...event,
-                    target: input as EventTarget & HTMLInputElement,
-                    currentTarget: input as EventTarget & HTMLInputElement,
-                    nativeEvent: {
+                    props.onChange?.({
                       ...event,
-                      target: input as EventTarget,
-                      currentTarget: input as EventTarget,
-                    },
-                    isDefaultPrevented: () => false,
-                    isPropagationStopped: () => false,
-                    persist: (): void => {},
+                      target: input as EventTarget & HTMLInputElement,
+                      currentTarget: input as EventTarget & HTMLInputElement,
+                      nativeEvent: {
+                        ...event,
+                        target: input as EventTarget,
+                        currentTarget: input as EventTarget,
+                      },
+                      isDefaultPrevented: () => false,
+                      isPropagationStopped: () => false,
+                      persist: (): void => {},
+                    });
+
+                    onReset?.(prevValue);
+
+                    input.focus();
                   });
+                }}
+              >
+                <IconButton
+                  type="button"
+                  size={resolvedSize === 'large' ? 32 : 28}
+                  {...mapResponsiveProps(
+                    {
+                      xs: resolvedXs,
+                      sm: resolvedSm,
+                      md: resolvedMd,
+                      lg: resolvedLg,
+                      xl: resolvedXl,
+                    },
+                    'size',
+                    (s) => {
+                      switch (s) {
+                        case 'large':
+                          return 32;
+                        case 'medium':
+                          return 28;
+                      }
+                    },
+                  )}
+                  tabIndex={-1}
+                  sx={(theme) => ({
+                    color: theme.semantic.foreground.neutral.quaternary,
+                  })}
+                >
+                  <IconCircleCloseFill />
+                </IconButton>
+              </TextFieldContent>
 
-                  onReset?.(prevValue);
+              {trailingContent}
+            </FlexBox>
+          </FlexBox>
 
-                  input.focus();
-                });
+          {trailingButton && (
+            <FlexBox
+              alignItems="center"
+              justifyContent="center"
+              sx={{
+                height: 'var(--text-field-content-max-height)',
               }}
             >
-              <IconButton
-                type="button"
-                size={resolvedSize === 'large' ? 32 : 28}
-                {...mapResponsiveProps(
-                  {
-                    xs: resolvedXs,
-                    sm: resolvedSm,
-                    md: resolvedMd,
-                    lg: resolvedLg,
-                    xl: resolvedXl,
-                  },
-                  'size',
-                  (s) => {
-                    switch (s) {
-                      case 'large':
-                        return 32;
-                      case 'medium':
-                        return 28;
-                    }
-                  },
-                )}
-                tabIndex={-1}
-                sx={(theme) => ({
-                  color: theme.semantic.foreground.neutral.quaternary,
-                })}
-              >
-                <IconCircleCloseFill />
-              </IconButton>
-            </TextFieldContent>
-
-            {trailingContent}
-          </FlexBox>
-        </FlexBox>
-
-        {trailingButton && (
-          <FlexBox
-            alignItems="center"
-            justifyContent="center"
-            sx={{
-              height: 'var(--text-field-content-max-height)',
-            }}
-          >
-            {trailingButton}
-          </FlexBox>
-        )}
-      </Box>
+              {trailingButton}
+            </FlexBox>
+          )}
+        </Box>
+      </FormFieldLayoutProvider>
     );
   },
 );
@@ -259,6 +276,8 @@ const TextFieldContent = forwardRef<
   HTMLDivElement,
   DefaultComponentPropsInternal<TextFieldContentProps, 'div'>
 >(({ variant = 'text', children, sx, color, ...props }, ref) => {
+  const slotDefaults = useFormFieldSlotDefaults(TEXT_FIELD_SLOT_SIZE[variant]);
+
   switch (variant) {
     case 'text':
     case 'timer':
@@ -291,7 +310,9 @@ const TextFieldContent = forwardRef<
           sx={[textFieldContentStyle, sx]}
           {...props}
         >
-          {children}
+          <SlotDefaultsProvider value={slotDefaults}>
+            {children}
+          </SlotDefaultsProvider>
         </FlexBox>
       );
     case 'icon':

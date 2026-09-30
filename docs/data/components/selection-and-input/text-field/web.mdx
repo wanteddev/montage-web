@@ -126,7 +126,8 @@ export default Demo;`}
 
 `size` 에 따라 사용법이 일부 다릅니다.
 - IconButton의 size
-- ContentBadge의 size
+
+`badge` 의 ContentBadge 는 size 를 지정하지 않으면 TextField size(반응형 포함)에 맞는 size 가 자동으로 적용됩니다. ContentBadge 에 `size` 를 직접 지정하면 모든 breakpoint 에서 지정한 값이 우선합니다.
 
 ### Large
 
@@ -164,7 +165,7 @@ const Demo = () => {
         placeholder="Badge"
         trailingContent={(
           <TextFieldContent variant="badge">
-            <ContentBadge size="small">
+            <ContentBadge>
               Badge
             </ContentBadge>
           </TextFieldContent>
@@ -245,7 +246,7 @@ const Demo = () => {
         size="medium"
         trailingContent={(
           <TextFieldContent variant="badge">
-            <ContentBadge size="xsmall">
+            <ContentBadge>
               Badge
             </ContentBadge>
           </TextFieldContent>
