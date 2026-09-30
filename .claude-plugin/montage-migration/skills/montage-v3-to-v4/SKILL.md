@@ -802,8 +802,7 @@ Mark each M-section `completed` in the state file as it finishes.
    deleted accent tokens (their replacement values differ — see M9), and every top
    navigation and modal navigation / close button, whose icon buttons now dim the icon on hover / press instead of drawing the
    interaction layer (see M18); and every screen M18's `<IconButton\b` scan changed, plus every
-   slot `IconButton` hit, for its layout, and `compact` `Pagination` screens, whose
-   navigation icons shrank from 24px to 16px (see M18).
+   slot `IconButton` hit, for its layout (see M18).
 4. Delete the state file, then summarize: steps run, commits created, manual fixes
    applied, items intentionally left (with reasons).
 

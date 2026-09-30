@@ -1448,11 +1448,9 @@ npx @montage-ui/codemod@latest list-cell-variant-migration src
 | `TooltipContent` 닫기 버튼 (`size="small"`)                                                                           | `size={10}`, `interactionColor="semantic.foreground.neutral.inverse"`               | 10       | 18 ¹          |
 | `TextField`, `SearchField` 초기화 버튼 · `DatePicker`, `DateRangePicker`, `TimePicker` 달력 버튼 (`large` / `medium`) | `size="large"` / `size="medium"`                                                    | 20 / 18  | 32 / 28       |
 | `DateCalendar`, `DateRangeCalendar` 이전·다음 버튼                                                                    | `size="medium"`                                                                     | 18       | 28            |
-| `Pagination` 이전·다음 버튼 (모든 `variant`)                                                                          | `size="small"`                                                                      | 16       | 24 ²          |
+| `Pagination` 이전·다음 버튼 (`extended`, `minimize` / `compact`)                                                      | `size="small"` / `size="xlarge"`                                                    | 16 / 24  | 24 / 36       |
 
 ¹ Tooltip 자체의 `calc(100% + 8px)` 규칙이 IconButton 의 최소 24px 보다 우선합니다.
-
-² 3.x `compact` 는 24px 아이콘이었지만 4.0.0 에서는 다른 variant 와 같은 16px 로 통일되었습니다. 세트 크기는 3.x 와 같습니다.
 
 `interactionOverflow` 는 Figma 의 `Interaction Overflow` 속성과 대응하는 정식 속성입니다. 별도 codemod 는 제공되지 않습니다.
 

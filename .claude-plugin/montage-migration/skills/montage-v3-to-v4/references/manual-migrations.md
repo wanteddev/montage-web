@@ -1371,13 +1371,9 @@ and is ignored under `none`.
     | `TooltipContent` close button (`size="small"`)                                                                                 | `size={10}`, `interactionColor="semantic.foreground.neutral.inverse"`               | 10      | 18 ¹             |
     | `TextField` / `SearchField` reset button, `DatePicker` / `DateRangePicker` / `TimePicker` calendar button (`large` / `medium`) | `size="large"` / `size="medium"`                                                    | 20 / 18 | 32 / 28          |
     | `DateCalendar` / `DateRangeCalendar` previous / next buttons                                                                   | `size="medium"`                                                                     | 18      | 28               |
-    | `Pagination` previous / next buttons (every `variant`)                                                                         | `size="small"`                                                                      | 16      | 24 ²             |
+    | `Pagination` previous / next buttons (`extended`, `minimize` / `compact`)                                                      | `size="small"` / `size="xlarge"`                                                    | 16 / 24 | 24 / 36          |
 
     ¹ The Tooltip's own `calc(100% + 8px)` rule outranks the IconButton's 24px minimum.
-    ² v3 `compact` used a 24px icon; v4 unifies all variants at 16px (set sizes unchanged) —
-    flag `compact` pagination screens for visual QA. Scan **[decision]**:
-    `\bPagination\b[^>]*variant="compact"`, plus a file-level `\bPagination\b` for
-    multi-line JSX — locates the screens to QA; every hit is valid v4 code.
 
   - A standalone hit that already carries `interactionOverflow` is done; never add it twice.
 
