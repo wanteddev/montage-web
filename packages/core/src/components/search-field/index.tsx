@@ -5,11 +5,8 @@ import { forwardRef, useEffect, useRef } from 'react';
 
 import { FlexBox } from '../flex-box';
 import { IconButton } from '../icon-button';
-import { useFormControlLayoutContext } from '../form-control/contexts';
-import {
-  mapResponsiveProps,
-  mergeResponsiveProps,
-} from '../../utils/internal/responsive-props';
+import { mapResponsiveProps } from '../../utils/internal/responsive-props';
+import { useFormFieldSize } from '../form-control/hooks';
 
 import { searchFieldContentStyle, searchFieldWrapperStyle } from './style';
 
@@ -43,18 +40,10 @@ const SearchField = forwardRef<
     const inputRef = useRef<HTMLInputElement>(null);
     const composedRefs = useComposedRefs(inputRef, ref);
 
-    const { size: formControlSize, responsive } =
-      useFormControlLayoutContext() || {};
-
-    const resolvedSize = size ?? formControlSize ?? 'large';
-
-    const {
-      xs: resolvedXs,
-      sm: resolvedSm,
-      md: resolvedMd,
-      lg: resolvedLg,
-      xl: resolvedXl,
-    } = mergeResponsiveProps({ xs, sm, md, lg, xl }, responsive, 'size');
+    const { size: resolvedSize, ...resolvedResponsive } = useFormFieldSize(
+      size,
+      { xs, sm, md, lg, xl },
+    );
 
     useEffect(() => {
       const container = parentRef.current;
@@ -92,11 +81,7 @@ const SearchField = forwardRef<
             size: resolvedSize,
             width,
             variant,
-            xs: resolvedXs,
-            sm: resolvedSm,
-            md: resolvedMd,
-            lg: resolvedLg,
-            xl: resolvedXl,
+            ...resolvedResponsive,
             ...props,
           }),
           sx,
@@ -134,11 +119,7 @@ const SearchField = forwardRef<
               size={resolvedSize === 'large' ? 32 : 28}
               {...mapResponsiveProps(
                 {
-                  xs: resolvedXs,
-                  sm: resolvedSm,
-                  md: resolvedMd,
-                  lg: resolvedLg,
-                  xl: resolvedXl,
+                  ...resolvedResponsive,
                 },
                 'size',
                 (s) => {

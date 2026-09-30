@@ -16,11 +16,8 @@ import { TimeView } from '../time-view';
 import { FlexBox } from '../flex-box';
 import { PickerActionAreaProvider } from '../picker-action-area/contexts';
 import { extendDayjs } from '../../utils/internal/date';
-import {
-  mapResponsiveProps,
-  mergeResponsiveProps,
-} from '../../utils/internal/responsive-props';
-import { useFormControlLayoutContext } from '../form-control/contexts';
+import { mapResponsiveProps } from '../../utils/internal/responsive-props';
+import { useFormFieldSize } from '../form-control/hooks';
 
 import { TIME_PICKER_FIELD_NAME, TIME_PICKER_NAME } from './constants';
 import { sectionsToViews } from './helpers';
@@ -143,20 +140,12 @@ const TimePicker = forwardRef<
         ? 'negative'
         : originStatus;
 
-    const { size: formControlSize, responsive } =
-      useFormControlLayoutContext() || {};
-
-    const resolvedSize = size ?? formControlSize ?? 'large';
+    const { size: resolvedSize, ...resolvedResponsive } = useFormFieldSize(
+      size,
+      { xs, sm, md, lg, xl },
+    );
 
     const isCustomInput = Boolean(input);
-
-    const {
-      xs: resolvedXs,
-      sm: resolvedSm,
-      md: resolvedMd,
-      lg: resolvedLg,
-      xl: resolvedXl,
-    } = mergeResponsiveProps({ xs, sm, md, lg, xl }, responsive, 'size');
 
     const handleChangeCompleteCallback = useCallbackRef(onChangeComplete);
 
@@ -223,11 +212,7 @@ const TimePicker = forwardRef<
               : {
                   status,
                   size: resolvedSize,
-                  xs: resolvedXs,
-                  sm: resolvedSm,
-                  md: resolvedMd,
-                  lg: resolvedLg,
-                  xl: resolvedXl,
+                  ...resolvedResponsive,
                 }),
             trailingContent: (
               <>
@@ -245,11 +230,7 @@ const TimePicker = forwardRef<
                     size={resolvedSize === 'medium' ? 28 : 32}
                     {...mapResponsiveProps(
                       {
-                        xs: resolvedXs,
-                        sm: resolvedSm,
-                        md: resolvedMd,
-                        lg: resolvedLg,
-                        xl: resolvedXl,
+                        ...resolvedResponsive,
                       },
                       'size',
                       (s) => {

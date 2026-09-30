@@ -11,15 +11,12 @@ import { FlexBox } from '../flex-box';
 import { IconButton } from '../icon-button';
 import { Button } from '../button';
 import { IconButtonProvider } from '../icon-button/contexts';
+import { mapResponsiveProps } from '../../utils/internal/responsive-props';
+import { FormFieldLayoutProvider } from '../form-control/contexts';
 import {
-  mapResponsiveProps,
-  mergeResponsiveProps,
-} from '../../utils/internal/responsive-props';
-import {
-  FormFieldLayoutProvider,
-  useFormControlLayoutContext,
-} from '../form-control/contexts';
-import { useFormFieldSlotDefaults } from '../form-control/hooks';
+  useFormFieldSize,
+  useFormFieldSlotDefaults,
+} from '../form-control/hooks';
 import { SlotDefaultsProvider } from '../../hooks/internal/use-slot-defaults';
 
 import {
@@ -75,18 +72,10 @@ const TextField = forwardRef<
     const inputRef = useRef<HTMLInputElement>(null);
     const composedRefs = useComposedRefs(inputRef, ref);
 
-    const { size: formControlSize, responsive } =
-      useFormControlLayoutContext() || {};
-
-    const resolvedSize = size ?? formControlSize ?? 'large';
-
-    const {
-      xs: resolvedXs,
-      sm: resolvedSm,
-      md: resolvedMd,
-      lg: resolvedLg,
-      xl: resolvedXl,
-    } = mergeResponsiveProps({ xs, sm, md, lg, xl }, responsive, 'size');
+    const { size: resolvedSize, ...resolvedResponsive } = useFormFieldSize(
+      size,
+      { xs, sm, md, lg, xl },
+    );
 
     useEffect(() => {
       const container = parentRef.current;
@@ -115,13 +104,7 @@ const TextField = forwardRef<
     return (
       <FormFieldLayoutProvider
         size={resolvedSize}
-        responsive={{
-          xs: resolvedXs,
-          sm: resolvedSm,
-          md: resolvedMd,
-          lg: resolvedLg,
-          xl: resolvedXl,
-        }}
+        responsive={resolvedResponsive}
       >
         <Box
           className={className}
@@ -137,11 +120,7 @@ const TextField = forwardRef<
               readOnly,
               disabled,
               type,
-              xs: resolvedXs,
-              sm: resolvedSm,
-              md: resolvedMd,
-              lg: resolvedLg,
-              xl: resolvedXl,
+              ...resolvedResponsive,
               ...props,
             }),
             sx,
@@ -224,11 +203,7 @@ const TextField = forwardRef<
                   size={resolvedSize === 'large' ? 32 : 28}
                   {...mapResponsiveProps(
                     {
-                      xs: resolvedXs,
-                      sm: resolvedSm,
-                      md: resolvedMd,
-                      lg: resolvedLg,
-                      xl: resolvedXl,
+                      ...resolvedResponsive,
                     },
                     'size',
                     (s) => {

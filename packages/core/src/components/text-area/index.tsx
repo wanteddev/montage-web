@@ -7,13 +7,12 @@ import { FlexBox } from '../flex-box';
 import { ScrollArea } from '../scroll-area';
 import useResizeObserver from '../../hooks/internal/use-resize-observer';
 import { IconButtonProvider } from '../icon-button/contexts';
+import { FormFieldLayoutProvider } from '../form-control/contexts';
 import {
-  FormFieldLayoutProvider,
-  useFormControlLayoutContext,
-} from '../form-control/contexts';
-import { useFormFieldSlotDefaults } from '../form-control/hooks';
+  useFormFieldSize,
+  useFormFieldSlotDefaults,
+} from '../form-control/hooks';
 import { SlotDefaultsProvider } from '../../hooks/internal/use-slot-defaults';
-import { mergeResponsiveProps } from '../../utils/internal/responsive-props';
 
 import { getTextAreaDefaultHeight } from './helpers';
 import { TEXT_AREA_SLOT_DEFAULTS, TEXT_AREA_SLOT_SIZE } from './constants';
@@ -53,18 +52,10 @@ const TextArea = forwardRef<
     },
     ref,
   ) => {
-    const { size: formControlSize, responsive } =
-      useFormControlLayoutContext() || {};
-
-    const resolvedSize = size ?? formControlSize ?? 'large';
-
-    const {
-      xs: resolvedXs,
-      sm: resolvedSm,
-      md: resolvedMd,
-      lg: resolvedLg,
-      xl: resolvedXl,
-    } = mergeResponsiveProps({ xs, sm, md, lg, xl }, responsive, 'size');
+    const { size: resolvedSize, ...resolvedResponsive } = useFormFieldSize(
+      size,
+      { xs, sm, md, lg, xl },
+    );
 
     const parentRef = useRef<HTMLDivElement>(null);
 
@@ -198,11 +189,7 @@ const TextArea = forwardRef<
             status,
             disabled,
             size: resolvedSize,
-            xs: resolvedXs,
-            sm: resolvedSm,
-            md: resolvedMd,
-            lg: resolvedLg,
-            xl: resolvedXl,
+            ...resolvedResponsive,
             ...props,
           }),
           sx,
@@ -216,11 +203,7 @@ const TextArea = forwardRef<
             disabled={disabled}
             sx={textAreaStyle({
               size: resolvedSize,
-              xs: resolvedXs,
-              sm: resolvedSm,
-              md: resolvedMd,
-              lg: resolvedLg,
-              xl: resolvedXl,
+              ...resolvedResponsive,
               ...props,
             })}
             aria-invalid={status === 'negative' || undefined}
@@ -251,13 +234,7 @@ const TextArea = forwardRef<
         {(Boolean(leadingContent) || Boolean(trailingContent)) && (
           <FormFieldLayoutProvider
             size={resolvedSize}
-            responsive={{
-              xs: resolvedXs,
-              sm: resolvedSm,
-              md: resolvedMd,
-              lg: resolvedLg,
-              xl: resolvedXl,
-            }}
+            responsive={resolvedResponsive}
           >
             <FlexBox
               data-role="text-area-bottom-area"

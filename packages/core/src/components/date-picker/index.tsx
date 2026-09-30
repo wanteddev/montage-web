@@ -14,11 +14,8 @@ import { FocusScope } from '../focus-scope';
 import { FlexBox } from '../flex-box';
 import { PickerActionAreaProvider } from '../picker-action-area/contexts';
 import { extendDayjs } from '../../utils/internal/date';
-import {
-  mapResponsiveProps,
-  mergeResponsiveProps,
-} from '../../utils/internal/responsive-props';
-import { useFormControlLayoutContext } from '../form-control/contexts';
+import { mapResponsiveProps } from '../../utils/internal/responsive-props';
+import { useFormFieldSize } from '../form-control/hooks';
 
 import { datePopperStyle } from './style';
 import { useDateField } from './hooks';
@@ -137,20 +134,12 @@ const DatePicker = forwardRef<
         ? 'negative'
         : originStatus;
 
-    const { size: formControlSize, responsive } =
-      useFormControlLayoutContext() || {};
-
-    const resolvedSize = size ?? formControlSize ?? 'large';
+    const { size: resolvedSize, ...resolvedResponsive } = useFormFieldSize(
+      size,
+      { xs, sm, md, lg, xl },
+    );
 
     const isCustomInput = Boolean(input);
-
-    const {
-      xs: resolvedXs,
-      sm: resolvedSm,
-      md: resolvedMd,
-      lg: resolvedLg,
-      xl: resolvedXl,
-    } = mergeResponsiveProps({ xs, sm, md, lg, xl }, responsive, 'size');
 
     const handleChangeCompleteCallback = useCallbackRef(onChangeComplete);
 
@@ -219,11 +208,7 @@ const DatePicker = forwardRef<
               : {
                   status,
                   size: resolvedSize,
-                  xs: resolvedXs,
-                  sm: resolvedSm,
-                  md: resolvedMd,
-                  lg: resolvedLg,
-                  xl: resolvedXl,
+                  ...resolvedResponsive,
                 }),
             trailingContent: (
               <>
@@ -238,11 +223,7 @@ const DatePicker = forwardRef<
                     size={resolvedSize === 'medium' ? 28 : 32}
                     {...mapResponsiveProps(
                       {
-                        xs: resolvedXs,
-                        sm: resolvedSm,
-                        md: resolvedMd,
-                        lg: resolvedLg,
-                        xl: resolvedXl,
+                        ...resolvedResponsive,
                       },
                       'size',
                       (s) => {
