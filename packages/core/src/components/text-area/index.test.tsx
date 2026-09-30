@@ -240,3 +240,33 @@ describe('when given icon button inside text area icon content', () => {
     ).toBe('18px');
   });
 });
+
+describe('when given icon button content in a large text area', () => {
+  afterEach(() => {
+    cleanup();
+  });
+
+  // The alignment wrapper is 24 wide: the 20px icon button plus 2px on each side.
+  it('should render a 24px wide wrapper', () => {
+    const { container } = render(
+      <TextArea
+        size="large"
+        leadingContent={
+          <TextAreaContent variant="icon-button">
+            <IconButton aria-label="Leading">
+              <svg />
+            </IconButton>
+          </TextAreaContent>
+        }
+      />,
+    );
+
+    expect(
+      window
+        .getComputedStyle(
+          container.querySelector('[data-component="text-area"]')!,
+        )
+        .getPropertyValue('--text-area-content-icon-wrapper-width'),
+    ).toBe('var(--dimension-24)');
+  });
+});

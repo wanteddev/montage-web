@@ -119,7 +119,7 @@ export const textAreaWrapperSizeStyle = (
         border-radius: ${theme.radius[14]};
 
         --text-area-content-icon-size: ${theme.dimension[20]};
-        --text-area-content-icon-wrapper-width: 22px;
+        --text-area-content-icon-wrapper-width: ${theme.dimension[24]};
         --text-area-content-icon-wrapper-height: ${theme.dimension[20]};
         --text-area-content-button-gap: ${theme.spacing[8]};
 
