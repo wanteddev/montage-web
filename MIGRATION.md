@@ -1391,38 +1391,68 @@ npx @montage-ui/codemod@latest list-cell-variant-migration src
 </IconButton>
 ```
 
-**컴포넌트의 리소스(슬롯)로 넣는 IconButton 에는 `interactionOverflow` 를 사용하지 마세요.** 아래 슬롯은 IconButton 을 담는 영역의 너비 / 높이를 컴포넌트가 직접 제한합니다.
+**컴포넌트의 리소스(슬롯)로 넣는 IconButton 에는 `size` 와 `interactionOverflow` 를 지정하지 마세요.** 아래 슬롯은 슬롯 크기에 맞는 값을 IconButton 에 자동으로 적용합니다. 필드 계열은 필드 `size`(`FormControl` 의 `size` 와 반응형 값 포함)를 따릅니다.
 
-| 컴포넌트                                                                                                               | 슬롯                                                                        | 제한                                |
-| ---------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------- | ----------------------------------- |
-| `ListCellContent` 및 파생 (`MenuItemContent`, `OptionContent`, `AutocompleteOptionContent`, `AccordionSummaryContent`) | `variant="icon-button"`                                                     | 너비 22px / 높이 24px               |
-| `TextFieldContent`                                                                                                     | `variant="icon-button"`                                                     | 너비 24px (medium 20px)             |
-| `TextAreaContent`                                                                                                      | `variant="icon-button"` (기본값 — `variant` 생략 시 포함), `variant="icon"` | 너비 22px / 높이 20px (medium 22px) |
-| `SelectContent`                                                                                                        | `variant="icon-button"`                                                     | 너비 24px (medium 20px) / 높이 24px |
-| `SectionHeader`                                                                                                        | `headingContent`, `trailingContent`                                         | size 별 max-height (20 ~ 38px)      |
-| `MenuActionAreaContent`                                                                                                | `variant="icon-button"`                                                     | 액션 영역 높이 56px                 |
+직접 지정한 값은 모든 breakpoint 에서 자동 적용 값보다 우선합니다. 3.x 에서 슬롯에 맞추려고 넘기던 `size`(예: `size={32}`, `size={28}`, `size={24}`)나 `interactionOverflow` 가 남아 있으면 자동 적용 값을 덮으므로 지워주세요.
 
-`TabList`, `CategoryList` 의 `iconButton` 은 슬롯이지만 `interactionOverflow` 를 사용합니다. 넘친 컨테이너가 리스트와의 간격 20 안에서 끝나므로 탭 / 칩을 가리지 않습니다.
+| 컴포넌트                                                                                                               | 슬롯                                                                        | 자동 적용되는 IconButton                                                                               |
+| ---------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
+| `ListCellContent` 및 파생 (`MenuItemContent`, `OptionContent`, `AutocompleteOptionContent`, `AccordionSummaryContent`) | `variant="icon-button"`                                                     | `size="large"` + `interactionOverflow`                                                                 |
+| `TextFieldContent`                                                                                                     | `variant="icon-button"`                                                     | 필드 `large` → `size="large"`, `medium` → `size="medium"` + `interactionOverflow`                      |
+| `TextAreaContent`                                                                                                      | `variant="icon-button"` (기본값 — `variant` 생략 시 포함), `variant="icon"` | `TextFieldContent` 와 같음. `variant="solid"` 는 `size="small"`                                        |
+| `SelectContent`                                                                                                        | `variant="icon-button"`                                                     | `TextFieldContent` 와 같음                                                                             |
+| `TabList`                                                                                                              | `iconButton`                                                                | 리스트 `small`, `medium` → `size="large"`, `large` → `size="xlarge"` + `interactionOverflow`           |
+| `CategoryList`                                                                                                         | `iconButton`                                                                | 리스트 `small`, `medium` → `size="large"`, `large`, `xlarge` → `size="xlarge"` + `interactionOverflow` |
+| `SectionHeader`                                                                                                        | `headingContent`, `trailingContent`                                         | `size="xlarge"`, `interactionOverflow` 미적용                                                          |
+| `MenuActionAreaContent`                                                                                                | `variant="icon-button"`                                                     | `variant="solid"` 는 `size="small"`                                                                    |
 
-| 컴포넌트       | 리스트 `size`                         | IconButton                                               |
-| -------------- | ------------------------------------- | -------------------------------------------------------- |
-| `TabList`      | `small`, `medium` / `large`           | `size="large"` / `size="xlarge"` + `interactionOverflow` |
-| `CategoryList` | `small`, `medium` / `large`, `xlarge` | `size="large"` / `size="xlarge"` + `interactionOverflow` |
+- 자동 적용 값은 `variant="normal"` IconButton 에 적용됩니다. 별도로 적힌 경우(`solid`)만 해당 variant 에 적용됩니다.
+- `interactionOverflow` 가 적용된 슬롯은 레이아웃이 아이콘 크기(`xlarge` 24, `large` 20, `medium` 18)이고, 인터랙션 영역은 레이아웃 밖으로 넘쳐 그려집니다(36 / 32 / 28). 넘친 영역은 슬롯 여백 안에서 끝나므로 인접 요소를 가리지 않습니다.
+- `TabList`, `CategoryList` 에서 3.x `medium` 에 쓰던 22px 아이콘은 4.0.0 사이즈에 없어 20px(`large`)을 사용합니다. 리스트 `size` 를 생략하면 기본값을 따릅니다(`TabList` `large` → `xlarge`, `CategoryList` `medium` → `large`).
 
-3.x 에서 `medium` 에 쓰던 22px 아이콘은 4.0.0 사이즈에 없어 20px(`large`)을 사용합니다. 리스트 `size` 를 생략하면 기본값을 따릅니다(`TabList` `large` → `xlarge`, `CategoryList` `medium` → `large`).
+```tsx
+// AS-IS (3.x): 필드 size 에 맞춰 size 를 직접 지정
+<TextField
+  size="medium"
+  trailingContent={
+    <TextFieldContent variant="icon-button">
+      <IconButton size={28}>
+        <IconEye />
+      </IconButton>
+    </TextFieldContent>
+  }
+/>
 
-컴포넌트가 직접 렌더하는 아래 IconButton 에는 `interactionOverflow` 가 이미 적용되어 있으므로 따로 지정할 필요가 없습니다.
+// TO-BE: size 를 지정하지 않으면 필드 size(반응형 포함)에 맞게 자동 적용
+<TextField
+  size="medium"
+  trailingContent={
+    <TextFieldContent variant="icon-button">
+      <IconButton>
+        <IconEye />
+      </IconButton>
+    </TextFieldContent>
+  }
+/>
+```
 
-| 컴포넌트                                                                             | IconButton                                                                       | 레이아웃 | 인터랙션 영역 |
-| ------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------- | -------- | ------------- |
-| `TopNavigationButton` (`ModalNavigationButton`, `ModalClose` 포함, `variant="icon"`) | `size={24}`, `interactionEffect="dim"`                                           | 24       | 36            |
-| `SnackbarCloseButton` (`useSnackbar({ closeButton: true })` 포함)                    | `size="large"`                                                                   | 20       | 32            |
-| `Popover` 닫기 버튼                                                                  | `size="small"`                                                                   | 16       | 24            |
-| `SectionMessage` 닫기 버튼                                                           | `size={20}`, `color` · `interactionColor="semantic.foreground.neutral.tertiary"` | 20       | 32            |
-| `TooltipContent` 닫기 버튼 (`size="medium"`)                                         | `size="small"`, `interactionColor="semantic.foreground.neutral.inverse"`         | 16       | 24            |
-| `TooltipContent` 닫기 버튼 (`size="small"`)                                          | `size={10}`, `interactionColor="semantic.foreground.neutral.inverse"`            | 10       | 18 ¹          |
+컴포넌트가 직접 렌더하는 아래 IconButton 에는 필요한 값이 이미 적용되어 있으므로 따로 지정할 필요가 없습니다.
+
+| 컴포넌트                                                                                                              | IconButton                                                                          | 레이아웃 | 인터랙션 영역 |
+| --------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- | -------- | ------------- |
+| `TopNavigationButton` (`ModalNavigationButton`, `ModalClose` 포함, `variant="icon"`)                                  | `size={24}`, `interactionEffect="dim"`                                              | 24       | 36            |
+| `SnackbarCloseButton` (`useSnackbar({ closeButton: true })` 포함)                                                     | `size="large"`                                                                      | 20       | 32            |
+| `Popover` 닫기 버튼                                                                                                   | `size="small"`                                                                      | 16       | 24            |
+| `SectionMessage` 닫기 버튼                                                                                            | `size="large"`, `color` · `interactionColor="semantic.foreground.neutral.tertiary"` | 20       | 32            |
+| `TooltipContent` 닫기 버튼 (`size="medium"`)                                                                          | `size="small"`, `interactionColor="semantic.foreground.neutral.inverse"`            | 16       | 24            |
+| `TooltipContent` 닫기 버튼 (`size="small"`)                                                                           | `size={10}`, `interactionColor="semantic.foreground.neutral.inverse"`               | 10       | 18 ¹          |
+| `TextField`, `SearchField` 초기화 버튼 · `DatePicker`, `DateRangePicker`, `TimePicker` 달력 버튼 (`large` / `medium`) | `size="large"` / `size="medium"`                                                    | 20 / 18  | 32 / 28       |
+| `DateCalendar`, `DateRangeCalendar` 이전·다음 버튼                                                                    | `size="medium"`                                                                     | 18       | 28            |
+| `Pagination` 이전·다음 버튼 (모든 `variant`)                                                                          | `size="small"`                                                                      | 16       | 24 ²          |
 
 ¹ Tooltip 자체의 `calc(100% + 8px)` 규칙이 IconButton 의 최소 24px 보다 우선합니다.
+
+² 3.x `compact` 는 24px 아이콘이었지만 4.0.0 에서는 다른 variant 와 같은 16px 로 통일되었습니다. 세트 크기는 3.x 와 같습니다.
 
 `interactionOverflow` 는 Figma 의 `Interaction Overflow` 속성과 대응하는 정식 속성입니다. 별도 codemod 는 제공되지 않습니다.
 
