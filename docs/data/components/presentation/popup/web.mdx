@@ -338,7 +338,9 @@ const Demo = () => {
   const [trailing, setTrailing] = useState('on');
   const [background, setBackground] = useState('off');
 
-  const iconButtonBackground = background === 'on';
+  // background only applies to icon buttons in a floating navigation
+  const supportsBackground = navigationVariant === 'floating' && buttonVariant === 'icon-button';
+  const iconButtonBackground = supportsBackground ? background === 'on' : undefined;
 
   const leadingContent = leading === 'on' ? (
     <ModalNavigationButton variant={buttonVariant === 'icon-button' ? 'back-button' : buttonVariant} background={iconButtonBackground}>
@@ -379,12 +381,14 @@ const Demo = () => {
       />
       <Control label="leadingContent" value={leading} onValueChange={setLeading} options={['on', 'off']} />
       <Control label="trailingContent" value={trailing} onValueChange={setTrailing} options={['on', 'off']} />
-      <Control
-        label="button background (floating, icon-button only)"
-        value={background}
-        onValueChange={setBackground}
-        options={['on', 'off']}
-      />
+      {supportsBackground && (
+        <Control
+          label="button background"
+          value={background}
+          onValueChange={setBackground}
+          options={['on', 'off']}
+        />
+      )}
 
       <Modal>
         <ModalTrigger>
