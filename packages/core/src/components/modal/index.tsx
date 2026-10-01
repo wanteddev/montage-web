@@ -769,7 +769,7 @@ const ModalNavigationButton = forwardRef(
         return (
           <IconButton
             interactionEffect="dim"
-            size={size ?? 24}
+            size={size ?? 'xlarge'}
             interactionOverflow
             aria-label="Close dialog"
             {...props}
