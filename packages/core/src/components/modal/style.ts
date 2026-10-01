@@ -235,41 +235,9 @@ const modalContainerSize = (
   resize: ModalContainerProps['resize'],
 ) => {
   switch (size) {
-    case 'small':
-      return css`
-        width: 360px;
-        min-width: 320px;
-        max-width: 100%;
-        height: initial;
-        max-height: 100%;
-
-        ${resize === 'fixed' &&
-        css`
-          height: 400px;
-        `}
-
-        --modal-popup-border-radius: 12px;
-        --modal-content-margin: 20px;
-        --modal-navigation-padding-x: 24px;
-        --modal-navigation-padding-y: 24px;
-
-        --action-area-margin-x: var(--modal-content-margin);
-        --action-area-margin-y: var(--modal-content-margin);
-
-        [data-component='modal-navigation'] {
-          --tab-list-padding: var(--modal-content-margin);
-        }
-
-        [data-role='action-area-extra-content'] {
-          margin-top: calc(
-            var(--action-area-margin-x) - var(--action-area-margin-y)
-          );
-          margin-bottom: calc(4px + var(--action-area-margin-y, 20px));
-        }
-      `;
     case 'medium':
       return css`
-        width: 400px;
+        width: 360px;
         min-width: 320px;
         max-width: 100%;
         height: initial;
@@ -280,23 +248,23 @@ const modalContainerSize = (
           height: 480px;
         `}
 
-        --modal-popup-border-radius: 12px;
-        --modal-content-margin: 20px;
+        --modal-popup-border-radius: 24px;
+
         --modal-navigation-padding-x: 24px;
         --modal-navigation-padding-y: 24px;
 
-        --action-area-margin-x: var(--modal-content-margin);
-        --action-area-margin-y: var(--modal-content-margin);
+        --modal-content-margin-x: 28px;
+        --modal-content-margin-y: 24px;
+
+        --action-area-margin-x: 24px;
+        --action-area-margin-y: 20px;
 
         [data-component='modal-navigation'] {
-          --tab-list-padding: var(--modal-content-margin);
+          --tab-list-padding: var(--modal-content-margin-x);
         }
 
         [data-role='action-area-extra-content'] {
-          margin-top: calc(
-            var(--action-area-margin-x) - var(--action-area-margin-y)
-          );
-          margin-bottom: calc(4px + var(--action-area-margin-y, 20px));
+          margin-bottom: var(--action-area-margin-y, 20px);
         }
       `;
     case 'large':
@@ -312,23 +280,23 @@ const modalContainerSize = (
           height: 560px;
         `}
 
-        --modal-popup-border-radius: 20px;
-        --modal-content-margin: 24px;
+        --modal-popup-border-radius: 24px;
+
         --modal-navigation-padding-x: 24px;
         --modal-navigation-padding-y: 24px;
 
-        --action-area-margin-x: var(--modal-content-margin);
-        --action-area-margin-y: var(--modal-content-margin);
+        --modal-content-margin-x: 28px;
+        --modal-content-margin-y: 24px;
+
+        --action-area-margin-x: 24px;
+        --action-area-margin-y: 20px;
 
         [data-component='modal-navigation'] {
-          --tab-list-padding: var(--modal-content-margin);
+          --tab-list-padding: var(--modal-content-margin-x);
         }
 
         [data-role='action-area-extra-content'] {
-          margin-top: calc(
-            var(--action-area-margin-x) - var(--action-area-margin-y)
-          );
-          margin-bottom: var(--action-area-margin-y);
+          margin-bottom: var(--action-area-margin-y, 20px);
         }
       `;
     case 'xlarge':
@@ -344,24 +312,24 @@ const modalContainerSize = (
           height: 640px;
         `}
 
-        --modal-popup-border-radius: 20px;
-        --modal-content-margin: 32px;
+        --modal-popup-border-radius: 24px;
+
         --modal-navigation-padding-x: 24px;
         --modal-navigation-padding-y: 24px;
 
-        --action-area-margin-x: var(--modal-content-margin);
-        --action-area-margin-y: 24px;
+        --modal-content-margin-x: 28px;
+        --modal-content-margin-y: 24px;
+
+        --action-area-margin-x: 24px;
+        --action-area-margin-y: 20px;
         --action-area-extra-content-margin: var(--action-area-margin, 20px);
 
         [data-component='modal-navigation'] {
-          --tab-list-padding: var(--modal-content-margin);
+          --tab-list-padding: var(--modal-content-margin-x);
         }
 
         [data-role='action-area-extra-content'] {
-          margin-top: calc(
-            var(--action-area-margin-x) - var(--action-area-margin-y)
-          );
-          margin-bottom: var(--action-area-margin-y);
+          margin-bottom: var(--action-area-margin-y, 20px);
         }
       `;
   }
@@ -371,6 +339,11 @@ const modalContainerVariant = (variant: ModalContainerProps['variant']) => {
   switch (variant) {
     case 'full':
       return css`
+        --modal-content-default-padding-top: var(
+          --modal-content-margin-y,
+          24px
+        );
+        --modal-content-default-padding-bottom: 0px;
         min-width: initial;
         max-height: initial;
         max-width: 100%;
@@ -407,7 +380,9 @@ const modalContainerVariant = (variant: ModalContainerProps['variant']) => {
       `;
     case 'popup':
       return css`
-        border-radius: var(--modal-popup-border-radius, 12px);
+        --modal-content-default-padding-top: 0px;
+        --modal-content-default-padding-bottom: 0px;
+        border-radius: var(--modal-popup-border-radius, 24px);
         animation: none;
         max-height: min(760px, 100%);
         padding: initial;
@@ -442,10 +417,15 @@ const modalContainerVariant = (variant: ModalContainerProps['variant']) => {
         --modal-default-max-height: calc(
           100% - env(safe-area-inset-top, 0px) - 40px
         );
+        --modal-content-default-padding-top: var(
+          --modal-content-margin-y,
+          24px
+        );
+        --modal-content-default-padding-bottom: 0px;
         padding: 0px 0px env(safe-area-inset-bottom, 0px) 0px;
         height: var(--modal-max-height, auto);
         max-height: var(--modal-max-height, var(--modal-default-max-height));
-        border-radius: 12px 12px 0px 0px;
+        border-radius: 32px 32px 0px 0px;
         max-width: 480px;
         width: 100%;
         min-width: initial;
@@ -857,34 +837,96 @@ export const modalGrabberStyle = (theme: Theme) => css`
 `;
 
 export const modalContentStyle =
-  ({ gap, xs, sm, md, lg, xl }: ModalContentProps) =>
+  ({
+    gap,
+    verticalPadding,
+    horizontalPadding,
+    xs,
+    sm,
+    md,
+    lg,
+    xl,
+  }: ModalContentProps) =>
   (theme: Theme) => css`
     width: 100%;
-    padding-top: var(--modal-content-margin, 20px);
-    padding-bottom: var(--modal-content-margin, 20px);
+    ${modalContentMarginStyle({ gap, verticalPadding, horizontalPadding })}
 
-    ${gap !== undefined
-      ? css`
-          gap: calc(var(--modal-content-margin, 20px));
-        `
-      : css`
-          gap: ${toCssValue(gap)};
-        `}
+    ${verticalPadding === undefined &&
+    css`
+      padding-top: var(--modal-content-default-padding-top, 0px);
+      padding-bottom: var(--modal-content-default-padding-bottom, 0px);
+    `}
 
     ${createResponsiveStyle(
       { xs, sm, md, lg, xl },
       theme,
     )(
       (params) => css`
-        ${params?.gap !== undefined &&
-        css`
-          gap: ${toCssValue(params.gap)};
-        `}
+        ${modalContentMarginStyle({
+          gap: params?.gap,
+          verticalPadding: params?.verticalPadding,
+          horizontalPadding: params?.horizontalPadding,
+        })}
         ${params?.sx}
       `,
     )}
   `;
 
-export const modalContentItemStyle = () => css`
-  padding: 0px calc(var(--modal-content-margin, 20px));
-`;
+const modalContentMarginStyle = ({
+  gap,
+  verticalPadding,
+  horizontalPadding,
+}: Pick<
+  ModalContentProps,
+  'gap' | 'verticalPadding' | 'horizontalPadding'
+>) => {
+  const getVerticalPaddingStyle = () => {
+    switch (verticalPadding) {
+      case 'top-only':
+        return css`
+          padding-top: var(--modal-content-margin-y, 24px);
+          padding-bottom: 0px;
+        `;
+      case 'bottom-only':
+        return css`
+          padding-top: 0px;
+          padding-bottom: var(--modal-content-margin-y, 24px);
+        `;
+      case 'both':
+        return css`
+          padding-top: var(--modal-content-margin-y, 24px);
+          padding-bottom: var(--modal-content-margin-y, 24px);
+        `;
+      case 'none':
+        return css`
+          padding-top: 0px;
+          padding-bottom: 0px;
+        `;
+    }
+  };
+
+  const getHorizontalPaddingStyle = () => {
+    switch (horizontalPadding) {
+      case 'both':
+        return css`
+          padding-left: var(--modal-content-margin-x, 20px);
+          padding-right: var(--modal-content-margin-x, 20px);
+        `;
+      case 'none':
+        return css`
+          padding-left: 0px;
+          padding-right: 0px;
+        `;
+    }
+  };
+
+  return css`
+    ${getVerticalPaddingStyle()}
+    ${getHorizontalPaddingStyle()}
+
+   ${gap !== undefined &&
+    css`
+      gap: ${toCssValue(gap)};
+    `}
+  `;
+};

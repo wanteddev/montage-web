@@ -51,7 +51,6 @@ import {
 import {
   modalContainerStyle,
   modalContainerWrapperStyle,
-  modalContentItemStyle,
   modalContentStyle,
   modalDimmerStyle,
   modalGrabberStyle,
@@ -185,7 +184,7 @@ const ModalContainer = forwardRef(
 
     const dimmerRef = useRef<HTMLDivElement>(null);
 
-    const [isBottomSheet, setIsBottomSheet] = useState(false);
+    const [resolvedVariant, setResolvedVariant] = useState(variant);
     const [snap = defaultSnap, setSnap] = useControllableState({
       prop: snapProp,
       defaultProp: defaultSnap,
@@ -219,12 +218,12 @@ const ModalContainer = forwardRef(
     // `peek`, peek is no longer a valid state for the new variant — reset
     // snap to `full` and close.
     useEffect(() => {
-      if (!isBottomSheet && open && snap === 'peek') {
+      if (resolvedVariant !== 'bottom' && open && snap === 'peek') {
         setSnap(defaultSnap);
         onOpenChange(false);
       }
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isBottomSheet, open, snap, onOpenChange]);
+    }, [resolvedVariant, open, snap, onOpenChange]);
 
     const composedRefs = useComposedRefs<HTMLDivElement>(
       wrapperProps?.ref as RefObject<HTMLDivElement | null> | undefined,
@@ -253,7 +252,7 @@ const ModalContainer = forwardRef(
         enableHalfSnapScroll,
         largestUndimmedSnap,
         setSnap,
-        setIsBottomSheet,
+        setResolvedVariant,
       });
 
     const modalNavigationHeight =
@@ -453,7 +452,10 @@ const ModalContainer = forwardRef(
                         />
                       )}
 
-                      <ModalScrollProvider sticky={sticky}>
+                      <ModalScrollProvider
+                        sticky={sticky}
+                        variant={resolvedVariant}
+                      >
                         {children}
                       </ModalScrollProvider>
                     </FlexBox>
@@ -505,6 +507,7 @@ ModalDimmer.displayName = MODAL_DIMMER_NAME;
 
 const ModalScrollProvider = ({
   children,
+  variant,
   sticky,
 }: ModalScrollProviderProps) => {
   const { innerContainer } = useModalContext('ModalContextProviders');
@@ -551,6 +554,7 @@ const ModalScrollProvider = ({
     <ModalScrollContainerProvider
       actionAreaSticky={sticky && actionAreaSticky}
       navigationSticky={sticky && navigationSticky}
+      variant={variant}
     >
       {children}
     </ModalScrollContainerProvider>
@@ -563,7 +567,7 @@ const ModalNavigation = forwardRef<
 >(
   (
     {
-      variant = 'normal',
+      variant: givenVariant,
       leadingContent,
       trailingContent = <ModalNavigationButton variant="close-button" />,
       toolbar,
@@ -579,9 +583,21 @@ const ModalNavigation = forwardRef<
     ref,
   ) => {
     const { titleId } = useModalContext(MODAL_NAVIGATION_NAME);
-    const { navigationSticky } = useModalScrollContainerContext() || {};
+    const { navigationSticky, variant: modalVariant } =
+      useModalScrollContainerContext() || {};
 
     const background = originBackground ?? navigationSticky;
+
+    if (process.env.NODE_ENV !== 'production') {
+      if (modalVariant !== 'full' && givenVariant === 'normal') {
+        console.warn(
+          `[Montage] The "normal" variant is not supported in the "${modalVariant}" modal variant. Please use "emphasized", "floating", or "search" instead.`,
+        );
+      }
+    }
+
+    const variant: ModalNavigationProps['variant'] =
+      givenVariant ?? (modalVariant === 'full' ? 'normal' : 'emphasized');
 
     return (
       <ModalNavigationProvider variant={variant}>
@@ -817,7 +833,9 @@ const ModalContent = forwardRef<
 >(
   (
     {
-      gap = 'calc(var(--modal-content-margin, 20px))',
+      gap = 'var(--modal-content-margin-y, 24px)',
+      verticalPadding,
+      horizontalPadding = 'both',
       xs,
       sm,
       md,
@@ -843,6 +861,8 @@ const ModalContent = forwardRef<
           {...props}
           sx={[
             modalContentStyle({
+              verticalPadding,
+              horizontalPadding,
               gap,
               xs,
               sm,
@@ -865,14 +885,7 @@ const ModalContentItem = forwardRef<
   DefaultComponentPropsInternal<ModalContentItemProps, 'div'>
 >((props, ref) => {
   return (
-    <FlexBox
-      ref={ref}
-      as="div"
-      gap="12px"
-      flexDirection="column"
-      {...props}
-      sx={[modalContentItemStyle, props.sx]}
-    />
+    <FlexBox ref={ref} as="div" gap="12px" flexDirection="column" {...props} />
   );
 });
 

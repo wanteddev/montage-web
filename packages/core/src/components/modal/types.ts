@@ -42,7 +42,7 @@ type ModalContainerDefaultProps = WithSxProps<{
    */
   sticky?: boolean;
   /** The size of the modal. */
-  size?: 'small' | 'medium' | 'large' | 'xlarge';
+  size?: 'medium' | 'large' | 'xlarge';
   /**
    * Sizing mode within the variant's layout.
    * - `'hug'` (default): hug content.
@@ -118,11 +118,22 @@ export type ModalDimmerProps = WithSxProps<{}>;
 
 export type ModalScrollProviderProps = PropsWithChildren<{
   sticky: boolean;
+  variant: ModalContainerProps['variant'];
 }>;
 
 export type ModalNavigationProps = WithSxProps<
   Merge<
     {
+      /**
+       * Layout of the navigation.
+       * - `normal`: Centered title, with leading/trailing content pinned to both sides. Only supported when the `ModalContainer` `variant` is `full`.
+       * - `emphasized`: Larger, left-aligned title laid out in a row with the leading/trailing content.
+       * - `floating`: Overlays the top of the content instead of taking up space. The title is centered like `normal`,
+       *   `background` renders a gradient blur instead of a solid background, and `toolbar` is not rendered.
+       * - `search`: Renders `children` (e.g. `SearchField`, defaulting to `medium` size) in place of the title, filling the row.
+       *
+       * When omitted, defaults to `normal` for the `full` `ModalContainer` variant and `emphasized` otherwise.
+       */
       variant?: 'normal' | 'floating' | 'emphasized' | 'search';
       /** The trailing content of the modal navigation. Pass an element wrapped with `ModalNavigationButton`. Defaults to a `close-button`. */
       trailingContent?: ReactNode;
@@ -160,12 +171,31 @@ export type ModalNavigationButtonProps = WithSxProps<{
 }>;
 
 type ModalContentDefaultProps = WithSxProps<{
+  /**
+   * Gap between the content items.
+   * @default 'var(--modal-content-margin-y, 24px)'
+   */
   gap?: CSSProperties['gap'];
+  /**
+   * Which vertical sides get the content margin (`--modal-content-margin-y`, set by the container `size`).
+   * When omitted, the default depends on the `ModalContainer` `variant`:
+   * - `popup`: `none`
+   * - `bottom` / `full`: `top-only`
+   */
+  verticalPadding?: 'none' | 'top-only' | 'bottom-only' | 'both';
+  /**
+   * Which horizontal sides get the content margin (`--modal-content-margin-x`, set by the container `size`).
+   * @default 'both'
+   */
+  horizontalPadding?: 'none' | 'both';
   children?: ReactNode;
 }>;
 
 type ModalContentResponsiveProps = ResponsiveProps<
-  Pick<ModalContentDefaultProps, 'gap'>
+  Pick<
+    ModalContentDefaultProps,
+    'gap' | 'verticalPadding' | 'horizontalPadding'
+  >
 >;
 
 export type ModalContentProps = Merge<

@@ -5,7 +5,11 @@ import createLooseContext from '../../hooks/internal/use-loose-context';
 import { MODAL_CONTAINER_NAME, MODAL_NAME } from './constants';
 
 import type { RefObject } from 'react';
-import type { ModalBottomSheetSnap, ModalNavigationProps } from './types';
+import type {
+  ModalBottomSheetSnap,
+  ModalContainerProps,
+  ModalNavigationProps,
+} from './types';
 
 type ModalContextValue = {
   containerRef: RefObject<HTMLDivElement | null>;
@@ -38,6 +42,7 @@ export const [ModalDimmerProvider, useModalDimmerContext] =
 type ModalScrollContainerContextValue = {
   actionAreaSticky: boolean;
   navigationSticky: boolean;
+  variant?: ModalContainerProps['variant'];
 };
 
 export const [ModalScrollContainerProvider, useModalScrollContainerContext] =

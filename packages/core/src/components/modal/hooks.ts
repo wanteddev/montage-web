@@ -360,7 +360,9 @@ type UseDraggableProps = Pick<
   dimmerRef: RefObject<HTMLDivElement | null>;
   snap: ModalBottomSheetSnap;
   setSnap: (snap: ModalBottomSheetSnap) => void;
-  setIsBottomSheet: (isBottomSheet: boolean) => void;
+  setResolvedVariant: (
+    variant: Exclude<ModalContainerProps['variant'], undefined>,
+  ) => void;
 };
 
 export const useDraggable = ({
@@ -379,18 +381,19 @@ export const useDraggable = ({
   dimmerRef,
   snap,
   setSnap,
-  setIsBottomSheet,
+  setResolvedVariant,
 }: UseDraggableProps) => {
-  const { isBottom, isFlexible, isEnabled } = useResponsiveBottomSheetProps({
-    variant: givenVariant,
-    handle: givenHandle,
-    resize: givenResize,
-    xs,
-    sm,
-    md,
-    lg,
-    xl,
-  });
+  const { variant, isBottom, isFlexible, isEnabled } =
+    useResponsiveBottomSheetProps({
+      variant: givenVariant,
+      handle: givenHandle,
+      resize: givenResize,
+      xs,
+      sm,
+      md,
+      lg,
+      xl,
+    });
 
   const context = useModalContext(MODAL_NAME);
 
@@ -453,8 +456,9 @@ export const useDraggable = ({
   const peakDiffYUp = useRef(0);
 
   useEffect(() => {
-    setIsBottomSheet(isBottom);
-  }, [isBottom, setIsBottomSheet]);
+    setResolvedVariant(variant ?? givenVariant ?? 'popup');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [variant, setResolvedVariant]);
 
   const peekHeight = useRef(givenPeekHeight ?? 0);
 
