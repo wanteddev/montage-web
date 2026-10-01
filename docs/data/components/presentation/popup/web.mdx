@@ -337,98 +337,100 @@ export default Demo;`}
   ModalDescription,
   ModalHeading,
   ModalNavigation,
+  ModalNavigationButton,
   ModalSummary,
   ModalTrigger,
   SearchField,
+  SegmentedControl,
+  SegmentedControlItem,
+  Typography,
 } from '@montage-ui/core';
+import { useState } from 'react';
+
+const Control = ({ label, value, onValueChange, options }) => (
+  <FlexBox flexDirection="column" gap="8px" sx={{ width: '100%', maxWidth: 400 }}>
+    <Typography variant="label1" weight="medium" color="semantic.foreground.neutral.secondary">
+      {label}
+    </Typography>
+    <SegmentedControl size="small" value={value} onValueChange={onValueChange}>
+      {options.map((option) => (
+        <SegmentedControlItem key={option} value={option}>
+          {option}
+        </SegmentedControlItem>
+      ))}
+    </SegmentedControl>
+  </FlexBox>
+);
 
 const Demo = () => {
+  const [navigationVariant, setNavigationVariant] = useState('normal');
+  const [buttonVariant, setButtonVariant] = useState('icon-button');
+  const [leading, setLeading] = useState('on');
+  const [trailing, setTrailing] = useState('on');
+  const [background, setBackground] = useState('off');
+
+  const iconButtonBackground = background === 'on';
+
+  const leadingContent = leading === 'on' ? (
+    <ModalNavigationButton variant={buttonVariant === 'icon-button' ? 'back-button' : buttonVariant} background={iconButtonBackground}>
+      {buttonVariant === 'text-button' ? '뒤로' : undefined}
+    </ModalNavigationButton>
+  ) : null;
+
+  const trailingContent = trailing === 'on' ? (
+    <ModalNavigationButton variant={buttonVariant === 'icon-button' ? 'close-button' : buttonVariant} background={iconButtonBackground}>
+      {buttonVariant === 'text-button' ? '닫기' : undefined}
+    </ModalNavigationButton>
+  ) : null;
+
+  const getNavigationContent = () => {
+    switch (navigationVariant) {
+      case 'search':
+        return <SearchField placeholder="Enter search keyword." />;
+      case 'floating':
+        return null;
+      case 'emphasized':
+        return 'Emphasized';
+      default:
+        return 'Normal';
+    }
+  };
+
   return (
-    <FlexBox gap="12px" flexWrap="wrap">
-      <Modal>
-        <ModalTrigger>
-          <Button>Normal</Button>
-        </ModalTrigger>
-
-        <ModalContainer variant="popup">
-          <ModalNavigation variant="normal">
-            Normal
-          </ModalNavigation>
-
-          <ModalContent>
-            <ModalContentItem>
-              <ModalHeading>Heading</ModalHeading>
-              <ModalSummary>Summary</ModalSummary>
-              <ModalDescription>Description</ModalDescription>
-            </ModalContentItem>
-          </ModalContent>
-
-          <ActionArea>
-            <ActionAreaButton>
-              Action
-            </ActionAreaButton>
-          </ActionArea>
-        </ModalContainer>
-      </Modal>
+    <FlexBox flexDirection="column" alignItems="center" gap="24px" sx={{ width: '100%' }}>
+      <Control
+        label="variant"
+        value={navigationVariant}
+        onValueChange={setNavigationVariant}
+        options={['normal', 'emphasized', 'floating', 'search']}
+      />
+      <Control
+        label="button variant"
+        value={buttonVariant}
+        onValueChange={setButtonVariant}
+        options={['icon-button', 'text-button']}
+      />
+      <Control label="leadingContent" value={leading} onValueChange={setLeading} options={['on', 'off']} />
+      <Control label="trailingContent" value={trailing} onValueChange={setTrailing} options={['on', 'off']} />
+      <Control
+        label="button background (floating, icon-button only)"
+        value={background}
+        onValueChange={setBackground}
+        options={['on', 'off']}
+      />
 
       <Modal>
         <ModalTrigger>
-          <Button>Emphasized</Button>
+          <Button>Open</Button>
         </ModalTrigger>
 
         <ModalContainer variant="popup">
-          <ModalNavigation variant="emphasized">
-            Emphasized
-          </ModalNavigation>
-
-          <ModalContent>
-            <ModalContentItem>
-              <ModalHeading>Heading</ModalHeading>
-              <ModalSummary>Summary</ModalSummary>
-              <ModalDescription>Description</ModalDescription>
-            </ModalContentItem>
-          </ModalContent>
-
-          <ActionArea>
-            <ActionAreaButton>
-              Action
-            </ActionAreaButton>
-          </ActionArea>
-        </ModalContainer>
-      </Modal>
-
-      <Modal>
-        <ModalTrigger>
-          <Button>Floating</Button>
-        </ModalTrigger>
-
-        <ModalContainer variant="popup">
-          <ModalNavigation variant="floating" />
-
-          <ModalContent>
-            <ModalContentItem>
-              <ModalHeading>Heading</ModalHeading>
-              <ModalSummary>Summary</ModalSummary>
-              <ModalDescription>Description</ModalDescription>
-            </ModalContentItem>
-          </ModalContent>
-
-          <ActionArea>
-            <ActionAreaButton>
-              Action
-            </ActionAreaButton>
-          </ActionArea>
-        </ModalContainer>
-      </Modal>
-
-      <Modal>
-        <ModalTrigger>
-          <Button>Search</Button>
-        </ModalTrigger>
-
-        <ModalContainer variant="popup">
-          <ModalNavigation variant="search">
-            <SearchField placeholder="Enter search keyword." size="medium" />
+          <ModalNavigation
+            variant={navigationVariant}
+            leadingContent={leadingContent}
+            trailingContent={trailingContent}
+          >
+            {getNavigationContent()}
           </ModalNavigation>
 
           <ModalContent>

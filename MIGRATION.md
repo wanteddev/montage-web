@@ -512,6 +512,124 @@ npx @montage-ui/codemod@latest form-control-migration src
 
 위 내용에 따라 `onVisibilityChange` 옵션이 제거되었습니다.
 
+#### `ModalNavigation` 전용 구현으로 분리
+
+`ModalNavigation` / `ModalNavigationButton`이 더 이상 `TopNavigation` / `TopNavigationButton`을 감싸지 않고 독립 컴포넌트로 구현됩니다. 이에 따라 Props와 DOM 식별자가 `TopNavigation`과 분리되었습니다.
+
+- `ModalNavigation`의 `variant`는 `normal` | `emphasized` | `floating` | `search`입니다. `display`는 제거되었으므로 `variant="emphasized"`로 변경하세요.
+- `ModalNavigationButtonProps`는 더 이상 `TopNavigationButtonProps`의 별칭이 아닙니다.
+
+#### `ModalClose` 제거 → `ModalNavigationButton variant="close-button"`
+
+`ModalClose`(및 `ModalCloseProps`)가 제거되었습니다. 닫기 버튼은 `ModalNavigationButton`의 `close-button` variant로 대체됩니다. 기존과 같이 클릭 시 모달을 닫고, 기본 아이콘(`IconClose`)과 `aria-label="Close dialog"`가 적용됩니다.
+
+`ModalNavigation`의 `trailingContent` 기본값도 `<ModalNavigationButton variant="close-button" />`입니다.
+
+`ModalClose`는 `ModalContainer` 안 어디서든 사용할 수 있었지만, `ModalNavigationButton`은 `ModalNavigation` 안에서만 렌더할 수 있습니다(밖에서 렌더하면 에러가 발생합니다). `ModalContent` 등 navigation 밖에서 `ModalClose`나 `ModalNavigationButton`을 사용했다면 `ModalNavigation`으로 옮기거나, `aria-label="Close dialog"`를 지정한 `IconButton`에 닫기 동작을 직접 연결하세요.
+
+```tsx
+// AS-IS
+<ModalNavigation leadingContent={<ModalClose />} trailingContent={null}>
+  Title
+</ModalNavigation>
+
+// TO-BE
+<ModalNavigation
+  leadingContent={<ModalNavigationButton variant="close-button" />}
+  trailingContent={null}
+>
+  Title
+</ModalNavigation>
+```
+
+`ModalClose`에 아이콘이 아닌 텍스트를 넣어 쓰던 경우(`<ModalClose variant="text">취소</ModalClose>`)에는 `text-button` variant로 바꾸고 닫기 동작을 직접 연결하세요. `close-button`은 아이콘 버튼으로만 렌더됩니다.
+
+```tsx
+<ModalNavigationButton variant="text-button" onClick={() => setOpen(false)}>
+  취소
+</ModalNavigationButton>
+```
+
+#### `ModalNavigationButton` variant 변경
+
+`TopNavigationButton`과 같이 variant 이름이 변경되고 `back-button`, `close-button`이 추가되었습니다. 자세한 내용은 [TopNavigation](#topnavigation)을 참고하세요.
+
+| AS-IS            | TO-BE                    |
+| ---------------- | ------------------------ |
+| `variant="icon"` | `variant="icon-button"`  |
+| `variant="text"` | `variant="text-button"`  |
+| —                | `variant="back-button"`  |
+| `<ModalClose />` | `variant="close-button"` |
+
+`variant="floating"`인 `ModalNavigation` 안에서는 아이콘 계열 variant(`icon-button` / `back-button` / `close-button`)에 `background`를 지정하면 `IconButton`의 `background` variant(블러 배경)로 렌더되며, `alternative`로 블러 미지원 환경용 대체 스타일을 사용할 수 있습니다.
+
+#### DOM 식별자 · CSS 변수 변경
+
+| AS-IS                                                                    | TO-BE                                                          |
+| ------------------------------------------------------------------------ | -------------------------------------------------------------- |
+| `[data-component='top-navigation']` (ModalNavigation 루트)               | `[data-component='modal-navigation']`                          |
+| `[data-component='top-navigation-button']` (ModalNavigationButton)       | `[data-component='modal-navigation-button']`                   |
+| `[data-role='top-navigation-*']` (wrapper, leading/trailing, toolbar 등) | `[data-role='modal-navigation-*']`                             |
+| `--top-navigation-padding(-x/-y)`, `--top-navigation-min-height`         | `--modal-navigation-padding-x`, `--modal-navigation-padding-y` |
+
+모달 안의 navigation을 위 셀렉터나 CSS 변수로 커스텀했다면 수동으로 변경해야 합니다. 또한 `ModalContainer` 사이즈와 관계없이 navigation 패딩이 `24px`로 통일되었습니다.
+
+별도 codemod는 제공되지 않습니다.
+
+### TopNavigation
+
+#### `TopNavigationButton` variant 이름 변경
+
+`variant` 값이 다른 컴포넌트(`TextFieldContent` 등)와 같은 형태로 변경되고, 뒤로가기 버튼용 `back-button`이 추가되었습니다. 기본값은 `icon-button`입니다.
+
+| AS-IS            | TO-BE                   |
+| ---------------- | ----------------------- |
+| `variant="icon"` | `variant="icon-button"` |
+| `variant="text"` | `variant="text-button"` |
+| —                | `variant="back-button"` |
+
+`back-button`은 children이 없으면 `IconChevronLeft`를 렌더하고 `aria-label="Go back"`이 기본 적용됩니다. 클릭 동작은 포함되지 않으므로 `onClick`을 직접 지정하세요.
+
+```tsx
+// AS-IS
+<TopNavigation
+  leadingContent={
+    <TopNavigationButton variant="icon" aria-label="Go back">
+      <IconChevronLeft />
+    </TopNavigationButton>
+  }
+  trailingContent={
+    <TopNavigationButton variant="text" color="primary">
+      완료
+    </TopNavigationButton>
+  }
+>
+  Title
+</TopNavigation>
+
+// TO-BE
+<TopNavigation
+  leadingContent={<TopNavigationButton variant="back-button" onClick={goBack} />}
+  trailingContent={
+    <TopNavigationButton variant="text-button" color="primary">
+      완료
+    </TopNavigationButton>
+  }
+>
+  Title
+</TopNavigation>
+```
+
+`size`는 아이콘 계열 variant에서 `IconButton`의 `size`를, `text-button`에서는 `TextButton`의 `size`(`small` 외의 값은 `medium`)를 따릅니다.
+
+`@montage-ui/eslint-plugin`의 `icon-button-uses-name` 규칙은 `text-button` / `back-button` / `close-button` variant에 대해서는 `aria-label`을 요구하지 않습니다.
+
+별도 codemod는 제공되지 않습니다.
+
+#### `search` variant의 `SearchField` 기본 사이즈
+
+`variant="search"`일 때 children으로 넣은 `SearchField`에 `size="medium"`이 기본 적용됩니다(`ModalNavigation`도 동일). `size`를 지정하지 않은 SearchField는 3.x 기본값(48px)에서 40px로 작아지며, 48px를 유지하려면 `size="large"`를 지정하세요. 직접 지정한 `size`가 있으면 그 값이 우선합니다. 3.x에서 `size="medium"`을 지정했다면 [SearchField](#searchfield) 사이즈 변경으로 `large`가 되므로, navigation 기본값을 따르려면 `size`를 제거하세요.
+
 ### TextField
 
 Figma 스펙에 맞춰 사이즈 체계와 일부 하위 컴포넌트 API가 변경되었습니다.
@@ -1440,7 +1558,7 @@ npx @montage-ui/codemod@latest list-cell-variant-migration src
 
 | 컴포넌트                                                                                                              | IconButton                                                                          | 레이아웃 | 인터랙션 영역 |
 | --------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- | -------- | ------------- |
-| `TopNavigationButton` (`ModalNavigationButton`, `ModalClose` 포함, `variant="icon"`)                                  | `size={24}`, `interactionEffect="dim"`                                              | 24       | 36            |
+| `TopNavigationButton`, `ModalNavigationButton` (`icon-button` / `back-button` / `close-button`)                       | `size={24}`, `interactionEffect="dim"`                                              | 24       | 36            |
 | `SnackbarCloseButton` (`useSnackbar({ closeButton: true })` 포함)                                                     | `size="large"`                                                                      | 20       | 32            |
 | `Popover` 닫기 버튼                                                                                                   | `size="small"`                                                                      | 16       | 24            |
 | `SectionMessage` 닫기 버튼                                                                                            | `size="large"`, `color` · `interactionColor="semantic.foreground.neutral.tertiary"` | 20       | 32            |
@@ -1486,7 +1604,7 @@ npx @montage-ui/codemod@latest list-cell-variant-migration src
 
 #### `TopNavigationButton` 인터랙션 변경
 
-`variant="icon"`인 `TopNavigationButton`(이를 렌더하는 `ModalNavigationButton`, `ModalClose` 포함)은 내부 `IconButton`에 `interactionEffect="dim"`을 기본 적용합니다. hover / press 시 배경 레이어 대신 아이콘 색상이 어두워지는 방식으로 바뀌었습니다. 별도 마이그레이션은 필요 없습니다.
+`TopNavigationButton`, `ModalNavigationButton`의 아이콘 계열 variant(`icon-button` / `back-button` / `close-button`)는 내부 `IconButton`에 `interactionEffect="dim"`을 기본 적용합니다. hover / press 시 배경 레이어 대신 아이콘 색상이 어두워지는 방식으로 바뀌었습니다. 별도 마이그레이션은 필요 없습니다.
 
 ## 3.0.0 (2025-11-12)
 

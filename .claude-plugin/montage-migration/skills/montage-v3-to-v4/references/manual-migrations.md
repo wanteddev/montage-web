@@ -1300,14 +1300,15 @@ and is ignored under `none`.
   escape the [zero] anchor and land here instead — read each `IconButton` file the hit list
   names.
 - **`TopNavigationButton` icon buttons dim instead of drawing the interaction layer** (also
-  `ModalNavigationButton` and `ModalClose`, which render one). With
-  `variant="icon"` (its DEFAULT variant) the inner `IconButton` now receives
-  `interactionEffect="dim"` by default, so hover / press changes the icon color instead
-  of showing the layer. `TopNavigationButtonProps` exposes no `interactionEffect`, so there
-  is no opt-out prop — this is the v4 design; nothing to rewrite, flag every top navigation
+  `ModalNavigationButton`, and v3 `ModalClose`, which M19 replaces with its `close-button`
+  variant). The icon variants (`icon-button` — the DEFAULT, v3 `variant="icon"` — plus
+  `back-button` / `close-button`) pass the inner `IconButton` `interactionEffect="dim"` by
+  default, so hover / press changes the icon color instead of showing the layer. Neither
+  button's props expose `interactionEffect`, so there is no opt-out prop — this is the v4
+  design; nothing to rewrite here (the variant renames are M19's), flag every top navigation
   and modal navigation / close button for visual QA.
-  Scan **[decision]**: `\b(TopNavigationButton|ModalNavigationButton|ModalClose)\b` — locates the screens to QA; every hit is
-  valid v4 code.
+  Scan **[decision]**: `\b(TopNavigationButton|ModalNavigationButton)\b` — locates the screens to QA; every hit is
+  valid v4 code (a v3 `ModalClose` is M19's **[zero]** work).
 - **`normal` `size` is now the box, not the icon — add `interactionOverflow` by default.**
   In v3 `size` was the icon (the box matched it and the interaction layer overflowed without
   affecting layout; string sizes were ignored and rendered a 24px icon). In v4 `size` on the
@@ -1363,7 +1364,7 @@ and is ignored under `none`.
 
     | Component                                                                                                                      | IconButton                                                                          | Layout  | Interaction area |
     | ------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------- | ------- | ---------------- |
-    | `TopNavigationButton` (incl. `ModalNavigationButton` and `ModalClose`, `variant="icon"`)                                       | `size={24}`, `interactionEffect="dim"`                                              | 24      | 36               |
+    | `TopNavigationButton`, `ModalNavigationButton` (`icon-button` / `back-button` / `close-button`)                                | `size={24}`, `interactionEffect="dim"`                                              | 24      | 36               |
     | `SnackbarCloseButton` (incl. `useSnackbar({ closeButton: true })`)                                                             | `size="large"`                                                                      | 20      | 32               |
     | `Popover` close button                                                                                                         | `size="small"`                                                                      | 16      | 24               |
     | `SectionMessage` close button                                                                                                  | `size="large"`, `color` / `interactionColor="semantic.foreground.neutral.tertiary"` | 20      | 32               |
@@ -1389,6 +1390,87 @@ and is ignored under `none`.
   Line-based: multi-line JSX and `IconButton` elements built outside JSX literals escape the
   scan, so read each file the hit list names. Flag every changed screen, and every slot
   `IconButton` hit, for visual QA.
+
+## M19. TopNavigation / ModalNavigation changes
+
+No codemod covers this section — every fix here is a hand edit. `ModalNavigation` /
+`ModalNavigationButton` no longer wrap `TopNavigation` / `TopNavigationButton`; they are
+separate implementations with their own props and DOM identifiers. Old `variant` values and
+`ModalClose` are type errors once M1's install lands v4, so the typecheck is a second net for
+the literal shapes below — but not for selectors, CSS variables, or spread-carried props.
+
+- **`ModalClose` removed → `<ModalNavigationButton variant="close-button" />`.** `ModalClose`
+  and `ModalCloseProps` are gone. `close-button` keeps the v3 behavior: it closes the modal on
+  click and renders `IconClose` with `aria-label="Close dialog"` by default. It is also the
+  default `trailingContent` of `ModalNavigation`, so `trailingContent={<ModalClose />}` can
+  simply be deleted. Rewrite per shape:
+  - `<ModalClose />` / `<ModalClose>…icon…</ModalClose>` →
+    `<ModalNavigationButton variant="close-button">` with the same props and children.
+  - `<ModalClose variant="text">취소</ModalClose>` (text label) → `close-button` renders an
+    icon button only, so use `<ModalNavigationButton variant="text-button">` and wire the close
+    yourself (`onClick={() => setOpen(false)}` on a controlled `Modal`).
+  - `ModalCloseProps` in consumer types → `ModalNavigationButtonProps`.
+
+  **Placement changed.** v3 `ModalClose` worked anywhere inside a `ModalContainer`; v4
+  `ModalNavigationButton` (every variant) must render inside a `ModalNavigation` and throws at
+  render otherwise — the rewrite still typechecks, so the typecheck does not catch it. For each
+  hit, check where it renders (the same applies to a v3 `ModalNavigationButton` rendered
+  outside a `ModalNavigation` — v3 rendered a context-free `TopNavigationButton`; find those
+  with M19's `\b(TopNavigationButton|ModalNavigationButton)\b` scan): inside `ModalNavigation`'s `leadingContent` / `trailingContent`
+  → rewrite as above; anywhere else (`ModalContent`, a footer, a custom header) → either move it
+  into a `ModalNavigation`, or replace it with an `IconButton` carrying `aria-label="Close
+dialog"` and an `onClick` that closes the modal (`onOpenChange(false)` / `setOpen(false)` on
+  a controlled `Modal`).
+
+  Scan **[zero]**: `\bModalClose` (prefix form — also catches `ModalCloseProps`; no v4 export
+  starts with `ModalClose`).
+
+- **`TopNavigationButton` / `ModalNavigationButton` `variant` renamed.** `variant="icon"` →
+  `variant="icon-button"` (still the DEFAULT, so an omitted `variant` needs no change) and
+  `variant="text"` → `variant="text-button"`. New in v4: `back-button` on both (renders
+  `IconChevronLeft` when there are no children and sets `aria-label="Go back"` by default; it
+  adds no click behavior — keep the consumer's `onClick`) and `close-button` on
+  `ModalNavigationButton` only. Adopting `back-button` for an existing chevron icon button is
+  optional, not part of the migration.
+  Scan **[zero]**: `<(TopNavigationButton|ModalNavigationButton)[[:space:]][^>]*variant="(icon|text)"`
+  — the closing quote keeps it from matching `icon-button` / `text-button`.
+  Scan **[decision]**: `\b(TopNavigationButton|ModalNavigationButton)\b` — read each file the
+  hit list names for what the line grep cannot see: multi-line JSX props, `variant={expr}`
+  (trace what it produces: `'icon'` → `'icon-button'`, `'text'` → `'text-button'`), spreads
+  carrying `variant`, and consumer wrapper types relaying `TopNavigationButtonProps['variant']`.
+
+- **`ModalNavigation` `variant="display"` removed → `variant="emphasized"`.**
+  `ModalNavigation`'s variants are now `normal` | `emphasized` | `floating` | `search`.
+  `TopNavigation` keeps `display` — never rewrite it there.
+  Scan **[zero]**: `<ModalNavigation[[:space:]][^>]*variant="display"` (the `[[:space:]]`
+  keeps `ModalNavigationButton` out).
+
+- **Modal navigation DOM identifiers and CSS variables renamed.** Inside a modal the
+  navigation now renders `[data-component='modal-navigation']` (was `top-navigation`), its
+  buttons `[data-component='modal-navigation-button']` (was `top-navigation-button`), and its
+  inner parts `[data-role='modal-navigation-*']` (was `top-navigation-*`). The modal-scoped
+  CSS variable overrides map as follows: `--top-navigation-padding-x` / `-padding-y` /
+  `-title-width` → `--modal-navigation-padding-x` / `-padding-y` / `-title-width` (1:1); a bare
+  `--top-navigation-padding: <y> <x>` shorthand splits into the two `--modal-navigation-padding-y`
+  / `-x` declarations (v4 reads no bare `--modal-navigation-padding`); `--top-navigation-min-height`
+  has no v4 equivalent — ask the user whether to delete it or move the value to an `sx`
+  `min-height` on the `ModalNavigation`. The navigation padding is now `24px` at every
+  `ModalContainer` size. A standalone
+  `TopNavigation` keeps every `top-navigation` identifier and CSS variable — rename only the
+  hits that target a navigation inside a modal.
+  Scan **[decision]** (include stylesheets): `top-navigation` — matches valid v4 selectors on a
+  standalone `TopNavigation` by design; per hit, decide whether it reaches a modal navigation
+  (a `ModalContainer` / modal stylesheet, a test querying inside an open modal) and rename it.
+  Flag every modal navigation for visual QA (padding change).
+
+- **`search` variant sizes its `SearchField`.** In `TopNavigation` / `ModalNavigation`
+  `variant="search"` the child `SearchField` now defaults to `size="medium"` (40px), so an
+  UNSIZED field shrinks from the v3 default 48px to 40px — accept it (the v4 navigation design)
+  or add `size="large"` to keep 48px. An explicit `size` still wins: a v3 `size="medium"` that M14 converted to `size="large"` keeps the v3
+  48px field. Delete the explicit `size` to take the v4 navigation default, or keep it
+  deliberately — a decision per hit.
+  Scan **[decision]**: `variant="search"` — locate the search navigations and check the
+  `SearchField` child's `size`. Flag every search navigation for visual QA.
 
 ## Suggested commit boundary
 
