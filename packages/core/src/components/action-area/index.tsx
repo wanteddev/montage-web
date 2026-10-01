@@ -3,7 +3,7 @@ import { forwardRef } from 'react';
 import { FlexBox } from '../flex-box';
 import { Button } from '../button';
 import { TextButton } from '../text-button';
-import { useModalActionAreaContext } from '../modal/contexts';
+import { useModalScrollContainerContext } from '../modal/contexts';
 
 import { ACTION_AREA_BUTTON_NAME, ACTION_AREA_NAME } from './constants';
 import { ActionAreaProvider, useActionAreaContext } from './contexts';
@@ -37,10 +37,10 @@ const ActionArea = forwardRef<
     },
     ref,
   ) => {
-    const modalOption = useModalActionAreaContext();
+    const modalOption = useModalScrollContainerContext();
 
     const modalSticky =
-      modalOption !== undefined ? modalOption.sticky : undefined;
+      modalOption !== undefined ? modalOption.actionAreaSticky : undefined;
 
     return (
       <ActionAreaProvider variant={variant}>

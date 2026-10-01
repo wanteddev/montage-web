@@ -49,6 +49,34 @@ run({
         <TopNavigationButton aria-label="close" />
       `,
     },
+    {
+      code: `
+        import { TopNavigationButton } from '@montage-ui/core';
+
+        <TopNavigationButton variant="text-button">완료</TopNavigationButton>
+      `,
+    },
+    {
+      code: `
+        import { TopNavigationButton } from '@montage-ui/core';
+
+        <TopNavigationButton variant="back-button" />
+      `,
+    },
+    {
+      code: `
+        import { ModalNavigationButton } from '@montage-ui/core';
+
+        <ModalNavigationButton variant="close-button" />
+      `,
+    },
+    {
+      code: `
+        import { ModalNavigationButton } from '@montage-ui/core';
+
+        <ModalNavigationButton variant={variant} />
+      `,
+    },
   ],
   invalid: [
     {
@@ -104,6 +132,14 @@ run({
         import { TopNavigationButton } from '@montage-ui/core';
 
         <TopNavigationButton />
+      `,
+      errors: 1,
+    },
+    {
+      code: `
+        import { ModalNavigationButton } from '@montage-ui/core';
+
+        <ModalNavigationButton variant="icon-button" />
       `,
       errors: 1,
     },

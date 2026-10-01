@@ -102,7 +102,7 @@ const modalContainerWrapperVariant = (
         }
 
         [data-role='modal-container-scroll-area']:has(
-          [data-component='top-navigation'][data-variant='floating']
+          [data-component='modal-navigation'][data-variant='floating']
         ) {
           background: initial;
           will-change: unset;
@@ -121,7 +121,7 @@ const modalContainerWrapperVariant = (
         }
 
         [data-role='modal-container-scroll-area']:has(
-          [data-component='top-navigation'][data-variant='floating']
+          [data-component='modal-navigation'][data-variant='floating']
         ) {
           background: initial;
           will-change: unset;
@@ -140,7 +140,7 @@ const modalContainerWrapperVariant = (
         }
 
         [data-role='modal-container-scroll-area']:has(
-          [data-component='top-navigation'][data-variant='floating']
+          [data-component='modal-navigation'][data-variant='floating']
         ) {
           background: inherit;
           will-change: backdrop-filter;
@@ -167,7 +167,7 @@ export const modalContainerStyle =
     outline: none;
     background-color: ${theme.semantic.surface.elevated.primary};
 
-    [data-component='top-navigation'] {
+    [data-component='modal-navigation'] {
       z-index: 5;
       position: sticky;
       top: var(--modal-grabber-height-guard, 0px);
@@ -250,15 +250,13 @@ const modalContainerSize = (
 
         --modal-popup-border-radius: 12px;
         --modal-content-margin: 20px;
-        --top-navigation-padding-x: 16px;
-        --top-navigation-padding-y: 16px;
-        --top-navigation-padding: var(--top-navigation-padding-y)
-          var(--top-navigation-padding-x);
-        --top-navigation-min-height: 56px;
+        --modal-navigation-padding-x: 24px;
+        --modal-navigation-padding-y: 24px;
+
         --action-area-margin-x: var(--modal-content-margin);
         --action-area-margin-y: var(--modal-content-margin);
 
-        [data-component='top-navigation'] {
+        [data-component='modal-navigation'] {
           --tab-list-padding: var(--modal-content-margin);
         }
 
@@ -267,10 +265,6 @@ const modalContainerSize = (
             var(--action-area-margin-x) - var(--action-area-margin-y)
           );
           margin-bottom: calc(4px + var(--action-area-margin-y, 20px));
-        }
-
-        [data-role='navigation-title'] {
-          padding: 0px 4px;
         }
       `;
     case 'medium':
@@ -288,15 +282,13 @@ const modalContainerSize = (
 
         --modal-popup-border-radius: 12px;
         --modal-content-margin: 20px;
-        --top-navigation-padding-x: 16px;
-        --top-navigation-padding-y: 20px;
-        --top-navigation-padding: var(--top-navigation-padding-y)
-          var(--top-navigation-padding-x);
-        --top-navigation-min-height: 64px;
+        --modal-navigation-padding-x: 24px;
+        --modal-navigation-padding-y: 24px;
+
         --action-area-margin-x: var(--modal-content-margin);
         --action-area-margin-y: var(--modal-content-margin);
 
-        [data-component='top-navigation'] {
+        [data-component='modal-navigation'] {
           --tab-list-padding: var(--modal-content-margin);
         }
 
@@ -305,10 +297,6 @@ const modalContainerSize = (
             var(--action-area-margin-x) - var(--action-area-margin-y)
           );
           margin-bottom: calc(4px + var(--action-area-margin-y, 20px));
-        }
-
-        [data-role='navigation-title'] {
-          padding: 0px 4px;
         }
       `;
     case 'large':
@@ -326,15 +314,13 @@ const modalContainerSize = (
 
         --modal-popup-border-radius: 20px;
         --modal-content-margin: 24px;
-        --top-navigation-padding-x: 20px;
-        --top-navigation-padding-y: 20px;
-        --top-navigation-padding: var(--top-navigation-padding-y)
-          var(--top-navigation-padding-x);
-        --top-navigation-min-height: 64px;
+        --modal-navigation-padding-x: 24px;
+        --modal-navigation-padding-y: 24px;
+
         --action-area-margin-x: var(--modal-content-margin);
         --action-area-margin-y: var(--modal-content-margin);
 
-        [data-component='top-navigation'] {
+        [data-component='modal-navigation'] {
           --tab-list-padding: var(--modal-content-margin);
         }
 
@@ -343,10 +329,6 @@ const modalContainerSize = (
             var(--action-area-margin-x) - var(--action-area-margin-y)
           );
           margin-bottom: var(--action-area-margin-y);
-        }
-
-        [data-role='navigation-title'] {
-          padding: 0px 4px;
         }
       `;
     case 'xlarge':
@@ -364,16 +346,14 @@ const modalContainerSize = (
 
         --modal-popup-border-radius: 20px;
         --modal-content-margin: 32px;
-        --top-navigation-padding-x: 28px;
-        --top-navigation-padding-y: 24px;
-        --top-navigation-padding: var(--top-navigation-padding-y)
-          var(--top-navigation-padding-x);
-        --top-navigation-min-height: 72px;
+        --modal-navigation-padding-x: 24px;
+        --modal-navigation-padding-y: 24px;
+
         --action-area-margin-x: var(--modal-content-margin);
         --action-area-margin-y: 24px;
         --action-area-extra-content-margin: var(--action-area-margin, 20px);
 
-        [data-component='top-navigation'] {
+        [data-component='modal-navigation'] {
           --tab-list-padding: var(--modal-content-margin);
         }
 
@@ -382,10 +362,6 @@ const modalContainerSize = (
             var(--action-area-margin-x) - var(--action-area-margin-y)
           );
           margin-bottom: var(--action-area-margin-y);
-        }
-
-        [data-role='navigation-title'] {
-          padding: 0px 4px;
         }
       `;
   }
@@ -568,47 +544,284 @@ const modalContainerBottomResize = (
   }
 };
 
-export const modalNavigationStyle = ({ variant }: ModalNavigationProps) => {
+export const modalNavigationStyle =
+  ({ background, variant, xs, sm, md, lg, xl }: ModalNavigationProps) =>
+  (theme: Theme) => css`
+    width: 100%;
+    align-items: center;
+    position: relative;
+    background-color: transparent;
+
+    ${modalNavigationBackgroundStyle({ variant, background }, theme)}
+    ${modalNavigationVariant(variant)}
+
+    ${createResponsiveStyle(
+      { xs, sm, md, lg, xl },
+      theme,
+    )(
+      (params) => css`
+        ${params?.sx}
+      `,
+    )}
+  `;
+
+const modalNavigationBackgroundStyle = (
+  { variant, background }: Pick<ModalNavigationProps, 'variant' | 'background'>,
+  theme: Theme,
+) => {
+  if (!background) return;
+
   switch (variant) {
+    case 'floating':
+      return css`
+        backdrop-filter: none;
+        background-color: transparent;
+      `;
+    default:
+      return css`
+        ${theme.semantic.platform.ios.navigation}
+      `;
+  }
+};
+
+export const modalNavigationFloatingBackgroundStyle = (theme: Theme) => css`
+  pointer-events: none;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 72px;
+  z-index: 0;
+  background: linear-gradient(
+    to top,
+    transparent,
+    ${theme.semantic.surface.elevated.primary}
+  );
+
+  [data-role='modal-navigation-floating-background-layer'] {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+
+    &:nth-child(1) {
+      mask: linear-gradient(
+        to top,
+        rgba(0, 0, 0, 0),
+        rgba(0, 0, 0, 1) 10%,
+        rgba(0, 0, 0, 1) 30%,
+        rgba(0, 0, 0, 0) 40%
+      );
+      backdrop-filter: blur(1px);
+    }
+
+    &:nth-child(2) {
+      mask: linear-gradient(
+        to top,
+        rgba(0, 0, 0, 0) 10%,
+        rgba(0, 0, 0, 1) 20%,
+        rgba(0, 0, 0, 1) 40%,
+        rgba(0, 0, 0, 0) 50%
+      );
+      backdrop-filter: blur(2px);
+    }
+
+    &:nth-child(3) {
+      mask: linear-gradient(
+        to top,
+        rgba(0, 0, 0, 0) 20%,
+        rgba(0, 0, 0, 1) 40%,
+        rgba(0, 0, 0, 1) 60%,
+        rgba(0, 0, 0, 0) 70%
+      );
+      backdrop-filter: blur(4px);
+    }
+
+    &:nth-child(4) {
+      mask: linear-gradient(
+        to top,
+        rgba(0, 0, 0, 0) 40%,
+        rgba(0, 0, 0, 1) 60%,
+        rgba(0, 0, 0, 1) 80%,
+        rgba(0, 0, 0, 0) 90%
+      );
+      backdrop-filter: blur(6px);
+    }
+
+    &:nth-child(5) {
+      mask: linear-gradient(to top, rgba(0, 0, 0, 0) 60%, rgba(0, 0, 0, 1) 80%);
+      backdrop-filter: blur(8px);
+    }
+
+    &:nth-child(6) {
+      mask: linear-gradient(
+        to top,
+        rgba(0, 0, 0, 0) 70%,
+        rgba(0, 0, 0, 1) 100%
+      );
+      backdrop-filter: blur(10px);
+    }
+  }
+`;
+
+const modalNavigationVariant = (variant: ModalNavigationProps['variant']) => {
+  switch (variant) {
+    case 'floating':
+      return css`
+        position: relative;
+        height: fit-content;
+      `;
+  }
+};
+
+export const modalNavigationWrapperStyle = (
+  variant: ModalNavigationProps['variant'],
+) => {
+  switch (variant) {
+    case 'normal':
     case 'emphasized':
       return css`
-        [data-role='top-navigation-wrapper'] {
-          padding: var(--top-navigation-padding-y, 16px)
-            var(--top-navigation-padding-x, 16px);
-          min-height: var(--top-navigation-min-height, 64px);
-          gap: 16px;
-          width: 100%;
-          justify-content: initial;
-        }
+        width: 100%;
+        padding: var(--modal-navigation-padding-y, 24px)
+          var(--modal-navigation-padding-x, 24px);
+        justify-content: center;
+        position: relative;
+      `;
 
-        [data-role='top-navigation-leading-content-wrapper'],
-        [data-role='top-navigation-trailing-content-wrapper'] {
-          flex: 0 0 auto;
-          position: relative;
-          right: initial;
-          top: initial;
-          left: initial;
-        }
+    case 'floating':
+      return css`
+        padding: var(--modal-navigation-padding-y, 24px)
+          var(--modal-navigation-padding-x, 24px);
+        top: 0px;
+        left: 0px;
+        position: absolute;
+        justify-content: center;
+        width: 100%;
+      `;
+    case 'search':
+      return css`
+        padding: var(--modal-navigation-padding-y, 24px)
+          var(--modal-navigation-padding-x, 24px);
+        gap: 12px;
+        width: 100%;
+        position: relative;
+      `;
+  }
+};
 
-        [data-role='navigation-title'] {
-          flex: 1 1 auto;
-          text-overflow: ellipsis;
-          overflow: hidden;
-          white-space: nowrap;
-          max-height: 24px;
-          width: initial;
-          justify-content: initial;
+export const modalNavigationContentStyle = (
+  variant?: ModalNavigationProps['variant'],
+) => {
+  switch (variant) {
+    case 'normal':
+    case 'floating':
+      return css`
+        position: relative;
+        width: 100%;
+        justify-content: center;
+        padding-block: 2px;
+      `;
+    case 'emphasized':
+      return css`
+        position: relative;
+        width: 100%;
+        justify-content: center;
+        padding-block: 2px;
+        gap: 16px;
+      `;
+    case 'search':
+      return css`
+        position: relative;
+        width: 100%;
+        justify-content: center;
+        padding-block: 2px;
+        gap: 12px;
+      `;
+  }
+};
 
-          h2 {
-            width: initial;
-            ${typographyStyle('heading2', 'bold')}
-            ${ellipsisTypographyStyle(2)}
+export const modalNavigationTitleStyle = (
+  variant?: ModalNavigationProps['variant'],
+) => {
+  switch (variant) {
+    case 'normal':
+    case 'floating':
+    case 'emphasized':
+      return css`
+        width: 100%;
+        justify-content: ${variant === 'emphasized' ? 'initial' : 'center'};
+        max-height: 24px;
+        padding: 0px 4px;
+
+        h2 {
+          width: var(
+            --modal-navigation-title-width,
+            ${variant === 'emphasized' ? 'initial' : '80%'}
+          );
+          text-align: center;
+          ${ellipsisTypographyStyle(2)}
           -webkit-line-clamp: 1;
-          }
+          word-break: keep-all;
+          overflow-wrap: anywhere;
+        }
+      `;
+    case 'search':
+      return css`
+        width: 100%;
+        flex: 1 1 auto;
+        padding: 0px;
+
+        [data-component='search-field'] {
+          width: 100%;
         }
       `;
   }
 };
+
+export const modalNavigationRightIconStyle = (
+  variant?: ModalNavigationProps['variant'],
+) => {
+  switch (variant) {
+    case 'normal':
+    case 'floating':
+      return css`
+        position: absolute;
+        right: 0px;
+        top: 50%;
+        transform: translateY(-50%);
+      `;
+  }
+};
+
+export const modalNavigationLeftIconStyle = (
+  variant?: ModalNavigationProps['variant'],
+) => {
+  switch (variant) {
+    case 'normal':
+    case 'floating':
+      return css`
+        position: absolute;
+        left: 0px;
+        top: 50%;
+        transform: translateY(-50%);
+      `;
+  }
+};
+
+export const modalNavigationButtonTextStyle = css`
+  padding: 0px;
+  flex-shrink: 0;
+  min-height: initial;
+
+  & > span {
+    ${typographyStyle('headline2', 'regular')}
+  }
+
+  [data-component='with-interaction'] {
+    height: calc(100% + 8px);
+  }
+`;
 
 export const modalGrabberStyle = (theme: Theme) => css`
   min-width: inherit;

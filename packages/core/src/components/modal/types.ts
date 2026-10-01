@@ -1,9 +1,6 @@
+import type { IconButtonProps } from '../icon-button/types';
 import type { FocusScopeProps } from '../focus-scope';
 import type { SlotProps } from '@radix-ui/react-slot';
-import type {
-  TopNavigationButtonProps,
-  TopNavigationProps,
-} from '../top-navigation/types';
 import type { FlexBoxProps } from '../flex-box/types';
 import type {
   DefaultComponentProps,
@@ -14,6 +11,7 @@ import type {
 import type { PortalProps } from '../portal/types';
 import type { CSSProperties, PropsWithChildren, ReactNode } from 'react';
 import type { TypographyProps } from '../typography/types';
+import type { TextButtonProps } from '../text-button/types';
 
 export type ModalBottomSheetSnap = 'peek' | 'half' | 'full';
 
@@ -122,19 +120,44 @@ export type ModalScrollProviderProps = PropsWithChildren<{
   sticky: boolean;
 }>;
 
-export type ModalNavigationProps = Merge<
-  {
-    variant?: TopNavigationProps['variant'] | 'emphasized';
-    /** The leading content of the modal navigation. Pass an element wrapped with `ModalNavigationButton` or use `ModalClose`. */
-    leadingContent?: ReactNode;
-    /** The trailing content of the modal navigation. Pass an element wrapped with `ModalNavigationButton` or use `ModalClose`. */
-    trailingContent?: ReactNode;
-  },
-  TopNavigationProps
+export type ModalNavigationProps = WithSxProps<
+  Merge<
+    {
+      variant?: 'normal' | 'floating' | 'emphasized' | 'search';
+      /** The trailing content of the modal navigation. Pass an element wrapped with `ModalNavigationButton`. Defaults to a `close-button`. */
+      trailingContent?: ReactNode;
+      /** The leading content of the modal navigation. Pass an element wrapped with `ModalNavigationButton`. */
+      leadingContent?: ReactNode;
+      /** Area attached below the navigation. */
+      toolbar?: ReactNode;
+      /**
+       * Controls the background color or gradient effect.
+       * When omitted, it is applied automatically once the modal content is scrolled (only when the navigation is sticky).
+       */
+      background?: boolean;
+      children?: ReactNode;
+    },
+    ResponsiveProps<{}>
+  >
 >;
 
-export type ModalNavigationButtonProps = TopNavigationButtonProps;
-export type ModalCloseProps = TopNavigationButtonProps;
+export type ModalNavigationButtonProps = WithSxProps<{
+  variant?: 'text-button' | 'icon-button' | 'back-button' | 'close-button';
+  color?: 'primary' | 'assistive';
+  disabled?: boolean;
+  size?: IconButtonProps['size'] | TextButtonProps['size'];
+  /**
+   * `icon-button` / `back-button` / `close-button` variant only. When true and the navigation `variant` is `floating`,
+   * renders the icon button with a blurred background.
+   */
+  background?: boolean;
+  /**
+   * `icon-button` / `back-button` / `close-button` variant only. When `background` is applied, renders a fallback style
+   * that looks natural in environments where `blur` is not supported.
+   */
+  alternative?: boolean;
+  children?: ReactNode;
+}>;
 
 type ModalContentDefaultProps = WithSxProps<{
   gap?: CSSProperties['gap'];

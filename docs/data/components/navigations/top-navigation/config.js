@@ -94,11 +94,11 @@ module.exports = {
       switch (value['Trailing button area']) {
         case 'Icon button':
           trailingContent =
-            '<TopNavigationButton variant="icon"><IconClose /></TopNavigationButton>';
+            '<TopNavigationButton variant="icon-button"><IconClose /></TopNavigationButton>';
           break;
         case 'Text button':
           trailingContent =
-            '<TopNavigationButton variant="text" color="primary">완료</TopNavigationButton>';
+            '<TopNavigationButton variant="text-button" color="primary">완료</TopNavigationButton>';
           break;
       }
 
@@ -109,11 +109,11 @@ module.exports = {
       switch (value['Leading button area']) {
         case 'Back button':
           leadingContent =
-            '<TopNavigationButton variant="icon"><IconChevronLeft /></TopNavigationButton>';
+            '<TopNavigationButton variant="icon-button"><IconChevronLeft /></TopNavigationButton>';
           break;
         case 'Text button':
           leadingContent =
-            '<TopNavigationButton variant="text" color="primary">취소</TopNavigationButton>';
+            '<TopNavigationButton variant="text-button" color="primary">취소</TopNavigationButton>';
           break;
       }
 
@@ -134,8 +134,7 @@ module.exports = {
       }
 
       if (variant === 'search') {
-        title =
-          '<SearchField size="medium" placeholder="Enter search keyword." />';
+        title = '<SearchField placeholder="Enter search keyword." />';
       }
 
       const sx =
