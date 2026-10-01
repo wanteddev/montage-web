@@ -20,7 +20,6 @@ breakpoint에 따라 variant를 override 하여 [Popup](/components/presentation
   ModalContentItem,
   ModalDescription,
   ModalHeading,
-  ModalNavigation,
   ModalSummary,
   ModalTrigger,
 } from '@montage-ui/core';
@@ -157,6 +156,7 @@ resize 옵션을 사용하면 Bottom sheet가 차지하는 높이를 조정할 �
   ModalContent,
   ModalContentItem,
   ModalDescription,
+  ModalNavigation,
   ModalHeading,
   ModalSummary,
   ModalTrigger,
@@ -170,7 +170,11 @@ const Demo = () => {
           <Button>Hug</Button>
         </ModalTrigger>
 
-        <ModalContainer variant="bottom" resize="hug" handle>
+        <ModalContainer variant="bottom" resize="hug">
+          <ModalNavigation>
+            Hug
+          </ModalNavigation>
+
           <ModalContent>
             <ModalContentItem>
               <ModalHeading>Heading</ModalHeading>
@@ -987,7 +991,7 @@ const Demo = () => {
           <Button>Open</Button>
         </ModalTrigger>
 
-        <ModalContainer variant="bottom">
+        <ModalContainer variant="full">
           <ModalNavigation
             variant={navigationVariant}
             leadingContent={leadingContent}
