@@ -1,5 +1,7 @@
+import type { IconButtonProps } from '../icon-button/types';
 import type { Merge, ResponsiveProps, WithSxProps } from '@montage-ui/engine';
 import type { ReactNode } from 'react';
+import type { TextButtonProps } from '../text-button/types';
 
 export type TopNavigationProps = WithSxProps<
   Merge<
@@ -22,9 +24,9 @@ export type TopNavigationProps = WithSxProps<
 >;
 
 export type TopNavigationButtonProps = WithSxProps<{
-  variant?: 'text' | 'icon';
+  variant?: 'text-button' | 'icon-button' | 'back-button';
   color?: 'primary' | 'assistive';
   disabled?: boolean;
-  size?: number | 'medium' | 'small';
+  size?: IconButtonProps['size'] | TextButtonProps['size'];
   children?: ReactNode;
 }>;

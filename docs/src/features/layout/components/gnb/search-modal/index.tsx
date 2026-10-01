@@ -2,11 +2,11 @@ import { useEffect } from 'react';
 import {
   ActionArea,
   Modal,
-  ModalClose,
   ModalContainer,
   ModalContent,
   ModalContentItem,
   ModalNavigation,
+  ModalNavigationButton,
   SearchField,
   Typography,
 } from '@montage-ui/core';
@@ -96,9 +96,13 @@ export const DocSearchModal = ({
           sx={modalNavigationStyle}
           trailingContent={null}
           leadingContent={
-            <ModalClose aria-label="Back" sx={modalCloseButtonStyle}>
+            <ModalNavigationButton
+              variant="back-button"
+              aria-label="Back"
+              sx={modalCloseButtonStyle}
+            >
               <IconChevronLeft />
-            </ModalClose>
+            </ModalNavigationButton>
           }
         >
           <SearchField

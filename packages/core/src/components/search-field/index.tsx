@@ -8,6 +8,7 @@ import { IconButton } from '../icon-button';
 import { mapResponsiveProps } from '../../utils/internal/responsive-props';
 import { FORM_FIELD_ICON_BUTTON_SIZE } from '../form-control/constants';
 import { useFormFieldSize } from '../form-control/hooks';
+import { useSlotDefaults } from '../../hooks/internal/use-slot-defaults';
 
 import { searchFieldContentStyle, searchFieldWrapperStyle } from './style';
 
@@ -41,9 +42,12 @@ const SearchField = forwardRef<
     const inputRef = useRef<HTMLInputElement>(null);
     const composedRefs = useComposedRefs(inputRef, ref);
 
+    const { SearchField: slotDefaults } = useSlotDefaults();
+
     const { size: resolvedSize, ...resolvedResponsive } = useFormFieldSize(
       size,
       { xs, sm, md, lg, xl },
+      slotDefaults,
     );
 
     useEffect(() => {

@@ -9,7 +9,7 @@ module.exports = {
       'Box',
       'Modal',
       'ModalTrigger',
-      'ModalClose',
+      'ModalNavigationButton',
       'ModalContainer',
       'ModalContent',
       'ModalContentItem',
@@ -25,7 +25,6 @@ module.exports = {
         options: [
           { label: 'Normal', value: {} },
           { label: 'Emphasized', value: {} },
-          { label: 'Display', value: {} },
           { label: 'Floating', value: {} },
           { label: 'Search', value: {} },
         ],
@@ -69,7 +68,6 @@ module.exports = {
       switch (value['Navigation']) {
         case 'Normal':
         case 'Emphasized':
-        case 'Display':
           navigation = `<ModalNavigation variant="${value['Navigation'].toLowerCase()}">Title</ModalNavigation>`;
           break;
         case 'Floating':
@@ -79,7 +77,7 @@ module.exports = {
           navigation = `
             <ModalNavigation
               variant="search"
-              trailingContent={<ModalClose variant="text">취소</ModalClose>}
+              trailingContent={<ModalNavigationButton variant="text-button">취소</ModalNavigationButton>}
             >
               <SearchField placeholder="Enter search keyword." size="medium" />
             </ModalNavigation>

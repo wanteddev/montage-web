@@ -264,6 +264,7 @@ export const topNavigationLeftIconStyle = (
 
 export const topNavigationButtonTextStyle = css`
   padding: 0px;
+  min-height: initial;
   flex-shrink: 0;
 
   & > span {
