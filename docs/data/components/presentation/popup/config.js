@@ -25,7 +25,6 @@ module.exports = {
         options: [
           { label: 'Normal', value: {} },
           { label: 'Emphasized', value: {} },
-          { label: 'Display', value: {} },
           { label: 'Floating', value: {} },
           { label: 'Search', value: {} },
         ],
@@ -69,7 +68,6 @@ module.exports = {
       switch (value['Navigation']) {
         case 'Normal':
         case 'Emphasized':
-        case 'Display':
           navigation = `<ModalNavigation variant="${value['Navigation'].toLowerCase()}">Title</ModalNavigation>`;
           break;
         case 'Floating':

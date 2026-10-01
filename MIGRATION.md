@@ -565,12 +565,14 @@ npx @montage-ui/codemod@latest form-control-migration src
 
 #### DOM 식별자 · CSS 변수 변경
 
-| AS-IS                                                                    | TO-BE                                                          |
-| ------------------------------------------------------------------------ | -------------------------------------------------------------- |
-| `[data-component='top-navigation']` (ModalNavigation 루트)               | `[data-component='modal-navigation']`                          |
-| `[data-component='top-navigation-button']` (ModalNavigationButton)       | `[data-component='modal-navigation-button']`                   |
-| `[data-role='top-navigation-*']` (wrapper, leading/trailing, toolbar 등) | `[data-role='modal-navigation-*']`                             |
-| `--top-navigation-padding(-x/-y)`, `--top-navigation-min-height`         | `--modal-navigation-padding-x`, `--modal-navigation-padding-y` |
+| AS-IS                                                                    | TO-BE                                                                        |
+| ------------------------------------------------------------------------ | ---------------------------------------------------------------------------- |
+| `[data-component='top-navigation']` (ModalNavigation 루트)               | `[data-component='modal-navigation']`                                        |
+| `[data-component='top-navigation-button']` (ModalNavigationButton)       | `[data-component='modal-navigation-button']`                                 |
+| `[data-role='top-navigation-*']` (wrapper, leading/trailing, toolbar 등) | `[data-role='modal-navigation-*']`                                           |
+| `--top-navigation-padding-x` / `-y`, `--top-navigation-title-width`      | `--modal-navigation-padding-x` / `-y`, `--modal-navigation-title-width`      |
+| `--top-navigation-padding` (shorthand)                                   | `--modal-navigation-padding-y`, `--modal-navigation-padding-x`로 나누어 지정 |
+| `--top-navigation-min-height`                                            | 대응 변수 없음 — 필요하면 `ModalNavigation`의 `sx`로 `min-height` 지정       |
 
 모달 안의 navigation을 위 셀렉터나 CSS 변수로 커스텀했다면 수동으로 변경해야 합니다. 또한 `ModalContainer` 사이즈와 관계없이 navigation 패딩이 `24px`로 통일되었습니다.
 
