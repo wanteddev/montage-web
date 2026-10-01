@@ -327,6 +327,7 @@ export default Demo;`}
 
 <Demo code={`import {
   FlexBox,
+  Box,
   Button,
   Modal,
   ActionArea,
@@ -435,9 +436,14 @@ const Demo = () => {
 
           <ModalContent>
             <ModalContentItem>
-              <ModalHeading>Heading</ModalHeading>
-              <ModalSummary>Summary</ModalSummary>
-              <ModalDescription>Description</ModalDescription>
+              <Box
+                sx={theme => ({
+                  width: '100%',
+                  height: '800px',
+                  background: theme.semantic.surface.accent.violetOpaque,
+                  opacity: 0.08
+                })}
+              />
             </ModalContentItem>
           </ModalContent>
 
