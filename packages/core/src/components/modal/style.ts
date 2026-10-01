@@ -813,6 +813,7 @@ export const modalGrabberStyle = (theme: Theme) => css`
   transform: translate3d(0, 0, 0);
   z-index: 10;
   touch-action: pan-y;
+  user-select: none;
 
   &::before {
     content: '';
