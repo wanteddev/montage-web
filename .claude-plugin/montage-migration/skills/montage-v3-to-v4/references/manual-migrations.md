@@ -208,6 +208,7 @@ Rename rules for anything found:
 | 기존                                                 | 변경                                                         |
 | ---------------------------------------------------- | ------------------------------------------------------------ |
 | `--wds-column-spacing` / `--wds-row-spacing` (grid)  | `--grid-column-spacing` / `--grid-row-spacing`               |
+| `--wds-modal-content-margin`                         | `--modal-content-margin-x` and/or `-y` (split — see M20)     |
 | all other `--wds-*`                                  | drop the `--wds-` prefix (`--wds-x` → `--x`)                 |
 | `wds-component` attribute                            | `data-component`                                             |
 | `wds-ignore-first-focus`                             | `data-ignore-first-focus`                                    |
@@ -1471,6 +1472,75 @@ dialog"` and an `onClick` that closes the modal (`onOpenChange(false)` / `setOpe
   deliberately — a decision per hit.
   Scan **[decision]**: `variant="search"` — locate the search navigations and check the
   `SearchField` child's `size`. Flag every search navigation for visual QA.
+
+## M20. Modal layout and spacing changes
+
+No codemod covers this section — every fix here is a hand edit. It runs after the codemod phase,
+so inside the targets v3's `--wds-modal-content-margin` already reads `--modal-content-margin`
+(step ③ `css-variable-migration` strips the `--wds-` prefix). Out-of-target files (E2E specs,
+other packages' stylesheets) are M3's: M3 maps this one variable straight to the split names, but a
+bare `--modal-content-margin` left there by an earlier prefix-only edit is M20's to split. `size="small"` is a type error once M1's
+install lands v4; nothing else here is caught by the typecheck.
+
+- **`ModalNavigation` default `variant` depends on the container.** v3 always rendered the
+  centered `normal` title. v4 defaults to `normal` only in a `variant="full"` `ModalContainer`
+  and to `emphasized` (left-aligned, `heading2` title) in `popup` / `bottom`. `normal` is
+  supported only in `full`; in `popup` / `bottom` an explicit `variant="normal"` still renders
+  but logs a dev-mode warning. Per hit in a `popup` / `bottom` modal (the `ModalContainer`
+  default is `popup`): an omitted `variant` needs no edit — accept the v4 `emphasized` design and
+  flag it for QA; an explicit `variant="normal"` → ask the user whether to delete it (take
+  `emphasized`) or switch to `floating` / `search`. Hits in a `full` modal need nothing.
+  Scan **[decision]**: `<ModalNavigation([[:space:]>]|$)` (the character class keeps
+  `ModalNavigationButton` out) — read the enclosing `ModalContainer`'s `variant` (including
+  responsive `xs`–`xl` keys) for each hit. Flag every popup / bottom navigation for visual QA.
+
+- **`ModalContainer` `size="small"` removed.** Replace it with `size="medium"` — `medium` is now
+  360px wide, the v3 `small` width (v3 `medium` was 400px). With `resize="fixed"` the
+  replacement changes the height: v3 `small` was 400px tall, v4 `medium` is 480px — per hit,
+  accept it (flag for QA) or pin `height: 400px` through `sx`. The default stays `medium`. Every
+  size changed spec: popup radius 24px at every size (v3: `small`/`medium` 12px,
+  `large`/`xlarge` 20px), bottom-sheet top radius 32px (v3 12px), content margin 28px
+  horizontal / 24px vertical at every size (v3: 20px for `small`/`medium`, 24px `large`, 32px
+  `xlarge`, the same value on both axes), ActionArea margin 24px / 20px at every size. `large`
+  / `xlarge` widths (480px / 560px) and the `medium` / `large` / `xlarge` `resize="fixed"`
+  heights (480px / 560px / 640px) are unchanged.
+  Scan **[zero]**: `<ModalContainer[[:space:]][^>]*size="small"` — then read each
+  `ModalContainer` file the M20 `<ModalNavigation` / `ModalContent` scans list for multi-line
+  props and responsive `size: 'small'` keys, which the line grep misses.
+
+- **`ModalContent` owns the horizontal padding; vertical padding follows the container.**
+  `ModalContent` gained `verticalPadding` (`none` / `top-only` / `bottom-only` / `both`) and
+  `horizontalPadding` (`none` / `both`, default `both`), both responsive. The horizontal margin
+  moved from `ModalContentItem` to `ModalContent`, and the vertical default changed — v3 padded
+  top AND bottom in every variant; v4 defaults to `none` in `popup` and `top-only` in
+  `bottom` / `full`. Per hit:
+  - A non-`ModalContentItem` child of `ModalContent` that ran edge to edge (an image, a
+    divider, a full-bleed list) now gets the side margin → add `horizontalPadding="none"` to
+    that `ModalContent` and pad the items that need it by hand.
+  - A `ModalContentItem` rendered outside a `ModalContent` lost its side margin → wrap it in a
+    `ModalContent`.
+  - A layout that relied on the v3 top + bottom padding → add `verticalPadding="both"` (or the
+    side it needs); otherwise accept the v4 default and flag it for QA.
+  - An explicit `gap` on `ModalContent`: v3 ignored it (the non-responsive `gap` always
+    resolved to the content margin; only responsive `gap` keys applied), v4 applies it — check
+    the spacing did not change unexpectedly, and delete a `gap` that was only ever a no-op if
+    the v4 default (`var(--modal-content-margin-y, 24px)`) is wanted.
+
+  Scan **[decision]**: `\bModalContent(Item)?\b` — matches every valid v4 usage by design; read
+  each file it names for the four shapes above. Flag every modal for visual QA.
+
+- **`--modal-content-margin` split into `-x` / `-y`.** v4 reads no bare `--modal-content-margin`.
+  A consumer override or `var()` read of it maps to `--modal-content-margin-x` (horizontal
+  padding, and `TabList`'s `--tab-list-padding` inside a modal) and/or `--modal-content-margin-y`
+  (vertical padding and the default `ModalContent` `gap`) — usually both, decided by what the
+  override was meant to change. In v3 a `ModalContainer`-level override also drove the
+  ActionArea margin (`--action-area-margin-x` / `-y` read `var(--modal-content-margin)`); v4
+  sets those independently (24px / 20px), so when the override was meant to move the
+  ActionArea too, also set `--action-area-margin-x` / `--action-area-margin-y`.
+  Scan **[zero]** (over the WHOLE repo like every M-section scan, stylesheets included; the
+  leading `--` needs `-e`): `grep -rnE --exclude-dir={node_modules,.git,.next,dist,build,out,coverage} -e '--modal-content-margin([^-]|$)' .` — the `([^-]|$)`
+  keeps the v4 `-x` / `-y` names out. An un-stripped `--wds-modal-content-margin` is M3's
+  `--wds-` scan, not this one.
 
 ## Suggested commit boundary
 
