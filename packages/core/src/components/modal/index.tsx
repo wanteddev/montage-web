@@ -184,7 +184,6 @@ const ModalContainer = forwardRef(
 
     const dimmerRef = useRef<HTMLDivElement>(null);
 
-    const [resolvedVariant, setResolvedVariant] = useState(variant);
     const [snap = defaultSnap, setSnap] = useControllableState({
       prop: snapProp,
       defaultProp: defaultSnap,
@@ -213,6 +212,39 @@ const ModalContainer = forwardRef(
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isPresent]);
 
+    const composedRefs = useComposedRefs<HTMLDivElement>(
+      wrapperProps?.ref as RefObject<HTMLDivElement | null> | undefined,
+      wrapperRef,
+    );
+
+    const composedContainerRefs = useComposedRefs(
+      containerRef,
+      ref as ForwardedRef<HTMLDivElement>,
+    );
+
+    const {
+      resolvedVariant,
+      isBottomSheetWithHandle,
+      collapseToPeekOrClose,
+      ...dragProps
+    } = useDraggable({
+      peekHeight,
+      variant,
+      resize,
+      handle,
+      defaultSnap,
+      xs,
+      sm,
+      md,
+      lg,
+      xl,
+      dimmerRef,
+      snap,
+      enableHalfSnapScroll,
+      largestUndimmedSnap,
+      setSnap,
+    });
+
     // Edge case: when a responsive `variant` flips away from `bottom` (e.g.
     // `variant="bottom" sm={{ variant: 'popup' }}`) while the sheet is in
     // `peek`, peek is no longer a valid state for the new variant — reset
@@ -224,36 +256,6 @@ const ModalContainer = forwardRef(
       }
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [resolvedVariant, open, snap, onOpenChange]);
-
-    const composedRefs = useComposedRefs<HTMLDivElement>(
-      wrapperProps?.ref as RefObject<HTMLDivElement | null> | undefined,
-      wrapperRef,
-    );
-
-    const composedContainerRefs = useComposedRefs(
-      containerRef,
-      ref as ForwardedRef<HTMLDivElement>,
-    );
-
-    const { isBottomSheetWithHandle, collapseToPeekOrClose, ...dragProps } =
-      useDraggable({
-        peekHeight,
-        variant,
-        resize,
-        handle,
-        defaultSnap,
-        xs,
-        sm,
-        md,
-        lg,
-        xl,
-        dimmerRef,
-        snap,
-        enableHalfSnapScroll,
-        largestUndimmedSnap,
-        setSnap,
-        setResolvedVariant,
-      });
 
     const modalNavigationHeight =
       useSize(

@@ -360,9 +360,6 @@ type UseDraggableProps = Pick<
   dimmerRef: RefObject<HTMLDivElement | null>;
   snap: ModalBottomSheetSnap;
   setSnap: (snap: ModalBottomSheetSnap) => void;
-  setResolvedVariant: (
-    variant: Exclude<ModalContainerProps['variant'], undefined>,
-  ) => void;
 };
 
 export const useDraggable = ({
@@ -381,7 +378,6 @@ export const useDraggable = ({
   dimmerRef,
   snap,
   setSnap,
-  setResolvedVariant,
 }: UseDraggableProps) => {
   const { variant, isBottom, isFlexible, isEnabled } =
     useResponsiveBottomSheetProps({
@@ -454,11 +450,6 @@ export const useDraggable = ({
   // end of a slow drag and confuse the velocity-direction filter.
   const peakDiffYDown = useRef(0);
   const peakDiffYUp = useRef(0);
-
-  useEffect(() => {
-    setResolvedVariant(variant ?? givenVariant ?? 'popup');
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [variant, setResolvedVariant]);
 
   const peekHeight = useRef(givenPeekHeight ?? 0);
 
@@ -1128,6 +1119,7 @@ export const useDraggable = ({
   }, [context.innerContainer, isFlexible, isEnabled]);
 
   return {
+    resolvedVariant: variant ?? givenVariant ?? 'popup',
     isBottomSheetWithHandle: isEnabled,
     collapseToPeekOrClose,
     onMouseDown,
