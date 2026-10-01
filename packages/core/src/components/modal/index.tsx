@@ -10,7 +10,7 @@ import {
 import { useComposedRefs } from '@radix-ui/react-compose-refs';
 import { Slot } from '@radix-ui/react-slot';
 import { Box } from '@montage-ui/engine';
-import { IconClose } from '@montage-ui/icon';
+import { IconChevronLeft, IconClose } from '@montage-ui/icon';
 import { composeEventHandlers } from '@radix-ui/primitive';
 
 import { hideOthers } from '../../utils';
@@ -23,21 +23,24 @@ import { Typography } from '../typography';
 import { PortalOrFragment } from '../portal-or-fragment';
 import useResizeObserver from '../../hooks/internal/use-resize-observer';
 import { useSize } from '../../hooks';
-import { TopNavigation, TopNavigationButton } from '../top-navigation';
 import { useAnimationPresence } from '../animation-presence';
+import { IconButton } from '../icon-button';
+import { TextButtonProvider } from '../text-button/contexts';
+import { TextButton } from '../text-button';
+import { SlotDefaultsProvider } from '../../hooks/internal/use-slot-defaults';
 
 import {
-  ModalActionAreaProvider,
   ModalDimmerProvider,
   ModalNavigationProvider,
   ModalProvider,
+  ModalScrollContainerProvider,
   useModalContext,
   useModalDimmerContext,
   useModalNavigationContext,
+  useModalScrollContainerContext,
 } from './contexts';
 import {
   BOTTOM_SHEET_PEEK_PADDING,
-  MODAL_CLOSE_NAME,
   MODAL_CONTAINER_NAME,
   MODAL_DIMMER_NAME,
   MODAL_NAME,
@@ -52,7 +55,14 @@ import {
   modalContentStyle,
   modalDimmerStyle,
   modalGrabberStyle,
+  modalNavigationButtonTextStyle,
+  modalNavigationContentStyle,
+  modalNavigationFloatingBackgroundStyle,
+  modalNavigationLeftIconStyle,
+  modalNavigationRightIconStyle,
   modalNavigationStyle,
+  modalNavigationTitleStyle,
+  modalNavigationWrapperStyle,
 } from './style';
 import { useDraggable } from './hooks';
 
@@ -64,7 +74,6 @@ import type {
 } from '@montage-ui/engine';
 import type { ElementType, ForwardedRef, RefObject } from 'react';
 import type {
-  ModalCloseProps,
   ModalContainerProps,
   ModalContentItemProps,
   ModalContentProps,
@@ -247,10 +256,10 @@ const ModalContainer = forwardRef(
         setIsBottomSheet,
       });
 
-    const topNavigationHeight =
+    const modalNavigationHeight =
       useSize(
         containerRef.current?.querySelector(
-          '[data-component="top-navigation"]',
+          '[data-component="modal-navigation"]',
         ) ?? null,
       )?.height ?? 0;
 
@@ -418,7 +427,7 @@ const ModalContainer = forwardRef(
                       },
                       style: {
                         scrollPaddingTop:
-                          topNavigationHeight + grabberHeightGuard,
+                          modalNavigationHeight + grabberHeightGuard,
                         scrollPaddingBottom: actionAreaHeight,
                       },
                     }}
@@ -498,9 +507,7 @@ const ModalScrollProvider = ({
   children,
   sticky,
 }: ModalScrollProviderProps) => {
-  const { innerContainer, ...context } = useModalContext(
-    'ModalContextProviders',
-  );
+  const { innerContainer } = useModalContext('ModalContextProviders');
 
   const [navigationSticky, setNavigationSticky] = useState(false);
   const [actionAreaSticky, setActionAreaSticky] = useState(false);
@@ -541,15 +548,12 @@ const ModalScrollProvider = ({
   }, [innerContainer]);
 
   return (
-    <ModalNavigationProvider
-      titleId={context.titleId}
-      onOpenChange={context.onOpenChange}
-      sticky={sticky && navigationSticky}
+    <ModalScrollContainerProvider
+      actionAreaSticky={sticky && actionAreaSticky}
+      navigationSticky={sticky && navigationSticky}
     >
-      <ModalActionAreaProvider sticky={sticky && actionAreaSticky}>
-        {children}
-      </ModalActionAreaProvider>
-    </ModalNavigationProvider>
+      {children}
+    </ModalScrollContainerProvider>
   );
 };
 
@@ -559,32 +563,162 @@ const ModalNavigation = forwardRef<
 >(
   (
     {
+      variant = 'normal',
       leadingContent,
-      trailingContent = <ModalClose />,
-      variant,
+      trailingContent = <ModalNavigationButton variant="close-button" />,
+      toolbar,
+      background: originBackground,
+      xs,
+      sm,
+      md,
+      lg,
+      xl,
       children,
-      background,
       ...props
     },
     ref,
   ) => {
-    const { titleId, sticky } = useModalNavigationContext(
-      MODAL_NAVIGATION_NAME,
-    );
+    const { titleId } = useModalContext(MODAL_NAVIGATION_NAME);
+    const { navigationSticky } = useModalScrollContainerContext() || {};
+
+    const background = originBackground ?? navigationSticky;
 
     return (
-      <TopNavigation
-        titleId={titleId}
-        leadingContent={leadingContent}
-        trailingContent={trailingContent}
-        background={background ?? sticky}
-        {...props}
-        variant={variant === 'emphasized' ? undefined : variant}
-        sx={[modalNavigationStyle({ variant }), props.sx]}
-        ref={ref}
-        // eslint-disable-next-line react/no-children-prop
-        children={variant === 'emphasized' && !children ? <span /> : children}
-      />
+      <ModalNavigationProvider variant={variant}>
+        <FlexBox
+          data-component="modal-navigation"
+          ref={ref}
+          flexDirection="column"
+          data-background={background}
+          {...props}
+          data-variant={variant}
+          sx={[
+            modalNavigationStyle({
+              background,
+              variant,
+              xs,
+              sm,
+              md,
+              lg,
+              xl,
+            }),
+            props.sx,
+          ]}
+        >
+          {background && variant === 'floating' && (
+            <FlexBox
+              aria-hidden
+              data-role="modal-navigation-floating-background"
+              sx={modalNavigationFloatingBackgroundStyle}
+            >
+              <Box
+                aria-hidden
+                data-role="modal-navigation-floating-background-layer"
+              />
+              <Box
+                aria-hidden
+                data-role="modal-navigation-floating-background-layer"
+              />
+              <Box
+                aria-hidden
+                data-role="modal-navigation-floating-background-layer"
+              />
+              <Box
+                aria-hidden
+                data-role="modal-navigation-floating-background-layer"
+              />
+              <Box
+                aria-hidden
+                data-role="modal-navigation-floating-background-layer"
+              />
+              <Box
+                aria-hidden
+                data-role="modal-navigation-floating-background-layer"
+              />
+            </FlexBox>
+          )}
+          <FlexBox
+            data-role="modal-navigation-wrapper"
+            sx={modalNavigationWrapperStyle(variant)}
+          >
+            <FlexBox
+              data-role="modal-navigation-content"
+              sx={modalNavigationContentStyle(variant)}
+            >
+              {Boolean(leadingContent) && (
+                <FlexBox
+                  gap="16px"
+                  alignItems="center"
+                  sx={modalNavigationLeftIconStyle(variant)}
+                  data-role="modal-navigation-leading-content-wrapper"
+                >
+                  {leadingContent}
+                </FlexBox>
+              )}
+
+              {Boolean(children) &&
+                (variant === 'search' ? (
+                  <SlotDefaultsProvider
+                    value={{
+                      SearchField: {
+                        size: 'medium',
+                      },
+                    }}
+                  >
+                    <FlexBox
+                      data-role="navigation-field"
+                      sx={modalNavigationTitleStyle(variant)}
+                      id={titleId}
+                    >
+                      {children}
+                    </FlexBox>
+                  </SlotDefaultsProvider>
+                ) : (
+                  <FlexBox
+                    alignItems="center"
+                    sx={modalNavigationTitleStyle(variant)}
+                    data-role="navigation-title"
+                  >
+                    <Typography
+                      as="h2"
+                      id={titleId}
+                      variant={
+                        variant === 'emphasized' ? 'heading2' : 'headline2'
+                      }
+                      weight="bold"
+                      color="semantic.foreground.neutral.strong"
+                      display="block"
+                      sx={{ margin: 0, border: 'none' }}
+                    >
+                      {children}
+                    </Typography>
+                  </FlexBox>
+                ))}
+
+              {Boolean(trailingContent) && (
+                <FlexBox
+                  gap="16px"
+                  alignItems="center"
+                  sx={modalNavigationRightIconStyle(variant)}
+                  data-role="modal-navigation-trailing-content-wrapper"
+                >
+                  {trailingContent}
+                </FlexBox>
+              )}
+            </FlexBox>
+          </FlexBox>
+
+          {toolbar && variant !== 'floating' && (
+            <FlexBox
+              sx={{ width: '100%' }}
+              flexDirection="column"
+              data-role="modal-navigation-toolbar"
+            >
+              {toolbar}
+            </FlexBox>
+          )}
+        </FlexBox>
+      </ModalNavigationProvider>
     );
   },
 );
@@ -592,37 +726,90 @@ const ModalNavigation = forwardRef<
 ModalNavigation.displayName = MODAL_NAVIGATION_NAME;
 
 const ModalNavigationButton = forwardRef(
-  <E extends ElementType = 'button'>(
-    { as, ...props }: PolymorphicPropsInternal<ModalNavigationButtonProps, E>,
-    ref: ForwardedRef<E>,
+  <T extends ElementType = 'button'>(
+    {
+      children,
+      variant = 'icon-button',
+      color = 'assistive',
+      size,
+      background,
+      alternative,
+      ...props
+    }: PolymorphicPropsInternal<ModalNavigationButtonProps, T>,
+    ref: ForwardedRef<T>,
   ) => {
-    return <TopNavigationButton {...props} as={as || 'button'} ref={ref} />;
+    const { variant: navigationVariant } = useModalNavigationContext(
+      MODAL_NAVIGATION_BUTTON_NAME,
+    );
+    const { onOpenChange } = useModalContext(MODAL_NAVIGATION_BUTTON_NAME);
+
+    switch (variant) {
+      case 'icon-button':
+      case 'back-button':
+        return (
+          <IconButton
+            interactionEffect="dim"
+            size={24}
+            interactionOverflow
+            aria-label={variant === 'back-button' ? 'Go back' : undefined}
+            {...props}
+            variant={
+              navigationVariant === 'floating' && background
+                ? 'background'
+                : 'normal'
+            }
+            alternative={alternative}
+            data-component="modal-navigation-button"
+            ref={ref}
+          >
+            {children ?? (variant === 'back-button' && <IconChevronLeft />)}
+          </IconButton>
+        );
+      case 'close-button':
+        return (
+          <IconButton
+            interactionEffect="dim"
+            size={24}
+            interactionOverflow
+            aria-label="Close dialog"
+            {...props}
+            variant={
+              navigationVariant === 'floating' && background
+                ? 'background'
+                : 'normal'
+            }
+            onClick={composeEventHandlers(props.onClick, () =>
+              onOpenChange(false),
+            )}
+            alternative={alternative}
+            data-component="modal-navigation-button"
+            ref={ref}
+          >
+            {children ?? <IconClose />}
+          </IconButton>
+        );
+
+      case 'text-button':
+      default:
+        return (
+          <TextButtonProvider assistive="semantic.foreground.neutral.primary">
+            <TextButton
+              color={color}
+              {...props}
+              size={size === 'small' ? 'small' : 'medium'}
+              sx={[modalNavigationButtonTextStyle, props.sx]}
+              data-component="modal-navigation-button"
+              ref={ref}
+            >
+              {children}
+            </TextButton>
+          </TextButtonProvider>
+        );
+    }
   },
 ) as PolymorphicComponentInternal<ModalNavigationButtonProps, 'button'>;
 
 ModalNavigationButton.displayName = MODAL_NAVIGATION_BUTTON_NAME;
-
-const ModalClose = forwardRef(
-  <E extends ElementType = 'button'>(
-    { children, ...props }: PolymorphicPropsInternal<ModalCloseProps, E>,
-    ref: ForwardedRef<E>,
-  ) => {
-    const { onOpenChange } = useModalNavigationContext(MODAL_CLOSE_NAME);
-
-    return (
-      <TopNavigationButton
-        aria-label="Close dialog"
-        {...props}
-        onClick={composeEventHandlers(props.onClick, () => onOpenChange(false))}
-        ref={ref}
-      >
-        {children ?? <IconClose />}
-      </TopNavigationButton>
-    );
-  },
-) as PolymorphicComponentInternal<ModalCloseProps, 'button'>;
-
-ModalClose.displayName = MODAL_CLOSE_NAME;
 
 const ModalContent = forwardRef<
   HTMLDivElement,
@@ -791,7 +978,6 @@ export {
   ModalDimmer,
   ModalNavigation,
   ModalNavigationButton,
-  ModalClose,
   ModalContent,
   ModalContentItem,
   ModalHeading,
@@ -806,7 +992,6 @@ export type {
   ModalDimmerProps,
   ModalNavigationProps,
   ModalNavigationButtonProps,
-  ModalCloseProps,
   ModalContentProps,
   ModalContentItemProps,
   ModalHeadingProps,

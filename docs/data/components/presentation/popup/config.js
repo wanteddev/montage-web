@@ -9,7 +9,7 @@ module.exports = {
       'Box',
       'Modal',
       'ModalTrigger',
-      'ModalClose',
+      'ModalNavigationButton',
       'ModalContainer',
       'ModalContent',
       'ModalContentItem',
@@ -79,7 +79,7 @@ module.exports = {
           navigation = `
             <ModalNavigation
               variant="search"
-              trailingContent={<ModalClose variant="text">취소</ModalClose>}
+              trailingContent={<ModalNavigationButton variant="text-button">취소</ModalNavigationButton>}
             >
               <SearchField placeholder="Enter search keyword." size="medium" />
             </ModalNavigation>

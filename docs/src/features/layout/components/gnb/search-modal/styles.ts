@@ -35,7 +35,6 @@ export const modalNavigationStyle = (theme: Theme) => css`
 `;
 
 export const modalCloseButtonStyle = (theme: Theme) => css`
-  margin-right: 12px;
   ${respondMore(theme.breakpoint.sm)} {
     display: none;
   }

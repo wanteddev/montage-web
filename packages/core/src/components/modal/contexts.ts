@@ -5,7 +5,7 @@ import createLooseContext from '../../hooks/internal/use-loose-context';
 import { MODAL_CONTAINER_NAME, MODAL_NAME } from './constants';
 
 import type { RefObject } from 'react';
-import type { ModalBottomSheetSnap } from './types';
+import type { ModalBottomSheetSnap, ModalNavigationProps } from './types';
 
 type ModalContextValue = {
   containerRef: RefObject<HTMLDivElement | null>;
@@ -35,18 +35,17 @@ type ModalDimmerContextValue = {
 export const [ModalDimmerProvider, useModalDimmerContext] =
   createContext<ModalDimmerContextValue>(MODAL_CONTAINER_NAME);
 
+type ModalScrollContainerContextValue = {
+  actionAreaSticky: boolean;
+  navigationSticky: boolean;
+};
+
+export const [ModalScrollContainerProvider, useModalScrollContainerContext] =
+  createLooseContext<ModalScrollContainerContextValue>(MODAL_CONTAINER_NAME);
+
 type ModalNavigationContextValue = {
-  titleId: string;
-  onOpenChange: (open: boolean) => void;
-  sticky: boolean;
+  variant?: ModalNavigationProps['variant'];
 };
 
 export const [ModalNavigationProvider, useModalNavigationContext] =
   createContext<ModalNavigationContextValue>(MODAL_CONTAINER_NAME);
-
-type ModalActionAreaContextValue = {
-  sticky: boolean;
-};
-
-export const [ModalActionAreaProvider, useModalActionAreaContext] =
-  createLooseContext<ModalActionAreaContextValue>(MODAL_CONTAINER_NAME);

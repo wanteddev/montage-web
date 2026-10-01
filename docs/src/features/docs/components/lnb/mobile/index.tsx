@@ -3,7 +3,6 @@
 import {
   FlexBox,
   Modal,
-  ModalClose,
   ModalContainer,
   ModalContent,
   ModalContentItem,
@@ -143,9 +142,9 @@ const LnbMobile = () => {
             </ModalNavigationButton>
           }
           trailingContent={
-            <ModalClose size={22}>
+            <ModalNavigationButton variant="close-button" size={22}>
               <IconClose />
-            </ModalClose>
+            </ModalNavigationButton>
           }
         >
           <Typography
