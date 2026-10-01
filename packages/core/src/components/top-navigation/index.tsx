@@ -201,7 +201,7 @@ const TopNavigationButton = forwardRef(
           <IconButton
             variant="normal"
             interactionEffect="dim"
-            size={24}
+            size={size ?? 24}
             interactionOverflow
             aria-label={variant === 'back-button' ? 'Go back' : undefined}
             {...props}

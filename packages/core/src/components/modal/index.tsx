@@ -749,7 +749,7 @@ const ModalNavigationButton = forwardRef(
         return (
           <IconButton
             interactionEffect="dim"
-            size={24}
+            size={size ?? 24}
             interactionOverflow
             aria-label={variant === 'back-button' ? 'Go back' : undefined}
             {...props}
@@ -769,7 +769,7 @@ const ModalNavigationButton = forwardRef(
         return (
           <IconButton
             interactionEffect="dim"
-            size={24}
+            size={size ?? 24}
             interactionOverflow
             aria-label="Close dialog"
             {...props}
