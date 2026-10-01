@@ -1,6 +1,7 @@
 import { cleanup, render, screen } from '@testing-library/react';
 
 import { FormControl } from '../form-control';
+import { TopNavigation } from '../top-navigation';
 
 import { SearchField } from '.';
 
@@ -30,5 +31,25 @@ describe('when given search field reset button', () => {
     );
 
     expect(resetWidth()).toBe('18px');
+  });
+
+  it('should follow the search navigation slot size', () => {
+    render(
+      <TopNavigation variant="search">
+        <SearchField />
+      </TopNavigation>,
+    );
+
+    expect(resetWidth()).toBe('18px');
+  });
+
+  it('should keep its own size inside the search navigation', () => {
+    render(
+      <TopNavigation variant="search">
+        <SearchField size="large" />
+      </TopNavigation>,
+    );
+
+    expect(resetWidth()).toBe('20px');
   });
 });

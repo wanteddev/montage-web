@@ -20,6 +20,18 @@ const ICON_ONLY_BUTTON_COMPONENTS = [
   'FallbackViewActionAreaButton',
 ];
 
+const NAVIGATION_BUTTON_COMPONENTS = [
+  'ModalNavigationButton',
+  'TopNavigationButton',
+];
+
+/** Navigation button variants that render visible text or ship a default `aria-label`. */
+const NAMED_NAVIGATION_BUTTON_VARIANTS = [
+  'text-button',
+  'back-button',
+  'close-button',
+];
+
 const TARGET_COMPONENTS = [
   ...ICON_BUTTON_COMPONENTS,
   ...ICON_ONLY_BUTTON_COMPONENTS,
@@ -57,6 +69,20 @@ export default {
         }
 
         const element = node as JSXOpeningElement;
+
+        if (NAVIGATION_BUTTON_COMPONENTS.includes(name.componentName)) {
+          const variantProp = getProp(element.attributes, 'variant');
+          const variantValue = variantProp
+            ? getLiteralPropValue(variantProp)
+            : 'icon-button';
+
+          if (
+            typeof variantValue !== 'string' ||
+            NAMED_NAVIGATION_BUTTON_VARIANTS.includes(variantValue)
+          ) {
+            return;
+          }
+        }
 
         if (ICON_ONLY_BUTTON_COMPONENTS.includes(name.componentName)) {
           const iconOnlyProp = getProp(element.attributes, 'iconOnly');

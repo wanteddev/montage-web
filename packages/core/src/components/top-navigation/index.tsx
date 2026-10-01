@@ -5,12 +5,14 @@ import {
   type PolymorphicComponentInternal,
   type PolymorphicPropsInternal,
 } from '@montage-ui/engine';
+import { IconChevronLeft } from '@montage-ui/icon';
 
 import { FlexBox } from '../flex-box';
 import { Typography } from '../typography';
 import { IconButton } from '../icon-button';
 import { TextButton } from '../text-button';
 import { TextButtonProvider } from '../text-button/contexts';
+import { SlotDefaultsProvider } from '../../hooks/internal/use-slot-defaults';
 
 import {
   topNavigationButtonTextStyle,
@@ -118,13 +120,21 @@ const TopNavigation = forwardRef<
 
           {Boolean(children) &&
             (variant === 'search' ? (
-              <FlexBox
-                data-role="navigation-field"
-                sx={topNavigationTitleStyle(variant)}
-                id={titleId}
+              <SlotDefaultsProvider
+                value={{
+                  SearchField: {
+                    size: 'medium',
+                  },
+                }}
               >
-                {children}
-              </FlexBox>
+                <FlexBox
+                  data-role="navigation-field"
+                  sx={topNavigationTitleStyle(variant)}
+                  id={titleId}
+                >
+                  {children}
+                </FlexBox>
+              </SlotDefaultsProvider>
             ) : (
               <FlexBox
                 alignItems="center"
@@ -177,42 +187,48 @@ const TopNavigationButton = forwardRef(
   <T extends ElementType = 'button'>(
     {
       children,
-      variant = 'icon',
+      variant = 'icon-button',
       color = 'assistive',
+      size,
       ...props
     }: PolymorphicPropsInternal<TopNavigationButtonProps, T>,
     ref: ForwardedRef<T>,
   ) => {
-    if (variant === 'icon') {
-      return (
-        <IconButton
-          variant="normal"
-          interactionEffect="dim"
-          size={24}
-          interactionOverflow
-          {...props}
-          data-component="top-navigation-button"
-          ref={ref}
-        >
-          {children}
-        </IconButton>
-      );
-    }
+    switch (variant) {
+      case 'icon-button':
+      case 'back-button':
+        return (
+          <IconButton
+            variant="normal"
+            interactionEffect="dim"
+            size={size ?? 'xlarge'}
+            interactionOverflow
+            aria-label={variant === 'back-button' ? 'Go back' : undefined}
+            {...props}
+            data-component="top-navigation-button"
+            ref={ref}
+          >
+            {children ?? (variant === 'back-button' && <IconChevronLeft />)}
+          </IconButton>
+        );
 
-    return (
-      <TextButtonProvider assistive="semantic.foreground.neutral.primary">
-        <TextButton
-          color={color}
-          size="medium"
-          {...props}
-          sx={[topNavigationButtonTextStyle, props.sx]}
-          data-component="top-navigation-button"
-          ref={ref}
-        >
-          {children}
-        </TextButton>
-      </TextButtonProvider>
-    );
+      case 'text-button':
+      default:
+        return (
+          <TextButtonProvider assistive="semantic.foreground.neutral.primary">
+            <TextButton
+              color={color}
+              {...props}
+              size={size === 'small' ? 'small' : 'medium'}
+              sx={[topNavigationButtonTextStyle, props.sx]}
+              data-component="top-navigation-button"
+              ref={ref}
+            >
+              {children}
+            </TextButton>
+          </TextButtonProvider>
+        );
+    }
   },
 ) as PolymorphicComponentInternal<TopNavigationButtonProps, 'button'>;
 

@@ -17,7 +17,7 @@ updatedAt: 2026-03-03
   
 
 <SectionVariants
-  components={['FlexBox', 'Button', 'Box', 'Modal', 'ModalTrigger', 'ModalClose', 'ModalContainer', 'ModalContent', 'ModalContentItem', 'ModalNavigation', 'SearchField', 'ActionArea', 'ActionAreaButton']}
+  components={['FlexBox', 'Button', 'Box', 'Modal', 'ModalTrigger', 'ModalNavigationButton', 'ModalContainer', 'ModalContent', 'ModalContentItem', 'ModalNavigation', 'SearchField', 'ActionArea', 'ActionAreaButton']}
   icons={[]}
   render={(value) => {
       let actionArea = '';
@@ -46,7 +46,6 @@ updatedAt: 2026-03-03
       switch (value['Navigation']) {
         case 'Normal':
         case 'Emphasized':
-        case 'Display':
           navigation = `<ModalNavigation variant="${value['Navigation'].toLowerCase()}">Title</ModalNavigation>`;
           break;
         case 'Floating':
@@ -56,7 +55,7 @@ updatedAt: 2026-03-03
           navigation = `
             <ModalNavigation
               variant="search"
-              trailingContent={<ModalClose variant="text">취소</ModalClose>}
+              trailingContent={<ModalNavigationButton variant="text-button">취소</ModalNavigationButton>}
             >
               <SearchField placeholder="Enter search keyword." size="medium" />
             </ModalNavigation>
@@ -121,7 +120,6 @@ updatedAt: 2026-03-03
       options: [
         { label: 'Normal', value: {} },
         { label: 'Emphasized', value: {} },
-        { label: 'Display', value: {} },
         { label: 'Floating', value: {} },
         { label: 'Search', value: {} }
       ]

@@ -2,6 +2,7 @@ import { createContext, useContext } from 'react';
 
 import { resolveInheritedResponsive } from '../../utils/internal/responsive-props';
 
+import type { SearchFieldProps } from '../../components/search-field/types';
 import type { ResponsiveProps } from '@montage-ui/engine';
 import type { ReactNode } from 'react';
 import type { AvatarProps } from '../../components/avatar';
@@ -11,8 +12,8 @@ import type {
   IconButtonProps,
   IconButtonVariant,
 } from '../../components/icon-button/types';
-import type { SegmentedControlProps } from '../../components/segmented-control';
-import type { TextButtonProps } from '../../components/text-button';
+import type { SegmentedControlProps } from '../../components/segmented-control/types';
+import type { TextButtonProps } from '../../components/text-button/types';
 
 export type InheritedSize<S> = {
   /** Base size applied when the component does not declare its own `size`. */
@@ -38,6 +39,7 @@ export type SlotDefaultsMap = {
   IconButton: Partial<Record<IconButtonVariant, IconButtonSlotDefaults>>;
   SegmentedControl: InheritedSize<SegmentedControlProps['size']>;
   TextButton: InheritedSize<TextButtonProps['size']>;
+  SearchField: InheritedSize<SearchFieldProps['size']>;
 };
 
 export type SlotDefaults = {

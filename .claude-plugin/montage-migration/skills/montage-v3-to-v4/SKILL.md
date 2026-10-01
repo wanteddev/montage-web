@@ -58,7 +58,7 @@ rewrites `package.json` a resume looks exactly like "already migrated".
      step. A step or manual key missing from an older state file (e.g.
      `semantic-token-migration`, `push-badge-migration`, `status-migration`,
      `list-cell-variant-migration`, `M9`, `M10`,
-     `M11`, `M12`, `M13`, `M14`, `M15`, `M16`, `M17`, or `M18`, added after the file was created) is `pending` —
+     `M11`, `M12`, `M13`, `M14`, `M15`, `M16`, `M17`, `M18`, or `M19`, added after the file was created) is `pending` —
      add it to the file and run it. `semantic-token-migration` sits at position ② BEFORE
      steps an older migration may already have completed: it still runs, and running it
      after the later steps is safe (its token namespace is disjoint from every other
@@ -94,10 +94,12 @@ rewrites `package.json` a resume looks exactly like "already migrated".
      `list-text-wrapper|list-text-content` — all valid v4 shapes, M18's
      `\bdisableInteraction\b` — still a valid prop on every component that carried it in v3
      except `IconButton` — /
-     `\b(TopNavigationButton|ModalNavigationButton|ModalClose)\b` / `<IconButton\b` and its slot cross-check — standalone `normal` hits
+     `\b(TopNavigationButton|ModalNavigationButton)\b` / `<IconButton\b` and its slot cross-check — standalone `normal` hits
      carry `interactionOverflow`; slot hits the slot sizes (TabList / CategoryList `iconButton`
      included) correctly lack the v3 `size` / `interactionOverflow` (unless deliberately
-     kept), and non-`normal` variants correctly lack `interactionOverflow`), so they are
+     kept), and non-`normal` variants correctly lack `interactionOverflow`, M19's
+     `\b(TopNavigationButton|ModalNavigationButton)\b` / `top-navigation` — a standalone
+     `TopNavigation` keeps its identifiers — / `variant="search"`), so they are
      never mismatch evidence. Detect the pending-but-already-applied direction with the
      **presence greps** in `references/codemod-steps.md` — each step's verify grep is an
      ABSENCE check that returns zero both when the codemod ran and when the repo never used
@@ -193,7 +195,7 @@ rewrites `package.json` a resume looks exactly like "already migrated".
      pattern from `references/manual-migrations.md` (steps and M-sections added after a
      consumer finished migrating — e.g. step ② `semantic-token-migration`, step ⑦
      `push-badge-migration`, step ⑧ `status-migration`, step ⑨
-     `list-cell-variant-migration`, M9, M10, M11, M12, M13, M14, M15, M16, M17, and M18 — surface only through these scans)
+     `list-cell-variant-migration`, M9, M10, M11, M12, M13, M14, M15, M16, M17, M18, and M19 — surface only through these scans)
      and report instead of migrating. On such a tree NEVER run step ⑨'s codemod to "fix"
      its leftover hits: hand-authored v4 `variant="button"` is valid there and the codemod
      would mis-rename it (Critical rule 1) — fix leftovers by hand against the step-⑨
@@ -371,6 +373,7 @@ manual:
   M16: pending
   M17: pending
   M18: pending
+  M19: pending
 ---
 ```
 
@@ -439,7 +442,7 @@ ALWAYS pass `codemodVersion` as the concrete version
 resolved in preflight (first run) or read from the state file (resume) — the script
 rejects dist-tags, since the value is recorded in the state file and a dist-tag would
 re-resolve on resume and break the same-build guarantee. The workflow returns per-step results plus a
-`manualScan` report (assessed occurrences for manual steps M1–M18).
+`manualScan` report (assessed occurrences for manual steps M1–M19).
 
 - If the workflow reports `aborted`, surface the failed step's error to the user, fix the
   cause, and re-run the same Workflow invocation with `completedSteps` refreshed from the
@@ -589,7 +592,7 @@ where double-runs happen.
 
 ## Step 2 — Manual migrations
 
-Work through `references/manual-migrations.md` (M1–M18) using the workflow's `manualScan`
+Work through `references/manual-migrations.md` (M1–M19) using the workflow's `manualScan`
 hits as the worklist. On a resume where all 9 codemod steps are already `completed` but no
 workflow ran this session, there is no `manualScan` report — rebuild the worklist first:
 re-run the same Workflow invocation with `completedSteps` listing all 9 (every step is
@@ -719,7 +722,8 @@ both together when an M-section changes):
   feedback — so the repo-wide `\bdisableInteraction\b` scan is a **[decision]** scan: the
   prop still exists on the other components that carried it in v3 (`Button`, `TextButton`,
   `Chip`, … — see M18 for the full list) and only `IconButton` hits are work. `TopNavigationButton`'s icon buttons (also
-  `ModalNavigationButton` / `ModalClose`, which render one) now dim the
+  `ModalNavigationButton`'s icon variants, incl. the `close-button` that replaces v3
+  `ModalClose` — see M19) now dim the
   icon instead of drawing the interaction layer, with no opt-out prop — a visual-QA item,
   not a rewrite. The `normal` variant's `size` is now the box, not the icon: add
   `interactionOverflow` to standalone `IconButton`s to keep the v3 layout; an `IconButton`
@@ -728,6 +732,17 @@ both together when an M-section changes):
   slot, so DELETE the v3 `size` / `interactionOverflow` it carries instead (a slot hit whose
   variant the slot does not size is handled as standalone or QA only — see M18) —
   a **[decision]** scan over every `<IconButton` hit.
+- **M19 (TopNavigation / ModalNavigation):** `ModalClose` → `<ModalNavigationButton
+variant="close-button">` (a text-label `ModalClose` becomes `text-button` with a hand-wired
+  close), `TopNavigationButton` / `ModalNavigationButton` `variant="icon"` / `"text"` →
+  `"icon-button"` / `"text-button"`, and `ModalNavigation` `variant="display"` → `"emphasized"`
+  are mechanical **[zero]** rewrites (`TopNavigation` keeps `display`). The modal navigation's
+  `top-navigation*` DOM identifiers and CSS variables became `modal-navigation*`, but a
+  standalone `TopNavigation` keeps them — a **[decision]** scan, rename only hits that reach a
+  modal. A search navigation's `SearchField` now defaults to `size="medium"`; an explicit size
+  (including M14's converted `large`) still wins — a per-hit decision. `ModalNavigationButton`
+  throws outside a `ModalNavigation`, while v3 `ModalClose` worked anywhere in the container —
+  a `ModalClose` hit elsewhere moves into the navigation or becomes a hand-wired `IconButton`.
 
 M1 (package.json + configs) ends with a dependency install to refresh the lockfile.
 Mark each M-section `completed` in the state file as it finishes.
@@ -802,7 +817,9 @@ Mark each M-section `completed` in the state file as it finishes.
    deleted accent tokens (their replacement values differ — see M9), and every top
    navigation and modal navigation / close button, whose icon buttons now dim the icon on hover / press instead of drawing the
    interaction layer (see M18); and every screen M18's `<IconButton\b` scan changed, plus every
-   slot `IconButton` hit, for its layout (see M18).
+   slot `IconButton` hit, for its layout (see M18); and every modal navigation, whose padding
+   is now 24px at every size and whose `display` variant became `emphasized`, and every search
+   navigation, whose unsized `SearchField` shrank from 48px to 40px (see M19).
 4. Delete the state file, then summarize: steps run, commits created, manual fixes
    applied, items intentionally left (with reasons).
 
@@ -810,7 +827,7 @@ Mark each M-section `completed` in the state file as it finishes.
 
 - **`references/codemod-steps.md`** — the 9 codemods in order: exact commands,
   idempotency analysis, pre-checks, post-step verification greps, hazards.
-- **`references/manual-migrations.md`** — manual migrations M1–M18 with scan patterns and
+- **`references/manual-migrations.md`** — manual migrations M1–M19 with scan patterns and
   fix rules.
 - **`scripts/migration-workflow.js`** — Workflow-tool script for the codemod phase; also
   the canonical per-step procedure for inline fallback execution.

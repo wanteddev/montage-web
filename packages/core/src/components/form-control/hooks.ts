@@ -11,6 +11,7 @@ import {
 
 import type {
   IconButtonSlotDefaults,
+  InheritedSize,
   SizedSlotName,
   SlotDefaults,
   SlotDefaultsMap,
@@ -41,17 +42,26 @@ export const useFormControl = (componentName: string) => {
  * - Otherwise the FormControl size (or `'large'`) is used, and the FormControl
  *   per-breakpoint sizes are merged into the field's responsive props.
  */
+/**
+ * Resolves a form field's `size`: its own `size` wins, then the parent `FormControl`,
+ * then `fallback` (e.g. a slot default), then `'large'`.
+ */
 export const useFormFieldSize = <T extends { size?: FormFieldSize }>(
   size: FormFieldSize | undefined,
   responsive: ResponsiveProps<T>,
+  fallback?: InheritedSize<FormFieldSize | undefined>,
 ) => {
   const layout = useFormControlLayoutContext();
 
+  const inherited = layout
+    ? { size: layout.size, responsive: layout.responsive }
+    : fallback;
+
   const resolved = resolveInheritedResponsive<T, 'size'>(
     { base: size as T['size'], responsive },
-    layout && {
-      base: layout.size as T['size'],
-      responsive: layout.responsive as ResponsiveProps<Pick<T, 'size'>>,
+    inherited && {
+      base: inherited.size as T['size'],
+      responsive: inherited.responsive as ResponsiveProps<Pick<T, 'size'>>,
     },
     'size',
   );

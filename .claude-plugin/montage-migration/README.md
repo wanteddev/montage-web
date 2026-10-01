@@ -49,7 +49,10 @@ What it does:
    (TopNavigation icon buttons now dim instead of drawing the interaction layer) and
    `interactionOverflow` for standalone icon buttons (icon buttons inside component slots,
    incl. the TabList / CategoryList `iconButton`, whose variant the slot sizes drop their v3
-   `size` / `interactionOverflow` since the slot applies them).
+   `size` / `interactionOverflow` since the slot applies them), and TopNavigation /
+   ModalNavigation changes (`ModalClose` → `ModalNavigationButton variant="close-button"`,
+   `icon` / `text` → `icon-button` / `text-button` variants, ModalNavigation `display` →
+   `emphasized`, modal navigation DOM identifiers).
 4. **Verification** — leftover greps, install/typecheck/lint/build/tests, summary.
 
 The codemods are order-sensitive and must not run twice (re-running

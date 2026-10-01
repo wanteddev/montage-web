@@ -12,15 +12,13 @@ createdAt: 2025-09-29
   TopNavigation,
   TopNavigationButton,
 } from '@montage-ui/core';
-import { IconChevronLeft, IconClose } from '@montage-ui/icon';
+import { IconClose } from '@montage-ui/icon';
 
 const Demo = () => {
   return (
     <TopNavigation
       leadingContent={(
-        <TopNavigationButton>
-          <IconChevronLeft />
-        </TopNavigationButton>
+        <TopNavigationButton variant="back-button" />
       )}
       trailingContent={(
         <TopNavigationButton>
@@ -64,19 +62,17 @@ TopNavigation 은 여러 컴포넌트를 조합해서 사용합니다.
   FlexBox,
   SearchField,
 } from '@montage-ui/core';
-import { IconChevronLeft, IconClose } from '@montage-ui/icon';
+import { IconClose } from '@montage-ui/icon';
 
 const Demo = () => {
   return (
     <FlexBox flexDirection="column" gap="20px" sx={{ width: '100%' }}>
       <TopNavigation
         leadingContent={(
-          <TopNavigationButton variant="icon">
-            <IconChevronLeft />
-          </TopNavigationButton>
+          <TopNavigationButton variant="back-button" />
         )}
         trailingContent={(
-          <TopNavigationButton variant="icon">
+          <TopNavigationButton variant="icon-button">
             <IconClose />
           </TopNavigationButton>
         )}
@@ -87,7 +83,7 @@ const Demo = () => {
       <TopNavigation
         variant="display"
         trailingContent={(
-          <TopNavigationButton variant="icon">
+          <TopNavigationButton variant="icon-button">
             <IconClose />
           </TopNavigationButton>
         )}
@@ -99,12 +95,10 @@ const Demo = () => {
         <TopNavigation
           variant="floating"
           leadingContent={(
-            <TopNavigationButton variant="icon">
-              <IconChevronLeft />
-            </TopNavigationButton>
+            <TopNavigationButton variant="back-button" />
           )}
           trailingContent={(
-            <TopNavigationButton variant="icon">
+            <TopNavigationButton variant="icon-button">
               <IconClose />
             </TopNavigationButton>
           )}
@@ -114,12 +108,10 @@ const Demo = () => {
       <TopNavigation
         variant="search"
         leadingContent={(
-          <TopNavigationButton variant="icon">
-            <IconChevronLeft />
-          </TopNavigationButton>
+          <TopNavigationButton variant="back-button" />
         )}
         trailingContent={(
-          <TopNavigationButton variant="icon">
+          <TopNavigationButton variant="icon-button">
             <IconClose />
           </TopNavigationButton>
         )}
@@ -147,19 +139,17 @@ floating variant 일 경우 gradient 효과가 적용됩니다.
   FlexBox,
   SearchField,
 } from '@montage-ui/core';
-import { IconChevronLeft, IconClose } from '@montage-ui/icon';
+import { IconClose } from '@montage-ui/icon';
 
 const Demo = () => {
   return (
     <FlexBox flexDirection="column" gap="20px" sx={{ width: '100%' }}>
       <TopNavigation
         leadingContent={(
-          <TopNavigationButton variant="icon">
-            <IconChevronLeft />
-          </TopNavigationButton>
+          <TopNavigationButton variant="back-button" />
         )}
         trailingContent={(
-          <TopNavigationButton variant="icon">
+          <TopNavigationButton variant="icon-button">
             <IconClose />
           </TopNavigationButton>
         )}
@@ -170,7 +160,7 @@ const Demo = () => {
       <TopNavigation
         variant="display"
         trailingContent={(
-          <TopNavigationButton variant="icon">
+          <TopNavigationButton variant="icon-button">
             <IconClose />
           </TopNavigationButton>
         )}
@@ -182,12 +172,10 @@ const Demo = () => {
         <TopNavigation
           variant="floating"
           leadingContent={(
-            <TopNavigationButton variant="icon">
-              <IconChevronLeft />
-            </TopNavigationButton>
+            <TopNavigationButton variant="back-button" />
           )}
           trailingContent={(
-            <TopNavigationButton variant="icon">
+            <TopNavigationButton variant="icon-button">
               <IconClose />
             </TopNavigationButton>
           )}
@@ -197,17 +185,15 @@ const Demo = () => {
       <TopNavigation
         variant="search"
         leadingContent={(
-          <TopNavigationButton variant="icon">
-            <IconChevronLeft />
-          </TopNavigationButton>
+          <TopNavigationButton variant="back-button" />
         )}
         trailingContent={(
-          <TopNavigationButton variant="icon">
+          <TopNavigationButton variant="icon-button">
             <IconClose />
           </TopNavigationButton>
         )}
       >
-        <SearchField size="medium" placeholder="Search" />
+        <SearchField placeholder="Search" />
       </TopNavigation>
     </FlexBox>
   )
@@ -234,12 +220,12 @@ const Demo = () => {
     <FlexBox flexDirection="column" gap="20px" sx={{ width: '100%' }}>
       <TopNavigation
         leadingContent={(
-          <TopNavigationButton variant="text">
+          <TopNavigationButton variant="text-button">
             뒤로
           </TopNavigationButton>
         )}
         trailingContent={(
-          <TopNavigationButton variant="text" color="primary">
+          <TopNavigationButton variant="text-button" color="primary">
             완료
           </TopNavigationButton>
         )}
@@ -250,7 +236,7 @@ const Demo = () => {
       <TopNavigation
         variant="display"
         trailingContent={(
-          <TopNavigationButton variant="text" color="primary">
+          <TopNavigationButton variant="text-button" color="primary">
             완료
           </TopNavigationButton>
         )}
@@ -262,12 +248,12 @@ const Demo = () => {
         <TopNavigation
           variant="floating"
           leadingContent={(
-            <TopNavigationButton variant="text">
+            <TopNavigationButton variant="text-button">
               뒤로
             </TopNavigationButton>
           )}
           trailingContent={(
-            <TopNavigationButton variant="text" color="primary">
+            <TopNavigationButton variant="text-button" color="primary">
               완료
             </TopNavigationButton>
           )}
@@ -277,12 +263,12 @@ const Demo = () => {
       <TopNavigation
         variant="search"
         leadingContent={(
-          <TopNavigationButton variant="text">
+          <TopNavigationButton variant="text-button">
             뒤로
           </TopNavigationButton>
         )}
         trailingContent={(
-          <TopNavigationButton variant="text" color="primary">
+          <TopNavigationButton variant="text-button" color="primary">
             완료
           </TopNavigationButton>
         )}
