@@ -1504,9 +1504,14 @@ install lands v4; nothing else here is caught by the typecheck.
   `xlarge`, the same value on both axes), ActionArea margin 24px / 20px at every size. `large`
   / `xlarge` widths (480px / 560px) and the `medium` / `large` / `xlarge` `resize="fixed"`
   heights (480px / 560px / 640px) are unchanged.
-  Scan **[zero]**: `<ModalContainer[[:space:]][^>]*size="small"` — then read each
-  `ModalContainer` file the M20 `<ModalNavigation` / `ModalContent` scans list for multi-line
-  props and responsive `size: 'small'` keys, which the line grep misses.
+  Scan **[zero]**: `<ModalContainer[[:space:]][^>]*size="small"`. Any literal `'small'` —
+  multi-line props and responsive `xs`–`xl` `size: 'small'` keys included — is also a type
+  error after M1's install (the responsive keys share the `size` union), so the typecheck is
+  the net for what this line grep misses.
+  Scan **[decision]**: `<ModalContainer([[:space:]>]|$)` — lists every `ModalContainer`, also
+  the files with no `ModalNavigation` / `ModalContent`; read each for a `size` the typecheck
+  cannot see (a variable, a spread props object, a consumer wrapper relaying
+  `ModalContainerProps['size']`).
 
 - **`ModalContent` owns the horizontal padding; vertical padding follows the container.**
   `ModalContent` gained `verticalPadding` (`none` / `top-only` / `bottom-only` / `both`) and

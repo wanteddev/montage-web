@@ -100,7 +100,8 @@ rewrites `package.json` a resume looks exactly like "already migrated".
      kept), and non-`normal` variants correctly lack `interactionOverflow`, M19's
      `\b(TopNavigationButton|ModalNavigationButton)\b` / `top-navigation` — a standalone
      `TopNavigation` keeps its identifiers — / `variant="search"`, M20's
-     `<ModalNavigation([[:space:]>]|$)` / `\bModalContent(Item)?\b` — every valid v4 modal
+     `<ModalNavigation([[:space:]>]|$)` / `<ModalContainer([[:space:]>]|$)` /
+     `\bModalContent(Item)?\b` — every valid v4 modal
      matches), so they are
      never mismatch evidence. Detect the pending-but-already-applied direction with the
      **presence greps** in `references/codemod-steps.md` — each step's verify grep is an
