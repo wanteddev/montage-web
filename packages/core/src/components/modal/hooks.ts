@@ -296,6 +296,13 @@ export const useSnapLifecycle = ({
   // When the modal opens, seed snap from defaultSnap (flexible) or 'full'.
   useEffect(() => {
     if (!isBottom || !isOpen) return;
+
+    // A drag-dismiss closes without `applySnap`, leaving the dragged
+    // `--modal-max-height` inline. Cleared here rather than on close so the
+    // exit transition keeps the dragged height; only matters with
+    // `forceMount`, where the container survives between opens.
+    containerRef.current?.style.removeProperty('--modal-max-height');
+
     if (snapRef.current === 'peek') return;
 
     if (isFlexible) {
