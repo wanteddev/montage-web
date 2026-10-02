@@ -602,6 +602,8 @@ npx @montage-ui/codemod@latest form-control-migration src
 | 콘텐츠 상하 여백 · 기본 `gap` | 좌우 여백과 동일                                     | 모든 사이즈 24px        |
 | ActionArea 여백 (x / y)       | 콘텐츠 여백과 동일 (`xlarge`의 y만 24px)             | 모든 사이즈 24px / 20px |
 
+`variant="full"`은 사이즈와 무관하게 별도 여백을 사용합니다. 콘텐츠 좌우 / 상하 여백 24px / 20px, ActionArea 여백 20px / 20px, `ModalNavigation` 패딩 20px(기존 24px)입니다.
+
 `large` / `xlarge`의 너비(480px / 560px)와 `resize="fixed"` 높이는 변경되지 않았습니다.
 
 #### `ModalContent` 여백 옵션 추가 및 좌우 여백 위치 변경

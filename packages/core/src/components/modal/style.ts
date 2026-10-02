@@ -331,6 +331,14 @@ const modalContainerVariant = (variant: ModalContainerProps['variant']) => {
   switch (variant) {
     case 'full':
       return css`
+        --modal-navigation-padding-x: 20px;
+        --modal-navigation-padding-y: 20px;
+
+        --modal-content-margin-x: 24px;
+        --modal-content-margin-y: 20px;
+
+        --action-area-margin-x: 20px;
+
         --modal-content-default-padding-top: var(
           --modal-content-margin-y,
           24px
