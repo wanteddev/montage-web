@@ -54,6 +54,7 @@ import {
   modalContentStyle,
   modalDimmerStyle,
   modalGrabberStyle,
+  modalNavigationBackgroundButtonStyle,
   modalNavigationButtonTextStyle,
   modalNavigationContentStyle,
   modalNavigationFloatingBackgroundStyle,
@@ -762,21 +763,27 @@ const ModalNavigationButton = forwardRef(
     );
     const { onOpenChange } = useModalContext(MODAL_NAVIGATION_BUTTON_NAME);
 
+    // The floating background button has a fixed spec (36px circle / 24px icon),
+    // so the given `size` is ignored.
+    const iconButtonProps =
+      navigationVariant === 'floating' && background
+        ? ({
+            variant: 'background',
+            size: 36,
+            sx: [modalNavigationBackgroundButtonStyle, props.sx],
+          } as const)
+        : ({ variant: 'normal', size: size ?? 'xlarge' } as const);
+
     switch (variant) {
       case 'icon-button':
       case 'back-button':
         return (
           <IconButton
             interactionEffect="dim"
-            size={size ?? 'xlarge'}
             interactionOverflow
             aria-label={variant === 'back-button' ? 'Go back' : undefined}
             {...props}
-            variant={
-              navigationVariant === 'floating' && background
-                ? 'background'
-                : 'normal'
-            }
+            {...iconButtonProps}
             alternative={alternative}
             data-component="modal-navigation-button"
             ref={ref}
@@ -788,15 +795,10 @@ const ModalNavigationButton = forwardRef(
         return (
           <IconButton
             interactionEffect="dim"
-            size={size ?? 'xlarge'}
             interactionOverflow
             aria-label="Close dialog"
             {...props}
-            variant={
-              navigationVariant === 'floating' && background
-                ? 'background'
-                : 'normal'
-            }
+            {...iconButtonProps}
             onClick={composeEventHandlers(props.onClick, () =>
               onOpenChange(false),
             )}

@@ -794,6 +794,16 @@ export const modalNavigationLeftIconStyle = (
   }
 };
 
+/*
+ * Lays the 36px background button out in the same 24×24 slot as the normal
+ * button (whose interaction area overflows its 24px icon), overflowing it from
+ * the center so toggling `background` doesn't shift the icon.
+ */
+export const modalNavigationBackgroundButtonStyle = css`
+  flex-shrink: 0;
+  margin: -6px;
+`;
+
 export const modalNavigationButtonTextStyle = css`
   padding: 0px;
   flex-shrink: 0;

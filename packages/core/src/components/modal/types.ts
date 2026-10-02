@@ -156,10 +156,11 @@ export type ModalNavigationButtonProps = WithSxProps<{
   variant?: 'text-button' | 'icon-button' | 'back-button' | 'close-button';
   color?: 'primary' | 'assistive';
   disabled?: boolean;
+  /** Ignored when `background` is applied — see `background`. */
   size?: IconButtonProps['size'] | TextButtonProps['size'];
   /**
    * `icon-button` / `back-button` / `close-button` variant only. When true and the navigation `variant` is `floating`,
-   * renders the icon button with a blurred background.
+   * renders the icon button with a blurred background at a fixed size (36px circle / 24px icon), ignoring `size`.
    */
   background?: boolean;
   /**
