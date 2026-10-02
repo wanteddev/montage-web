@@ -47,6 +47,8 @@ Conforms To
 
 `Swift.Copyable`
 
+`Swift.Escapable`
+
 `Swift.Sendable`
 
 `Swift.SendableMetatype`
