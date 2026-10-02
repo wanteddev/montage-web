@@ -578,6 +578,61 @@ npx @montage-ui/codemod@latest form-control-migration src
 
 별도 codemod는 제공되지 않습니다.
 
+#### `ModalNavigation` 기본 `variant` 변경
+
+`variant`를 생략했을 때의 기본값이 `ModalContainer`의 `variant`에 따라 달라집니다.
+
+| `ModalContainer` variant | AS-IS (가운데 정렬 제목) | TO-BE                                     |
+| ------------------------ | ------------------------ | ----------------------------------------- |
+| `full`                   | `normal`                 | `normal`                                  |
+| `popup` / `bottom`       | `normal`                 | `emphasized` (왼쪽 정렬, `heading2` 제목) |
+
+`normal`은 `full`에서만 지원되며, `popup` / `bottom`에서 `variant="normal"`을 지정하면 개발 모드에서 경고가 출력됩니다. `popup` / `bottom`에서 `normal`을 지정하고 있었다면 `variant`를 제거하거나 `emphasized` / `floating` / `search` 중 하나로 변경하세요. `display` → `variant="emphasized"` 변경은 [위 항목](#modalnavigation-전용-구현으로-분리)을 참고하세요.
+
+#### `ModalContainer` `size="small"` 제거 및 사이즈 스펙 변경
+
+`size="small"`이 제거되었습니다. 기존 `small`(너비 360px)을 쓰던 곳은 `medium`으로 변경하세요. `medium`의 너비가 360px로 줄어 기존 `small`과 같은 너비가 됩니다. 단, `resize="fixed"`를 함께 쓰던 경우 높이가 400px(`small`)에서 480px(`medium`)로 커지므로, 기존 높이가 필요하면 `sx`로 `height: 400px`를 지정하세요. 기본값은 `medium`으로 동일합니다.
+
+| 속성                          | AS-IS                                                | TO-BE                   |
+| ----------------------------- | ---------------------------------------------------- | ----------------------- |
+| `medium` 너비                 | 400px                                                | 360px                   |
+| popup radius                  | `small` / `medium` 12px, `large` / `xlarge` 20px     | 모든 사이즈 24px        |
+| bottom sheet 상단 radius      | 12px                                                 | 32px                    |
+| 콘텐츠 좌우 여백              | `small` / `medium` 20px, `large` 24px, `xlarge` 32px | 모든 사이즈 28px        |
+| 콘텐츠 상하 여백 · 기본 `gap` | 좌우 여백과 동일                                     | 모든 사이즈 24px        |
+| ActionArea 여백 (x / y)       | 콘텐츠 여백과 동일 (`xlarge`의 y만 24px)             | 모든 사이즈 24px / 20px |
+
+`variant="full"`은 사이즈와 무관하게 별도 여백을 사용합니다. 콘텐츠 좌우 / 상하 여백 24px / 20px, ActionArea 여백 20px / 20px, `ModalNavigation` 패딩 20px(기존 24px)입니다.
+
+`large` / `xlarge`의 너비(480px / 560px)와 `resize="fixed"` 높이는 변경되지 않았습니다.
+
+#### `ModalContent` 여백 옵션 추가 및 좌우 여백 위치 변경
+
+`ModalContent`에 `verticalPadding` / `horizontalPadding`이 추가되었고, 반응형 값(`xs` ~ `xl`)도 지원합니다.
+
+| Prop                | 값                                           | 기본값                                                                           |
+| ------------------- | -------------------------------------------- | -------------------------------------------------------------------------------- |
+| `verticalPadding`   | `none` / `top-only` / `bottom-only` / `both` | `ModalContainer` variant를 따름 — `popup`: `none`, `bottom` / `full`: `top-only` |
+| `horizontalPadding` | `none` / `both`                              | `both`                                                                           |
+
+기존과 달라지는 점은 다음과 같습니다.
+
+- **좌우 여백이 `ModalContentItem`에서 `ModalContent`로 이동했습니다.** `ModalContentItem`은 더 이상 자체 좌우 패딩을 갖지 않습니다.
+  - `ModalContent` 바로 아래에 `ModalContentItem`이 아닌 요소를 두고 가장자리까지 채우던 경우(이미지, 구분선 등) 이제 좌우 여백이 생깁니다. `horizontalPadding="none"`을 지정하고, 여백이 필요한 항목에만 직접 패딩을 주세요.
+  - `ModalContent` 밖에서 `ModalContentItem`을 쓰던 경우 좌우 여백이 사라집니다. `ModalContent`로 감싸세요.
+- **상하 여백 기본값이 바뀌었습니다.** 기존에는 모든 variant에서 위아래 모두 여백이 있었지만, `popup`은 위아래 모두 없고 `bottom` / `full`은 위쪽에만 있습니다. 기존처럼 위아래 여백이 모두 필요하면 `verticalPadding="both"`를 지정하세요.
+- **`gap`이 지정한 값대로 적용됩니다.** 기존에는 `gap`을 지정해도 무시되고 항상 콘텐츠 여백 값이 적용되었습니다(반응형 `gap`만 동작). 이제 지정한 `gap`이 그대로 적용되므로, 무시되던 `gap`을 넘기고 있었다면 간격이 바뀌지 않는지 확인하세요.
+
+#### CSS 변수 변경
+
+| AS-IS                    | TO-BE                                                                             |
+| ------------------------ | --------------------------------------------------------------------------------- |
+| `--modal-content-margin` | `--modal-content-margin-x` (좌우), `--modal-content-margin-y` (상하 · 기본 `gap`) |
+
+`--modal-content-margin`을 직접 참조하거나 덮어쓰던 코드는 용도에 맞게 `-x` / `-y`로 나누어 변경하세요. 기존에는 ActionArea 여백(`--action-area-margin-x` / `-y`)도 이 값을 따랐지만 이제 독립적으로 지정되므로(24px / 20px), ActionArea 여백까지 바꾸려던 경우 `--action-area-margin-x` / `--action-area-margin-y`도 함께 지정하세요. `ModalContainer` 안의 `TabList` 좌우 패딩(`--tab-list-padding`)도 `--modal-content-margin-x`를 따릅니다.
+
+별도 codemod는 제공되지 않습니다.
+
 ### TopNavigation
 
 #### `TopNavigationButton` variant 이름 변경

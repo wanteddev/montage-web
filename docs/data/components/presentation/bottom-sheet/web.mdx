@@ -8,7 +8,7 @@ createdAt: 2025-09-23
 
 Bottom sheet를 표시합니다.
 
-breakpoint에 따라 variant를 override 하여 [Popup](/components/presentation/popup/web) 과 쉽게 통합할 수 있습니다.
+breakpoint에 따라 variant를 override 하여 [Popup](/docs/components/presentation/popup/web) 과 쉽게 통합할 수 있습니다.
 
 <Demo code={`import {
   Button,
@@ -20,7 +20,6 @@ breakpoint에 따라 variant를 override 하여 [Popup](/components/presentation
   ModalContentItem,
   ModalDescription,
   ModalHeading,
-  ModalNavigation,
   ModalSummary,
   ModalTrigger,
 } from '@montage-ui/core';
@@ -32,7 +31,7 @@ const Demo = () => {
         <Button>Open</Button>
       </ModalTrigger>
 
-      <ModalContainer variant="bottom">
+      <ModalContainer variant="bottom" handle>
         <ModalContent>
           <ModalContentItem>
             <ModalHeading>Heading</ModalHeading>
@@ -103,7 +102,6 @@ Bottom sheet 는 여러 컴포넌트를 조합해서 사용합니다.
   ModalContentItem,
   ModalDescription,
   ModalHeading,
-  ModalNavigation,
   ModalSummary,
   ModalTrigger,
 } from '@montage-ui/core';
@@ -116,7 +114,7 @@ const Demo = () => {
           <Button>Medium</Button>
         </ModalTrigger>
 
-        <ModalContainer variant="bottom" size="medium">
+        <ModalContainer variant="bottom" size="medium" handle>
           <ModalContent>
             <ModalContentItem>
               <ModalHeading>Heading</ModalHeading>
@@ -158,8 +156,8 @@ resize 옵션을 사용하면 Bottom sheet가 차지하는 높이를 조정할 �
   ModalContent,
   ModalContentItem,
   ModalDescription,
-  ModalHeading,
   ModalNavigation,
+  ModalHeading,
   ModalSummary,
   ModalTrigger,
 } from '@montage-ui/core';
@@ -176,6 +174,7 @@ const Demo = () => {
           <ModalNavigation>
             Hug
           </ModalNavigation>
+
           <ModalContent>
             <ModalContentItem>
               <ModalHeading>Heading</ModalHeading>
@@ -256,55 +255,6 @@ Bottom sheet의 상단에 핸들을 표시하여 드래그로 숨기고 열 수 
 
 - true
 - false (default)
-
-<Demo code={`import {
-  FlexBox,
-  Button,
-  Modal,
-  ActionArea,
-  ActionAreaButton,
-  ModalContainer,
-  ModalContent,
-  ModalContentItem,
-  ModalDescription,
-  ModalHeading,
-  ModalNavigation,
-  ModalSummary,
-  ModalTrigger,
-} from '@montage-ui/core';
-
-const Demo = () => {
-  return (
-    <Modal>
-      <ModalTrigger>
-        <Button>Handle</Button>
-      </ModalTrigger>
-
-      <ModalContainer variant="bottom" handle>
-        <ModalNavigation>
-          Handle
-        </ModalNavigation>
-
-        <ModalContent>
-          <ModalContentItem>
-            <ModalHeading>Heading</ModalHeading>
-            <ModalSummary>Summary</ModalSummary>
-            <ModalDescription>Description</ModalDescription>
-          </ModalContentItem>
-        </ModalContent>
-
-        <ActionArea>
-          <ActionAreaButton>
-            Main action
-          </ActionAreaButton>
-        </ActionArea>
-      </ModalContainer>
-    </Modal>
-  )
-}
-
-export default Demo;`}
-/>
 
 ### Peek height
 
@@ -632,11 +582,265 @@ const Demo = () => {
 export default Demo;`}
 />
 
+
+## Content
+
+내부 콘텐츠는 `ModalContent` 로 감싸서 사용하는 것을 권장하며, verticalPadding, horizontalPadding, gap 옵션을 사용하여 내부 여백을 조정할 수 있습니다.
+
+
+`verticalPadding`
+- none
+- top-only (default)
+- bottom-only
+- both
+
+`horizontalPadding`
+- none
+- both (default)
+
+<Demo code={`import {
+  FlexBox,
+  Button,
+  Modal,
+  ActionArea,
+  ActionAreaButton,
+  ModalContainer,
+  ModalContent,
+  ModalContentItem,
+  ModalDescription,
+  ModalHeading,
+  ModalNavigation,
+  ModalSummary,
+  ModalTrigger,
+  Typography,
+  SegmentedControl,
+  SegmentedControlItem,
+  addOpacity,
+} from '@montage-ui/core';
+import { useState } from 'react';
+
+const Control = ({ label, value, onValueChange, options }) => (
+  <FlexBox flexDirection="column" gap="8px" sx={{ width: '100%', maxWidth: 400 }}>
+    <Typography variant="label1" weight="medium" color="semantic.foreground.neutral.secondary">
+      {label}
+    </Typography>
+    <SegmentedControl size="small" value={value} onValueChange={onValueChange}>
+      {options.map((option) => (
+        <SegmentedControlItem key={option} value={option}>
+          {option}
+        </SegmentedControlItem>
+      ))}
+    </SegmentedControl>
+  </FlexBox>
+);
+
+const Demo = () => {
+  const [verticalPadding, setVerticalPadding] = useState('top-only');
+  const [horizontalPadding, setHorizontalPadding] = useState('both');
+
+  return (
+    <FlexBox gap="12px" flexWrap="wrap">
+      <Modal>
+        <ModalTrigger>
+          <Button>Open</Button>
+        </ModalTrigger>
+
+        <ModalContainer variant="bottom" handle>
+          <ModalContent verticalPadding={verticalPadding} horizontalPadding={horizontalPadding}>
+            <ModalContentItem>
+              <FlexBox
+                flexDirection="column"
+                gap="12px"
+                alignItems="center"
+                justifyContent="center"
+                sx={theme => ({
+                  width: '100%',
+                  height: '400px',
+                  background: addOpacity(theme.semantic.surface.accent.violetOpaque, 0.08),
+                })}
+              >
+                <Control
+                  label="verticalPadding"
+                  value={verticalPadding}
+                  onValueChange={setVerticalPadding}
+                  options={['none', 'top-only', 'bottom-only', 'both']}
+                />
+                <Control
+                  label="horizontalPadding"
+                  value={horizontalPadding}
+                  onValueChange={setHorizontalPadding}
+                  options={['none', 'both']}
+                />
+              </FlexBox>
+            </ModalContentItem>
+          </ModalContent>
+
+          <ActionArea>
+            <ActionAreaButton>
+              Action
+            </ActionAreaButton>
+          </ActionArea>
+        </ModalContainer>
+      </Modal>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+
+## Navigation
+
+3가지 variant의 Navigation을 사용할 수 있습니다.
+- emphasized (default)
+- floating
+- search
+
+Navigation을 표시할 때는 `handle={false}` 로 사용하는 것을 권장합니다.
+
+또한 `ModalNavigation` 의 leadingContent, trailingContent로 콘텐츠를 추가할 수 있으며 `ModalNavigationButton` 으로 사용합니다.
+
+<Demo code={`import {
+  FlexBox,
+  Box,
+  Button,
+  Modal,
+  ActionArea,
+  ActionAreaButton,
+  ModalContainer,
+  ModalContent,
+  ModalContentItem,
+  ModalNavigation,
+  ModalNavigationButton,
+  ModalTrigger,
+  SearchField,
+  SegmentedControl,
+  SegmentedControlItem,
+  Typography,
+} from '@montage-ui/core';
+import { useState } from 'react';
+
+const Control = ({ label, value, onValueChange, options }) => (
+  <FlexBox flexDirection="column" gap="8px" sx={{ width: '100%', maxWidth: 400 }}>
+    <Typography variant="label1" weight="medium" color="semantic.foreground.neutral.secondary">
+      {label}
+    </Typography>
+    <SegmentedControl size="small" value={value} onValueChange={onValueChange}>
+      {options.map((option) => (
+        <SegmentedControlItem key={option} value={option}>
+          {option}
+        </SegmentedControlItem>
+      ))}
+    </SegmentedControl>
+  </FlexBox>
+);
+
+const Demo = () => {
+  const [navigationVariant, setNavigationVariant] = useState('emphasized');
+  const [buttonVariant, setButtonVariant] = useState('icon-button');
+  const [leading, setLeading] = useState('on');
+  const [trailing, setTrailing] = useState('on');
+  const [background, setBackground] = useState('off');
+
+  // background only applies to icon buttons in a floating navigation
+  const supportsBackground = navigationVariant === 'floating' && buttonVariant === 'icon-button';
+  const iconButtonBackground = supportsBackground ? background === 'on' : undefined;
+
+  const leadingContent = leading === 'on' ? (
+    <ModalNavigationButton variant={buttonVariant === 'icon-button' ? 'back-button' : buttonVariant} background={iconButtonBackground}>
+      {buttonVariant === 'text-button' ? '뒤로' : undefined}
+    </ModalNavigationButton>
+  ) : null;
+
+  const trailingContent = trailing === 'on' ? (
+    <ModalNavigationButton variant={buttonVariant === 'icon-button' ? 'close-button' : buttonVariant} background={iconButtonBackground}>
+      {buttonVariant === 'text-button' ? '닫기' : undefined}
+    </ModalNavigationButton>
+  ) : null;
+
+  const getNavigationContent = () => {
+    switch (navigationVariant) {
+      case 'search':
+        return <SearchField placeholder="Enter search keyword." />;
+      case 'floating':
+        return null;
+      case 'emphasized':
+        return 'Emphasized';
+    }
+  };
+
+  return (
+    <FlexBox flexDirection="column" alignItems="center" gap="24px" sx={{ width: '100%' }}>
+      <Control
+        label="variant"
+        value={navigationVariant}
+        onValueChange={setNavigationVariant}
+        options={['emphasized', 'floating', 'search']}
+      />
+      <Control
+        label="button variant"
+        value={buttonVariant}
+        onValueChange={setButtonVariant}
+        options={['icon-button', 'text-button']}
+      />
+      <Control label="leadingContent" value={leading} onValueChange={setLeading} options={['on', 'off']} />
+      <Control label="trailingContent" value={trailing} onValueChange={setTrailing} options={['on', 'off']} />
+      {supportsBackground && (
+        <Control
+          label="button background"
+          value={background}
+          onValueChange={setBackground}
+          options={['on', 'off']}
+        />
+      )}
+
+      <Modal>
+        <ModalTrigger>
+          <Button>Open</Button>
+        </ModalTrigger>
+
+        <ModalContainer variant="bottom">
+          <ModalNavigation
+            variant={navigationVariant}
+            leadingContent={leadingContent}
+            trailingContent={trailingContent}
+          >
+            {getNavigationContent()}
+          </ModalNavigation>
+
+          <ModalContent>
+            <ModalContentItem>
+              <Box
+                sx={theme => ({
+                  width: '100%',
+                  height: '800px',
+                  background: theme.semantic.surface.accent.violetOpaque,
+                  opacity: 0.08
+                })}
+              />
+            </ModalContentItem>
+          </ModalContent>
+
+          <ActionArea>
+            <ActionAreaButton>
+              Action
+            </ActionAreaButton>
+          </ActionArea>
+        </ModalContainer>
+      </Modal>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
 ## Full modal
 
 `variant="full"` 옵션을 사용하면 전체 화면 모달 형태로 표시할 수 있습니다.
 
-[Popup Navigation](/components/presentation/popup/web#navigation) 과 동일하게 Navigation을 사용할 수 있습니다.
+[Popup Navigation](/docs/components/presentation/popup/web#navigation) 과 동일하게 Navigation을 사용할 수 있습니다.
 
 <Demo code={`import {
   Button,
@@ -685,6 +889,152 @@ const Demo = () => {
 
 export default Demo;`}
 />
+
+### Navigation
+
+`full` variant에서는 `normal` variant가 추가된 4가지 variant의 Navigation을 사용할 수 있습니다.
+- normal (default)
+- emphasized
+- floating
+- search
+
+<Demo code={`import {
+  FlexBox,
+  Box,
+  Button,
+  Modal,
+  ActionArea,
+  ActionAreaButton,
+  ModalContainer,
+  ModalContent,
+  ModalContentItem,
+  ModalNavigation,
+  ModalNavigationButton,
+  ModalTrigger,
+  SearchField,
+  SegmentedControl,
+  SegmentedControlItem,
+  Typography,
+} from '@montage-ui/core';
+import { useState } from 'react';
+
+const Control = ({ label, value, onValueChange, options }) => (
+  <FlexBox flexDirection="column" gap="8px" sx={{ width: '100%', maxWidth: 400 }}>
+    <Typography variant="label1" weight="medium" color="semantic.foreground.neutral.secondary">
+      {label}
+    </Typography>
+    <SegmentedControl size="small" value={value} onValueChange={onValueChange}>
+      {options.map((option) => (
+        <SegmentedControlItem key={option} value={option}>
+          {option}
+        </SegmentedControlItem>
+      ))}
+    </SegmentedControl>
+  </FlexBox>
+);
+
+const Demo = () => {
+  const [navigationVariant, setNavigationVariant] = useState('normal');
+  const [buttonVariant, setButtonVariant] = useState('icon-button');
+  const [leading, setLeading] = useState('on');
+  const [trailing, setTrailing] = useState('on');
+  const [background, setBackground] = useState('off');
+
+  // background only applies to icon buttons in a floating navigation
+  const supportsBackground = navigationVariant === 'floating' && buttonVariant === 'icon-button';
+  const iconButtonBackground = supportsBackground ? background === 'on' : undefined;
+
+  const leadingContent = leading === 'on' ? (
+    <ModalNavigationButton variant={buttonVariant === 'icon-button' ? 'back-button' : buttonVariant} background={iconButtonBackground}>
+      {buttonVariant === 'text-button' ? '뒤로' : undefined}
+    </ModalNavigationButton>
+  ) : null;
+
+  const trailingContent = trailing === 'on' ? (
+    <ModalNavigationButton variant={buttonVariant === 'icon-button' ? 'close-button' : buttonVariant} background={iconButtonBackground}>
+      {buttonVariant === 'text-button' ? '닫기' : undefined}
+    </ModalNavigationButton>
+  ) : null;
+
+  const getNavigationContent = () => {
+    switch (navigationVariant) {
+      case 'search':
+        return <SearchField placeholder="Enter search keyword." />;
+      case 'floating':
+        return null;
+      case 'emphasized':
+        return 'Emphasized';
+      case 'normal':
+        return 'Normal';
+    }
+  };
+
+  return (
+    <FlexBox flexDirection="column" alignItems="center" gap="24px" sx={{ width: '100%' }}>
+      <Control
+        label="variant"
+        value={navigationVariant}
+        onValueChange={setNavigationVariant}
+        options={['normal', 'emphasized', 'floating', 'search']}
+      />
+      <Control
+        label="button variant"
+        value={buttonVariant}
+        onValueChange={setButtonVariant}
+        options={['icon-button', 'text-button']}
+      />
+      <Control label="leadingContent" value={leading} onValueChange={setLeading} options={['on', 'off']} />
+      <Control label="trailingContent" value={trailing} onValueChange={setTrailing} options={['on', 'off']} />
+      {supportsBackground && (
+        <Control
+          label="button background"
+          value={background}
+          onValueChange={setBackground}
+          options={['on', 'off']}
+        />
+      )}
+
+      <Modal>
+        <ModalTrigger>
+          <Button>Open</Button>
+        </ModalTrigger>
+
+        <ModalContainer variant="full">
+          <ModalNavigation
+            variant={navigationVariant}
+            leadingContent={leadingContent}
+            trailingContent={trailingContent}
+          >
+            {getNavigationContent()}
+          </ModalNavigation>
+
+          <ModalContent>
+            <ModalContentItem>
+              <Box
+                sx={theme => ({
+                  width: '100%',
+                  height: '800px',
+                  background: theme.semantic.surface.accent.violetOpaque,
+                  opacity: 0.08
+                })}
+              />
+            </ModalContentItem>
+          </ModalContent>
+
+          <ActionArea>
+            <ActionAreaButton>
+              Action
+            </ActionAreaButton>
+          </ActionArea>
+        </ModalContainer>
+      </Modal>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
 
 ## API
 

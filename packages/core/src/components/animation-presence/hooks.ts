@@ -76,6 +76,7 @@ export const useAnimationPresence = (
     };
 
     animations.forEach((animation) => {
+      const prevFill = animation.effect?.getTiming().fill;
       animation.effect?.updateTiming({ fill: 'forwards' });
 
       const onFinish = () => handleAnimationEnd();
@@ -87,6 +88,9 @@ export const useAnimationPresence = (
       cleanup.push(() => {
         animation.removeEventListener('finish', onFinish);
         animation.removeEventListener('cancel', onCancel);
+        // Re-opening mid-exit keeps the node mounted; a lingering forwards
+        // fill would pin the exit end state over the open styles.
+        animation.effect?.updateTiming({ fill: prevFill });
       });
     });
 

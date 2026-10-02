@@ -52,7 +52,9 @@ What it does:
    `size` / `interactionOverflow` since the slot applies them), and TopNavigation /
    ModalNavigation changes (`ModalClose` → `ModalNavigationButton variant="close-button"`,
    `icon` / `text` → `icon-button` / `text-button` variants, ModalNavigation `display` →
-   `emphasized`, modal navigation DOM identifiers).
+   `emphasized`, modal navigation DOM identifiers), and Modal layout/spacing changes
+   (ModalContainer `size="small"` → `medium`, ModalNavigation default variant by container,
+   ModalContent `horizontalPadding` / `verticalPadding`, `--modal-content-margin` → `-x` / `-y`).
 4. **Verification** — leftover greps, install/typecheck/lint/build/tests, summary.
 
 The codemods are order-sensitive and must not run twice (re-running

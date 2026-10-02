@@ -61,9 +61,22 @@ export const modalContainerWrapperStyle =
     left: 0px;
     top: 0px;
 
+    /*
+     * \`data-status='close'\`: with \`forceMount\` the full-viewport wrapper stays
+     * mounted after close and would otherwise swallow every click on the page.
+     */
     &[data-snap='peek'],
-    &[data-largest-undimmed-snap='half'][data-snap='half'] {
+    &[data-largest-undimmed-snap='half'][data-snap='half'],
+    &[data-status='close'] {
       pointer-events: none;
+    }
+
+    [data-role='modal-container-scroll-area']:has(
+      [data-component='modal-navigation']
+        [data-role='modal-navigation-floating-background']
+    ) {
+      background: inherit;
+      will-change: backdrop-filter;
     }
 
     @supports (height: 100dvh) {
@@ -100,13 +113,6 @@ const modalContainerWrapperVariant = (
           pointer-events: none;
           transition: initial;
         }
-
-        [data-role='modal-container-scroll-area']:has(
-          [data-component='modal-navigation'][data-variant='floating']
-        ) {
-          background: initial;
-          will-change: unset;
-        }
       `;
     case 'popup':
       return css`
@@ -119,13 +125,6 @@ const modalContainerWrapperVariant = (
           pointer-events: none;
           transition: initial;
         }
-
-        [data-role='modal-container-scroll-area']:has(
-          [data-component='modal-navigation'][data-variant='floating']
-        ) {
-          background: initial;
-          will-change: unset;
-        }
       `;
     case 'bottom':
       return css`
@@ -137,13 +136,6 @@ const modalContainerWrapperVariant = (
           opacity: 0;
           pointer-events: none;
           transition: opacity ${BOTTOM_SHEET_SETTLE_TRANSITION};
-        }
-
-        [data-role='modal-container-scroll-area']:has(
-          [data-component='modal-navigation'][data-variant='floating']
-        ) {
-          background: inherit;
-          will-change: backdrop-filter;
         }
       `;
   }
@@ -235,41 +227,9 @@ const modalContainerSize = (
   resize: ModalContainerProps['resize'],
 ) => {
   switch (size) {
-    case 'small':
-      return css`
-        width: 360px;
-        min-width: 320px;
-        max-width: 100%;
-        height: initial;
-        max-height: 100%;
-
-        ${resize === 'fixed' &&
-        css`
-          height: 400px;
-        `}
-
-        --modal-popup-border-radius: 12px;
-        --modal-content-margin: 20px;
-        --modal-navigation-padding-x: 24px;
-        --modal-navigation-padding-y: 24px;
-
-        --action-area-margin-x: var(--modal-content-margin);
-        --action-area-margin-y: var(--modal-content-margin);
-
-        [data-component='modal-navigation'] {
-          --tab-list-padding: var(--modal-content-margin);
-        }
-
-        [data-role='action-area-extra-content'] {
-          margin-top: calc(
-            var(--action-area-margin-x) - var(--action-area-margin-y)
-          );
-          margin-bottom: calc(4px + var(--action-area-margin-y, 20px));
-        }
-      `;
     case 'medium':
       return css`
-        width: 400px;
+        width: 360px;
         min-width: 320px;
         max-width: 100%;
         height: initial;
@@ -280,23 +240,23 @@ const modalContainerSize = (
           height: 480px;
         `}
 
-        --modal-popup-border-radius: 12px;
-        --modal-content-margin: 20px;
+        --modal-popup-border-radius: 24px;
+
         --modal-navigation-padding-x: 24px;
         --modal-navigation-padding-y: 24px;
 
-        --action-area-margin-x: var(--modal-content-margin);
-        --action-area-margin-y: var(--modal-content-margin);
+        --modal-content-margin-x: 28px;
+        --modal-content-margin-y: 24px;
+
+        --action-area-margin-x: 24px;
+        --action-area-margin-y: 20px;
 
         [data-component='modal-navigation'] {
-          --tab-list-padding: var(--modal-content-margin);
+          --tab-list-padding: var(--modal-content-margin-x);
         }
 
         [data-role='action-area-extra-content'] {
-          margin-top: calc(
-            var(--action-area-margin-x) - var(--action-area-margin-y)
-          );
-          margin-bottom: calc(4px + var(--action-area-margin-y, 20px));
+          margin-bottom: var(--action-area-margin-y, 20px);
         }
       `;
     case 'large':
@@ -312,23 +272,23 @@ const modalContainerSize = (
           height: 560px;
         `}
 
-        --modal-popup-border-radius: 20px;
-        --modal-content-margin: 24px;
+        --modal-popup-border-radius: 24px;
+
         --modal-navigation-padding-x: 24px;
         --modal-navigation-padding-y: 24px;
 
-        --action-area-margin-x: var(--modal-content-margin);
-        --action-area-margin-y: var(--modal-content-margin);
+        --modal-content-margin-x: 28px;
+        --modal-content-margin-y: 24px;
+
+        --action-area-margin-x: 24px;
+        --action-area-margin-y: 20px;
 
         [data-component='modal-navigation'] {
-          --tab-list-padding: var(--modal-content-margin);
+          --tab-list-padding: var(--modal-content-margin-x);
         }
 
         [data-role='action-area-extra-content'] {
-          margin-top: calc(
-            var(--action-area-margin-x) - var(--action-area-margin-y)
-          );
-          margin-bottom: var(--action-area-margin-y);
+          margin-bottom: var(--action-area-margin-y, 20px);
         }
       `;
     case 'xlarge':
@@ -344,24 +304,24 @@ const modalContainerSize = (
           height: 640px;
         `}
 
-        --modal-popup-border-radius: 20px;
-        --modal-content-margin: 32px;
+        --modal-popup-border-radius: 24px;
+
         --modal-navigation-padding-x: 24px;
         --modal-navigation-padding-y: 24px;
 
-        --action-area-margin-x: var(--modal-content-margin);
-        --action-area-margin-y: 24px;
+        --modal-content-margin-x: 28px;
+        --modal-content-margin-y: 24px;
+
+        --action-area-margin-x: 24px;
+        --action-area-margin-y: 20px;
         --action-area-extra-content-margin: var(--action-area-margin, 20px);
 
         [data-component='modal-navigation'] {
-          --tab-list-padding: var(--modal-content-margin);
+          --tab-list-padding: var(--modal-content-margin-x);
         }
 
         [data-role='action-area-extra-content'] {
-          margin-top: calc(
-            var(--action-area-margin-x) - var(--action-area-margin-y)
-          );
-          margin-bottom: var(--action-area-margin-y);
+          margin-bottom: var(--action-area-margin-y, 20px);
         }
       `;
   }
@@ -371,6 +331,19 @@ const modalContainerVariant = (variant: ModalContainerProps['variant']) => {
   switch (variant) {
     case 'full':
       return css`
+        --modal-navigation-padding-x: 20px;
+        --modal-navigation-padding-y: 20px;
+
+        --modal-content-margin-x: 24px;
+        --modal-content-margin-y: 20px;
+
+        --action-area-margin-x: 20px;
+
+        --modal-content-default-padding-top: var(
+          --modal-content-margin-y,
+          24px
+        );
+        --modal-content-default-padding-bottom: 0px;
         min-width: initial;
         max-height: initial;
         max-width: 100%;
@@ -407,7 +380,9 @@ const modalContainerVariant = (variant: ModalContainerProps['variant']) => {
       `;
     case 'popup':
       return css`
-        border-radius: var(--modal-popup-border-radius, 12px);
+        --modal-content-default-padding-top: 0px;
+        --modal-content-default-padding-bottom: 0px;
+        border-radius: var(--modal-popup-border-radius, 24px);
         animation: none;
         max-height: min(760px, 100%);
         padding: initial;
@@ -442,10 +417,14 @@ const modalContainerVariant = (variant: ModalContainerProps['variant']) => {
         --modal-default-max-height: calc(
           100% - env(safe-area-inset-top, 0px) - 40px
         );
+        --modal-content-default-padding-top: var(
+          --modal-content-margin-y,
+          24px
+        );
+        --modal-content-default-padding-bottom: 0px;
         padding: 0px 0px env(safe-area-inset-bottom, 0px) 0px;
-        height: var(--modal-max-height, auto);
         max-height: var(--modal-max-height, var(--modal-default-max-height));
-        border-radius: 12px 12px 0px 0px;
+        border-radius: 32px 32px 0px 0px;
         max-width: 480px;
         width: 100%;
         min-width: initial;
@@ -520,6 +499,7 @@ const modalContainerBottomResize = (
        * changes the `BOTTOM_SHEET_SETTLE_TRANSITION` curve takes over.
        */
       return css`
+        height: var(--modal-max-height, auto);
         transition:
           transform ${BOTTOM_SHEET_SETTLE_TRANSITION},
           height ${BOTTOM_SHEET_SETTLE_TRANSITION},
@@ -538,9 +518,12 @@ const modalContainerBottomResize = (
         }
       `;
     case 'fixed':
+      return null;
     case 'hug':
     default:
-      return null;
+      return css`
+        height: var(--modal-max-height, auto);
+      `;
   }
 };
 
@@ -735,7 +718,6 @@ export const modalNavigationContentStyle = (
         position: relative;
         width: 100%;
         justify-content: center;
-        padding-block: 2px;
         gap: 12px;
       `;
   }
@@ -784,12 +766,17 @@ export const modalNavigationRightIconStyle = (
 ) => {
   switch (variant) {
     case 'normal':
-    case 'floating':
       return css`
         position: absolute;
         right: 0px;
         top: 50%;
         transform: translateY(-50%);
+      `;
+    case 'floating':
+      return css`
+        position: absolute;
+        right: 0px;
+        top: auto;
       `;
   }
 };
@@ -799,15 +786,30 @@ export const modalNavigationLeftIconStyle = (
 ) => {
   switch (variant) {
     case 'normal':
-    case 'floating':
       return css`
         position: absolute;
         left: 0px;
         top: 50%;
         transform: translateY(-50%);
       `;
+    case 'floating':
+      return css`
+        position: absolute;
+        left: 0px;
+        top: auto;
+      `;
   }
 };
+
+/*
+ * Lays the 36px background button out in the same 24×24 slot as the normal
+ * button (whose interaction area overflows its 24px icon), overflowing it from
+ * the center so toggling `background` doesn't shift the icon.
+ */
+export const modalNavigationBackgroundButtonStyle = css`
+  flex-shrink: 0;
+  margin: -6px;
+`;
 
 export const modalNavigationButtonTextStyle = css`
   padding: 0px;
@@ -833,6 +835,7 @@ export const modalGrabberStyle = (theme: Theme) => css`
   transform: translate3d(0, 0, 0);
   z-index: 10;
   touch-action: pan-y;
+  user-select: none;
 
   &::before {
     content: '';
@@ -857,34 +860,96 @@ export const modalGrabberStyle = (theme: Theme) => css`
 `;
 
 export const modalContentStyle =
-  ({ gap, xs, sm, md, lg, xl }: ModalContentProps) =>
+  ({
+    gap,
+    verticalPadding,
+    horizontalPadding,
+    xs,
+    sm,
+    md,
+    lg,
+    xl,
+  }: ModalContentProps) =>
   (theme: Theme) => css`
     width: 100%;
-    padding-top: var(--modal-content-margin, 20px);
-    padding-bottom: var(--modal-content-margin, 20px);
+    ${modalContentMarginStyle({ gap, verticalPadding, horizontalPadding })}
 
-    ${gap !== undefined
-      ? css`
-          gap: calc(var(--modal-content-margin, 20px));
-        `
-      : css`
-          gap: ${toCssValue(gap)};
-        `}
+    ${verticalPadding === undefined &&
+    css`
+      padding-top: var(--modal-content-default-padding-top, 0px);
+      padding-bottom: var(--modal-content-default-padding-bottom, 0px);
+    `}
 
     ${createResponsiveStyle(
       { xs, sm, md, lg, xl },
       theme,
     )(
       (params) => css`
-        ${params?.gap !== undefined &&
-        css`
-          gap: ${toCssValue(params.gap)};
-        `}
+        ${modalContentMarginStyle({
+          gap: params?.gap,
+          verticalPadding: params?.verticalPadding,
+          horizontalPadding: params?.horizontalPadding,
+        })}
         ${params?.sx}
       `,
     )}
   `;
 
-export const modalContentItemStyle = () => css`
-  padding: 0px calc(var(--modal-content-margin, 20px));
-`;
+const modalContentMarginStyle = ({
+  gap,
+  verticalPadding,
+  horizontalPadding,
+}: Pick<
+  ModalContentProps,
+  'gap' | 'verticalPadding' | 'horizontalPadding'
+>) => {
+  const getVerticalPaddingStyle = () => {
+    switch (verticalPadding) {
+      case 'top-only':
+        return css`
+          padding-top: var(--modal-content-margin-y, 24px);
+          padding-bottom: 0px;
+        `;
+      case 'bottom-only':
+        return css`
+          padding-top: 0px;
+          padding-bottom: var(--modal-content-margin-y, 24px);
+        `;
+      case 'both':
+        return css`
+          padding-top: var(--modal-content-margin-y, 24px);
+          padding-bottom: var(--modal-content-margin-y, 24px);
+        `;
+      case 'none':
+        return css`
+          padding-top: 0px;
+          padding-bottom: 0px;
+        `;
+    }
+  };
+
+  const getHorizontalPaddingStyle = () => {
+    switch (horizontalPadding) {
+      case 'both':
+        return css`
+          padding-left: var(--modal-content-margin-x, 20px);
+          padding-right: var(--modal-content-margin-x, 20px);
+        `;
+      case 'none':
+        return css`
+          padding-left: 0px;
+          padding-right: 0px;
+        `;
+    }
+  };
+
+  return css`
+    ${getVerticalPaddingStyle()}
+    ${getHorizontalPaddingStyle()}
+
+   ${gap !== undefined &&
+    css`
+      gap: ${toCssValue(gap)};
+    `}
+  `;
+};
