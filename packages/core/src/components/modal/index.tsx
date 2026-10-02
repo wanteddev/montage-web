@@ -322,6 +322,7 @@ const ModalContainer = forwardRef(
         <Box
           data-snap={snap}
           data-largest-undimmed-snap={largestUndimmedSnap}
+          data-status={open ? 'open' : 'close'}
           {...wrapperProps}
           ref={composedRefs}
           sx={[

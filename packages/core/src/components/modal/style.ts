@@ -61,8 +61,13 @@ export const modalContainerWrapperStyle =
     left: 0px;
     top: 0px;
 
+    /*
+     * \`data-status='close'\`: with \`forceMount\` the full-viewport wrapper stays
+     * mounted after close and would otherwise swallow every click on the page.
+     */
     &[data-snap='peek'],
-    &[data-largest-undimmed-snap='half'][data-snap='half'] {
+    &[data-largest-undimmed-snap='half'][data-snap='half'],
+    &[data-status='close'] {
       pointer-events: none;
     }
 
