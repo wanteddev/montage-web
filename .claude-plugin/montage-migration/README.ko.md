@@ -48,7 +48,9 @@ Montage(Wanted Design System for Web) 메이저 버전 간 마이그레이션을
    슬롯이 값을 적용하는 variant 의 아이콘 버튼은 3.x 의 `size` / `interactionOverflow` 를 제거),
    TopNavigation / ModalNavigation 변경 대응(`ModalClose` → `ModalNavigationButton variant="close-button"`,
    `icon` / `text` → `icon-button` / `text-button` variant, ModalNavigation `display` →
-   `emphasized`, 모달 navigation DOM 식별자).
+   `emphasized`, 모달 navigation DOM 식별자), Modal 레이아웃·여백 변경 대응(ModalContainer
+   `size="small"` → `medium`, container별 ModalNavigation 기본 variant, ModalContent
+   `horizontalPadding` / `verticalPadding`, `--modal-content-margin` → `-x` / `-y`).
 4. **최종 검증** — 잔여 패턴 grep, install/typecheck/lint/build/tests, 결과 요약.
 
 codemod는 순서에 민감하고 두 번 실행하면 안 됩니다(`form-control-migration` 재실행 시

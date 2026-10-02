@@ -57,7 +57,7 @@ const Button = forwardRef(
       isUnsupportedNegativeOutlined
     ) {
       console.error(
-        'Button: color="negative" is not supported with variant="outlined". Falling back to color="primary".',
+        '[Montage] Button color="negative" is not supported with variant="outlined". Falling back to color="primary".',
       );
     }
 

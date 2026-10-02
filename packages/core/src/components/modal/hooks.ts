@@ -296,6 +296,13 @@ export const useSnapLifecycle = ({
   // When the modal opens, seed snap from defaultSnap (flexible) or 'full'.
   useEffect(() => {
     if (!isBottom || !isOpen) return;
+
+    // A drag-dismiss closes without `applySnap`, leaving the dragged
+    // `--modal-max-height` inline. Cleared here rather than on close so the
+    // exit transition keeps the dragged height; only matters with
+    // `forceMount`, where the container survives between opens.
+    containerRef.current?.style.removeProperty('--modal-max-height');
+
     if (snapRef.current === 'peek') return;
 
     if (isFlexible) {
@@ -360,7 +367,6 @@ type UseDraggableProps = Pick<
   dimmerRef: RefObject<HTMLDivElement | null>;
   snap: ModalBottomSheetSnap;
   setSnap: (snap: ModalBottomSheetSnap) => void;
-  setIsBottomSheet: (isBottomSheet: boolean) => void;
 };
 
 export const useDraggable = ({
@@ -379,18 +385,18 @@ export const useDraggable = ({
   dimmerRef,
   snap,
   setSnap,
-  setIsBottomSheet,
 }: UseDraggableProps) => {
-  const { isBottom, isFlexible, isEnabled } = useResponsiveBottomSheetProps({
-    variant: givenVariant,
-    handle: givenHandle,
-    resize: givenResize,
-    xs,
-    sm,
-    md,
-    lg,
-    xl,
-  });
+  const { variant, isBottom, isFlexible, isEnabled } =
+    useResponsiveBottomSheetProps({
+      variant: givenVariant,
+      handle: givenHandle,
+      resize: givenResize,
+      xs,
+      sm,
+      md,
+      lg,
+      xl,
+    });
 
   const context = useModalContext(MODAL_NAME);
 
@@ -451,10 +457,6 @@ export const useDraggable = ({
   // end of a slow drag and confuse the velocity-direction filter.
   const peakDiffYDown = useRef(0);
   const peakDiffYUp = useRef(0);
-
-  useEffect(() => {
-    setIsBottomSheet(isBottom);
-  }, [isBottom, setIsBottomSheet]);
 
   const peekHeight = useRef(givenPeekHeight ?? 0);
 
@@ -769,6 +771,10 @@ export const useDraggable = ({
 
       if (grabberTarget || peekTarget) {
         const clientY = isTouchEvent(e) ? e.touches[0]!.clientY : e.clientY;
+        // A mouse drag starting with a selection elsewhere on the page would
+        // pause as soon as the pointer crosses it (see `onMouseMove`), so drop
+        // it up front. Touch keeps the selection for its own handling.
+        if (!isTouchEvent(e)) window.getSelection()?.removeAllRanges();
         beginDrag(container, clientY);
       }
     } catch (err) {
@@ -955,16 +961,26 @@ export const useDraggable = ({
         return;
       }
 
-      // Pause the drag while the current pointer is over the active text
+      // Touch: pause the drag while the current touch is over the active text
       // selection (extending the selection, dragging a handle, drag-and-
       // drop). Skipping `preventDefault` lets the browser's native
       // selection handling run; skipping the style update freezes the
       // sheet at its last position. When the user releases, `onMouseUp`
       // settles from that frozen position. A stale selection that's not
       // under the pointer does not pause anything.
-      const clientX = isTouchEvent(e) ? e.touches[0]!.clientX : e.clientX;
-      const clientYCheck = isTouchEvent(e) ? e.touches[0]!.clientY : e.clientY;
-      if (isTouchInsideTextSelection(clientX, clientYCheck)) return;
+      //
+      // Mouse drags never yield to a selection: `preventDefault` on
+      // `mousemove` does not stop the browser from extending a selection that
+      // began at `mousedown` (peek drags start on selectable content), and
+      // `mousedown` itself is left alone so inputs in the peek area still take
+      // focus. Clearing it on every move keeps the sheet tracking the pointer.
+      if (isTouchEvent(e)) {
+        const touch = e.touches[0]!;
+        if (isTouchInsideTextSelection(touch.clientX, touch.clientY)) return;
+      } else {
+        const selection = window.getSelection();
+        if (selection && !selection.isCollapsed) selection.removeAllRanges();
+      }
 
       e.preventDefault();
 
@@ -1124,6 +1140,7 @@ export const useDraggable = ({
   }, [context.innerContainer, isFlexible, isEnabled]);
 
   return {
+    resolvedVariant: variant ?? givenVariant ?? 'popup',
     isBottomSheetWithHandle: isEnabled,
     collapseToPeekOrClose,
     onMouseDown,

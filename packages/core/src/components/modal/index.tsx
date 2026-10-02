@@ -51,10 +51,10 @@ import {
 import {
   modalContainerStyle,
   modalContainerWrapperStyle,
-  modalContentItemStyle,
   modalContentStyle,
   modalDimmerStyle,
   modalGrabberStyle,
+  modalNavigationBackgroundButtonStyle,
   modalNavigationButtonTextStyle,
   modalNavigationContentStyle,
   modalNavigationFloatingBackgroundStyle,
@@ -185,7 +185,6 @@ const ModalContainer = forwardRef(
 
     const dimmerRef = useRef<HTMLDivElement>(null);
 
-    const [isBottomSheet, setIsBottomSheet] = useState(false);
     const [snap = defaultSnap, setSnap] = useControllableState({
       prop: snapProp,
       defaultProp: defaultSnap,
@@ -214,18 +213,6 @@ const ModalContainer = forwardRef(
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isPresent]);
 
-    // Edge case: when a responsive `variant` flips away from `bottom` (e.g.
-    // `variant="bottom" sm={{ variant: 'popup' }}`) while the sheet is in
-    // `peek`, peek is no longer a valid state for the new variant — reset
-    // snap to `full` and close.
-    useEffect(() => {
-      if (!isBottomSheet && open && snap === 'peek') {
-        setSnap(defaultSnap);
-        onOpenChange(false);
-      }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isBottomSheet, open, snap, onOpenChange]);
-
     const composedRefs = useComposedRefs<HTMLDivElement>(
       wrapperProps?.ref as RefObject<HTMLDivElement | null> | undefined,
       wrapperRef,
@@ -236,25 +223,40 @@ const ModalContainer = forwardRef(
       ref as ForwardedRef<HTMLDivElement>,
     );
 
-    const { isBottomSheetWithHandle, collapseToPeekOrClose, ...dragProps } =
-      useDraggable({
-        peekHeight,
-        variant,
-        resize,
-        handle,
-        defaultSnap,
-        xs,
-        sm,
-        md,
-        lg,
-        xl,
-        dimmerRef,
-        snap,
-        enableHalfSnapScroll,
-        largestUndimmedSnap,
-        setSnap,
-        setIsBottomSheet,
-      });
+    const {
+      resolvedVariant,
+      isBottomSheetWithHandle,
+      collapseToPeekOrClose,
+      ...dragProps
+    } = useDraggable({
+      peekHeight,
+      variant,
+      resize,
+      handle,
+      defaultSnap,
+      xs,
+      sm,
+      md,
+      lg,
+      xl,
+      dimmerRef,
+      snap,
+      enableHalfSnapScroll,
+      largestUndimmedSnap,
+      setSnap,
+    });
+
+    // Edge case: when a responsive `variant` flips away from `bottom` (e.g.
+    // `variant="bottom" sm={{ variant: 'popup' }}`) while the sheet is in
+    // `peek`, peek is no longer a valid state for the new variant — reset
+    // snap to `full` and close.
+    useEffect(() => {
+      if (resolvedVariant !== 'bottom' && open && snap === 'peek') {
+        setSnap(defaultSnap);
+        onOpenChange(false);
+      }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [resolvedVariant, open, snap, onOpenChange]);
 
     const modalNavigationHeight =
       useSize(
@@ -321,6 +323,7 @@ const ModalContainer = forwardRef(
         <Box
           data-snap={snap}
           data-largest-undimmed-snap={largestUndimmedSnap}
+          data-status={open ? 'open' : 'close'}
           {...wrapperProps}
           ref={composedRefs}
           sx={[
@@ -453,7 +456,10 @@ const ModalContainer = forwardRef(
                         />
                       )}
 
-                      <ModalScrollProvider sticky={sticky}>
+                      <ModalScrollProvider
+                        sticky={sticky}
+                        variant={resolvedVariant}
+                      >
                         {children}
                       </ModalScrollProvider>
                     </FlexBox>
@@ -505,6 +511,7 @@ ModalDimmer.displayName = MODAL_DIMMER_NAME;
 
 const ModalScrollProvider = ({
   children,
+  variant,
   sticky,
 }: ModalScrollProviderProps) => {
   const { innerContainer } = useModalContext('ModalContextProviders');
@@ -551,6 +558,7 @@ const ModalScrollProvider = ({
     <ModalScrollContainerProvider
       actionAreaSticky={sticky && actionAreaSticky}
       navigationSticky={sticky && navigationSticky}
+      variant={variant}
     >
       {children}
     </ModalScrollContainerProvider>
@@ -563,7 +571,7 @@ const ModalNavigation = forwardRef<
 >(
   (
     {
-      variant = 'normal',
+      variant: givenVariant,
       leadingContent,
       trailingContent = <ModalNavigationButton variant="close-button" />,
       toolbar,
@@ -579,9 +587,21 @@ const ModalNavigation = forwardRef<
     ref,
   ) => {
     const { titleId } = useModalContext(MODAL_NAVIGATION_NAME);
-    const { navigationSticky } = useModalScrollContainerContext() || {};
+    const { navigationSticky, variant: modalVariant } =
+      useModalScrollContainerContext() || {};
 
     const background = originBackground ?? navigationSticky;
+
+    if (process.env.NODE_ENV !== 'production') {
+      if (modalVariant !== 'full' && givenVariant === 'normal') {
+        console.warn(
+          `[Montage] The "normal" variant is not supported in the "${modalVariant}" modal variant. Please use "emphasized", "floating", or "search" instead.`,
+        );
+      }
+    }
+
+    const variant: ModalNavigationProps['variant'] =
+      givenVariant ?? (modalVariant === 'full' ? 'normal' : 'emphasized');
 
     return (
       <ModalNavigationProvider variant={variant}>
@@ -743,21 +763,27 @@ const ModalNavigationButton = forwardRef(
     );
     const { onOpenChange } = useModalContext(MODAL_NAVIGATION_BUTTON_NAME);
 
+    // The floating background button has a fixed spec (36px circle / 24px icon),
+    // so the given `size` is ignored.
+    const iconButtonProps =
+      navigationVariant === 'floating' && background
+        ? ({
+            variant: 'background',
+            size: 36,
+            sx: [modalNavigationBackgroundButtonStyle, props.sx],
+          } as const)
+        : ({ variant: 'normal', size: size ?? 'xlarge' } as const);
+
     switch (variant) {
       case 'icon-button':
       case 'back-button':
         return (
           <IconButton
             interactionEffect="dim"
-            size={size ?? 'xlarge'}
             interactionOverflow
             aria-label={variant === 'back-button' ? 'Go back' : undefined}
             {...props}
-            variant={
-              navigationVariant === 'floating' && background
-                ? 'background'
-                : 'normal'
-            }
+            {...iconButtonProps}
             alternative={alternative}
             data-component="modal-navigation-button"
             ref={ref}
@@ -769,15 +795,10 @@ const ModalNavigationButton = forwardRef(
         return (
           <IconButton
             interactionEffect="dim"
-            size={size ?? 'xlarge'}
             interactionOverflow
             aria-label="Close dialog"
             {...props}
-            variant={
-              navigationVariant === 'floating' && background
-                ? 'background'
-                : 'normal'
-            }
+            {...iconButtonProps}
             onClick={composeEventHandlers(props.onClick, () =>
               onOpenChange(false),
             )}
@@ -817,7 +838,9 @@ const ModalContent = forwardRef<
 >(
   (
     {
-      gap = 'calc(var(--modal-content-margin, 20px))',
+      gap = 'var(--modal-content-margin-y, 24px)',
+      verticalPadding,
+      horizontalPadding = 'both',
       xs,
       sm,
       md,
@@ -843,6 +866,8 @@ const ModalContent = forwardRef<
           {...props}
           sx={[
             modalContentStyle({
+              verticalPadding,
+              horizontalPadding,
               gap,
               xs,
               sm,
@@ -865,14 +890,7 @@ const ModalContentItem = forwardRef<
   DefaultComponentPropsInternal<ModalContentItemProps, 'div'>
 >((props, ref) => {
   return (
-    <FlexBox
-      ref={ref}
-      as="div"
-      gap="12px"
-      flexDirection="column"
-      {...props}
-      sx={[modalContentItemStyle, props.sx]}
-    />
+    <FlexBox ref={ref} as="div" gap="12px" flexDirection="column" {...props} />
   );
 });
 
