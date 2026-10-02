@@ -710,7 +710,6 @@ export const modalNavigationContentStyle = (
         position: relative;
         width: 100%;
         justify-content: center;
-        padding-block: 2px;
         gap: 12px;
       `;
   }
