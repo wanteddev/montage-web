@@ -66,6 +66,14 @@ export const modalContainerWrapperStyle =
       pointer-events: none;
     }
 
+    [data-role='modal-container-scroll-area']:has(
+      [data-component='modal-navigation']
+        [data-role='modal-navigation-floating-background']
+    ) {
+      background: inherit;
+      will-change: backdrop-filter;
+    }
+
     @supports (height: 100dvh) {
       height: 100dvh;
     }
@@ -100,13 +108,6 @@ const modalContainerWrapperVariant = (
           pointer-events: none;
           transition: initial;
         }
-
-        [data-role='modal-container-scroll-area']:has(
-          [data-component='modal-navigation'][data-variant='floating']
-        ) {
-          background: initial;
-          will-change: unset;
-        }
       `;
     case 'popup':
       return css`
@@ -119,13 +120,6 @@ const modalContainerWrapperVariant = (
           pointer-events: none;
           transition: initial;
         }
-
-        [data-role='modal-container-scroll-area']:has(
-          [data-component='modal-navigation'][data-variant='floating']
-        ) {
-          background: initial;
-          will-change: unset;
-        }
       `;
     case 'bottom':
       return css`
@@ -137,13 +131,6 @@ const modalContainerWrapperVariant = (
           opacity: 0;
           pointer-events: none;
           transition: opacity ${BOTTOM_SHEET_SETTLE_TRANSITION};
-        }
-
-        [data-role='modal-container-scroll-area']:has(
-          [data-component='modal-navigation'][data-variant='floating']
-        ) {
-          background: inherit;
-          will-change: backdrop-filter;
         }
       `;
   }
@@ -423,7 +410,6 @@ const modalContainerVariant = (variant: ModalContainerProps['variant']) => {
         );
         --modal-content-default-padding-bottom: 0px;
         padding: 0px 0px env(safe-area-inset-bottom, 0px) 0px;
-        height: var(--modal-max-height, auto);
         max-height: var(--modal-max-height, var(--modal-default-max-height));
         border-radius: 32px 32px 0px 0px;
         max-width: 480px;
@@ -500,6 +486,7 @@ const modalContainerBottomResize = (
        * changes the `BOTTOM_SHEET_SETTLE_TRANSITION` curve takes over.
        */
       return css`
+        height: var(--modal-max-height, auto);
         transition:
           transform ${BOTTOM_SHEET_SETTLE_TRANSITION},
           height ${BOTTOM_SHEET_SETTLE_TRANSITION},
@@ -518,9 +505,12 @@ const modalContainerBottomResize = (
         }
       `;
     case 'fixed':
+      return null;
     case 'hug':
     default:
-      return null;
+      return css`
+        height: var(--modal-max-height, auto);
+      `;
   }
 };
 
@@ -764,12 +754,17 @@ export const modalNavigationRightIconStyle = (
 ) => {
   switch (variant) {
     case 'normal':
-    case 'floating':
       return css`
         position: absolute;
         right: 0px;
         top: 50%;
         transform: translateY(-50%);
+      `;
+    case 'floating':
+      return css`
+        position: absolute;
+        right: 0px;
+        top: auto;
       `;
   }
 };
@@ -779,12 +774,17 @@ export const modalNavigationLeftIconStyle = (
 ) => {
   switch (variant) {
     case 'normal':
-    case 'floating':
       return css`
         position: absolute;
         left: 0px;
         top: 50%;
         transform: translateY(-50%);
+      `;
+    case 'floating':
+      return css`
+        position: absolute;
+        left: 0px;
+        top: auto;
       `;
   }
 };
