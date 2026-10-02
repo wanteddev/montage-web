@@ -1083,7 +1083,7 @@ and M17's scans are the wider net.
 
 ## After all 9 steps
 
-Proceed to `manual-migrations.md` (all M-sections, M1–M19), then final verification:
+Proceed to `manual-migrations.md` (all M-sections, M1–M20), then final verification:
 
 1. Each step's verify grep zero, with its documented exceptions (step ①:
    `@wanteddev/montage-mcp`; step ⑥: hits inside the state file's `excludeFiles`; step ⑧:
@@ -1123,4 +1123,6 @@ Proceed to `manual-migrations.md` (all M-sections, M1–M19), then final verific
    interaction layer (see M18); and every screen M18's `<IconButton\b` scan changed, plus every
    slot `IconButton` hit, for its layout (see M18), and every modal navigation, whose padding
    is now 24px at every size and whose `display` variant became `emphasized`, and every search
-   navigation, whose unsized `SearchField` shrank from 48px to 40px (see M19) — behavioral and visual changes, not just renames.
+   navigation, whose unsized `SearchField` shrank from 48px to 40px (see M19), and every modal,
+   whose radius, content margins, `ModalContent` padding defaults and `popup` / `bottom`
+   navigation title alignment changed (see M20) — behavioral and visual changes, not just renames.

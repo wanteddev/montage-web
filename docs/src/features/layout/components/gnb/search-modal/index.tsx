@@ -99,6 +99,7 @@ export const DocSearchModal = ({
             <ModalNavigationButton
               variant="back-button"
               aria-label="Back"
+              onClick={() => onOpenChange?.(false)}
               sx={modalCloseButtonStyle}
             >
               <IconChevronLeft />

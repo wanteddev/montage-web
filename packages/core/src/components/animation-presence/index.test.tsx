@@ -67,7 +67,11 @@ describe('when given animation presence component', () => {
 
     const animation = {
       playState: 'running',
-      effect: { updateTiming: vi.fn(), target: document.createElement('div') },
+      effect: {
+        updateTiming: vi.fn(),
+        getTiming: () => ({ fill: 'auto' }),
+        target: document.createElement('div'),
+      },
       addEventListener: (
         type: string,
         cb: (...args: Array<unknown>) => void,
@@ -115,6 +119,49 @@ describe('when given animation presence component', () => {
     });
   });
 
+  it('should restore the original fill when re-presented mid-exit', () => {
+    const updateTiming = vi.fn();
+    const animation = {
+      playState: 'running',
+      effect: {
+        updateTiming,
+        getTiming: () => ({ fill: 'backwards' }),
+        target: document.createElement('div'),
+      },
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn(),
+    } as unknown as Animation;
+
+    (
+      HTMLElement.prototype as unknown as {
+        getAnimations: (o?: GetAnimationsOptions) => Array<Animation>;
+      }
+    ).getAnimations = vi.fn(() => [animation]);
+
+    const { rerender } = render(
+      <AnimationPresence present>
+        <div data-testid="content" />
+      </AnimationPresence>,
+    );
+
+    rerender(
+      <AnimationPresence present={false}>
+        <div data-testid="content" />
+      </AnimationPresence>,
+    );
+
+    expect(updateTiming).toHaveBeenLastCalledWith({ fill: 'forwards' });
+
+    rerender(
+      <AnimationPresence present>
+        <div data-testid="content" />
+      </AnimationPresence>,
+    );
+
+    expect(updateTiming).toHaveBeenLastCalledWith({ fill: 'backwards' });
+    expect(screen.getByTestId('content')).toBeInTheDocument();
+  });
+
   it('should pass options to getAnimations', () => {
     const getAnimations = vi.fn(() => [] as Array<Animation>);
     (
@@ -154,6 +201,7 @@ describe('when given animation presence component', () => {
       playState: 'running',
       effect: {
         updateTiming: vi.fn(),
+        getTiming: () => ({ fill: 'auto' }),
         target,
       },
       addEventListener: vi.fn(),
@@ -198,6 +246,7 @@ describe('when given animation presence component', () => {
       playState: 'running',
       effect: {
         updateTiming: vi.fn(),
+        getTiming: () => ({ fill: 'auto' }),
         target,
       },
       addEventListener: (
