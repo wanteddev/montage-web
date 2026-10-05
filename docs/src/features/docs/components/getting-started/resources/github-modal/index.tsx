@@ -34,7 +34,7 @@ const GithubModal = ({ open, onOpenChange }: Props) => {
         sx={modalContainerStyle}
         dimmer={<ModalDimmer sx={modalDimmerStyle} />}
       >
-        <ModalContent sx={{ paddingBottom: '0px' }}>
+        <ModalContent verticalPadding="top-only">
           <ModalContentItem gap="12px">
             <WithInteraction>
               <Box

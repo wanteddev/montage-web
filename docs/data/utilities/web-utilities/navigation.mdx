@@ -14,7 +14,7 @@ import { css } from '@montage-ui/core';
 import type { Theme } from '@montage-ui/core';
 
 export const exampleStyle = (theme: Theme) => css`
-  ${theme.platform.ios.navigation}
+  ${theme.semantic.platform.ios.navigation}
 `;
 ```
 
@@ -22,7 +22,7 @@ export const exampleStyle = (theme: Theme) => css`
 
 ```css
 .montage-exampleStyle1 {
-  background-color: rgba(var(--semantic-surface-elevated-primary-rgb), 0.74);
+  background-color: rgba(var(--semantic-surface-elevated-primary-rgb), 0.88);
   backdrop-filter: blur(32px);
 }
 ```
