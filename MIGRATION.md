@@ -1663,6 +1663,30 @@ npx @montage-ui/codemod@latest list-cell-variant-migration src
 
 `TopNavigationButton`, `ModalNavigationButton`의 아이콘 계열 variant(`icon-button` / `back-button` / `close-button`)는 내부 `IconButton`에 `interactionEffect="dim"`을 기본 적용합니다. hover / press 시 배경 레이어 대신 아이콘 색상이 어두워지는 방식으로 바뀌었습니다. 별도 마이그레이션은 필요 없습니다.
 
+### ContentBadge
+
+#### `variant="outlined"` 배경 투명화
+
+`variant="outlined"`의 배경색이 `background.neutral.primary`(흰색 계열)에서 `transparent`로 바뀌었습니다. 이제 부모 요소의 배경이 배지 안쪽에 그대로 비칩니다.
+
+| AS-IS                                          | TO-BE                           |
+| ---------------------------------------------- | ------------------------------- |
+| `background-color: background.neutral.primary` | `background-color: transparent` |
+
+- 흰색이 아닌 배경(이미지, 컬러 surface 등) 위에 outlined 배지를 올려 흰 바탕으로 가독성을 확보하던 곳은 배경이 비쳐 보이므로 QA가 필요합니다.
+- 기존처럼 불투명한 배경이 필요하면 `sx`로 직접 지정하세요.
+
+```tsx
+<ContentBadge
+  variant="outlined"
+  sx={(theme) => ({
+    backgroundColor: theme.semantic.background.neutral.primary,
+  })}
+>
+  배지
+</ContentBadge>
+```
+
 ## 3.0.0 (2025-11-12)
 
 ### Button

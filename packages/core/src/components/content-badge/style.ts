@@ -89,7 +89,7 @@ const contentBadgeColorVariant = (
       `;
     case 'outlined':
       return css`
-        background-color: ${theme.semantic.background.neutral.primary};
+        background-color: transparent;
         color: ${font};
         box-shadow: inset 0 0 0 1px ${border};
       `;
