@@ -1,4 +1,4 @@
-import { forwardRef, useEffect, useMemo, useRef, useState } from 'react';
+import { forwardRef, useEffect, useId, useMemo, useRef, useState } from 'react';
 import {
   IconCompanyFill,
   IconGraduationFill,
@@ -9,10 +9,25 @@ import { Box } from '@montage-ui/engine';
 import { ImageBase } from '../image-base';
 import { useInheritedSize } from '../../hooks/internal/use-slot-defaults';
 
-import { avatarWrapperStyle, fallbackWrapperStyle } from './style';
+import {
+  avatarWrapperStyle,
+  fallbackIconStyle,
+  fallbackSurfaceStyle,
+  fallbackWrapperStyle,
+} from './style';
 
 import type { DefaultComponentPropsInternal } from '@montage-ui/engine';
 import type { AvatarProps } from './types';
+
+/**
+ * Fallback icon occupies 2/3 of the avatar, centered.
+ */
+const FALLBACK_ICON_RECT = {
+  x: `${100 / 6}%`,
+  y: `${100 / 6}%`,
+  width: `${200 / 3}%`,
+  height: `${200 / 3}%`,
+};
 
 const Avatar = forwardRef<
   HTMLDivElement,
@@ -43,16 +58,18 @@ const Avatar = forwardRef<
     );
     const size = inheritedSize ?? 'small';
 
-    const defaultFallback = useMemo(() => {
+    const FallbackIcon = useMemo(() => {
       switch (variant) {
         case 'person':
-          return <IconPersonFill aria-hidden />;
+          return IconPersonFill;
         case 'academy':
-          return <IconGraduationFill aria-hidden />;
+          return IconGraduationFill;
         case 'company':
-          return <IconCompanyFill aria-hidden />;
+          return IconCompanyFill;
       }
     }, [variant]);
+
+    const fallbackMaskId = useId();
 
     const defaultAltText = useMemo(() => {
       if (Boolean(alt)) {
@@ -114,7 +131,24 @@ const Avatar = forwardRef<
             sx={fallbackWrapperStyle}
             aria-label={props['aria-label'] ?? defaultAltText}
           >
-            {defaultFallback}
+            {/**
+             * The surface is cut out by the icon silhouette (destination-out),
+             * so the icon is drawn directly over the avatar background.
+             */}
+            <svg width="100%" height="100%" aria-hidden>
+              <mask id={fallbackMaskId}>
+                <rect width="100%" height="100%" fill="white" />
+                <FallbackIcon {...FALLBACK_ICON_RECT} color="black" />
+              </mask>
+              <Box
+                as="rect"
+                width="100%"
+                height="100%"
+                mask={`url(#${fallbackMaskId})`}
+                sx={fallbackSurfaceStyle}
+              />
+              <FallbackIcon {...FALLBACK_ICON_RECT} sx={fallbackIconStyle} />
+            </svg>
           </Box>
         )}
         {children}

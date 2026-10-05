@@ -57,17 +57,26 @@ export const avatarWrapperStyle =
     )}
   `;
 
-export const fallbackWrapperStyle = (theme: Theme) => css`
+export const fallbackWrapperStyle = css`
   width: 100%;
   height: 100%;
   border-radius: inherit;
   color: inherit;
   font-size: inherit;
-  background-color: ${theme.semantic.surface.neutral.strong};
+  overflow: hidden;
+
+  & > svg {
+    display: block;
+  }
+`;
+
+export const fallbackSurfaceStyle = (theme: Theme) => css`
+  fill: ${theme.semantic.surface.neutral.strong};
+`;
+
+export const fallbackIconStyle = (theme: Theme) => css`
   color: ${theme.semantic.static.white};
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  opacity: ${theme.opacity[28]};
 `;
 
 const avatarSizeStyle = ({ size, variant }: AvatarProps, theme: Theme) => {
