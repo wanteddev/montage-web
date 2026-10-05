@@ -54,7 +54,8 @@ What it does:
    `icon` / `text` → `icon-button` / `text-button` variants, ModalNavigation `display` →
    `emphasized`, modal navigation DOM identifiers), and Modal layout/spacing changes
    (ModalContainer `size="small"` → `medium`, ModalNavigation default variant by container,
-   ModalContent `horizontalPadding` / `verticalPadding`, `--modal-content-margin` → `-x` / `-y`).
+   ModalContent `horizontalPadding` / `verticalPadding`, `--modal-content-margin` → `-x` / `-y`),
+   and the ContentBadge `outlined` background becoming transparent.
 4. **Verification** — leftover greps, install/typecheck/lint/build/tests, summary.
 
 The codemods are order-sensitive and must not run twice (re-running
