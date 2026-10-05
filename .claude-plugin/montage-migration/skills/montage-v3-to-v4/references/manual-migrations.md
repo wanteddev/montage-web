@@ -1547,6 +1547,26 @@ install lands v4; nothing else here is caught by the typecheck.
   keeps the v4 `-x` / `-y` names out. An un-stripped `--wds-modal-content-margin` is M3's
   `--wds-` scan, not this one.
 
+## M21. ContentBadge outlined background
+
+No codemod covers this section, and nothing here is a type error — the prop surface is unchanged.
+
+- **`variant="outlined"` background is now `transparent`.** v3 filled the outlined badge with
+  `background.neutral.primary` (white in light mode); v4 draws only the border and text, so
+  whatever sits behind the badge shows through. `solid` (the default) is unchanged, and no
+  component slot (ListCell / TextField / TextArea `content-badge`) forces `outlined`. Per hit:
+  - On a `background.neutral.primary`-colored surface → no edit; the result looks the same.
+  - On an image, a colored surface, or a `surface.*` / `background.neutral.secondary` area →
+    ask the user whether to accept the see-through badge (the v4 design) or restore the opaque
+    fill: `sx={(theme) => ({ backgroundColor: theme.semantic.background.neutral.primary })}`.
+
+  Scan **[decision]**: `<ContentBadge[[:space:]][^>]*variant="outlined"` — matches the valid v4
+  shape by design; read each hit's surroundings for the backdrop.
+  Scan **[decision]**: `<ContentBadge([[:space:]>]|$)` — lists every `ContentBadge`, for the
+  multi-line props, `variant={expr}`, spread props objects, and wrappers relaying
+  `ContentBadgeProps['variant']` the line grep above cannot see. Flag every outlined badge for
+  visual QA.
+
 ## Suggested commit boundary
 
 Manual fixes get their own commits, after the codemod phase — with the recommended

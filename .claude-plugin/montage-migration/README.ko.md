@@ -50,7 +50,8 @@ Montage(Wanted Design System for Web) 메이저 버전 간 마이그레이션을
    `icon` / `text` → `icon-button` / `text-button` variant, ModalNavigation `display` →
    `emphasized`, 모달 navigation DOM 식별자), Modal 레이아웃·여백 변경 대응(ModalContainer
    `size="small"` → `medium`, container별 ModalNavigation 기본 variant, ModalContent
-   `horizontalPadding` / `verticalPadding`, `--modal-content-margin` → `-x` / `-y`).
+   `horizontalPadding` / `verticalPadding`, `--modal-content-margin` → `-x` / `-y`),
+   ContentBadge `outlined` 배경 투명화 대응.
 4. **최종 검증** — 잔여 패턴 grep, install/typecheck/lint/build/tests, 결과 요약.
 
 codemod는 순서에 민감하고 두 번 실행하면 안 됩니다(`form-control-migration` 재실행 시
