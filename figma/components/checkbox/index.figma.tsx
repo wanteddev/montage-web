@@ -11,7 +11,7 @@ figma.connect(Checkbox, '<FIGMA_CONTROL_CHECKBOX>', {
   props: {
     disabled: figma.boolean('Disable'),
     size: figma.enum('Size', {
-      Medium: 'medium',
+      Normal: 'medium',
       Small: 'small',
     }),
   },
@@ -25,7 +25,7 @@ figma.connect(Checkbox, '<FIGMA_CONTROL_CHECKBOX>', {
   props: {
     disabled: figma.boolean('Disable'),
     size: figma.enum('Size', {
-      Medium: 'medium',
+      Normal: 'medium',
       Small: 'small',
     }),
   },
@@ -39,7 +39,7 @@ figma.connect(Checkbox, '<FIGMA_CONTROL_CHECKBOX>', {
   props: {
     disabled: figma.boolean('Disable'),
     size: figma.enum('Size', {
-      Medium: 'medium',
+      Normal: 'medium',
       Small: 'small',
     }),
   },
@@ -53,7 +53,10 @@ figma.connect(Checkbox, '<FIGMA_CHECKBOX>', {
   props: {
     disabled: figma.boolean('Disable'),
     bold: figma.boolean('Bold'),
-    label: figma.string('Label'),
+    label: figma.boolean('Label', {
+      true: figma.string('┗ Text\u200B'),
+      false: undefined,
+    }),
     gap: figma.boolean('Tight', {
       true: '10px',
       false: '8px',
@@ -78,7 +81,10 @@ figma.connect(Checkbox, '<FIGMA_CHECKBOX>', {
   props: {
     disabled: figma.boolean('Disable'),
     bold: figma.boolean('Bold'),
-    label: figma.string('Label'),
+    label: figma.boolean('Label', {
+      true: figma.string('┗ Text\u200B'),
+      false: undefined,
+    }),
     gap: figma.boolean('Tight', {
       true: '10px',
       false: '8px',
@@ -103,7 +109,10 @@ figma.connect(Checkbox, '<FIGMA_CHECKBOX>', {
   props: {
     disabled: figma.boolean('Disable'),
     bold: figma.boolean('Bold'),
-    label: figma.string('Label'),
+    label: figma.boolean('Label', {
+      true: figma.string('┗ Text\u200B'),
+      false: undefined,
+    }),
     gap: figma.boolean('Tight', {
       true: '10px',
       false: '8px',
@@ -128,7 +137,10 @@ figma.connect(Checkbox, '<FIGMA_CHECKBOX>', {
   props: {
     disabled: figma.boolean('Disable'),
     bold: figma.boolean('Bold'),
-    label: figma.string('Label'),
+    label: figma.boolean('Label', {
+      true: figma.string('┗ Text\u200B'),
+      false: undefined,
+    }),
     gap: figma.boolean('Tight', {
       true: '10px',
       false: '8px',
@@ -153,7 +165,10 @@ figma.connect(Checkbox, '<FIGMA_CHECKBOX>', {
   props: {
     disabled: figma.boolean('Disable'),
     bold: figma.boolean('Bold'),
-    label: figma.string('Label'),
+    label: figma.boolean('Label', {
+      true: figma.string('┗ Text\u200B'),
+      false: undefined,
+    }),
     gap: figma.boolean('Tight', {
       true: '10px',
       false: '8px',
@@ -178,7 +193,10 @@ figma.connect(Checkbox, '<FIGMA_CHECKBOX>', {
   props: {
     disabled: figma.boolean('Disable'),
     bold: figma.boolean('Bold'),
-    label: figma.string('Label'),
+    label: figma.boolean('Label', {
+      true: figma.string('┗ Text\u200B'),
+      false: undefined,
+    }),
     gap: figma.boolean('Tight', {
       true: '10px',
       false: '8px',

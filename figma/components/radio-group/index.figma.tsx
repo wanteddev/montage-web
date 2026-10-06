@@ -22,7 +22,10 @@ figma.connect(RadioGroupItem, '<FIGMA_CONTROL_RADIO>', {
 figma.connect(RadioGroupItem, '<FIGMA_RADIO>', {
   props: {
     disabled: figma.boolean('Disable'),
-    label: figma.string('Label'),
+    label: figma.boolean('Label', {
+      true: figma.string('┗ Text\u200B'),
+      false: undefined,
+    }),
     gap: figma.boolean('Tight', {
       true: '10px',
       false: '8px',
@@ -45,7 +48,10 @@ figma.connect(RadioGroupItem, '<FIGMA_RADIO>', {
 figma.connect(RadioGroupItem, '<FIGMA_RADIO>', {
   props: {
     disabled: figma.boolean('Disable'),
-    label: figma.string('Label'),
+    label: figma.boolean('Label', {
+      true: figma.string('┗ Text\u200B'),
+      false: undefined,
+    }),
     gap: figma.boolean('Tight', {
       true: '6px',
       false: '4px',

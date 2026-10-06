@@ -11,7 +11,7 @@ figma.connect(CheckMark, '<FIGMA_CONTROL_CHECK_MARK>', {
   props: {
     disabled: figma.boolean('Disable'),
     size: figma.enum('Size', {
-      Medium: 'medium',
+      Normal: 'medium',
       Small: 'small',
     }),
     tight: figma.boolean('Tight'),
@@ -26,7 +26,7 @@ figma.connect(CheckMark, '<FIGMA_CONTROL_CHECK_MARK>', {
   props: {
     disabled: figma.boolean('Disable'),
     size: figma.enum('Size', {
-      Medium: 'medium',
+      Normal: 'medium',
       Small: 'small',
     }),
     tight: figma.boolean('Tight'),
@@ -40,7 +40,10 @@ figma.connect(CheckMark, '<FIGMA_CONTROL_CHECK_MARK>', {
 figma.connect(CheckMark, '<FIGMA_CHECK_MARK>', {
   props: {
     disabled: figma.boolean('Disable'),
-    label: figma.string('Label'),
+    label: figma.boolean('Label', {
+      true: figma.string('┗ Text\u200B'),
+      false: undefined,
+    }),
     gap: figma.boolean('Tight', {
       true: '6px',
       false: '4px',
@@ -64,7 +67,10 @@ figma.connect(CheckMark, '<FIGMA_CHECK_MARK>', {
 figma.connect(CheckMark, '<FIGMA_CHECK_MARK>', {
   props: {
     disabled: figma.boolean('Disable'),
-    label: figma.string('Label'),
+    label: figma.boolean('Label', {
+      true: figma.string('┗ Text\u200B'),
+      false: undefined,
+    }),
     gap: figma.boolean('Tight', {
       true: '6px',
       false: '4px',
@@ -88,7 +94,10 @@ figma.connect(CheckMark, '<FIGMA_CHECK_MARK>', {
 figma.connect(CheckMark, '<FIGMA_CHECK_MARK>', {
   props: {
     disabled: figma.boolean('Disable'),
-    label: figma.string('Label'),
+    label: figma.boolean('Label', {
+      true: figma.string('┗ Text\u200B'),
+      false: undefined,
+    }),
     gap: figma.boolean('Tight', {
       true: '6px',
       false: '4px',
@@ -112,7 +121,10 @@ figma.connect(CheckMark, '<FIGMA_CHECK_MARK>', {
 figma.connect(CheckMark, '<FIGMA_CHECK_MARK>', {
   props: {
     disabled: figma.boolean('Disable'),
-    label: figma.string('Label'),
+    label: figma.boolean('Label', {
+      true: figma.string('┗ Text\u200B'),
+      false: undefined,
+    }),
     gap: figma.boolean('Tight', {
       true: '6px',
       false: '4px',

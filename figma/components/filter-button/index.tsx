@@ -15,7 +15,7 @@ figma.connect(FilterButton, '<FIGMA_FILTER_BUTTON>', {
     }),
     variant: figma.enum('Variant', {
       Solid: 'solid',
-      Outline: 'outlined',
+      Outlined: 'outlined',
     }),
     activeLabel: figma.boolean('Active', {
       true: figma.boolean('Active Label', {
@@ -26,7 +26,7 @@ figma.connect(FilterButton, '<FIGMA_FILTER_BUTTON>', {
     }),
   },
   variant: {
-    State: 'Normal',
+    Expanded: 'False',
   },
   example: ({ children, ...props }) => (
     <FilterButton {...props}>{children}</FilterButton>
@@ -57,7 +57,7 @@ figma.connect(FilterButton, '<FIGMA_FILTER_BUTTON>', {
     }),
   },
   variant: {
-    State: 'Expand',
+    Expanded: 'True',
   },
   example: ({ children, ...props }) => (
     <FilterButton expanded {...props}>

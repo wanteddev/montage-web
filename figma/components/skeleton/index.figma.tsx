@@ -5,9 +5,9 @@ import { Skeleton } from '@montage-ui/core';
 figma.connect(Skeleton, '<FIGMA_SKELETON_TEXT>', {
   props: {
     align: figma.enum('Align', {
-      Left: 'left',
+      Leading: 'left',
       Center: 'center',
-      Right: 'right',
+      Trailing: 'right',
     }),
     width: figma.enum('Length', {
       '100%': '100%',
@@ -25,9 +25,9 @@ figma.connect(Skeleton, '<FIGMA_SKELETON_TEXT>', {
 figma.connect(Skeleton, '<FIGMA_SKELETON_TEXT>', {
   props: {
     align: figma.enum('Align', {
-      Left: 'left',
+      Leading: 'left',
       Center: 'center',
-      Right: 'right',
+      Trailing: 'right',
     }),
     width: figma.enum('Length', {
       '100%': '100%',
@@ -42,27 +42,6 @@ figma.connect(Skeleton, '<FIGMA_SKELETON_TEXT>', {
   example: (props) => (
     <Skeleton
       variant="text"
-      color="semantic.static.white"
-      opacity="opacity.28"
-      {...props}
-    />
-  ),
-});
-
-figma.connect(Skeleton, '<FIGMA_SKELETON_RECTANGLE>', {
-  variant: {
-    Color: 'Normal',
-  },
-  example: (props) => <Skeleton variant="rectangle" {...props} />,
-});
-
-figma.connect(Skeleton, '<FIGMA_SKELETON_RECTANGLE>', {
-  variant: {
-    Color: 'White',
-  },
-  example: (props) => (
-    <Skeleton
-      variant="rectangle"
       color="semantic.static.white"
       opacity="opacity.28"
       {...props}

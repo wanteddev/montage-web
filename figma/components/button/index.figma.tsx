@@ -24,10 +24,12 @@ figma.connect(Button, '<FIGMA_BUTTON>', {
     color: figma.enum('Color', {
       Primary: 'primary',
       Assistive: 'assistive',
+      Negative: 'negative',
     }),
     iconOnly: figma.boolean('Icon Only'),
     disabled: figma.boolean('Disable'),
     size: figma.enum('Size', {
+      Xsmall: 'xsmall',
       Small: 'small',
       Medium: 'medium',
       Large: 'large',
