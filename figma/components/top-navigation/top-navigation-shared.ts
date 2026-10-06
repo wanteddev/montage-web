@@ -1,6 +1,7 @@
 import figma from 'figma';
 
 import { renderIcon } from '../../helpers/icon';
+import { executedImports } from '../modal/collect-imports';
 
 type InstanceHandle = ReturnType<typeof figma.selectedInstance.findInstance>;
 
@@ -29,8 +30,7 @@ export const findFirst = (parent: InstanceHandle, names: Array<string>) => {
 
 /**
  * Renders a nested connected instance and re-declares its imports, because Code
- * Connect forwards imports only one level up. Templates expose their imports via
- * `metadata.props.imports`.
+ * Connect forwards imports only one level up (see `executedImports`).
  */
 export const renderNested = (
   handle: InstanceHandle | undefined,
@@ -38,41 +38,8 @@ export const renderNested = (
   if (!isInstance(handle) || !handle.hasCodeConnect()) {
     return undefined;
   }
-  const { example, metadata } = handle.executeTemplate();
-  return {
-    code: example,
-    imports: (metadata?.props?.imports as Array<string> | undefined) ?? [],
-  };
-};
-
-/**
- * Renders a swapped icon. Our icon batch template exposes
- * `metadata.props.imports`; a remote library icon still carries the published
- * v1 mapping (`@wanteddev/wds-icon`) without it, so its component is derived
- * from the `Name` variant instead of using that legacy snippet.
- */
-const renderNavIcon = (
-  icon: InstanceHandle | undefined,
-): Rendered | undefined => {
-  if (!isInstance(icon)) {
-    return undefined;
-  }
-  if (icon.hasCodeConnect()) {
-    const { metadata } = icon.executeTemplate();
-    if (metadata?.props?.imports) {
-      return renderIcon(icon);
-    }
-  }
-  const name = icon.getPropertyValue('Name');
-  const trimmed = typeof name === 'string' ? name.trim() : '';
-  if (!trimmed || trimmed === 'Null') {
-    return undefined;
-  }
-  const component = `Icon${trimmed.charAt(0).toUpperCase()}${trimmed.slice(1)}`;
-  return {
-    code: figma.tsx`<${component} />`,
-    imports: [`import { ${component} } from '@montage-ui/icon';`],
-  };
+  const executed = handle.executeTemplate();
+  return { code: executed.example, imports: executedImports(executed) };
 };
 
 /**
@@ -90,7 +57,7 @@ const renderButtonIcon = (button: InstanceHandle): Rendered | undefined => {
     )
     .find((layer) => layer.type === 'INSTANCE') as InstanceHandle | undefined;
   return isInstance(wrapper)
-    ? renderNavIcon(wrapper.getInstanceSwap('Icon'))
+    ? renderIcon(wrapper.getInstanceSwap('Icon'))
     : undefined;
 };
 

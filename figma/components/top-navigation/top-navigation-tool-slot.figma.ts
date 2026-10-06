@@ -4,6 +4,8 @@
 
 import figma from 'figma';
 
+import { executedImports } from '../modal/collect-imports';
+
 // The custom toolbar slot. An empty slot (only the Figma placeholder) has no
 // connected instance, so it renders a placeholder comment instead of Figma's
 // raw layer code; connected content is rendered with its imports re-declared.
@@ -11,11 +13,9 @@ const slot = figma.properties.slot('Slot');
 const connected = slot ? slot.connectedInstances : [];
 const imports: Array<string> = [];
 const parts = connected.map((child) => {
-  const { example, metadata } = child.executeTemplate();
-  imports.push(
-    ...((metadata?.props?.imports as Array<string> | undefined) ?? []),
-  );
-  return example;
+  const executed = child.executeTemplate();
+  imports.push(...executedImports(executed));
+  return executed.example;
 });
 const uniqueImports = [...new Set(imports)];
 

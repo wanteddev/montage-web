@@ -80,6 +80,21 @@ export const importLines = (...nameLists: Array<Array<string>>) => {
   ];
 };
 
+/**
+ * Import statements of an executed nested template. Templates re-declare their
+ * imports in `metadata.props.imports`; for one that does not, the components
+ * rendered in its example are imported instead.
+ */
+export const executedImports = ({
+  example,
+  metadata,
+}: {
+  example: unknown;
+  metadata?: { props?: Record<string, unknown> };
+}) =>
+  (metadata?.props?.imports as Array<string> | undefined) ??
+  importLines(collectComponentNames(example));
+
 type Template = {
   id: string;
   imports: Array<string>;

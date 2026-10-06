@@ -4,6 +4,8 @@
 
 import figma from 'figma';
 
+import { executedImports } from '../modal/collect-imports';
+
 const instance = figma.selectedInstance;
 const total = Number(instance.getPropertyValue('Total Count')) || 3;
 const current = String(instance.getPropertyValue('Current Step'));
@@ -33,13 +35,9 @@ const renderSlot = (name: string, placeholder: string) => {
   }
   return connected
     .map((child) => {
-      const { example, metadata } = child.executeTemplate();
-      for (const statement of (metadata?.props?.imports as
-        | Array<string>
-        | undefined) ?? []) {
-        imports.add(statement);
-      }
-      return example;
+      const executed = child.executeTemplate();
+      executedImports(executed).forEach((statement) => imports.add(statement));
+      return executed.example;
     })
     .reduce(
       (joined, code) => figma.tsx`${joined}
