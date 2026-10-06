@@ -120,6 +120,7 @@ const SearchCode = forwardRef<HTMLDivElement, Props>(
             <TooltipTrigger>
               <IconButton
                 size={16}
+                interactionOverflow
                 aria-label="Toggle replace"
                 sx={{
                   marginTop: '6px',
@@ -292,6 +293,7 @@ const SearchCode = forwardRef<HTMLDivElement, Props>(
             <TooltipTrigger>
               <IconButton
                 size={16}
+                interactionOverflow
                 variant="normal"
                 onClick={handleClose}
                 aria-label="Close"

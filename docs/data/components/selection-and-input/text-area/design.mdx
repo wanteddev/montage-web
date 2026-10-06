@@ -17,17 +17,17 @@ updatedAt: 2026-02-11
   
 
 <SectionVariants
-  components={['FormControl', 'TextArea', 'TextAreaContent', 'TextFieldButton', 'FormControlField', 'FormControlMessage', 'FormControlLabel', 'ContentBadge', 'TextButton', 'IconButton']}
+  components={['FormControl', 'TextArea', 'TextAreaContent', 'TextFieldButton', 'FormControlField', 'FormControlMessage', 'FormControlLabel', 'FormControlMessageAccessory', 'ContentBadge', 'TextButton', 'IconButton']}
   icons={['IconBlank']}
   render={(value) => {
       let leadingContent = 'null';
       let trailingContent = 'null';
       let rows = {};
+      let hasCharacterCounter = false;
 
       switch (value['Leading contents']) {
         case 'Character counter':
-          leadingContent =
-            '<TextAreaContent variant="characterCounter">2000</TextAreaContent>';
+          hasCharacterCounter = true;
           break;
         case 'Button':
           leadingContent =
@@ -51,12 +51,11 @@ updatedAt: 2026-02-11
 
       switch (value['Trailing contents']) {
         case 'Character counter':
-          trailingContent =
-            '<TextAreaContent variant="characterCounter">2000</TextAreaContent>';
+          hasCharacterCounter = true;
           break;
         case 'Button':
           trailingContent =
-            '<TextAreaContent variant="button"><TextButton variant="primary">Button</TextButton></TextAreaContent>';
+            '<TextAreaContent variant="button"><TextButton color="primary">Button</TextButton></TextAreaContent>';
           break;
         case 'Icon button':
           trailingContent =
@@ -100,7 +99,7 @@ updatedAt: 2026-02-11
               {...${JSON.stringify(rows)}}
             />
           </FormControlField>
-          <FormControlMessage>Description</FormControlMessage>
+          <FormControlMessage${hasCharacterCounter ? ' accessory={<FormControlMessageAccessory length={0} maxLength={2000} />}' : ''}>Description</FormControlMessage>
         </FormControl>
       `;
     }}

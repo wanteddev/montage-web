@@ -159,6 +159,7 @@ const SectionVariants = ({
             <PopoverTrigger>
               <IconButton
                 size={24}
+                interactionOverflow
                 sx={sectionVariantsControlMobileTriggerStyle}
                 aria-label="Toggle control panel"
               >

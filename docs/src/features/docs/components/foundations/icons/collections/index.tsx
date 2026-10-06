@@ -120,6 +120,7 @@ const Collections = ({ icons }: Props) => {
                     <IconButton
                       aria-label={`Download ${icon.name} svg`}
                       size={20}
+                      interactionOverflow
                       onClick={handleDownloadSvg(icon.name)}
                     >
                       <Icons.IconDownload aria-hidden />

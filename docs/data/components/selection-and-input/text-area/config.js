@@ -11,6 +11,7 @@ module.exports = {
       'FormControlField',
       'FormControlMessage',
       'FormControlLabel',
+      'FormControlMessageAccessory',
       'ContentBadge',
       'TextButton',
       'FilterButton',
@@ -57,11 +58,11 @@ module.exports = {
       let leadingContent = 'null';
       let trailingContent = 'null';
       let rows = {};
+      let hasCharacterCounter = false;
 
       switch (value['Leading contents']) {
         case 'Character counter':
-          leadingContent =
-            '<TextAreaContent variant="characterCounter">2000</TextAreaContent>';
+          hasCharacterCounter = true;
           break;
         case 'Button':
           leadingContent =
@@ -77,11 +78,11 @@ module.exports = {
           break;
         case 'Badge':
           leadingContent =
-            '<TextAreaContent variant="badge"><ContentBadge color="neutral" size="small">Badge</ContentBadge></TextAreaContent>';
+            '<TextAreaContent variant="content-badge"><ContentBadge color="neutral" size="small">Badge</ContentBadge></TextAreaContent>';
           break;
         case 'Chip':
           leadingContent =
-            '<TextAreaContent variant="chip"><FilterButton size="small">Chip</FilterButton></TextAreaContent>';
+            '<TextAreaContent variant="custom"><FilterButton size="small">Chip</FilterButton></TextAreaContent>';
           break;
         default:
           leadingContent = 'null';
@@ -89,12 +90,11 @@ module.exports = {
 
       switch (value['Trailing contents']) {
         case 'Character counter':
-          trailingContent =
-            '<TextAreaContent variant="characterCounter">2000</TextAreaContent>';
+          hasCharacterCounter = true;
           break;
         case 'Button':
           trailingContent =
-            '<TextAreaContent variant="button"><TextButton size="small" variant="primary">Button</TextButton></TextAreaContent>';
+            '<TextAreaContent variant="button"><TextButton size="small" color="primary">Button</TextButton></TextAreaContent>';
           break;
         case 'Icon button':
           trailingContent =
@@ -106,11 +106,11 @@ module.exports = {
           break;
         case 'Badge':
           trailingContent =
-            '<TextAreaContent variant="badge"><ContentBadge color="neutral" size="small">Badge</ContentBadge></TextAreaContent>';
+            '<TextAreaContent variant="content-badge"><ContentBadge color="neutral" size="small">Badge</ContentBadge></TextAreaContent>';
           break;
         case 'Chip':
           trailingContent =
-            '<TextAreaContent variant="chip"><FilterButton size="small">Chip</FilterButton></TextAreaContent>';
+            '<TextAreaContent variant="custom"><FilterButton size="small">Chip</FilterButton></TextAreaContent>';
           break;
         default:
           trailingContent = 'null';
@@ -142,7 +142,7 @@ module.exports = {
               {...${JSON.stringify(rows)}}
             />
           </FormControlField>
-          <FormControlMessage>Description</FormControlMessage>
+          <FormControlMessage${hasCharacterCounter ? ' accessory={<FormControlMessageAccessory length={0} maxLength={2000} />}' : ''}>Description</FormControlMessage>
         </FormControl>
       `;
     },

@@ -87,6 +87,7 @@ const PaletteItem = ({
           <IconButton
             aria-label="Copy"
             size={20}
+            interactionOverflow
             onClick={() => handleCopy(hex)}
             sx={{ paddingBlock: '2px' }}
           >

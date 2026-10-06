@@ -86,7 +86,7 @@ export const DocSearchModal = ({
         aria-haspopup="listbox"
         style={
           {
-            '--modal-content-margin': '16px',
+            '--modal-content-margin-y': '16px',
             '--action-area-margin-y': '16px',
           } as CSSProperties
         }
@@ -119,10 +119,8 @@ export const DocSearchModal = ({
           />
         </ModalNavigation>
 
-        <ModalContent
-          sx={{ paddingTop: 0, paddingBottom: '16px', height: '100%' }}
-        >
-          <ModalContentItem flex="1" sx={{ padding: '0px 20px' }}>
+        <ModalContent sx={{ height: '100%' }}>
+          <ModalContentItem flex="1">
             <SearchResults
               state={state}
               isEmpty={isEmpty}

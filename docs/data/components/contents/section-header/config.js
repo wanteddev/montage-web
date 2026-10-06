@@ -49,8 +49,7 @@ module.exports = {
           {
             label: 'Icon button',
             value: {
-              headingContent:
-                '<IconButton size={24}><IconBlank /></IconButton>',
+              headingContent: '<IconButton><IconBlank /></IconButton>',
             },
           },
         ],
@@ -77,8 +76,7 @@ module.exports = {
           {
             label: 'Icon button',
             value: {
-              trailingContent:
-                '<IconButton size={24}><IconBlank /></IconButton>',
+              trailingContent: '<IconButton><IconBlank /></IconButton>',
             },
           },
         ],

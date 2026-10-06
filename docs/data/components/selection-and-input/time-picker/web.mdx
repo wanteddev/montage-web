@@ -6,7 +6,7 @@ createdAt: 2025-05-12
 
 ## Basic usage
 
-사용자가 YYYY. MM. DD순으로 날짜를 입력할 수 있는 폼을 제공합니다.
+사용자가 00:00:00 (시간, 분, 초)순으로 시간을 입력할 수 있는 폼을 제공합니다.
 
 - locale, timezone을 지정할 수 있습니다.
 - 기본적으로 TextField 컴포넌트를 사용합니다.
@@ -161,11 +161,7 @@ const Demo = () => {
               <FormControlField>
                 <Checkbox size="medium" />
               </FormControlField>
-              <FormControlLabel
-                sx={{ padding: "1px 0px" }}
-              >
-                텍스트
-              </FormControlLabel>
+              <FormControlLabel>텍스트</FormControlLabel>
             </FormControl>
             <PickerActionAreaButton variant="accept">확인</PickerActionAreaButton>
           </PickerActionArea>
