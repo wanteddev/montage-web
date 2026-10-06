@@ -105,8 +105,6 @@ jobs:
       - name: Install dependencies
         uses: ./.github/actions/pnpm-install
 
-      - name: Build packages
-        uses: ./.github/actions/package-build
-
+      # Code Connect v2 template files run in Figma's runtime, so no package build is needed.
       - name: Publish
-        run: pnpm run publish:codeconnect --token ${{ env.FIGMA_TOKEN }} --skip-validation --batch-size 50
+        run: pnpm run publish:codeconnect --token ${{ env.FIGMA_TOKEN }} --skip-validation --exit-on-unreadable-files --batch-size 50

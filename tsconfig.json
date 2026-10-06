@@ -3,15 +3,7 @@
   "extends": "./tsconfig.react.json",
   "compilerOptions": {
     "removeComments": false,
-    "baseUrl": "./",
-    "paths": {
-      "@montage-ui/core": ["packages/core/src"],
-      "@montage-ui/icon": ["packages/icon/src"],
-      "@montage-ui/nextjs": ["packages/nextjs/src"],
-      "@montage-ui/engine": ["packages/engine/src"],
-      "@montage-ui/theme": ["packages/theme/src"],
-      "@montage-ui/lottie": ["packages/lottie/src"]
-    }
+    "noCheck": true
   },
   "include": ["figma/**/*"],
   "exclude": ["node_modules"]

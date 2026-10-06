@@ -25,8 +25,8 @@ importers:
         specifier: ^9.39.4
         version: 9.39.4
       '@figma/code-connect':
-        specifier: ^1.5.3
-        version: 1.5.3
+        specifier: ^2.0.1
+        version: 2.0.1
       '@size-limit/file':
         specifier: ^11.2.0
         version: 11.2.0(size-limit@11.2.0)
@@ -2054,8 +2054,8 @@ packages:
   '@fastify/busboy@3.2.0':
     resolution: {integrity: sha512-m9FVDXU3GT2ITSe0UaMA5rU3QkfC/UXtCU8y0gSN/GugTqtVldOBWIB5V6V3sbmenVZUIpU6f+mPEO2+m5iTaA==}
 
-  '@figma/code-connect@1.5.3':
-    resolution: {integrity: sha512-rQ3cBKVK0z5n8oNW0ypojcLm0rrmTm1y8W0IUHQdlhyf/STnz7eCsIdCRZ6k5iXRW4D6PF0IHPKK7V+6bTa7RQ==}
+  '@figma/code-connect@2.0.1':
+    resolution: {integrity: sha512-1V1Y74vOdnp+AR+bBngnxanB3ocpVJ6oHYt2v3p7PdmstlZ/i0b0wXCqAYBR2mI72e33QUj/O0Q5VIDYP4RGoQ==}
     engines: {node: '>=18'}
     hasBin: true
 
@@ -5176,8 +5176,8 @@ packages:
   esast-util-from-js@2.0.1:
     resolution: {integrity: sha512-8Ja+rNJ0Lt56Pcf3TAmpBZjmx8ZcK5Ts4cAzIOjsjevg9oSXJnl6SUQ2EevU8tv3h6ZLWmoKL5H4fgWvdvfETw==}
 
-  esbuild-wasm@0.27.3:
-    resolution: {integrity: sha512-AUXuOxZ145/5Az+lIqk6TdJbxKTyDGkXMJpTExmBdbnHR6n6qAFx+F4oG9ORpVYJ9dQYeQAqzv51TO4DFKsbXw==}
+  esbuild-wasm@0.27.5:
+    resolution: {integrity: sha512-WUn5wiXTHMHAuWmxEpm582wtDb5wFFdW1o5z1pZDSlOtvSOcOFIX82WZIfwKyqXUBy7lpzBU06vik65PwDAgGQ==}
     engines: {node: '>=18'}
     hasBin: true
 
@@ -10859,7 +10859,7 @@ snapshots:
 
   '@fastify/busboy@3.2.0': {}
 
-  '@figma/code-connect@1.5.3':
+  '@figma/code-connect@2.0.1':
     dependencies:
       boxen: 5.1.1
       chalk: 4.1.2
@@ -10867,7 +10867,7 @@ snapshots:
       compare-versions: 6.1.1
       cross-spawn: 7.0.6
       dotenv: 16.6.1
-      esbuild-wasm: 0.27.3
+      esbuild-wasm: 0.27.5
       fast-fuzzy: 1.12.0
       find-up: 5.0.0
       glob: 11.1.0
@@ -14006,7 +14006,7 @@ snapshots:
       esast-util-from-estree: 2.0.0
       vfile-message: 4.0.3
 
-  esbuild-wasm@0.27.3: {}
+  esbuild-wasm@0.27.5: {}
 
   esbuild@0.25.12:
     optionalDependencies:

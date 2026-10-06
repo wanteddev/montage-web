@@ -252,6 +252,16 @@ export default defineConfig(
     'docs/next-env.d.ts',
     'docs/.next',
     'docs/out',
-    'figma/icons/index.figma.tsx',
+    'figma/icons/icons.figma.batch.json',
   ]),
+
+  {
+    // Code Connect templates run in Figma's template runtime, not in our bundle.
+    files: ['figma/**/*.ts'],
+    rules: {
+      '@typescript-eslint/naming-convention': 'off',
+      '@typescript-eslint/no-unnecessary-condition': 'off',
+      'import/no-unresolved': ['error', { ignore: ['^figma$'] }],
+    },
+  },
 );
