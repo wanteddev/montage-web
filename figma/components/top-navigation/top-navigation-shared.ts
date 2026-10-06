@@ -103,11 +103,15 @@ const iconButton = (icon: Rendered | undefined): Rendered => ({
   imports: [CORE('TopNavigationButton'), ...(icon?.imports ?? [])],
 });
 
-const textButton = (text: InstanceHandle, colorProperty: string): Rendered => {
+const textButton = (text: InstanceHandle): Rendered => {
   const label = isInstance(text) ? text.getString('Label') : '';
-  const color = isInstance(text)
-    ? text.getEnum(colorProperty, { Primary: 'primary', Assistive: undefined })
+  // Both leading and action text buttons are `Text Button/Text Button`
+  // instances (`Color` = Primary | Assistive). Only a resolved string is a value;
+  // a missing property comes back as an error handle.
+  const rawColor = isInstance(text)
+    ? text.getEnum('Color', { Primary: 'primary', Assistive: undefined })
     : undefined;
+  const color = typeof rawColor === 'string' ? rawColor : undefined;
   const disabled = isInstance(text) && text.getBoolean('Disable') === true;
   return {
     code: figma.tsx`<TopNavigationButton variant="text-button"${
@@ -137,15 +141,15 @@ export const renderLeading = (
     };
   }
   if (type === 'Text Button') {
-    return textButton(leading.findInstance('Text'), 'Color');
+    return textButton(leading.findInstance('Text'));
   }
   return iconButton(renderButtonIcon(leading));
 };
 
 /**
- * A single trailing action (`…/Action/Normal` or the floating action). Rendered
- * from its layers instead of the nested template: the floating action component
- * is not resolvable through the API, so it cannot carry its own Code Connect.
+ * A single trailing action (`…/Action/Normal`), shared by the normal and the
+ * floating trailing groups. Rendered from its layers so the icon import is
+ * re-declared, since Code Connect forwards imports only one level up.
  */
 export const renderAction = (
   action: InstanceHandle | undefined,
@@ -154,7 +158,7 @@ export const renderAction = (
     return undefined;
   }
   if (action.getPropertyValue('Variant') === 'Text') {
-    return textButton(action.findInstance('Text'), 'Variant');
+    return textButton(action.findInstance('Text'));
   }
   return iconButton(renderButtonIcon(action));
 };

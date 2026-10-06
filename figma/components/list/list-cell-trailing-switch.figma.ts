@@ -4,7 +4,7 @@
 
 import figma from 'figma';
 
-const children = figma.properties.children(['Switch']);
+const children = figma.properties.children(['Switch', 'Switch/Switch']);
 const __props: Record<string, unknown> = {};
 if (children && children.type !== 'ERROR') {
   __props['children'] = children;
