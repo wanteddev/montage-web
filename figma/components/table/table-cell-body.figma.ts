@@ -4,6 +4,8 @@
 
 import figma from 'figma';
 
+import { collectNestedImports } from '../../helpers/list-cell';
+
 // Branch per variant; unmatched combinations render no snippet.
 
 let template;
@@ -259,6 +261,24 @@ if (
     imports: [],
     example: figma.code``,
     metadata: { nestable: true, props: { kind: 'body' } },
+  };
+}
+
+// Code Connect forwards imports only one level up: add the imports of nested
+// instances (icons inside icon buttons, avatars inside avatar groups, …).
+if (template.example) {
+  const nested = collectNestedImports(template.example).filter(
+    (statement) => !template.imports.includes(statement),
+  );
+  const imports = [...template.imports, ...nested];
+  // Exposed so the Table template can declare its cells' imports.
+  template = {
+    ...template,
+    imports,
+    metadata: {
+      ...template.metadata,
+      props: { ...template.metadata?.props, imports },
+    },
   };
 }
 

@@ -20,10 +20,16 @@ const description =
     : undefined;
 const closeButton = instance.getBoolean('Close Button') === true;
 // The Figma property name starts with a backspace character (U+0008).
+// Only `custom` takes a leading icon: the other variants render their status
+// icon in core, and their Figma icons are not Code Connected components.
+const showLeadingIcon = instance.getBoolean('\u0008Leading Icon') === true;
 const leadingContent =
-  instance.getBoolean('\u0008Leading Icon') === true
+  variant === 'custom' && showLeadingIcon
     ? figma.properties.children(['Icon'])
     : undefined;
+// Core defaults `leadingContent` to the status icon of `variant`; passing
+// `null` hides it.
+const hideLeadingIcon = variant !== 'custom' && !showLeadingIcon;
 
 // Both button areas hold the same `Text Button/Text Button` layers (Primary +
 // Assistive), so they are told apart by their parent frame:
@@ -93,10 +99,9 @@ export default {
   imports: ["import { SectionMessage } from '@montage-ui/core';"],
   example: figma.tsx`<SectionMessage${variant ? ` variant="${variant}"` : ''}${
     description ? ` description=${JSON.stringify(description)}` : ''
-  }${closeButton ? ' closeButton' : ''}${figma.helpers.react.renderProp(
-    'leadingContent',
-    leadingContent,
-  )}${prop('trailingButton', trailingButton)}${prop(
+  }${closeButton ? ' closeButton' : ''}${
+    hideLeadingIcon ? ' leadingContent={null}' : ''
+  }${figma.helpers.react.renderProp('leadingContent', leadingContent)}${prop('trailingButton', trailingButton)}${prop(
     'bottomButton',
     bottomButton,
   )}>

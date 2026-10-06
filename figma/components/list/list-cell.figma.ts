@@ -16,14 +16,15 @@ const cell = readListCell(figma.selectedInstance, LIST_CELL_SLOT_NAMES);
 
 const divider = figma.selectedInstance.getBoolean('Divider');
 const disableInteraction = !figma.selectedInstance.getBoolean('Interaction');
+// Core defaults (`verticalPadding="medium"`, `variant="inset"`) are omitted.
 const verticalPadding = figma.selectedInstance.getEnum('Vertical Padding', {
   None: 'none',
   Small: 'small',
-  Medium: 'medium',
+  Medium: undefined,
   Large: 'large',
 });
 const variant = figma.selectedInstance.getEnum('Variant', {
-  Inset: 'inset',
+  Inset: undefined,
   Full: 'full',
 });
 const ellipsis = figma.selectedInstance.getBoolean('Text Ellipsis');

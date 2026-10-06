@@ -4,17 +4,28 @@
 
 import figma from 'figma';
 
-const children = figma.properties.children(['Avatar']);
-const __props: Record<string, unknown> = {};
-if (children && children.type !== 'ERROR') {
-  __props['children'] = children;
-}
+// The cell owns the interaction and `ListCellContent variant="avatar"` sizes the
+// avatar (slot default), so the avatar renders as a plain `Avatar` with its
+// variant only (docs: List cell › Avatar).
+const avatar = figma.selectedInstance.findInstance('Avatar');
+const variant =
+  avatar.type === 'ERROR'
+    ? undefined
+    : avatar.getEnum('Variant', {
+        Person: 'person',
+        Company: 'company',
+        Academy: 'academy',
+      });
+const children = figma.tsx`<Avatar${variant ? ` variant="${variant}"` : ''} />`;
+const imports = ["import { Avatar } from '@montage-ui/core';"];
 
 export default {
   id: 'ListCellContent',
-  imports: ["import { ListCellContent } from '@montage-ui/core';"],
-  example: figma.code`<ListCellContent variant="avatar">${figma.helpers.react.renderChildren(
-    children,
-  )}</ListCellContent>`,
-  metadata: { nestable: true, props: { variant: 'avatar' }, __props },
+  imports: ["import { Avatar, ListCellContent } from '@montage-ui/core';"],
+  example: figma.tsx`<ListCellContent variant="avatar">${children}</ListCellContent>`,
+  metadata: {
+    nestable: true,
+    props: { variant: 'avatar', imports },
+    __props: { children },
+  },
 };

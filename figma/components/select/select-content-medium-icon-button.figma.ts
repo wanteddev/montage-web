@@ -4,6 +4,16 @@
 
 import figma from 'figma';
 
+import {
+  contentResourceImports,
+  iconImportStatements,
+} from '../text-field/nested-imports';
+
+// Icons inside nested IconButton / Button instances are not hoisted by Code Connect.
+const deepIconImports = iconImportStatements(
+  contentResourceImports(figma.selectedInstance).deepIcons,
+);
+
 const children = figma.properties.children(['Icon Button']);
 const __props: Record<string, unknown> = {};
 if (children && children.type !== 'ERROR') {
@@ -12,7 +22,10 @@ if (children && children.type !== 'ERROR') {
 
 export default {
   id: 'SelectContent',
-  imports: ["import { SelectContent } from '@montage-ui/core';"],
+  imports: [
+    ...deepIconImports,
+    "import { SelectContent } from '@montage-ui/core';",
+  ],
   example: figma.code`<SelectContent variant="icon-button">${figma.helpers.react.renderChildren(
     children,
   )}</SelectContent>`,

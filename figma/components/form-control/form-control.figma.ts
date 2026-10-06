@@ -103,7 +103,11 @@ export default {
   example: figma.tsx`<FormControl${size ? ` size="${size}"` : ''}${
     labelPlacement ? ` labelPlacement="${labelPlacement}"` : ''
   }>${labelElement}
-  <FormControlField>${figma.helpers.react.renderChildren(input)}</FormControlField>
+  <FormControlField>${
+    input.length > 0
+      ? figma.helpers.react.renderChildren(input)
+      : '{/* 입력 컴포넌트 */}'
+  }</FormControlField>
   ${figma.helpers.react.renderChildren(footer)}
 </FormControl>`,
   metadata: { nestable: true },

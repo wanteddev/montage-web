@@ -4,17 +4,26 @@
 
 import figma from 'figma';
 
-const children = figma.properties.children(['Content Badge/Content Badge']);
+import { finalizeTemplate } from '../modal/collect-imports';
+
+// Rendered directly so the nested component's imports reach parent snippets.
+const childLayer = figma.selectedInstance.findInstance(
+  'Content Badge/Content Badge',
+);
+const children =
+  childLayer.type !== 'ERROR' && childLayer.hasCodeConnect()
+    ? childLayer.executeTemplate().example
+    : undefined;
 const __props: Record<string, unknown> = {};
 if (children && children.type !== 'ERROR') {
   __props['children'] = children;
 }
 
-export default {
+export default finalizeTemplate({
   id: 'MenuActionAreaContent',
   imports: ["import { MenuActionAreaContent } from '@montage-ui/core';"],
   example: figma.code`<MenuActionAreaContent variant="badge">${figma.helpers.react.renderChildren(
     children,
   )}</MenuActionAreaContent>`,
   metadata: { nestable: true, __props },
-};
+});

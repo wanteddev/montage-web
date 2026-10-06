@@ -10,6 +10,6 @@ if (children && children.type !== 'ERROR') {
 
 export default {
   id: 'TopNavigationToolCategory',
-  example: figma.code`<>${figma.helpers.react.renderChildren(children)}</>`,
+  example: figma.code`${figma.helpers.react.renderChildren(children)}`,
   metadata: { nestable: true, __props },
 };

@@ -16,3 +16,39 @@ describe('when given section message close button', () => {
     ).toBe('20px');
   });
 });
+
+describe('when given section message leading content', () => {
+  afterEach(() => {
+    cleanup();
+  });
+
+  it('should render the status icon of the variant by default', () => {
+    render(<SectionMessage variant="positive">Message</SectionMessage>);
+
+    expect(screen.getByLabelText('positive')).toBeInTheDocument();
+  });
+
+  it('should hide the status icon when leadingContent is null', () => {
+    render(
+      <SectionMessage variant="positive" leadingContent={null}>
+        Message
+      </SectionMessage>,
+    );
+
+    expect(screen.queryByLabelText('positive')).not.toBeInTheDocument();
+  });
+
+  it('should render the given leadingContent instead of the status icon', () => {
+    render(
+      <SectionMessage
+        variant="positive"
+        leadingContent={<span aria-label="custom icon" />}
+      >
+        Message
+      </SectionMessage>,
+    );
+
+    expect(screen.getByLabelText('custom icon')).toBeInTheDocument();
+    expect(screen.queryByLabelText('positive')).not.toBeInTheDocument();
+  });
+});

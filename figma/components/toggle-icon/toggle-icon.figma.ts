@@ -4,24 +4,20 @@
 
 import figma from 'figma';
 
-const children = figma.selectedInstance
-  .getInstanceSwap('Icon')
-  ?.executeTemplate().example;
-const active = figma.selectedInstance.getBoolean('Active');
-const __props: Record<string, unknown> = {};
-if (children && children.type !== 'ERROR') {
-  __props['children'] = children;
-}
-if (active && active.type !== 'ERROR') {
-  __props['active'] = active;
-}
+import { renderIcon } from '../../helpers/icon';
+
+const icon = renderIcon(figma.selectedInstance.getInstanceSwap('Icon'));
+const active = figma.selectedInstance.getPropertyValue('Active') === 'True';
+const imports = [
+  "import { ToggleIcon } from '@montage-ui/core';",
+  ...(icon?.imports ?? []),
+];
 
 export default {
   id: 'ToggleIcon',
-  imports: ["import { ToggleIcon } from '@montage-ui/core';"],
-  example: figma.code`<ToggleIcon${figma.helpers.react.renderProp(
-    'defaultActive',
-    active,
-  )}>${figma.helpers.react.renderChildren(children)}</ToggleIcon>`,
-  metadata: { nestable: true, __props },
+  imports,
+  example: figma.tsx`<ToggleIcon${active ? ' defaultActive' : ''}>${
+    icon ? icon.code : ''
+  }</ToggleIcon>`,
+  metadata: { nestable: true, props: { imports } },
 };

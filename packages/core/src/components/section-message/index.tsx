@@ -1,18 +1,13 @@
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
 import { forwardRef, useCallback, useId } from 'react';
-import {
-  IconCircleCheckFill,
-  IconCircleCloseFill,
-  IconCircleInfoFill,
-  IconClose,
-  IconTriangleExclamationFill,
-} from '@montage-ui/icon';
+import { IconClose } from '@montage-ui/icon';
 import { Box } from '@montage-ui/engine';
 
 import { Typography } from '../typography';
 import { FlexBox } from '../flex-box';
 import { IconButton } from '../icon-button';
 
+import { sectionMessageIconComponent } from './constants';
 import {
   firstOverlayStyle,
   secondOverlayStyle,
@@ -22,7 +17,6 @@ import {
   sectionMessageWrapperStyle,
 } from './style';
 
-import type { ReactNode } from 'react';
 import type { SectionMessageProps } from './types';
 import type { DefaultComponentPropsInternal } from '@montage-ui/engine';
 
@@ -37,7 +31,7 @@ const SectionMessage = forwardRef<
       onOpenChange,
       variant = 'info',
       children,
-      leadingContent,
+      leadingContent = sectionMessageIconComponent[variant],
       trailingButton,
       description,
       bottomButton,
@@ -57,20 +51,6 @@ const SectionMessage = forwardRef<
     const titleId = useId();
     const descriptionId = useId();
 
-    const iconComponent: {
-      [key in Exclude<SectionMessageProps['variant'], undefined>]: ReactNode;
-    } = {
-      custom: null,
-      positive: <IconCircleCheckFill aria-label="positive" role="img" />,
-      negative: <IconCircleCloseFill aria-label="negative" role="img" />,
-      cautionary: (
-        <IconTriangleExclamationFill aria-label="cautionary" role="img" />
-      ),
-      info: <IconCircleInfoFill aria-label="info" role="img" />,
-    };
-
-    const renderLeadingContent = leadingContent ?? iconComponent[variant];
-
     if (!open) return null;
 
     return (
@@ -86,9 +66,9 @@ const SectionMessage = forwardRef<
         <Box role="presentation" sx={firstOverlayStyle} />
         <Box role="presentation" sx={secondOverlayStyle(variant)} />
 
-        {renderLeadingContent && (
+        {leadingContent && (
           <FlexBox flexShrink={0} sx={sectionMessageIconStyle(variant)}>
-            {renderLeadingContent}
+            {leadingContent}
           </FlexBox>
         )}
 

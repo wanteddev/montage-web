@@ -4,6 +4,8 @@
 
 import figma from 'figma';
 
+import { coreImport } from '../../helpers/menu-item';
+
 type InstanceHandle = ReturnType<typeof figma.selectedInstance.findInstance>;
 
 const instance = figma.selectedInstance;
@@ -55,10 +57,38 @@ const pagination =
     ? figma.properties.children(['Pagination'])
     : undefined;
 
+// Code Connect adds the imports of the direct children (cells, pagination) on
+// its own, so re-declaring them would duplicate names across statements. Only
+// the pagination's swapped resources (`PaginationSelect` / `PaginationField`)
+// are two levels down and must be declared here.
+const paginationLayer =
+  pagination === undefined ? undefined : instance.findInstance('Pagination');
+const paginationResources =
+  paginationLayer && paginationLayer.type !== 'ERROR'
+    ? [
+        ['Leading Content', '┗ Instance'],
+        ['Trailing Content', '┗ Instance\u180E'],
+      ]
+        .filter(([toggle]) => paginationLayer.getBoolean(toggle) === true)
+        .map(([, swap]) => paginationLayer.getInstanceSwap(swap))
+        .map((resource) =>
+          resource && resource.type !== 'ERROR'
+            ? resource.codeConnectId()
+            : null,
+        )
+        .filter((id): id is string => Boolean(id))
+    : [];
+
 export default {
   id: 'Table',
   imports: [
-    "import { Table, TableBody, TableCell, TableHead, TableHeadCell, TableRow } from '@montage-ui/core';",
+    coreImport([
+      'Table',
+      'TableBody',
+      'TableHead',
+      'TableRow',
+      ...paginationResources,
+    ]),
   ],
   example: figma.tsx`<Table${figma.helpers.react.renderProp('pagination', pagination)}>${colgroup}
   <TableHead>

@@ -28,7 +28,7 @@ if (
   template = {
     id: 'Alert',
     imports: [
-      "import { Alert, AlertActionArea, AlertContainer, AlertContent, AlertDescription, AlertHeading, AlertTrigger, Button } from '@montage-ui/core';",
+      "import { Alert, AlertActionArea, AlertActionAreaButton, AlertContainer, AlertContent, AlertDescription, AlertHeading, AlertTrigger, Button } from '@montage-ui/core';",
     ],
     example: figma.code`<Alert>
       <AlertTrigger>
@@ -67,7 +67,7 @@ if (
   template = {
     id: 'Alert',
     imports: [
-      "import { Alert, AlertActionArea, AlertContainer, AlertContent, AlertDescription, AlertTrigger, Button } from '@montage-ui/core';",
+      "import { Alert, AlertActionArea, AlertActionAreaButton, AlertContainer, AlertContent, AlertDescription, AlertTrigger, Button } from '@montage-ui/core';",
     ],
     example: figma.code`<Alert>
       <AlertTrigger>

@@ -4,353 +4,41 @@
 
 import figma from 'figma';
 
-// Branch per variant; unmatched combinations render no snippet.
+const instance = figma.selectedInstance;
 
-let template;
-if (
-  figma.selectedInstance.getPropertyValue('State') === 'Checked' &&
-  figma.selectedInstance.getPropertyValue('Size') === 'Medium'
-) {
-  const disabled = figma.selectedInstance.getBoolean('Disable');
-  const bold = figma.selectedInstance.getBoolean('Bold');
-  const label = figma.selectedInstance.getBoolean('Label', {
-    true: figma.selectedInstance.getString('┗ Text​'),
-    false: undefined,
-  });
-  const gap = figma.selectedInstance.getBoolean('Tight', {
-    true: '10px',
-    false: '8px',
-  });
-  const tight = figma.selectedInstance.getBoolean('Tight');
-  const __props: Record<string, unknown> = {};
-  if (disabled && disabled.type !== 'ERROR') {
-    __props['disabled'] = disabled;
-  }
-  if (bold && bold.type !== 'ERROR') {
-    __props['bold'] = bold;
-  }
-  if (label && label.type !== 'ERROR') {
-    __props['label'] = label;
-  }
-  if (gap && gap.type !== 'ERROR') {
-    __props['gap'] = gap;
-  }
-  if (tight && tight.type !== 'ERROR') {
-    __props['tight'] = tight;
-  }
+const state = instance.getPropertyValue('State');
+const size = instance.getEnum('Size', {
+  Medium: 'medium',
+  Small: 'small',
+});
+const tight = instance.getBoolean('Tight') === true;
+const disabled = instance.getBoolean('Disable') === true;
+const bold = instance.getBoolean('Bold') === true;
+const label =
+  instance.getBoolean('Label') === true
+    ? instance.getString('┗ Text\u200B')
+    : '';
 
-  template = {
-    id: 'Checkbox',
-    imports: [
-      "import { Checkbox, FormControl, FormControlField, FormControlLabel } from '@montage-ui/core';",
-    ],
-    example: figma.code`<FormControl${figma.helpers.react.renderProp(
-      'gap',
-      gap,
-    )} flexDirection="row">
-      <FormControlField>
-        <Checkbox defaultChecked size="medium"${figma.helpers.react.renderProp(
-          'disabled',
-          disabled,
-        )}${figma.helpers.react.renderProp(
-          'bold',
-          bold,
-        )}${figma.helpers.react.renderProp('tight', tight)}/>
-      </FormControlField>
-      <FormControlLabel>${figma.helpers.react.renderChildren(
-        label,
-      )}</FormControlLabel>
-    </FormControl>`,
-    metadata: { nestable: true, __props },
-  };
-} else if (
-  figma.selectedInstance.getPropertyValue('State') === 'Unchecked' &&
-  figma.selectedInstance.getPropertyValue('Size') === 'Medium'
-) {
-  const disabled = figma.selectedInstance.getBoolean('Disable');
-  const bold = figma.selectedInstance.getBoolean('Bold');
-  const label = figma.selectedInstance.getBoolean('Label', {
-    true: figma.selectedInstance.getString('┗ Text​'),
-    false: undefined,
-  });
-  const gap = figma.selectedInstance.getBoolean('Tight', {
-    true: '10px',
-    false: '8px',
-  });
-  const tight = figma.selectedInstance.getBoolean('Tight');
-  const __props: Record<string, unknown> = {};
-  if (disabled && disabled.type !== 'ERROR') {
-    __props['disabled'] = disabled;
-  }
-  if (bold && bold.type !== 'ERROR') {
-    __props['bold'] = bold;
-  }
-  if (label && label.type !== 'ERROR') {
-    __props['label'] = label;
-  }
-  if (gap && gap.type !== 'ERROR') {
-    __props['gap'] = gap;
-  }
-  if (tight && tight.type !== 'ERROR') {
-    __props['tight'] = tight;
-  }
+// Uncontrolled checked state, as in the docs.
+const control = `<Checkbox${state === 'Checked' ? ' defaultChecked' : ''}${state === 'Indeterminate' ? ' indeterminate' : ''}${
+  size ? ` size="${size}"` : ''
+}${disabled ? ' disabled' : ''}${bold ? ' bold' : ''}${tight ? ' tight' : ''} />`;
 
-  template = {
-    id: 'Checkbox',
-    imports: [
-      "import { Checkbox, FormControl, FormControlField, FormControlLabel } from '@montage-ui/core';",
-    ],
-    example: figma.code`<FormControl${figma.helpers.react.renderProp(
-      'gap',
-      gap,
-    )} flexDirection="row">
-      <FormControlField>
-        <Checkbox size="medium"${figma.helpers.react.renderProp(
-          'disabled',
-          disabled,
-        )}${figma.helpers.react.renderProp(
-          'bold',
-          bold,
-        )}${figma.helpers.react.renderProp('tight', tight)}/>
-      </FormControlField>
-      <FormControlLabel>${figma.helpers.react.renderChildren(
-        label,
-      )}</FormControlLabel>
-    </FormControl>`,
-    metadata: { nestable: true, __props },
-  };
-} else if (
-  figma.selectedInstance.getPropertyValue('State') === 'Indeterminate' &&
-  figma.selectedInstance.getPropertyValue('Size') === 'Medium'
-) {
-  const disabled = figma.selectedInstance.getBoolean('Disable');
-  const bold = figma.selectedInstance.getBoolean('Bold');
-  const label = figma.selectedInstance.getBoolean('Label', {
-    true: figma.selectedInstance.getString('┗ Text​'),
-    false: undefined,
-  });
-  const gap = figma.selectedInstance.getBoolean('Tight', {
-    true: '10px',
-    false: '8px',
-  });
-  const tight = figma.selectedInstance.getBoolean('Tight');
-  const __props: Record<string, unknown> = {};
-  if (disabled && disabled.type !== 'ERROR') {
-    __props['disabled'] = disabled;
-  }
-  if (bold && bold.type !== 'ERROR') {
-    __props['bold'] = bold;
-  }
-  if (label && label.type !== 'ERROR') {
-    __props['label'] = label;
-  }
-  if (gap && gap.type !== 'ERROR') {
-    __props['gap'] = gap;
-  }
-  if (tight && tight.type !== 'ERROR') {
-    __props['tight'] = tight;
-  }
-
-  template = {
-    id: 'Checkbox',
-    imports: [
-      "import { Checkbox, FormControl, FormControlField, FormControlLabel } from '@montage-ui/core';",
-    ],
-    example: figma.code`<FormControl${figma.helpers.react.renderProp(
-      'gap',
-      gap,
-    )} flexDirection="row">
-      <FormControlField>
-        <Checkbox indeterminate size="medium"${figma.helpers.react.renderProp(
-          'disabled',
-          disabled,
-        )}${figma.helpers.react.renderProp(
-          'bold',
-          bold,
-        )}${figma.helpers.react.renderProp('tight', tight)}/>
-      </FormControlField>
-      <FormControlLabel>${figma.helpers.react.renderChildren(
-        label,
-      )}</FormControlLabel>
-    </FormControl>`,
-    metadata: { nestable: true, __props },
-  };
-} else if (
-  figma.selectedInstance.getPropertyValue('State') === 'Checked' &&
-  figma.selectedInstance.getPropertyValue('Size') === 'Small'
-) {
-  const disabled = figma.selectedInstance.getBoolean('Disable');
-  const bold = figma.selectedInstance.getBoolean('Bold');
-  const label = figma.selectedInstance.getBoolean('Label', {
-    true: figma.selectedInstance.getString('┗ Text​'),
-    false: undefined,
-  });
-  const gap = figma.selectedInstance.getBoolean('Tight', {
-    true: '10px',
-    false: '8px',
-  });
-  const tight = figma.selectedInstance.getBoolean('Tight');
-  const __props: Record<string, unknown> = {};
-  if (disabled && disabled.type !== 'ERROR') {
-    __props['disabled'] = disabled;
-  }
-  if (bold && bold.type !== 'ERROR') {
-    __props['bold'] = bold;
-  }
-  if (label && label.type !== 'ERROR') {
-    __props['label'] = label;
-  }
-  if (gap && gap.type !== 'ERROR') {
-    __props['gap'] = gap;
-  }
-  if (tight && tight.type !== 'ERROR') {
-    __props['tight'] = tight;
-  }
-
-  template = {
-    id: 'Checkbox',
-    imports: [
-      "import { Checkbox, FormControl, FormControlField, FormControlLabel } from '@montage-ui/core';",
-    ],
-    example: figma.code`<FormControl${figma.helpers.react.renderProp(
-      'gap',
-      gap,
-    )} flexDirection="row">
-      <FormControlField>
-        <Checkbox defaultChecked size="small"${figma.helpers.react.renderProp(
-          'disabled',
-          disabled,
-        )}${figma.helpers.react.renderProp(
-          'bold',
-          bold,
-        )}${figma.helpers.react.renderProp('tight', tight)}/>
-      </FormControlField>
-      <FormControlLabel>${figma.helpers.react.renderChildren(
-        label,
-      )}</FormControlLabel>
-    </FormControl>`,
-    metadata: { nestable: true, __props },
-  };
-} else if (
-  figma.selectedInstance.getPropertyValue('State') === 'Unchecked' &&
-  figma.selectedInstance.getPropertyValue('Size') === 'Small'
-) {
-  const disabled = figma.selectedInstance.getBoolean('Disable');
-  const bold = figma.selectedInstance.getBoolean('Bold');
-  const label = figma.selectedInstance.getBoolean('Label', {
-    true: figma.selectedInstance.getString('┗ Text​'),
-    false: undefined,
-  });
-  const gap = figma.selectedInstance.getBoolean('Tight', {
-    true: '10px',
-    false: '8px',
-  });
-  const tight = figma.selectedInstance.getBoolean('Tight');
-  const __props: Record<string, unknown> = {};
-  if (disabled && disabled.type !== 'ERROR') {
-    __props['disabled'] = disabled;
-  }
-  if (bold && bold.type !== 'ERROR') {
-    __props['bold'] = bold;
-  }
-  if (label && label.type !== 'ERROR') {
-    __props['label'] = label;
-  }
-  if (gap && gap.type !== 'ERROR') {
-    __props['gap'] = gap;
-  }
-  if (tight && tight.type !== 'ERROR') {
-    __props['tight'] = tight;
-  }
-
-  template = {
-    id: 'Checkbox',
-    imports: [
-      "import { Checkbox, FormControl, FormControlField, FormControlLabel } from '@montage-ui/core';",
-    ],
-    example: figma.code`<FormControl${figma.helpers.react.renderProp(
-      'gap',
-      gap,
-    )} flexDirection="row">
-      <FormControlField>
-        <Checkbox size="small"${figma.helpers.react.renderProp(
-          'disabled',
-          disabled,
-        )}${figma.helpers.react.renderProp(
-          'bold',
-          bold,
-        )}${figma.helpers.react.renderProp('tight', tight)}/>
-      </FormControlField>
-      <FormControlLabel>${figma.helpers.react.renderChildren(
-        label,
-      )}</FormControlLabel>
-    </FormControl>`,
-    metadata: { nestable: true, __props },
-  };
-} else if (
-  figma.selectedInstance.getPropertyValue('State') === 'Indeterminate' &&
-  figma.selectedInstance.getPropertyValue('Size') === 'Small'
-) {
-  const disabled = figma.selectedInstance.getBoolean('Disable');
-  const bold = figma.selectedInstance.getBoolean('Bold');
-  const label = figma.selectedInstance.getBoolean('Label', {
-    true: figma.selectedInstance.getString('┗ Text​'),
-    false: undefined,
-  });
-  const gap = figma.selectedInstance.getBoolean('Tight', {
-    true: '10px',
-    false: '8px',
-  });
-  const tight = figma.selectedInstance.getBoolean('Tight');
-  const __props: Record<string, unknown> = {};
-  if (disabled && disabled.type !== 'ERROR') {
-    __props['disabled'] = disabled;
-  }
-  if (bold && bold.type !== 'ERROR') {
-    __props['bold'] = bold;
-  }
-  if (label && label.type !== 'ERROR') {
-    __props['label'] = label;
-  }
-  if (gap && gap.type !== 'ERROR') {
-    __props['gap'] = gap;
-  }
-  if (tight && tight.type !== 'ERROR') {
-    __props['tight'] = tight;
-  }
-
-  template = {
-    id: 'Checkbox',
-    imports: [
-      "import { Checkbox, FormControl, FormControlField, FormControlLabel } from '@montage-ui/core';",
-    ],
-    example: figma.code`<FormControl${figma.helpers.react.renderProp(
-      'gap',
-      gap,
-    )} flexDirection="row">
-      <FormControlField>
-        <Checkbox indeterminate size="small"${figma.helpers.react.renderProp(
-          'disabled',
-          disabled,
-        )}${figma.helpers.react.renderProp(
-          'bold',
-          bold,
-        )}${figma.helpers.react.renderProp('tight', tight)}/>
-      </FormControlField>
-      <FormControlLabel>${figma.helpers.react.renderChildren(
-        label,
-      )}</FormControlLabel>
-    </FormControl>`,
-    metadata: { nestable: true, __props },
-  };
-} else {
-  // No Code Connect mapping for this variant combination.
-  template = {
-    id: 'Checkbox',
-    imports: [],
-    example: figma.code``,
-    metadata: { nestable: true },
-  };
-}
-
-export default template;
+// Labeled controls use FormControl; without a label only the control remains.
+export default {
+  id: 'Checkbox',
+  imports: [
+    label
+      ? "import { Checkbox, FormControl, FormControlField, FormControlLabel } from '@montage-ui/core';"
+      : "import { Checkbox } from '@montage-ui/core';",
+  ],
+  example: label
+    ? figma.tsx`<FormControl flexDirection="row" gap="${tight ? '10px' : '8px'}">
+  <FormControlField>
+    ${control}
+  </FormControlField>
+  <FormControlLabel>${label}</FormControlLabel>
+</FormControl>`
+    : figma.tsx`${control}`,
+  metadata: { nestable: true },
+};
