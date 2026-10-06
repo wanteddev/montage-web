@@ -6,6 +6,10 @@ import figma from 'figma';
 
 import { OPTION_SLOT_NAMES, joinTemplates } from '../../helpers/list-cell';
 import { coreImport, renderListCellItem } from '../../helpers/menu-item';
+import {
+  contentResourceImports,
+  iconImportStatements,
+} from '../text-field/nested-imports';
 
 // The open menu is a nested `Menu/Menu` instance. Its items are re-rendered as
 // `Option` (the select alias of `MenuItem`) instead of the menu's own snippet.
@@ -40,6 +44,25 @@ const optionImports = [
 ];
 
 // Branch per variant; unmatched combinations render no snippet.
+
+// `Leading Content` renders further instances (IconButton, icons, …) whose imports Code
+// Connect does not hoist, so they are listed explicitly.
+const leadingNested =
+  figma.selectedInstance.getBoolean('Leading Content') === true
+    ? contentResourceImports(
+        figma.selectedInstance.findInstance('Leading Content'),
+      )
+    : undefined;
+const leadingImports = leadingNested
+  ? [
+      ...(leadingNested.core.length > 0
+        ? [
+            `import { ${leadingNested.core.join(', ')} } from '@montage-ui/core';`,
+          ]
+        : []),
+      ...iconImportStatements(leadingNested.icons),
+    ]
+  : [];
 
 let template;
 if (figma.selectedInstance.getPropertyValue('Render') === 'Text') {
@@ -83,7 +106,7 @@ if (figma.selectedInstance.getPropertyValue('Render') === 'Text') {
 
   template = {
     id: textSelect,
-    imports: [coreImport([...optionImports, textSelect])],
+    imports: [coreImport([...optionImports, textSelect]), ...leadingImports],
     example: figma.code`<${textSelect}${figma.helpers.react.renderProp(
       'placeholder',
       placeholder,
@@ -148,6 +171,7 @@ if (figma.selectedInstance.getPropertyValue('Render') === 'Text') {
     id: 'SelectMultiple',
     imports: [
       coreImport([...optionImports, 'SelectMultiple', 'SelectRenderChip']),
+      ...leadingImports,
     ],
     example: figma.code`<SelectMultiple render={(labels) => labels.map((label, index) => (<SelectRenderChip key={index}>{label}</SelectRenderChip>))}${figma.helpers.react.renderProp(
       'placeholder',

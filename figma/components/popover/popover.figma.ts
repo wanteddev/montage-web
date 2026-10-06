@@ -4,6 +4,8 @@
 
 import figma from 'figma';
 
+import { finalizeTemplate } from '../modal/collect-imports';
+
 // Branch per variant; unmatched combinations render no snippet.
 
 let template;
@@ -19,7 +21,7 @@ if (figma.selectedInstance.getPropertyValue('Variant') === 'Normal') {
     'Left and Right': 'right-center',
   });
   const action = figma.selectedInstance.getBoolean('Action', {
-    true: figma.properties.children(['Button/Text', 'Text Button/Text Button']),
+    true: figma.properties.children(['Text Button/Text Button']),
     false: undefined,
   });
   const __props: Record<string, unknown> = {};
@@ -102,4 +104,4 @@ if (figma.selectedInstance.getPropertyValue('Variant') === 'Normal') {
   };
 }
 
-export default template;
+export default finalizeTemplate(template);

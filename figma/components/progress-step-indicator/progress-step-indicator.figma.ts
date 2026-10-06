@@ -22,7 +22,7 @@ export default {
   imports: [
     "import { ProgressStepIndicator, ProgressStepIndicatorItem } from '@montage-ui/core';",
   ],
-  example: figma.code`<ProgressStepIndicator value="2"${figma.helpers.react.renderProp(
+  example: figma.code`<ProgressStepIndicator defaultValue="2"${figma.helpers.react.renderProp(
     'size',
     size,
   )}${figma.helpers.react.renderProp('divider', divider)}>

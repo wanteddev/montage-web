@@ -4,6 +4,16 @@
 
 import figma from 'figma';
 
+import {
+  contentResourceImports,
+  iconImportStatements,
+} from '../text-field/nested-imports';
+
+// Icons inside nested IconButton / Button instances are not hoisted by Code Connect.
+const deepIconImports = iconImportStatements(
+  contentResourceImports(figma.selectedInstance).deepIcons,
+);
+
 // Branch per variant; unmatched combinations render no snippet.
 
 let template;
@@ -16,7 +26,10 @@ if (figma.selectedInstance.getPropertyValue('Type') === 'Icon') {
 
   template = {
     id: 'TextAreaContent',
-    imports: ["import { TextAreaContent } from '@montage-ui/core';"],
+    imports: [
+      ...deepIconImports,
+      "import { TextAreaContent } from '@montage-ui/core';",
+    ],
     example: figma.code`<TextAreaContent variant="icon">${figma.helpers.react.renderChildren(
       children,
     )}</TextAreaContent>`,
@@ -31,7 +44,10 @@ if (figma.selectedInstance.getPropertyValue('Type') === 'Icon') {
 
   template = {
     id: 'TextAreaContent',
-    imports: ["import { TextAreaContent } from '@montage-ui/core';"],
+    imports: [
+      ...deepIconImports,
+      "import { TextAreaContent } from '@montage-ui/core';",
+    ],
     example: figma.code`<TextAreaContent variant="icon-button">${figma.helpers.react.renderChildren(
       children,
     )}</TextAreaContent>`,
@@ -48,7 +64,10 @@ if (figma.selectedInstance.getPropertyValue('Type') === 'Icon') {
 
   template = {
     id: 'TextAreaContent',
-    imports: ["import { TextAreaContent } from '@montage-ui/core';"],
+    imports: [
+      ...deepIconImports,
+      "import { TextAreaContent } from '@montage-ui/core';",
+    ],
     example: figma.code`<TextAreaContent variant="content-badge">${figma.helpers.react.renderChildren(
       children,
     )}</TextAreaContent>`,
@@ -67,7 +86,10 @@ if (figma.selectedInstance.getPropertyValue('Type') === 'Icon') {
 
   template = {
     id: 'TextAreaContent',
-    imports: ["import { TextAreaContent } from '@montage-ui/core';"],
+    imports: [
+      ...deepIconImports,
+      "import { TextAreaContent } from '@montage-ui/core';",
+    ],
     example: figma.code`<TextAreaContent variant="segmented-control">${figma.helpers.react.renderChildren(
       children,
     )}</TextAreaContent>`,
@@ -75,6 +97,10 @@ if (figma.selectedInstance.getPropertyValue('Type') === 'Icon') {
   };
 } else if (figma.selectedInstance.getPropertyValue('Type') === 'Slot') {
   const children = figma.properties.slot('Slot');
+  // An empty slot renders Figma's placeholder layer: emit a self-closing wrapper.
+  const hasContent = Boolean(
+    children && children.connectedInstances.length > 0,
+  );
   const __props: Record<string, unknown> = {};
   if (children && children.type !== 'ERROR') {
     __props['children'] = children;
@@ -82,10 +108,15 @@ if (figma.selectedInstance.getPropertyValue('Type') === 'Icon') {
 
   template = {
     id: 'TextAreaContent',
-    imports: ["import { TextAreaContent } from '@montage-ui/core';"],
-    example: figma.code`<TextAreaContent variant="custom">${figma.helpers.react.renderChildren(
-      children,
-    )}</TextAreaContent>`,
+    imports: [
+      ...deepIconImports,
+      "import { TextAreaContent } from '@montage-ui/core';",
+    ],
+    example: hasContent
+      ? figma.code`<TextAreaContent variant="custom">${figma.helpers.react.renderChildren(
+          children,
+        )}</TextAreaContent>`
+      : figma.code`<TextAreaContent variant="custom" />`,
     metadata: { nestable: true, __props },
   };
 } else {

@@ -13,7 +13,10 @@ export type SectionMessageProps = WithSxProps<{
   onOpenChange?: (state: boolean) => void;
   /** Whether to display the close button. */
   closeButton?: boolean;
-  /** The icon of the section message. */
+  /**
+   * The icon of the section message. Defaults to the status icon of `variant`.
+   * Pass `null` to hide the icon.
+   */
   leadingContent?: ReactNode;
   /** The trailing button of the section message. */
   trailingButton?: ReactNode;

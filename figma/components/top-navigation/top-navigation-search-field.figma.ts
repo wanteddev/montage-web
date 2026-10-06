@@ -2,14 +2,20 @@
 
 import figma from 'figma';
 
-const children = figma.properties.children(['Searchfield/Searchfield']);
-const __props: Record<string, unknown> = {};
-if (children && children.type !== 'ERROR') {
-  __props['children'] = children;
-}
+import { renderNested, uniqueImports } from './top-navigation-shared';
+
+// Renders the nested search field directly (no wrapping fragment).
+const field = renderNested(
+  figma.selectedInstance.findInstance('Searchfield/Searchfield'),
+);
+const imports = uniqueImports([
+  "import { SearchField } from '@montage-ui/core';",
+  ...(field?.imports ?? []),
+]);
 
 export default {
   id: 'TopNavigationSearchField',
-  example: figma.code`<>${figma.helpers.react.renderChildren(children)}</>`,
-  metadata: { nestable: true, __props },
+  imports: field ? imports : [],
+  example: field ? figma.tsx`${field.code}` : figma.code``,
+  metadata: { nestable: true, props: { imports: field ? imports : [] } },
 };

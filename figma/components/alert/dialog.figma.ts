@@ -16,8 +16,10 @@ if (figma.selectedInstance.getPropertyValue('Platform') === 'Web') {
 
   template = {
     id: 'Alert',
-    imports: ["import { Alert } from '@montage-ui/core'"],
-    example: figma.code`<>${figma.helpers.react.renderChildren(alert)}</>`,
+    // The nested dialog content declares every Alert component it renders
+    // (imports propagate one level), so the wrapper adds none to avoid duplicates.
+    imports: [],
+    example: figma.code`${figma.helpers.react.renderChildren(alert)}`,
     metadata: { nestable: true, __props },
   };
 } else {

@@ -4,6 +4,27 @@
 
 import figma from 'figma';
 
+import { contentResourceImports, iconImportStatements } from './nested-imports';
+
+// `Trailing Content` renders further instances (IconButton, icons, …) whose imports Code
+// Connect does not hoist, so they are listed explicitly.
+const trailingNested =
+  figma.selectedInstance.getBoolean('Trailing Content') === true
+    ? contentResourceImports(
+        figma.selectedInstance.findInstance('Trailing Content'),
+      )
+    : undefined;
+const trailingImports = trailingNested
+  ? [
+      ...(trailingNested.core.length > 0
+        ? [
+            `import { ${trailingNested.core.join(', ')} } from '@montage-ui/core';`,
+          ]
+        : []),
+      ...iconImportStatements(trailingNested.icons),
+    ]
+  : [];
+
 // Branch per variant; unmatched combinations render no snippet.
 
 let template;
@@ -52,7 +73,10 @@ if (figma.selectedInstance.getPropertyValue('Leading Icon') === false) {
 
   template = {
     id: 'TextField',
-    imports: ["import { TextField } from '@montage-ui/core';"],
+    imports: [
+      "import { TextField } from '@montage-ui/core';",
+      ...trailingImports,
+    ],
     example: figma.code`<TextField${figma.helpers.react.renderProp(
       'placeholder',
       placeholder,
@@ -122,6 +146,7 @@ if (figma.selectedInstance.getPropertyValue('Leading Icon') === false) {
     id: 'TextField',
     imports: [
       "import { TextField, TextFieldContent } from '@montage-ui/core';",
+      ...trailingImports,
     ],
     example: figma.code`<TextField leadingContent={<TextFieldContent variant="icon">${figma.helpers.react.renderChildren(
       icon,

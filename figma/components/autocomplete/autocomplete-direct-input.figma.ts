@@ -4,6 +4,7 @@
 
 import figma from 'figma';
 
+import { finalizeTemplate } from '../modal/collect-imports';
 import {
   AUTOCOMPLETE_OPTION_SLOT_NAMES,
   renderElementProp,
@@ -19,7 +20,7 @@ const leadingContent = renderPreset(
   AUTOCOMPLETE_OPTION_SLOT_NAMES.content,
 );
 
-export default {
+export default finalizeTemplate({
   id: 'AutocompleteOption',
   imports: [
     coreImport([
@@ -34,4 +35,4 @@ export default {
   ${label.type === 'ERROR' ? '' : label.textContent}
 </AutocompleteOption>`,
   metadata: { nestable: true },
-};
+});

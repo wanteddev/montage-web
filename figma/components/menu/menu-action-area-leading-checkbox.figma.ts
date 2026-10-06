@@ -4,17 +4,24 @@
 
 import figma from 'figma';
 
-const children = figma.properties.children(['Control/Checkbox']);
+import { finalizeTemplate } from '../modal/collect-imports';
+
+// Rendered directly so the nested component's imports reach parent snippets.
+const childLayer = figma.selectedInstance.findInstance('Control/Checkbox');
+const children =
+  childLayer.type !== 'ERROR' && childLayer.hasCodeConnect()
+    ? childLayer.executeTemplate().example
+    : undefined;
 const __props: Record<string, unknown> = {};
 if (children && children.type !== 'ERROR') {
   __props['children'] = children;
 }
 
-export default {
+export default finalizeTemplate({
   id: 'MenuActionAreaContent',
   imports: ["import { MenuActionAreaContent } from '@montage-ui/core';"],
   example: figma.code`<MenuActionAreaContent variant="custom">${figma.helpers.react.renderChildren(
     children,
   )}</MenuActionAreaContent>`,
   metadata: { nestable: true, __props },
-};
+});

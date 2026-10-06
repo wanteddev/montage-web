@@ -31,16 +31,22 @@ export const renderListCellItem = (
     return { example: figma.tsx`<${component} />`, usedNames: [component] };
   }
 
-  const cell = readListCell(item.findInstance('Cell'), names);
+  // Radio / checkbox items render their own control in the leading area (core
+  // `MenuItem` variant), so the Radio / Checkbox preset in the Figma slot is skipped.
+  const variant = withMenuItemProps
+    ? item.getEnum('Variant', {
+        Normal: undefined,
+        Radio: 'radio',
+        Checkbox: 'checkbox',
+      })
+    : undefined;
+  const cell = readListCell(item.findInstance('Cell'), names, {
+    skipLeading: variant === 'radio' || variant === 'checkbox',
+  });
   const label = cell.label ?? '';
 
   let itemProps = '';
   if (withMenuItemProps) {
-    const variant = item.getEnum('Variant', {
-      Normal: undefined,
-      Radio: 'radio',
-      Checkbox: 'checkbox',
-    });
     const verticalPadding = item.getEnum('Vertical Padding', {
       '8px': 'small',
       '12px': undefined,
@@ -68,6 +74,37 @@ export const renderListCellItem = (
   return { example, usedNames: [component, ...cell.usedNames] };
 };
 
-/** Builds a single named import statement from `@montage-ui/core`. */
-export const coreImport = (names: Array<string>) =>
-  `import { ${[...new Set(names)].sort().join(', ')} } from '@montage-ui/core';`;
+/**
+ * Builds the import statements for a snippet: plain names are merged into one
+ * `@montage-ui/core` import, and full `import …` statements (nested imports
+ * collected by the list-cell helpers) are appended as-is.
+ */
+export const coreImport = (names: Array<string>) => {
+  const core = new Set<string>();
+  const statements = new Set<string>();
+  for (const entry of names) {
+    if (!entry.startsWith('import ')) {
+      core.add(entry);
+      continue;
+    }
+    // Fold `@montage-ui/core` statements into the single core import.
+    const match = /^import \{([^}]*)\} from ['"]@montage-ui\/core['"];?$/.exec(
+      entry.trim(),
+    );
+    if (match) {
+      match[1]
+        .split(',')
+        .map((name) => name.trim())
+        .filter(Boolean)
+        .forEach((name) => core.add(name));
+    } else {
+      // Normalize quotes / trailing semicolon so the same statement emitted by
+      // different templates (`"` vs `'`) is declared once.
+      statements.add(entry.trim().replace(/"/g, "'").replace(/;?$/, ';'));
+    }
+  }
+  return [
+    `import { ${[...core].sort().join(', ')} } from '@montage-ui/core';`,
+    ...statements,
+  ].join('\n');
+};

@@ -4,6 +4,8 @@
 
 import figma from 'figma';
 
+import { finalizeTemplate } from '../modal/collect-imports';
+
 const leadingContent = figma.selectedInstance.getBoolean('Leading Content', {
   true: figma.selectedInstance.getInstanceSwap('┗ Instance')?.executeTemplate()
     .example,
@@ -22,7 +24,7 @@ if (trailingContent && trailingContent.type !== 'ERROR') {
   __props['trailingContent'] = trailingContent;
 }
 
-export default {
+export default finalizeTemplate({
   id: 'MenuActionArea',
   imports: ["import { MenuActionArea } from '@montage-ui/core';"],
   example: figma.code`<MenuActionArea${figma.helpers.react.renderProp(
@@ -30,4 +32,4 @@ export default {
     leadingContent,
   )}${figma.helpers.react.renderProp('trailingContent', trailingContent)}/>`,
   metadata: { nestable: true, __props },
-};
+});

@@ -28,7 +28,14 @@ if (
     true: figma.helpers.react.jsxElement('<SnackbarCloseButton />'),
     false: undefined,
   });
-  const icon = figma.properties.children(['Icon']);
+  // The icon is the `Leading Content` instance (Icons wrapper) inside the
+  // `Icon` frame. Its icon import is two levels down, so re-declare it here.
+  const iconLayer = figma.selectedInstance.findInstance('Leading Content');
+  const iconResult =
+    iconLayer.type === 'ERROR' ? undefined : iconLayer.executeTemplate();
+  const icon = iconResult?.example;
+  const iconImports =
+    (iconResult?.metadata?.props?.imports as Array<string> | undefined) ?? [];
   const __props: Record<string, unknown> = {};
   if (heading && heading.type !== 'ERROR') {
     __props['heading'] = heading;
@@ -50,6 +57,7 @@ if (
     id: 'Snackbar',
     imports: [
       "import { Snackbar, SnackbarAction, SnackbarCloseButton, SnackbarContent, SnackbarDescription, SnackbarExtraContent, SnackbarHeading } from '@montage-ui/core';",
+      ...iconImports,
     ],
     example: figma.code`<Snackbar>
       <SnackbarContent extraContent={<SnackbarExtraContent>${figma.helpers.react.renderChildren(
@@ -68,8 +76,12 @@ if (
       </SnackbarContent>
       <SnackbarAction>${figma.helpers.react.renderChildren(
         action.label,
-      )}</SnackbarAction>
-      ${figma.helpers.react.renderChildren(closeButton)}
+      )}</SnackbarAction>${
+        closeButton
+          ? figma.code`
+      ${figma.helpers.react.renderChildren(closeButton)}`
+          : ''
+      }
     </Snackbar>`,
     metadata: { nestable: true, __props },
   };
@@ -91,7 +103,14 @@ if (
     true: figma.helpers.react.jsxElement('<SnackbarCloseButton />'),
     false: undefined,
   });
-  const icon = figma.properties.children(['Icon']);
+  // The icon is the `Leading Content` instance (Icons wrapper) inside the
+  // `Icon` frame. Its icon import is two levels down, so re-declare it here.
+  const iconLayer = figma.selectedInstance.findInstance('Leading Content');
+  const iconResult =
+    iconLayer.type === 'ERROR' ? undefined : iconLayer.executeTemplate();
+  const icon = iconResult?.example;
+  const iconImports =
+    (iconResult?.metadata?.props?.imports as Array<string> | undefined) ?? [];
   const __props: Record<string, unknown> = {};
   if (heading && heading.type !== 'ERROR') {
     __props['heading'] = heading;
@@ -110,6 +129,7 @@ if (
     id: 'Snackbar',
     imports: [
       "import { Snackbar, SnackbarAction, SnackbarCloseButton, SnackbarContent, SnackbarExtraContent, SnackbarHeading } from '@montage-ui/core';",
+      ...iconImports,
     ],
     example: figma.code`<Snackbar>
       <SnackbarContent extraContent={<SnackbarExtraContent>${figma.helpers.react.renderChildren(
@@ -125,8 +145,12 @@ if (
       </SnackbarContent>
       <SnackbarAction>${figma.helpers.react.renderChildren(
         action.label,
-      )}</SnackbarAction>
-      ${figma.helpers.react.renderChildren(closeButton)}
+      )}</SnackbarAction>${
+        closeButton
+          ? figma.code`
+      ${figma.helpers.react.renderChildren(closeButton)}`
+          : ''
+      }
     </Snackbar>`,
     metadata: { nestable: true, __props },
   };
@@ -183,8 +207,12 @@ if (
       </SnackbarContent>
       <SnackbarAction>${figma.helpers.react.renderChildren(
         action.label,
-      )}</SnackbarAction>
-      ${figma.helpers.react.renderChildren(closeButton)}
+      )}</SnackbarAction>${
+        closeButton
+          ? figma.code`
+      ${figma.helpers.react.renderChildren(closeButton)}`
+          : ''
+      }
     </Snackbar>`,
     metadata: { nestable: true, __props },
   };
@@ -234,8 +262,12 @@ if (
       </SnackbarContent>
       <SnackbarAction>${figma.helpers.react.renderChildren(
         action.label,
-      )}</SnackbarAction>
-      ${figma.helpers.react.renderChildren(closeButton)}
+      )}</SnackbarAction>${
+        closeButton
+          ? figma.code`
+      ${figma.helpers.react.renderChildren(closeButton)}`
+          : ''
+      }
     </Snackbar>`,
     metadata: { nestable: true, __props },
   };

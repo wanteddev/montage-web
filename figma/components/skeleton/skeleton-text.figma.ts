@@ -9,7 +9,7 @@ import figma from 'figma';
 let template;
 if (figma.selectedInstance.getPropertyValue('Color') === 'Normal') {
   const align = figma.selectedInstance.getEnum('Align', {
-    Leading: 'left',
+    Leading: undefined, // core default
     Center: 'center',
     Trailing: 'right',
   });
@@ -38,7 +38,7 @@ if (figma.selectedInstance.getPropertyValue('Color') === 'Normal') {
   };
 } else if (figma.selectedInstance.getPropertyValue('Color') === 'White') {
   const align = figma.selectedInstance.getEnum('Align', {
-    Leading: 'left',
+    Leading: undefined, // core default
     Center: 'center',
     Trailing: 'right',
   });

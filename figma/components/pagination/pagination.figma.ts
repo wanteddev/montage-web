@@ -5,7 +5,8 @@
 import figma from 'figma';
 
 const variant = figma.selectedInstance.getEnum('Variant', {
-  Extended: 'extended',
+  // `extended` is the core default.
+  Extended: undefined,
   Compact: 'compact',
   Minimize: 'minimize',
 });

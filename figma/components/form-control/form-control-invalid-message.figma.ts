@@ -4,34 +4,25 @@
 
 import figma from 'figma';
 
-const children = figma.selectedInstance.getEnum('Description', {
-  True: figma.selectedInstance.getString('┗ Invalid Text'),
-  False: undefined,
-});
-const accessory = figma.selectedInstance.getEnum('Accessory', {
-  True: figma.helpers.react.jsxElement(
-    '<FormControlMessageAccessory\n            variant="character-counter"\n            length={0}\n            maxLength={100}\n          />',
-  ),
-  False: undefined,
-});
-const __props: Record<string, unknown> = {};
-if (children && children.type !== 'ERROR') {
-  __props['children'] = children;
-}
-if (accessory && accessory.type !== 'ERROR') {
-  __props['accessory'] = accessory;
-}
+const instance = figma.selectedInstance;
+
+// Without a description the message renders only its accessory (if any).
+const text =
+  instance.getPropertyValue('Description') === 'True'
+    ? instance.getString('┗ Invalid Text')
+    : '';
+const hasAccessory = instance.getPropertyValue('Accessory') === 'True';
+const accessoryProp = hasAccessory
+  ? ' accessory={<FormControlMessageAccessory variant="character-counter" length={0} maxLength={100} />}'
+  : '';
 
 export default {
   id: 'FormControlNegativeMessage',
   imports: [
-    `import { FormControlNegativeMessage${accessory ? ', FormControlMessageAccessory' : ''} } from '@montage-ui/core';`,
+    `import { FormControlNegativeMessage${hasAccessory ? ', FormControlMessageAccessory' : ''} } from '@montage-ui/core';`,
   ],
-  example: figma.code`<FormControlNegativeMessage${figma.helpers.react.renderProp(
-    'accessory',
-    accessory,
-  )}>
-        ${figma.helpers.react.renderChildren(children)}
-      </FormControlNegativeMessage>`,
-  metadata: { nestable: true, __props },
+  example: text
+    ? figma.tsx`<FormControlNegativeMessage${accessoryProp}>${text}</FormControlNegativeMessage>`
+    : figma.tsx`<FormControlNegativeMessage${accessoryProp} />`,
+  metadata: { nestable: true },
 };

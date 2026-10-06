@@ -24,7 +24,7 @@ if (figma.selectedInstance.getPropertyValue('State') === 'Checked') {
   template = {
     id: 'RoundCheckbox',
     imports: ["import { RoundCheckbox } from '@montage-ui/core';"],
-    example: figma.code`<RoundCheckbox checked${figma.helpers.react.renderProp(
+    example: figma.code`<RoundCheckbox defaultChecked${figma.helpers.react.renderProp(
       'disabled',
       disabled,
     )}${figma.helpers.react.renderProp('size', size)}/>`,

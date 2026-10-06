@@ -5,6 +5,10 @@
 import figma from 'figma';
 
 import { joinTemplates } from '../../helpers/list-cell';
+import {
+  iconComponentName,
+  iconImportStatements,
+} from '../text-field/nested-imports';
 
 const size = figma.selectedInstance.getEnum('Size', {
   Small: 'small',
@@ -22,6 +26,8 @@ const segments = [1, 2, 3, 4, 5, 6].filter(
 );
 
 let defaultValue = '0';
+// `executeTemplate().example` carries no imports: collect the icon names here.
+const iconNames = new Set<string>();
 const items = segments.map((index, position) => {
   const value = String(position);
   const knob = figma.selectedInstance.findInstance(`Segment ${index}`);
@@ -35,10 +41,12 @@ const items = segments.map((index, position) => {
 
   const label = knob.getString('Text');
   const icon = knob.findInstance('Icon');
-  const iconCode =
-    (withIcon || iconOnly) && icon.type !== 'ERROR'
-      ? icon.executeTemplate().example
-      : undefined;
+  const showIcon = (withIcon || iconOnly) && icon.type !== 'ERROR';
+  const iconCode = showIcon ? icon.executeTemplate().example : undefined;
+  if (showIcon) {
+    const iconName = iconComponentName(icon);
+    if (iconName) iconNames.add(iconName);
+  }
 
   if (iconOnly) {
     return figma.tsx`<SegmentedControlItem value="${value}" aria-label=${JSON.stringify(
@@ -57,16 +65,19 @@ const items = segments.map((index, position) => {
 </SegmentedControlItem>`;
 });
 
+const imports = [
+  "import { SegmentedControl, SegmentedControlItem } from '@montage-ui/core';",
+  ...iconImportStatements([...iconNames]),
+];
+
 export default {
   id: 'SegmentedControl',
-  imports: [
-    "import { SegmentedControl, SegmentedControlItem } from '@montage-ui/core';",
-  ],
+  imports,
   example: figma.tsx`<SegmentedControl defaultValue="${defaultValue}"${figma.helpers.react.renderProp(
     'size',
     size,
   )}${figma.helpers.react.renderProp('iconOnly', iconOnly)}>
   ${joinTemplates(items)}
 </SegmentedControl>`,
-  metadata: { nestable: true },
+  metadata: { nestable: true, props: { imports } },
 };
