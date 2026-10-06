@@ -41,7 +41,7 @@
     "@commitlint/cli": "^19.8.1",
     "@commitlint/config-conventional": "^19.8.1",
     "@eslint/js": "^9.39.4",
-    "@figma/code-connect": "^1.5.3",
+    "@figma/code-connect": "^2.0.1",
     "@size-limit/file": "^11.2.0",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
