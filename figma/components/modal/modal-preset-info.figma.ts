@@ -4,6 +4,7 @@
 
 import figma from 'figma';
 
+import { finalizeTemplate } from './collect-imports';
 import { joinParts } from './modal-helpers';
 
 // Info list rows (icon + text) in the `Info List` slot. Text: Body 2 Reading
@@ -26,11 +27,11 @@ const rows = texts.map((text, index) => {
 </FlexBox>`;
 });
 
-export default {
+export default finalizeTemplate({
   id: 'ModalPresetInfo',
   imports: ["import { FlexBox, Typography } from '@montage-ui/core';"],
   example: figma.tsx`<FlexBox flexDirection="column" gap="6px">
 ${joinParts(rows) ?? ''}
 </FlexBox>`,
   metadata: { nestable: true },
-};
+});

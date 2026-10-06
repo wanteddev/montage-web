@@ -4,6 +4,7 @@
 
 import figma from 'figma';
 
+import { finalizeTemplate } from './collect-imports';
 import {
   NAVIGATION_IMPORT,
   renderModalNavigation,
@@ -20,19 +21,25 @@ const VARIANTS = {
 const variant =
   VARIANTS[instance.getPropertyValue('Variant') as keyof typeof VARIANTS];
 
-export default instance.getPropertyValue('Platform') === 'Web' && variant
-  ? {
-      id: 'ModalNavigation',
-      imports: [NAVIGATION_IMPORT],
-      example: renderModalNavigation(instance.findInstance('┗ Bar'), variant, {
-        background: instance.getBoolean('Background') === true,
-        defaultVariant: 'emphasized',
-      }),
-      metadata: { nestable: true },
-    }
-  : {
-      id: 'ModalNavigation',
-      imports: [],
-      example: figma.code``,
-      metadata: { nestable: true },
-    };
+export default finalizeTemplate(
+  instance.getPropertyValue('Platform') === 'Web' && variant
+    ? {
+        id: 'ModalNavigation',
+        imports: [NAVIGATION_IMPORT],
+        example: renderModalNavigation(
+          instance.findInstance('┗ Bar'),
+          variant,
+          {
+            background: instance.getBoolean('Background') === true,
+            defaultVariant: 'emphasized',
+          },
+        ),
+        metadata: { nestable: true },
+      }
+    : {
+        id: 'ModalNavigation',
+        imports: [],
+        example: figma.code``,
+        metadata: { nestable: true },
+      },
+);

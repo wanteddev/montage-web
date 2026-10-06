@@ -94,3 +94,44 @@ ${joinParts(parts) ?? ''}
 
 export const modalImport = (names: Array<string>) =>
   `import { ${[...new Set(['Button', 'Modal', 'ModalContainer', 'ModalTrigger', ...names])].sort().join(', ')} } from '@montage-ui/core';`;
+
+/**
+ * Renders a `Modal/Resource/Modal` (popup body) instance. Shared by the popup
+ * body template and `Modal/Popup`, so the outer template executes the
+ * navigation / action area templates directly: nested imports only travel one
+ * template level up.
+ */
+export const renderPopupBody = (instance: InstanceHandle) => {
+  if (instance.type === 'ERROR') {
+    return { example: figma.code``, imports: [] as Array<string> };
+  }
+
+  const size = instance.getEnum('Size', {
+    Medium: undefined,
+    Large: 'large',
+    XLarge: 'xlarge',
+  });
+  const resize = instance.getEnum('Resize', {
+    Hug: undefined,
+    Fixed: 'fixed',
+  });
+
+  const navigation =
+    instance.getBoolean('Navigation') === true
+      ? renderInstance(instance.findInstance('Navigation'))
+      : undefined;
+  const content = renderModalContent(instance.findInstance('Content'), 'popup');
+  const actionArea =
+    instance.getBoolean('Action') === true
+      ? renderInstance(instance.findInstance('Action Area'))
+      : undefined;
+
+  return {
+    example: renderModal(
+      'popup',
+      (size ? ` size="${size}"` : '') + (resize ? ` resize="${resize}"` : ''),
+      [navigation, content.code, actionArea],
+    ),
+    imports: [modalImport(content.usedNames)],
+  };
+};

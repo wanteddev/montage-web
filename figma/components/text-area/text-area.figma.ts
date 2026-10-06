@@ -4,6 +4,28 @@
 
 import figma from 'figma';
 
+import {
+  contentResourceImports,
+  importStatements,
+  mergeImports,
+} from '../text-field/nested-imports';
+
+// Content resources render further instances (IconButton, Button, icons, …)
+// whose imports Code Connect does not hoist, so they are listed explicitly.
+const bottom = figma.selectedInstance.getBoolean('Bottom') === true;
+const nestedImports = mergeImports(
+  contentResourceImports(
+    bottom && figma.selectedInstance.getBoolean('┗ Leading Content') === true
+      ? figma.selectedInstance.findInstance('Leading Content')
+      : undefined,
+  ),
+  contentResourceImports(
+    bottom && figma.selectedInstance.getBoolean('┗ Trailing Content') === true
+      ? figma.selectedInstance.findInstance('Trailing Content')
+      : undefined,
+  ),
+);
+
 const placeholder = figma.selectedInstance.getString('Placeholder');
 const leadingContent = figma.selectedInstance.getBoolean('Bottom', {
   true: figma.selectedInstance.getBoolean('┗ Leading Content', {
@@ -50,7 +72,7 @@ if (size && size.type !== 'ERROR') {
 
 export default {
   id: 'TextArea',
-  imports: ["import { TextArea } from '@montage-ui/core';"],
+  imports: importStatements(['TextArea'], nestedImports),
   example: figma.code`<TextArea${figma.helpers.react.renderProp(
     'placeholder',
     placeholder,

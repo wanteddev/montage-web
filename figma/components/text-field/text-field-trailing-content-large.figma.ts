@@ -4,13 +4,23 @@
 
 import figma from 'figma';
 
+import { contentResourceImports, iconImportStatements } from './nested-imports';
+
+// Icons inside nested IconButton / Button instances are not hoisted by Code Connect.
+const deepIconImports = iconImportStatements(
+  contentResourceImports(figma.selectedInstance).deepIcons,
+);
+
 // Branch per variant; unmatched combinations render no snippet.
 
 let template;
 if (figma.selectedInstance.getPropertyValue('Variant') === 'Custom') {
   template = {
     id: 'TextFieldContent',
-    imports: ["import { TextFieldContent } from '@montage-ui/core';"],
+    imports: [
+      ...deepIconImports,
+      "import { TextFieldContent } from '@montage-ui/core';",
+    ],
     example: figma.code`<TextFieldContent variant="custom"/>`,
   };
 } else if (figma.selectedInstance.getPropertyValue('Variant') === 'Timer') {
@@ -22,7 +32,10 @@ if (figma.selectedInstance.getPropertyValue('Variant') === 'Custom') {
 
   template = {
     id: 'TextFieldContent',
-    imports: ["import { TextFieldContent } from '@montage-ui/core';"],
+    imports: [
+      ...deepIconImports,
+      "import { TextFieldContent } from '@montage-ui/core';",
+    ],
     example: figma.code`<TextFieldContent variant="timer">${figma.helpers.react.renderChildren(
       children,
     )}</TextFieldContent>`,
@@ -37,7 +50,10 @@ if (figma.selectedInstance.getPropertyValue('Variant') === 'Custom') {
 
   template = {
     id: 'TextFieldContent',
-    imports: ["import { TextFieldContent } from '@montage-ui/core';"],
+    imports: [
+      ...deepIconImports,
+      "import { TextFieldContent } from '@montage-ui/core';",
+    ],
     example: figma.code`<TextFieldContent variant="badge">${figma.helpers.react.renderChildren(
       children,
     )}</TextFieldContent>`,
@@ -52,7 +68,10 @@ if (figma.selectedInstance.getPropertyValue('Variant') === 'Custom') {
 
   template = {
     id: 'TextFieldContent',
-    imports: ["import { TextFieldContent } from '@montage-ui/core';"],
+    imports: [
+      ...deepIconImports,
+      "import { TextFieldContent } from '@montage-ui/core';",
+    ],
     example: figma.code`<TextFieldContent variant="icon">${figma.helpers.react.renderChildren(
       children,
     )}</TextFieldContent>`,
@@ -67,7 +86,10 @@ if (figma.selectedInstance.getPropertyValue('Variant') === 'Custom') {
 
   template = {
     id: 'TextFieldContent',
-    imports: ["import { TextFieldContent } from '@montage-ui/core';"],
+    imports: [
+      ...deepIconImports,
+      "import { TextFieldContent } from '@montage-ui/core';",
+    ],
     example: figma.code`<TextFieldContent variant="text">${figma.helpers.react.renderChildren(
       children,
     )}</TextFieldContent>`,
@@ -84,7 +106,10 @@ if (figma.selectedInstance.getPropertyValue('Variant') === 'Custom') {
 
   template = {
     id: 'TextFieldContent',
-    imports: ["import { TextFieldContent } from '@montage-ui/core';"],
+    imports: [
+      ...deepIconImports,
+      "import { TextFieldContent } from '@montage-ui/core';",
+    ],
     example: figma.code`<TextFieldContent variant="icon-button">${figma.helpers.react.renderChildren(
       children,
     )}</TextFieldContent>`,

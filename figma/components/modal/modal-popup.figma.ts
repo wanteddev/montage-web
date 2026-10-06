@@ -4,15 +4,19 @@
 
 import figma from 'figma';
 
-import { renderInstance } from './modal-helpers';
+import { finalizeTemplate } from './collect-imports';
+import { renderPopupBody } from './modal-helpers';
 
 // `Modal/Popup` only adds the dimmed screen and safe areas around the popup
-// body (`Modal/Resource/Modal`), so it renders that nested instance.
-const popup = renderInstance(figma.selectedInstance.findInstance('Modal'));
+// body (`Modal/Resource/Modal`). Render that body here (not via its template)
+// so the navigation / action area imports reach this snippet.
+const { example, imports } = renderPopupBody(
+  figma.selectedInstance.findInstance('Modal'),
+);
 
-export default {
+export default finalizeTemplate({
   id: 'Modal',
-  imports: [],
-  example: popup ? figma.code`${popup}` : figma.code``,
+  imports,
+  example,
   metadata: { nestable: true },
-};
+});

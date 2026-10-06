@@ -4,6 +4,11 @@
 
 import figma from 'figma';
 
+import {
+  renderNested,
+  uniqueImports,
+} from '../top-navigation/top-navigation-shared';
+
 // The selected tab is the `Tab N` instance whose `State` is Active. Item values
 // are their labels (see bottom-navigation-item), so the label is the default value.
 const content = figma.selectedInstance.findInstance('Content');
@@ -25,24 +30,40 @@ const defaultValue =
     ? activeLabel.textContent
     : undefined;
 
-// Branch per variant; unmatched combinations render no snippet.
-
 let template;
 if (figma.selectedInstance.getPropertyValue('Platform') === 'Web Mobile') {
-  const children = figma.properties.children(['Content']);
-  const __props: Record<string, unknown> = {};
-  if (children && children.type !== 'ERROR') {
-    __props['children'] = children;
-  }
+  // Render the tab items directly (the content resource would add a fragment)
+  // and re-declare their imports.
+  const items =
+    content.type === 'ERROR'
+      ? []
+      : ['Tab 1', 'Tab 2', 'Tab 3', 'Tab 4', 'Tab 5']
+          .map((name) => renderNested(content.findInstance(name)))
+          .filter((item): item is NonNullable<typeof item> =>
+            Boolean(item?.code),
+          );
+  const body = items.length
+    ? items
+        .map((item) => item.code)
+        .reduce(
+          (joined, code) => figma.tsx`${joined}
+  ${code}`,
+        )
+    : '';
+  const imports = uniqueImports([
+    "import { BottomNavigation } from '@montage-ui/core';",
+    ...items.flatMap((item) => item.imports),
+  ]);
 
   template = {
     id: 'BottomNavigation',
-    imports: ["import { BottomNavigation } from '@montage-ui/core';"],
-    example: figma.code`<BottomNavigation${figma.helpers.react.renderProp(
-      'defaultValue',
-      defaultValue,
-    )}>${figma.helpers.react.renderChildren(children)}</BottomNavigation>`,
-    metadata: { nestable: true, __props },
+    imports,
+    example: figma.tsx`<BottomNavigation${
+      defaultValue ? ` defaultValue=${JSON.stringify(defaultValue)}` : ''
+    }>
+  ${body}
+</BottomNavigation>`,
+    metadata: { nestable: true, props: { imports } },
   };
 } else {
   // No Code Connect mapping for this variant combination.

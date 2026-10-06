@@ -4,43 +4,15 @@
 
 import figma from 'figma';
 
-import {
-  modalImport,
-  renderInstance,
-  renderModal,
-  renderModalContent,
-} from './modal-helpers';
+import { finalizeTemplate } from './collect-imports';
+import { renderPopupBody } from './modal-helpers';
 
 // `Modal/Resource/Modal`: the popup body (navigation, content, action area).
-const instance = figma.selectedInstance;
+const { example, imports } = renderPopupBody(figma.selectedInstance);
 
-const size = instance.getEnum('Size', {
-  Medium: undefined,
-  Large: 'large',
-  XLarge: 'xlarge',
-});
-const resize = instance.getEnum('Resize', {
-  Hug: undefined,
-  Fixed: 'fixed',
-});
-
-const navigation =
-  instance.getBoolean('Navigation') === true
-    ? renderInstance(instance.findInstance('Navigation'))
-    : undefined;
-const content = renderModalContent(instance.findInstance('Content'), 'popup');
-const actionArea =
-  instance.getBoolean('Action') === true
-    ? renderInstance(instance.findInstance('Action Area'))
-    : undefined;
-
-export default {
+export default finalizeTemplate({
   id: 'Modal',
-  imports: [modalImport(content.usedNames)],
-  example: renderModal(
-    'popup',
-    (size ? ` size="${size}"` : '') + (resize ? ` resize="${resize}"` : ''),
-    [navigation, content.code, actionArea],
-  ),
+  imports,
+  example,
   metadata: { nestable: true },
-};
+});

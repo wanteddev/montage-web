@@ -4,13 +4,14 @@
 
 import figma from 'figma';
 
+import { finalizeTemplate } from './collect-imports';
 import { renderInstance } from './modal-helpers';
 
 const menu = renderInstance(figma.selectedInstance.findInstance('Menu/Menu'));
 
-export default {
+export default finalizeTemplate({
   id: 'ModalPresetMenu',
   imports: [],
   example: menu ? figma.code`${menu}` : figma.code``,
   metadata: { nestable: true },
-};
+});

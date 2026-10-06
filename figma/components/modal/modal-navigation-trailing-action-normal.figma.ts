@@ -4,15 +4,16 @@
 
 import figma from 'figma';
 
+import { finalizeTemplate } from './collect-imports';
 import {
   NAVIGATION_BUTTON_IMPORT,
   renderTrailingAction,
 } from './modal-navigation-shared';
 
 // Trailing navigation action. Close Button / Icon / Text.
-export default {
+export default finalizeTemplate({
   id: 'ModalNavigationButton',
   imports: [NAVIGATION_BUTTON_IMPORT],
   example: renderTrailingAction(figma.selectedInstance) ?? figma.code``,
   metadata: { nestable: true },
-};
+});

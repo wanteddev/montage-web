@@ -4,239 +4,122 @@
 
 import figma from 'figma';
 
-// Branch per variant; unmatched combinations render no snippet.
+import {
+  elementProp,
+  findFirst,
+  joinRendered,
+  renderAction,
+  renderLeading,
+  renderNested,
+  renderTrailingGroup,
+  uniqueImports,
+} from './top-navigation-shared';
+
+// Property and layer names below are the ones the Code Connect runtime sees: it
+// trims surrounding whitespace from property names (e.g. `Title ` → `Title`, and
+// the em space before `┗ Text`), and some instances keep their component name as
+// the layer name.
+const VARIANTS: Record<string, string> = {
+  Normal: 'normal',
+  Display: 'display',
+  Search: 'search',
+  Floating: 'floating',
+};
+
+const instance = figma.selectedInstance;
+const variant = VARIANTS[String(instance.getPropertyValue('Variant'))];
 
 let template;
-if (
-  figma.selectedInstance.getPropertyValue('Platform') === 'Web' &&
-  figma.selectedInstance.getPropertyValue('Variant') === 'Normal'
-) {
-  const background = figma.selectedInstance.getBoolean('Background');
-  const toolbar = figma.selectedInstance.getBoolean('Tool Bar', {
-    true: figma.properties.instance('┗ Instance'),
-    false: undefined,
-  });
-  const bar = (function () {
-    const nestedLayer0 = figma.selectedInstance.findInstance('Bar');
-    return {
-      title:
-        nestedLayer0.type !== 'ERROR'
-          ? nestedLayer0.getBoolean('Title ', {
-              true: nestedLayer0.getString(' ┗ Text'),
-              false: undefined,
-            })
-          : undefined,
-      leadingContent:
-        nestedLayer0.type !== 'ERROR'
-          ? nestedLayer0.getBoolean('┗ Leading Button', {
-              true: nestedLayer0.__properties__.children(['Leading Button']),
-              false: undefined,
-            })
-          : undefined,
-      trailingContent:
-        nestedLayer0.type !== 'ERROR'
-          ? nestedLayer0.getBoolean('┗ Trailing Button', {
-              true: nestedLayer0.__properties__.children(['Trailing Button']),
-              false: undefined,
-            })
-          : undefined,
-    };
-  })();
-  const __props: Record<string, unknown> = {};
-  if (background && background.type !== 'ERROR') {
-    __props['background'] = background;
+if (instance.getPropertyValue('Platform') === 'Web' && variant) {
+  const bar = instance.findInstance(variant === 'floating' ? 'Nav Bar' : 'Bar');
+  const hasBar = bar.type !== 'ERROR';
+  const imports = ["import { TopNavigation } from '@montage-ui/core';"];
+
+  // Title (search: the search field takes its place; floating has no title).
+  let title: unknown;
+  if (hasBar && variant === 'normal' && bar.getBoolean('Title') === true) {
+    title = bar.getString('┗ Text');
+  } else if (
+    hasBar &&
+    variant === 'display' &&
+    bar.getBoolean('┗ Title') === true
+  ) {
+    title = bar.getString('┗ Text');
+  } else if (hasBar && variant === 'search') {
+    const searchField = renderNested(bar.findInstance('Search field'));
+    if (searchField) {
+      title = searchField.code;
+      imports.push(
+        ...searchField.imports,
+        "import { SearchField } from '@montage-ui/core';",
+      );
+    }
   }
-  if (toolbar && toolbar.type !== 'ERROR') {
-    __props['toolbar'] = toolbar;
+
+  const leading =
+    hasBar &&
+    variant !== 'display' &&
+    bar.getBoolean('┗ Leading Button') === true
+      ? renderLeading(
+          findFirst(bar, [
+            'Leading Button',
+            'Top Navigation/Resource/Leading/Normal/Default',
+            'Top Navigation/Resource/Leading/Float/Default',
+          ]),
+        )
+      : undefined;
+
+  // Trailing: a group of up to three actions (search has a single action).
+  const trailingParts = [];
+  if (hasBar && bar.getBoolean('┗ Trailing Button') === true) {
+    const trailing = bar.findInstance('Trailing Button');
+    if (
+      trailing.type !== 'ERROR' &&
+      Object.prototype.hasOwnProperty.call(trailing.properties, '┗ Button')
+    ) {
+      trailingParts.push(...renderTrailingGroup(trailing));
+    } else {
+      trailingParts.push(renderAction(trailing));
+    }
   }
-  if (bar && bar.type !== 'ERROR') {
-    __props['bar'] = bar;
+  if (hasBar && variant === 'display' && bar.getBoolean('┗ Avatar') === true) {
+    trailingParts.push(renderNested(bar.findInstance('Avatar')));
   }
+  const trailing = joinRendered(trailingParts);
+
+  // Toolbar: the swapped tool resource (tab / segmented control / category / slot).
+  const toolbar =
+    variant !== 'floating' && instance.getBoolean('Tool Bar') === true
+      ? renderNested(instance.getInstanceSwap('┗ Instance'))
+      : undefined;
+
+  for (const part of [leading, trailing, toolbar]) {
+    if (part) {
+      imports.push(...part.imports);
+    }
+  }
+
+  // Core defaults: `variant="normal"`, `background` on.
+  const variantProp = variant === 'normal' ? '' : ` variant="${variant}"`;
+  const backgroundProp =
+    instance.getBoolean('Background') === true ? '' : ' background={false}';
+  const props = figma.tsx`${variantProp}${elementProp(
+    'leadingContent',
+    leading,
+  )}${elementProp('trailingContent', trailing)}${elementProp(
+    'toolbar',
+    toolbar,
+  )}${backgroundProp}`;
 
   template = {
     id: 'TopNavigation',
-    imports: ["import { TopNavigation } from '@montage-ui/core';"],
-    example: figma.code`<TopNavigation variant="normal"${figma.helpers.react.renderProp(
-      'leadingContent',
-      bar.leadingContent,
-    )}${figma.helpers.react.renderProp(
-      'trailingContent',
-      bar.trailingContent,
-    )}${figma.helpers.react.renderProp(
-      'background',
-      background,
-    )}${figma.helpers.react.renderProp('toolbar', toolbar)}>
-      ${figma.helpers.react.renderChildren(bar.title)}
-    </TopNavigation>`,
-    metadata: { nestable: true, __props },
-  };
-} else if (
-  figma.selectedInstance.getPropertyValue('Platform') === 'Web' &&
-  figma.selectedInstance.getPropertyValue('Variant') === 'Display'
-) {
-  const background = figma.selectedInstance.getBoolean('Background');
-  const toolbar = figma.selectedInstance.getBoolean('Tool Bar', {
-    true: figma.properties.instance('┗ Instance'),
-    false: undefined,
-  });
-  const bar = (function () {
-    const nestedLayer1 = figma.selectedInstance.findInstance('Bar');
-    return {
-      title:
-        nestedLayer1.type !== 'ERROR'
-          ? nestedLayer1.getBoolean('┗ Title ', {
-              true: nestedLayer1.getString(' ┗ Text'),
-              false: undefined,
-            })
-          : undefined,
-      trailingButton:
-        nestedLayer1.type !== 'ERROR'
-          ? nestedLayer1.getBoolean('┗ Trailing Button', {
-              true: nestedLayer1.__properties__.children(['Trailing Button']),
-              false: undefined,
-            })
-          : undefined,
-      avatar:
-        nestedLayer1.type !== 'ERROR'
-          ? nestedLayer1.getBoolean('┗ Avatar', {
-              true: nestedLayer1.__properties__.children(['Avatar']),
-              false: undefined,
-            })
-          : undefined,
-    };
-  })();
-  const __props: Record<string, unknown> = {};
-  if (background && background.type !== 'ERROR') {
-    __props['background'] = background;
-  }
-  if (toolbar && toolbar.type !== 'ERROR') {
-    __props['toolbar'] = toolbar;
-  }
-  if (bar && bar.type !== 'ERROR') {
-    __props['bar'] = bar;
-  }
-
-  template = {
-    id: 'TopNavigation',
-    imports: ["import { TopNavigation } from '@montage-ui/core';"],
-    example: figma.code`<TopNavigation variant="display" trailingContent={<>
-          ${figma.helpers.react.renderChildren(bar.trailingButton)}
-          ${figma.helpers.react.renderChildren(bar.avatar)}
-        </>}${figma.helpers.react.renderProp(
-          'background',
-          background,
-        )}${figma.helpers.react.renderProp('toolbar', toolbar)}>
-      ${figma.helpers.react.renderChildren(bar.title)}
-    </TopNavigation>`,
-    metadata: { nestable: true, __props },
-  };
-} else if (
-  figma.selectedInstance.getPropertyValue('Platform') === 'Web' &&
-  figma.selectedInstance.getPropertyValue('Variant') === 'Search'
-) {
-  const background = figma.selectedInstance.getBoolean('Background');
-  const toolbar = figma.selectedInstance.getBoolean('Tool Bar', {
-    true: figma.properties.instance('┗ Instance'),
-    false: undefined,
-  });
-  const bar = (function () {
-    const nestedLayer2 = figma.selectedInstance.findInstance('Bar');
-    return {
-      leadingContent:
-        nestedLayer2.type !== 'ERROR'
-          ? nestedLayer2.getBoolean('┗ Leading Button', {
-              true: nestedLayer2.__properties__.children(['Leading Button']),
-              false: undefined,
-            })
-          : undefined,
-      trailingContent:
-        nestedLayer2.type !== 'ERROR'
-          ? nestedLayer2.getBoolean('┗ Trailing Button', {
-              true: nestedLayer2.__properties__.children(['Trailing Button']),
-              false: undefined,
-            })
-          : undefined,
-      searchField:
-        nestedLayer2.type !== 'ERROR'
-          ? nestedLayer2.__properties__.children(['Search field'])
-          : undefined,
-    };
-  })();
-  const __props: Record<string, unknown> = {};
-  if (background && background.type !== 'ERROR') {
-    __props['background'] = background;
-  }
-  if (toolbar && toolbar.type !== 'ERROR') {
-    __props['toolbar'] = toolbar;
-  }
-  if (bar && bar.type !== 'ERROR') {
-    __props['bar'] = bar;
-  }
-
-  template = {
-    id: 'TopNavigation',
-    imports: ["import { TopNavigation } from '@montage-ui/core';"],
-    example: figma.code`<TopNavigation variant="search"${figma.helpers.react.renderProp(
-      'leadingContent',
-      bar.leadingContent,
-    )}${figma.helpers.react.renderProp(
-      'trailingContent',
-      bar.trailingContent,
-    )}${figma.helpers.react.renderProp(
-      'background',
-      background,
-    )}${figma.helpers.react.renderProp('toolbar', toolbar)}>
-      ${figma.helpers.react.renderChildren(bar.searchField)}
-    </TopNavigation>`,
-    metadata: { nestable: true, __props },
-  };
-} else if (
-  figma.selectedInstance.getPropertyValue('Platform') === 'Web' &&
-  figma.selectedInstance.getPropertyValue('Variant') === 'Floating'
-) {
-  const background = figma.selectedInstance.getBoolean('Background');
-  // The floating Nav Bar has no title text in Figma (its `Title` frame only
-  // reserves space), and the docs render floating navigations without children.
-  const bar = (function () {
-    const nestedLayer3 = figma.selectedInstance.findInstance('Nav Bar');
-    return {
-      leadingContent:
-        nestedLayer3.type !== 'ERROR'
-          ? nestedLayer3.getBoolean('┗ Leading Button', {
-              true: nestedLayer3.__properties__.children([
-                'Top Navigation/Resource/Leading/Float/Default',
-              ]),
-              false: undefined,
-            })
-          : undefined,
-      trailingContent:
-        nestedLayer3.type !== 'ERROR'
-          ? nestedLayer3.getBoolean('┗ Trailing Button', {
-              true: nestedLayer3.__properties__.children(['Trailing Button']),
-              false: undefined,
-            })
-          : undefined,
-    };
-  })();
-  const __props: Record<string, unknown> = {};
-  if (background && background.type !== 'ERROR') {
-    __props['background'] = background;
-  }
-  if (bar && bar.type !== 'ERROR') {
-    __props['bar'] = bar;
-  }
-
-  template = {
-    id: 'TopNavigation',
-    imports: ["import { TopNavigation } from '@montage-ui/core';"],
-    example: figma.code`<TopNavigation variant="floating"${figma.helpers.react.renderProp(
-      'leadingContent',
-      bar.leadingContent,
-    )}${figma.helpers.react.renderProp(
-      'trailingContent',
-      bar.trailingContent,
-    )}${figma.helpers.react.renderProp('background', background)}/>`,
-    metadata: { nestable: true, __props },
+    imports: uniqueImports(imports),
+    example: title
+      ? figma.tsx`<TopNavigation${props}>
+  ${title}
+</TopNavigation>`
+      : figma.tsx`<TopNavigation${props} />`,
+    metadata: { nestable: true, props: { imports: uniqueImports(imports) } },
   };
 } else {
   // No Code Connect mapping for this variant combination.

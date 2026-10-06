@@ -15,7 +15,8 @@ const trailingContent = figma.selectedInstance.getBoolean('Trailing Icon', {
 });
 const color = figma.selectedInstance.getEnum('Color', {
   Neutral: 'neutral',
-  Accent: 'accent',
+  // `accent` is the core default.
+  Accent: undefined,
 });
 const size = figma.selectedInstance.getEnum('Size', {
   XSmall: 'xsmall',
@@ -23,7 +24,8 @@ const size = figma.selectedInstance.getEnum('Size', {
   Medium: 'medium',
 });
 const variant = figma.selectedInstance.getEnum('Variant', {
-  Solid: 'solid',
+  // `solid` is the core default.
+  Solid: undefined,
   Outlined: 'outlined',
 });
 const __props: Record<string, unknown> = {};

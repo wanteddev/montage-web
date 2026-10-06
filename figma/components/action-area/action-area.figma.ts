@@ -47,7 +47,7 @@ if (figma.selectedInstance.getPropertyValue('Extra') === 'False') {
       variant:
         nestedLayer35.type !== 'ERROR'
           ? nestedLayer35.getEnum('Variant', {
-              Strong: 'strong',
+              Strong: undefined, // core default
               Neutral: 'neutral',
               'Compact (Web Only)': 'compact',
               Cancel: 'cancel',
@@ -110,20 +110,35 @@ if (figma.selectedInstance.getPropertyValue('Extra') === 'False') {
       'compactContent',
       actions.compactContent,
     )}>
-      <ActionAreaButton variant="main"${figma.helpers.react.renderProp(
+      <ActionAreaButton${figma.helpers.react.renderProp(
         'disabled',
         main.disabled,
       )}${figma.helpers.react.renderProp('loading', main.loading)}>
         ${figma.helpers.react.renderChildren(main.label)}
-      </ActionAreaButton>
-      ${figma.helpers.react.renderChildren(actions.alternative)}
-      ${figma.helpers.react.renderChildren(actions.sub)}
+      </ActionAreaButton>${
+        // Only write lines for the buttons that are on (no empty lines).
+        actions.alternative
+          ? figma.code`
+      ${figma.helpers.react.renderChildren(actions.alternative)}`
+          : ''
+      }${
+        actions.sub
+          ? figma.code`
+      ${figma.helpers.react.renderChildren(actions.sub)}`
+          : ''
+      }
     </ActionArea>`,
     metadata: { nestable: true, __props },
   };
 } else if (figma.selectedInstance.getPropertyValue('Extra') === 'True') {
   const divider = figma.selectedInstance.getBoolean('Divider');
-  const extraContent = figma.properties.slot('Extra Content');
+  // An empty Extra Content slot only holds a placeholder frame, which Figma
+  // would emit as a generated `ExtraContent` function: pass connected content only.
+  const extraSlot = figma.properties.slot('Extra Content');
+  const extraContent =
+    extraSlot && extraSlot.connectedInstances.length > 0
+      ? extraSlot
+      : undefined;
   const main = (function () {
     // `┗ Main Action` sits inside the nested `Actions` instance.
     const nestedLayer36Actions = figma.selectedInstance.findInstance('Actions');
@@ -152,7 +167,7 @@ if (figma.selectedInstance.getPropertyValue('Extra') === 'False') {
       variant:
         nestedLayer37.type !== 'ERROR'
           ? nestedLayer37.getEnum('Variant', {
-              Strong: 'strong',
+              Strong: undefined, // core default
               Neutral: 'neutral',
               'Compact (Web Only)': 'compact',
               Cancel: 'cancel',
@@ -224,14 +239,23 @@ if (figma.selectedInstance.getPropertyValue('Extra') === 'False') {
       // `divider` defaults to true in core, so only the off state is written.
       divider === false ? ' divider={false}' : ''
     }${figma.helpers.react.renderProp('extraContent', extraContent)}>
-      <ActionAreaButton variant="main"${figma.helpers.react.renderProp(
+      <ActionAreaButton${figma.helpers.react.renderProp(
         'disabled',
         main.disabled,
       )}${figma.helpers.react.renderProp('loading', main.loading)}>
         ${figma.helpers.react.renderChildren(main.label)}
-      </ActionAreaButton>
-      ${figma.helpers.react.renderChildren(actions.alternative)}
-      ${figma.helpers.react.renderChildren(actions.sub)}
+      </ActionAreaButton>${
+        // Only write lines for the buttons that are on (no empty lines).
+        actions.alternative
+          ? figma.code`
+      ${figma.helpers.react.renderChildren(actions.alternative)}`
+          : ''
+      }${
+        actions.sub
+          ? figma.code`
+      ${figma.helpers.react.renderChildren(actions.sub)}`
+          : ''
+      }
     </ActionArea>`,
     metadata: { nestable: true, __props },
   };

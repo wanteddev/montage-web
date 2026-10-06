@@ -6,7 +6,8 @@ import figma from 'figma';
 
 const size = figma.selectedInstance.getEnum('Size', {
   Small: 'small',
-  Medium: 'medium',
+  // `medium` is the core default.
+  Medium: undefined,
 });
 const alternative = figma.selectedInstance.getBoolean('Alternative');
 const __props: Record<string, unknown> = {};

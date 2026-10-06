@@ -6,12 +6,20 @@ const { variants } = figma.batch as {
   variants: Array<{ name: string; component: string }>;
 };
 
-const name = figma.selectedInstance.getPropertyValue('Name');
+// Some Figma variant names carry stray whitespace (e.g. `leftSide `).
+const name = String(figma.selectedInstance.getPropertyValue('Name')).trim();
 const { component } =
-  variants.find((variant) => variant.name === name) ?? variants[0];
+  variants.find((variant) => variant.name.trim() === name) ?? variants[0];
+const importStatement = `import { ${component} } from "@montage-ui/icon";`;
 
 export default {
   id: component,
-  imports: [`import { ${component} } from "@montage-ui/icon";`],
+  imports: [importStatement],
   example: figma.code`<${component} />`,
+  // Exposed so wrappers can re-declare the import (Code Connect only forwards
+  // imports one nesting level up).
+  metadata: {
+    nestable: true,
+    props: { component, imports: [importStatement] },
+  },
 };

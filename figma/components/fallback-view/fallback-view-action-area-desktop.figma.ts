@@ -23,7 +23,9 @@ if (children && children.type !== 'ERROR') {
 
 export default {
   id: 'FallbackViewActionArea',
-  imports: ["import { FallbackViewActionArea } from '@montage-ui/core';"],
+  imports: [
+    "import { FallbackViewActionArea, FallbackViewActionAreaButton } from '@montage-ui/core';",
+  ],
   example: figma.code`<FallbackViewActionArea${figma.helpers.react.renderProp(
     'variant',
     variant,

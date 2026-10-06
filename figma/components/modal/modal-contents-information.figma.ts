@@ -4,6 +4,7 @@
 
 import figma from 'figma';
 
+import { finalizeTemplate } from './collect-imports';
 import { joinParts, renderInstance } from './modal-helpers';
 
 const instance = figma.selectedInstance;
@@ -15,11 +16,11 @@ const preset =
     ? renderInstance(instance.getInstanceSwap('┗ Preset'))
     : undefined;
 
-export default {
+export default finalizeTemplate({
   id: 'ModalContentItem',
   imports: ["import { ModalContentItem } from '@montage-ui/core';"],
   example: figma.tsx`<ModalContentItem gap="16px">
 ${joinParts([heading, preset]) ?? ''}
 </ModalContentItem>`,
   metadata: { nestable: true },
-};
+});

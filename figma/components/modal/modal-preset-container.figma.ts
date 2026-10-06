@@ -4,6 +4,8 @@
 
 import figma from 'figma';
 
+import { finalizeTemplate } from './collect-imports';
+
 // A text-only sample layout (title, sub title, content, caption). Texts are
 // read in layer order and keep the Figma typography.
 const instance = figma.selectedInstance;
@@ -12,7 +14,7 @@ const texts = instance
   .map((text) => (text.type === 'TEXT' ? text.textContent : ''));
 const [title = '', subTitle = '', content = '', caption = ''] = texts;
 
-export default {
+export default finalizeTemplate({
   id: 'ModalPresetContainer',
   imports: ["import { FlexBox, Typography } from '@montage-ui/core';"],
   example: figma.tsx`<FlexBox flexDirection="column" gap="16px">
@@ -34,4 +36,4 @@ export default {
   </FlexBox>
 </FlexBox>`,
   metadata: { nestable: true },
-};
+});

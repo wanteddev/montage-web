@@ -4,15 +4,16 @@
 
 import figma from 'figma';
 
+import { finalizeTemplate } from './collect-imports';
 import { renderInstance } from './modal-helpers';
 
 const dots = renderInstance(
   figma.selectedInstance.findInstance('Pagination/Dots'),
 );
 
-export default {
+export default finalizeTemplate({
   id: 'ModalPresetPagination',
   imports: [],
   example: dots ? figma.code`${dots}` : figma.code``,
   metadata: { nestable: true },
-};
+});

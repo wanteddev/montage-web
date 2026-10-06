@@ -13,15 +13,34 @@ import { coreImport } from '../../helpers/menu-item';
 
 const summaryContent = ACCORDION_SUMMARY_SLOT_NAMES.content;
 
+// Nested imports are only forwarded one level, so collect them explicitly.
+const nestedImports = new Set<string>();
+
 // Leading: the `Leading Icon` toggle shows an icon wrapper inside `Leading Content`.
+// It is the first `Icon` layer in the tree, so fall back to a plain lookup when
+// the `path` selector is not supported.
+const findLeadingIcon = () => {
+  const byPath = figma.selectedInstance.findInstance('Icon', {
+    path: ['Leading Content'],
+  });
+  return byPath.type === 'ERROR'
+    ? figma.selectedInstance.findInstance('Icon')
+    : byPath;
+};
 const leadingIcon =
   figma.selectedInstance.getBoolean('Leading Icon') === true
-    ? figma.selectedInstance.findInstance('Icon', { path: ['Leading Content'] })
+    ? findLeadingIcon()
     : undefined;
-const leadingContent =
+const leadingRendered =
   leadingIcon && leadingIcon.type !== 'ERROR'
-    ? figma.tsx`<${summaryContent} variant="icon">${leadingIcon.executeTemplate().example}</${summaryContent}>`
+    ? leadingIcon.executeTemplate()
     : undefined;
+(
+  (leadingRendered?.metadata?.props?.imports as Array<string> | undefined) ?? []
+).forEach((statement) => nestedImports.add(statement));
+const leadingContent = leadingRendered
+  ? figma.tsx`<${summaryContent} variant="icon">${leadingRendered.example}</${summaryContent}>`
+  : undefined;
 
 // Trailing: an instance swap per expand state. The default chevron resource has
 // no Code Connect, which leaves `trailingContent` empty so the core chevron renders.
@@ -31,7 +50,7 @@ const trailingSwap = figma.selectedInstance.getInstanceSwap(
     : 'Trailing Content',
 );
 const trailingContent = trailingSwap
-  ? renderPreset(trailingSwap, summaryContent)
+  ? renderPreset(trailingSwap, summaryContent, '', nestedImports)
   : undefined;
 
 const heading = figma.selectedInstance.getString('Heading');
@@ -45,11 +64,15 @@ const content = figma.selectedInstance.getBoolean('Show Content', {
 });
 const divider = figma.selectedInstance.getBoolean('Divider');
 const defaultExpanded = figma.selectedInstance.getBoolean('Expand');
+// `large` is the AccordionSummary default.
 const verticalPadding = figma.selectedInstance.getEnum('Vertical Padding', {
   Small: 'small',
   Medium: 'medium',
-  Large: 'large',
+  Large: undefined,
 });
+// Fill Width stretches the summary to the full width (docs: Padding › variant="full").
+const fullWidth =
+  figma.selectedInstance.getPropertyValue('Fill Width') === 'True';
 
 const details = [
   description
@@ -74,13 +97,14 @@ export default {
       ...(description ? ['AccordionDescription'] : []),
       ...(content ? ['AccordionContent'] : []),
       ...(leadingContent || trailingContent ? [summaryContent] : []),
+      ...nestedImports,
     ]),
   ],
   // `divider` defaults to true in core, so only the off state is written out.
   example: figma.tsx`<Accordion${divider ? '' : ' divider={false}'}${
     defaultExpanded ? ' defaultExpanded' : ''
   }>
-  <AccordionSummary${verticalPadding ? ` verticalPadding="${verticalPadding}"` : ''}${renderElementProp(
+  <AccordionSummary${fullWidth ? ' variant="full"' : ''}${verticalPadding ? ` verticalPadding="${verticalPadding}"` : ''}${renderElementProp(
     'leadingContent',
     leadingContent,
   )}${renderElementProp('trailingContent', trailingContent)}>

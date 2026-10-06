@@ -4,6 +4,7 @@
 
 import figma from 'figma';
 
+import { finalizeTemplate } from './collect-imports';
 import { joinParts } from './modal-helpers';
 
 // "Agree to all" checkbox, a divider, then one row per term:
@@ -25,7 +26,7 @@ const rows = terms.map((checkbox, index) => {
 </FlexBox>`;
 });
 
-export default {
+export default finalizeTemplate({
   id: 'ModalPresetAgreement',
   imports: ["import { Divider, FlexBox } from '@montage-ui/core';"],
   example: figma.tsx`<FlexBox flexDirection="column" gap="20px">
@@ -36,4 +37,4 @@ ${joinParts(rows) ?? ''}
 </FlexBox>
 </FlexBox>`,
   metadata: { nestable: true },
-};
+});

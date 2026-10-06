@@ -4,6 +4,8 @@
 
 import figma from 'figma';
 
+import { finalizeTemplate } from '../modal/collect-imports';
+
 // Branch per variant; unmatched combinations render no snippet.
 
 let template;
@@ -249,4 +251,4 @@ if (figma.selectedInstance.getPropertyValue('Position') === 'Top') {
   };
 }
 
-export default template;
+export default finalizeTemplate(template);

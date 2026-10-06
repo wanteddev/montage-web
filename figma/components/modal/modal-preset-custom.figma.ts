@@ -4,10 +4,12 @@
 
 import figma from 'figma';
 
+import { finalizeTemplate } from './collect-imports';
+
 // A free preset area below the heading.
-export default {
+export default finalizeTemplate({
   id: 'ModalPresetCustom',
   imports: [],
   example: figma.code`{/* 콘텐츠 */}`,
   metadata: { nestable: true },
-};
+});

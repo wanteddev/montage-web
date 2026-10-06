@@ -4,12 +4,19 @@
 
 import figma from 'figma';
 
-// Navigation toolbar resource: renders the nested Category as-is (`toolbar` content).
-const children = figma.properties.children(['Category']);
+import { finalizeTemplate } from './collect-imports';
 
-export default {
+// Navigation toolbar resource: renders the nested Category as-is (`toolbar` content).
+// Rendered directly so the nested component's imports reach parent snippets.
+const childLayer = figma.selectedInstance.findInstance('Category');
+const children =
+  childLayer.type !== 'ERROR' && childLayer.hasCodeConnect()
+    ? childLayer.executeTemplate().example
+    : undefined;
+
+export default finalizeTemplate({
   id: 'ModalNavigationTool',
   imports: [],
   example: figma.code`${figma.helpers.react.renderChildren(children)}`,
   metadata: { nestable: true },
-};
+});

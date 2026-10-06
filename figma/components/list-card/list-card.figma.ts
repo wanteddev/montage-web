@@ -17,7 +17,8 @@ const text = (show: string, propName: string) =>
 let template;
 if (instance.getPropertyValue('Skeleton') === 'False') {
   const platform = instance.getEnum('Platform', {
-    Desktop: 'desktop',
+    // `desktop` is the core default.
+    Desktop: undefined,
     Mobile: 'mobile',
   });
   const title = instance.getString('Title');
@@ -103,7 +104,20 @@ if (instance.getPropertyValue('Skeleton') === 'False') {
   template = {
     id: 'ListCardSkeleton',
     imports: [
-      "import { ListCardBody, ListCardCaptionSkeleton, ListCardRowSkeleton, ListCardSkeleton, ListCardThumbnailSkeleton, ListCardTitleSkeleton } from '@montage-ui/core';",
+      `import { ${[
+        'ListCardBody',
+        'ListCardSkeleton',
+        'ListCardThumbnailSkeleton',
+        'ListCardTitleSkeleton',
+        ...(rows.some((row) => row.includes('ListCardCaptionSkeleton'))
+          ? ['ListCardCaptionSkeleton']
+          : []),
+        ...(rows.some((row) => row.includes('ListCardRowSkeleton'))
+          ? ['ListCardRowSkeleton']
+          : []),
+      ]
+        .sort()
+        .join(', ')} } from '@montage-ui/core';`,
     ],
     example: figma.tsx`<ListCardSkeleton>
   <ListCardThumbnailSkeleton />

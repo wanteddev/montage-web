@@ -23,18 +23,27 @@ const itemProps =
   (disabled ? ' disabled' : '') +
   (tight ? ' tight' : '');
 
+const item = `<RadioGroupItem value="1"${itemProps} />`;
+
+// Labeled radios use FormControl; without a label only the item remains.
 export default {
   id: 'RadioGroupItem',
   imports: [
-    "import { FormControl, FormControlField, FormControlLabel, RadioGroup, RadioGroupItem } from '@montage-ui/core';",
+    label
+      ? "import { FormControl, FormControlField, FormControlLabel, RadioGroup, RadioGroupItem } from '@montage-ui/core';"
+      : "import { RadioGroup, RadioGroupItem } from '@montage-ui/core';",
   ],
-  example: figma.tsx`<RadioGroup${checked ? ' defaultValue="1"' : ''}>
+  example: label
+    ? figma.tsx`<RadioGroup${checked ? ' defaultValue="1"' : ''}>
   <FormControl flexDirection="row" gap="${tight ? '10px' : '8px'}">
     <FormControlField>
-      <RadioGroupItem value="1"${itemProps} />
+      ${item}
     </FormControlField>
     <FormControlLabel>${label}</FormControlLabel>
   </FormControl>
+</RadioGroup>`
+    : figma.tsx`<RadioGroup${checked ? ' defaultValue="1"' : ''}>
+  ${item}
 </RadioGroup>`,
   metadata: { nestable: true },
 };

@@ -4,6 +4,7 @@
 
 import figma from 'figma';
 
+import { finalizeTemplate } from '../modal/collect-imports';
 import { joinTemplates } from '../../helpers/list-cell';
 import { coreImport } from '../../helpers/menu-item';
 
@@ -60,12 +61,17 @@ ${joined}
         }),
       );
 
-const actionArea = figma.selectedInstance.getBoolean('Action Area', {
-  true: figma.properties.children(['Menu Action Area']),
-  false: undefined,
-});
+// Rendered here (not as a nested instance) so the buttons / badges inside the
+// action area reach the imports: nested imports only travel one level up.
+const actionAreaLayer = figma.selectedInstance.findInstance('Menu Action Area');
+const actionArea =
+  figma.selectedInstance.getBoolean('Action Area') === true &&
+  actionAreaLayer.type !== 'ERROR' &&
+  actionAreaLayer.hasCodeConnect()
+    ? actionAreaLayer.executeTemplate().example
+    : undefined;
 
-export default {
+export default finalizeTemplate({
   id: 'Menu',
   imports: [coreImport([...imports])],
   example: figma.tsx`<Menu>
@@ -75,9 +81,13 @@ export default {
   <MenuContent>
     <MenuList>
 ${list}
-    </MenuList>
-    ${figma.helpers.react.renderChildren(actionArea)}
+    </MenuList>${
+      actionArea
+        ? figma.tsx`
+    ${actionArea}`
+        : ''
+    }
   </MenuContent>
 </Menu>`,
   metadata: { nestable: true },
-};
+});

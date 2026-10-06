@@ -6,10 +6,11 @@ import figma from 'figma';
 
 const size = figma.selectedInstance.getEnum('Size', {
   Small: 'small',
-  Medium: 'medium',
+  // Core defaults: `size="medium"`, `color="normal"`.
+  Medium: undefined,
 });
 const color = figma.selectedInstance.getEnum('Variant', {
-  Normal: 'normal',
+  Normal: undefined,
   White: 'white',
 });
 const __props: Record<string, unknown> = {};

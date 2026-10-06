@@ -49,14 +49,15 @@ const trailingContent =
   instance.getBoolean('Show Trailing Content') === true
     ? renderSlotResource(instance.findInstance('Trailing Content'))
     : undefined;
+// Core defaults (`platform="desktop"`, `size="medium"`) are omitted.
 const platform = instance.getEnum('Platform', {
-  Desktop: 'desktop',
+  Desktop: undefined,
   Mobile: 'mobile',
 });
 const size = instance.getEnum('Size', {
   XSmall: 'xsmall',
   Small: 'small',
-  Medium: 'medium',
+  Medium: undefined,
   Large: 'large',
 });
 

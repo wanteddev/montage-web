@@ -193,11 +193,12 @@ export const renderModalNavigation = (
   const search = variant === 'search';
 
   // Title (or search field) shown in the navigation row.
+  // Property names are looked up trimmed at runtime (`\u2003┗ Text` → `┗ Text`).
   const titleProperty = floating ? '┗ Title​' : '┗ Title';
   const title = search
     ? renderLayer(bar.findInstance('Search field'))
     : bar.getBoolean(titleProperty) === true
-      ? bar.getString(' ┗ Text')
+      ? bar.getString('┗ Text')
       : undefined;
 
   const leadingContent =
@@ -212,9 +213,9 @@ export const renderModalNavigation = (
   if (showTrailing) {
     if (floating) {
       actions = visibleActions(bar, [
-        ['Button 1', '  ┗ Button'],
-        ['Button 2', '  ┗ Button 2'],
-        ['Button 3', '  ┗ Button 3'],
+        ['Button 1', '┗ Button'],
+        ['Button 2', '┗ Button 2'],
+        ['Button 3', '┗ Button 3'],
       ]);
     } else if (search) {
       actions = [bar.findInstance('Trailing Button')].filter(isInstance);

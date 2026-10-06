@@ -4,6 +4,7 @@
 
 import figma from 'figma';
 
+import { finalizeTemplate } from './collect-imports';
 import {
   NAVIGATION_BUTTON_IMPORT,
   renderLayer,
@@ -22,9 +23,9 @@ const icon =
     ? renderLayer(iconButton.findInstance('Icon'))
     : undefined;
 
-export default {
+export default finalizeTemplate({
   id: 'ModalNavigationButton',
   imports: [NAVIGATION_BUTTON_IMPORT],
   example: figma.tsx`<ModalNavigationButton variant="icon-button"${background ? ' background' : ''}${alternative ? ' alternative' : ''}>${icon ?? ''}</ModalNavigationButton>`,
   metadata: { nestable: true },
-};
+});

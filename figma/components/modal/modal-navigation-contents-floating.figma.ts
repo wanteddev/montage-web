@@ -4,15 +4,16 @@
 
 import figma from 'figma';
 
+import { finalizeTemplate } from './collect-imports';
 import {
   NAVIGATION_IMPORT,
   renderModalNavigation,
 } from './modal-navigation-shared';
 
 // The `floating` navigation bar on its own (the navigation resources wrap it).
-export default {
+export default finalizeTemplate({
   id: 'ModalNavigation',
   imports: [NAVIGATION_IMPORT],
   example: renderModalNavigation(figma.selectedInstance, 'floating'),
   metadata: { nestable: true },
-};
+});
