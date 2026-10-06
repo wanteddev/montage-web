@@ -29,9 +29,7 @@ if (
       leadingContent:
         nestedLayer0.type !== 'ERROR'
           ? nestedLayer0.getBoolean('┗ Leading Button', {
-              true: nestedLayer0.__properties__.children([
-                'Top Navigation/Resource/Leading/Normal/Default',
-              ]),
+              true: nestedLayer0.__properties__.children(['Leading Button']),
               false: undefined,
             })
           : undefined,
@@ -197,16 +195,11 @@ if (
   figma.selectedInstance.getPropertyValue('Variant') === 'Floating'
 ) {
   const background = figma.selectedInstance.getBoolean('Background');
+  // The floating Nav Bar has no title text in Figma (its `Title` frame only
+  // reserves space), and the docs render floating navigations without children.
   const bar = (function () {
     const nestedLayer3 = figma.selectedInstance.findInstance('Nav Bar');
     return {
-      title:
-        nestedLayer3.type !== 'ERROR'
-          ? nestedLayer3.getBoolean('Title', {
-              true: nestedLayer3.findText('Title').__render__(),
-              false: undefined,
-            })
-          : undefined,
       leadingContent:
         nestedLayer3.type !== 'ERROR'
           ? nestedLayer3.getBoolean('┗ Leading Button', {
@@ -242,9 +235,7 @@ if (
     )}${figma.helpers.react.renderProp(
       'trailingContent',
       bar.trailingContent,
-    )}${figma.helpers.react.renderProp('background', background)}>
-      ${figma.helpers.react.renderChildren(bar.title)}
-    </TopNavigation>`,
+    )}${figma.helpers.react.renderProp('background', background)}/>`,
     metadata: { nestable: true, __props },
   };
 } else {

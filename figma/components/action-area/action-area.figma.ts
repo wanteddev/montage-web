@@ -20,7 +20,12 @@ const buttonLabel = (actions: InstanceHandle, layerName: string) => {
 let template;
 if (figma.selectedInstance.getPropertyValue('Extra') === 'False') {
   const main = (function () {
-    const nestedLayer34 = figma.selectedInstance.findInstance('┗ Main Action');
+    // `┗ Main Action` sits inside the nested `Actions` instance.
+    const nestedLayer34Actions = figma.selectedInstance.findInstance('Actions');
+    const nestedLayer34 =
+      nestedLayer34Actions.type === 'ERROR'
+        ? nestedLayer34Actions
+        : nestedLayer34Actions.findInstance('┗ Main Action');
     return {
       label:
         nestedLayer34.type !== 'ERROR'
@@ -120,7 +125,12 @@ if (figma.selectedInstance.getPropertyValue('Extra') === 'False') {
   const divider = figma.selectedInstance.getBoolean('Divider');
   const extraContent = figma.properties.slot('Extra Content');
   const main = (function () {
-    const nestedLayer36 = figma.selectedInstance.findInstance('┗ Main Action');
+    // `┗ Main Action` sits inside the nested `Actions` instance.
+    const nestedLayer36Actions = figma.selectedInstance.findInstance('Actions');
+    const nestedLayer36 =
+      nestedLayer36Actions.type === 'ERROR'
+        ? nestedLayer36Actions
+        : nestedLayer36Actions.findInstance('┗ Main Action');
     return {
       label:
         nestedLayer36.type !== 'ERROR'
