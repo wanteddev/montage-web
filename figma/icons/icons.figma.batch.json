@@ -1,0 +1,2813 @@
+[
+  {
+    "templateFile": "./icons.figma.batch.ts",
+    "components": [
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=40167-141864",
+        "component": "IconAgent",
+        "variants": [
+          {
+            "name": "agent",
+            "component": "IconAgent"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=9258-18896",
+        "component": "IconAgentColor",
+        "variants": [
+          {
+            "name": "agent",
+            "component": "IconAgentColor"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=40159-141379",
+        "component": "IconAgentSearch",
+        "variants": [
+          {
+            "name": "agentSearch",
+            "component": "IconAgentSearch"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=38942-25728",
+        "component": "IconAiReview",
+        "variants": [
+          {
+            "name": "aiReview",
+            "component": "IconAiReview"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=18109-51777",
+        "component": "IconAlignCenter",
+        "variants": [
+          {
+            "name": "alignCenter",
+            "component": "IconAlignCenter"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=18109-51804",
+        "component": "IconAlignJustify",
+        "variants": [
+          {
+            "name": "alignJustify",
+            "component": "IconAlignJustify"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=18109-51795",
+        "component": "IconAlignLeft",
+        "variants": [
+          {
+            "name": "alignLeft",
+            "component": "IconAlignLeft"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=18109-51786",
+        "component": "IconAlignRight",
+        "variants": [
+          {
+            "name": "alignRight",
+            "component": "IconAlignRight"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=10228-17668",
+        "component": "IconAndroid",
+        "variants": [
+          {
+            "name": "android",
+            "component": "IconAndroid"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=7-300",
+        "component": "IconApps",
+        "variants": [
+          {
+            "name": "apps",
+            "component": "IconApps"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=6362-15083",
+        "component": "IconArrowDown",
+        "variants": [
+          {
+            "name": "arrowDown",
+            "component": "IconArrowDown"
+          },
+          {
+            "name": "arrowDownThick",
+            "component": "IconArrowDownThick"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=5832-10977",
+        "component": "IconArrowLeft",
+        "variants": [
+          {
+            "name": "arrowLeft",
+            "component": "IconArrowLeft"
+          },
+          {
+            "name": "arrowLeftThick",
+            "component": "IconArrowLeftThick"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=6362-15096",
+        "component": "IconArrowRight",
+        "variants": [
+          {
+            "name": "arrowRight",
+            "component": "IconArrowRight"
+          },
+          {
+            "name": "arrowRightThick",
+            "component": "IconArrowRightThick"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=30469-117920",
+        "component": "IconArrowTurnDownLeft",
+        "variants": [
+          {
+            "name": "arrowTurnDownLeft",
+            "component": "IconArrowTurnDownLeft"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=31060-370660",
+        "component": "IconArrowTurnDownRight",
+        "variants": [
+          {
+            "name": "arrowTurnDownRight",
+            "component": "IconArrowTurnDownRight"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=7-626",
+        "component": "IconArrowUp",
+        "variants": [
+          {
+            "name": "arrowUp",
+            "component": "IconArrowUp"
+          },
+          {
+            "name": "arrowUpThick",
+            "component": "IconArrowUpThick"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=35813-1373",
+        "component": "IconArrowUpRight",
+        "variants": [
+          {
+            "name": "arrowUpRight",
+            "component": "IconArrowUpRight"
+          },
+          {
+            "name": "arrowUpRightThick",
+            "component": "IconArrowUpRightThick"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=19219-54548",
+        "component": "IconAttachment",
+        "variants": [
+          {
+            "name": "attachment",
+            "component": "IconAttachment"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=7-533",
+        "component": "IconBell",
+        "variants": [
+          {
+            "name": "bell",
+            "component": "IconBell"
+          },
+          {
+            "name": "bellFill",
+            "component": "IconBellFill"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=7-282",
+        "component": "IconBellPlus",
+        "variants": [
+          {
+            "name": "bellPlus",
+            "component": "IconBellPlus"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=7-264",
+        "component": "IconBlank",
+        "variants": [
+          {
+            "name": "blank",
+            "component": "IconBlank"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=8-731",
+        "component": "IconBlankColor",
+        "variants": [
+          {
+            "name": "blank",
+            "component": "IconBlankColor"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=13090-23582",
+        "component": "IconBold",
+        "variants": [
+          {
+            "name": "bold",
+            "component": "IconBold"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=4387-27326",
+        "component": "IconBook",
+        "variants": [
+          {
+            "name": "book",
+            "component": "IconBook"
+          },
+          {
+            "name": "bookFill",
+            "component": "IconBookFill"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=5-1804",
+        "component": "IconBookmark",
+        "variants": [
+          {
+            "name": "bookmark",
+            "component": "IconBookmark"
+          },
+          {
+            "name": "bookmarkFill",
+            "component": "IconBookmarkFill"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=5-1723",
+        "component": "IconBubble",
+        "variants": [
+          {
+            "name": "bubble",
+            "component": "IconBubble"
+          },
+          {
+            "name": "bubbleFill",
+            "component": "IconBubbleFill"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=9813-17506",
+        "component": "IconBubblePlus",
+        "variants": [
+          {
+            "name": "bubblePlus",
+            "component": "IconBubblePlus"
+          },
+          {
+            "name": "bubblePlusFill",
+            "component": "IconBubblePlusFill"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=16078-110983",
+        "component": "IconBulb",
+        "variants": [
+          {
+            "name": "bulb",
+            "component": "IconBulb"
+          },
+          {
+            "name": "bulbFill",
+            "component": "IconBulbFill"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=5-1750",
+        "component": "IconBusinessBag",
+        "variants": [
+          {
+            "name": "businessBag",
+            "component": "IconBusinessBag"
+          },
+          {
+            "name": "businessBagFill",
+            "component": "IconBusinessBagFill"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=7-505",
+        "component": "IconCalendar",
+        "variants": [
+          {
+            "name": "calendar",
+            "component": "IconCalendar"
+          },
+          {
+            "name": "calendarFill",
+            "component": "IconCalendarFill"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=33076-1313",
+        "component": "IconCalendarPerson",
+        "variants": [
+          {
+            "name": "calendarPerson",
+            "component": "IconCalendarPerson"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=5-1849",
+        "component": "IconCamera",
+        "variants": [
+          {
+            "name": "camera",
+            "component": "IconCamera"
+          },
+          {
+            "name": "cameraFill",
+            "component": "IconCameraFill"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=7-591",
+        "component": "IconCaretDown",
+        "variants": [
+          {
+            "name": "caretDown",
+            "component": "IconCaretDown"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=7-598",
+        "component": "IconCaretUp",
+        "variants": [
+          {
+            "name": "caretUp",
+            "component": "IconCaretUp"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=31899-136150",
+        "component": "IconCertificate",
+        "variants": [
+          {
+            "name": "certificate",
+            "component": "IconCertificate"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=4781-32538",
+        "component": "IconChange",
+        "variants": [
+          {
+            "name": "change",
+            "component": "IconChange"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=13326-47913",
+        "component": "IconChat",
+        "variants": [
+          {
+            "name": "chat",
+            "component": "IconChat"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=7-619",
+        "component": "IconCheck",
+        "variants": [
+          {
+            "name": "check",
+            "component": "IconCheck"
+          },
+          {
+            "name": "checkThick",
+            "component": "IconCheckThick"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=11521-20711",
+        "component": "IconChevronDoubleLeft",
+        "variants": [
+          {
+            "name": "chevronDoubleLeft",
+            "component": "IconChevronDoubleLeft"
+          },
+          {
+            "name": "chevronDoubleLeftSmall",
+            "component": "IconChevronDoubleLeftSmall"
+          },
+          {
+            "name": "chevronDoubleLeftThick",
+            "component": "IconChevronDoubleLeftThick"
+          },
+          {
+            "name": "chevronDoubleLeftThickSmall",
+            "component": "IconChevronDoubleLeftThickSmall"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=11521-20760",
+        "component": "IconChevronDoubleRight",
+        "variants": [
+          {
+            "name": "chevronDoubleRight",
+            "component": "IconChevronDoubleRight"
+          },
+          {
+            "name": "chevronDoubleRightSmall",
+            "component": "IconChevronDoubleRightSmall"
+          },
+          {
+            "name": "chevronDoubleRightThick",
+            "component": "IconChevronDoubleRightThick"
+          },
+          {
+            "name": "chevronDoubleRightThickSmall",
+            "component": "IconChevronDoubleRightThickSmall"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=7-605",
+        "component": "IconChevronDown",
+        "variants": [
+          {
+            "name": "chevronDown",
+            "component": "IconChevronDown"
+          },
+          {
+            "name": "chevronDownSmall",
+            "component": "IconChevronDownSmall"
+          },
+          {
+            "name": "chevronDownThick",
+            "component": "IconChevronDownThick"
+          },
+          {
+            "name": "chevronDownThickSmall",
+            "component": "IconChevronDownThickSmall"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=5-1924",
+        "component": "IconChevronLeft",
+        "variants": [
+          {
+            "name": "chevronLeft",
+            "component": "IconChevronLeft"
+          },
+          {
+            "name": "chevronLeftSmall",
+            "component": "IconChevronLeftSmall"
+          },
+          {
+            "name": "chevronLeftThick",
+            "component": "IconChevronLeftThick"
+          },
+          {
+            "name": "chevronLeftThickSmall",
+            "component": "IconChevronLeftThickSmall"
+          },
+          {
+            "name": "chevronLeftTight",
+            "component": "IconChevronLeftTight"
+          },
+          {
+            "name": "chevronLeftTightSmall",
+            "component": "IconChevronLeftTightSmall"
+          },
+          {
+            "name": "chevronLeftTightThick",
+            "component": "IconChevronLeftTightThick"
+          },
+          {
+            "name": "chevronLeftTightThickSmall",
+            "component": "IconChevronLeftTightThickSmall"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=5-2190",
+        "component": "IconChevronRight",
+        "variants": [
+          {
+            "name": "chevronRight",
+            "component": "IconChevronRight"
+          },
+          {
+            "name": "chevronRightSmall",
+            "component": "IconChevronRightSmall"
+          },
+          {
+            "name": "chevronRightThick",
+            "component": "IconChevronRightThick"
+          },
+          {
+            "name": "chevronRightThickSmall",
+            "component": "IconChevronRightThickSmall"
+          },
+          {
+            "name": "chevronRightTight",
+            "component": "IconChevronRightTight"
+          },
+          {
+            "name": "chevronRightTightSmall",
+            "component": "IconChevronRightTightSmall"
+          },
+          {
+            "name": "chevronRightTightThick",
+            "component": "IconChevronRightTightThick"
+          },
+          {
+            "name": "chevronRightTightThickSmall",
+            "component": "IconChevronRightTightThickSmall"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=7-612",
+        "component": "IconChevronUp",
+        "variants": [
+          {
+            "name": "chevronUp",
+            "component": "IconChevronUp"
+          },
+          {
+            "name": "chevronUpSmall",
+            "component": "IconChevronUpSmall"
+          },
+          {
+            "name": "chevronUpThick",
+            "component": "IconChevronUpThick"
+          },
+          {
+            "name": "chevronUpThickSmall",
+            "component": "IconChevronUpThickSmall"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=4923-32881",
+        "component": "IconCircle",
+        "variants": [
+          {
+            "name": "circle",
+            "component": "IconCircle"
+          },
+          {
+            "name": "circleFill",
+            "component": "IconCircleFill"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=7-435",
+        "component": "IconCircleBlock",
+        "variants": [
+          {
+            "name": "circleBlock",
+            "component": "IconCircleBlock"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=7-668",
+        "component": "IconCircleCheck",
+        "variants": [
+          {
+            "name": "circleCheck",
+            "component": "IconCircleCheck"
+          },
+          {
+            "name": "circleCheckFill",
+            "component": "IconCircleCheckFill"
+          },
+          {
+            "name": "circleCheckOpaque",
+            "component": "IconCircleCheckOpaque"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=7-271",
+        "component": "IconCircleClose",
+        "variants": [
+          {
+            "name": "circleClose",
+            "component": "IconCircleClose"
+          },
+          {
+            "name": "circleCloseFill",
+            "component": "IconCircleCloseFill"
+          },
+          {
+            "name": "circleCloseOpaque",
+            "component": "IconCircleCloseOpaque"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=24232-83122",
+        "component": "IconCircleDot",
+        "variants": [
+          {
+            "name": "circleDot",
+            "component": "IconCircleDot"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=7-682",
+        "component": "IconCircleExclamation",
+        "variants": [
+          {
+            "name": "circleExclamation",
+            "component": "IconCircleExclamation"
+          },
+          {
+            "name": "circleExclamationFill",
+            "component": "IconCircleExclamationFill"
+          },
+          {
+            "name": "circleExclamationOpaque",
+            "component": "IconCircleExclamationOpaque"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=7-661",
+        "component": "IconCircleInfo",
+        "variants": [
+          {
+            "name": "circleInfo",
+            "component": "IconCircleInfo"
+          },
+          {
+            "name": "circleInfoFill",
+            "component": "IconCircleInfoFill"
+          },
+          {
+            "name": "circleInfoOpaque",
+            "component": "IconCircleInfoOpaque"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=7-370",
+        "component": "IconCirclePlus",
+        "variants": [
+          {
+            "name": "circlePlus",
+            "component": "IconCirclePlus"
+          },
+          {
+            "name": "circlePlusFill",
+            "component": "IconCirclePlusFill"
+          },
+          {
+            "name": "circlePlusOpaque",
+            "component": "IconCirclePlusOpaque"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=4741-31418",
+        "component": "IconCirclePoint",
+        "variants": [
+          {
+            "name": "circlePoint",
+            "component": "IconCirclePoint"
+          },
+          {
+            "name": "circlePointFill",
+            "component": "IconCirclePointFill"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=7-654",
+        "component": "IconCircleQuestion",
+        "variants": [
+          {
+            "name": "circleQuestion",
+            "component": "IconCircleQuestion"
+          },
+          {
+            "name": "circleQuestionFill",
+            "component": "IconCircleQuestionFill"
+          },
+          {
+            "name": "circleQuestionOpaque",
+            "component": "IconCircleQuestionOpaque"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=35820-1368",
+        "component": "IconCircleUpRight",
+        "variants": [
+          {
+            "name": "circleUpRight",
+            "component": "IconCircleUpRight"
+          },
+          {
+            "name": "circleUpRightFill",
+            "component": "IconCircleUpRightFill"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=16078-110992",
+        "component": "IconClock",
+        "variants": [
+          {
+            "name": "clock",
+            "component": "IconClock"
+          },
+          {
+            "name": "clockFill",
+            "component": "IconClockFill"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=7-584",
+        "component": "IconClose",
+        "variants": [
+          {
+            "name": "close",
+            "component": "IconClose"
+          },
+          {
+            "name": "closeThick",
+            "component": "IconCloseThick"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=13131-24485",
+        "component": "IconCode",
+        "variants": [
+          {
+            "name": "code",
+            "component": "IconCode"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=21939-246968",
+        "component": "IconCoffee",
+        "variants": [
+          {
+            "name": "coffee",
+            "component": "IconCoffee"
+          },
+          {
+            "name": "coffeeFill",
+            "component": "IconCoffeeFill"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=4741-31436",
+        "component": "IconCoins",
+        "variants": [
+          {
+            "name": "coins",
+            "component": "IconCoins"
+          },
+          {
+            "name": "coinsFill",
+            "component": "IconCoinsFill"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=18568-52324",
+        "component": "IconColumn",
+        "variants": [
+          {
+            "name": "column",
+            "component": "IconColumn"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=7-316",
+        "component": "IconCompany",
+        "variants": [
+          {
+            "name": "company",
+            "component": "IconCompany"
+          },
+          {
+            "name": "companyFill",
+            "component": "IconCompanyFill"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=10190-17579",
+        "component": "IconCompanyCheck",
+        "variants": [
+          {
+            "name": "companyCheck",
+            "component": "IconCompanyCheck"
+          },
+          {
+            "name": "companyCheckFill",
+            "component": "IconCompanyCheckFill"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=10190-17533",
+        "component": "IconCompanyPlus",
+        "variants": [
+          {
+            "name": "companyPlus",
+            "component": "IconCompanyPlus"
+          },
+          {
+            "name": "companyPlusFill",
+            "component": "IconCompanyPlusFill"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=1477-17980",
+        "component": "IconCompass",
+        "variants": [
+          {
+            "name": "compass",
+            "component": "IconCompass"
+          },
+          {
+            "name": "compassFill",
+            "component": "IconCompassFill"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=33076-1295",
+        "component": "IconComponent",
+        "variants": [
+          {
+            "name": "component",
+            "component": "IconComponent"
+          },
+          {
+            "name": "componentFill",
+            "component": "IconComponentFill"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=7-526",
+        "component": "IconCopy",
+        "variants": [
+          {
+            "name": "copy",
+            "component": "IconCopy"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=45092-81119",
+        "component": "IconCrop",
+        "variants": [
+          {
+            "name": "crop",
+            "component": "IconCrop"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=8504-12754",
+        "component": "IconCrown",
+        "variants": [
+          {
+            "name": "crown",
+            "component": "IconCrown"
+          },
+          {
+            "name": "crownFill",
+            "component": "IconCrownFill"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=35976-1334",
+        "component": "IconDeepSearch",
+        "variants": [
+          {
+            "name": "deepSearch",
+            "component": "IconDeepSearch"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=10320-18589",
+        "component": "IconDesktop",
+        "variants": [
+          {
+            "name": "desktop",
+            "component": "IconDesktop"
+          },
+          {
+            "name": "desktopFill",
+            "component": "IconDesktopFill"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=27353-295464",
+        "component": "IconDiamond",
+        "variants": [
+          {
+            "name": "diamond",
+            "component": "IconDiamond"
+          },
+          {
+            "name": "diamondFill",
+            "component": "IconDiamondFill"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=26358-91598",
+        "component": "IconDislike",
+        "variants": [
+          {
+            "name": "dislike",
+            "component": "IconDislike"
+          },
+          {
+            "name": "dislikeFill",
+            "component": "IconDislikeFill"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=10988-19769",
+        "component": "IconDocument",
+        "variants": [
+          {
+            "name": "document",
+            "component": "IconDocument"
+          },
+          {
+            "name": "documentFill",
+            "component": "IconDocumentFill"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=5-1876",
+        "component": "IconDocumentPerson",
+        "variants": [
+          {
+            "name": "documentPerson",
+            "component": "IconDocumentPerson"
+          },
+          {
+            "name": "documentPersonFill",
+            "component": "IconDocumentPersonFill"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=33387-1294",
+        "component": "IconDocumentSearch",
+        "variants": [
+          {
+            "name": "documentSearch",
+            "component": "IconDocumentSearch"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=7-549",
+        "component": "IconDocumentText",
+        "variants": [
+          {
+            "name": "documentText",
+            "component": "IconDocumentText"
+          },
+          {
+            "name": "documentTextFill",
+            "component": "IconDocumentTextFill"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=45-601",
+        "component": "IconDot",
+        "variants": [
+          {
+            "name": "dot",
+            "component": "IconDot"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=7-484",
+        "component": "IconDownload",
+        "variants": [
+          {
+            "name": "download",
+            "component": "IconDownload"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=7-675",
+        "component": "IconExclamation",
+        "variants": [
+          {
+            "name": "exclamation",
+            "component": "IconExclamation"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=7-456",
+        "component": "IconExternalLink",
+        "variants": [
+          {
+            "name": "externalLink",
+            "component": "IconExternalLink"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=2901-21809",
+        "component": "IconEye",
+        "variants": [
+          {
+            "name": "eye",
+            "component": "IconEye"
+          },
+          {
+            "name": "eyeFill",
+            "component": "IconEyeFill"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=6507-11662",
+        "component": "IconEyeSlash",
+        "variants": [
+          {
+            "name": "eyeSlash",
+            "component": "IconEyeSlash"
+          },
+          {
+            "name": "eyeSlashFill",
+            "component": "IconEyeSlashFill"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=5-1893",
+        "component": "IconFaceSmile",
+        "variants": [
+          {
+            "name": "faceSmile",
+            "component": "IconFaceSmile"
+          },
+          {
+            "name": "faceSmileFill",
+            "component": "IconFaceSmileFill"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=5-1813",
+        "component": "IconFilter",
+        "variants": [
+          {
+            "name": "filter",
+            "component": "IconFilter"
+          },
+          {
+            "name": "filterFill",
+            "component": "IconFilterFill"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=24882-77525",
+        "component": "IconFire",
+        "variants": [
+          {
+            "name": "fire",
+            "component": "IconFire"
+          },
+          {
+            "name": "fireFill",
+            "component": "IconFireFill"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=33048-1420",
+        "component": "IconFlag",
+        "variants": [
+          {
+            "name": "flag",
+            "component": "IconFlag"
+          },
+          {
+            "name": "flagFill",
+            "component": "IconFlagFill"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=45092-81093",
+        "component": "IconFlip",
+        "variants": [
+          {
+            "name": "flip",
+            "component": "IconFlip"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=21503-66766",
+        "component": "IconFlipBackward",
+        "variants": [
+          {
+            "name": "flipBackward",
+            "component": "IconFlipBackward"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=10988-19797",
+        "component": "IconFolder",
+        "variants": [
+          {
+            "name": "folder",
+            "component": "IconFolder"
+          },
+          {
+            "name": "folderFill",
+            "component": "IconFolderFill"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=7301-11724",
+        "component": "IconFolderJob",
+        "variants": [
+          {
+            "name": "folderJob",
+            "component": "IconFolderJob"
+          },
+          {
+            "name": "folderJobFill",
+            "component": "IconFolderJobFill"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=7-384",
+        "component": "IconFolderStar",
+        "variants": [
+          {
+            "name": "folderStar",
+            "component": "IconFolderStar"
+          },
+          {
+            "name": "folderStarFill",
+            "component": "IconFolderStarFill"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=7-470",
+        "component": "IconFull",
+        "variants": [
+          {
+            "name": "full",
+            "component": "IconFull"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=7-519",
+        "component": "IconGlobe",
+        "variants": [
+          {
+            "name": "globe",
+            "component": "IconGlobe"
+          },
+          {
+            "name": "globeFill",
+            "component": "IconGlobeFill"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=6777-23498",
+        "component": "IconGraduation",
+        "variants": [
+          {
+            "name": "graduation",
+            "component": "IconGraduation"
+          },
+          {
+            "name": "graduationFill",
+            "component": "IconGraduationFill"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=7-377",
+        "component": "IconHandle",
+        "variants": [
+          {
+            "name": "handle",
+            "component": "IconHandle"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=21507-66775",
+        "component": "IconHandleDesktop",
+        "variants": [
+          {
+            "name": "handleDesktop",
+            "component": "IconHandleDesktop"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=50227-80939",
+        "component": "IconHashTag",
+        "variants": [
+          {
+            "name": "hashTag",
+            "component": "IconHashTag"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=5-1867",
+        "component": "IconHeart",
+        "variants": [
+          {
+            "name": "heart",
+            "component": "IconHeart"
+          },
+          {
+            "name": "heartFill",
+            "component": "IconHeartFill"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=24882-77657",
+        "component": "IconHeartInHeart",
+        "variants": [
+          {
+            "name": "heartInHeart",
+            "component": "IconHeartInHeart"
+          },
+          {
+            "name": "heartInHeartFill",
+            "component": "IconHeartInHeartFill"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=7-330",
+        "component": "IconHistory",
+        "variants": [
+          {
+            "name": "history",
+            "component": "IconHistory"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=5-1759",
+        "component": "IconHome",
+        "variants": [
+          {
+            "name": "home",
+            "component": "IconHome"
+          },
+          {
+            "name": "homeFill",
+            "component": "IconHomeFill"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=31899-136149",
+        "component": "IconHourglass",
+        "variants": [
+          {
+            "name": "hourglass",
+            "component": "IconHourglass"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=7-463",
+        "component": "IconImage",
+        "variants": [
+          {
+            "name": "image",
+            "component": "IconImage"
+          },
+          {
+            "name": "imageFill",
+            "component": "IconImageFill"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=19309-54534",
+        "component": "IconInbox",
+        "variants": [
+          {
+            "name": "inbox",
+            "component": "IconInbox"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=33076-1304",
+        "component": "IconInstance",
+        "variants": [
+          {
+            "name": "instance",
+            "component": "IconInstance"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=3831-26351",
+        "component": "IconKeyboard",
+        "variants": [
+          {
+            "name": "keyboard",
+            "component": "IconKeyboard"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=34816-131078",
+        "component": "IconLeftSide",
+        "variants": [
+          {
+            "name": "leftSide",
+            "component": "IconLeftSide"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=5-1831",
+        "component": "IconLike",
+        "variants": [
+          {
+            "name": "like",
+            "component": "IconLike"
+          },
+          {
+            "name": "likeFill",
+            "component": "IconLikeFill"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=45-476",
+        "component": "IconLineHorizontal",
+        "variants": [
+          {
+            "name": "lineHorizontal",
+            "component": "IconLineHorizontal"
+          },
+          {
+            "name": "lineHorizontalThick",
+            "component": "IconLineHorizontalThick"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=7-356",
+        "component": "IconLink",
+        "variants": [
+          {
+            "name": "link",
+            "component": "IconLink"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=3722-26438",
+        "component": "IconList",
+        "variants": [
+          {
+            "name": "list",
+            "component": "IconList"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=4520-29806",
+        "component": "IconListCategory",
+        "variants": [
+          {
+            "name": "listCategory",
+            "component": "IconListCategory"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=13240-2704",
+        "component": "IconListOrdered",
+        "variants": [
+          {
+            "name": "listOrdered",
+            "component": "IconListOrdered"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=7-491",
+        "component": "IconLocation",
+        "variants": [
+          {
+            "name": "location",
+            "component": "IconLocation"
+          },
+          {
+            "name": "locationFill",
+            "component": "IconLocationFill"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=16-336",
+        "component": "IconLock",
+        "variants": [
+          {
+            "name": "lock",
+            "component": "IconLock"
+          },
+          {
+            "name": "lockFill",
+            "component": "IconLockFill"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=5-1786",
+        "component": "IconLockOpen",
+        "variants": [
+          {
+            "name": "lockOpen",
+            "component": "IconLockOpen"
+          },
+          {
+            "name": "lockOpenFill",
+            "component": "IconLockOpenFill"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=32973-1274",
+        "component": "IconLogin",
+        "variants": [
+          {
+            "name": "login",
+            "component": "IconLogin"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=4515-29879",
+        "component": "IconLogoApple",
+        "variants": [
+          {
+            "name": "logoApple",
+            "component": "IconLogoApple"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=40167-141733",
+        "component": "IconLogoAppleColor",
+        "variants": [
+          {
+            "name": "logoApple",
+            "component": "IconLogoAppleColor"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=33073-1427",
+        "component": "IconLogoBrunch",
+        "variants": [
+          {
+            "name": "logoBrunch",
+            "component": "IconLogoBrunch"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=4509-29794",
+        "component": "IconLogoFacebook",
+        "variants": [
+          {
+            "name": "logoFacebook",
+            "component": "IconLogoFacebook"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=40167-141739",
+        "component": "IconLogoFacebookColor",
+        "variants": [
+          {
+            "name": "logoFacebook",
+            "component": "IconLogoFacebookColor"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=40167-141723",
+        "component": "IconLogoGoogleColor",
+        "variants": [
+          {
+            "name": "logoGoogle",
+            "component": "IconLogoGoogleColor"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=4515-29872",
+        "component": "IconLogoGooglePlay",
+        "variants": [
+          {
+            "name": "logoGooglePlay",
+            "component": "IconLogoGooglePlay"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=40167-141746",
+        "component": "IconLogoGooglePlayColor",
+        "variants": [
+          {
+            "name": "logoGooglePlay",
+            "component": "IconLogoGooglePlayColor"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=4515-29858",
+        "component": "IconLogoInstagram",
+        "variants": [
+          {
+            "name": "logoInstagram",
+            "component": "IconLogoInstagram"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=9258-18856",
+        "component": "IconLogoKakao",
+        "variants": [
+          {
+            "name": "logoKakao",
+            "component": "IconLogoKakao"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=40167-141761",
+        "component": "IconLogoKakaoColor",
+        "variants": [
+          {
+            "name": "logoKakao",
+            "component": "IconLogoKakaoColor"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=6399-33486",
+        "component": "IconLogoLinkedIn",
+        "variants": [
+          {
+            "name": "logoLinkedIn",
+            "component": "IconLogoLinkedIn"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=40167-141767",
+        "component": "IconLogoLinkedInColor",
+        "variants": [
+          {
+            "name": "logoLinkedIn",
+            "component": "IconLogoLinkedInColor"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=32989-1445",
+        "component": "IconLogoMicrosoft",
+        "variants": [
+          {
+            "name": "logoMicrosoft",
+            "component": "IconLogoMicrosoft"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=40167-141788",
+        "component": "IconLogoMicrosoftColor",
+        "variants": [
+          {
+            "name": "logoMicrosoft",
+            "component": "IconLogoMicrosoftColor"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=4515-29886",
+        "component": "IconLogoNaverBlog",
+        "variants": [
+          {
+            "name": "logoNaverBlog",
+            "component": "IconLogoNaverBlog"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=40167-141774",
+        "component": "IconLogoNaverBlogColor",
+        "variants": [
+          {
+            "name": "logoNaverBlog",
+            "component": "IconLogoNaverBlogColor"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=33035-3072",
+        "component": "IconLogoX",
+        "variants": [
+          {
+            "name": "logoX",
+            "component": "IconLogoX"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=4515-29865",
+        "component": "IconLogoYoutube",
+        "variants": [
+          {
+            "name": "logoYoutube",
+            "component": "IconLogoYoutube"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=40167-141781",
+        "component": "IconLogoYoutubeColor",
+        "variants": [
+          {
+            "name": "logoYoutube",
+            "component": "IconLogoYoutubeColor"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=32973-1273",
+        "component": "IconLogout",
+        "variants": [
+          {
+            "name": "logout",
+            "component": "IconLogout"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=7101-11703",
+        "component": "IconMagicWand",
+        "variants": [
+          {
+            "name": "magicWand",
+            "component": "IconMagicWand"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=7-556",
+        "component": "IconMail",
+        "variants": [
+          {
+            "name": "mail",
+            "component": "IconMail"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=13258-6466",
+        "component": "IconMailOpen",
+        "variants": [
+          {
+            "name": "mailOpen",
+            "component": "IconMailOpen"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=31899-136151",
+        "component": "IconMedal",
+        "variants": [
+          {
+            "name": "medal",
+            "component": "IconMedal"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=16078-110974",
+        "component": "IconMegaphone",
+        "variants": [
+          {
+            "name": "megaphone",
+            "component": "IconMegaphone"
+          },
+          {
+            "name": "megaphoneFill",
+            "component": "IconMegaphoneFill"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=7-640",
+        "component": "IconMenu",
+        "variants": [
+          {
+            "name": "menu",
+            "component": "IconMenu"
+          },
+          {
+            "name": "menuThick",
+            "component": "IconMenuThick"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=5-1858",
+        "component": "IconMessage",
+        "variants": [
+          {
+            "name": "message",
+            "component": "IconMessage"
+          },
+          {
+            "name": "messageFill",
+            "component": "IconMessageFill"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=29408-108796",
+        "component": "IconMicrophone",
+        "variants": [
+          {
+            "name": "microphone",
+            "component": "IconMicrophone"
+          },
+          {
+            "name": "microphoneFill",
+            "component": "IconMicrophoneFill"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=29410-130604",
+        "component": "IconMicrophoneSlash",
+        "variants": [
+          {
+            "name": "microphoneSlash",
+            "component": "IconMicrophoneSlash"
+          },
+          {
+            "name": "microphoneSlashFill",
+            "component": "IconMicrophoneSlashFill"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=10974-18638",
+        "component": "IconMinus",
+        "variants": [
+          {
+            "name": "minus",
+            "component": "IconMinus"
+          },
+          {
+            "name": "minusThick",
+            "component": "IconMinusThick"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=9142-13008",
+        "component": "IconMobile",
+        "variants": [
+          {
+            "name": "mobile",
+            "component": "IconMobile"
+          },
+          {
+            "name": "mobileFill",
+            "component": "IconMobileFill"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=20078-56476",
+        "component": "IconMoon",
+        "variants": [
+          {
+            "name": "moon",
+            "component": "IconMoon"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=7-577",
+        "component": "IconMoreHorizontal",
+        "variants": [
+          {
+            "name": "moreHorizontal",
+            "component": "IconMoreHorizontal"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=7-570",
+        "component": "IconMoreVertical",
+        "variants": [
+          {
+            "name": "moreVertical",
+            "component": "IconMoreVertical"
+          },
+          {
+            "name": "moreVerticalTight",
+            "component": "IconMoreVerticalTight"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=33075-1274",
+        "component": "IconMusicMicrophone",
+        "variants": [
+          {
+            "name": "musicMicrophone",
+            "component": "IconMusicMicrophone"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=5139-31761",
+        "component": "IconNavigationCareer",
+        "variants": [
+          {
+            "name": "navigationCareer",
+            "component": "IconNavigationCareer"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=5139-31746",
+        "component": "IconNavigationMenu",
+        "variants": [
+          {
+            "name": "navigationMenu",
+            "component": "IconNavigationMenu"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=5139-31727",
+        "component": "IconNavigationMypage",
+        "variants": [
+          {
+            "name": "navigationMypage",
+            "component": "IconNavigationMypage"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=5139-10886",
+        "component": "IconNavigationRecruit",
+        "variants": [
+          {
+            "name": "navigationRecruit",
+            "component": "IconNavigationRecruit"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=5139-31717",
+        "component": "IconNavigationSocial",
+        "variants": [
+          {
+            "name": "navigationSocial",
+            "component": "IconNavigationSocial"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=34060-1298",
+        "component": "IconPalette",
+        "variants": [
+          {
+            "name": "palette",
+            "component": "IconPalette"
+          },
+          {
+            "name": "paletteFill",
+            "component": "IconPaletteFill"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=35560-1336",
+        "component": "IconPassport",
+        "variants": [
+          {
+            "name": "passport",
+            "component": "IconPassport"
+          },
+          {
+            "name": "passportFill",
+            "component": "IconPassportFill"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=7-340",
+        "component": "IconPause",
+        "variants": [
+          {
+            "name": "pause",
+            "component": "IconPause"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=7-512",
+        "component": "IconPencil",
+        "variants": [
+          {
+            "name": "pencil",
+            "component": "IconPencil"
+          },
+          {
+            "name": "pencilFill",
+            "component": "IconPencilFill"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=5-1822",
+        "component": "IconPerson",
+        "variants": [
+          {
+            "name": "person",
+            "component": "IconPerson"
+          },
+          {
+            "name": "personFill",
+            "component": "IconPersonFill"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=7-289",
+        "component": "IconPersonPlus",
+        "variants": [
+          {
+            "name": "personPlus",
+            "component": "IconPersonPlus"
+          },
+          {
+            "name": "personPlusFill",
+            "component": "IconPersonPlusFill"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=4390-25423",
+        "component": "IconPersons",
+        "variants": [
+          {
+            "name": "persons",
+            "component": "IconPersons"
+          },
+          {
+            "name": "personsFill",
+            "component": "IconPersonsFill"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=13901-48973",
+        "component": "IconPhone",
+        "variants": [
+          {
+            "name": "phone",
+            "component": "IconPhone"
+          },
+          {
+            "name": "phoneFill",
+            "component": "IconPhoneFill"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=7-442",
+        "component": "IconPin",
+        "variants": [
+          {
+            "name": "pin",
+            "component": "IconPin"
+          },
+          {
+            "name": "pinFill",
+            "component": "IconPinFill"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=7-349",
+        "component": "IconPlay",
+        "variants": [
+          {
+            "name": "play",
+            "component": "IconPlay"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=7-633",
+        "component": "IconPlus",
+        "variants": [
+          {
+            "name": "plus",
+            "component": "IconPlus"
+          },
+          {
+            "name": "plusThick",
+            "component": "IconPlusThick"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=47320-87187",
+        "component": "IconPositionReview",
+        "variants": [
+          {
+            "name": "positionReview",
+            "component": "IconPositionReview"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=46447-83797",
+        "component": "IconPouch",
+        "variants": [
+          {
+            "name": "pouch",
+            "component": "IconPouch"
+          },
+          {
+            "name": "pouchFill",
+            "component": "IconPouchFill"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=33073-1460",
+        "component": "IconPresentation",
+        "variants": [
+          {
+            "name": "presentation",
+            "component": "IconPresentation"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=21507-66883",
+        "component": "IconPrinter",
+        "variants": [
+          {
+            "name": "printer",
+            "component": "IconPrinter"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=7-647",
+        "component": "IconQuestion",
+        "variants": [
+          {
+            "name": "question",
+            "component": "IconQuestion"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=13131-24474",
+        "component": "IconQuote",
+        "variants": [
+          {
+            "name": "quote",
+            "component": "IconQuote"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=7-449",
+        "component": "IconRefresh",
+        "variants": [
+          {
+            "name": "refresh",
+            "component": "IconRefresh"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=40193-141244",
+        "component": "IconRegex",
+        "variants": [
+          {
+            "name": "regex",
+            "component": "IconRegex"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=40193-141295",
+        "component": "IconReplace",
+        "variants": [
+          {
+            "name": "replace",
+            "component": "IconReplace"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=40193-141384",
+        "component": "IconReplaceAll",
+        "variants": [
+          {
+            "name": "replaceAll",
+            "component": "IconReplaceAll"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=29412-130731",
+        "component": "IconReset",
+        "variants": [
+          {
+            "name": "reset",
+            "component": "IconReset"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=35808-1340",
+        "component": "IconRightSide",
+        "variants": [
+          {
+            "name": "rightSide",
+            "component": "IconRightSide"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=45092-81067",
+        "component": "IconRotate",
+        "variants": [
+          {
+            "name": "rotate",
+            "component": "IconRotate"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=5-1915",
+        "component": "IconSearch",
+        "variants": [
+          {
+            "name": "search",
+            "component": "IconSearch"
+          },
+          {
+            "name": "searchThick",
+            "component": "IconSearchThick"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=5-1795",
+        "component": "IconSend",
+        "variants": [
+          {
+            "name": "send",
+            "component": "IconSend"
+          },
+          {
+            "name": "sendFill",
+            "component": "IconSendFill"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=7-498",
+        "component": "IconSetting",
+        "variants": [
+          {
+            "name": "setting",
+            "component": "IconSetting"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=7-419",
+        "component": "IconShare",
+        "variants": [
+          {
+            "name": "share",
+            "component": "IconShare"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=6564-14289",
+        "component": "IconShareIos",
+        "variants": [
+          {
+            "name": "shareIos",
+            "component": "IconShareIos"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=31899-136152",
+        "component": "IconSparkle",
+        "variants": [
+          {
+            "name": "sparkle",
+            "component": "IconSparkle"
+          },
+          {
+            "name": "sparkleFill",
+            "component": "IconSparkleFill"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=10190-18363",
+        "component": "IconSquare",
+        "variants": [
+          {
+            "name": "square",
+            "component": "IconSquare"
+          },
+          {
+            "name": "squareFill",
+            "component": "IconSquareFill"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=24232-83105",
+        "component": "IconSquareCaret",
+        "variants": [
+          {
+            "name": "squareCaret",
+            "component": "IconSquareCaret"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=24232-83077",
+        "component": "IconSquareCheck",
+        "variants": [
+          {
+            "name": "squareCheck",
+            "component": "IconSquareCheck"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=7-405",
+        "component": "IconSquareHan",
+        "variants": [
+          {
+            "name": "squareHan",
+            "component": "IconSquareHan"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=7-412",
+        "component": "IconSquareHangul",
+        "variants": [
+          {
+            "name": "squareHangul",
+            "component": "IconSquareHangul"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=7-398",
+        "component": "IconSquareKana",
+        "variants": [
+          {
+            "name": "squareKana",
+            "component": "IconSquareKana"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=7-391",
+        "component": "IconSquareLatin",
+        "variants": [
+          {
+            "name": "squareLatin",
+            "component": "IconSquareLatin"
+          },
+          {
+            "name": "squareLatinFill",
+            "component": "IconSquareLatinFill"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=7-363",
+        "component": "IconSquareMore",
+        "variants": [
+          {
+            "name": "squareMore",
+            "component": "IconSquareMore"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=33227-1291",
+        "component": "IconSquarePlay",
+        "variants": [
+          {
+            "name": "squarePlay",
+            "component": "IconSquarePlay"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=3831-26338",
+        "component": "IconSquarePlus",
+        "variants": [
+          {
+            "name": "squarePlus",
+            "component": "IconSquarePlus"
+          },
+          {
+            "name": "squarePlusFill",
+            "component": "IconSquarePlusFill"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=5-1840",
+        "component": "IconStar",
+        "variants": [
+          {
+            "name": "star",
+            "component": "IconStar"
+          },
+          {
+            "name": "starFill",
+            "component": "IconStarFill"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=40159-141445",
+        "component": "IconStorage",
+        "variants": [
+          {
+            "name": "storage",
+            "component": "IconStorage"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=13131-24463",
+        "component": "IconStrikethrough",
+        "variants": [
+          {
+            "name": "strikethrough",
+            "component": "IconStrikethrough"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=20078-56477",
+        "component": "IconSun",
+        "variants": [
+          {
+            "name": "sun",
+            "component": "IconSun"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=31899-136148",
+        "component": "IconTag",
+        "variants": [
+          {
+            "name": "tag",
+            "component": "IconTag"
+          },
+          {
+            "name": "tagFill",
+            "component": "IconTagFill"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=43675-81414",
+        "component": "IconTelescope",
+        "variants": [
+          {
+            "name": "telescope",
+            "component": "IconTelescope"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=6106-10984",
+        "component": "IconTemplate",
+        "variants": [
+          {
+            "name": "template",
+            "component": "IconTemplate"
+          },
+          {
+            "name": "templateFill",
+            "component": "IconTemplateFill"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=24232-83139",
+        "component": "IconTextFormat",
+        "variants": [
+          {
+            "name": "textFormat",
+            "component": "IconTextFormat"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=17831-153138",
+        "component": "IconTextVariable",
+        "variants": [
+          {
+            "name": "textVariable",
+            "component": "IconTextVariable"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=3722-26433",
+        "component": "IconThumbnail",
+        "variants": [
+          {
+            "name": "thumbnail",
+            "component": "IconThumbnail"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=5-1732",
+        "component": "IconThunder",
+        "variants": [
+          {
+            "name": "thunder",
+            "component": "IconThunder"
+          },
+          {
+            "name": "thunderFill",
+            "component": "IconThunderFill"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=31061-1262",
+        "component": "IconTicket",
+        "variants": [
+          {
+            "name": "ticket",
+            "component": "IconTicket"
+          },
+          {
+            "name": "ticketFill",
+            "component": "IconTicketFill"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=7-428",
+        "component": "IconTrash",
+        "variants": [
+          {
+            "name": "trash",
+            "component": "IconTrash"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=11031-20324",
+        "component": "IconTriangle",
+        "variants": [
+          {
+            "name": "triangle",
+            "component": "IconTriangle"
+          },
+          {
+            "name": "triangleFill",
+            "component": "IconTriangleFill"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=7-563",
+        "component": "IconTriangleExclamation",
+        "variants": [
+          {
+            "name": "triangleExclamation",
+            "component": "IconTriangleExclamation"
+          },
+          {
+            "name": "triangleExclamationFill",
+            "component": "IconTriangleExclamationFill"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=10039-17448",
+        "component": "IconTrophy",
+        "variants": [
+          {
+            "name": "trophy",
+            "component": "IconTrophy"
+          },
+          {
+            "name": "trophyFill",
+            "component": "IconTrophyFill"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=7-542",
+        "component": "IconTune",
+        "variants": [
+          {
+            "name": "tune",
+            "component": "IconTune"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=26415-96800",
+        "component": "IconUmbrella",
+        "variants": [
+          {
+            "name": "umbrella",
+            "component": "IconUmbrella"
+          },
+          {
+            "name": "umbrellaFill",
+            "component": "IconUmbrellaFill"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=13131-24452",
+        "component": "IconUnderline",
+        "variants": [
+          {
+            "name": "underline",
+            "component": "IconUnderline"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=7-477",
+        "component": "IconUpload",
+        "variants": [
+          {
+            "name": "upload",
+            "component": "IconUpload"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=34193-131396",
+        "component": "IconUtility",
+        "variants": [
+          {
+            "name": "utility",
+            "component": "IconUtility"
+          },
+          {
+            "name": "utilityFill",
+            "component": "IconUtilityFill"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=5-1768",
+        "component": "IconVerifiedCheck",
+        "variants": [
+          {
+            "name": "verifiedCheck",
+            "component": "IconVerifiedCheck"
+          },
+          {
+            "name": "verifiedCheckFill",
+            "component": "IconVerifiedCheckFill"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=5-1777",
+        "component": "IconVerifiedStar",
+        "variants": [
+          {
+            "name": "verifiedStar",
+            "component": "IconVerifiedStar"
+          },
+          {
+            "name": "verifiedStarFill",
+            "component": "IconVerifiedStarFill"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=33227-1299",
+        "component": "IconVideo",
+        "variants": [
+          {
+            "name": "video",
+            "component": "IconVideo"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=33209-1282",
+        "component": "IconWebinar",
+        "variants": [
+          {
+            "name": "webinar",
+            "component": "IconWebinar"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=40193-141199",
+        "component": "IconWholeWord",
+        "variants": [
+          {
+            "name": "wholeWord",
+            "component": "IconWholeWord"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=9450-17687",
+        "component": "IconWrite",
+        "variants": [
+          {
+            "name": "write",
+            "component": "IconWrite"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=34197-131053",
+        "component": "IconZepFast",
+        "variants": [
+          {
+            "name": "zepFast",
+            "component": "IconZepFast"
+          },
+          {
+            "name": "zepFastFill",
+            "component": "IconZepFastFill"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=40167-141755",
+        "component": "IconLogoInstagramColor",
+        "variants": [
+          {
+            "name": "logoInstagram",
+            "component": "IconLogoInstagramColor"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=40167-141716",
+        "component": "IconBlankColor",
+        "variants": [
+          {
+            "name": "blank",
+            "component": "IconBlankColor"
+          }
+        ]
+      }
+    ]
+  }
+]

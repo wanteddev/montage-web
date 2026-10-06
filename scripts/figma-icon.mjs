@@ -14,7 +14,7 @@ const outputDir = './output';
 const ignoreSyncIcons = [
   {
     name: 'IconLogoInstagramColor',
-    id: '11670-22176',
+    id: '40167-141755',
   },
 ];
 const includeIndexIcons = ['IconSymbol'];
@@ -77,9 +77,16 @@ const main = async () => {
   const files = [];
 
   /**
-   * @type {Array<string>}
+   * Code Connect batch entries, grouped by Figma node URL.
+   * @type {Map<string, Array<{ name: string; component: string }>>}
    */
-  const figmaConnectContents = [];
+  const figmaConnectEntries = new Map();
+  const addFigmaConnectEntry = (id, name, component) => {
+    const url = `<FIGMA_ICONS_BASE>?node-id=${id}`;
+    const variants = figmaConnectEntries.get(url) ?? [];
+    variants.push({ name, component });
+    figmaConnectEntries.set(url, variants);
+  };
 
   data.forEach((icon) => {
     const { name, content, id, parsedName, description } = icon;
@@ -128,20 +135,14 @@ const main = async () => {
 
     files.push([fileName, fileContent]);
 
-    // figma.connect(${name}, "<FIGMA_ICONS_BASE>?node-id=${ICON_NULL_COMPONENT}", { variant: { Name: '${parsedName}' }, example: () => <${name} /> });
-    // figma.connect(${name}, "<FIGMA_ICONS_BASE>?node-id=${ICON_RESPONSIVE_COMPONENT}", { variant: { Name: '${parsedName}' }, props: { size: figma.enum('Size', { Small: '20px', Tiny: '16px', Normal: '24px', Medium: '28px', Large: '32px', }) }, example: ({ size }) => <${name} sx={{ fontSize: size }} /> });`,
-    figmaConnectContents.push(
-      `figma.connect(${name}, "<FIGMA_ICONS_BASE>?node-id=${id}", { variant: { Name: '${parsedName.replace(/Color$/, '')}' }, example: () => <${name} /> });`,
-    );
+    addFigmaConnectEntry(id, parsedName.replace(/Color$/, ''), name);
   });
 
   ignoreSyncIcons.forEach((icon) => {
     const iconName = camelCase(
       icon.name.replace(/^Icon/, '').replace(/Color$/, ''),
     );
-    figmaConnectContents.push(
-      `figma.connect(${icon.name}, "<FIGMA_ICONS_BASE>?node-id=${icon.id}", { variant: { Name: '${iconName}' }, example: () => <${icon.name} /> });`,
-    );
+    addFigmaConnectEntry(icon.id, iconName, icon.name);
   });
 
   const duplicatedInstances = result.filter(
@@ -153,18 +154,29 @@ const main = async () => {
   );
 
   duplicatedInstances.forEach(({ id, name }) => {
-    figmaConnectContents.push(
-      `figma.connect(${makeIconComponentName(name)}, "<FIGMA_ICONS_BASE>?node-id=${id}", { variant: { Name: '${name.replace(/Color$/, '')}' }, example: () => <${makeIconComponentName(name)} /> });`,
+    addFigmaConnectEntry(
+      id,
+      name.replace(/Color$/, ''),
+      makeIconComponentName(name),
     );
   });
 
   writeFileSync(
-    './figma/icons/index.figma.tsx',
-    `import figma from "@figma/code-connect";\nimport {${files
-      .map(([name]) => pascalCase(name))
-      .join(
-        ', ',
-      )}, ${ignoreSyncIcons.map((icon) => icon.name).join(', ')} } from "@montage-ui/icon";\n${figmaConnectContents.join('\n')}`,
+    './figma/icons/icons.figma.batch.json',
+    `${JSON.stringify(
+      [
+        {
+          templateFile: './icons.figma.batch.ts',
+          components: [...figmaConnectEntries].map(([url, variants]) => ({
+            url,
+            component: variants[0].component,
+            variants,
+          })),
+        },
+      ],
+      null,
+      2,
+    )}\n`,
   );
 
   await Promise.all(
