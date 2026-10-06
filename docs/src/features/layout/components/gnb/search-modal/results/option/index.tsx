@@ -58,6 +58,7 @@ const SearchOption = ({ item, recentSearchRemove, ...props }: Props) => {
         trailingContent={
           <IconButton
             size={16}
+            interactionOverflow
             data-role="recent-search-remove"
             aria-label="Remove from recent search"
             onClick={(e) => {

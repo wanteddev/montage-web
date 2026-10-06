@@ -65,7 +65,7 @@ module.exports = {
         'FormControlLabel',
         'Checkbox',
       ],
-      render: `<FormControl flexDirection="row" gap="8px" sx={{ width:'88px' }}><FormControlField><Checkbox defaultChecked /></FormControlField><FormControlLabel sx={{ padding: "1px 0px" }}>Medium</FormControlLabel></FormControl>`,
+      render: `<FormControl flexDirection="row" gap="8px" sx={{ width:'88px' }}><FormControlField><Checkbox defaultChecked /></FormControlField><FormControlLabel>Medium</FormControlLabel></FormControl>`,
     },
     {
       components: [

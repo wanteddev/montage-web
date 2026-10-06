@@ -158,7 +158,13 @@ const LnbMobile = () => {
             {sentenceCase(previousFocusedCategory ?? '')}
           </Typography>
         </ModalNavigation>
-        <ModalContent sx={{ '--modal-content-margin': '24px', paddingTop: 0 }}>
+        <ModalContent
+          verticalPadding="bottom-only"
+          sx={{
+            '--modal-content-margin-x': '24px',
+            '--modal-content-margin-y': '24px',
+          }}
+        >
           <ModalContentItem>
             {focusedCategory !== null && (
               <Typography

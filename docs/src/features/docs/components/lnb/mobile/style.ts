@@ -82,7 +82,7 @@ export const wrapperStyle = css`
 `;
 
 export const navigationStyle = (theme: Theme) => css`
-  --top-navigation-padding-x: 24px;
+  --modal-navigation-padding-x: 24px;
   position: relative;
   background-color: transparent;
   backdrop-filter: none;
@@ -103,7 +103,7 @@ export const navigationStyle = (theme: Theme) => css`
     )}
   }
 
-  [data-role='top-navigation-wrapper'] {
+  [data-role='modal-navigation-wrapper'] {
     gap: 8px;
   }
 

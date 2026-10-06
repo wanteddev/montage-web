@@ -22,15 +22,15 @@ export const modalContainerStyle = (theme: Theme) => css`
 `;
 
 export const modalNavigationStyle = (theme: Theme) => css`
-  --top-navigation-padding-x: 16px;
-  --top-navigation-padding-y: 16px;
+  --modal-navigation-padding-x: 16px;
+  --modal-navigation-padding-y: 16px;
 
-  [data-role='top-navigation-wrapper'] {
+  [data-role='modal-navigation-content'] {
     gap: 0px;
   }
 
   ${respondTo(theme.breakpoint.sm)} {
-    --top-navigation-padding-y: 12px;
+    --modal-navigation-padding-y: 12px;
   }
 `;
 
@@ -39,12 +39,6 @@ export const modalCloseButtonStyle = (theme: Theme) => css`
 
   ${respondMore(theme.breakpoint.sm)} {
     display: none;
-  }
-`;
-
-export const searchFieldStyle = (theme: Theme) => css`
-  ${respondTo(theme.breakpoint.sm)} {
-    padding: 5px 8px;
   }
 `;
 

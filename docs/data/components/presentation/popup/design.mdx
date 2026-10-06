@@ -44,7 +44,6 @@ updatedAt: 2026-03-03
       let navigation = '';
 
       switch (value['Navigation']) {
-        case 'Normal':
         case 'Emphasized':
           navigation = `<ModalNavigation variant="${value['Navigation'].toLowerCase()}">Title</ModalNavigation>`;
           break;
@@ -118,7 +117,6 @@ updatedAt: 2026-03-03
     {
       key: 'Navigation',
       options: [
-        { label: 'Normal', value: {} },
         { label: 'Emphasized', value: {} },
         { label: 'Floating', value: {} },
         { label: 'Search', value: {} }

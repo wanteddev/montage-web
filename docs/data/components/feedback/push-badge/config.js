@@ -26,7 +26,8 @@ module.exports = {
           {
             label: 'New',
             value: {
-              variant: 'new',
+              variant: 'text',
+              text: 'N',
               children: '<Box data-role="content" />',
               sx: (theme) => ({
                 ['[data-role="content"]']: {
@@ -40,8 +41,8 @@ module.exports = {
           {
             label: 'Number',
             value: {
-              count: 5,
-              variant: 'number',
+              variant: 'text',
+              text: 5,
               children: '<Box data-role="content" />',
               sx: (theme) => ({
                 ['[data-role="content"]']: {
