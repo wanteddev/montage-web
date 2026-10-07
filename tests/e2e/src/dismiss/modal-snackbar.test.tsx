@@ -19,6 +19,13 @@ import {
 
 afterEach(() => cleanup());
 
+// `SnackbarAction` props do not accept `data-*` in their type, so find the
+// action button by its label instead.
+const snackAction = () =>
+  [...document.querySelectorAll('button')].find(
+    (button) => button.textContent === 'Undo',
+  );
+
 // A modal opens a DismissableLayer with `disableOutsidePointerEvents`, which sets
 // `body { pointer-events: none }`. A Snackbar/Toast lives in the global RegionArea
 // (outside the modal). This verifies its action button is still clickable while a
@@ -45,7 +52,6 @@ const ModalWithSnackbar = () => {
                   duration: 100000,
                   action: {
                     children: 'Undo',
-                    'data-testid': 'snack-action',
                     onClick: () => {
                       actionClicks += 1;
                     },
@@ -71,9 +77,9 @@ describe('Snackbar over an open modal', () => {
     await expect.poll(openModalCount).toBe(1);
 
     await click(byTestId('show-snackbar'));
-    await expect.poll(() => byTestId('snack-action')).not.toBeNull();
+    await expect.poll(() => snackAction()).toBeDefined();
 
-    await click(byTestId('snack-action'));
+    await click(snackAction());
     expect(actionClicks).toBe(1);
     expect(openModalCount()).toBe(1); // clicking the snackbar must not close the modal
   });
