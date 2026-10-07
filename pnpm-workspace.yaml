@@ -10,9 +10,11 @@ enablePrePostScripts: true
 
 engineStrict: true
 
-onlyBuiltDependencies:
-  - '@swc/core'
-  - esbuild
-  - nx
-  - sharp
-  - unrs-resolver
+allowBuilds:
+  '@firebase/util': false
+  '@swc/core': true
+  esbuild: true
+  nx: true
+  protobufjs: false
+  sharp: true
+  unrs-resolver: true
