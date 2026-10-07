@@ -35,6 +35,7 @@ import {
   sectionVariantsStyle,
 } from './style';
 import {
+  getVariantRenderValues,
   getVariantValueWithDisabled,
   makeSectionVariantDemoCode,
 } from './helpers';
@@ -108,15 +109,7 @@ const SectionVariants = ({
 
   const renderResult = useMemo(() => {
     if (render) {
-      return render(
-        Object.entries(selectedVariant).reduce(
-          (acc, [key, value]) => ({
-            ...acc,
-            [key]: value.value,
-          }),
-          {},
-        ),
-      );
+      return render(getVariantRenderValues(selectedVariant));
     }
 
     return undefined;

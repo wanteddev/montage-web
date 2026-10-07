@@ -63,6 +63,19 @@ export const getVariantValueWithDisabled = (
   return newVariant;
 };
 
+// Disabled variants keep their selection in the controls (restored when re-enabled),
+// but are passed to `render` as an empty value so the demo does not reflect them.
+export const getVariantRenderValues = (
+  selectedVariant: SectionSelectedVariants,
+) =>
+  Object.entries(selectedVariant).reduce<Record<string, string>>(
+    (acc, [key, value]) => ({
+      ...acc,
+      [key]: value.disabled ? '' : value.value,
+    }),
+    {},
+  );
+
 export const isComponent = (value: any): value is string => {
   if (typeof value !== 'string') return false;
 
