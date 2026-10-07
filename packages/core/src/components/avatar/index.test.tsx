@@ -106,4 +106,36 @@ describe('when given avatar component', () => {
       });
     });
   });
+
+  it('should keep alt="" as a decorative image without a default label', () => {
+    vi.spyOn(helpers, 'loadImage').mockImplementation(
+      () => new Promise<void>(() => {}),
+    );
+    const { container } = render(<Avatar src="/img-1.png" alt="" />);
+
+    const img = container.querySelector('img')!;
+    expect(img).toHaveAttribute('alt', '');
+    expect(img).not.toHaveAttribute('role');
+    expect(img).not.toHaveAttribute('aria-label');
+  });
+
+  it('should hide a decorative fallback from assistive technology', () => {
+    const { container } = render(<Avatar alt="" />);
+
+    const fallback = container.querySelector('[data-role="avatar-fallback"]')!;
+    expect(fallback).toHaveAttribute('aria-hidden', 'true');
+    expect(fallback).not.toHaveAttribute('role');
+    expect(fallback).not.toHaveAttribute('aria-label');
+  });
+
+  it('should still label the image by default', () => {
+    vi.spyOn(helpers, 'loadImage').mockImplementation(
+      () => new Promise<void>(() => {}),
+    );
+    const { container } = render(<Avatar src="/img-1.png" />);
+
+    const img = container.querySelector('img')!;
+    expect(img).toHaveAttribute('alt', '프로필 이미지');
+    expect(img).toHaveAttribute('role', 'img');
+  });
 });
