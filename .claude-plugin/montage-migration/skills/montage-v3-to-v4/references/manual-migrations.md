@@ -2033,9 +2033,22 @@ dismissal of `Modal`, `Alert`, Popper-based overlays, and the Picker popups move
   Modal is inside it even though it is portaled out of the Modal's DOM — which is why the
   `data-ignore-dismissable-layer` markers were removed (M3).
 - `Modal` / `Alert` no longer close when focus moves outside them.
+- **A custom dimmer can no longer veto the outside-click close.** v3 closed from the dimmer's
+  `onClick`, so `e.preventDefault()` in a custom `ModalDimmer` / `AlertDimmer` `onClick` kept
+  the overlay open. v4 decides the close in the layer stack (mouse: `pointerdown`, touch:
+  `click`); no dimmer handler can stop it. The dimmer `onClick` still runs on mouse, but only
+  after the close has started (during the exit animation) and not at all if the dimmer unmounts
+  first — never put close-related logic there. Fix: a conditional veto becomes
+  `disableOutsideClickClose={condition}` on `ModalContainer` / `AlertContainer` (also a `useAlert`
+  option; add `disableEscapeKeyDownClose` if Esc must be blocked too); side effects on close move
+  to the `Modal` / `Alert` `onOpenChange`. Not codemod-able.
+  Scan **[decision]**: `<(ModalDimmer|AlertDimmer)([[:space:]>]|$)` file-level — read each hit
+  for event handlers (`onClick` / `onPointerDown` / `onMouseDown`, possibly multi-line) and
+  whether they call `preventDefault` or run close-related logic; ask the user before rewriting a
+  handler whose intent is not an obvious veto.
 - **While open, these overlays set `pointer-events: none` on `<body>`** (restored on close);
   only the layer itself, layers above it, and the `Modal` / `Alert` dimmer receive pointer
-  events (so a consumer `onClick` on a custom `ModalDimmer` / `AlertDimmer` still fires, as in v3):
+  events:
 
   | Overlay                                       | Blocks outside pointer events when                                        |
   | --------------------------------------------- | ------------------------------------------------------------------------- |

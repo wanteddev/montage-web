@@ -904,6 +904,8 @@ variant="close-button">` (a text-label `ModalClose` becomes `text-button` with a
   popup. Fixes, in order: render inside the overlay DOM; `pointer-events: auto` + a z-index above
   the overlay; for DOM not rendered by React also `data-ignore-dismissable-layer="true"` (else
   the click dismisses the overlay); `disableAriaHiddenOthers` (not on `useAlert` / Pickers).
+  A custom `ModalDimmer` / `AlertDimmer` handler can no longer veto the close — move a veto
+  to `disableOutsideClickClose` and close side effects to `onOpenChange`.
   `aria-modal` now follows `disableAriaHiddenOthers` and, on a handle sheet, the dimmed snap.
   Ask the user which fix each hit gets — never pick one or toggle `disableAriaHiddenOthers` on
   your own.
