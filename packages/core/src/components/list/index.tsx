@@ -171,8 +171,10 @@ const ListCell = forwardRef(
               const target = e.target as HTMLElement;
               if (
                 isElementDisabled(target) ||
-                target.ariaHidden?.toString() === 'true' ||
-                target.hidden.toString() === 'true'
+                target.getAttribute('aria-hidden') === 'true' ||
+                // `hidden` only exists on HTMLElement — an SVG target (the
+                // selected check or chevron icon) has no such property.
+                (target instanceof HTMLElement && target.hidden)
               ) {
                 return;
               }

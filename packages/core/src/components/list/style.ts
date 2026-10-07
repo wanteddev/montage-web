@@ -37,6 +37,12 @@ export const listCellStyle =
       ? theme.semantic.foreground.brand.primary
       : theme.semantic.foreground.neutral.primary};
 
+    ${!disabled &&
+    !disableInteraction &&
+    css`
+      cursor: pointer;
+    `}
+
     ${listCellPaddingStyle({ verticalPadding }, theme)}
     ${listCellVariantStyle({ variant }, theme)}
 

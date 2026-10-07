@@ -1,7 +1,8 @@
-import { cleanup, render, screen } from '@testing-library/react';
+import { cleanup, fireEvent, render, screen } from '@testing-library/react';
 
 import { Avatar } from '../avatar';
 import { Button } from '../button';
+import { Checkbox } from '../checkbox';
 import { IconButton } from '../icon-button';
 import { ContentBadge } from '../content-badge';
 import { TextButton } from '../text-button';
@@ -166,5 +167,37 @@ describe('when given icon button inside list cell content', () => {
     expect(
       window.getComputedStyle(screen.getByLabelText('Trailing')).width,
     ).toBe('20px');
+  });
+});
+
+describe('when the click target inside a list cell is an svg', () => {
+  it('should forward the click to the leading control without throwing', () => {
+    const onCheckedChange = vi.fn();
+    const onError = vi.fn((event: ErrorEvent) => event.preventDefault());
+    window.addEventListener('error', onError);
+
+    render(
+      <List>
+        <ListCell
+          selected
+          leadingContent={
+            <ListCellContent variant="checkbox">
+              <Checkbox onCheckedChange={onCheckedChange} />
+            </ListCellContent>
+          }
+        >
+          Label
+        </ListCell>
+      </List>,
+    );
+
+    const icon = document.querySelector(
+      '[data-role="list-cell-selected-icon-check"] svg',
+    )!;
+    fireEvent.click(icon.querySelector('path') ?? icon);
+
+    window.removeEventListener('error', onError);
+    expect(onError).not.toHaveBeenCalled();
+    expect(onCheckedChange).toHaveBeenCalledTimes(1);
   });
 });
