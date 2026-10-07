@@ -25,6 +25,13 @@ export const modalDimmerStyle = (theme: Theme) => css`
   inset: 0;
   z-index: -1;
   background-color: ${theme.semantic.effect.dimmer.primary};
+  /*
+   * \`disableOutsidePointerEvents\` sets \`pointer-events: none\` on <body> and
+   * re-enables only the layer itself. The dimmer is a sibling of the layer, so
+   * opt it back in — otherwise a consumer \`onClick\` on a custom dimmer never
+   * fires. Dismissal still goes through the radix layer stack.
+   */
+  pointer-events: auto;
 
   &[data-snap='full'],
   &[data-snap='half'] {
@@ -57,7 +64,7 @@ export const modalContainerWrapperStyle =
     display: flex;
     z-index: ${theme.zIndex.modal};
     width: 100vw;
-    height: 100vh;
+    height: 100dvh;
     left: 0px;
     top: 0px;
 
@@ -77,10 +84,6 @@ export const modalContainerWrapperStyle =
     ) {
       background: inherit;
       will-change: backdrop-filter;
-    }
-
-    @supports (height: 100dvh) {
-      height: 100dvh;
     }
 
     ${modalContainerWrapperVariant(variant)}

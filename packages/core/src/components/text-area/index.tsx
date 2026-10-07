@@ -208,7 +208,7 @@ const TextArea = forwardRef<
               ...resolvedResponsive,
               ...props,
             })}
-            aria-invalid={status === 'negative' || undefined}
+            aria-invalid={status === 'negative'}
             value={value}
             onChange={composeEventHandlers(props.onChange, () => {
               syncTextAreaHeight();

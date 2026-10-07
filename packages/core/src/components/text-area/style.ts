@@ -45,39 +45,18 @@ export const textAreaWrapperStyle =
       : css`
           cursor: text;
 
-          @supports selector(:has(*)) {
-            &:where(:has(textarea:focus)) {
-              ${
-                status === 'negative'
-                  ? css`
-                      box-shadow:
-                        inset 0 0 0 1px ${theme.semantic.line.negative.strong},
-                        0 0 0 4px ${theme.semantic.line.negative.focus};
-                    `
-                  : css`
-                      box-shadow:
-                        inset 0 0 0 1px ${theme.semantic.line.brand.strong},
-                        0 0 0 4px ${theme.semantic.line.brand.focus};
-                    `
-              }
-            }
-          }
-
-          @supports not selector(:has(*)) {
-           &:where(:focus-within) {
-              ${
-                status === 'negative'
-                  ? css`
-                      box-shadow:
-                        inset 0 0 0 1px ${theme.semantic.line.negative.strong},
-                        0 0 0 4px ${theme.semantic.line.negative.focus};
-                    `
-                  : css`
-                      box-shadow:
-                        inset 0 0 0 1px ${theme.semantic.line.brand.strong},
-                        0 0 0 4px ${theme.semantic.line.brand.focus};
-                    `
-              }
+          &:where(:has(textarea:focus)) {
+            ${status === 'negative'
+              ? css`
+                  box-shadow:
+                    inset 0 0 0 1px ${theme.semantic.line.negative.strong},
+                    0 0 0 4px ${theme.semantic.line.negative.focus};
+                `
+              : css`
+                  box-shadow:
+                    inset 0 0 0 1px ${theme.semantic.line.brand.strong},
+                    0 0 0 4px ${theme.semantic.line.brand.focus};
+                `}
           }
         `}
 
