@@ -48,8 +48,10 @@ What it does:
    ThemeProvider cookie storage, IconButton `disableInteraction` → `interactionEffect`
    (TopNavigation icon buttons now dim instead of drawing the interaction layer) and
    `interactionOverflow` for standalone icon buttons (icon buttons inside component slots,
-   incl. the TabList / CategoryList `iconButton`, whose variant the slot sizes drop their v3
-   `size` / `interactionOverflow` since the slot applies them), and TopNavigation /
+   incl. the TabList / CategoryList `iconButton`, inherit the slot's `interactionOverflow`:
+   keeping a numeric v3 `size` there reproduces v3, while deleting it — or a v3 icon button
+   that never had a `size` (24px in v3) — adopts the slot preset (usually smaller); a per-screen choice,
+   adding `size={24}` to keep v3 pixels), and TopNavigation /
    ModalNavigation changes (`ModalClose` → `ModalNavigationButton variant="close-button"`,
    `icon` / `text` → `icon-button` / `text-button` variants, ModalNavigation `display` →
    `emphasized`, modal navigation DOM identifiers), and Modal layout/spacing changes
@@ -58,7 +60,12 @@ What it does:
    and the ContentBadge `outlined` background becoming transparent.
 4. **Verification** — leftover greps, install/typecheck/lint/build/tests, summary.
 
-The codemods are order-sensitive and must not run twice (re-running
-`form-control-migration` corrupts migrated code), so progress is tracked in
+The codemods are order-sensitive and every one of them is treated as run-once. Re-running
+is not merely wasteful: `form-control-migration` always corrupts already-migrated code (its
+FormField → FormControl → FormControlField swap renames the new root again),
+`list-cell-variant-migration` silently renames hand-written v4 `variant="button"` to
+`text-button`, and `list-card-migration` / `css-variable-migration` can corrupt code under
+specific conditions (half-migrated or duplicate-specifier files; consumer-defined
+`--wds-wds-*` variables). Progress is therefore tracked in
 `.claude/montage-migration-v4.local.md` — interrupted migrations resume from the first
 incomplete step and never repeat a completed one.

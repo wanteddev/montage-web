@@ -38,3 +38,21 @@ regex against another edge case are refinement, not defects.
 Scope note: this entry covers the **M-section** scans only. The preflight scans in SKILL.md (the
 legacy-cast scan, the stylesheet-target discovery) are not covered — a miss there changes which
 directories get migrated or lets a file fail mid-run, so a demonstrated miss in those is a defect.
+
+## Published codemod CLI splits stylesheet target paths on whitespace
+
+`packages/codemod/src/cli.ts`'s stylesheet pass split the target on whitespace while the
+jscodeshift pass received it intact, so in builds that predate the fix a target such as
+`my app/src` loses its `.css/.scss/.sass/.less` rewrites for steps ②–④ without an error. The
+CLI is fixed in the source repo, but every 4.0.0 canary published so far predates the fix.
+The workflow therefore rejects a target containing whitespace (SKILL.md preflight item 4):
+rename the directory, or pin a build with the fix and pass `allowWhitespaceTargets: true`
+(`codemodBin` runs skip the check). Drop this entry once every 4.x build a consumer can pin carries the fix.
+
+## `codemodBin` is a maintainer-only override
+
+The Workflow's `codemodBin` arg (SKILL.md "Testing an unreleased codemod build") deliberately
+bypasses the registry version guard so unreleased transforms can be tested against a real
+repo. That is the point of it, not a hole in the same-build guarantee: the state file locks
+the command the same way it locks a version, and the skill tells agents never to use it on a
+consumer migration.

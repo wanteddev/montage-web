@@ -330,12 +330,57 @@ For each bottom-sheet Modal, decide: default close-on-dismiss (delete workaround
   on those selectors are valid v4 code; and do not scan the unanchored `variant="text-button"`
   either — `SelectContent` lost the same value but belongs to M12, whose replacement is
   `variant="custom"` plus your own `sx`, not another TextField variant).
-- **Negative-state trailing icon removed** — the circle-exclamation icon no longer renders.
-  Code compensating for its width can be simplified.
-- **`[data-role='text-field-wrapper']` styling moved** — `padding` and inset `box-shadow`
-  now live on the TextField root. Custom styles targeting the wrapper must move to the root
-  element (`sx` or root selector).
+- **Negative-state trailing icon removed** — the circle-exclamation icon no longer renders,
+  and its `data-role="text-field-invalid"` is gone. Code compensating for its width can be
+  simplified.
+  Scan **[zero]**: `text-field-invalid` (include stylesheets).
+- **Field DOM restructured.** Leading and trailing content now sit in their own wrappers, the
+  trailing content moved INSIDE a new wrapper, and the trailing button gained one:
+
+  ```text
+  v3  root[data-component=text-field]
+        > [text-field-wrapper] (gap 8px)
+            > { leadingContent, input, [text-field-invalid] | [text-field-positive],
+                [text-field-reset], trailingContent }
+        > trailingButton
+  v4  root[data-component=text-field]
+        > [text-field-wrapper] (gap 2px)
+            > { [text-field-leading-content] (gap 8px, only when leadingContent is set)
+                  > leadingContent,
+                input,
+                [text-field-trailing-content] (gap 8px, always rendered)
+                  > { [text-field-positive], [text-field-reset], trailingContent } }
+        > (unnamed wrapper, height var(--text-field-content-max-height)) > trailingButton
+  ```
+
+  A child / sibling selector written against the v3 shape (`[data-role='text-field-wrapper'] > *`,
+  `input + *`, `> :last-child` aimed at `trailingContent`, `[data-component='text-field'] > button`)
+  no longer reaches the same node.
+  Scan **[decision]** (include stylesheets): `text-field-wrapper[^,{]*[>+~]` — selectors that
+  walk from the wrapper into its children.
+
+- **`[data-role='text-field-wrapper']` styling moved** — the border (inset `box-shadow`) and
+  most of the padding now live on the TextField root. Padding is SPLIT, not moved whole: v3
+  padded the wrapper `12px` and the input `0 4px`; v4 pads the root `12px 8px` (large;
+  `10px 6px` medium), the wrapper now has `0 4px`, and the large input `1px 4px`. Custom styles
+  targeting the wrapper's border or padding must move to the root element (`sx` or root
+  selector). The trailing button moved INSIDE the border too: v3 drew the bordered wrapper
+  and the trailing button side by side, so the button sat outside the field's border; v4
+  renders it in its own wrapper inside the root, within the border — QA fields that use one.
   Scan **[decision]**: `text-field-wrapper`.
+- **Focus ring moved outside the field, elevation shadow dropped.** Focus went from a 2px
+  inset ring on the wrapper to a 1px inset border plus a **4px ring drawn outside** the root
+  (`line.brand.focus`, `line.negative.focus` when negative), and the root lost
+  `semantic.elevation.shadow.normal.xsmall`. The outer ring is clipped by an
+  `overflow: hidden` ancestor and overlaps neighbours closer than 4px — no scan catches this;
+  visually QA TextFields in dense layouts and scroll containers (same as M12's Select note).
+- **`TextFieldContent` `text` / `timer` restyled.** Both render a `span` flex box (v3: a
+  `div` Typography) with one shared style inheriting the field's typography and colored
+  `foreground.neutral.primary` by default. v3 `text` was `body1` medium in `label.assistive`,
+  and v3 `timer` was `label1` **bold** in `primary.normal` (brand) — a timer that relied on
+  the brand color must now pass `color="semantic.foreground.brand.primary"` (and its own
+  weight via `sx`). Icon wrapper sizes now come from the field `size` CSS variables.
+  Scan **[decision]**: `TextFieldContent[^>]*variant="(text|timer)"`.
 
 ## M8. TextArea changes
 
@@ -348,17 +393,71 @@ For each bottom-sheet Modal, decide: default close-on-dismiss (delete workaround
   migration.
   Scan **[zero]**: `TextAreaContent[^>]*variant="(badge|chip)"`.
 - **`variant="characterCounter"` removed** — the character counter no longer renders
-  inside the TextArea bottom area. Replace with `FormControlMessageAccessory` passed via
-  the `accessory` prop of `FormControlMessage` / `FormControlNegativeMessage` /
-  `FormControlPositiveMessage` (see M5). The old API tracked the current input length
-  internally (children = max length, rendered `{length}/{maxLength}`); the new accessory
-  takes `length` and `maxLength` props — the consumer must supply the current length,
-  which requires a controlled TextArea (`value` / `onChange`).
+  inside the TextArea bottom area. The old API tracked the current input length
+  internally (children = max length, rendered `{length}/{maxLength}`); v4 has no
+  self-counting slot, so EVERY replacement needs the current length from the consumer,
+  which requires a controlled TextArea (`value` / `onChange`). Where the counter goes
+  depends on whether a message line exists to carry it — decide per occurrence:
+  - **(a) Inside a `FormControl` with a message that is always rendered** (helper text, or a
+    negative/positive message shown unconditionally) → pass `FormControlMessageAccessory`
+    (`length` / `maxLength` props) via the `accessory` prop of that `FormControlMessage` /
+    `FormControlNegativeMessage` / `FormControlPositiveMessage` (see M5).
+  - **(b) No message, a conditionally rendered message, or no `FormControl` at all** → keep
+    the counter where it was, in the TextArea's `leadingContent` / `trailingContent`, as a
+    `<TextAreaContent variant="custom">` whose children you write yourself. Path (a) does NOT
+    work here: every message component returns `null` when its `children` are empty — the
+    accessory disappears with it — and throws outside a `FormControl` (it reads the
+    FormControl context unconditionally), so a counter moved there either vanishes whenever
+    the message is hidden or crashes the screen. Recreate the v3 counter by hand (v3: `label2`
+    medium, `label.alternative`, `0 4px` padding, 74% opacity, the length turning negative
+    when over the limit):
+
+    ```tsx
+    // AS-IS (v3)
+    <TextArea trailingContent={<TextAreaContent>{100}</TextAreaContent>} />
+    // TO-BE (v4) — `value` is the controlled TextArea value
+    <TextArea
+      value={value}
+      onChange={(e) => setValue(e.target.value)}
+      trailingContent={
+        <TextAreaContent variant="custom">
+          <Typography
+            variant="label2"
+            weight="medium"
+            color="semantic.foreground.neutral.tertiary"
+            data-is-overflow={value.length > 100}
+            sx={(theme) => ({
+              padding: `0 ${theme.spacing[4]}`,
+              opacity: theme.opacity[74],
+              '&[data-is-overflow="true"] > span': {
+                color: theme.semantic.foreground.negative.primary,
+              },
+            })}
+          >
+            <span>{value.length}</span>/100
+          </Typography>
+        </TextAreaContent>
+      }
+    />
+    ```
+
+    Keep any `data-role` the consumer's own CSS or tests targeted on these spans
+    (`text-area-content-character-counter-*` no longer comes from Montage; see the
+    bottom-area bullet below).
+
+  To choose, read the JSX around each counter hit: the enclosing `FormControl` (the step ⑥
+  rename of v3 `FormField`) and whether its message component renders on every state. A
+  message gated by a condition (`{error && <FormControlNegativeMessage>…}`) counts as (b) —
+  or as (a) only if the user agrees to render a helper message always.
   Scan **[zero]**: `characterCounter` (camelCase only — the new accessory's
   `variant="character-counter"` is kebab-case and must NOT match).
+  Scan **[decision]**: over the files the `characterCounter` scan and the default-variant
+  scan below hit, `\bFormControl(Negative|Positive)?Message\b` — a counter file with NO hit
+  is path (b) outright; a file with hits still needs the conditional-rendering check above.
+
 - **Default variant changed** from `characterCounter` to `icon-button` — a
   `<TextAreaContent>` WITHOUT an explicit `variant` was a character counter in v3 and
-  must migrate to `FormControlMessageAccessory` too; the scan above misses it.
+  must migrate too, via path (a) or (b) above; the scan above misses it.
   Scan **[decision]**: `\bTextAreaContent\b` file-level, then review every JSX usage for
   a missing `variant` (multi-line props escape line greps).
 - **`size` prop introduced** (`'large'` default, `'medium'`). The former single size maps
@@ -389,7 +488,8 @@ MIGRATION.md; it does not exist in the consumer repo).
 - **`primary.normal` used as a text/icon color**: the codemod always emits
   `surface.brand.primary` (the guide-table mapping). Where the token is consumed as a
   foreground color (`color:`, `caret-color:`, SVG `fill`/`stroke`, Typography-like
-  `color` props), switch to `foreground.brand.primary` — the VALUE is identical, only
+  `color` props, and `ContentBadge`'s `accentColor` — in v4 it is the badge's text color and
+  the source of its tint and border, defaulting to `semantic.foreground.accent.cyan`), switch to `foreground.brand.primary` — the VALUE is identical, only
   the property/intent classification changes, so this is safe to apply mechanically once
   the usage is confirmed to be foreground.
   Scan **[decision]**: `semantic\.surface\.brand\.primary` and
@@ -400,20 +500,68 @@ MIGRATION.md; it does not exist in the consumer repo).
   to `foreground.negative.strong` / `foreground.cautionary.primary` /
   `foreground.positive.primary` / `foreground.brand.primary`. Where the ORIGINAL token
   painted a background (the `accent.background.redOrange` case, or an
-  `accent.foreground.*` misused as a fill), a foreground token is the wrong intent —
-  pick a `surface.*` token with the user (e.g. `surface.cautionary.primary`,
-  `surface.accent.*`). Replacement values also differ from the originals (redOrange
-  collapses into orange; orange/green/blue land on different steps) — recommend visual
-  QA on screens that used them.
+  `accent.foreground.*` misused as a fill), a foreground token is the wrong intent — pick
+  the fill with the user, and keep it OPAQUE: `surface.cautionary.primary` /
+  `surface.positive.primary` / `surface.negative.primary` are 8% TINTS, not substitutes for a
+  solid fill. Opaque v4 fills are `surface.brand.primary` / `.strong` / `.heavy` and
+  `surface.accent.<color>Opaque` (lime, cyan, lightBlue, violet, purple, pink); there is no
+  opaque orange / redOrange / green / red surface token, so a solid fill in those hues keeps
+  the codemod's (opaque) `foreground.*` token — check its value in the table below and QA —
+  or takes another semantic token chosen with the design team; do not suggest `atomic.*`
+  colors as a replacement. Replacement values
+  differ from the originals, light / dark:
+
+  | v3 token                      | v3 value          | codemod → v4                    | v4 value           |
+  | ----------------------------- | ----------------- | ------------------------------- | ------------------ |
+  | `accent.foreground.red`       | red 40 / 60       | `foreground.negative.strong`    | red 40 / 60 (same) |
+  | `accent.foreground.redOrange` | redOrange 48 / 60 | `foreground.cautionary.primary` | orange 50 / 60     |
+  | `accent.foreground.orange`    | orange 39 / 50    | `foreground.cautionary.primary` | orange 50 / 60     |
+  | `accent.foreground.green`     | green 40 / 60     | `foreground.positive.primary`   | green 50 / 60      |
+  | `accent.foreground.blue`      | blue 45 / 65      | `foreground.brand.primary`      | blue 50 / 60       |
+  | `accent.background.redOrange` | redOrange 50 / 60 | `foreground.cautionary.primary` | orange 50 / 60     |
+
+  Only `red` is value-preserving. For `blue`, `surface.brand.strong` (blue 45 / 55) matches the
+  LIGHT value exactly but not dark. Recommend visual QA on every screen that used them.
   Scan **[decision]**: `background[^;]*semantic\.foreground\.` (a foreground token as a
   background base is the suspect shape; multi-line declarations escape this — also
   review the step 2 diff hunks that touched the deleted tokens).
+
 - **Group-level references and root-object aliases**: passing or iterating a token
   GROUP object (`theme.semantic.label`, `Object.entries(theme.semantic.accent.background)`)
   is never converted — the transform requires a full leaf path. Neither is an alias or
   destructure of the semantic ROOT (`const sem = theme.semantic; sem.label.normal`,
   `const { label } = theme.semantic`) — the chain no longer passes through a `semantic`
   anchor at the usage site. Rewrite against the rename tables below.
+  **A group path used as a CSS VALUE was a latent v3 bug — fix it, then REPORT it.** In v3
+  the intermediate keys (`line.normal`, `line.solid`, `line.primary`, `line.status.*`,
+  `background.normal` / `.elevated` / `.transparent` / `.status`, `accent.background` /
+  `.foreground`) are objects. Interpolated into an emotion `css` template
+  (`` css`border: 1px solid ${theme.semantic.line.normal};` ``) the object is serialized as
+  nested declarations (`border: 1px solid normal:#70737C38;neutral:…;`); as a style-object
+  value (`{ borderColor: theme.semantic.line.normal }`) emotion emits it as a NESTED RULE
+  whose selector is the property name (`borderColor{normal:#…;neutral:…;}`), which matches no
+  element; inside a plain JS template string (including one used as a style-object value) it
+  becomes `[object Object]`. Either way the declaration is invalid or never applies, so the border / background was NEVER
+  painted. (`getColorByToken(theme, 'semantic.line.normal')` was already a v3 type error —
+  `ThemeColorsToken` is leaf-only — so that form surfaces only behind a cast or an untyped
+  string.)
+  The group path does not exist in v4, so the code must change anyway — without stopping
+  to ask:
+  - **Group with a `normal` member** (`line.normal`, `line.solid`, `line.primary`,
+    `line.status.negative` / `.cautionary` / `.positive`, `background.normal`,
+    `background.elevated`, `background.transparent`): rewrite to the
+    leaf that member maps to in the rename tables below (the evident intent — `line.normal`
+    → the v4 token for `line.normal.normal`). The declaration becomes valid, so a border /
+    background now APPEARS where v3 never drew one.
+  - **Group without one** (`line.status` itself, `background.status`, `accent.background`,
+    `accent.foreground`): there is no evident leaf, so delete the declaration — it never
+    painted in v3, so the screen stays exactly as it was.
+
+  Record every hit either way (file:line, old path → new token or "declaration deleted")
+  for the final summary's "pre-existing v3 bugs now visible" list, so the user knows the
+  code was broken in v3 and can QA the rewritten screens (or restore a deleted one with a
+  leaf of their choice). Only a group object that is passed or
+  iterated as an object (not stringified into CSS) is a plain rewrite with nothing to report.
   Scan **[zero]**: the two step-2 verification greps in `codemod-steps.md` (old dot-path
   and old CSS-variable patterns) — after this section every Montage-token hit must be gone;
   step 2's verification only REPORTS these, M9 owns the fix. Standard [zero] semantics apply:
@@ -423,6 +571,7 @@ MIGRATION.md; it does not exist in the consumer repo).
   destructuring sites (`= theme.semantic;`, `(theme.semantic)`) without matching normal
   `theme.semantic.<group>` chains; trace each alias/destructured name to its leaf usages
   and rewrite them.
+
 - **Dynamically built names and computed access**: `` `--semantic-${x}` ``,
   `'semantic.' + path`, `semantic['label']['normal']` are never matched. Rewrite by
   hand against the rename tables below.
@@ -491,6 +640,23 @@ SSG/SSR strategy and the no-flash behavior are unchanged.
 
 **No source change is required for the common case** — `<ThemeProvider enableDarkMode />`
 keeps working as-is. The items below are what does break, plus one new opportunity.
+
+**First, check `enableDarkMode` on every `ThemeProvider`.** When it is omitted or `false`,
+the provider forces `light`: the inline script applies `light` without reading the cookie,
+and the provider never writes, sweeps, or deletes theme cookies. For such an app:
+
+- `storageKey` → just DELETE it (it is still a type error); do not move it to `cookie.key`,
+  and the RFC 6265 key-character check below does not apply.
+- SKIP the cross-subdomain sharing / `domain` / matching `key`·`path` items and the one-time
+  theme reset — none of them changes what this app renders. Do not ask the user about them.
+  (`useThemeControl().themeOriginValue` may still report a sibling app's stored value;
+  `theme` stays `light`.)
+- STILL review: the `next-themes` item (v3 rendered next-themes' provider even with dark
+  mode off, so a direct `useTheme` breaks the same way), `nonce` for CSP (the forced-light
+  inline script still renders), and the `cookie` option validation (a passed `cookie` prop is
+  still validated and still logs its console error).
+
+Everything below assumes `enableDarkMode` is on unless the bullet says otherwise.
 
 - **`storageKey` prop removed** → `cookie={{ key }}`. The default storage key also changed
   from `theme` to `montage-theme`.
@@ -611,6 +777,18 @@ keeps working as-is. The items below are what does break, plus one new opportuni
   `outlined` occurrence is a visual change requiring QA, not a mechanical delete.
   Scan **[zero]**: `SegmentedControl[^>]*variant=` (multi-line props escape it — pair with
   the file-level scan below).
+  A consumer override that restyled the ACTIVE item of a former `outlined` control
+  (`[data-active='true']` / an active-item `background-color`, often re-tinting the brand
+  fill) was the whole active look in v3, which drew no thumb for `outlined`. In v4 the
+  thumb is a separate absolutely positioned `[data-role='segmented-control-motion']` behind
+  the items, and every item is `position: relative` after it in the DOM — so the item's own
+  background now paints OVER the thumb, hiding its fill, shadow and slide animation. Per
+  hit, delete the override (take the v4 thumb) or restyle the thumb instead
+  (`[data-role='segmented-control-motion']`). For a former `solid` control the stacking is
+  unchanged, so its overrides need QA only.
+  Scan **[decision]**: `data-active` over files the `SegmentedControl` file-level scan below
+  hits, plus stylesheets targeting `segmented-control` (multi-line rules escape the line
+  grep — read the matched rule).
 - **`SegmentedControlItem` `leadingContent` → `leadingIcon`** (mechanical rename), and
   **`trailingContent` removed** with no replacement — move that content into `children` or
   drop it.
@@ -683,8 +861,8 @@ implementation. No codemod covers this section.
   MISSING `variant` — it rendered a text slot in v3 and renders an icon wrapper in v4, a
   silent visual change no line grep can see. A `normal` (default-variant) `IconButton` inside
   each `variant="icon-button"` now takes its `size` and `interactionOverflow` from the Select
-  `size` — M18's slot rule deletes its v3 `size`, never re-picked here; other variants keep
-  their `size` (see M18). `color` only
+  `size` — whether its v3 `size` is kept (v3 pixels) or deleted (v4 slot preset) is M18's
+  slot decision, never re-picked here; other variants keep their `size` (see M18). `color` only
   applies to `variant="icon"` in v4.
   `variant="icon"`'s icon size is no longer the hardcoded 22px — it follows the Select `size`
   (large 20px / medium 18px), so an `sx`/`fontSize` override that pinned the old 22px should
@@ -697,6 +875,12 @@ implementation. No codemod covers this section.
   compile, but the v4 design is **outlined**, and the new component also owns the
   `status="negative"` / `disabled` styling and defaults `trailingContent` to `<IconClose />`.
   Migrating is a visual change (solid → outlined) — confirm per occurrence.
+  **Keeping the hand-built `solid` Chip is a visual change too.** v3 wrapped `render`'s output
+  in `ChipProvider solid="semantic.label.alternative"`, which recolored a `solid` Chip's text
+  to `label.alternative`; v4 renders `render`'s output with no Chip provider, so those chips
+  fall back to the default solid text color (darker). Per hit that keeps its own Chip, either
+  accept it (flag for QA) or restore the color on the Chip itself
+  (`sx={(theme) => ({ color: theme.semantic.foreground.neutral.tertiary })}`).
   Scan **[decision]**: `\bSelect(Multiple)?[^>]*render=` — for each hit, decide whether its
   chips move to `SelectRenderChip`. `e.stopPropagation()` in the chip's `onClick` is still
   required; keep it.
@@ -723,7 +907,17 @@ implementation. No codemod covers this section.
   not:
 
   ```text
-  select-render-wrapper           → select-wrapper (inner row) / select-chip-wrapper (chips)
+  v3  root > { leadingContent, [select-render-wrapper] > placeholder | values,
+               (or, with `render`) [select-render-wrapper] > chips,
+               [select-invalid], chevron svg }
+  v4  root > [select-wrapper] > { leadingContent, placeholder | values, [select-chip-wrapper] > chips,
+                                  [select-content][data-variant=select-chevron] > chevron svg }
+
+  select-render-wrapper (placeholder/values) → REMOVED — the placeholder / values text is now a
+                                    direct child of select-wrapper (inner row) with no
+                                    wrapper of its own; the v3 wrapper's `0 4px` text padding
+                                    moved ONTO select-placeholder / select-values
+  select-render-wrapper (`render`) → select-chip-wrapper (chips)
   select-multiple-render-wrapper  → select-multiple-wrapper (inner row)
                                     / select-multiple-chip-wrapper (overflow mask)
   chip scroll container (unnamed `> div` inside the wrapper above)
@@ -735,9 +929,21 @@ implementation. No codemod covers this section.
 
   Scan **[zero]**: `select(-multiple)?-render-wrapper` (include stylesheets). The pattern is
   exact on purpose — it must NOT match the new `select-multiple-chip-render-wrapper`.
-  `padding` stayed on the root, but the inner row adds 4px of its own, and a chevron styled
-  through a direct-child `svg` selector now needs the wrapper in the path — review any
-  selector that reached into the field's internals.
+  Padding is now split three ways, but the total text inset is unchanged at Large (16px):
+  v3 root `12px` + render-wrapper `0 4px`; v4 root `12px 8px` (Large) / `8px 6px` (Medium) +
+  inner row `0 4px` + `select-placeholder` / `select-values` (and the `select-multiple-`
+  pair) `1px 4px` (Large) / `2px 4px` (Medium). An override that set padding on the v3
+  placeholder/values `select-render-wrapper` must be re-targeted to `select-placeholder` /
+  `select-values`, not to `select-wrapper` (that would shift the chevron and chips too). The
+  root's flex `gap` no longer separates anything — the root has a single child (the inner
+  row), so a root-level `gap` override is a silent no-op; set it on the inner row instead.
+  A chevron styled through a direct-child `svg` selector now needs the wrapper in the path —
+  review any selector that reached into the field's internals. `leadingContent` moved from a direct
+  child of the root into the inner row, so a root-level child selector (`> :first-child`,
+  `[data-role='select'] > svg`) aimed at it no longer matches.
+  Scan **[decision]** (include stylesheets): `select(-multiple)?-(placeholder|values|wrapper)`
+  — for each hit, check that the selector's PATH still holds under the v4 tree above (the
+  data-roles exist; the ancestors they sat under may not).
 
 - **`SelectMultiple`'s placeholder wraps under `overflow`.** In v3 the placeholder was always
   a single ellipsised line; in v4 it follows `overflow` like the value does, so an
@@ -1029,9 +1235,13 @@ forces.
   **The typechecker does not find these.** TypeScript does not excess-property-check JSX
   spread attributes, so neither shape errors (verified with tsc 5.9: of a fixture's four
   spread shapes plus one direct `<TextField invalid />`, only the direct attribute — which
-  the codemod already handles — produced a diagnostic). What DOES error once M1's install
-  lands the v4 packages is the TYPE surface, covered by the wrapper-types bullet below. This
-  scan is the only net for the spread surface.
+  the codemod already handles — produced a diagnostic). Nor does a local type that
+  re-declares the props (see the wrapper-types bullet below). The one shape that DOES error
+  once M1's install lands the v4 packages is a DIRECT attribute on a consumer wrapper whose
+  props come straight from a Montage type without re-declaring the old name —
+  `<MyField invalid />` with `type MyFieldProps = TextFieldProps` — because the codemod only
+  rewrites Montage components, and a direct JSX attribute IS excess-property-checked. Fix
+  those at the typecheck. This scan is the only net for the spread surface.
   Scan **[decision]**: `(^|[^-[:alnum:]_])(invalid|positive)[[:space:]]*[:=,}]` — run it
   REPO-WIDE, then judge each hit. Do not pre-filter to files that import a Montage component:
   the shape this bullet names most often lives in a shared `getFieldProps()` helper module
@@ -1206,14 +1416,35 @@ bullets and the `textProps` one — the removals leave nothing behind for a scan
 
 - **`selected` cells now show a default check icon.** v4 renders a brand-colored check as
   the default `trailingContent` when `selected` is true and no `trailingContent` is given.
-  `MenuItem` / `Option` selection looked like this in v3 already (the menu drew its own
-  check); a plain `ListCell` / `AutocompleteOption` that used `selected` for styling alone
-  gains a NEW icon. Per occurrence, keep it (the v4 design) or pass
+  How a consumer-passed `selected` behaves depends on the component:
+  - **`ListCell`**: a cell that used `selected` for styling alone gains a NEW icon.
+  - **`MenuItem` / `Option` (`variant="normal"`, the default)**: the menu's own selection
+    (driven by the Menu/Select `value`) draws the check exactly as in v3. But a `selected`
+    passed by the consumer now OVERRIDES that state and drives the icon directly — in v3 the
+    icon followed the menu value only and a passed `selected` changed styling alone.
+    `selected={true}` on an item the menu did not select now shows a NEW check;
+    `selected={false}` on the selected item REMOVES its check while `aria-checked` stays
+    `true`. Per occurrence, delete the override (let the menu value drive it) or keep it
+    deliberately.
+  - **`MenuItem` `variant="radio"` / `"checkbox"`**: they pass `trailingContent={null}`, so a
+    passed `selected` only bolds the label — no icon, nothing to decide.
+  - **`AutocompleteOption`**: same override rule as `MenuItem` / `Option` — its own active
+    state (the Autocomplete `value` under `asSelect`) draws the check as in v3, and a passed
+    `selected` now drives the icon instead (`aria-selected` keeps following the active
+    state). It also used to OVERWRITE the consumer's `trailingContent` after the spread in
+    EVERY state (its own check when active, `null` otherwise), so a passed `trailingContent`
+    never rendered in v3; v4 renders it, which means an option that passed `trailingContent`
+    now shows that content on inactive options too, and INSTEAD of the check when active.
+    Per occurrence, delete the `trailingContent` to keep the v3 screen, or keep it
+    deliberately.
+
+  For a `ListCell`, per occurrence keep the icon (the v4 design) or pass
   `trailingContent={null}` to suppress it.
-  Scan **[decision]**: `<(ListCell|AutocompleteOption|Option|MenuItem)[[:space:]][^>]*selected`
-  — every hit assessed: with an explicit `trailingContent` the default never renders
-  (nothing to do); without one, decide. `AccordionSummary` omits `selected` and is not
-  affected.
+  Scan **[decision]**: `<(ListCell|Option|MenuItem|AutocompleteOption)[[:space:]][^>]*selected`
+  plus `<AutocompleteOption[[:space:]][^>]*trailingContent` (the v3-ignored content) — every hit
+  assessed: on a `ListCell` with an explicit `trailingContent` the default never renders
+  (nothing to do), without one decide; on a `MenuItem` / `Option` / `AutocompleteOption` apply the
+  override rule above. `AccordionSummary` omits `selected` and is not affected.
 
   **The decision is NOT open when `leadingContent` already carries a selection control
   AND the cell has no explicit `trailingContent`.** A leading `Checkbox` / `Radio` /
@@ -1234,16 +1465,18 @@ bullets and the `textProps` one — the removals leave nothing behind for a scan
   `trailingContent={null}`; every other cell keeps whatever `trailingContent` it has and
   falls back to the keep-or-suppress decision.
 
-- **Renamed internal DOM identifiers.** Three v3 identifiers were renamed and step ④'s map
+- **Renamed internal DOM identifiers.** Four v3 identifiers were renamed and step ④'s map
   does NOT cover them (they carry no `wds-` prefix), so selectors and test queries keep
   matching nothing silently — including in stylesheets, which step ⑨ never touches:
   `data-role="list-item-trailing-content"` → `data-role="list-cell-trailing-content"`,
-  `data-role="menu-item-active-icon-check"` → `data-role="list-cell-selected-icon-check"`
-  (the menu's own check icon was replaced by the ListCell default), and
+  `data-role="menu-item-active-icon-check"` and
+  `data-role="autocomplete-option-active-icon-check"` → `data-role="list-cell-selected-icon-check"`
+  (the menu's and the autocomplete option's own check icons were replaced by the ListCell
+  default), and
   `data-role="list-text-caption"` → `data-role="list-text-description"` (renamed with the
   `textProps` key above).
   Scan **[zero]** repo-wide including `.css/.scss/.sass/.less`:
-  `list-item-trailing-content|menu-item-active-icon-check|list-text-caption` — rename hits
+  `list-item-trailing-content|(menu-item|autocomplete-option)-active-icon-check|list-text-caption` — rename hits
   to the new identifiers.
 
 - **Typography, icon sizing and DOM structure changed under every cell.** Labels dropped
@@ -1251,10 +1484,16 @@ bullets and the `textProps` one — the removals leave nothing behind for a scan
   `body1`·regular to `body2`·medium (selected: medium → bold), the sub-label (v3 `caption`,
   now `description`) from `label1` to `label2`, the content `value` variant from `body1` to `body2`, the `icon` variant's font
   size from 24px to 20px (and `large-icon`'s inner icon from 32px to 20px), trailing icons
-  from `neutral.tertiary` to `neutral.secondary`, and `ListText` renders a
-  `div` root with a `p` content node instead of a `p` root with a `span` — a `p`-anchored
-  descendant selector or test query (`cell.querySelector('p')`, `p[data-role]`) now matches
-  a different node. `disabled` cells changed from a whole-cell `opacity: 0.43` to
+  from `neutral.tertiary` to `neutral.secondary`, and the `ListText` root
+  (`[data-role='list-text-wrapper']`) changed from `p` to `div`. Its inner nodes
+  (`list-text-content-wrapper`, `list-text-content`, `list-text-description`) are `span`s in
+  both versions, so v4 `ListText` renders NO `p` at all — a `p`-anchored selector or test
+  query (`cell.querySelector('p')`, `p[data-role='list-text-wrapper']`, `getByRole` on a
+  paragraph) now returns nothing, or a `p` the consumer rendered elsewhere in the cell.
+  Scan **[decision]** (include stylesheets and test files), DOUBLE-quoted with the inner `"`
+  escaped, because the pattern carries both quote characters:
+  `grep -rnE "\bp\[data-role|querySelector(All)?\(['\"]p['\"]\)"` — rewrite hits that target a cell's
+  text to `[data-role='list-text-wrapper']` (or a role/text query). `disabled` cells changed from a whole-cell `opacity: 0.43` to
   `foreground.disable.primary` coloring (thumbnail/avatar keep opacity), and the `inset`
   radius grew 12px → 16px. None of this needs a code change by default — flag it for
   snapshot/visual-test refresh and design QA.
@@ -1328,21 +1567,41 @@ and is ignored under `none`.
     (`background` / `outlined` / `solid`) ignore the prop — do not add it. Their layout still
     changed (e.g. the `background` default box grew from 24px to 32px, and a numeric `size`
     now gets a proportionally smaller icon), so flag every non-`normal` hit for visual QA.
-  - **Slot `IconButton`s the slot sizes — delete `size` and `interactionOverflow` there.**
-    The slots below pass the `IconButton` a slot-appropriate `size` (and `interactionOverflow`
-    where the design uses it); form-field slots follow the field `size`, including a
-    `FormControl` `size` and responsive `xs` / `sm` / `md` / `lg` / `xl` values. The values
-    apply ONLY to the variant(s) the row names: `variant="normal"` (the default — also when
-    `variant` is omitted) unless the row says otherwise, and only `variant="solid"` for
-    `MenuActionAreaContent`. A value declared on the `IconButton` wins at every breakpoint, so
-    on a slot hit whose variant the row sizes, the v3 `size` it carried (`size={32}` / `{28}` /
-    `{24}` sized to the slot) now overrides the slot and must be DELETED, together with any
-    `interactionOverflow` or responsive `size` keys on that element. Keep an explicit value only
-    where the screen deliberately wants a size the slot does not give. A slot hit whose variant
-    the row does NOT size gets nothing from the slot — deleting its `size` would drop it to the
-    default `xlarge` box: a `normal` one (e.g. a normal `IconButton` in `MenuActionAreaContent`)
-    is handled like a standalone `IconButton` (add `interactionOverflow`), any other variant
-    keeps its `size` (QA only). Flag every slot `IconButton` for visual QA.
+  - **Slot `IconButton`s take their size from the slot — what to do with a v3 `size` depends
+    on the slot's `interactionOverflow`.** The slots below pass the `IconButton` a
+    slot-appropriate `size` (and `interactionOverflow` where the design uses it); form-field
+    slots follow the field `size`, including a `FormControl` `size` and responsive `xs` / `sm`
+    / `md` / `lg` / `xl` values. The values apply ONLY to the variant(s) the row names:
+    `variant="normal"` (the default — also when `variant` is omitted) unless the row says
+    otherwise, and only `variant="solid"` for `MenuActionAreaContent`. A `size` declared on the
+    `IconButton` wins at every breakpoint, but `interactionOverflow` is inherited from the slot
+    even then (`origin ?? slot`) — so the outcome of KEEPING a v3 `size` differs per slot:
+    - **Slots that apply `interactionOverflow`** (the `normal` rows of `ListCellContent`
+      family, `TextFieldContent`, `TextAreaContent`, `SelectContent`, `TabList`, `CategoryList`,
+      `SectionHeader` — every row below except `MenuActionAreaContent` and
+      `TextAreaContent`'s `solid` entry): a kept NUMERIC `size` is the icon in px
+      again, exactly as in v3 (v3 `normal` `size` was the icon too), so keeping it reproduces
+      the v3 rendering. Deleting it hands the size to the slot preset, which usually SHRINKS
+      the icon (e.g. `ListCellContent` `size={24}` → `large` = 20px; a medium field → 18px).
+      An `IconButton` with NO `size` changes WITHOUT any edit: v3's unsized `normal` icon was
+      24px, while v4 hands it the slot preset (`ListCellContent` and `large` fields → 20px,
+      `medium` fields → 18px; `TabList` / `CategoryList` follow the list size — `large` lists
+      get `xlarge` = 24px). Scan for these too, not only for a written `size`.
+      Ask the user per screen: (a) keep the v3 pixels — leave numeric `size`s as they are,
+      replace a string `size` (a 24px icon in v3) with `size={24}`, and ADD `size={24}` to an
+      `IconButton` that had none; or (b) adopt the v4 slot design — delete `size` and any
+      responsive `size` keys (leave an unsized one as is), and flag the icon shrink for QA.
+      Either way, delete an explicit `interactionOverflow` on the element (the slot already
+      provides it). `SectionHeader`'s preset is `xlarge` (a 24px icon), the same as v3's
+      `size={24}` and v3's omitted `size` (24px), so both choices render the v3 pixels there.
+    - **`MenuActionAreaContent`** sizes only `variant="solid"`, whose numeric `size` is the box
+      in both v3 and v4 — delete it to take the slot's `small`, or keep it deliberately.
+
+    A slot hit whose variant the row does NOT size gets nothing from the slot — deleting its
+    `size` would drop it to the default `xlarge` box: a `normal` one (e.g. a normal
+    `IconButton` in `MenuActionAreaContent`) is handled like a standalone `IconButton` (add
+    `interactionOverflow`), any other variant keeps its `size` (QA only). Flag every slot
+    `IconButton` for visual QA.
 
     | Component                                                                                                                      | Slot                                                                                        | Applied to the `IconButton`                                                                             |
     | ------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
@@ -1352,7 +1611,7 @@ and is ignored under `none`.
     | `SelectContent`                                                                                                                | `variant="icon-button"`                                                                     | same as `TextFieldContent`                                                                              |
     | `TabList`                                                                                                                      | `iconButton`                                                                                | list `small` / `medium` → `size="large"`, `large` → `size="xlarge"`, + `interactionOverflow`            |
     | `CategoryList`                                                                                                                 | `iconButton`                                                                                | list `small` / `medium` → `size="large"`, `large` / `xlarge` → `size="xlarge"`, + `interactionOverflow` |
-    | `SectionHeader`                                                                                                                | `headingContent`, `trailingContent`                                                         | `size="xlarge"`, no `interactionOverflow`                                                               |
+    | `SectionHeader`                                                                                                                | `headingContent`, `trailingContent`                                                         | `size="xlarge"` + `interactionOverflow`                                                                 |
     | `MenuActionAreaContent`                                                                                                        | `variant="icon-button"`                                                                     | `variant="solid"` → `size="small"`                                                                      |
 
     With `interactionOverflow` the layout is the icon (`xlarge` 24, `large` 20, `medium` 18)
@@ -1381,8 +1640,8 @@ and is ignored under `none`.
 
   Scan **[decision]** repo-wide: `<IconButton\b` — judge every hit by where it renders and
   its variant, in this order: inside one of the slots in the table with a variant the row
-  sizes (check the enclosing JSX and the props the element is passed through — delete its
-  `size` / `interactionOverflow`); otherwise a `normal` hit, standalone or in a slot that does
+  sizes (check the enclosing JSX and the props the element is passed through — apply the
+  slot rule above: keep-or-delete per the user's choice on `interactionOverflow` slots); otherwise a `normal` hit, standalone or in a slot that does
   not size its variant (add `interactionOverflow`); otherwise a non-`normal` variant (QA only). Locate slot usages with
   `variant="icon-button"|<TextAreaContent\b|\bheadingContent=|\btrailingContent=|\biconButton=` to
   cross-check (`<TextAreaContent` because its icon slot is the default variant);
@@ -1456,7 +1715,7 @@ dialog"` and an `onClick` that closes the modal (`onOpenChange(false)` / `setOpe
   / `-x` declarations (v4 reads no bare `--modal-navigation-padding`); `--top-navigation-min-height`
   has no v4 equivalent — ask the user whether to delete it or move the value to an `sx`
   `min-height` on the `ModalNavigation`. The navigation padding is now `24px` at every
-  `ModalContainer` size. A standalone
+  `ModalContainer` size in `popup` / `bottom` (`20px` in `variant="full"`). A standalone
   `TopNavigation` keeps every `top-navigation` identifier and CSS variable — rename only the
   hits that target a navigation inside a modal.
   Scan **[decision]** (include stylesheets): `top-navigation` — matches valid v4 selectors on a
@@ -1482,14 +1741,29 @@ other packages' stylesheets) are M3's: M3 maps this one variable straight to the
 bare `--modal-content-margin` left there by an earlier prefix-only edit is M20's to split. `size="small"` is a type error once M1's
 install lands v4; nothing else here is caught by the typecheck.
 
-- **`ModalNavigation` default `variant` depends on the container.** v3 always rendered the
-  centered `normal` title. v4 defaults to `normal` only in a `variant="full"` `ModalContainer`
+- **`ModalNavigation` default `variant` depends on the container.** v3 rendered the
+  centered `normal` title whenever `variant` was omitted (an explicit v3 `variant="emphasized"`
+  already existed and is unaffected). v4 defaults to `normal` only in a `variant="full"` `ModalContainer`
   and to `emphasized` (left-aligned, `heading2` title) in `popup` / `bottom`. `normal` is
   supported only in `full`; in `popup` / `bottom` an explicit `variant="normal"` still renders
   but logs a dev-mode warning. Per hit in a `popup` / `bottom` modal (the `ModalContainer`
   default is `popup`): an omitted `variant` needs no edit — accept the v4 `emphasized` design and
   flag it for QA; an explicit `variant="normal"` → ask the user whether to delete it (take
   `emphasized`) or switch to `floating` / `search`. Hits in a `full` modal need nothing.
+  The default follows the container variant RESOLVED at the current breakpoint, so under a
+  responsive `ModalContainer` (`variant="popup"` with `xs={{ variant: 'full' }}`, say) an
+  omitted navigation `variant` switches between `normal` and `emphasized` per breakpoint —
+  QA each breakpoint, and an explicit `variant="normal"` there warns only at the popup /
+  bottom breakpoints.
+  A TITLE-LESS navigation (`<ModalNavigation trailingContent={…} />`, e.g. a close-only bar)
+  takes the same `emphasized` default in `popup` / `bottom`. v4 renders an empty, full-width
+  `[data-role='navigation-title']` spacer in that case (v3 injected a `<span />` title for the
+  same purpose), so leading / trailing buttons stay at the edges as in v3 — but they now sit
+  in the emphasized row's flow instead of the v3 centered-title layout, so flag every
+  title-less popup / bottom navigation for QA. 4.0.0 prerelease builds published before this
+  spacer was added render NO spacer, and their title-less `emphasized` buttons bunch up in the
+  CENTER — if the pinned codemod/package build shows that, it is a design-system bug fixed in
+  later builds, not something to patch in consumer code.
   Scan **[decision]**: `<ModalNavigation([[:space:]>]|$)` (the character class keeps
   `ModalNavigationButton` out) — read the enclosing `ModalContainer`'s `variant` (including
   responsive `xs`–`xl` keys) for each hit. Flag every popup / bottom navigation for visual QA.
@@ -1499,9 +1773,13 @@ install lands v4; nothing else here is caught by the typecheck.
   replacement changes the height: v3 `small` was 400px tall, v4 `medium` is 480px — per hit,
   accept it (flag for QA) or pin `height: 400px` through `sx`. The default stays `medium`. Every
   size changed spec: popup radius 24px at every size (v3: `small`/`medium` 12px,
-  `large`/`xlarge` 20px), bottom-sheet top radius 32px (v3 12px), content margin 28px
-  horizontal / 24px vertical at every size (v3: 20px for `small`/`medium`, 24px `large`, 32px
-  `xlarge`, the same value on both axes), ActionArea margin 24px / 20px at every size. `large`
+  `large`/`xlarge` 20px), bottom-sheet top radius 32px (v3 12px), and in `popup` / `bottom`
+  content margin 28px horizontal / 24px vertical and ActionArea margin 24px / 20px (x / y) at
+  every size (v3: content margin 20px for `small`/`medium`, 24px `large`, 32px `xlarge`, the
+  same value on both axes, and the ActionArea margin followed it — except `xlarge`, whose
+  vertical ActionArea margin was a fixed 24px). A `variant="full"` container overrides these
+  at every size: content margin 24px / 20px (x / y), ActionArea horizontal margin 20px,
+  navigation padding 20px. `large`
   / `xlarge` widths (480px / 560px) and the `medium` / `large` / `xlarge` `resize="fixed"`
   heights (480px / 560px / 640px) are unchanged.
   Scan **[zero]**: `<ModalContainer[[:space:]][^>]*size="small"`. Any literal `'small'` —
@@ -1529,18 +1807,36 @@ install lands v4; nothing else here is caught by the typecheck.
   - An explicit `gap` on `ModalContent`: v3 ignored it (the non-responsive `gap` always
     resolved to the content margin; only responsive `gap` keys applied), v4 applies it — check
     the spacing did not change unexpectedly, and delete a `gap` that was only ever a no-op if
-    the v4 default (`var(--modal-content-margin-y, 24px)`) is wanted.
+    the v4 default (`var(--modal-content-margin-y, 24px)`) is wanted. Deleting it does NOT
+    restore the v3 spacing — the default itself changed, see the next bullet.
+  - **No `gap` at all still changes spacing.** The default gap was v3's content margin (20px
+    `small`/`medium`, 24px `large`, 32px `xlarge`) and is v4's vertical content margin (24px in
+    `popup` / `bottom` at every size, 20px in `full`) — e.g. a `medium` popup goes 20 → 24px
+    and an `xlarge` one 32 → 24px between items. Nothing to rewrite unless the user wants the
+    old value back (pass it as `gap`); flag every multi-item `ModalContent` for QA.
+  - A `padding` override on `ModalContent` itself (`sx={{ padding: 0 }}`, `style`, a styled
+    wrapper) now also removes the SIDE margin: in v3 the side margin lived on each
+    `ModalContentItem`, so such an override only touched the vertical padding; in v4 it is
+    `ModalContent`'s own `padding-left` / `padding-right` and the shorthand wipes it. Replace
+    the override with the props — `verticalPadding="none"` for the vertical half — and keep
+    `horizontalPadding` unless the edge-to-edge look is intended.
+  - An `ActionArea` placed INSIDE `ModalContent` is now inset twice — by `ModalContent`'s side
+    padding and by its own `--action-area-margin-x` — so its buttons sit noticeably narrower
+    than v3. Zero the ActionArea's own inset on that element
+    (`sx={{ '--action-area-margin-x': '0px' }}`) rather than `horizontalPadding="none"`, which
+    would also strip the margin from every other child of that `ModalContent`.
 
   Scan **[decision]**: `\bModalContent(Item)?\b` — matches every valid v4 usage by design; read
-  each file it names for the four shapes above. Flag every modal for visual QA.
+  each file it names for the seven shapes above. Flag every modal for visual QA.
 
 - **`--modal-content-margin` split into `-x` / `-y`.** v4 reads no bare `--modal-content-margin`.
   A consumer override or `var()` read of it maps to `--modal-content-margin-x` (horizontal
   padding, and `TabList`'s `--tab-list-padding` inside a modal) and/or `--modal-content-margin-y`
   (vertical padding and the default `ModalContent` `gap`) — usually both, decided by what the
   override was meant to change. In v3 a `ModalContainer`-level override also drove the
-  ActionArea margin (`--action-area-margin-x` / `-y` read `var(--modal-content-margin)`); v4
-  sets those independently (24px / 20px), so when the override was meant to move the
+  ActionArea margin (`--action-area-margin-x` / `-y` read `var(--modal-content-margin)` —
+  except `xlarge`, whose `-y` was a fixed 24px, so a v3 override never moved it there); v4
+  sets those independently (24px / 20px; 20px horizontal in `full`), so when the override was meant to move the
   ActionArea too, also set `--action-area-margin-x` / `--action-area-margin-y`.
   Scan **[zero]** (over the WHOLE repo like every M-section scan, stylesheets included; the
   leading `--` needs `-e`): `grep -rnE --exclude-dir={node_modules,.git,.next,dist,build,out,coverage} -e '--modal-content-margin([^-]|$)' .` — the `([^-]|$)`

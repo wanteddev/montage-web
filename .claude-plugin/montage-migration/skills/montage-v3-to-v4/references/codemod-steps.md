@@ -9,10 +9,19 @@ in this order, completing (and ideally committing) one step before starting the 
 npx -y @montage-ui/codemod@<codemodVersion> <transform> <target>
 ```
 
+(A maintainer test run with the Workflow's `codemodBin` arg replaces the whole
+`npx -y @montage-ui/codemod@<codemodVersion>` prefix with that local command — see SKILL.md
+"Testing an unreleased codemod build". Everything else in this file applies unchanged.)
+
 - One transform per invocation — the CLI has no batch mode. Passing both the transform name
   and the path makes the run fully non-interactive.
 - Always run a CONCRETE version — resolve it once at preflight with
-  `npm view '@montage-ui/codemod@^4' version --json | jq -r 'if type=="array" then .[-1] else . end'`.
+  `npm view '@montage-ui/codemod@^4.0.0-0' version --json | jq -er 'if type=="array" then .[-1] elif type=="string" then . else error("npm view did not return a version") end'`
+  and check the result matches `^4\.[0-9]+\.[0-9]+(-[0-9A-Za-z.-]+)?$` before recording it
+  (SKILL.md preflight item 1 carries the jq-free form and the reasoning). The `-0` floor lets
+  the range match 4.x prereleases — a plain `^4` matches none of them and npm answers with an
+  E404 error object — and the `error(...)` branch makes that error object fail the pipe
+  instead of being echoed as if it were a version.
   This skill covers the 4.x transform line only (the workflow script rejects any other
   major), and the two shorter forms both fail: the unscoped
   `npm view @montage-ui/codemod version` returns the `latest` dist-tag (5.x the day that
@@ -33,6 +42,15 @@ npx -y @montage-ui/codemod@<codemodVersion> <transform> <target>
   also two spellings of the SAME tree (`src` + `./src` + `src/` + `<repoRoot>/src`), which
   would run every codemod twice just as surely; it canonicalizes to repo-relative paths and
   rejects `..` segments before comparing.
+- **Verify-grep hits inside comments are expected.** The JS/TS transforms rewrite AST nodes
+  only, so a commented-out usage (`{/* <FormLabel> */}`, `// import … from '@wanteddev/wds'`)
+  keeps its v3 name and every line-based verify grep in this file still matches it (the
+  stylesheet text pass of steps ②–④ is the exception — it rewrites CSS comments like any
+  other text). Such a hit is never a failed transform and never a reason to re-run a codemod.
+  Per hit: if the commented code is meant to come back, update it to the v4 name by hand now
+  (it would otherwise resurrect v3 API); otherwise leave it as is. Either way, list it in
+  verifyFindings (and the final summary) as a comment hit, with file and line, so the final
+  verification does not count it as a leftover.
 - jscodeshift processes `.tsx/.ts/.jsx/.js` and ignores `node_modules` / `.next` / `dist`.
   Steps 2, 3 and 4 additionally rewrite `.css/.scss/.sass/.less` files under the same path
   as plain text. **That ignore list does NOT protect the path you pass**, and the two passes
@@ -43,6 +61,14 @@ npx -y @montage-ui/codemod@<codemodVersion> <transform> <target>
   skipped at all. Hand it `dist/assets` and the generated CSS in it IS rewritten. See
   "**Never make build output a target**" in SKILL.md preflight item 4 for the rule and the
   discovery-command exclusions that enforce it.
+- **A target path containing whitespace breaks the stylesheet pass** in published CLI builds
+  that predate the fix — every 4.0.0 canary published so far (see `known-issues.md`): the pass splits its path on
+  whitespace while the JS pass receives it intact, so `my app/src` is walked as `my` and
+  `app/src` — nonexistent pieces are skipped silently ("Stylesheets updated: 0") and a piece
+  that happens to exist relative to the cwd gets rewritten instead. The workflow rejects a
+  whitespace target unless `allowWhitespaceTargets: true` (a build with the fix) or
+  `codemodBin` is passed; if one reaches a step anyway, a "Stylesheets updated: 0" over a tree
+  with Montage stylesheets means the path was split — report the step failed, never commit it.
 - **Every transform parses with the `tsx` parser** (`api.jscodeshift.withParser('tsx')`, all
   nine), and the CLI passes `--extensions=tsx,ts,jsx,js` with no per-extension override. A
   `.ts` file using legacy angle-bracket casts (`const y = <string>value;`) therefore fails to
@@ -423,16 +449,21 @@ and stylesheets:
 
 Cautions:
 
-- Blind substring replacement over ANY string literal — unrelated strings containing a token
-  (analytics event names, doc strings) get rewritten too. Review the diff and REVERT
+- Replacement over ANY string literal — unrelated strings containing a token (analytics
+  event names, doc strings) get rewritten too. Builds that include the token-boundary fix in `dom-identifier-map.ts` (shared by the transform and the stylesheet pass)
+  rewrite an identifier only at a token start, so an embedded `data-wds-component` /
+  `--wds-component` is left as is and still shows up in the post-step grep below — judge each
+  such hit (consumer-owned names stay; record them). Older builds — every 4.0.0 canary
+  published so far — rewrite mid-word too (`data-wds-component` → `data-data-component`);
+  revert those. Review the diff and REVERT
   non-identifier rewrites: a renamed analytics event name is a silent production-behavior
   change. Route ambiguous strings to the user before this step's commit — no later scan
   covers them.
 - Renames attribute NAMES only, never VALUES: `wds-component="card-content"` becomes
   `data-component="card-content"`; the value rename `card-content` → `card-body` is manual
   step M4. Keep M4 after this step so the selectors you edit already carry the `data-`
-  prefix — a soft preference, not a hard constraint: the transform is a blind substring pass
-  over the attribute name and does not depend on the value, and M4's own scans (`card-content`,
+  prefix — a soft preference, not a hard constraint: the transform rewrites the attribute
+  name and does not depend on the value, and M4's own scans (`card-content`,
   `--card-content-item-`) match before and after. The one HARD constraint here is step 3
   before M4's `--card-content-item-*` → `--card-row-*` rename.
 
@@ -1090,7 +1121,10 @@ Proceed to `manual-migrations.md` (all M-sections, M1–M21), then final verific
    a `status={…}` whose folded expression mentions a bare `invalid` / `positive` — the
    transform's own correct output, never edit it; step ⑨: at this final stage
    `variant="button"` on the content components is a JUDGED criterion, since the manual
-   phase may have introduced legitimate v4 general-Button usages — never rename those).
+   phase may have introduced legitimate v4 general-Button usages — never rename those; its
+   dynamic `variant=\{` grep stays REPORT-ONLY, never a criterion; and the `caption` half of
+   its `captionProps|caption` grep stays JUDGED — `ActionArea`'s `caption` and consumer
+   `caption:` keys are valid code — with only the `captionProps` half zero-criterion).
    Steps ②/③/④/⑨ are NOT plain zero-criterion: their leftovers are M-section-owned (M9 for ②,
    M3 for ③/④, M17 for ⑨'s `fillWidth` / `interactionPadding` — including the
    `MenuItem` / `Option` ones the transform deliberately skipped, whose M17 scan is
