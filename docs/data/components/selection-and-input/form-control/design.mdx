@@ -1,0 +1,180 @@
+---
+title: Form control
+description: 입력 필드에 Label과 Message를 붙여 무엇을 입력해야 하는지 안내하는 컴포넌트입니다. Text field, Text area, Select와 같은 입력 필드를 감싸서 사용하며, 접근성 연결을 처리합니다.
+image: /components/selection-and-input/form-control/design/Image.png
+ogImage: /components/selection-and-input/form-control/design/Thumbnails.png
+createdAt: 2026-10-07
+updatedAt: 2026-10-07
+---
+
+<SectionAnatomy
+  src="/components/selection-and-input/form-control/design/Image-1.png"
+  ratio="19 / 9"
+  data={[
+    'Label','Required badge','Input','Message','Accessory'
+  ]}
+/>
+  
+
+<SectionVariants
+  components={['FormControl', 'Select', 'Option', 'TextArea', 'TextField', 'FormControlField', 'FormControlMessage', 'FormControlNegativeMessage', 'FormControlPositiveMessage', 'FormControlMessageAccessory', 'FormControlLabel']}
+  icons={[]}
+  states={`const [value, setValue] = React.useState('');`}
+  render={(value) => {
+      const size = value['Size'].toLowerCase();
+      const status = value['Status'].toLowerCase();
+      const labelPlacement = value['Label placement'].toLowerCase();
+      const inputType = value['Input'];
+
+      let inputComponent = 'null';
+
+      switch (inputType) {
+        case 'Text field':
+          inputComponent = `<TextField status="${status}" value={value} onChange={(e) => setValue(e.target.value)} placeholder="Placeholder" width="100%" />`;
+          break;
+        case 'Text area':
+          inputComponent = `<TextArea status="${status === 'positive' ? 'normal' : status}" value={value} onChange={(e) => setValue(e.target.value)} placeholder="Placeholder" width="100%" />`;
+          break;
+        case 'Select':
+          inputComponent = `
+            <Select status="${status === 'positive' ? 'normal' : status}" placeholder="Placeholder" width="100%">
+              <Option value="option1">Option 1</Option>
+              <Option value="option2">Option 2</Option>
+              <Option value="option3">Option 3</Option>
+            </Select>`;
+          break;
+      }
+
+      let messageComponent = 'null';
+
+      switch (status) {
+        case 'positive':
+          messageComponent = `<FormControlPositiveMessage ${inputType !== 'Select' ? 'accessory={<FormControlMessageAccessory variant="character-counter" length={value.length} maxLength={20} />}' : ''}>Positive message</FormControlPositiveMessage>`;
+          break;
+        case 'negative':
+          messageComponent = `<FormControlNegativeMessage ${inputType !== 'Select' ? 'accessory={<FormControlMessageAccessory variant="character-counter" length={value.length} maxLength={20} />}' : ''}>Negative message</FormControlNegativeMessage>`;
+          break;
+        case 'normal':
+          messageComponent = `<FormControlMessage ${inputType !== 'Select' ? 'accessory={<FormControlMessageAccessory variant="character-counter" length={value.length} maxLength={20} />}' : ''}>Message</FormControlMessage>`;
+          break;
+      }
+
+      return `
+      <FormControl size="${size}" sx={{ width: '75%' }} labelPlacement="${labelPlacement}">
+        <FormControlLabel required>Label</FormControlLabel>
+        <FormControlField>
+          ${inputComponent}
+        </FormControlField>
+        ${messageComponent}
+      </FormControl>
+    `;
+    }}
+  variants={[
+    {
+      key: 'Size',
+      defaultValue: 'Large',
+      options: [
+        { label: 'Large', value: {} },
+        { label: 'Medium', value: {} }
+      ]
+    },
+    {
+      key: 'Status',
+      options: [
+        { label: 'Normal', value: {} },
+        { label: 'Positive', value: {} },
+        { label: 'Negative', value: {} }
+      ]
+    },
+    {
+      key: 'Label placement',
+      options: [
+        { label: 'Top', value: {} },
+        { label: 'Leading', value: {} }
+      ]
+    },
+    {
+      key: 'Input',
+      options: [
+        { label: 'Text field', value: {} },
+        { label: 'Text area', value: {} },
+        { label: 'Select', value: {} }
+      ]
+    }
+  ]}
+/>
+
+
+<SectionLayout title="Size">
+  <SectionFigure
+    ratio="20 / 17"
+    src="/components/selection-and-input/form-control/design/Image-2.png"
+    description={`Large, Medium 2가지 사이즈를 제공합니다. Form control의 사이즈에 따라 Label의 크기가 바뀌며, 내부 입력 필드도 같은 
+사이즈를 사용합니다.`}
+  />
+</SectionLayout>
+
+<SectionLayout title="Label placement">
+  <SectionFigureGroup title="Top">
+    <SectionFigure
+      ratio="190 / 69"
+      src="/components/selection-and-input/form-control/design/Image-3.png"
+      description={`Label을 입력 필드 위에 배치합니다. 기본 배치입니다.`}
+    />
+  </SectionFigureGroup>
+  <SectionFigureGroup title="Leading">
+    <SectionFigure
+      ratio="95 / 31"
+      src="/components/selection-and-input/form-control/design/Image-4.png"
+      description={`Label을 입력 필드 왼쪽에 배치합니다. Label은 입력 필드 첫 줄(Large 48, Medium 40)의 중앙에 맞추며, Text area처럼 입력 필드가 여러 줄이 되어도 첫 줄 기준을 유지합니다.`}
+    />
+  </SectionFigureGroup>
+</SectionLayout>
+
+<SectionLayout title="Usage">
+  <SectionFigureGroup title="With input">
+    <SectionFigure
+      ratio="95 / 89"
+      src="/components/selection-and-input/form-control/design/Image-5.png"
+      description={`Text field, Text area, Select 등 입력 필드를 Input 영역에 넣어 사용합니다.`}
+    />
+  </SectionFigureGroup>
+  <SectionFigureGroup title="Message">
+    <SectionFigure
+      ratio="38 / 31"
+      src="/components/selection-and-input/form-control/design/Image-6.png"
+      description={`입력 필드 아래에 안내 문구가 필요할 때 사용합니다. Status에 따라 문구의 종류가 바뀝니다.
+- Helper text (Normal): 입력할 내용의 형식이나 조건을 안내합니다.
+- Error message: 입력한 값이 유효하지 않을 때 실패 사유를 안내합니다.
+- Success message: 입력한 값이 유효한지 확인되었을 때 결과를 안내합니다.`}
+    />
+  </SectionFigureGroup>
+  <SectionFigureGroup title="Form control group">
+    <SectionFigure
+      ratio="95 / 66"
+      src="/components/selection-and-input/form-control/design/Image-7.png"
+      description={`Leading 배치의 Form control을 여러 개 쌓아 사용할 때는 Form control group으로 묶어 사용합니다.
+가장 긴 Label에 맞춰 Label 너비가 통일되어, Label 길이가 달라도 입력 필드의 시작 위치가 같아집니다. 여러 화면에서 같은 
+너비를 써야 할 때는 Label 너비를 고정할 수 있습니다.`}
+    />
+  </SectionFigureGroup>
+</SectionLayout>
+
+<SectionLayout title="How to use">
+  <SectionFigureGroup>
+    <SectionFigure
+      ratio="38 / 15"
+      src="/components/selection-and-input/form-control/design/Image-8.png"
+      variant="positive"
+      description={`실패 사유를 명확하게 안내하여 사용자에게 명확한 행동을 유도합니다.`}
+    />
+  </SectionFigureGroup>
+  <SectionFigureGroup>
+    <SectionFigure
+      ratio="760 / 249"
+      src="/components/selection-and-input/form-control/design/Image-9.png"
+      variant="negative"
+      description={`Label을 한 줄이 넘도록 길게 쓰지 않습니다.`}
+    />
+  </SectionFigureGroup>
+</SectionLayout>
