@@ -275,9 +275,111 @@ npx @montage-ui/codemod@latest dom-identifier-migration src
 
 영향받는 코드:
 
-- **포털 없이 `<body>`에 직접 붙는 서드파티 위젯**(채팅 버튼, 쿠키 배너, 개발 도구 등)은 위 오버레이가 열려 있는 동안 클릭되지 않습니다. 오버레이와 함께 조작해야 한다면 `Modal` / `Alert`에 `disableAriaHiddenOthers`를 지정하세요(스크린리더 격리도 함께 꺼짐).
-- **Picker가 열린 상태에서 바깥 요소를 클릭하는 테스트**(`userEvent.click(otherButton)`)는 `pointer-events: none` 검사에 걸려 실패합니다. 먼저 Esc나 바깥 클릭으로 팝업을 닫은 뒤 다음 동작을 수행하세요.
+- **오버레이 밖 DOM에 렌더되는 요소**(포털 포함)는 오버레이가 열려 있는 동안 클릭되지 않습니다. 대응 방법은 아래 [오버레이 안에서 포털로 띄운 요소](#오버레이-안에서-포털로-띄운-요소)를 반드시 확인하세요.
+- **Picker가 열린 상태에서 바깥 요소를 클릭하는 테스트**(`userEvent.click(otherButton)`)는 `pointer-events: none` 검사에 걸려 실패합니다. 먼저 Esc나 바깥 클릭으로 팝업을 닫은 뒤 다음 동작을 수행하세요. Picker 자기 입력칸도 마찬가지라, 팝업이 열린 상태에서 입력칸을 클릭하면 팝업만 닫히고 커서는 이동하지 않습니다.
 - `<body>`의 inline `style`을 스냅샷하거나 검사하는 테스트는 열린 상태에서 값이 달라집니다.
+
+#### 오버레이 안에서 포털로 띄운 요소
+
+**`Modal` / `Alert` / Picker가 열려 있는 동안, 그 오버레이의 DOM 바깥에 있는 요소는 Montage가 관리하는 레이어가 아니면 클릭되지 않습니다.** `createPortal`이나 `Portal`로 `<body>`에 렌더한 요소도 예외가 아닙니다. 마우스 클릭, hover, 휠 스크롤이 모두 그 요소를 지나쳐 아무 일도 일어나지 않는 것처럼 보입니다.
+
+##### 왜 그런가
+
+클릭 하나가 처리되는 과정은 두 단계이고, 두 단계가 서로 다른 트리를 봅니다.
+
+| 단계                            | 결정 주체                | 기준 트리      | 결과                                                                                            |
+| ------------------------------- | ------------------------ | -------------- | ----------------------------------------------------------------------------------------------- |
+| ① 클릭이 어떤 요소에 도달하는가 | 브라우저 hit-testing     | **DOM 트리**   | `<body>`의 `pointer-events: none`이 DOM으로 상속된 요소는 건너뛰고, 그 뒤 요소(`<html>`)가 받음 |
+| ② 그 클릭이 오버레이 바깥인가   | Radix `DismissableLayer` | **React 트리** | React 트리상 오버레이 안에서 렌더된 요소면 안쪽 클릭 → 닫히지 않음                              |
+
+포털은 DOM상 `<body>`의 자식이라 ① 단계에서 `none`을 물려받습니다. React 트리상 Modal 안에 있다는 사실은 ② 단계에만 의미가 있고, ① 단계를 통과하지 못하면 ② 단계까지 가지도 않습니다. Montage의 Popover / Menu / Tooltip / Select / Picker 팝업은 Radix 레이어로 등록되어 Radix가 `pointer-events: auto`를 다시 주기 때문에 문제가 없습니다.
+
+##### 영향 범위
+
+| 대상                                                                                                  | 상태                                                        |
+| ----------------------------------------------------------------------------------------------------- | ----------------------------------------------------------- |
+| `Popover`, `Menu`, `Tooltip`, `Select`, `SelectMultiple`, Picker 팝업, 중첩 `Modal` / `Alert`         | 정상 (Radix 레이어)                                         |
+| `Autocomplete` 목록, `Popper`(`PopperContent`)로 직접 만든 드롭다운                                   | 정상 (`PopperContent`가 `pointer-events: auto`)             |
+| `Snackbar`, `Toast`                                                                                   | 정상                                                        |
+| `Portal` / `createPortal`로 직접 띄운 요소                                                            | **클릭 안 됨**                                              |
+| body로 포털하는 서드파티 라이브러리 — react-select(`menuPortalTarget`), 에디터 툴바, 이모지 피커 등   | **클릭 안 됨**                                              |
+| React 밖에서 DOM에 직접 붙는 위젯 — 채팅 버튼, 쿠키 배너, Google Places 자동완성(`.pac-container`) 등 | **클릭 안 됨** (클릭되게 하면 오버레이가 닫힘, 아래 3 참고) |
+
+3.x에는 이 제한이 없었으므로, 오버레이 안에서 위 요소를 쓰고 있다면 **업그레이드 후 반드시 직접 클릭해 확인**하세요.
+
+##### 대응 방법
+
+상황에 맞는 것을 고르세요. 위에서부터 권장 순서입니다.
+
+**1. 오버레이 DOM 안에 렌더한다 (가장 권장)**
+
+포털을 쓰지 않거나, 포털 대상을 오버레이 안의 요소로 지정하면 DOM상 레이어 안에 들어가 `pointer-events: auto`를 그대로 물려받습니다. z-index 걱정도 없습니다.
+
+```tsx
+// Montage Portal / Popper: 포털을 끄거나 container를 오버레이 안으로
+<Portal container={modalContentRef.current}>…</Portal>
+<PopperContent disablePortal>…</PopperContent>
+
+// react-select: menuPortalTarget을 지정하지 않으면 메뉴가 제자리에 렌더됨
+<ReactSelect options={options} /* menuPortalTarget={document.body} 제거 */ />
+```
+
+단, 오버레이 안의 스크롤 영역에 `overflow: hidden`이 걸려 있으면 펼친 메뉴가 잘릴 수 있습니다. 잘린다면 2번을 쓰세요.
+
+**2. 포털 요소에 `pointer-events: auto`를 직접 준다**
+
+React로 렌더하는 포털이라면 루트 요소에 `pointer-events: auto`를 지정합니다. React 트리상 오버레이 안이므로 클릭해도 오버레이는 닫히지 않습니다. 포털 요소는 오버레이(`theme.zIndex.modal`, 기본 `1300`)보다 **z-index도 높아야** 가려지지 않습니다.
+
+```tsx
+<Portal>
+  <Box sx={(theme) => ({ position: 'fixed', zIndex: `calc(${theme.zIndex.modal} + 1)`, pointerEvents: 'auto' })}>
+    …
+  </Box>
+</Portal>
+
+// react-select
+<ReactSelect
+  menuPortalTarget={document.body}
+  styles={{ menuPortal: (base) => ({ ...base, zIndex: 1301, pointerEvents: 'auto' }) }}
+/>
+```
+
+```css
+/* 클래스를 알 수 있는 서드파티 포털 */
+.some-library-popup {
+  pointer-events: auto;
+  z-index: calc(var(--zIndex-modal) + 1);
+}
+```
+
+**3. React 밖에서 붙는 DOM에는 `data-ignore-dismissable-layer`도 함께 준다**
+
+React 트리에 속하지 않는 DOM(스크립트가 `document.body.appendChild`로 붙이는 위젯)은 ② 단계에서 **바깥 클릭**으로 판정됩니다. `pointer-events: auto`만 주면 클릭은 되지만 그 순간 오버레이가 닫힙니다. 요소(또는 조상)에 `data-ignore-dismissable-layer="true"`를 붙이면 Montage 오버레이가 그 요소의 클릭과 포커스를 바깥으로 보지 않습니다.
+
+```ts
+// 예: Google Places 자동완성 드롭다운을 Modal 안 입력과 함께 쓸 때
+const pac = document.querySelector('.pac-container');
+pac?.setAttribute('data-ignore-dismissable-layer', 'true');
+```
+
+```css
+.pac-container {
+  pointer-events: auto;
+}
+```
+
+위젯이 늦게 생성된다면 생성 직후(콜백, `MutationObserver` 등)에 속성을 붙이세요.
+
+**4. 오버레이와 페이지 위젯을 함께 조작해야 한다면 `disableAriaHiddenOthers`**
+
+채팅 버튼처럼 오버레이와 무관한 페이지 위젯을 오버레이가 열린 상태에서도 쓰게 해야 한다면, `ModalContainer` / `AlertContainer`에 `disableAriaHiddenOthers`를 지정해 차단 자체를 끕니다. 이 옵션은 **스크린리더 격리(`aria-hidden`)와 `aria-modal`도 함께 끄므로** 접근성 영향을 감안해 꼭 필요한 화면에만 쓰세요. `useAlert`로 띄운 Alert와 Picker 팝업에는 이 옵션이 없습니다.
+
+##### 찾는 방법
+
+- 코드 검색: `createPortal`, `<Portal`, `menuPortalTarget`, `appendChild(`, `getPopupContainer`, `portalTarget`, `container={document.body}`처럼 body로 렌더하는 코드 중 `Modal` / `Alert` / Picker와 같은 화면에서 쓰는 것.
+- 증상: 오버레이가 열린 상태에서 해당 요소에 마우스를 올려도 hover 스타일이 안 나오고, 클릭해도 반응이 없음(키보드 조작은 됨).
+- DevTools: 요소를 선택해 Computed 탭에서 `pointer-events`가 `none`이고 `<body>`에서 상속된 것으로 나오면 이 경우입니다.
+- 테스트: Testing Library `user-event`나 Playwright로 클릭하는 테스트가 "요소가 pointer events를 받지 않는다"는 이유로 실패하거나 시간 초과됩니다.
 
 #### `aria-modal` 조건 변경
 
@@ -1868,7 +1970,7 @@ npx @montage-ui/codemod@latest list-cell-variant-migration src
 
 #### Avatar / AvatarGroup
 
-- **이미지 접근성 속성 추가** — `<img>`에 `role="img"`, `alt`, `aria-label`이 항상 붙습니다. `alt`를 넘기지 않으면 variant별 기본값(`person` '프로필 이미지', `academy` '학원 로고', `company` '회사 로고')이 사용됩니다. `img:not([alt])`나 `getByAltText`로 찾던 테스트는 확인이 필요합니다.
+- **이미지 접근성 속성 추가** — `<img>`에 `role="img"`, `alt`, `aria-label`이 항상 붙습니다. `alt`를 넘기지 않으면 variant별 기본값(`person` '프로필 이미지', `academy` '학원 로고', `company` '회사 로고')이 사용됩니다. 이름 옆에 붙은 아바타처럼 장식용이라면 `alt=""`를 넘기세요. 이 경우 `role` / `aria-label`이 붙지 않고, fallback은 `aria-hidden` 처리되어 스크린리더가 읽지 않습니다. `img:not([alt])`나 `getByAltText`로 찾던 테스트는 확인이 필요합니다.
 - **fallback 구조 변경** — `[data-role='avatar-fallback']`에 `role="img"`와 `aria-label`이 추가되었습니다. 자식은 아이콘 `svg` 하나에서, 아이콘 실루엣으로 면을 뚫는 `<svg aria-hidden>`(`mask` · `rect` · 중첩 아이콘 `svg`)으로 바뀌었고, `academy` / `company` 아이콘은 Fill 버전(`IconGraduationFill` / `IconCompanyFill`)으로 바뀌었습니다. `[data-role='avatar-fallback'] > svg path` 같은 셀렉터는 수정이 필요합니다.
 - **AvatarGroup 최대 5개** — `AvatarGroup`은 앞에서부터 5개의 자식만 렌더하고 6번째 이후는 DOM에 나타나지 않습니다. 더 많은 인원을 표시하던 경우 나머지 수는 `trailingContent`로 직접 표시하세요.
 
