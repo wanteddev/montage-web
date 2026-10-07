@@ -449,6 +449,10 @@ and stylesheets:
 
 Cautions:
 
+- `data-ignore-dismissable-layer` is a correct rename, but v4 overlays (Popper, Modal, Alert) no
+  longer RENDER the attribute — consumer code that reads it to detect a Montage overlay matches
+  nothing after this step. Not this step's to fix; M3 owns the review.
+
 - Replacement over ANY string literal — unrelated strings containing a token (analytics
   event names, doc strings) get rewritten too. Builds that include the token-boundary fix in `dom-identifier-map.ts` (shared by the transform and the stylesheet pass)
   rewrite an identifier only when the whole token matches, so an embedded `data-wds-component` /
@@ -1114,7 +1118,7 @@ and M17's scans are the wider net.
 
 ## After all 9 steps
 
-Proceed to `manual-migrations.md` (all M-sections, M1–M21), then final verification:
+Proceed to `manual-migrations.md` (all M-sections, M1–M23), then final verification:
 
 1. Each step's verify grep zero, with its documented exceptions (step ①:
    `@wanteddev/montage-mcp`; step ⑥: hits inside the state file's `excludeFiles`; step ⑧:
@@ -1160,4 +1164,8 @@ Proceed to `manual-migrations.md` (all M-sections, M1–M21), then final verific
    navigation, whose unsized `SearchField` shrank from 48px to 40px (see M19), and every modal,
    whose radius, content margins, `ModalContent` padding defaults and `popup` / `bottom`
    navigation title alignment changed (see M20), and every outlined `ContentBadge`, whose
-   background is now transparent (see M21) — behavioral and visual changes, not just renames.
+   background is now transparent (see M21), and every screen with a `Modal` / `Alert` / Picker
+   next to a body-level widget, whose outside pointer events are now blocked while it is open
+   (see M22), and every `cancel` / `compact` `ActionArea` with a caption and every `AvatarGroup`
+   that can exceed five children (see M23), and every error-only `TextArea`, whose bottom area no
+   longer renders (see M8) — behavioral and visual changes, not just renames.
