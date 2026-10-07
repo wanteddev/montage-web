@@ -12,6 +12,7 @@ import {
   IconChevronUpThickSmall,
   IconClose,
 } from '@montage-ui/icon';
+import { getColorByToken } from '@montage-ui/engine';
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
 import { useSize } from '@radix-ui/react-use-size';
 import { useComposedRefs } from '@radix-ui/react-compose-refs';
@@ -73,6 +74,7 @@ import type {
   DefaultComponentPropsInternal,
   PolymorphicComponentInternal,
   PolymorphicPropsInternal,
+  ThemeColorsToken,
 } from '@montage-ui/engine';
 import type { ForwardedRef } from 'react';
 import type {
@@ -350,7 +352,12 @@ const SelectContent = forwardRef<
               width: 'var(--select-content-icon-wrapper-size)',
               height: 'var(--select-content-max-height)',
               fontSize: 'var(--select-content-icon-size)',
-              color: color ?? theme.semantic.foreground.neutral.tertiary,
+              // Accept a theme token as well as a raw CSS color.
+              color: color
+                ? ((getColorByToken(theme, color as ThemeColorsToken) as
+                    | string
+                    | undefined) ?? color)
+                : theme.semantic.foreground.neutral.tertiary,
             }),
             sx,
           ]}
