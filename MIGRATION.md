@@ -265,7 +265,7 @@ npx @montage-ui/codemod@latest dom-identifier-migration src
 
 #### 열려 있는 동안 바깥 포인터 이벤트 차단 (`disableOutsidePointerEvents`)
 
-아래 오버레이가 열려 있는 동안 `<body>`에 `style="pointer-events: none"`이 걸리고, 해당 레이어(와 그 위 레이어), 그리고 `Modal` · `Alert`의 dimmer만 `pointer-events: auto`로 클릭을 받습니다. 닫히면 원래 값으로 복원됩니다. dimmer는 계속 클릭을 받으므로 커스텀 `ModalDimmer` / `AlertDimmer`에 지정한 `onClick`은 v3처럼 호출됩니다.
+아래 오버레이가 열려 있는 동안 `<body>`에 `style="pointer-events: none"`이 걸리고, 해당 레이어(와 그 위 레이어), 그리고 `Modal` · `Alert`의 dimmer만 `pointer-events: auto`로 클릭을 받습니다. 닫히면 원래 값으로 복원됩니다. dimmer의 동작 변화는 아래 [dimmer 클릭으로 닫기를 막던 코드](#dimmer-클릭으로-닫기를-막던-코드)를 참고하세요.
 
 | 컴포넌트                                      | 차단 조건                                                                      |
 | --------------------------------------------- | ------------------------------------------------------------------------------ |
@@ -278,6 +278,32 @@ npx @montage-ui/codemod@latest dom-identifier-migration src
 - **오버레이 밖 DOM에 렌더되는 요소**(포털 포함)는 오버레이가 열려 있는 동안 클릭되지 않습니다. 대응 방법은 아래 [오버레이 안에서 포털로 띄운 요소](#오버레이-안에서-포털로-띄운-요소)를 반드시 확인하세요.
 - **Picker가 열린 상태에서 바깥 요소를 클릭하는 테스트**(`userEvent.click(otherButton)`)는 `pointer-events: none` 검사에 걸려 실패합니다. 먼저 Esc나 바깥 클릭으로 팝업을 닫은 뒤 다음 동작을 수행하세요. Picker 자기 입력칸도 마찬가지라, 팝업이 열린 상태에서 입력칸을 클릭하면 팝업만 닫히고 커서는 이동하지 않습니다.
 - `<body>`의 inline `style`을 스냅샷하거나 검사하는 테스트는 열린 상태에서 값이 달라집니다.
+
+#### dimmer 클릭으로 닫기를 막던 코드
+
+v3는 dimmer의 `onClick`에서 모달을 닫았기 때문에, 커스텀 dimmer의 `onClick`에서 `preventDefault()`를 호출하면 닫힘을 막을 수 있었습니다. v4에서는 **dimmer 클릭으로 닫히는 판정을 dimmer가 아니라 레이어 스택이 합니다.** 마우스는 `pointerdown` 시점, 터치는 `click` 시점에 판정하므로, dimmer 이벤트 핸들러에서 `preventDefault()`를 호출해도 **닫힘을 막을 수 없습니다.** `Modal` / `Alert` 모두 해당합니다.
+
+```tsx
+// AS-IS (3.x) — 조건에 따라 dimmer 클릭으로 닫히지 않게 하던 코드: v4에서는 무시됨
+<ModalContainer
+  dimmer={
+    <ModalDimmer
+      onClick={(e) => {
+        if (isDirty) e.preventDefault();
+      }}
+    />
+  }
+/>
+
+// TO-BE — 바깥 클릭 닫기를 끄는 prop으로 제어
+<ModalContainer disableOutsideClickClose={isDirty} />
+```
+
+- **닫기를 막으려면** `disableOutsideClickClose`를 쓰세요(`ModalContainer`, `AlertContainer`, `useAlert` 옵션). 조건부라면 값을 상태에 연결하면 됩니다. Esc까지 막으려면 `disableEscapeKeyDownClose`를 함께 지정하세요.
+- **닫힐 때 무언가를 실행하려면** dimmer `onClick` 대신 `Modal` / `Alert`의 `onOpenChange`를 쓰세요. 바깥 클릭 · Esc · 닫기 버튼 등 닫히는 경로가 모두 이곳을 거칩니다.
+- dimmer의 `onClick` 자체는 여전히 호출되지만, 마우스의 경우 이미 닫힘이 시작된 뒤(퇴장 애니메이션 중)에 호출됩니다. 퇴장 애니메이션이 없으면 dimmer가 먼저 사라져 호출되지 않을 수 있으므로, 닫힘과 관련된 로직은 dimmer 핸들러에 두지 마세요.
+
+이 동작은 codemod로 바꿀 수 없습니다. `ModalDimmer` / `AlertDimmer`에 이벤트 핸들러를 넘기는 코드를 찾아 위 방식으로 옮기세요.
 
 #### 오버레이 안에서 포털로 띄운 요소
 
