@@ -15,7 +15,7 @@ module.exports = {
       'Avatar',
       'SearchField',
     ],
-    icons: ['IconChevronLeft', 'IconClose'],
+    icons: ['IconBlank', 'IconClose'],
     variants: [
       {
         key: 'Variants',
@@ -40,8 +40,9 @@ module.exports = {
         disabled: (value) => value['Variants'] === 'Display',
         options: [
           { label: 'None', value: {} },
-          { label: 'Back button', value: {} },
           { label: 'Text button', value: {} },
+          { label: 'Icon button', value: {} },
+          { label: 'Back button', value: {} },
         ],
       },
       {
@@ -107,9 +108,12 @@ module.exports = {
       }
 
       switch (value['Leading button area']) {
-        case 'Back button':
+        case 'Icon button':
           leadingContent =
-            '<TopNavigationButton variant="icon-button"><IconChevronLeft /></TopNavigationButton>';
+            '<TopNavigationButton variant="icon-button"><IconBlank /></TopNavigationButton>';
+          break;
+        case 'Back button':
+          leadingContent = '<TopNavigationButton variant="back-button" />';
           break;
         case 'Text button':
           leadingContent =

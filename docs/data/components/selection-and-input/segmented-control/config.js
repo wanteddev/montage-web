@@ -7,7 +7,24 @@ module.exports = {
     icons: ['IconList'],
     variants: [
       {
+        key: 'Size',
+        defaultValue: 'Medium',
+        options: [
+          { label: 'Small', value: {} },
+          { label: 'Medium', value: {} },
+          { label: 'Large', value: {} },
+        ],
+      },
+      {
+        key: 'Icon only',
+        options: [
+          { label: 'False', value: {} },
+          { label: 'True', value: {} },
+        ],
+      },
+      {
         key: 'Icon',
+        disabled: (value) => value['Icon only'] === 'True',
         options: [
           { label: 'False', value: {} },
           { label: 'True', value: {} },
@@ -15,10 +32,28 @@ module.exports = {
       },
     ],
     render: (value) => {
+      const size = value['Size'].toLowerCase();
+
+      if (value['Icon only'] === 'True') {
+        return `
+          <SegmentedControl value="active" size="${size}" iconOnly>
+            <SegmentedControlItem value="active" aria-label="Active">
+              <IconList />
+            </SegmentedControlItem>
+            <SegmentedControlItem value="inactive1" aria-label="Inactive">
+              <IconList />
+            </SegmentedControlItem>
+            <SegmentedControlItem value="inactive2" aria-label="Inactive">
+              <IconList />
+            </SegmentedControlItem>
+          </SegmentedControl>
+        `;
+      }
+
       const leadingIcon = value['Icon'] === 'True' ? '<IconList />' : 'null';
 
       return `
-        <SegmentedControl value="active" sx={{maxWidth: 335}}>
+        <SegmentedControl value="active" size="${size}" sx={{maxWidth: 335}}>
           <SegmentedControlItem value="active" leadingIcon={${leadingIcon}}>
             Active
           </SegmentedControlItem>

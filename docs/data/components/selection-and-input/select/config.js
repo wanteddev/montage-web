@@ -19,6 +19,14 @@ module.exports = {
       'const [value, setValue] = React.useState([]);\nconst ref = React.useRef(null);',
     variants: [
       {
+        key: 'Size',
+        defaultValue: 'Large',
+        options: [
+          { label: 'Large', value: {} },
+          { label: 'Medium', value: {} },
+        ],
+      },
+      {
         key: 'Variants',
         options: [
           { label: 'Single', value: {} },
@@ -51,6 +59,7 @@ module.exports = {
     ],
     render: (value) => {
       const props = {};
+      const size = value['Size'].toLowerCase();
       const component =
         value['Variants'] === 'Single' ? 'Select' : 'SelectMultiple';
 
@@ -87,7 +96,7 @@ module.exports = {
       }
 
       return `
-        <FormControl sx={{ width: '75%' }}>
+        <FormControl size="${size}" sx={{ width: '75%' }}>
           <FormControlLabel required>Heading</FormControlLabel>
           <FormControlField>
             <${component}

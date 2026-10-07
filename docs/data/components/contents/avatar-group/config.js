@@ -3,39 +3,39 @@
  */
 module.exports = {
   variants: {
-    components: ['AvatarGroup', 'Avatar', 'TextButton'],
+    components: ['AvatarGroup', 'AvatarGroupContent', 'Avatar', 'TextButton'],
     icons: [],
     render: (value) => {
-      const variant = value['Variants'].toLowerCase();
-      const trailingContent =
-        value['Trailing content'] === 'True'
-          ? '<TextButton color="assistive" size="small">외 0명</TextButton>'
-          : 'null';
+      let trailingContent = 'null';
+
+      switch (value['Trailing content']) {
+        case 'Text button':
+          trailingContent =
+            '<AvatarGroupContent variant="text-button"><TextButton color="assistive">외 0명</TextButton></AvatarGroupContent>';
+          break;
+        case 'Text':
+          trailingContent =
+            '<AvatarGroupContent variant="text">외 0명</AvatarGroupContent>';
+          break;
+      }
 
       return `
         <AvatarGroup size="small" trailingContent={${trailingContent}}>
-          <Avatar size="small" variant="${variant}" />
-          <Avatar size="small" variant="${variant}" />
-          <Avatar size="small" variant="${variant}" />
-          <Avatar size="small" variant="${variant}" />
-          <Avatar size="small" variant="${variant}" />
+          <Avatar size="small" />
+          <Avatar size="small" />
+          <Avatar size="small" />
+          <Avatar size="small" />
+          <Avatar size="small" />
         </AvatarGroup>
       `;
     },
     variants: [
       {
-        key: 'Variants',
-        options: [
-          { label: 'Person', value: {} },
-          { label: 'Company', value: {} },
-          { label: 'Academy', value: {} },
-        ],
-      },
-      {
         key: 'Trailing content',
         options: [
-          { label: 'False', value: {} },
-          { label: 'True', value: {} },
+          { label: 'None', value: {} },
+          { label: 'Text button', value: {} },
+          { label: 'Text', value: {} },
         ],
       },
     ],

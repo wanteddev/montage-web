@@ -5,7 +5,6 @@ module.exports = {
   variants: {
     components: [
       'FormControl',
-      'FlexBox',
       'TextField',
       'TextFieldContent',
       'TextFieldButton',
@@ -13,10 +12,19 @@ module.exports = {
       'FormControlMessage',
       'FormControlLabel',
       'ContentBadge',
+      'IconButton',
       'Box',
     ],
     icons: ['IconBlank'],
     variants: [
+      {
+        key: 'Size',
+        defaultValue: 'Large',
+        options: [
+          { label: 'Large', value: {} },
+          { label: 'Medium', value: {} },
+        ],
+      },
       {
         key: 'Leading icon',
         options: [
@@ -36,14 +44,16 @@ module.exports = {
         options: [
           { label: 'None', value: {} },
           { label: 'Custom', value: {} },
-          { label: 'Badge', value: {} },
           { label: 'Text', value: {} },
-          { label: 'Icon', value: {} },
           { label: 'Timer', value: {} },
+          { label: 'Badge', value: {} },
+          { label: 'Icon', value: {} },
+          { label: 'Icon button', value: {} },
         ],
       },
     ],
     render: (value) => {
+      const size = value['Size'].toLowerCase();
       const hasButton = value['Trailing button'] === 'Button';
 
       const leadingContent =
@@ -57,6 +67,10 @@ module.exports = {
         case 'Icon':
           trailingContent =
             '<TextFieldContent variant="icon"><IconBlank /></TextFieldContent>';
+          break;
+        case 'Icon button':
+          trailingContent =
+            '<TextFieldContent variant="icon-button"><IconButton aria-label="Icon button"><IconBlank /></IconButton></TextFieldContent>';
           break;
         case 'Custom':
           trailingContent =
@@ -79,7 +93,7 @@ module.exports = {
       }
 
       return `
-      <FormControl sx={{ width: '75%' }}>
+      <FormControl size="${size}" sx={{ width: '75%' }}>
         <FormControlLabel required>Heading</FormControlLabel>
         <FormControlField>
           <TextField

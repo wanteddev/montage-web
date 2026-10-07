@@ -24,8 +24,8 @@ module.exports = {
       {
         key: 'Action',
         options: [
-          { label: 'Normal button', value: {} },
-          { label: 'Negative button', value: {} },
+          { label: 'Normal', value: {} },
+          { label: 'Negative', value: {} },
         ],
       },
     ],
@@ -34,8 +34,7 @@ module.exports = {
         value['Heading'] === 'True'
           ? '<AlertHeading>Heading</AlertHeading>'
           : '';
-      const buttonVariant =
-        value['Action'] === 'Normal button' ? 'normal' : 'negative';
+      const buttonVariant = value['Action'].toLowerCase();
 
       return `
       <Alert open>

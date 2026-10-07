@@ -4,7 +4,7 @@ description: 옵션들을 수평으로 나열한 버튼 그룹으로 한 번에 
 image: /components/selection-and-input/segmented-control/design/Image.png
 ogImage: /components/selection-and-input/segmented-control/design/Thumbnails.png
 createdAt: 2025-08-11
-updatedAt: 2026-02-01
+updatedAt: 2026-10-07
 ---
 
 <SectionAnatomy
@@ -20,10 +20,28 @@ updatedAt: 2026-02-01
   components={['SegmentedControl', 'SegmentedControlItem']}
   icons={['IconList']}
   render={(value) => {
+      const size = value['Size'].toLowerCase();
+
+      if (value['Icon only'] === 'True') {
+        return `
+          <SegmentedControl value="active" size="${size}" iconOnly>
+            <SegmentedControlItem value="active" aria-label="Active">
+              <IconList />
+            </SegmentedControlItem>
+            <SegmentedControlItem value="inactive1" aria-label="Inactive">
+              <IconList />
+            </SegmentedControlItem>
+            <SegmentedControlItem value="inactive2" aria-label="Inactive">
+              <IconList />
+            </SegmentedControlItem>
+          </SegmentedControl>
+        `;
+      }
+
       const leadingIcon = value['Icon'] === 'True' ? '<IconList />' : 'null';
 
       return `
-        <SegmentedControl value="active" sx={{maxWidth: 335}}>
+        <SegmentedControl value="active" size="${size}" sx={{maxWidth: 335}}>
           <SegmentedControlItem value="active" leadingIcon={${leadingIcon}}>
             Active
           </SegmentedControlItem>
@@ -38,7 +56,24 @@ updatedAt: 2026-02-01
     }}
   variants={[
     {
+      key: 'Size',
+      defaultValue: 'Medium',
+      options: [
+        { label: 'Small', value: {} },
+        { label: 'Medium', value: {} },
+        { label: 'Large', value: {} }
+      ]
+    },
+    {
+      key: 'Icon only',
+      options: [
+        { label: 'False', value: {} },
+        { label: 'True', value: {} }
+      ]
+    },
+    {
       key: 'Icon',
+      disabled: (value) => value['Icon only'] === 'True',
       options: [
         { label: 'False', value: {} },
         { label: 'True', value: {} }

@@ -4,7 +4,7 @@ description: 텍스트 라벨 없이 아이콘만으로 특정 액션을 수행�
 image: /components/actions/icon-button/design/Image.png
 ogImage: /components/actions/icon-button/design/Thumbnails.png
 createdAt: 2026-01-21
-updatedAt: 2026-02-10
+updatedAt: 2026-10-07
 ---
 
 <SectionAnatomy
@@ -27,6 +27,25 @@ updatedAt: 2026-02-10
         { label: 'Solid', value: { variant: 'solid', children: '<IconHistory />' } },
         { label: 'Outlined', value: { variant: 'outlined', children: '<IconHistory />' } },
         { label: 'Background', value: { variant: 'background', children: '<IconHistory />' } }
+      ]
+    },
+    {
+      key: 'Size',
+      disabled: (value) => value['Variants'] === 'Background',
+      defaultValue: 'Xlarge',
+      options: [
+        { label: 'Xlarge', value: { size: 'xlarge' }, disabled: (value) => value['Variants'] !== 'Normal' },
+        { label: 'Large', value: { size: 'large' }, disabled: (value) => value['Variants'] !== 'Normal' },
+        { label: 'Medium', value: { size: 'medium' } },
+        { label: 'Small', value: { size: 'small' } }
+      ]
+    },
+    {
+      key: 'Interaction effect',
+      options: [
+        { label: 'Highlight', value: { interactionEffect: 'highlight' } },
+        { label: 'Dim', value: { interactionEffect: 'dim' }, disabled: (value) => value['Variants'] !== 'Normal' },
+        { label: 'None', value: { interactionEffect: 'none' } }
       ]
     },
     {

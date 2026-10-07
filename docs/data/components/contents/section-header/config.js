@@ -67,7 +67,7 @@ module.exports = {
             },
           },
           {
-            label: 'Pagination',
+            label: 'Navigation',
             value: {
               trailingContent:
                 '<SectionHeaderNavigation><SectionHeaderNavigationButton><IconChevronLeftSmall /></SectionHeaderNavigationButton><SectionHeaderNavigationButton><IconChevronRightSmall /></SectionHeaderNavigationButton></SectionHeaderNavigation>',

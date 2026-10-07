@@ -4,7 +4,7 @@ description: Thumbnail 위에 배치해 동영상 콘텐츠임을 시각적으�
 image: /components/contents/play-badge/design/Image.png
 ogImage: /components/contents/play-badge/design/Thumbnails.png
 createdAt: 2025-09-30
-updatedAt: 2026-01-29
+updatedAt: 2026-10-07
 ---
 
 <SectionAnatomy
@@ -20,7 +20,7 @@ updatedAt: 2026-01-29
   components={['PlayBadge', 'Thumbnail']}
   icons={[]}
   render={(value) => {
-      const alternative = (value['Variants'] === 'Alternative').toString();
+      const alternative = (value['Alternative'] === 'True').toString();
 
       return `
       <Thumbnail
@@ -35,10 +35,10 @@ updatedAt: 2026-01-29
     }}
   variants={[
     {
-      key: 'Variants',
+      key: 'Alternative',
       options: [
-        { label: 'Normal', value: {} },
-        { label: 'Alternative', value: {} }
+        { label: 'False', value: {} },
+        { label: 'True', value: {} }
       ]
     }
   ]}

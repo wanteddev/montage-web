@@ -6,7 +6,7 @@ module.exports = {
     components: ['PlayBadge', 'Thumbnail'],
     icons: [],
     render: (value) => {
-      const alternative = (value['Variants'] === 'Alternative').toString();
+      const alternative = (value['Alternative'] === 'True').toString();
 
       return `
       <Thumbnail
@@ -21,10 +21,10 @@ module.exports = {
     },
     variants: [
       {
-        key: 'Variants',
+        key: 'Alternative',
         options: [
-          { label: 'Normal', value: {} },
-          { label: 'Alternative', value: {} },
+          { label: 'False', value: {} },
+          { label: 'True', value: {} },
         ],
       },
     ],

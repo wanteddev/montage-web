@@ -4,7 +4,7 @@ description: 필드 내부에 2줄 이상의 텍스트를 입력할 때 사용�
 image: /components/selection-and-input/text-area/design/Image.png
 ogImage: /components/selection-and-input/text-area/design/Thumbnails.png
 createdAt: 2025-04-03
-updatedAt: 2026-02-11
+updatedAt: 2026-10-07
 ---
 
 <SectionAnatomy
@@ -17,17 +17,25 @@ updatedAt: 2026-02-11
   
 
 <SectionVariants
-  components={['FormControl', 'TextArea', 'TextAreaContent', 'TextFieldButton', 'FormControlField', 'FormControlMessage', 'FormControlLabel', 'FormControlMessageAccessory', 'ContentBadge', 'TextButton', 'IconButton']}
+  components={['FormControl', 'TextArea', 'TextAreaContent', 'FormControlField', 'FormControlMessage', 'FormControlLabel', 'FormControlMessageAccessory', 'ContentBadge', 'TextButton', 'IconButton', 'Button', 'SegmentedControl', 'SegmentedControlItem', 'Box']}
   icons={['IconBlank']}
   render={(value) => {
       let leadingContent = 'null';
       let trailingContent = 'null';
       let rows = {};
-      let hasCharacterCounter = false;
+      const hasCharacterCounter = value['Character counter'] === 'True';
+      const size = value['Size'].toLowerCase();
+
+      const custom =
+        '<TextAreaContent variant="custom"><Box sx={theme => ({ width: 24, height: 24, backgroundColor: theme.semantic.surface.accent.violetOpaque, opacity: 0.08 })} /></TextAreaContent>';
+      const primaryIconButton =
+        '<TextAreaContent variant="primary-icon-button"><Button variant="solid" color="primary" iconOnly><IconBlank /></Button></TextAreaContent>';
+      const segmentedControl =
+        '<TextAreaContent variant="segmented-control"><SegmentedControl iconOnly defaultValue="1"><SegmentedControlItem value="1" aria-label="Item 1"><IconBlank /></SegmentedControlItem><SegmentedControlItem value="2" aria-label="Item 2"><IconBlank /></SegmentedControlItem></SegmentedControl></TextAreaContent>';
 
       switch (value['Leading contents']) {
-        case 'Character counter':
-          hasCharacterCounter = true;
+        case 'Custom':
+          leadingContent = custom;
           break;
         case 'Button':
           leadingContent =
@@ -37,21 +45,27 @@ updatedAt: 2026-02-11
           leadingContent =
             '<TextAreaContent variant="icon-button"><IconButton variant="normal"><IconBlank /></IconButton></TextAreaContent>';
           break;
+        case 'Primary icon button':
+          leadingContent = primaryIconButton;
+          break;
         case 'Icon':
           leadingContent =
             '<TextAreaContent variant="icon"><IconBlank /></TextAreaContent>';
           break;
-        case 'Badge':
+        case 'Content badge':
           leadingContent =
             '<TextAreaContent variant="content-badge"><ContentBadge color="neutral">Badge</ContentBadge></TextAreaContent>';
+          break;
+        case 'Segmented control':
+          leadingContent = segmentedControl;
           break;
         default:
           leadingContent = 'null';
       }
 
       switch (value['Trailing contents']) {
-        case 'Character counter':
-          hasCharacterCounter = true;
+        case 'Custom':
+          trailingContent = custom;
           break;
         case 'Button':
           trailingContent =
@@ -61,13 +75,19 @@ updatedAt: 2026-02-11
           trailingContent =
             '<TextAreaContent variant="icon-button"><IconButton variant="solid"><IconBlank /></IconButton></TextAreaContent>';
           break;
+        case 'Primary icon button':
+          trailingContent = primaryIconButton;
+          break;
         case 'Icon':
           trailingContent =
             '<TextAreaContent variant="icon"><IconBlank /></TextAreaContent>';
           break;
-        case 'Badge':
+        case 'Content badge':
           trailingContent =
             '<TextAreaContent variant="content-badge"><ContentBadge color="neutral">Badge</ContentBadge></TextAreaContent>';
+          break;
+        case 'Segmented control':
+          trailingContent = segmentedControl;
           break;
         default:
           trailingContent = 'null';
@@ -88,7 +108,7 @@ updatedAt: 2026-02-11
       }
 
       return `
-        <FormControl sx={{ width: '75%' }}>
+        <FormControl sx={{ width: '75%' }} size="${size}">
           <FormControlLabel required>Heading</FormControlLabel>
           <FormControlField>
             <TextArea
@@ -105,6 +125,14 @@ updatedAt: 2026-02-11
     }}
   variants={[
     {
+      key: 'Size',
+      defaultValue: 'Large',
+      options: [
+        { label: 'Large', value: {} },
+        { label: 'Medium', value: {} }
+      ]
+    },
+    {
       key: 'Resize',
       options: [
         { label: 'Normal', value: {} },
@@ -114,14 +142,15 @@ updatedAt: 2026-02-11
     },
     {
       key: 'Leading contents',
-      defaultValue: 'Character counter',
       options: [
         { label: 'None', value: {} },
-        { label: 'Character counter', value: {} },
+        { label: 'Custom', value: {} },
         { label: 'Button', value: {} },
-        { label: 'Icon button', value: {} },
+        { label: 'Content badge', value: {} },
         { label: 'Icon', value: {} },
-        { label: 'Badge', value: {} }
+        { label: 'Icon button', value: {} },
+        { label: 'Primary icon button', value: {} },
+        { label: 'Segmented control', value: {} }
       ]
     },
     {
@@ -129,11 +158,21 @@ updatedAt: 2026-02-11
       defaultValue: 'Button',
       options: [
         { label: 'None', value: {} },
-        { label: 'Character counter', value: {} },
+        { label: 'Custom', value: {} },
         { label: 'Button', value: {} },
-        { label: 'Icon button', value: {} },
+        { label: 'Content badge', value: {} },
         { label: 'Icon', value: {} },
-        { label: 'Badge', value: {} }
+        { label: 'Icon button', value: {} },
+        { label: 'Primary icon button', value: {} },
+        { label: 'Segmented control', value: {} }
+      ]
+    },
+    {
+      key: 'Character counter',
+      defaultValue: 'True',
+      options: [
+        { label: 'False', value: {} },
+        { label: 'True', value: {} }
       ]
     }
   ]}

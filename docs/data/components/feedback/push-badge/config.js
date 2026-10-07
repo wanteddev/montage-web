@@ -24,10 +24,10 @@ module.exports = {
             },
           },
           {
-            label: 'New',
+            label: 'Text',
             value: {
               variant: 'text',
-              text: 'N',
+              text: 5,
               children: '<Box data-role="content" />',
               sx: (theme) => ({
                 ['[data-role="content"]']: {
@@ -39,10 +39,10 @@ module.exports = {
             },
           },
           {
-            label: 'Number',
+            label: 'Max count',
             value: {
-              variant: 'text',
-              text: 5,
+              variant: 'max-count',
+              text: 100,
               children: '<Box data-role="content" />',
               sx: (theme) => ({
                 ['[data-role="content"]']: {
@@ -61,6 +61,13 @@ module.exports = {
           { label: 'Xsmall', value: { size: 'xsmall' } },
           { label: 'Small', value: { size: 'small' } },
           { label: 'Medium', value: { size: 'medium' } },
+        ],
+      },
+      {
+        key: 'Outline border',
+        options: [
+          { label: 'False', value: {} },
+          { label: 'True', value: { outlineBorder: true } },
         ],
       },
     ],

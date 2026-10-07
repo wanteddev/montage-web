@@ -52,25 +52,8 @@ module.exports = {
       const verticalPadding = value['Vertical padding'].toLowerCase();
       let iconButton = 'null';
 
-      let iconButtonSize;
-
-      switch (size) {
-        case 'small':
-          iconButtonSize = 'large';
-          break;
-        case 'medium':
-          iconButtonSize = 'large';
-          break;
-        case 'large':
-          iconButtonSize = 'xlarge';
-          break;
-        case 'xlarge':
-          iconButtonSize = 'xlarge';
-          break;
-      }
-
       if (value['Icon button'] === 'True') {
-        iconButton = `<IconButton size="${iconButtonSize}" interactionOverflow><IconBlank /></IconButton>`;
+        iconButton = `<IconButton interactionOverflow><IconBlank /></IconButton>`;
       }
 
       return `
