@@ -134,6 +134,9 @@ export const getComponentUrl = async (
     stepper: 'progress-tracker',
     'card-list': 'list-card',
     modal: 'popup',
+    ...(semver.lt(semver.coerce(version) ?? '4.0.0', '4.0.0') && {
+      'form-control': 'form',
+    }),
   };
   const customComponentPath = componentPathMap[componentSlug];
 
