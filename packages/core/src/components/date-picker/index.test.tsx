@@ -1,3 +1,4 @@
+import { forwardRef } from 'react';
 import {
   cleanup,
   fireEvent,
@@ -197,4 +198,21 @@ describe('when given date picker calendar button', () => {
       ).toBe(width);
     },
   );
+});
+
+describe('when given a custom input to DatePicker', () => {
+  it('should pass the responsive props through to it', () => {
+    const receiveXs = vi.fn();
+
+    const CustomInput = forwardRef<HTMLInputElement, { xs?: unknown }>(
+      ({ xs }, ref) => {
+        receiveXs(xs);
+        return <input ref={ref} />;
+      },
+    );
+
+    render(<DatePicker input={CustomInput as never} xs={{ width: '100px' }} />);
+
+    expect(receiveXs).toHaveBeenLastCalledWith({ width: '100px' });
+  });
 });
