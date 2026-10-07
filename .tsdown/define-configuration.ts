@@ -5,7 +5,14 @@ import type { UserConfig } from 'tsdown';
 export const defineConfiguration = (opts: Partial<UserConfig>) =>
   defineConfig({
     format: ['cjs', 'esm'],
-    target: ['chrome91', 'firefox90', 'edge91', 'safari15', 'ios15', 'opera77'],
+    target: [
+      'chrome108',
+      'firefox101',
+      'edge108',
+      'safari15',
+      'ios16',
+      'opera94',
+    ],
     outDir: 'dist',
     dts: true,
     clean: true,

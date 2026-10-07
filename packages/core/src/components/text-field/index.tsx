@@ -141,7 +141,7 @@ const TextField = forwardRef<
               readOnly={readOnly}
               disabled={disabled}
               aria-readonly={readOnly}
-              aria-invalid={status === 'negative' || undefined}
+              aria-invalid={status === 'negative'}
               aria-disabled={disabled}
               {...props}
             />

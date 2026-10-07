@@ -60,7 +60,7 @@ rewrites `package.json` a resume looks exactly like "already migrated".
      step. A step or manual key missing from an older state file (e.g.
      `semantic-token-migration`, `push-badge-migration`, `status-migration`,
      `list-cell-variant-migration`, `M9`, `M10`,
-     `M11`, `M12`, `M13`, `M14`, `M15`, `M16`, `M17`, `M18`, `M19`, `M20`, or `M21`, added after the file was created) is `pending` —
+     `M11`, `M12`, `M13`, `M14`, `M15`, `M16`, `M17`, `M18`, `M19`, `M20`, `M21`, `M22`, or `M23`, added after the file was created) is `pending` —
      add it to the file and run it. `semantic-token-migration` sits at position ② BEFORE
      steps an older migration may already have completed: it still runs, and running it
      after the later steps is safe (its token namespace is disjoint from every other
@@ -105,7 +105,9 @@ rewrites `package.json` a resume looks exactly like "already migrated".
      `<ModalNavigation([[:space:]>]|$)` / `<ModalContainer([[:space:]>]|$)` /
      `\bModalContent(Item)?\b` — every valid v4 modal
      matches, M21's `<ContentBadge([[:space:]>]|$)` / `<ContentBadge[[:space:]][^>]*variant="outlined"`
-     — `variant="outlined"` is the valid v4 shape), so they are
+     — `variant="outlined"` is the valid v4 shape, and the DOM-change [decision] scans of
+     M3 / M5 / M8 / M13 / M14 / M16 / M17 / M19 plus every M22 / M23 scan — selectors, test
+     queries and props that stay valid in v4), so they are
      never mismatch evidence. Detect the pending-but-already-applied direction with the
      **presence greps** in `references/codemod-steps.md` — each step's verify grep is an
      ABSENCE check that returns zero both when the codemod ran and when the repo never used
@@ -216,7 +218,7 @@ rewrites `package.json` a resume looks exactly like "already migrated".
      pattern from `references/manual-migrations.md` (steps and M-sections added after a
      consumer finished migrating — e.g. step ② `semantic-token-migration`, step ⑦
      `push-badge-migration`, step ⑧ `status-migration`, step ⑨
-     `list-cell-variant-migration`, M9, M10, M11, M12, M13, M14, M15, M16, M17, M18, M19, M20, and M21 — surface only through these scans)
+     `list-cell-variant-migration`, M9, M10, M11, M12, M13, M14, M15, M16, M17, M18, M19, M20, M21, M22, and M23 — surface only through these scans)
      and report instead of migrating. On such a tree NEVER run step ⑨'s codemod to "fix"
      its leftover hits: hand-authored v4 `variant="button"` is valid there and the codemod
      would mis-rename it (Critical rule 1) — fix leftovers by hand against the step-⑨
@@ -406,6 +408,8 @@ manual:
   M19: pending
   M20: pending
   M21: pending
+  M22: pending
+  M23: pending
 ---
 ```
 
@@ -481,7 +485,7 @@ ALWAYS pass `codemodVersion` as the concrete version
 resolved in preflight (first run) or read from the state file (resume) — the script
 rejects dist-tags, since the value is recorded in the state file and a dist-tag would
 re-resolve on resume and break the same-build guarantee. The workflow returns per-step results plus a
-`manualScan` report (assessed occurrences for manual steps M1–M21).
+`manualScan` report (assessed occurrences for manual steps M1–M23).
 
 - If the workflow reports `aborted`, surface the failed step's error to the user, fix the
   cause, and re-run the same Workflow invocation with `completedSteps` refreshed from the
@@ -649,7 +653,7 @@ where double-runs happen.
 
 ## Step 2 — Manual migrations
 
-Work through `references/manual-migrations.md` (M1–M21) using the workflow's `manualScan`
+Work through `references/manual-migrations.md` (M1–M23) using the workflow's `manualScan`
 hits as the worklist. On a resume where all 9 codemod steps are already `completed` but no
 workflow ran this session, there is no `manualScan` report — rebuild the worklist first:
 re-run the same Workflow invocation with `completedSteps` listing all 9 (every step is
@@ -669,6 +673,9 @@ both together when an M-section changes):
   split token like `'--wds-column-' + 'spacing'` must become `--grid-column-spacing`, not
   `--column-spacing`). Steps ③/④ already reverted the consumer-owned names they were sure
   about and recorded them in the state file's `revertedNames`; treat those as settled.
+  `data-ignore-dismissable-layer` survives step ④ as a name but no Montage overlay renders it
+  any more — per hit, keep it where the consumer SETS it on its own element, rework it where
+  code READS it to detect a Montage overlay.
 - **M2 (theme tokens):** per occurrence — wrap the arithmetic in `calc()` on the `var()`
   string, or import the raw value from `lightOriginTheme`; confirm which, since a raw import
   bypasses the CSS-variable indirection (and thus runtime theme switching).
@@ -787,7 +794,10 @@ solid="semantic.label.alternative"`, which v4 dropped, so its text turns darker;
   states has to go (the codemod folds them with `negative` winning, matching v3's border).
   Picker `status` is also auto-promoted to `negative` on unparseable values in uncontrolled
   mode, which `status="normal"` cannot override — per occurrence, decide whether to keep the
-  promotion or take control with `onChange`.
+  promotion or take control with `onChange`. A Picker's custom `input` no longer receives
+  `status` / `size` — ask whether it should mirror the picker state. `aria-invalid`'s default
+  rendering flipped (checkbox family: no longer always `"false"`; text fields / Selects: now
+  always present) — a review item for attribute selectors and test assertions.
 - **M17 (ListCell 개편):** `MenuItem` / `Option`'s enabled `fillWidth` has NO replacement
   prop (their `variant` means `normal`/`radio`/`checkbox`) — per occurrence, reproduce the
   full-width interaction with `sx` or drop it. Responsive `fillWidth` keys were deleted and
@@ -820,6 +830,9 @@ solid="semantic.label.alternative"`, which v4 dropped, so its text turns darker;
   them (stylesheets included) — they match nothing until renamed. Typography (label
   body1→body2·medium, description label1→label2), the `ListText` `p`→`div` DOM change, and
   the opacity→disable-token disabled restyle are review-and-QA items, not code rewrites.
+  The trailing / selected-icon renames also moved to a different element (a new wrapper `div`
+  instead of the consumer element / the `svg`), and v3 `variant="chevron"` lost `role="button"`
+  / `tabIndex` with the arrow now a sibling — per hit with an `onClick`, ask where it belongs.
 - **M18 (IconButton interaction):** `disableInteraction` → `interactionEffect="none"` is
   mechanical and type-visible on inline JSX, but `{...props}` carrying it onto an
   `IconButton` compiles and falls through to the DOM `<button>`, where React drops it (a
@@ -855,6 +868,9 @@ variant="close-button">` (a text-label `ModalClose` becomes `text-button` with a
   (including M14's converted `large`) still wins — a per-hit decision. `ModalNavigationButton`
   throws outside a `ModalNavigation`, while v3 `ModalClose` worked anywhere in the container —
   a `ModalClose` hit elsewhere moves into the navigation or becomes a hand-wired `IconButton`.
+  The new `modal-navigation-content` level breaks renamed direct-child selectors, and a
+  title-less `emphasized` navigation no longer renders the `h2` the dialog's
+  `aria-labelledby` pointed at — ask whether that modal needs an `aria-label`.
 - **M20 (Modal layout and spacing):** `ModalContainer` `size="small"` → `size="medium"` (now
   the v3 small's 360px; with `resize="fixed"` the height grows 400→480px — accept or pin via `sx`) and a bare `--modal-content-margin` → `--modal-content-margin-x` /
   `-y` are **[zero]** rewrites. The rest are **[decision]** per hit: `ModalNavigation` now
@@ -878,6 +894,16 @@ variant="close-button">` (a text-label `ModalClose` becomes `text-button` with a
   surface accept it (no visual change); on an image, a colored surface, or a `surface.*` /
   `background.neutral.secondary` area ask whether to accept the see-through badge or restore an
   opaque fill via `sx` (`theme.semantic.background.neutral.primary`). Flag every hit for visual QA.
+- **M22 (overlay dismiss behavior):** dismissal moved to the Radix layer stack — only the top
+  layer closes, and a `Modal` / `Alert` (unless `disableAriaHiddenOthers`) or an open Picker
+  popup sets `pointer-events: none` on `<body>`, so body-level widgets outside the layer stop
+  receiving clicks and tests that click elsewhere while a Picker is open fail. `aria-modal` now
+  follows `disableAriaHiddenOthers` and, on a handle sheet, the dimmed snap. Ask the user which body-level widgets must stay usable
+  — never toggle `disableAriaHiddenOthers` on your own.
+- **M23 (other DOM changes):** `ActionArea` caption / compact wrappers (a `cancel` caption no
+  longer renders — ask), `Avatar` img / fallback a11y attributes and fallback SVG, `AvatarGroup`
+  capped at 5 children (ask how to show the rest), `SectionMessage` `leadingContent={null}`
+  dropping the icon, and Picker field icons moved into `text-field-trailing-content`.
 
 M1 (package.json + configs) ends with a dependency install to refresh the lockfile.
 **Right after that install, run the project's own formatter and lint autofix over the files
@@ -993,7 +1019,10 @@ Mark each M-section `completed` in the state file as it finishes.
    whose radius, content margins, `ModalContent` padding defaults and `popup` / `bottom`
    navigation title alignment changed, including title-less (close-only) navigations and
    any `ActionArea` nested in `ModalContent` (see M20); and every outlined `ContentBadge`, whose
-   background is now transparent (see M21).
+   background is now transparent (see M21); and every screen with a `Modal` / `Alert` / Picker
+   next to a body-level widget (see M22); and every `cancel` / `compact` `ActionArea` with a
+   caption and every `AvatarGroup` that can exceed five (see M23); and every error-only
+   `TextArea`, whose bottom area no longer renders (see M8).
 4. Delete the state file, then summarize: steps run, commits created, manual fixes
    applied, items intentionally left (with reasons), and a **"pre-existing v3 bugs now
    visible"** list — code that was silently broken in v3 and starts rendering after the
@@ -1008,7 +1037,7 @@ Mark each M-section `completed` in the state file as it finishes.
 
 - **`references/codemod-steps.md`** — the 9 codemods in order: exact commands,
   idempotency analysis, pre-checks, post-step verification greps, hazards.
-- **`references/manual-migrations.md`** — manual migrations M1–M21 with scan patterns and
+- **`references/manual-migrations.md`** — manual migrations M1–M23 with scan patterns and
   fix rules.
 - **`scripts/migration-workflow.js`** — Workflow-tool script for the codemod phase; also
   the canonical per-step procedure for inline fallback execution.

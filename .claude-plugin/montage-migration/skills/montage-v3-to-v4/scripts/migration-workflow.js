@@ -181,7 +181,7 @@ const MANUAL_SCAN_SECTIONS = [
   {
     id: 'M3',
     title:
-      'CSS variable / DOM identifier leftovers (dynamic names, out-of-target files such as E2E specs and snapshots, camelCase safety net)',
+      'CSS variable / DOM identifier leftovers (dynamic names, out-of-target files such as E2E specs and snapshots, camelCase safety net; data-ignore-dismissable-layer is renamed by step ④ but no Montage overlay renders it any more — keep it where the consumer sets it, rework code that reads it to detect a Popper/Modal/Alert — a JUDGED scan)',
   },
   {
     id: 'M4',
@@ -191,12 +191,12 @@ const MANUAL_SCAN_SECTIONS = [
   {
     id: 'M5',
     title:
-      'FormControl follow-ups (message typography variant/weight, old Form names outside the targets)',
+      'FormControl follow-ups (message typography variant/weight, old Form names outside the targets; message children now wrapped in span[data-role=form-control-*message-content] with the accessory after it (getByText returns the span) — a JUDGED scan; auto-generated ids -form-label/-form-field(-message|-error-message) → -form-control-label/-field/-message/-negative-message, positive message id added to aria-describedby)',
   },
   {
     id: 'M6',
     title:
-      'Modal bottom sheet behavior change (onVisibilityChange removal, peekHeight)',
+      'Modal bottom sheet behavior change (onVisibilityChange removal, peekHeight; data-visibility removed from the wrapper/dialog/dimmer → data-snap / data-largest-undimmed-snap (+ data-status on the wrapper))',
   },
   {
     id: 'M7',
@@ -206,7 +206,7 @@ const MANUAL_SCAN_SECTIONS = [
   {
     id: 'M8',
     title:
-      'TextArea changes (TextAreaContent variants, characterCounter removed — FormControlMessageAccessory in the accessory prop of a FormControl message when the TextArea sits in a FormControl AND a message is always shown (an empty message renders nothing, accessory included, and the message components throw outside FormControl); otherwise a hand-written counter in TextArea leadingContent/trailingContent via TextAreaContent variant="custom", size)',
+      'TextArea changes (TextAreaContent variants, characterCounter removed — FormControlMessageAccessory in the accessory prop of a FormControl message when the TextArea sits in a FormControl AND a message is always shown (an empty message renders nothing, accessory included, and the message components throw outside FormControl); otherwise a hand-written counter in TextArea leadingContent/trailingContent via TextAreaContent variant="custom", size; the bottom area (text-area-bottom-area and its leading/trailing wrappers) now renders only with leadingContent/trailingContent, so an error-only TextArea loses it and gets shorter — a JUDGED scan)',
   },
   {
     id: 'M9',
@@ -231,12 +231,12 @@ const MANUAL_SCAN_SECTIONS = [
   {
     id: 'M13',
     title:
-      'PushBadge changes (non-literal variant left by step ⑦, count via spread/PushBadgeProps, count+text on one element, max-count adoption, push-badge-text role removed, invisible keeps text in the DOM, dot/line-height sizing)',
+      'PushBadge changes (non-literal variant left by step ⑦, count via spread/PushBadgeProps, count+text on one element, max-count adoption, push-badge-text role removed, invisible keeps text in the DOM, dot/line-height sizing; root data-variant follows the new values, so [data-variant=number|new] selectors/assertions match nothing — a JUDGED scan)',
   },
   {
     id: 'M14',
     title:
-      'SearchField changes (size values shifted medium→large / small→medium — order-sensitive hand rename, old medium stays type-valid; variant added; readOnly visual state removed — attribute stays type-valid; DOM depth +1 via search-field-wrapper)',
+      'SearchField changes (size values shifted medium→large / small→medium — order-sensitive hand rename, old medium stays type-valid; variant added; readOnly visual state removed — attribute stays type-valid; DOM depth +1 via search-field-wrapper; reset button now always has aria-label Reset search, and type=search is set after the spread so a consumer type is ignored — a JUDGED scan)',
   },
   {
     id: 'M15',
@@ -246,12 +246,12 @@ const MANUAL_SCAN_SECTIONS = [
   {
     id: 'M16',
     title:
-      'invalid/positive → status leftovers (props reaching a field via spread or a props object, TextField that set BOTH — v4 status is exclusive so the positive icon is lost, picker auto-promotion to negative in uncontrolled mode that status="normal" cannot suppress, wrapper types re-declaring invalid, framedStyle called with a variable)',
+      'invalid/positive → status leftovers (props reaching a field via spread or a props object, TextField that set BOTH — v4 status is exclusive so the positive icon is lost, picker auto-promotion to negative in uncontrolled mode that status="normal" cannot suppress, wrapper types re-declaring invalid, framedStyle called with a variable; aria-invalid default rendering flipped (Checkbox/Radio/CheckMark/RoundCheckbox no longer always render false; TextField/TextArea/Select/SelectMultiple now always render it) — a JUDGED selector/assertion scan; a Picker custom input no longer receives status/size, so the auto-promoted negative no longer shows on it — ask whether to pass them)',
   },
   {
     id: 'M17',
     title:
-      "ListCell rework follow-ups (MenuItem/Option fillWidth left by step ⑨ — no replacement prop, sx rework; responsive fillWidth/interactionPadding keys deleted — variant is not responsive, sx branches by hand; dynamic content variant silently skipped by step ⑨; selected now shows a default check icon — mandatory trailingContent={null} where leadingContent already holds a Checkbox/Radio/Switch and no explicit trailingContent is passed (never overwrite an existing one); textProps caption/captionProps → description/descriptionProps left where textProps was not an object literal or carried a spread, was built outside the JSX, or came through a consumer wrapper's own caption prop — a JUDGED scan, since ActionArea's caption prop is valid v4 API and must never be renamed; renamed DOM identifiers list-item-trailing-content / menu-item-active-icon-check / autocomplete-option-active-icon-check / list-text-caption incl. stylesheets; consumer selected on MenuItem/Option/AutocompleteOption now drives the check, AutocompleteOption no longer ignores a passed trailingContent (it renders in every state now); label body1→body2 + description label1→label2 + ListText p→div; disabled restyled from opacity to disable tokens)",
+      "ListCell rework follow-ups (MenuItem/Option fillWidth left by step ⑨ — no replacement prop, sx rework; responsive fillWidth/interactionPadding keys deleted — variant is not responsive, sx branches by hand; dynamic content variant silently skipped by step ⑨; selected now shows a default check icon — mandatory trailingContent={null} where leadingContent already holds a Checkbox/Radio/Switch and no explicit trailingContent is passed (never overwrite an existing one); textProps caption/captionProps → description/descriptionProps left where textProps was not an object literal or carried a spread, was built outside the JSX, or came through a consumer wrapper's own caption prop — a JUDGED scan, since ActionArea's caption prop is valid v4 API and must never be renamed; renamed DOM identifiers list-item-trailing-content / menu-item-active-icon-check / autocomplete-option-active-icon-check / list-text-caption incl. stylesheets; consumer selected on MenuItem/Option/AutocompleteOption now drives the check, AutocompleteOption no longer ignores a passed trailingContent (it renders in every state now); label body1→body2 + description label1→label2 + ListText p→div; disabled restyled from opacity to disable tokens; list-cell-trailing-content is a NEW wrapper div (v3 Slot merged the data-role onto the consumer element), list-cell-selected-icon-check sits on the wrapping div not the svg, list-cell-leading-content wraps v3 direct children — a JUDGED path scan; variant=value chevron lost the v3 role=button/tabIndex and the arrow is now a sibling — ask where an onClick belongs; TimeView items are ListCells (time-item-*))",
   },
   {
     id: 'M18',
@@ -261,7 +261,7 @@ const MANUAL_SCAN_SECTIONS = [
   {
     id: 'M19',
     title:
-      'TopNavigation / ModalNavigation changes (ModalClose/ModalCloseProps removed → ModalNavigationButton variant="close-button" / ModalNavigationButtonProps, which throws outside a ModalNavigation (v3 ModalClose worked anywhere in ModalContainer) — a hit elsewhere moves into a ModalNavigation or becomes an IconButton with aria-label="Close dialog" and a hand-wired close — a text-label ModalClose becomes variant="text-button" with a hand-wired close since close-button is icon-only; TopNavigationButton/ModalNavigationButton variant="icon"/"text" → "icon-button"/"text-button" incl. multi-line and variant={expr} forms; ModalNavigation variant="display" → "emphasized" — TopNavigation keeps display, never rewrite it there; modal navigation DOM identifiers top-navigation(-button|-*) → modal-navigation(-button|-*) and modal-scoped CSS variables --top-navigation-padding-x/-padding-y/-title-width → --modal-navigation-* 1:1, a bare --top-navigation-padding shorthand split into -padding-y + -padding-x, --top-navigation-min-height has no v4 equivalent (ask: delete or sx min-height) — a JUDGED scan, since a standalone TopNavigation keeps every top-navigation identifier; search navigation SearchField now defaults to size="medium" while an explicit size, incl. M14\'s converted large, still wins — a per-hit decision)',
+      'TopNavigation / ModalNavigation changes (ModalClose/ModalCloseProps removed → ModalNavigationButton variant="close-button" / ModalNavigationButtonProps, which throws outside a ModalNavigation (v3 ModalClose worked anywhere in ModalContainer) — a hit elsewhere moves into a ModalNavigation or becomes an IconButton with aria-label="Close dialog" and a hand-wired close — a text-label ModalClose becomes variant="text-button" with a hand-wired close since close-button is icon-only; TopNavigationButton/ModalNavigationButton variant="icon"/"text" → "icon-button"/"text-button" incl. multi-line and variant={expr} forms; ModalNavigation variant="display" → "emphasized" — TopNavigation keeps display, never rewrite it there; modal navigation DOM identifiers top-navigation(-button|-*) → modal-navigation(-button|-*) and modal-scoped CSS variables --top-navigation-padding-x/-padding-y/-title-width → --modal-navigation-* 1:1, a bare --top-navigation-padding shorthand split into -padding-y + -padding-x, --top-navigation-min-height has no v4 equivalent (ask: delete or sx min-height) — a JUDGED scan, since a standalone TopNavigation keeps every top-navigation identifier; search navigation SearchField now defaults to size="medium" while an explicit size, incl. M14\'s converted large, still wins — a per-hit decision; a new modal-navigation-content level breaks renamed direct-child selectors from the wrapper — a JUDGED scan; a title-less emphasized navigation renders no h2, so aria-labelledby points at nothing — ask whether the modal needs an aria-label)',
   },
   {
     id: 'M20',
@@ -272,6 +272,16 @@ const MANUAL_SCAN_SECTIONS = [
     id: 'M21',
     title:
       'ContentBadge outlined background (variant="outlined" background changed from background.neutral.primary to transparent, so the parent background shows through — no prop change and no type error; solid, the default, is unchanged and no component slot forces outlined — a JUDGED scan: on a background.neutral.primary surface accept it (no visual change), on an image, a colored surface, or a surface.* / background.neutral.secondary area ask whether to accept or restore an opaque fill via sx backgroundColor theme.semantic.background.neutral.primary; a <ContentBadge listing covers multi-line, variant={expr}, spread and wrapper-relayed variants)',
+  },
+  {
+    id: 'M22',
+    title:
+      'Overlay dismiss behavior (dismissal moved to the Radix layer stack — only the top layer reacts to Esc/outside click, nested overlays count as inside through the React tree, Modal/Alert no longer close on focus-outside; while open, Modal (dimmed, not disableAriaHiddenOthers), Alert (not disableAriaHiddenOthers, incl. useAlert which cannot opt out) and any open DatePicker/DateRangePicker/TimePicker popup set pointer-events: none on <body>, so body-level widgets outside the layer stop receiving clicks — ask the user which must stay usable, never toggle disableAriaHiddenOthers on your own — and tests clicking elsewhere while a Picker is open fail; aria-modal now follows disableAriaHiddenOthers and, on a handle sheet, the dimmed snap (disableRemoveScroll/disableFocusScope no longer turn it off) — JUDGED scans)',
+  },
+  {
+    id: 'M23',
+    title:
+      'Other DOM changes (ActionArea caption gains an inner span, is no longer rendered for variant=cancel — ask — and moves into the compact row with new action-area-compact-wrapper / -compact-content-wrapper; Avatar img always gets role=img/alt/aria-label with a variant default alt, avatar-fallback gains role/aria-label and a masked nested SVG with Fill icons; AvatarGroup renders at most 5 children — ask how to show the rest; SectionMessage leadingContent={null} now drops the default icon — use undefined to keep it; Picker clock/calendar icons moved into text-field-trailing-content; informational: Chip data-component, MenuItem data-menu-selected, FilterButton caret aria-hidden — JUDGED scans)',
   },
 ];
 
@@ -622,6 +632,8 @@ manual:
   M19: pending
   M20: pending
   M21: pending
+  M22: pending
+  M23: pending
 ---`;
 
 if (args.completedSteps !== undefined && !Array.isArray(args.completedSteps)) {
@@ -924,7 +936,7 @@ If ANY dirty path is not explainable by a completed step's rename surface, repor
    from ${repoRootSh} — take each <shell-quoted target> verbatim from the shell-quoted targets list above. If a target contains whitespace and this is a published build, the stylesheet pass may report "Stylesheets updated: 0" for a tree that has Montage stylesheets — the CLI split the path; report status "failed" instead of committing (the workflow normally rejects such targets before any step runs). The command is non-interactive when both the transform name and the path are passed. Capture the output; jscodeshift prints per-file errors — treat any "ERR" as a failure.
 7. If the codemod failed partway, NEVER leave a half-transformed tree (re-running a codemod over one is the documented corruption path for steps 5–6 — list-card-migration and form-control-migration — and excluding the partially-transformed files later is the WRONG fix): when autoCommit is true (tree was clean at step start), restore with \`git -C ${repoRootSh} checkout -- <each shell-quoted target>\`; when autoCommit is false, restore the targets from the snapshot recorded in step 5 (\`git -C ${repoRootSh} checkout <snapshot-hash> -- <each shell-quoted target>\` — this reverts only this step's changes; earlier steps' uncommitted work is inside the snapshot; if no hash was printed the tree was clean, so plain \`git checkout -- <each shell-quoted target>\` is equivalent). Move any excluded files back per step 8, then report status "failed" with the error.
 8. If files were moved out in step 4: move each back to its exact original path, re-run the path+hash command and diff against the recording from step 4 — must be empty (do NOT rely on a plain \`git status\` no-diff check — it is only meaningful when autoCommit is true; with autoCommit false the excluded files legitimately carry earlier steps' uncommitted changes and show as modified), and confirm the temp dir is empty. If the hash diff is NON-empty, or \`find "$EXCL" -type f\` still lists files, STOP: report status "failed" with the unrestored paths, KEEP the recovery record, do NOT update the state file and do NOT commit — the orchestrator must surface this to the user. Only on a clean move-back, delete the \`.claude/montage-migration-v4.exclusions.json\` recovery record from step 4. Do this BEFORE the state update and commit — a commit must never contain their deletions.
-9. Post-step verification: ${step.verify} A verify-grep hit inside a COMMENT (commented-out JSX, a commented import) is expected — the JS/TS transforms never rewrite comments — so it is not a failure and never a reason to re-run: update it to the v4 name by hand only if the commented code is clearly meant to come back, otherwise leave it, and list every comment hit (file + line) in verifyFindings either way. Record findings in verifyFindings; apply only the fixes the verification instructions explicitly assign to this step — leave everything marked M1–M21 to the manual phase.
+9. Post-step verification: ${step.verify} A verify-grep hit inside a COMMENT (commented-out JSX, a commented import) is expected — the JS/TS transforms never rewrite comments — so it is not a failure and never a reason to re-run: update it to the v4 name by hand only if the commented code is clearly meant to come back, otherwise leave it, and list every comment hit (file + line) in verifyFindings either way. Record findings in verifyFindings; apply only the fixes the verification instructions explicitly assign to this step — leave everything marked M1–M23 to the manual phase.
 10. Update the state file: set steps.${step.id} to "completed", and — for form-control-migration with a non-empty move-out list — write that list to the state file\'s \`excludeFiles:\` key, so later sessions can tell a ring-fenced file from a migration leftover (the final verification depends on it). For css-variable-migration and dom-identifier-migration, append every revert from step 9 to the \`revertedNames:\` key as a file-scoped entry — \`- file: <repo-relative path>\` on one line, \`  name: <reverted name>\` on the next, one entry per (file, name) occurrence — for the same reason — the final verification cannot otherwise tell your deliberate revert from an unmigrated leftover. If the file is missing, recreate it from the template below FIRST — but set every step in this list to "completed" before writing (they all ran, either in earlier sessions or earlier in THIS run; an all-pending file would trigger corrupting re-runs on a later resume): ${stepsDoneByNow}. Report the recreation in verifyFindings together with the recreated \`targets\`, \`autoCommit\`, \`codemodVersion\` AND the fact that every \`manual:\` mark was reset to "pending". Report the two carried-over lists precisely, because they behave differently: \`revertedNames:\` ALWAYS comes back empty (the template cannot recover it, so steps ③/④'s deliberate reverts are no longer distinguishable from leftovers at final verification), while \`excludeFiles:\` is rebuilt from THIS invocation's \`excludeFiles\` arg — currently ${excludeFiles.length ? JSON.stringify(excludeFiles) : "EMPTY, so an earlier session's ring-fenced list is lost and must be re-established with the user before the final verification"} — all of it comes from this invocation's args and the template, not the lost original, so the orchestrator must confirm each with the user (a finished M-section silently reset to pending is as damaging as a wrong targets list). Ensure the file's path is ignored so it never enters commits: resolve the exclude file with \`git -C ${repoRootSh} rev-parse --git-path info/exclude\` (in a linked worktree or submodule \`.git\` is a FILE, so a literal .git/info/exclude path fails), append the entry only if missing — do the same for \`.claude/montage-migration-v4.exclusions.json\`, the step-⑥ recovery record, which must never enter a commit either — then confirm both with \`git -C ${repoRootSh} check-ignore -q <shell-quoted path>\`. Template:
 ${STATE_FILE_TEMPLATE}
 11. Refuse to commit while \`${args.repoRoot}/.claude/montage-migration-v4.exclusions.json\` exists — its presence means excluded files are still moved out, and \`git add -A\` would commit their deletion. If autoCommit is true: \`git -C ${repoRootSh} add -A && git -C ${repoRootSh} commit${commitNoVerify ? ' --no-verify' : ''} -m "chore(montage): v4 codemod — ${step.id}"\` and record the commit hash. ${

@@ -215,6 +215,22 @@ Rename rules for anything found:
 | `wds-ignore-dismissable-layer`                       | `data-ignore-dismissable-layer`                              |
 | `#wds-region-manager` / `#wds-region-manager-bottom` | `#montage-region-manager` / `#montage-region-manager-bottom` |
 
+**`data-ignore-dismissable-layer` is a rename AND a removal.** v3 rendered
+`wds-ignore-dismissable-layer="true"` on `PopperContent` (every Popper-based overlay: Popover,
+Tooltip, Menu, Select / Autocomplete dropdowns), on the `Modal` dialog and dimmer, and on the
+`Alert` dimmer and container. v4 renders it on NONE of them — overlay dismissal moved to the
+Radix layer stack (see M22). Step ④ renames the attribute name in consumer code, but a renamed
+`closest('[data-ignore-dismissable-layer]')` / `[data-ignore-dismissable-layer="true"]` that was
+meant to detect "inside a Montage overlay" now matches nothing on those components. The
+attribute still works as an opt-out on elements the CONSUMER marks themselves
+(`DismissableLayer` keeps skipping targets under a `[data-ignore-dismissable-layer="true"]`
+ancestor). Per hit: if the code sets the attribute on its own element, keep it; if it reads
+the attribute to find a Montage overlay, rewrite the check against the overlay's own
+identifiers (`[data-role='modal-dimmer']`, `[role='dialog']`, the Popper content's
+`data-status`) — or drop it when it only existed to stop a nested overlay from closing its
+parent, which v4 now handles itself.
+Scan **[decision]** (all file types, after step ④): `data-ignore-dismissable-layer`.
+
 ## M4. Card / ListCard follow-ups
 
 The `list-card-migration` codemod resolves Card vs ListCard context from the nearest JSX
@@ -288,6 +304,28 @@ ancestor. Two classes of usage need manual review:
   `accessory={<FormControlMessageAccessory ... variant="character-counter" />}` — does
   NOT match; trade-off: a legacy line whose earlier prop embeds a JSX element before
   `variant=` is missed, acceptable under the line-based-heuristics caveat above).
+- **Message children are wrapped.** `FormControlMessage` / `FormControlNegativeMessage` /
+  `FormControlPositiveMessage` render `<p><span data-role="form-control-message-content">{children}</span>{accessory}</p>`
+  (v3: `<p>{children}</p>`; the negative / positive wrappers are
+  `form-control-negative-message-content` / `form-control-positive-message-content`), and the
+  `p` is now `display: flex`. Code walking the `p`'s text nodes or `firstChild`, and tests that
+  take the element `getByText` returns to be the `p` (that query now returns the inner `span`),
+  need review.
+  Scan **[decision]** (include test files): `FormControl(Negative|Positive)?Message\b` file-level,
+  then read only the hits in tests and DOM-walking code.
+- **Auto-generated ids renamed.** `${id}-form-label` → `${id}-form-control-label`,
+  `${id}-form-field` → `${id}-form-control-field`, `${id}-form-field-message` →
+  `${id}-form-control-message`, `${id}-form-field-error-message` →
+  `${id}-form-control-negative-message`; a positive message gets
+  `${id}-form-control-positive-message`, which the field's `aria-describedby` now also lists.
+  Selectors and queries built on the old suffixes (`[id$="-form-field"]`) match nothing.
+  Scan **[zero]** (all file types, whole repo; the leading `-` needs `-e`): `-form-(label|field)\b` — the v4 ids contain
+  `-form-control-`, so they do not match; a hit on the consumer's own unrelated id stays (list it).
+- New identifiers (informational, nothing breaks): `data-component` on `form-control`,
+  `form-control-group`, `form-control-label`, `form-control-message`,
+  `form-control-negative-message`, `form-control-positive-message`,
+  `form-control-message-accessory`; `FormControlField` injects `data-role="form-control-slot"`
+  into its child.
 - New API available (informational, no action required): `FormControlPositiveMessage`,
   `FormControlMessageAccessory` (passed via the message components' `accessory` prop;
   `variant="character-counter"` by default), root `size` (`'large' | 'medium'`) and
@@ -309,6 +347,17 @@ bottom-sheet Modals whose dismiss behavior needs a decision).
 
 For each bottom-sheet Modal, decide: default close-on-dismiss (delete workaround code) or
 `peekHeight` (restore pinning).
+
+- **`data-visibility` removed → snap attributes.** v3 marked the handle bottom sheet's state
+  with `data-visibility="visible" | "hidden"` on the wrapper, the dialog, and the dimmer. v4
+  drops it: the dialog and the dimmer carry `data-snap` / `data-largest-undimmed-snap`, and the
+  wrapper carries those plus `data-status`. Selectors (`[data-visibility='hidden']`) and test
+  assertions (`toHaveAttribute('data-visibility', …)`) match nothing — rewrite them against
+  `data-snap` (the current snap point) or `data-status` (open / closed).
+  Scan **[zero]** (all file types, whole repo — stylesheets and tests included): `data-visibility`
+  — a hit on a non-Montage element of the consumer's own stays (list it).
+- The dialog / dimmer also lost `wds-ignore-dismissable-layer` (M3) and changed their
+  `aria-modal` condition (M22).
 
 ## M7. TextField changes
 
@@ -473,9 +522,20 @@ For each bottom-sheet Modal, decide: default close-on-dismiss (delete workaround
   custom CSS targeting them or the bottom-area structure must be reworked.
   Scan **[zero]**: `text-area-(content-character-counter|invalid)` (include stylesheets —
   these data-roles are removed).
-  Scan **[decision]**: `text-area-bottom-area` — the wrapper itself still exists in v4;
-  only hits styling its INTERNAL structure need rework, a hit on the wrapper alone is a
-  probable false positive.
+  Scan **[decision]**: `text-area-bottom-area` — the wrapper still exists in v4, but only
+  when `leadingContent` or `trailingContent` is set (see the next bullet); hits styling its
+  INTERNAL structure need rework, and a hit on the wrapper alone is fine only if every
+  TextArea it targets passes leading / trailing content.
+- **Bottom area no longer renders for the negative state alone.** v3 rendered
+  `[data-role='text-area-bottom-area']` (with its leading / trailing wrappers) when
+  `invalid || leadingContent || trailingContent`; v4 renders it only for
+  `leadingContent || trailingContent`. A TextArea with `status="negative"` and no content
+  therefore loses the whole bottom area — not just the icon — and gets shorter. Selectors and
+  tests expecting that area on an error-only TextArea match nothing; layouts tuned to the v3
+  height need QA.
+  Scan **[decision]**: `<TextArea[[:space:]][^>]*status=` — per hit without leading / trailing
+  content (read the multi-line props), flag for visual QA and check tests that query the bottom
+  area.
 
 ## M9. Semantic token follow-ups
 
@@ -1028,6 +1088,15 @@ section covers what the transform cannot express and the rendering changes no re
   to change in product code.
   Scan **[decision]**: `PushBadge[^>]*invisible` — review the surrounding tests, not the
   component usage.
+- **The root's `data-variant` follows the new values.** The badge renders
+  `data-variant={variant}`, so `[data-component='push-badge'][data-variant='number']` /
+  `[data-variant='new']` selectors and `toHaveAttribute('data-variant', 'number')` assertions
+  match nothing after step ⑦. Rewrite `number` → `text` (or `max-count` where the badge now uses
+  it); `new` became `variant="text" text="N"`, so its selector becomes `[data-variant='text']`
+  (add a text check if it must single out the "N" badge).
+  Scan **[decision]** (include stylesheets and tests): `data-variant.{0,4}(number|new)` — the
+  `{0,4}` gap reaches both `data-variant='number'` and `'data-variant', 'number'`; hits on other
+  components' `data-variant` stay.
 - **New props are opt-in.** `outlineBorder` / `outlineBorderColor` draw an outline around the
   badge so it stays legible over an avatar or icon. The width follows BOTH `size` and
   `variant` — text / max-count get 1 / 1.5 / 2px, dot gets 0.5 / 1 / 1px — and the outline is
@@ -1135,6 +1204,15 @@ No codemod covers this section — every fix here is a hand edit.
   Scan **[decision]**: `search-field` (include stylesheets) — matches valid v4 selectors
   and unrelated consumer strings by design; only hits that reach into the field's
   internals with a direct-child (`>`) combinator need rework.
+
+- **Reset button named, input type locked.** The reset `IconButton` now always carries
+  `aria-label="Reset search"` (v3: no accessible name), so `getByRole('button', { name })`
+  queries and accessibility snapshots change. And `type="search"` is now set AFTER the props
+  spread, so a consumer `type="text"` (or any other type) is silently ignored and the input is
+  always `type="search"` — `input[type='text']` selectors inside a SearchField match nothing.
+  Scan **[decision]**: `\bSearchField\b[^>]*[[:space:]]type=` — per hit, delete the ignored
+  `type` (or ask the user if the code relied on it); test files under the `search-field` scan
+  above cover the reset-button name.
 
 ## M15. FallbackView changes
 
@@ -1286,7 +1364,7 @@ forces.
 - **Picker auto-promotion to `negative`.** `DatePicker` / `DateRangePicker` / `TimePicker`
   still promote `status` to `'negative'` on their own when used **uncontrolled** (no
   `onChange`) and the value is unparseable, or the range is inverted (start > end). This
-  is v3 behavior carried over unchanged, but it is now surprising in a way a boolean prop
+  is v3 behavior carried over unchanged (except on a custom `input`, see below), but it is now surprising in a way a boolean prop
   was not: passing `status="normal"` does NOT suppress it.
   Scan **[decision]**: `<(DatePicker|DateRangePicker|TimePicker)[^>]*status=` — per hit,
   decide whether the automatic promotion is wanted; if the app owns validation, make the
@@ -1306,9 +1384,33 @@ forces.
 - **`Checkbox` / `Radio` / `CheckMark` / `RoundCheckbox` `aria-invalid`.** The codemod
   renames `invalid` → `aria-invalid`, which is the correct v4 shape and needs no further
   edit. Worth knowing while reviewing the diff: v3's `invalid` never affected the visuals
-  on these components (it only set `aria-invalid`), so nothing renders differently.
+  on these components (it only set `aria-invalid`), so nothing LOOKS different — but the
+  attribute's default rendering did change (next bullet).
   Scan **[decision]**: `<(Checkbox|Radio|CheckMark|RoundCheckbox)[^>]*aria-invalid` —
   correct v4 code; assess only that the value is still meaningful.
+
+- **`aria-invalid` default rendering flipped.** v3 `Checkbox` / `Radio` / `CheckMark` /
+  `RoundCheckbox` defaulted `invalid = false` and therefore ALWAYS rendered
+  `aria-invalid="false"`; v4 renders `aria-invalid` only when the consumer passes it. The
+  reverse holds for `TextField` / `TextArea` / `Select` / `SelectMultiple`: v3 rendered
+  `aria-invalid` only when `invalid` was passed, v4 ALWAYS renders it (`"true"` for
+  `status="negative"`, `"false"` otherwise). Picker fields rendered it in both versions. Nothing
+  changes visually; CSS attribute selectors and test assertions on its presence
+  (`[aria-invalid]`, `toHaveAttribute('aria-invalid', 'false')`,
+  `not.toHaveAttribute('aria-invalid')`) may flip.
+  Scan **[decision]** (include stylesheets and tests): `\[aria-invalid|['"]aria-invalid['"]` —
+  attribute selectors and string-keyed assertions; the JSX prop form (`aria-invalid=`) does not
+  match.
+
+- **Picker `input` prop no longer receives `status` / `size`.** When `DatePicker` /
+  `DateRangePicker` / `TimePicker` get a custom element through `input`, v4 forwards neither
+  `status` nor `size` (or responsive size) to it; v3 forwarded `invalid`, including the
+  auto-promoted value (unparsable input, reversed range — see the Picker auto-promotion bullet above). A custom
+  input therefore no longer shows the negative style or `aria-invalid="true"` on its own. Per
+  hit, ask the user whether the custom input should mirror the picker's state; if so, pass
+  `status` / `size` to it explicitly (the auto-promotion is internal and cannot be read back).
+  Scan **[decision]**: `<(DatePicker|DateRangePicker|TimePicker)[[:space:]][^>]*[[:space:]]input=`
+  plus `\b(DatePicker|DateRangePicker|TimePicker)\b` file-level for multi-line props.
 
 - **Elements carrying BOTH `status` and `invalid`.** Step ⑧ skips these deliberately —
   renaming would produce a duplicate attribute — so a half-hand-migrated element keeps its
@@ -1478,6 +1580,39 @@ bullets and the `textProps` one — the removals leave nothing behind for a scan
   Scan **[zero]** repo-wide including `.css/.scss/.sass/.less`:
   `list-item-trailing-content|(menu-item|autocomplete-option)-active-icon-check|list-text-caption` — rename hits
   to the new identifiers.
+
+- **Three of those renames moved to a DIFFERENT element** — a name-only rewrite leaves the
+  selector pointing at the wrong node:
+  - `list-cell-trailing-content` is a NEW wrapper `div`. v3's `list-item-trailing-content` was a
+    `Slot`, so the `data-role` merged onto the consumer's own trailing element; v4 renders the
+    consumer element INSIDE the wrapper. Same-element compounds
+    (`[data-role='list-item-trailing-content'][data-component='list-cell-content']`) become
+    `[data-role='list-cell-trailing-content'] > [data-component='list-cell-content']`.
+  - `list-cell-selected-icon-check` sits on the `ListCellContent` `div` wrapping the icon (inside
+    the trailing wrapper), not on the `svg` as v3's `menu-item-active-icon-check` /
+    `autocomplete-option-active-icon-check` did. `svg[data-role=…]` and `fill` / `color` aimed
+    at the icon become `[data-role='list-cell-selected-icon-check'] svg`.
+  - `list-cell-leading-content` (new in v4) WRAPS the `leadingContent` that
+    v3 rendered as a direct child of the cell, so direct-child selectors from the cell
+    (`[data-component='list-cell'] > [data-component='list-cell-content']`) break.
+    Scan **[decision]** (include stylesheets and tests):
+    `list-(item|cell)-(trailing-content|leading-content|selected-icon-check)|(menu-item|autocomplete-option)-active-icon-check`
+    — matches both the v3 spellings (scans run before the rename) and the v4 ones; per hit, check
+    the selector's PATH against the shapes above.
+- **`variant="value" chevron` (step ⑨'s rewrite of v3 `variant="chevron"`) is flatter.** v3's
+  content root carried `role="button"` and `tabIndex` (`0` with an `onClick`, else `-1`) and
+  wrapped children and the arrow in their own `FlexBox`es. v4 has no `role` / `tabIndex`, and
+  the arrow (`svg[data-role='list-cell-content-chevron'][aria-hidden]`) renders as a SIBLING
+  after the content element. `getByRole('button')` queries for the content, keyboard focus on
+  it, and an `onClick` on the content expected to catch arrow clicks all change. Per hit with an
+  `onClick`, ask the user whether the handler belongs on the cell instead.
+  Scan **[decision]**: `<(ListCellContent|OptionContent|MenuItemContent|AutocompleteOptionContent|AccordionSummaryContent)[[:space:]][^>]*[[:space:]]chevron`
+  — read the multi-line props of each hit for `onClick`.
+- **`TimeView` items are ListCells** (`[data-role^='time-item-']`), so every DOM change in this
+  section applies to them too (e.g. the item text is no longer in a `p`).
+  Scan **[decision]** (include stylesheets and tests): `time-item-`.
+- New attribute (informational): `data-parent-disabled` on `ListCellContent` /
+  `ListCellLabelTrailing` / `ListCellExtraContent`.
 
 - **Typography, icon sizing and DOM structure changed under every cell.** Labels dropped
   from
@@ -1723,6 +1858,27 @@ dialog"` and an `onClick` that closes the modal (`onOpenChange(false)` / `setOpe
   (a `ModalContainer` / modal stylesheet, a test querying inside an open modal) and rename it.
   Flag every modal navigation for visual QA (padding change).
 
+- **Modal navigation gained a level, which renaming does not fix.** v3 rendered leading
+  content, `[data-role='navigation-title']`, and trailing content directly under
+  `top-navigation-wrapper`; v4 inserts `[data-role='modal-navigation-content']` (no v3
+  counterpart) between them:
+  `[modal-navigation-wrapper] > [modal-navigation-content] > leading, [navigation-title], trailing`.
+  A renamed direct-child selector (`[data-role='modal-navigation-wrapper'] > [data-role='navigation-title']`)
+  must route through `> [data-role='modal-navigation-content'] >`.
+  Scan **[decision]** (include stylesheets, after the rename above): `navigation-wrapper[^,{]*>`
+  — selectors that walk from the wrapper into its children; descendant (space) selectors keep
+  working.
+- **A title-less `emphasized` navigation renders no heading.** v3 rendered
+  `[data-role='navigation-title'] > h2#<titleId>` (with an empty `span`) even without a title;
+  v4 renders an empty `div[data-role='navigation-title']` spacer only, so the dialog's
+  `aria-labelledby` points at no element and the modal has no accessible name from the
+  navigation. Tests querying that `h2`, or relying on the dialog's name, change. Per title-less
+  popup / bottom navigation (located by M20's `<ModalNavigation` scan), ask the user whether the
+  modal needs an accessible name; if so, add `aria-label` to `ModalContainer` or render a
+  visible title.
+  Scan **[decision]** (test files): `navigation-title|getByRole\(['"]heading` — assess hits that
+  query a modal's heading.
+
 - **`search` variant sizes its `SearchField`.** In `TopNavigation` / `ModalNavigation`
   `variant="search"` the child `SearchField` now defaults to `size="medium"` (40px), so an
   UNSIZED field shrinks from the v3 default 48px to 40px — accept it (the v4 navigation design)
@@ -1862,6 +2018,99 @@ No codemod covers this section, and nothing here is a type error — the prop su
   multi-line props, `variant={expr}`, spread props objects, and wrappers relaying
   `ContentBadgeProps['variant']` the line grep above cannot see. Flag every outlined badge for
   visual QA.
+
+## M22. Overlay dismiss behavior (layer stack, outside pointer blocking, `aria-modal`)
+
+No codemod covers this section and nothing here is a type error. Outside-click / Esc
+dismissal of `Modal`, `Alert`, Popper-based overlays, and the Picker popups moved to the Radix
+`DismissableLayer` layer stack:
+
+- Only the TOP-most open layer reacts to Esc or an outside click (a Menu open over a Modal
+  closes alone). "Inside" is decided through the React tree, so an overlay opened inside a
+  Modal is inside it even though it is portaled out of the Modal's DOM — which is why the
+  `data-ignore-dismissable-layer` markers were removed (M3).
+- `Modal` / `Alert` no longer close when focus moves outside them.
+- **While open, these overlays set `pointer-events: none` on `<body>`** (restored on close);
+  only the layer itself, layers above it, and the `Modal` / `Alert` dimmer receive pointer
+  events (so a consumer `onClick` on a custom `ModalDimmer` / `AlertDimmer` still fires, as in v3):
+
+  | Overlay                                       | Blocks outside pointer events when                                        |
+  | --------------------------------------------- | ------------------------------------------------------------------------- |
+  | `Modal`                                       | open (a handle sheet: at a dimmed snap) and not `disableAriaHiddenOthers` |
+  | `Alert` (incl. alerts shown via `useAlert`)   | not `disableAriaHiddenOthers`                                             |
+  | `DatePicker`, `DateRangePicker`, `TimePicker` | always, while the popup is open                                           |
+
+  Consequences: a body-level element outside the layer (a third-party chat launcher, cookie
+  banner, dev overlay — anything not rendered inside the overlay's React tree) cannot be clicked
+  while one of these is open; a test that clicks another element while a Picker is open fails
+  the user-event pointer-events check; snapshots of `<body>`'s inline `style` differ while open.
+  Do NOT decide the widget case alone: ask the user which body-level widgets must stay usable
+  over a `Modal` / `Alert`; for those overlays `disableAriaHiddenOthers` on `ModalContainer` /
+  `AlertContainer` lifts the block (it also disables screen-reader isolation and turns
+  `aria-modal` off). `useAlert` items cannot pass it — tell the user so. There is no opt-out on the
+  Pickers. In tests, close the popup (Esc or an outside click) before the next interaction.
+  Scan **[decision]** (test files): `<(DatePicker|DateRangePicker|TimePicker)([[:space:]>]|$)`
+  file-level — read each test for an interaction with another element while the popup is open.
+  Scan **[decision]**: `pointer-events` (include stylesheets and tests) — consumer code that
+  manipulates or asserts `<body>`'s pointer events.
+
+- **`aria-modal` condition changed.** `Modal`: v3 `open && visible && (!disableRemoveScroll || !disableFocusScope)`,
+  v4 open (dimmed) `&& !disableAriaHiddenOthers`. `Alert`: v3
+  `!disableRemoveScroll || !disableFocusScope`, v4 `!disableAriaHiddenOthers`. Disabling scroll
+  lock / focus scope no longer turns `aria-modal` off; `disableAriaHiddenOthers` does, and so does
+  an undimmed handle-sheet snap.
+  Scan **[decision]**: `disableRemoveScroll|disableFocusScope|disableAriaHiddenOthers` plus
+  `aria-modal` (include tests) — per hit, check the intended modality still holds.
+
+## M23. Other DOM changes (ActionArea, Avatar / AvatarGroup, SectionMessage, Picker icons)
+
+No codemod covers this section. Each bullet is a DOM change a selector, test query, or DOM walk
+can depend on; none is a type error.
+
+- **`ActionArea` caption and compact layout.** `[data-role='action-area-caption']` became a
+  `FlexBox as="span"` whose text sits in an extra inner `span` (`{captionIcon}<span>{caption}</span>`).
+  `variant="cancel"` no longer renders the caption at all, and `variant="compact"` renders it
+  inside the compact row instead of above the buttons. The compact layout gained named wrappers:
+  v3 `(unnamed) > [action-area-compact-content] + [action-area-wrapper]` → v4
+  `[action-area-compact-wrapper] > [action-area-compact-content-wrapper] > ([action-area-caption], [action-area-compact-content])`
+  `+ [action-area-wrapper]`; the compact row renders when `compactContent` OR `caption` is set,
+  and `[action-area-compact-content]` only when `compactContent` is. A `cancel` ActionArea that
+  passed a `caption` loses it — ask the user whether to move the text elsewhere.
+  Scan **[decision]** (include stylesheets and tests): `action-area-(caption|compact)`.
+  Scan **[decision]**: `<ActionArea[[:space:]][^>]*caption` plus `\bActionArea\b` file-level for
+  multi-line props — check each caption's `variant`.
+- **`Avatar` accessibility attributes and fallback.** The `<img>` always gets `role="img"`,
+  `alt`, and `aria-label`; without an `alt` prop the alt is the variant default (`person`
+  '프로필 이미지', `academy` '학원 로고', `company` '회사 로고'). `[data-role='avatar-fallback']`
+  gained `role="img"` + `aria-label`, and its child changed from one icon `svg` to an
+  `<svg aria-hidden>` holding a `mask`, a `rect`, and a nested icon `svg`; the `academy` /
+  `company` icons are now `IconGraduationFill` / `IconCompanyFill`. `img:not([alt])` checks,
+  `getByAltText` / `getByRole('img')` queries, and selectors such as
+  `[data-role='avatar-fallback'] > svg path` change.
+  Scan **[decision]** (include stylesheets and tests): `avatar-fallback|getByAltText`.
+- **`AvatarGroup` renders at most 5 avatars.** Children past the fifth are dropped from the DOM.
+  Per group that can exceed five, ask the user how to show the remainder (e.g. a count in
+  `trailingContent`).
+  Scan **[decision]**: `<AvatarGroup([[:space:]>]|$)` — read each group's child count / mapped
+  array length.
+- **`SectionMessage` `leadingContent={null}` drops the icon.** v3 used
+  `leadingContent ?? defaultIcon`, so `null` still showed the variant icon; v4 applies the
+  default only for `undefined`, so `null` removes the icon wrapper and its `svg[role='img']`.
+  A conditional that yields `null` (`leadingContent={cond ? <X /> : null}`) changes the screen —
+  switch it to `undefined` to keep the default icon.
+  Scan **[decision]**: `<SectionMessage[[:space:]][^>]*leadingContent` plus `\bSectionMessage\b`
+  file-level for multi-line props.
+- **Picker field icons moved into the trailing wrapper.** The pickers render a TextField, so
+  M7's restructure applies: `[data-role='time-picker-clock-icon']`,
+  `[data-role='date-picker-calendar-icon']`, and `[data-role='date-range-picker-calendar-icon']`
+  are no longer direct children of `[data-role='text-field-wrapper']` but sit inside
+  `[data-role='text-field-trailing-content']`.
+  Scan **[decision]** (include stylesheets and tests):
+  `(time-picker-clock|date-picker-calendar|date-range-picker-calendar)-icon` — rework
+  direct-child (`>`) paths.
+- New attributes (informational, nothing breaks): `data-component="chip"` on `Chip`
+  (`CategoryListItem` overrides it with `category-list-item`), `data-menu-selected` on
+  `MenuItem` / `MenuItemCheckbox` / `MenuItemRadio`, `aria-hidden` on `FilterButton`'s caret icon.
 
 ## Suggested commit boundary
 

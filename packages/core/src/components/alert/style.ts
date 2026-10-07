@@ -12,13 +12,9 @@ export const alertWrapperStyle = (theme: Theme) => css`
   padding: 20px;
   z-index: ${theme.zIndex.modal};
   width: 100vw;
-  height: 100vh;
+  height: 100dvh;
   left: 0px;
   top: 0px;
-
-  @supports (height: 100dvh) {
-    height: 100dvh;
-  }
 `;
 
 export const alertDimmerStyle = (theme: Theme) => css`
@@ -29,6 +25,12 @@ export const alertDimmerStyle = (theme: Theme) => css`
     theme.opacity[43],
   )};
   z-index: -1;
+  /* See \`modalDimmerStyle\` — opt back in under \`disableOutsidePointerEvents\`. */
+  pointer-events: auto;
+
+  &[data-status='close'] {
+    pointer-events: none;
+  }
 `;
 
 export const alertContainerStyle = (theme: Theme) => css`

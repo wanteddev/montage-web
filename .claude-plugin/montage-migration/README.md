@@ -57,7 +57,11 @@ What it does:
    `emphasized`, modal navigation DOM identifiers), and Modal layout/spacing changes
    (ModalContainer `size="small"` → `medium`, ModalNavigation default variant by container,
    ModalContent `horizontalPadding` / `verticalPadding`, `--modal-content-margin` → `-x` / `-y`),
-   and the ContentBadge `outlined` background becoming transparent.
+   the ContentBadge `outlined` background becoming transparent, overlay dismissal on the Radix
+   layer stack (only the top layer closes, `<body>` `pointer-events: none` while a Modal / Alert /
+   Picker is open, new `aria-modal` condition), and other DOM changes (ActionArea caption / compact
+   wrappers, Avatar a11y and fallback, AvatarGroup capped at five, SectionMessage
+   `leadingContent={null}`, Picker icons inside the trailing wrapper).
 4. **Verification** — leftover greps, install/typecheck/lint/build/tests, summary.
 
 The codemods are order-sensitive and every one of them is treated as run-once. Re-running

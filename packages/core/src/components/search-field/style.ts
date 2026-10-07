@@ -61,24 +61,14 @@ export const searchFieldWrapperStyle =
           }
         `
       : css`
-          @supports selector(:has(*)) {
-            &:where(:has(input:focus)) {
-              [data-role='search-field-reset'] {
-                display: flex;
-              }
-
-              &:where(:has(input:placeholder-shown)) {
-                [data-role='search-field-reset'] {
-                  display: none;
-                }
-              }
+          &:where(:has(input:focus)) {
+            [data-role='search-field-reset'] {
+              display: flex;
             }
-          }
 
-          @supports not selector(:has(*)) {
-            &:where(:focus-within) {
+            &:where(:has(input:placeholder-shown)) {
               [data-role='search-field-reset'] {
-                display: flex;
+                display: none;
               }
             }
           }

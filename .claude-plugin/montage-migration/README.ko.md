@@ -53,7 +53,10 @@ Montage(Wanted Design System for Web) 메이저 버전 간 마이그레이션을
    `emphasized`, 모달 navigation DOM 식별자), Modal 레이아웃·여백 변경 대응(ModalContainer
    `size="small"` → `medium`, container별 ModalNavigation 기본 variant, ModalContent
    `horizontalPadding` / `verticalPadding`, `--modal-content-margin` → `-x` / `-y`),
-   ContentBadge `outlined` 배경 투명화 대응.
+   ContentBadge `outlined` 배경 투명화 대응, Radix 레이어 스택 기반 오버레이 dismiss 대응(최상단
+   레이어만 닫힘, Modal / Alert / Picker가 열린 동안 `<body>` `pointer-events: none`, `aria-modal`
+   조건 변경), 기타 DOM 변경 대응(ActionArea caption / compact 래퍼, Avatar 접근성 속성과 fallback,
+   AvatarGroup 최대 5개, SectionMessage `leadingContent={null}`, Picker 아이콘 위치).
 4. **최종 검증** — 잔여 패턴 grep, install/typecheck/lint/build/tests, 결과 요약.
 
 codemod는 순서에 민감하고 모든 단계를 한 번만 실행하는 것으로 취급합니다. 재실행은 단순히
