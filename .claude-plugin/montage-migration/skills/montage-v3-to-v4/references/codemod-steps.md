@@ -451,8 +451,8 @@ Cautions:
 
 - Replacement over ANY string literal — unrelated strings containing a token (analytics
   event names, doc strings) get rewritten too. Builds that include the token-boundary fix in `dom-identifier-map.ts` (shared by the transform and the stylesheet pass)
-  rewrite an identifier only at a token start, so an embedded `data-wds-component` /
-  `--wds-component` is left as is and still shows up in the post-step grep below — judge each
+  rewrite an identifier only when the whole token matches, so an embedded `data-wds-component` /
+  `--wds-component` or a longer consumer name (`wds-component-extra`) is left as is and still shows up in the post-step grep below — judge each
   such hit (consumer-owned names stay; record them). Older builds — every 4.0.0 canary
   published so far — rewrite mid-word too (`data-wds-component` → `data-data-component`);
   revert those. Review the diff and REVERT
