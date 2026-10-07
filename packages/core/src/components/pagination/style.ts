@@ -56,14 +56,21 @@ export const pageButtonStyle = (theme: Theme) => css`
 
 export const paginationFieldStyle = css`
   border-radius: 8px;
+  /*
+   * TextField's own padding is split between the root and the wrapper (and
+   * the input) by field size. This fixed 32px field keeps a single 6px inset,
+   * as in 3.x, so the digits get the full inner width.
+   */
+  padding: 6px;
 
   [data-role='text-field-wrapper'] {
-    padding: 6px;
+    padding: 0;
   }
 
   input {
     ${typographyStyle('label1', 'medium')}
     text-align: center;
+    padding: 0;
   }
 
   [data-role='text-field-reset'] {
