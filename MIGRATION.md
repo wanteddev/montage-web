@@ -253,6 +253,41 @@ codemod는 `.ts`/`.tsx`/`.js`/`.jsx`의 문자열·template literal과 `.css`/`.
 npx @montage-ui/codemod@latest dom-identifier-migration src
 ```
 
+> **`data-ignore-dismissable-layer`는 이름만 바뀐 것이 아닙니다.** v3에서는 `PopperContent`(Popover / Tooltip / Menu / Select 드롭다운 등 Popper 기반 전부), `Modal`의 dialog · dimmer, `Alert`의 dimmer · container에 이 속성이 붙어 있었지만, v4에서는 **어떤 컴포넌트도 이 속성을 렌더하지 않습니다**([오버레이 dismiss 동작 변경](#오버레이-dismiss-동작-변경) 참고). codemod가 `closest('[wds-ignore-dismissable-layer]')`를 `closest('[data-ignore-dismissable-layer]')`로 바꿔도 Popper · Modal · Alert 요소는 더 이상 매칭되지 않으므로, 이 속성으로 "오버레이 내부인지" 판별하던 코드는 직접 수정해야 합니다. `DismissableLayer`는 여전히 `[data-ignore-dismissable-layer="true"]` 조상을 가진 대상의 바깥 클릭 · 포커스를 무시하므로, 사용자가 직접 붙인 요소에서는 계속 동작합니다.
+
+### 오버레이 dismiss 동작 변경
+
+`Modal` / `Alert` / Popper 기반 컴포넌트 / Picker 계열의 "바깥 클릭으로 닫기"가 Radix `DismissableLayer`의 레이어 스택으로 통일되었습니다.
+
+- **바깥 클릭 판정 기준이 DOM에서 React 트리로 바뀌었습니다.** v3는 Modal · Alert의 dimmer `onClick`으로 직접 닫고, 포털로 DOM 바깥에 렌더되는 팝업이 "바깥"으로 오인되지 않도록 `wds-ignore-dismissable-layer` 표식을 붙였습니다. v4는 React 이벤트 전파로 판정하므로, Modal 안에서 연 Popover · Select · DatePicker 등은 DOM상 바깥에 있어도 Modal의 "안쪽"으로 취급되고 표식이 필요 없어졌습니다.
+- **열린 레이어 중 최상단만 반응합니다.** Esc와 바깥 클릭은 가장 위의 레이어 하나만 닫습니다(예: Modal 위에 Menu가 열려 있으면 Menu만 닫힘).
+- **포커스가 바깥으로 이동해도 닫히지 않습니다.** Modal · Alert의 `onFocusOutside`는 항상 무시됩니다.
+
+#### 열려 있는 동안 바깥 포인터 이벤트 차단 (`disableOutsidePointerEvents`)
+
+아래 오버레이가 열려 있는 동안 `<body>`에 `style="pointer-events: none"`이 걸리고, 해당 레이어(와 그 위 레이어), 그리고 `Modal` · `Alert`의 dimmer만 `pointer-events: auto`로 클릭을 받습니다. 닫히면 원래 값으로 복원됩니다. dimmer는 계속 클릭을 받으므로 커스텀 `ModalDimmer` / `AlertDimmer`에 지정한 `onClick`은 v3처럼 호출됩니다.
+
+| 컴포넌트                                      | 차단 조건                                                                      |
+| --------------------------------------------- | ------------------------------------------------------------------------------ |
+| `Modal`                                       | 열려 있고(handle 바텀시트는 dim 스냅일 때) `disableAriaHiddenOthers`가 아닐 때 |
+| `Alert`                                       | `disableAriaHiddenOthers`가 아닐 때                                            |
+| `DatePicker`, `DateRangePicker`, `TimePicker` | 팝업이 열려 있으면 항상                                                        |
+
+영향받는 코드:
+
+- **포털 없이 `<body>`에 직접 붙는 서드파티 위젯**(채팅 버튼, 쿠키 배너, 개발 도구 등)은 위 오버레이가 열려 있는 동안 클릭되지 않습니다. 오버레이와 함께 조작해야 한다면 `Modal` / `Alert`에 `disableAriaHiddenOthers`를 지정하세요(스크린리더 격리도 함께 꺼짐).
+- **Picker가 열린 상태에서 바깥 요소를 클릭하는 테스트**(`userEvent.click(otherButton)`)는 `pointer-events: none` 검사에 걸려 실패합니다. 먼저 Esc나 바깥 클릭으로 팝업을 닫은 뒤 다음 동작을 수행하세요.
+- `<body>`의 inline `style`을 스냅샷하거나 검사하는 테스트는 열린 상태에서 값이 달라집니다.
+
+#### `aria-modal` 조건 변경
+
+| 컴포넌트 | AS-IS                                                               | TO-BE                                          |
+| -------- | ------------------------------------------------------------------- | ---------------------------------------------- |
+| `Modal`  | `open && visible && (!disableRemoveScroll \|\| !disableFocusScope)` | 열려 있고(dim 상태) `!disableAriaHiddenOthers` |
+| `Alert`  | `!disableRemoveScroll \|\| !disableFocusScope`                      | `!disableAriaHiddenOthers`                     |
+
+`disableRemoveScroll` / `disableFocusScope`만으로는 더 이상 `aria-modal`이 꺼지지 않고, `disableAriaHiddenOthers`만 지정해도 `aria-modal="false"`가 됩니다. handle 바텀시트가 undimmed 스냅에 있을 때도 `false`입니다.
+
 ### `invalid` / `positive` → `status`
 
 입력 계열 컴포넌트의 상태 표현이 불리언 prop 여러 개에서 `status` 하나로 통합되었습니다. iOS / Android의 `status: Normal | Negative | Selected`와 같은 체계입니다.
@@ -300,6 +335,15 @@ v3에서는 두 prop이 독립적이라 함께 켤 수 있었고, 테두리는 `
 
 `Checkbox` / `Radio` / `CheckMark` / `RoundCheckbox`의 `invalid`는 스타일에 아무 영향도 주지 않고 `aria-invalid`만 내려주던 prop이었습니다. 접근성 속성을 직접 지정하는 편이 명확하므로 prop을 제거하고 `aria-invalid`를 그대로 넘기도록 바뀌었습니다.
 
+#### `aria-invalid` 렌더 변화
+
+| 컴포넌트                                            | AS-IS (3.x)                                    | TO-BE (4.0.0)                                               |
+| --------------------------------------------------- | ---------------------------------------------- | ----------------------------------------------------------- |
+| `TextField`, `TextArea`, `Select`, `SelectMultiple` | `invalid`를 넘긴 경우에만 `aria-invalid` 렌더  | 항상 렌더 — `status="negative"`면 `"true"`, 그 외 `"false"` |
+| `Checkbox`, `Radio`, `CheckMark`, `RoundCheckbox`   | 기본값 `invalid = false`라 항상 `"false"` 렌더 | `aria-invalid`를 직접 넘긴 경우에만 렌더                    |
+
+`[aria-invalid]` 존재 여부나 `toHaveAttribute('aria-invalid', 'false')`로 검증하던 셀렉터 · 테스트는 확인이 필요합니다.
+
 #### `framedStyle`의 `selected`는 유지
 
 `framedStyle`은 `invalid`만 `status`로 바뀌고 `selected`는 불리언 prop 그대로입니다. `status: 'negative'`와 `selected: true`가 함께 지정되면 v3와 동일하게 negative가 우선합니다.
@@ -307,6 +351,8 @@ v3에서는 두 prop이 독립적이라 함께 켤 수 있었고, 테두리는 `
 #### Picker 계열의 자동 negative 승격
 
 `DatePicker` / `DateRangePicker` / `TimePicker`는 **비제어 모드**(`onChange` 미지정)에서 파싱할 수 없는 값이나 뒤집힌 범위(start > end)를 받으면 내부적으로 `status`를 `'negative'`로 승격합니다. v3의 `invalid` 자동 판정과 동일한 동작이며, `status="normal"`을 명시해도 이 승격은 막을 수 없습니다. 검증을 직접 제어하려면 `onChange`를 지정해 제어 컴포넌트로 사용하세요.
+
+단, **`input` prop으로 커스텀 입력 요소를 넘긴 경우**에는 v4가 `status`와 `size`를 그 요소에 전달하지 않습니다. v3는 커스텀 입력에도 `invalid`를 넘겼으므로, 자동 승격된 negative 상태(에러 스타일과 `aria-invalid="true"`)가 커스텀 입력에서는 더 이상 표시되지 않습니다. 필요하면 커스텀 입력에 `status` / `size`를 직접 지정하세요.
 
 #### codemod
 
@@ -507,6 +553,31 @@ npx @montage-ui/codemod@latest form-control-migration src
 
 메시지 텍스트에 `variant` / `weight`를 직접 지정하던 코드는 수동으로 확인이 필요합니다.
 
+#### 내부 DOM 변경
+
+- **메시지 children 래퍼 추가** — `FormControlMessage` / `FormControlNegativeMessage` / `FormControlPositiveMessage`가 children을 `span`으로 감싸고, 그 뒤에 `accessory`를 렌더합니다. `p`는 `display: flex`가 되었습니다. `p`의 텍스트 노드나 `firstChild`를 직접 다루던 코드는 확인이 필요합니다.
+
+  ```text
+  AS-IS: <p>{children}</p>
+  TO-BE: <p><span data-role="form-control-message-content">{children}</span>{accessory}</p>
+  ```
+
+  negative / positive 메시지의 래퍼 `data-role`은 각각 `form-control-negative-message-content` / `form-control-positive-message-content`입니다.
+
+- **자동 생성 id 접미사 변경** — 라벨 · 필드 · 메시지에 붙는 id가 바뀌었습니다. `[id$="-form-field"]`처럼 id 패턴으로 요소를 찾던 코드는 수정이 필요합니다.
+
+  | AS-IS                            | TO-BE                                 |
+  | -------------------------------- | ------------------------------------- |
+  | `${id}-form-label`               | `${id}-form-control-label`            |
+  | `${id}-form-field`               | `${id}-form-control-field`            |
+  | `${id}-form-field-message`       | `${id}-form-control-message`          |
+  | `${id}-form-field-error-message` | `${id}-form-control-negative-message` |
+  | —                                | `${id}-form-control-positive-message` |
+
+  필드의 `aria-describedby`에 positive 메시지 id가 추가되었습니다.
+
+- **신규 식별자 (breaking 아님)** — `data-component`가 `form-control`, `form-control-group`, `form-control-label`, `form-control-message`, `form-control-negative-message`, `form-control-positive-message`, `form-control-message-accessory`에 붙고, `FormControlField`는 자식 요소에 `data-role="form-control-slot"`을 주입합니다.
+
 ### Modal
 
 `variant="bottom"`, `handle={true}`의 기본 동작이 변경되었습니다.
@@ -519,6 +590,18 @@ npx @montage-ui/codemod@latest form-control-migration src
   - 아래에 고정되게 하려면 `peekHeight`를 지정해야 합니다.
 
 위 내용에 따라 `onVisibilityChange` 옵션이 제거되었습니다.
+
+#### `data-visibility` 제거 → `data-snap`
+
+handle 바텀시트의 표시 상태를 나타내던 `data-visibility="visible" | "hidden"`이 제거되고 스냅 위치 속성으로 대체되었습니다. `[data-visibility='hidden']` 셀렉터나 `toHaveAttribute('data-visibility', ...)` 테스트는 수정이 필요합니다.
+
+| 요소                                  | AS-IS                                    | TO-BE                                                            |
+| ------------------------------------- | ---------------------------------------- | ---------------------------------------------------------------- |
+| 래퍼 (handle 바텀시트일 때)           | `data-visibility`                        | `data-snap`, `data-largest-undimmed-snap`, `data-status`         |
+| dialog (`role="dialog"`)              | `data-visibility`                        | `data-snap`, `data-largest-undimmed-snap`                        |
+| dimmer (`[data-role='modal-dimmer']`) | `data-visibility` (handle 바텀시트일 때) | `data-snap`, `data-largest-undimmed-snap` (handle 바텀시트일 때) |
+
+dialog · dimmer의 `wds-ignore-dismissable-layer`가 제거된 점과 `aria-modal` 조건 변경은 [오버레이 dismiss 동작 변경](#오버레이-dismiss-동작-변경)을 참고하세요.
 
 #### `ModalNavigation` 전용 구현으로 분리
 
@@ -583,6 +666,17 @@ npx @montage-ui/codemod@latest form-control-migration src
 | `--top-navigation-min-height`                                            | 대응 변수 없음 — 필요하면 `ModalNavigation`의 `sx`로 `min-height` 지정       |
 
 모달 안의 navigation을 위 셀렉터나 CSS 변수로 커스텀했다면 수동으로 변경해야 합니다. 또한 `ModalContainer` 사이즈와 관계없이 navigation 패딩이 `24px`로 통일되었습니다.
+
+이름 치환만으로는 해결되지 않는 구조 변경도 있습니다.
+
+- **`modal-navigation-content` 중간 래퍼 추가** — v3는 wrapper 바로 아래에 leading · 제목 · trailing이 있었지만, v4는 그 사이에 v3 대응 요소가 없는 `[data-role='modal-navigation-content']`가 생겼습니다. `[data-role='modal-navigation-wrapper'] > [data-role='navigation-title']` 같은 직계 자식 셀렉터는 `> [data-role='modal-navigation-content'] >`를 거치도록 수정하세요.
+
+  ```text
+  AS-IS: [top-navigation-wrapper] > leading, [navigation-title], trailing
+  TO-BE: [modal-navigation-wrapper] > [modal-navigation-content] > leading, [navigation-title], trailing
+  ```
+
+- **제목 없는 `emphasized` navigation** — v3는 빈 제목에도 `[data-role='navigation-title'] > h2#<titleId>`를 렌더했지만, v4는 빈 `div[data-role='navigation-title']`만 렌더합니다. `h2`가 없으므로 dialog의 `aria-labelledby`가 가리키는 요소도 없습니다. 접근 가능한 이름이 필요하면 `ModalContainer`에 `aria-label`을 지정하거나 `ModalHeading`으로 제목을 두세요.
 
 별도 codemod는 제공되지 않습니다.
 
@@ -733,6 +827,8 @@ Figma 스펙에 맞춰 사이즈 체계와 일부 하위 컴포넌트 API가 변
 
 또한 `text` / `timer` variant가 같은 스타일로 통일되어, `timer`에 적용되던 brand 색상과 `label1` bold가 사라졌습니다(필드 typography와 `foreground.neutral.primary`를 따름). 기존 모양이 필요하면 `color="semantic.foreground.brand.primary"`와 `sx`로 지정하세요.
 
+`text` / `timer` variant의 루트 엘리먼트도 `div`(`Typography as="div"`)에서 `span`(`FlexBox as="span"`)으로 바뀌었습니다. `div[data-component='text-field-content']` 셀렉터나 `closest('div')` 순회는 확인이 필요합니다.
+
 #### Negative 상태 우측 아이콘 제거
 
 `negative` 상태에서 Field 내부 우측에 표시되던 circle exclamation 아이콘이 제거되었습니다. 해당 아이콘의 `[data-role='text-field-invalid']`도 함께 제거되었습니다.
@@ -861,6 +957,8 @@ const [value, setValue] = useState('');
 #### 내부 DOM 구조 변경
 
 하단 영역의 DOM 구조가 재구성되었고, character counter 관련 `data-role`(`text-area-content-character-counter-length` / `-divider` / `-max-length`)이 제거되었습니다. 해당 `data-role`이나 `[data-role='text-area-bottom-area']` 내부 구조를 직접 타겟해 커스텀했다면 새 구조에 맞게 수정해야 합니다.
+
+하단 영역의 렌더 조건도 바뀌었습니다. v3는 `invalid || leadingContent || trailingContent`일 때 렌더했지만, v4는 `leadingContent || trailingContent`일 때만 렌더합니다. 따라서 콘텐츠 없이 `status="negative"`만 지정한 TextArea에서는 아이콘뿐 아니라 `[data-role='text-area-bottom-area']`와 그 안의 leading / trailing 래퍼가 통째로 사라지고, 루트 높이도 달라집니다.
 
 ### SegmentedControl
 
@@ -1013,7 +1111,7 @@ Figma 스펙에 맞춰 사이즈 체계(Large / Medium)가 도입되었습니다
 
 #### 내부 DOM 구조 변경
 
-값·placeholder·chevron이 하나의 내부 행(`select-wrapper` / `select-multiple-wrapper`)으로 묶이고, 텍스트를 감싸던 래퍼가 제거되었습니다. 아래 `data-role`을 직접 타겟해 커스텀했다면 수정이 필요합니다.
+`leadingContent`·값·placeholder·chevron이 하나의 내부 행(`select-wrapper` / `select-multiple-wrapper`)으로 묶이고, 텍스트를 감싸던 래퍼가 제거되었습니다. `leadingContent`는 v3에서 `[role='combobox']` 루트의 직계 자식이었지만 이제 내부 행 안에 렌더되므로, `[role='combobox'] > …` 직계 자식 셀렉터는 확인이 필요합니다. 아래 `data-role`을 직접 타겟해 커스텀했다면 수정이 필요합니다.
 
 | AS-IS                                                                                | TO-BE                                                                                                                             |
 | ------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------- |
@@ -1113,6 +1211,7 @@ npx @montage-ui/codemod@latest push-badge-migration src
 | `[data-component='push-badge'] > [data-role='push-badge-text']` | 제거 — 텍스트가 `[data-component='push-badge']`에 직접 렌더 |
 
 - `[data-role='push-badge-text']`를 직접 타겟해 커스텀했다면 `[data-component='push-badge']`로 옮기세요. 타이포그래피도 이 엘리먼트에 적용됩니다.
+- 루트의 `data-variant` 값도 prop 값을 따라 바뀝니다. `[data-component='push-badge'][data-variant='number']` / `[data-variant='new']` 셀렉터는 `[data-variant='text']`(상한 표시를 쓰면 `'max-count'`)로 수정하세요. `new`에 대응하는 값은 없습니다.
 - `invisible`일 때 v3는 텍스트를 DOM에서 아예 제외했지만, v4는 `transform: scale(0)`으로 숨기고 `aria-hidden`을 부여합니다(축소 애니메이션 유지). 텍스트의 **부재**를 검증하던 테스트는 깨집니다.
 - 배경/텍스트 색이 CSS variable로 노출됩니다. 래퍼에서 `--push-badge-background-color`, `--push-badge-text-color`를 덮어쓰면 색을 바꿀 수 있습니다(dot은 `--push-badge-background-color`를 점 색으로 사용).
 
@@ -1173,6 +1272,11 @@ v3에서는 `readOnly`를 넘기면 reset 버튼이 숨겨지고 `aria-readonly`
 - TO-BE: `[data-component='search-field'] > [data-role='search-field-wrapper'] > input`
 
 `[data-component='search-field']`의 직계 자식(`>`)으로 `input`이나 `[data-role='search-field-icon']` 등을 타겟해 커스텀했다면 새 구조에 맞게 수정해야 합니다. 아이콘 영역 크기는 이제 CSS variable(`--search-field-icon-wrapper-size`, `--search-field-icon-size`)로 제어됩니다.
+
+그 외 속성 변경:
+
+- reset 버튼(`[data-role='search-field-reset'] button`)에 `aria-label="Reset search"`가 고정으로 붙습니다. 접근성 이름으로 버튼을 찾던 테스트나 a11y 스냅샷 결과가 달라집니다.
+- input의 `type="search"`가 `{...props}` 뒤에 지정되어 더 이상 덮어쓸 수 없습니다. `type="text"` 등을 넘기던 코드는 무시되므로 `input[type='text']` 셀렉터는 확인이 필요합니다.
 
 ### FallbackView
 
@@ -1432,7 +1536,7 @@ ListCell 구조가 개편되었습니다. `fillWidth` / `interactionPadding`이 
 
 ListCell을 기반으로 하는 컴포넌트에 공통 적용됩니다:
 
-- 셀 계열 — `ListCell`, `AccordionSummary`, `AutocompleteOption`, `Option`, `MenuItem`
+- 셀 계열 — `ListCell`, `AccordionSummary`, `AutocompleteOption`, `Option`, `MenuItem`, `TimeView`의 시간 항목(`[data-role^='time-item-']`)
 - 콘텐츠 계열 — `ListCellContent`, `AccordionSummaryContent`, `AutocompleteOptionContent`, `OptionContent`, `MenuItemContent`
 
 > `MenuActionAreaContent`는 자체 variant 타입이라 이번 변경에 해당하지 않습니다(`badge` / `button` 유지).
@@ -1568,6 +1672,15 @@ CSS 셀렉터나 테스트 쿼리로 내부 DOM을 타겟팅하던 코드는 확
 | `data-role="list-text-caption"`                     | `data-role="list-text-description"`         |
 
 신규 식별자: `list-cell-leading-content`, `list-cell-label-trailing`, `list-cell-extra-content`, `list-cell-extra-content-area`, `list-cell-content-chevron`.
+
+위 표의 일부는 이름만 바뀐 것이 아니라 **식별자가 붙는 요소가 달라졌습니다.** 이름만 치환하면 셀렉터가 다른 요소를 가리키게 됩니다.
+
+- **`list-cell-trailing-content`는 새 래퍼입니다.** v3의 `list-item-trailing-content`는 `Slot`이라 `data-role`이 사용자가 넘긴 요소 자체에 병합되었지만, v4는 `div[data-role='list-cell-trailing-content']`를 새로 만들고 그 안에 사용자 요소를 렌더합니다. `[data-role='list-item-trailing-content'][data-component='list-cell-content']`처럼 같은 요소의 속성을 조합한 셀렉터는 `[data-role='list-cell-trailing-content'] > [data-component='list-cell-content']`로 수정하세요.
+- **`list-cell-leading-content`도 기존 자식을 감싸는 래퍼입니다.** v3는 `leadingContent`를 셀의 직계 자식으로 렌더했지만 v4는 `div[data-role='list-cell-leading-content']`로 감쌉니다. `[data-component='list-cell'] > [data-component='list-cell-content']` 같은 직계 자식 셀렉터는 확인이 필요합니다.
+- **선택 체크 아이콘의 식별자는 `svg`가 아닌 래퍼 `div`에 붙습니다.** v3는 `IconCheck`(`svg`)에 `menu-item-active-icon-check` / `autocomplete-option-active-icon-check`가 붙었지만, v4의 `list-cell-selected-icon-check`는 아이콘을 감싸는 `ListCellContent`(`div`)에 붙고, 그 전체가 `list-cell-trailing-content` 래퍼 안에 들어갑니다. `svg[data-role=…]`나 `fill` / `color`를 직접 타겟하던 스타일은 `[data-role='list-cell-selected-icon-check'] svg`로 수정하세요.
+- **`AutocompleteOption`의 `trailingContent`가 체크 아이콘을 대체합니다.** v3는 사용자의 `trailingContent`를 무시하고 선택 시 체크 아이콘으로 덮어썼지만, v4는 `trailingContent`를 넘기면 선택 체크 아이콘 대신 그것을 렌더합니다. 이제 `MenuItem` / `Option`과 같은 동작입니다.
+- **`variant="value" chevron`(구 `variant="chevron"`)은 구조가 평탄해졌습니다.** v3는 콘텐츠 루트가 `role="button"` + `tabIndex`(`onClick`이 있으면 `0`)를 갖고 그 안에 children 래퍼와 아이콘 래퍼(`FlexBox`)를 렌더했습니다. v4는 `role` / `tabIndex`가 없고, 화살표 아이콘(`svg[data-role='list-cell-content-chevron'][aria-hidden]`)이 콘텐츠 요소 밖의 **형제**로 렌더됩니다. `getByRole('button')`으로 콘텐츠를 찾던 테스트와, 콘텐츠의 `onClick`이 화살표 클릭까지 받는다고 가정한 코드는 확인이 필요합니다.
+- `ListCellContent` / `ListCellLabelTrailing` / `ListCellExtraContent`에 `data-parent-disabled`가 추가되었습니다(breaking 아님).
 
 #### 신규 슬롯 (breaking 아님)
 
@@ -1736,6 +1849,42 @@ npx @montage-ui/codemod@latest list-cell-variant-migration src
   배지
 </ContentBadge>
 ```
+
+### 기타 DOM 변경
+
+별도 섹션이 없는 컴포넌트의 DOM 변경입니다. CSS 셀렉터 · 테스트 쿼리 · DOM 순회로 내부 구조를 타겟했다면 확인이 필요합니다. 별도 codemod는 제공되지 않습니다.
+
+#### ActionArea
+
+- **caption 텍스트 래퍼 추가** — `[data-role='action-area-caption']`이 `Typography`(`span`)에서 `FlexBox as="span"`으로 바뀌고, 텍스트가 안쪽 `span`에 한 번 더 감싸집니다(`{captionIcon}<span>{caption}</span>`). caption의 직접 텍스트 노드를 다루던 코드는 확인이 필요합니다.
+- **caption 렌더 조건 · 위치 변경** — `variant="cancel"`에서는 caption이 렌더되지 않습니다. `variant="compact"`에서는 caption이 버튼 위가 아니라 compact 행 안에 렌더됩니다.
+- **compact 구조 변경** — 익명 래퍼가 `data-role`을 갖게 되고 한 단계가 추가되었습니다. compact 행은 `compactContent` 또는 `caption`이 있으면 렌더되고, `[data-role='action-area-compact-content']`는 `compactContent`가 있을 때만 렌더됩니다.
+
+  ```text
+  AS-IS: (익명 FlexBox) > [action-area-compact-content] + [action-area-wrapper]
+  TO-BE: [action-area-compact-wrapper] > [action-area-compact-content-wrapper] > ([action-area-caption], [action-area-compact-content])
+                                       + [action-area-wrapper]
+  ```
+
+#### Avatar / AvatarGroup
+
+- **이미지 접근성 속성 추가** — `<img>`에 `role="img"`, `alt`, `aria-label`이 항상 붙습니다. `alt`를 넘기지 않으면 variant별 기본값(`person` '프로필 이미지', `academy` '학원 로고', `company` '회사 로고')이 사용됩니다. `img:not([alt])`나 `getByAltText`로 찾던 테스트는 확인이 필요합니다.
+- **fallback 구조 변경** — `[data-role='avatar-fallback']`에 `role="img"`와 `aria-label`이 추가되었습니다. 자식은 아이콘 `svg` 하나에서, 아이콘 실루엣으로 면을 뚫는 `<svg aria-hidden>`(`mask` · `rect` · 중첩 아이콘 `svg`)으로 바뀌었고, `academy` / `company` 아이콘은 Fill 버전(`IconGraduationFill` / `IconCompanyFill`)으로 바뀌었습니다. `[data-role='avatar-fallback'] > svg path` 같은 셀렉터는 수정이 필요합니다.
+- **AvatarGroup 최대 5개** — `AvatarGroup`은 앞에서부터 5개의 자식만 렌더하고 6번째 이후는 DOM에 나타나지 않습니다. 더 많은 인원을 표시하던 경우 나머지 수는 `trailingContent`로 직접 표시하세요.
+
+#### SectionMessage
+
+`leadingContent`의 기본 아이콘이 `??`가 아닌 구조분해 기본값으로 적용됩니다. `undefined`일 때만 variant 아이콘이 렌더되고, **`leadingContent={null}`을 넘기면 아이콘 래퍼와 `svg[role='img']`가 렌더되지 않습니다**(v3는 `null`에도 기본 아이콘을 렌더). 조건부로 `null`을 넘기던 코드는 기본 아이콘이 필요하면 `undefined`를 넘기세요.
+
+#### TimePicker
+
+필드가 TextField를 그대로 사용하므로 [TextField 내부 DOM 구조 변경](#내부-dom-구조-변경-data-roletext-field-wrapper)을 따릅니다. 시계 아이콘 `[data-role='time-picker-clock-icon']`은 `[data-role='text-field-wrapper']`의 직계 자식에서 `[data-role='text-field-trailing-content']` 안으로 이동했습니다. `DatePicker` / `DateRangePicker`의 달력 아이콘(`date-picker-calendar-icon` 등)도 같습니다.
+
+#### 신규 속성 (breaking 아님)
+
+- `Chip` — 루트에 `data-component="chip"` (`CategoryListItem`은 `category-list-item`으로 덮어씀)
+- `MenuItem` / `MenuItemCheckbox` / `MenuItemRadio` — `data-menu-selected`
+- `FilterButton` — caret 아이콘에 `aria-hidden` (접근성 트리에서 제외)
 
 ## 3.0.0 (2025-11-12)
 
