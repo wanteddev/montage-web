@@ -57,7 +57,7 @@ export const modalContainerWrapperStyle =
     display: flex;
     z-index: ${theme.zIndex.modal};
     width: 100vw;
-    height: 100vh;
+    height: 100dvh;
     left: 0px;
     top: 0px;
 
@@ -77,10 +77,6 @@ export const modalContainerWrapperStyle =
     ) {
       background: inherit;
       will-change: backdrop-filter;
-    }
-
-    @supports (height: 100dvh) {
-      height: 100dvh;
     }
 
     ${modalContainerWrapperVariant(variant)}

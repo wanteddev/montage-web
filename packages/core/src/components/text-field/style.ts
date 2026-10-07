@@ -82,58 +82,44 @@ export const textFieldWrapperStyle =
           cursor: default;
         `
       : css`
-          @supports selector(:has(*)) {
-            &:where(:has(input:focus)) {
-              ${status === 'negative'
-                ? css`
-                    box-shadow:
-                      inset 0 0 0 1px ${theme.semantic.line.negative.strong},
-                      0 0 0 4px ${theme.semantic.line.negative.focus};
-                  `
-                : css`
-                    box-shadow:
-                      inset 0 0 0 1px ${theme.semantic.line.brand.strong},
-                      0 0 0 4px ${theme.semantic.line.brand.focus};
-                  `}
+          &:where(:has(input:focus)),
+          &:where(
+            :has(input[data-role='date-picker-field'][aria-expanded='true'])
+          ),
+          &:where(
+            :has(input[data-role='time-picker-field'][aria-expanded='true'])
+          ),
+          &:where(
+            :has(
+              input[data-role='date-range-picker-field'][aria-expanded='true']
+            )
+          ) {
+            ${status === 'negative'
+              ? css`
+                  box-shadow:
+                    inset 0 0 0 1px ${theme.semantic.line.negative.strong},
+                    0 0 0 4px ${theme.semantic.line.negative.focus};
+                `
+              : css`
+                  box-shadow:
+                    inset 0 0 0 1px ${theme.semantic.line.brand.strong},
+                    0 0 0 4px ${theme.semantic.line.brand.focus};
+                `}
 
-              [data-role='text-field-positive'] {
-                display: none;
-              }
-
-              [data-role='text-field-reset'] {
-                display: ${readOnly ? 'none' : 'flex'};
-              }
-
-              &:where(:has(input:placeholder-shown)) {
-                [data-role='text-field-reset'] {
-                  display: none;
-                }
-                [data-role='text-field-positive'] {
-                  display: flex;
-                }
-              }
+            [data-role='text-field-positive'] {
+              display: none;
             }
-          }
 
-          @supports not selector(:has(*)) {
-            &:where(:focus-within) {
-              ${status === 'negative'
-                ? css`
-                    box-shadow:
-                      inset 0 0 0 1px ${theme.semantic.line.negative.strong},
-                      0 0 0 4px ${theme.semantic.line.negative.focus};
-                  `
-                : css`
-                    box-shadow:
-                      inset 0 0 0 1px ${theme.semantic.line.brand.strong},
-                      0 0 0 4px ${theme.semantic.line.brand.focus};
-                  `}
+            [data-role='text-field-reset'] {
+              display: ${readOnly ? 'none' : 'flex'};
+            }
 
-              [data-role='text-field-positive'] {
+            &:where(:has(input:placeholder-shown)) {
+              [data-role='text-field-reset'] {
                 display: none;
               }
-              [data-role='text-field-reset'] {
-                display: ${readOnly ? 'none' : 'flex'};
+              [data-role='text-field-positive'] {
+                display: flex;
               }
             }
           }
@@ -148,16 +134,12 @@ export const textFieldWrapperStyle =
       color: ${theme.semantic.foreground.disable.primary};
     }
 
-    @supports selector(:has(*)) {
-      &:where(
-        :has(input[data-role='date-picker-field']),
-        :has(input[data-role='time-picker-field']),
-        :has(input[data-role='date-range-picker-field'])
-      ) {
-        [data-role='text-field-reset'],
-        [data-role='text-field-positive'] {
-          display: none;
-        }
+    &:where(:has(input[data-role='date-picker-field'])),
+    &:where(:has(input[data-role='time-picker-field'])),
+    &:where(:has(input[data-role='date-range-picker-field'])) {
+      [data-role='text-field-reset'],
+      [data-role='text-field-positive'] {
+        display: none;
       }
     }
 

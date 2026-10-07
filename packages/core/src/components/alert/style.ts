@@ -12,13 +12,9 @@ export const alertWrapperStyle = (theme: Theme) => css`
   padding: 20px;
   z-index: ${theme.zIndex.modal};
   width: 100vw;
-  height: 100vh;
+  height: 100dvh;
   left: 0px;
   top: 0px;
-
-  @supports (height: 100dvh) {
-    height: 100dvh;
-  }
 `;
 
 export const alertDimmerStyle = (theme: Theme) => css`
