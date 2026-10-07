@@ -12,6 +12,7 @@ import {
   ModalDescription,
   ModalHeading,
   ModalNavigation,
+  ModalNavigationButton,
   ModalSummary,
   ModalTrigger,
 } from '.';
@@ -476,4 +477,74 @@ describe('when dismiss is disabled', () => {
     fireEvent.keyDown(document, { key: 'Escape' });
     expect(screen.getByRole('dialog')).toBeInTheDocument();
   });
+});
+
+describe('when given modal navigation without a title', () => {
+  afterEach(() => {
+    cleanup();
+  });
+
+  const renderNavigation = (
+    containerVariant: 'popup' | 'full',
+    navigationVariant?: 'normal' | 'emphasized' | 'search' | 'floating',
+  ) => {
+    render(
+      <Modal>
+        <ModalTrigger>
+          <Button data-testid="trigger">Open</Button>
+        </ModalTrigger>
+        <ModalContainer variant={containerVariant} aria-label="Dialog">
+          <ModalNavigation
+            variant={navigationVariant}
+            leadingContent={<ModalNavigationButton variant="back-button" />}
+          />
+          <ModalContent>
+            <ModalContentItem>
+              <ModalDescription>Description</ModalDescription>
+            </ModalContentItem>
+          </ModalContent>
+        </ModalContainer>
+      </Modal>,
+    );
+
+    fireEvent.click(screen.getByTestId('trigger'));
+  };
+
+  it('should render an empty title spacer between leading and trailing content (emphasized)', () => {
+    renderNavigation('popup');
+
+    const content = document.querySelector(
+      '[data-role="modal-navigation-content"]',
+    );
+    const children = Array.from(content?.children ?? []).map((child) =>
+      child.getAttribute('data-role'),
+    );
+
+    expect(children).toEqual([
+      'modal-navigation-leading-content-wrapper',
+      'navigation-title',
+      'modal-navigation-trailing-content-wrapper',
+    ]);
+
+    const spacer = content?.querySelector('[data-role="navigation-title"]');
+
+    expect(spacer).toBeEmptyDOMElement();
+    expect(spacer).not.toHaveAttribute('id');
+    expect(screen.queryByRole('heading')).not.toBeInTheDocument();
+  });
+
+  it.each([
+    ['full', 'normal'],
+    ['popup', 'search'],
+    ['popup', 'floating'],
+  ] as const)(
+    'should not render a title spacer (%s / %s)',
+    (containerVariant, navigationVariant) => {
+      renderNavigation(containerVariant, navigationVariant);
+
+      expect(
+        document.querySelector('[data-role="navigation-title"]'),
+      ).not.toBeInTheDocument();
+    },
+  );
 });
