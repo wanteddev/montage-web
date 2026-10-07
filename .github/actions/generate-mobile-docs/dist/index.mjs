@@ -1312,9 +1312,9 @@ var require_section_matter = __commonJS({
   }
 });
 
-// ../../../node_modules/.pnpm/js-yaml@3.14.2/node_modules/js-yaml/lib/js-yaml/common.js
+// ../../../node_modules/.pnpm/js-yaml@3.15.2/node_modules/js-yaml/lib/js-yaml/common.js
 var require_common = __commonJS({
-  "../../../node_modules/.pnpm/js-yaml@3.14.2/node_modules/js-yaml/lib/js-yaml/common.js"(exports2, module2) {
+  "../../../node_modules/.pnpm/js-yaml@3.15.2/node_modules/js-yaml/lib/js-yaml/common.js"(exports2, module2) {
     "use strict";
     function isNothing(subject) {
       return typeof subject === "undefined" || subject === null;
@@ -1357,9 +1357,9 @@ var require_common = __commonJS({
   }
 });
 
-// ../../../node_modules/.pnpm/js-yaml@3.14.2/node_modules/js-yaml/lib/js-yaml/exception.js
+// ../../../node_modules/.pnpm/js-yaml@3.15.2/node_modules/js-yaml/lib/js-yaml/exception.js
 var require_exception = __commonJS({
-  "../../../node_modules/.pnpm/js-yaml@3.14.2/node_modules/js-yaml/lib/js-yaml/exception.js"(exports2, module2) {
+  "../../../node_modules/.pnpm/js-yaml@3.15.2/node_modules/js-yaml/lib/js-yaml/exception.js"(exports2, module2) {
     "use strict";
     function YAMLException(reason, mark) {
       Error.call(this);
@@ -1387,9 +1387,9 @@ var require_exception = __commonJS({
   }
 });
 
-// ../../../node_modules/.pnpm/js-yaml@3.14.2/node_modules/js-yaml/lib/js-yaml/mark.js
+// ../../../node_modules/.pnpm/js-yaml@3.15.2/node_modules/js-yaml/lib/js-yaml/mark.js
 var require_mark = __commonJS({
-  "../../../node_modules/.pnpm/js-yaml@3.14.2/node_modules/js-yaml/lib/js-yaml/mark.js"(exports2, module2) {
+  "../../../node_modules/.pnpm/js-yaml@3.15.2/node_modules/js-yaml/lib/js-yaml/mark.js"(exports2, module2) {
     "use strict";
     var common = require_common();
     function Mark(name, buffer, position, line, column) {
@@ -1445,9 +1445,9 @@ var require_mark = __commonJS({
   }
 });
 
-// ../../../node_modules/.pnpm/js-yaml@3.14.2/node_modules/js-yaml/lib/js-yaml/type.js
+// ../../../node_modules/.pnpm/js-yaml@3.15.2/node_modules/js-yaml/lib/js-yaml/type.js
 var require_type = __commonJS({
-  "../../../node_modules/.pnpm/js-yaml@3.14.2/node_modules/js-yaml/lib/js-yaml/type.js"(exports2, module2) {
+  "../../../node_modules/.pnpm/js-yaml@3.15.2/node_modules/js-yaml/lib/js-yaml/type.js"(exports2, module2) {
     "use strict";
     var YAMLException = require_exception();
     var TYPE_CONSTRUCTOR_OPTIONS = [
@@ -1504,9 +1504,9 @@ var require_type = __commonJS({
   }
 });
 
-// ../../../node_modules/.pnpm/js-yaml@3.14.2/node_modules/js-yaml/lib/js-yaml/schema.js
+// ../../../node_modules/.pnpm/js-yaml@3.15.2/node_modules/js-yaml/lib/js-yaml/schema.js
 var require_schema = __commonJS({
-  "../../../node_modules/.pnpm/js-yaml@3.14.2/node_modules/js-yaml/lib/js-yaml/schema.js"(exports2, module2) {
+  "../../../node_modules/.pnpm/js-yaml@3.15.2/node_modules/js-yaml/lib/js-yaml/schema.js"(exports2, module2) {
     "use strict";
     var common = require_common();
     var YAMLException = require_exception();
@@ -1592,9 +1592,9 @@ var require_schema = __commonJS({
   }
 });
 
-// ../../../node_modules/.pnpm/js-yaml@3.14.2/node_modules/js-yaml/lib/js-yaml/type/str.js
+// ../../../node_modules/.pnpm/js-yaml@3.15.2/node_modules/js-yaml/lib/js-yaml/type/str.js
 var require_str = __commonJS({
-  "../../../node_modules/.pnpm/js-yaml@3.14.2/node_modules/js-yaml/lib/js-yaml/type/str.js"(exports2, module2) {
+  "../../../node_modules/.pnpm/js-yaml@3.15.2/node_modules/js-yaml/lib/js-yaml/type/str.js"(exports2, module2) {
     "use strict";
     var Type = require_type();
     module2.exports = new Type("tag:yaml.org,2002:str", {
@@ -1606,9 +1606,9 @@ var require_str = __commonJS({
   }
 });
 
-// ../../../node_modules/.pnpm/js-yaml@3.14.2/node_modules/js-yaml/lib/js-yaml/type/seq.js
+// ../../../node_modules/.pnpm/js-yaml@3.15.2/node_modules/js-yaml/lib/js-yaml/type/seq.js
 var require_seq = __commonJS({
-  "../../../node_modules/.pnpm/js-yaml@3.14.2/node_modules/js-yaml/lib/js-yaml/type/seq.js"(exports2, module2) {
+  "../../../node_modules/.pnpm/js-yaml@3.15.2/node_modules/js-yaml/lib/js-yaml/type/seq.js"(exports2, module2) {
     "use strict";
     var Type = require_type();
     module2.exports = new Type("tag:yaml.org,2002:seq", {
@@ -1620,9 +1620,9 @@ var require_seq = __commonJS({
   }
 });
 
-// ../../../node_modules/.pnpm/js-yaml@3.14.2/node_modules/js-yaml/lib/js-yaml/type/map.js
+// ../../../node_modules/.pnpm/js-yaml@3.15.2/node_modules/js-yaml/lib/js-yaml/type/map.js
 var require_map = __commonJS({
-  "../../../node_modules/.pnpm/js-yaml@3.14.2/node_modules/js-yaml/lib/js-yaml/type/map.js"(exports2, module2) {
+  "../../../node_modules/.pnpm/js-yaml@3.15.2/node_modules/js-yaml/lib/js-yaml/type/map.js"(exports2, module2) {
     "use strict";
     var Type = require_type();
     module2.exports = new Type("tag:yaml.org,2002:map", {
@@ -1634,9 +1634,9 @@ var require_map = __commonJS({
   }
 });
 
-// ../../../node_modules/.pnpm/js-yaml@3.14.2/node_modules/js-yaml/lib/js-yaml/schema/failsafe.js
+// ../../../node_modules/.pnpm/js-yaml@3.15.2/node_modules/js-yaml/lib/js-yaml/schema/failsafe.js
 var require_failsafe = __commonJS({
-  "../../../node_modules/.pnpm/js-yaml@3.14.2/node_modules/js-yaml/lib/js-yaml/schema/failsafe.js"(exports2, module2) {
+  "../../../node_modules/.pnpm/js-yaml@3.15.2/node_modules/js-yaml/lib/js-yaml/schema/failsafe.js"(exports2, module2) {
     "use strict";
     var Schema = require_schema();
     module2.exports = new Schema({
@@ -1649,9 +1649,9 @@ var require_failsafe = __commonJS({
   }
 });
 
-// ../../../node_modules/.pnpm/js-yaml@3.14.2/node_modules/js-yaml/lib/js-yaml/type/null.js
+// ../../../node_modules/.pnpm/js-yaml@3.15.2/node_modules/js-yaml/lib/js-yaml/type/null.js
 var require_null = __commonJS({
-  "../../../node_modules/.pnpm/js-yaml@3.14.2/node_modules/js-yaml/lib/js-yaml/type/null.js"(exports2, module2) {
+  "../../../node_modules/.pnpm/js-yaml@3.15.2/node_modules/js-yaml/lib/js-yaml/type/null.js"(exports2, module2) {
     "use strict";
     var Type = require_type();
     function resolveYamlNull(data) {
@@ -1689,9 +1689,9 @@ var require_null = __commonJS({
   }
 });
 
-// ../../../node_modules/.pnpm/js-yaml@3.14.2/node_modules/js-yaml/lib/js-yaml/type/bool.js
+// ../../../node_modules/.pnpm/js-yaml@3.15.2/node_modules/js-yaml/lib/js-yaml/type/bool.js
 var require_bool = __commonJS({
-  "../../../node_modules/.pnpm/js-yaml@3.14.2/node_modules/js-yaml/lib/js-yaml/type/bool.js"(exports2, module2) {
+  "../../../node_modules/.pnpm/js-yaml@3.15.2/node_modules/js-yaml/lib/js-yaml/type/bool.js"(exports2, module2) {
     "use strict";
     var Type = require_type();
     function resolveYamlBoolean(data) {
@@ -1726,9 +1726,9 @@ var require_bool = __commonJS({
   }
 });
 
-// ../../../node_modules/.pnpm/js-yaml@3.14.2/node_modules/js-yaml/lib/js-yaml/type/int.js
+// ../../../node_modules/.pnpm/js-yaml@3.15.2/node_modules/js-yaml/lib/js-yaml/type/int.js
 var require_int = __commonJS({
-  "../../../node_modules/.pnpm/js-yaml@3.14.2/node_modules/js-yaml/lib/js-yaml/type/int.js"(exports2, module2) {
+  "../../../node_modules/.pnpm/js-yaml@3.15.2/node_modules/js-yaml/lib/js-yaml/type/int.js"(exports2, module2) {
     "use strict";
     var common = require_common();
     var Type = require_type();
@@ -1859,9 +1859,9 @@ var require_int = __commonJS({
   }
 });
 
-// ../../../node_modules/.pnpm/js-yaml@3.14.2/node_modules/js-yaml/lib/js-yaml/type/float.js
+// ../../../node_modules/.pnpm/js-yaml@3.15.2/node_modules/js-yaml/lib/js-yaml/type/float.js
 var require_float = __commonJS({
-  "../../../node_modules/.pnpm/js-yaml@3.14.2/node_modules/js-yaml/lib/js-yaml/type/float.js"(exports2, module2) {
+  "../../../node_modules/.pnpm/js-yaml@3.15.2/node_modules/js-yaml/lib/js-yaml/type/float.js"(exports2, module2) {
     "use strict";
     var common = require_common();
     var Type = require_type();
@@ -1954,9 +1954,9 @@ var require_float = __commonJS({
   }
 });
 
-// ../../../node_modules/.pnpm/js-yaml@3.14.2/node_modules/js-yaml/lib/js-yaml/schema/json.js
+// ../../../node_modules/.pnpm/js-yaml@3.15.2/node_modules/js-yaml/lib/js-yaml/schema/json.js
 var require_json = __commonJS({
-  "../../../node_modules/.pnpm/js-yaml@3.14.2/node_modules/js-yaml/lib/js-yaml/schema/json.js"(exports2, module2) {
+  "../../../node_modules/.pnpm/js-yaml@3.15.2/node_modules/js-yaml/lib/js-yaml/schema/json.js"(exports2, module2) {
     "use strict";
     var Schema = require_schema();
     module2.exports = new Schema({
@@ -1973,9 +1973,9 @@ var require_json = __commonJS({
   }
 });
 
-// ../../../node_modules/.pnpm/js-yaml@3.14.2/node_modules/js-yaml/lib/js-yaml/schema/core.js
+// ../../../node_modules/.pnpm/js-yaml@3.15.2/node_modules/js-yaml/lib/js-yaml/schema/core.js
 var require_core = __commonJS({
-  "../../../node_modules/.pnpm/js-yaml@3.14.2/node_modules/js-yaml/lib/js-yaml/schema/core.js"(exports2, module2) {
+  "../../../node_modules/.pnpm/js-yaml@3.15.2/node_modules/js-yaml/lib/js-yaml/schema/core.js"(exports2, module2) {
     "use strict";
     var Schema = require_schema();
     module2.exports = new Schema({
@@ -1986,9 +1986,9 @@ var require_core = __commonJS({
   }
 });
 
-// ../../../node_modules/.pnpm/js-yaml@3.14.2/node_modules/js-yaml/lib/js-yaml/type/timestamp.js
+// ../../../node_modules/.pnpm/js-yaml@3.15.2/node_modules/js-yaml/lib/js-yaml/type/timestamp.js
 var require_timestamp = __commonJS({
-  "../../../node_modules/.pnpm/js-yaml@3.14.2/node_modules/js-yaml/lib/js-yaml/type/timestamp.js"(exports2, module2) {
+  "../../../node_modules/.pnpm/js-yaml@3.15.2/node_modules/js-yaml/lib/js-yaml/type/timestamp.js"(exports2, module2) {
     "use strict";
     var Type = require_type();
     var YAML_DATE_REGEXP = new RegExp(
@@ -2047,9 +2047,9 @@ var require_timestamp = __commonJS({
   }
 });
 
-// ../../../node_modules/.pnpm/js-yaml@3.14.2/node_modules/js-yaml/lib/js-yaml/type/merge.js
+// ../../../node_modules/.pnpm/js-yaml@3.15.2/node_modules/js-yaml/lib/js-yaml/type/merge.js
 var require_merge = __commonJS({
-  "../../../node_modules/.pnpm/js-yaml@3.14.2/node_modules/js-yaml/lib/js-yaml/type/merge.js"(exports2, module2) {
+  "../../../node_modules/.pnpm/js-yaml@3.15.2/node_modules/js-yaml/lib/js-yaml/type/merge.js"(exports2, module2) {
     "use strict";
     var Type = require_type();
     function resolveYamlMerge(data) {
@@ -2062,9 +2062,9 @@ var require_merge = __commonJS({
   }
 });
 
-// ../../../node_modules/.pnpm/js-yaml@3.14.2/node_modules/js-yaml/lib/js-yaml/type/binary.js
+// ../../../node_modules/.pnpm/js-yaml@3.15.2/node_modules/js-yaml/lib/js-yaml/type/binary.js
 var require_binary = __commonJS({
-  "../../../node_modules/.pnpm/js-yaml@3.14.2/node_modules/js-yaml/lib/js-yaml/type/binary.js"(exports2, module2) {
+  "../../../node_modules/.pnpm/js-yaml@3.15.2/node_modules/js-yaml/lib/js-yaml/type/binary.js"(exports2, module2) {
     "use strict";
     var NodeBuffer;
     try {
@@ -2155,16 +2155,16 @@ var require_binary = __commonJS({
   }
 });
 
-// ../../../node_modules/.pnpm/js-yaml@3.14.2/node_modules/js-yaml/lib/js-yaml/type/omap.js
+// ../../../node_modules/.pnpm/js-yaml@3.15.2/node_modules/js-yaml/lib/js-yaml/type/omap.js
 var require_omap = __commonJS({
-  "../../../node_modules/.pnpm/js-yaml@3.14.2/node_modules/js-yaml/lib/js-yaml/type/omap.js"(exports2, module2) {
+  "../../../node_modules/.pnpm/js-yaml@3.15.2/node_modules/js-yaml/lib/js-yaml/type/omap.js"(exports2, module2) {
     "use strict";
     var Type = require_type();
     var _hasOwnProperty = Object.prototype.hasOwnProperty;
     var _toString = Object.prototype.toString;
     function resolveYamlOmap(data) {
       if (data === null) return true;
-      var objectKeys = [], index, length, pair, pairKey, pairHasKey, object = data;
+      var objectKeys = {}, index, length, pair, pairKey, pairHasKey, object = data;
       for (index = 0, length = object.length; index < length; index += 1) {
         pair = object[index];
         pairHasKey = false;
@@ -2176,8 +2176,8 @@ var require_omap = __commonJS({
           }
         }
         if (!pairHasKey) return false;
-        if (objectKeys.indexOf(pairKey) === -1) objectKeys.push(pairKey);
-        else return false;
+        if (_hasOwnProperty.call(objectKeys, pairKey)) return false;
+        Object.defineProperty(objectKeys, pairKey, { value: true });
       }
       return true;
     }
@@ -2192,9 +2192,9 @@ var require_omap = __commonJS({
   }
 });
 
-// ../../../node_modules/.pnpm/js-yaml@3.14.2/node_modules/js-yaml/lib/js-yaml/type/pairs.js
+// ../../../node_modules/.pnpm/js-yaml@3.15.2/node_modules/js-yaml/lib/js-yaml/type/pairs.js
 var require_pairs = __commonJS({
-  "../../../node_modules/.pnpm/js-yaml@3.14.2/node_modules/js-yaml/lib/js-yaml/type/pairs.js"(exports2, module2) {
+  "../../../node_modules/.pnpm/js-yaml@3.15.2/node_modules/js-yaml/lib/js-yaml/type/pairs.js"(exports2, module2) {
     "use strict";
     var Type = require_type();
     var _toString = Object.prototype.toString;
@@ -2230,9 +2230,9 @@ var require_pairs = __commonJS({
   }
 });
 
-// ../../../node_modules/.pnpm/js-yaml@3.14.2/node_modules/js-yaml/lib/js-yaml/type/set.js
+// ../../../node_modules/.pnpm/js-yaml@3.15.2/node_modules/js-yaml/lib/js-yaml/type/set.js
 var require_set = __commonJS({
-  "../../../node_modules/.pnpm/js-yaml@3.14.2/node_modules/js-yaml/lib/js-yaml/type/set.js"(exports2, module2) {
+  "../../../node_modules/.pnpm/js-yaml@3.15.2/node_modules/js-yaml/lib/js-yaml/type/set.js"(exports2, module2) {
     "use strict";
     var Type = require_type();
     var _hasOwnProperty = Object.prototype.hasOwnProperty;
@@ -2257,9 +2257,9 @@ var require_set = __commonJS({
   }
 });
 
-// ../../../node_modules/.pnpm/js-yaml@3.14.2/node_modules/js-yaml/lib/js-yaml/schema/default_safe.js
+// ../../../node_modules/.pnpm/js-yaml@3.15.2/node_modules/js-yaml/lib/js-yaml/schema/default_safe.js
 var require_default_safe = __commonJS({
-  "../../../node_modules/.pnpm/js-yaml@3.14.2/node_modules/js-yaml/lib/js-yaml/schema/default_safe.js"(exports2, module2) {
+  "../../../node_modules/.pnpm/js-yaml@3.15.2/node_modules/js-yaml/lib/js-yaml/schema/default_safe.js"(exports2, module2) {
     "use strict";
     var Schema = require_schema();
     module2.exports = new Schema({
@@ -2280,9 +2280,9 @@ var require_default_safe = __commonJS({
   }
 });
 
-// ../../../node_modules/.pnpm/js-yaml@3.14.2/node_modules/js-yaml/lib/js-yaml/type/js/undefined.js
+// ../../../node_modules/.pnpm/js-yaml@3.15.2/node_modules/js-yaml/lib/js-yaml/type/js/undefined.js
 var require_undefined = __commonJS({
-  "../../../node_modules/.pnpm/js-yaml@3.14.2/node_modules/js-yaml/lib/js-yaml/type/js/undefined.js"(exports2, module2) {
+  "../../../node_modules/.pnpm/js-yaml@3.15.2/node_modules/js-yaml/lib/js-yaml/type/js/undefined.js"(exports2, module2) {
     "use strict";
     var Type = require_type();
     function resolveJavascriptUndefined() {
@@ -2307,9 +2307,9 @@ var require_undefined = __commonJS({
   }
 });
 
-// ../../../node_modules/.pnpm/js-yaml@3.14.2/node_modules/js-yaml/lib/js-yaml/type/js/regexp.js
+// ../../../node_modules/.pnpm/js-yaml@3.15.2/node_modules/js-yaml/lib/js-yaml/type/js/regexp.js
 var require_regexp = __commonJS({
-  "../../../node_modules/.pnpm/js-yaml@3.14.2/node_modules/js-yaml/lib/js-yaml/type/js/regexp.js"(exports2, module2) {
+  "../../../node_modules/.pnpm/js-yaml@3.15.2/node_modules/js-yaml/lib/js-yaml/type/js/regexp.js"(exports2, module2) {
     "use strict";
     var Type = require_type();
     function resolveJavascriptRegExp(data) {
@@ -2351,9 +2351,9 @@ var require_regexp = __commonJS({
   }
 });
 
-// ../../../node_modules/.pnpm/js-yaml@3.14.2/node_modules/js-yaml/lib/js-yaml/type/js/function.js
+// ../../../node_modules/.pnpm/js-yaml@3.15.2/node_modules/js-yaml/lib/js-yaml/type/js/function.js
 var require_function = __commonJS({
-  "../../../node_modules/.pnpm/js-yaml@3.14.2/node_modules/js-yaml/lib/js-yaml/type/js/function.js"(exports2, module2) {
+  "../../../node_modules/.pnpm/js-yaml@3.15.2/node_modules/js-yaml/lib/js-yaml/type/js/function.js"(exports2, module2) {
     "use strict";
     var esprima;
     try {
@@ -2406,9 +2406,9 @@ var require_function = __commonJS({
   }
 });
 
-// ../../../node_modules/.pnpm/js-yaml@3.14.2/node_modules/js-yaml/lib/js-yaml/schema/default_full.js
+// ../../../node_modules/.pnpm/js-yaml@3.15.2/node_modules/js-yaml/lib/js-yaml/schema/default_full.js
 var require_default_full = __commonJS({
-  "../../../node_modules/.pnpm/js-yaml@3.14.2/node_modules/js-yaml/lib/js-yaml/schema/default_full.js"(exports2, module2) {
+  "../../../node_modules/.pnpm/js-yaml@3.15.2/node_modules/js-yaml/lib/js-yaml/schema/default_full.js"(exports2, module2) {
     "use strict";
     var Schema = require_schema();
     module2.exports = Schema.DEFAULT = new Schema({
@@ -2424,9 +2424,9 @@ var require_default_full = __commonJS({
   }
 });
 
-// ../../../node_modules/.pnpm/js-yaml@3.14.2/node_modules/js-yaml/lib/js-yaml/loader.js
+// ../../../node_modules/.pnpm/js-yaml@3.15.2/node_modules/js-yaml/lib/js-yaml/loader.js
 var require_loader = __commonJS({
-  "../../../node_modules/.pnpm/js-yaml@3.14.2/node_modules/js-yaml/lib/js-yaml/loader.js"(exports2, module2) {
+  "../../../node_modules/.pnpm/js-yaml@3.15.2/node_modules/js-yaml/lib/js-yaml/loader.js"(exports2, module2) {
     "use strict";
     var common = require_common();
     var YAMLException = require_exception();
@@ -2529,6 +2529,7 @@ var require_loader = __commonJS({
       this.legacy = options2["legacy"] || false;
       this.json = options2["json"] || false;
       this.listener = options2["listener"] || null;
+      this.maxTotalMergeKeys = typeof options2["maxTotalMergeKeys"] === "number" ? options2["maxTotalMergeKeys"] : 1e4;
       this.implicitTypes = this.schema.compiledImplicit;
       this.typeMap = this.schema.compiledTypeMap;
       this.length = input.length;
@@ -2536,6 +2537,7 @@ var require_loader = __commonJS({
       this.line = 0;
       this.lineStart = 0;
       this.lineIndent = 0;
+      this.totalMergeKeys = 0;
       this.documents = [];
     }
     function generateError(state, message) {
@@ -2612,14 +2614,22 @@ var require_loader = __commonJS({
         state.result += _result;
       }
     }
+    function chargeMergeWork(state) {
+      state.totalMergeKeys += 1;
+      if (state.maxTotalMergeKeys !== -1 && state.totalMergeKeys > state.maxTotalMergeKeys) {
+        throwError(state, "merge keys exceeded maxTotalMergeKeys (" + state.maxTotalMergeKeys + ")");
+      }
+    }
     function mergeMappings(state, destination, source, overridableKeys) {
       var sourceKeys, key, index, quantity;
       if (!common.isObject(source)) {
         throwError(state, "cannot merge mappings; the provided source object is unacceptable");
       }
+      chargeMergeWork(state);
       sourceKeys = Object.keys(source);
       for (index = 0, quantity = sourceKeys.length; index < quantity; index += 1) {
         key = sourceKeys[index];
+        chargeMergeWork(state);
         if (!_hasOwnProperty.call(destination, key)) {
           setProperty(destination, key, source[key]);
           overridableKeys[key] = true;
@@ -2648,6 +2658,9 @@ var require_loader = __commonJS({
       }
       if (keyTag === "tag:yaml.org,2002:merge") {
         if (Array.isArray(valueNode)) {
+          if (valueNode.length > 100) {
+            throwError(state, "abnormal merge sequence size");
+          }
           for (index = 0, quantity = valueNode.length; index < quantity; index += 1) {
             mergeMappings(state, _result, valueNode[index], overridableKeys);
           }
@@ -3543,9 +3556,9 @@ var require_loader = __commonJS({
   }
 });
 
-// ../../../node_modules/.pnpm/js-yaml@3.14.2/node_modules/js-yaml/lib/js-yaml/dumper.js
+// ../../../node_modules/.pnpm/js-yaml@3.15.2/node_modules/js-yaml/lib/js-yaml/dumper.js
 var require_dumper = __commonJS({
-  "../../../node_modules/.pnpm/js-yaml@3.14.2/node_modules/js-yaml/lib/js-yaml/dumper.js"(exports2, module2) {
+  "../../../node_modules/.pnpm/js-yaml@3.15.2/node_modules/js-yaml/lib/js-yaml/dumper.js"(exports2, module2) {
     "use strict";
     var common = require_common();
     var YAMLException = require_exception();
@@ -4091,9 +4104,9 @@ var require_dumper = __commonJS({
   }
 });
 
-// ../../../node_modules/.pnpm/js-yaml@3.14.2/node_modules/js-yaml/lib/js-yaml.js
+// ../../../node_modules/.pnpm/js-yaml@3.15.2/node_modules/js-yaml/lib/js-yaml.js
 var require_js_yaml = __commonJS({
-  "../../../node_modules/.pnpm/js-yaml@3.14.2/node_modules/js-yaml/lib/js-yaml.js"(exports2, module2) {
+  "../../../node_modules/.pnpm/js-yaml@3.15.2/node_modules/js-yaml/lib/js-yaml.js"(exports2, module2) {
     "use strict";
     var loader = require_loader();
     var dumper = require_dumper();
@@ -4126,9 +4139,9 @@ var require_js_yaml = __commonJS({
   }
 });
 
-// ../../../node_modules/.pnpm/js-yaml@3.14.2/node_modules/js-yaml/index.js
+// ../../../node_modules/.pnpm/js-yaml@3.15.2/node_modules/js-yaml/index.js
 var require_js_yaml2 = __commonJS({
-  "../../../node_modules/.pnpm/js-yaml@3.14.2/node_modules/js-yaml/index.js"(exports2, module2) {
+  "../../../node_modules/.pnpm/js-yaml@3.15.2/node_modules/js-yaml/index.js"(exports2, module2) {
     "use strict";
     var yaml2 = require_js_yaml();
     module2.exports = yaml2;
@@ -4583,7 +4596,7 @@ var range = (a, b, str2) => {
   return result;
 };
 
-// ../../../node_modules/.pnpm/brace-expansion@5.0.6/node_modules/brace-expansion/dist/esm/index.js
+// ../../../node_modules/.pnpm/brace-expansion@5.0.12/node_modules/brace-expansion/dist/esm/index.js
 var escSlash = "\0SLASH" + Math.random() + "\0";
 var escOpen = "\0OPEN" + Math.random() + "\0";
 var escClose = "\0CLOSE" + Math.random() + "\0";
@@ -4600,6 +4613,9 @@ var closePattern = /\\}/g;
 var commaPattern = /\\,/g;
 var periodPattern = /\\\./g;
 var EXPANSION_MAX = 1e5;
+var EXPANSION_MAX_LENGTH = 4e6;
+var EXPANSION_MAX_DEPTH = 1e3;
+var EXPANSION_MAX_REWRITES = 1e3;
 function numeric(str2) {
   return !isNaN(str2) ? parseInt(str2, 10) : str2.charCodeAt(0);
 }
@@ -4609,36 +4625,44 @@ function escapeBraces(str2) {
 function unescapeBraces(str2) {
   return str2.replace(escSlashPattern, "\\").replace(escOpenPattern, "{").replace(escClosePattern, "}").replace(escCommaPattern, ",").replace(escPeriodPattern, ".");
 }
+function pushAll(target, items) {
+  for (let i = 0; i < items.length; i++) {
+    target.push(items[i]);
+  }
+}
 function parseCommaParts(str2) {
-  if (!str2) {
-    return [""];
-  }
   const parts = [];
-  const m = balanced("{", "}", str2);
-  if (!m) {
-    return str2.split(",");
+  let carry = "";
+  for (; ; ) {
+    const m = balanced("{", "}", str2);
+    if (!m) {
+      const tail = str2.split(",");
+      tail[0] = carry + tail[0];
+      pushAll(parts, tail);
+      return parts;
+    }
+    const { pre, body, post } = m;
+    const p = pre.split(",");
+    p[0] = carry + p[0];
+    p[p.length - 1] += "{" + body + "}";
+    if (!post.length) {
+      pushAll(parts, p);
+      return parts;
+    }
+    carry = p.pop();
+    pushAll(parts, p);
+    str2 = post;
   }
-  const { pre, body, post } = m;
-  const p = pre.split(",");
-  p[p.length - 1] += "{" + body + "}";
-  const postParts = parseCommaParts(post);
-  if (post.length) {
-    ;
-    p[p.length - 1] += postParts.shift();
-    p.push.apply(p, postParts);
-  }
-  parts.push.apply(parts, p);
-  return parts;
 }
 function expand(str2, options2 = {}) {
   if (!str2) {
     return [];
   }
-  const { max = EXPANSION_MAX } = options2;
+  const { max = EXPANSION_MAX, maxLength = EXPANSION_MAX_LENGTH, maxDepth = EXPANSION_MAX_DEPTH, maxRewrites = EXPANSION_MAX_REWRITES } = options2;
   if (str2.slice(0, 2) === "{}") {
     str2 = "\\{\\}" + str2.slice(2);
   }
-  return expand_(escapeBraces(str2), max, true).map(unescapeBraces);
+  return expand_(escapeBraces(str2), max, maxLength, maxDepth, 0, maxRewrites, true).map(unescapeBraces);
 }
 function embrace(str2) {
   return "{" + str2 + "}";
@@ -4652,95 +4676,152 @@ function lte(i, y) {
 function gte(i, y) {
   return i >= y;
 }
-function expand_(str2, max, isTop) {
-  const expansions = [];
-  const m = balanced("{", "}", str2);
-  if (!m)
-    return [str2];
-  const pre = m.pre;
-  const post = m.post.length ? expand_(m.post, max, false) : [""];
-  if (/\$$/.test(m.pre)) {
-    for (let k = 0; k < post.length && k < max; k++) {
-      const expansion = pre + "{" + m.body + "}" + post[k];
-      expansions.push(expansion);
+function combine(acc, pre, values, max, maxLength, dropEmpties) {
+  const out = [];
+  let length = 0;
+  for (let a = 0; a < acc.length; a++) {
+    for (let v = 0; v < values.length; v++) {
+      if (out.length >= max)
+        return out;
+      const expansion = acc[a] + pre + values[v];
+      if (dropEmpties && !expansion)
+        continue;
+      if (length + expansion.length > maxLength)
+        return out;
+      out.push(expansion);
+      length += expansion.length;
     }
-  } else {
+  }
+  return out;
+}
+function expandSequence(body, isAlphaSequence, max, maxLength) {
+  const n = body.split(/\.\./);
+  const N = [];
+  if (n[0] === void 0 || n[1] === void 0) {
+    return N;
+  }
+  const x = numeric(n[0]);
+  const y = numeric(n[1]);
+  const width = Math.max(n[0].length, n[1].length);
+  let incr = n.length === 3 && n[2] !== void 0 ? Math.max(Math.abs(numeric(n[2])), 1) : 1;
+  let test = lte;
+  const reverse = y < x;
+  if (reverse) {
+    incr *= -1;
+    test = gte;
+  }
+  const pad = n.some(isPadded);
+  let length = 0;
+  for (let i = x; test(i, y) && N.length < max; i += incr) {
+    let c;
+    if (isAlphaSequence) {
+      c = String.fromCharCode(i);
+      if (c === "\\") {
+        c = "";
+      }
+    } else {
+      c = String(i);
+      if (pad) {
+        const need = width - c.length;
+        if (need > 0) {
+          const z = new Array(need + 1).join("0");
+          if (i < 0) {
+            c = "-" + z + c.slice(1);
+          } else {
+            c = z + c;
+          }
+        }
+      }
+    }
+    if (length + c.length > maxLength)
+      break;
+    N.push(c);
+    length += c.length;
+  }
+  return N;
+}
+function expand_(str2, max, maxLength, maxDepth, depth, maxRewrites, isTop) {
+  if (depth > maxDepth) {
+    return [str2];
+  }
+  let acc = [""];
+  let rewrites = 0;
+  let dropEmpties = false;
+  let firstGroup = true;
+  for (; ; ) {
+    const m = balanced("{", "}", str2);
+    if (!m) {
+      return combine(acc, str2, [""], max, maxLength, dropEmpties);
+    }
+    const pre = m.pre;
+    if (/\$$/.test(pre)) {
+      acc = combine(acc, pre + "{" + m.body + "}", [""], max, maxLength, dropEmpties && !m.post.length);
+      firstGroup = false;
+      if (!m.post.length)
+        break;
+      str2 = m.post;
+      continue;
+    }
     const isNumericSequence = /^-?\d+\.\.-?\d+(?:\.\.-?\d+)?$/.test(m.body);
     const isAlphaSequence = /^[a-zA-Z]\.\.[a-zA-Z](?:\.\.-?\d+)?$/.test(m.body);
     const isSequence = isNumericSequence || isAlphaSequence;
     const isOptions = m.body.indexOf(",") >= 0;
     if (!isSequence && !isOptions) {
-      if (m.post.match(/,(?!,).*\}/)) {
+      if (rewrites < maxRewrites && m.post.match(/,(?!,).*\}/)) {
+        rewrites++;
         str2 = m.pre + "{" + m.body + escClose + m.post;
-        return expand_(str2, max, true);
+        isTop = true;
+        continue;
       }
-      return [str2];
+      return combine(acc, pre + "{" + m.body + "}" + m.post, [""], max, maxLength, dropEmpties);
     }
-    let n;
+    if (firstGroup) {
+      dropEmpties = isTop && !isSequence;
+      firstGroup = false;
+    }
+    let values;
     if (isSequence) {
-      n = m.body.split(/\.\./);
+      values = expandSequence(m.body, isAlphaSequence, max, maxLength);
     } else {
-      n = parseCommaParts(m.body);
+      let n = parseCommaParts(m.body);
       if (n.length === 1 && n[0] !== void 0) {
-        n = expand_(n[0], max, false).map(embrace);
+        n = expand_(n[0], max, maxLength, maxDepth, depth + 1, maxRewrites, false).map(embrace);
         if (n.length === 1) {
-          return post.map((p) => m.pre + n[0] + p);
+          acc = combine(acc, pre + n[0], [""], max, maxLength, dropEmpties && !m.post.length);
+          if (!m.post.length)
+            break;
+          str2 = m.post;
+          continue;
         }
       }
-    }
-    let N;
-    if (isSequence && n[0] !== void 0 && n[1] !== void 0) {
-      const x = numeric(n[0]);
-      const y = numeric(n[1]);
-      const width = Math.max(n[0].length, n[1].length);
-      let incr = n.length === 3 && n[2] !== void 0 ? Math.max(Math.abs(numeric(n[2])), 1) : 1;
-      let test = lte;
-      const reverse = y < x;
-      if (reverse) {
-        incr *= -1;
-        test = gte;
+      let dropsEmpties = dropEmpties && !m.post.length && !pre;
+      for (let d = 0; dropsEmpties && d < acc.length; d++) {
+        if (acc[d]) {
+          dropsEmpties = false;
+        }
       }
-      const pad = n.some(isPadded);
-      N = [];
-      for (let i = x; test(i, y) && N.length < max; i += incr) {
-        let c;
-        if (isAlphaSequence) {
-          c = String.fromCharCode(i);
-          if (c === "\\") {
-            c = "";
+      values = [];
+      let valuesLength = 0;
+      outer: for (let j2 = 0; j2 < n.length; j2++) {
+        const expanded = expand_(n[j2], max, maxLength, maxDepth, depth + 1, maxRewrites, false);
+        for (let k = 0; k < expanded.length; k++) {
+          const v = expanded[k];
+          if (dropsEmpties && !v)
+            continue;
+          if (values.length >= max || valuesLength + v.length > maxLength) {
+            break outer;
           }
-        } else {
-          c = String(i);
-          if (pad) {
-            const need = width - c.length;
-            if (need > 0) {
-              const z = new Array(need + 1).join("0");
-              if (i < 0) {
-                c = "-" + z + c.slice(1);
-              } else {
-                c = z + c;
-              }
-            }
-          }
-        }
-        N.push(c);
-      }
-    } else {
-      N = [];
-      for (let j2 = 0; j2 < n.length; j2++) {
-        N.push.apply(N, expand_(n[j2], max, false));
-      }
-    }
-    for (let j2 = 0; j2 < N.length; j2++) {
-      for (let k = 0; k < post.length && expansions.length < max; k++) {
-        const expansion = pre + N[j2] + post[k];
-        if (!isTop || isSequence || expansion) {
-          expansions.push(expansion);
+          values.push(v);
+          valuesLength += v.length;
         }
       }
     }
+    acc = combine(acc, pre, values, max, maxLength, dropEmpties && !m.post.length);
+    if (!m.post.length)
+      break;
+    str2 = m.post;
   }
-  return expansions;
+  return acc;
 }
 
 // ../../../node_modules/.pnpm/minimatch@10.2.5/node_modules/minimatch/dist/esm/assert-valid-pattern.js
@@ -10734,7 +10815,9 @@ var IOS = class extends BaseModule {
   PROJECT_PATH = "documentation";
   CUSTOM_COMPONENT_MAP = {};
   COPY_COMPONENT_MAP = {};
-  MERGE_COMPONENT_MAP = {};
+  MERGE_COMPONENT_MAP = {
+    formcontrol: ["formcontrol", "formcontrolgroup"]
+  };
   constructor() {
     super("ios");
   }
@@ -10742,18 +10825,17 @@ var IOS = class extends BaseModule {
     super.convert();
     for (const [key, value] of Object.entries(this.MERGE_COMPONENT_MAP)) {
       const contents = value.map((merge) => {
-        const mergeKey = `docs/data/utilities/ios-utilities/${merge}.mdx`;
+        const mergeKey = this.findComponentFile(merge, "ios.mdx") ?? `docs/data/utilities/ios-utilities/${merge}.mdx`;
         return {
           key: mergeKey,
           value: this.tempFiles[mergeKey]
         };
       });
       let mergedContent = "";
-      for (let i = 0; i < contents.length; i++) {
-        const content = contents[i];
+      for (const content of contents) {
         if (!content.value) continue;
         const parsedMatter = (0, import_gray_matter.default)(content.value);
-        if (i === 0) {
+        if (!mergedContent) {
           mergedContent += import_gray_matter.default.stringify("\n", parsedMatter.data);
         }
         mergedContent += `## ${parsedMatter.data.title}
@@ -10763,13 +10845,18 @@ ${parsedMatter.data.description}
         mergedContent += parsedMatter.content.replace(/^##/gm, "###");
         delete this.tempFiles[content.key];
       }
-      const newKey = this.designComponentFiles.find((f) => {
-        const slug = f.split("/");
-        return slug.at(slug.length - 2).replace(/-/g, "") === key;
-      });
-      this.tempFiles[newKey.replace(/design\.mdx$/, "ios.mdx")] = mergedContent;
+      const newKey = this.findComponentFile(key, "ios.mdx");
+      if (!newKey || !mergedContent) continue;
+      this.tempFiles[newKey] = mergedContent;
     }
     return this;
+  }
+  findComponentFile(name, fileName) {
+    const designFile = this.designComponentFiles.find((f) => {
+      const slug = f.split("/");
+      return slug.at(slug.length - 2).replace(/-/g, "") === name;
+    });
+    return designFile?.replace(/design\.mdx$/, fileName);
   }
 };
 
