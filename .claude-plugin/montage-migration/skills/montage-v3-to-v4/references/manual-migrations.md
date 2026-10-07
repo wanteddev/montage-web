@@ -228,7 +228,10 @@ ancestor). Per hit: if the code sets the attribute on its own element, keep it; 
 the attribute to find a Montage overlay, rewrite the check against the overlay's own
 identifiers (`[data-role='modal-dimmer']`, `[role='dialog']`, the Popper content's
 `data-status`) — or drop it when it only existed to stop a nested overlay from closing its
-parent, which v4 now handles itself.
+parent, which v4 now handles itself. The consumer-marked opt-out is also the fix for DOM that
+React does not render (a third-party widget appended to `<body>`) used over an open overlay:
+together with `pointer-events: auto` it keeps a click on that DOM from dismissing the overlay
+(M22, "Portaled / out-of-overlay content", fix 3).
 Scan **[decision]** (all file types, after step ④): `data-ignore-dismissable-layer`.
 
 ## M4. Card / ListCard follow-ups
@@ -2040,19 +2043,58 @@ dismissal of `Modal`, `Alert`, Popper-based overlays, and the Picker popups move
   | `Alert` (incl. alerts shown via `useAlert`)   | not `disableAriaHiddenOthers`                                             |
   | `DatePicker`, `DateRangePicker`, `TimePicker` | always, while the popup is open                                           |
 
-  Consequences: a body-level element outside the layer (a third-party chat launcher, cookie
-  banner, dev overlay — anything not rendered inside the overlay's React tree) cannot be clicked
-  while one of these is open; a test that clicks another element while a Picker is open fails
-  the user-event pointer-events check; snapshots of `<body>`'s inline `style` differ while open.
-  Do NOT decide the widget case alone: ask the user which body-level widgets must stay usable
-  over a `Modal` / `Alert`; for those overlays `disableAriaHiddenOthers` on `ModalContainer` /
-  `AlertContainer` lifts the block (it also disables screen-reader isolation and turns
-  `aria-modal` off). `useAlert` items cannot pass it — tell the user so. There is no opt-out on the
-  Pickers. In tests, close the popup (Esc or an outside click) before the next interaction.
+  Consequences: a test that clicks another element while a Picker is open fails the
+  user-event pointer-events check — and a click on the Picker's OWN input while its popup is open
+  only closes the popup (the caret / section does not move); snapshots of `<body>`'s inline
+  `style` differ while open. In tests, close the popup (Esc or an outside click) before the next
+  interaction.
   Scan **[decision]** (test files): `<(DatePicker|DateRangePicker|TimePicker)([[:space:]>]|$)`
   file-level — read each test for an interaction with another element while the popup is open.
   Scan **[decision]**: `pointer-events` (include stylesheets and tests) — consumer code that
   manipulates or asserts `<body>`'s pointer events.
+
+- **Portaled / out-of-overlay content is unclickable while one of these is open.** The block is
+  NOT limited to body-level widgets: EVERY element outside the open overlay's DOM subtree that is
+  not a Montage/Radix layer stops receiving clicks, hover and wheel — including content the
+  consumer portals to `<body>` from INSIDE a Modal. A click goes through two stages that read
+  different trees: ① browser hit-testing follows the **DOM** tree, so a portal (a DOM child of
+  `<body>`) inherits `pointer-events: none` and the click falls through to `<html>`; ② only if
+  it arrives does Radix decide "inside vs outside" through the **React** tree. React-tree
+  membership therefore does not rescue a portal from ①.
+  Already fine: `Popover`, `Menu`, `Tooltip`, `Select` / `SelectMultiple`, Picker popups, nested
+  `Modal` / `Alert` (Radix layers), `Autocomplete` lists and any consumer `Popper` /
+  `PopperContent` (the wrapper sets `pointer-events: auto`), `Snackbar` / `Toast`.
+  Broken: content rendered through `Portal` / `createPortal`; third-party libraries that portal
+  to `<body>` (react-select `menuPortalTarget`, editor toolbars, emoji pickers, antd-style
+  `getPopupContainer`); DOM appended outside React (chat launchers, cookie banners, Google
+  Places `.pac-container`). 3.x had no such block, so these regress silently on upgrade.
+  Fixes, in the order to prefer them — do NOT pick one alone; per hit, show the user the
+  options and ask:
+  1. **Render inside the overlay's DOM** — drop the portal or point it into the overlay
+     (`<Portal container={…inside the Modal…}>`, `<PopperContent disablePortal>`, omit
+     react-select `menuPortalTarget`). Inherits the layer's `pointer-events: auto`, no z-index
+     work; may be clipped by an `overflow: hidden` ancestor, in which case use 2.
+  2. **`pointer-events: auto` on the portal root, plus a z-index above the overlay**
+     (`theme.zIndex.modal` / `var(--zIndex-modal)`, default `1300`; e.g.
+     `zIndex: calc(var(--zIndex-modal) + 1)`, react-select
+     `styles={{ menuPortal: (b) => ({ ...b, zIndex: 1301, pointerEvents: 'auto' }) }}`). The
+     portal is inside the overlay's React tree, so clicking it does not dismiss the overlay.
+  3. **DOM not rendered by React** — give it `pointer-events: auto` AND
+     `data-ignore-dismissable-layer="true"` (on it or an ancestor; set it right after the widget
+     creates the node). Without the attribute the click reaches it but Radix judges it outside
+     the React tree and dismisses the overlay. This attribute is the remaining escape hatch
+     described in M3.
+  4. **`disableAriaHiddenOthers`** on `ModalContainer` / `AlertContainer` lifts the block entirely
+     — but also screen-reader isolation and `aria-modal`; only for page widgets that must stay
+     usable over an overlay. `useAlert` items and the Pickers have no such option — tell the
+     user so.
+     Scan **[decision]** (file-level, two-pass; include `.ts` / `.tsx` / `.js` / `.jsx`): files that
+     portal or append to the body AND reference an overlay —
+     `comm -12 <(grep -rlE 'createPortal|<Portal([[:space:]>]|$)|menuPortalTarget|appendChild\(|getPopupContainer|portalTarget|container=\{document\.body\}' <targets> | sort) <(grep -rlE '\b(Modal|ModalContainer|Alert|AlertContainer|useAlert|DatePicker|DateRangePicker|TimePicker)\b' <targets> | sort)`.
+     Also list the FIRST grep's files that are not in the intersection: a portaling component
+     defined in one file and used inside a Modal elsewhere is still affected — trace its usage
+     sites. A clean scan is "nothing obvious", not proof of absence; tell the user to click-test
+     every overlay screen that hosts a dropdown / picker / widget.
 
 - **`aria-modal` condition changed.** `Modal`: v3 `open && visible && (!disableRemoveScroll || !disableFocusScope)`,
   v4 open (dimmed) `&& !disableAriaHiddenOthers`. `Alert`: v3
@@ -2086,7 +2128,11 @@ can depend on; none is a type error.
   `<svg aria-hidden>` holding a `mask`, a `rect`, and a nested icon `svg`; the `academy` /
   `company` icons are now `IconGraduationFill` / `IconCompanyFill`. `img:not([alt])` checks,
   `getByAltText` / `getByRole('img')` queries, and selectors such as
-  `[data-role='avatar-fallback'] > svg path` change.
+  `[data-role='avatar-fallback'] > svg path` change. An explicit `alt=""` marks the avatar as
+  decorative (e.g. next to the visible name): the `<img>` keeps `alt=""` with no `role` /
+  `aria-label`, and the fallback gets `aria-hidden="true"` instead of `role="img"`. A decorative
+  avatar that v3 left without `alt` is now announced with the default label — ask the user
+  whether to pass `alt=""` there; do not add it on your own.
   Scan **[decision]** (include stylesheets and tests): `avatar-fallback|getByAltText`.
 - **`AvatarGroup` renders at most 5 avatars.** Children past the fifth are dropped from the DOM.
   Per group that can exceed five, ask the user how to show the remainder (e.g. a count in

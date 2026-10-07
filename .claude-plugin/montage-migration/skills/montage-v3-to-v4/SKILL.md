@@ -896,10 +896,17 @@ variant="close-button">` (a text-label `ModalClose` becomes `text-button` with a
   opaque fill via `sx` (`theme.semantic.background.neutral.primary`). Flag every hit for visual QA.
 - **M22 (overlay dismiss behavior):** dismissal moved to the Radix layer stack — only the top
   layer closes, and a `Modal` / `Alert` (unless `disableAriaHiddenOthers`) or an open Picker
-  popup sets `pointer-events: none` on `<body>`, so body-level widgets outside the layer stop
-  receiving clicks and tests that click elsewhere while a Picker is open fail. `aria-modal` now
-  follows `disableAriaHiddenOthers` and, on a handle sheet, the dimmed snap. Ask the user which body-level widgets must stay usable
-  — never toggle `disableAriaHiddenOthers` on your own.
+  popup sets `pointer-events: none` on `<body>`, so EVERY non-layer element outside the
+  overlay's DOM stops receiving clicks — body-level widgets AND content portaled to `<body>` from
+  inside the overlay (`Portal` / `createPortal`, react-select `menuPortalTarget`, …); Montage
+  layers, `Autocomplete` / `PopperContent`, `Snackbar` / `Toast` keep working. Tests that click
+  elsewhere while a Picker is open fail, and a click on the Picker's own input only closes the
+  popup. Fixes, in order: render inside the overlay DOM; `pointer-events: auto` + a z-index above
+  the overlay; for DOM not rendered by React also `data-ignore-dismissable-layer="true"` (else
+  the click dismisses the overlay); `disableAriaHiddenOthers` (not on `useAlert` / Pickers).
+  `aria-modal` now follows `disableAriaHiddenOthers` and, on a handle sheet, the dimmed snap.
+  Ask the user which fix each hit gets — never pick one or toggle `disableAriaHiddenOthers` on
+  your own.
 - **M23 (other DOM changes):** `ActionArea` caption / compact wrappers (a `cancel` caption no
   longer renders — ask), `Avatar` img / fallback a11y attributes and fallback SVG, `AvatarGroup`
   capped at 5 children (ask how to show the rest), `SectionMessage` `leadingContent={null}`
