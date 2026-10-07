@@ -186,6 +186,9 @@ const SectionVariants = ({
                       options={variant.options}
                       variantKey={variant.key}
                       disabled={selectedVariant[variant.key]?.disabled}
+                      disabledOptions={
+                        selectedVariant[variant.key]?.disabledOptions
+                      }
                       value={selectedVariant[variant.key]?.value ?? ''}
                       onSelectedVariantChange={handleSelectedVariantChange}
                     />
@@ -219,6 +222,9 @@ const SectionVariants = ({
                   options={variant.options}
                   variantKey={variant.key}
                   disabled={selectedVariant[variant.key]?.disabled}
+                  disabledOptions={
+                    selectedVariant[variant.key]?.disabledOptions
+                  }
                   value={selectedVariant[variant.key]?.value ?? ''}
                   onSelectedVariantChange={handleSelectedVariantChange}
                 />
@@ -295,11 +301,9 @@ const SectionVariantsItemDemo = memo(
 type SectionVariantsItemProps = PropsWithChildren<{
   value: string;
   variantKey: string;
-  options: Array<{
-    label: string;
-    value: Record<string, any>;
-  }>;
+  options: SectionVariantsType[number]['options'];
   disabled?: boolean;
+  disabledOptions?: Array<string>;
   onSelectedVariantChange: (value: Record<string, { value: string }>) => void;
 }>;
 
@@ -308,6 +312,7 @@ const SectionVariantsItem = ({
   value,
   options = [],
   disabled,
+  disabledOptions = [],
   onSelectedVariantChange,
 }: SectionVariantsItemProps) => {
   return (
@@ -318,25 +323,33 @@ const SectionVariantsItem = ({
       }}
     >
       <FlexBox flexDirection="column" gap="16px">
-        {options.map((option) => (
-          <FormControl
-            key={option.label}
-            flexDirection="row"
-            alignItems="center"
-            gap="8px"
-          >
-            <FormControlField>
-              <RadioGroupItem value={option.label} disabled={disabled} />
-            </FormControlField>
-            <FormControlLabel
-              sx={sectionVariantsItemRadioStyle}
-              data-disabled={disabled}
-              data-selected={value === option.label}
+        {options.map((option) => {
+          const optionDisabled =
+            disabled || disabledOptions.includes(option.label);
+
+          return (
+            <FormControl
+              key={option.label}
+              flexDirection="row"
+              alignItems="center"
+              gap="8px"
             >
-              {option.label}
-            </FormControlLabel>
-          </FormControl>
-        ))}
+              <FormControlField>
+                <RadioGroupItem
+                  value={option.label}
+                  disabled={optionDisabled}
+                />
+              </FormControlField>
+              <FormControlLabel
+                sx={sectionVariantsItemRadioStyle}
+                data-disabled={optionDisabled}
+                data-selected={value === option.label}
+              >
+                {option.label}
+              </FormControlLabel>
+            </FormControl>
+          );
+        })}
       </FlexBox>
     </RadioGroup>
   );

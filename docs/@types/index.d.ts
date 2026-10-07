@@ -22,6 +22,7 @@ declare type SectionVariantsType = Array<{
   options: Array<{
     label: string;
     value: Record<string, any>;
+    disabled?: boolean | ((props: Record<string, string>) => boolean);
   }>;
 }>;
 
