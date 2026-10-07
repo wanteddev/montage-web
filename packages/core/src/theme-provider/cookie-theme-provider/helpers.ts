@@ -185,6 +185,30 @@ const decodeThemeValue = (raw: string): string => {
 };
 
 /**
+ * `document.cookie` throws (SecurityError) in an opaque-origin document — a
+ * sandboxed iframe without `allow-same-origin`, some embed previews. These
+ * helpers run during render (`useState` initializer, `useMemo`), so an
+ * unguarded throw would unmount the whole tree. Treat such a document as one
+ * with no cookies and drop writes: the theme falls back to its default, as the
+ * 3.x localStorage store did.
+ */
+const readDocumentCookie = (): string => {
+  try {
+    return document.cookie;
+  } catch {
+    return '';
+  }
+};
+
+const writeDocumentCookie = (cookie: string): void => {
+  try {
+    document.cookie = cookie;
+  } catch {
+    // Unwritable document — see readDocumentCookie.
+  }
+};
+
+/**
  * Every value stored under `key` that reaches this document, in the order the
  * browser lists them. More than one entry means same-named cookies at different
  * scopes — host-only next to `Domain`-scoped, or a different `Path` — since a
@@ -192,7 +216,7 @@ const decodeThemeValue = (raw: string): string => {
  * all of them to bare `key=value` pairs.
  */
 const readCookieValues = (key: string): Array<string> =>
-  document.cookie
+  readDocumentCookie()
     .split('; ')
     .filter((cookie) => cookie.slice(0, cookie.indexOf('=')) === key)
     .map((cookie) => decodeThemeValue(cookie.slice(cookie.indexOf('=') + 1)));
@@ -272,12 +296,16 @@ const isDomainlessHost = (hostname: string): boolean =>
  * error and no return value to check, so the only way to know is to look.
  */
 const canWriteCookieDomain = (domain: string): boolean => {
-  document.cookie = `${DOMAIN_PROBE_COOKIE_KEY}=1; Path=${DEFAULT_THEME_COOKIE_PATH}; Domain=${domain}; SameSite=Lax`;
+  writeDocumentCookie(
+    `${DOMAIN_PROBE_COOKIE_KEY}=1; Path=${DEFAULT_THEME_COOKIE_PATH}; Domain=${domain}; SameSite=Lax`,
+  );
 
   const written = readCookie(DOMAIN_PROBE_COOKIE_KEY) !== undefined;
 
   if (written) {
-    document.cookie = `${DOMAIN_PROBE_COOKIE_KEY}=; Path=${DEFAULT_THEME_COOKIE_PATH}; Domain=${domain}; Max-Age=0`;
+    writeDocumentCookie(
+      `${DOMAIN_PROBE_COOKIE_KEY}=; Path=${DEFAULT_THEME_COOKIE_PATH}; Domain=${domain}; Max-Age=0`,
+    );
   }
 
   return written;
@@ -410,7 +438,7 @@ export const clearHostOnlyThemeCookie = (
   const secure = expiringCookieSecureAttribute(key);
 
   for (const candidate of hostOnlyCleanupPaths(path)) {
-    document.cookie = `${key}=; Path=${candidate}; Max-Age=0${secure}`;
+    writeDocumentCookie(`${key}=; Path=${candidate}; Max-Age=0${secure}`);
   }
 };
 
@@ -451,7 +479,7 @@ export const setThemeCookie = (
     return;
   }
 
-  document.cookie = serializeThemeCookie(value, options);
+  writeDocumentCookie(serializeThemeCookie(value, options));
 };
 
 export type ThemeCookieScope = {
@@ -559,7 +587,9 @@ export const deleteThemeCookieAt = (
     attributes.push(`Domain=${item.domain}`);
   }
 
-  document.cookie = attributes.join('; ') + expiringCookieSecureAttribute(key);
+  writeDocumentCookie(
+    attributes.join('; ') + expiringCookieSecureAttribute(key),
+  );
 };
 
 export const getSystemTheme = (): ResolvedThemeMode | undefined => {
