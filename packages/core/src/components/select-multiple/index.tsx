@@ -197,7 +197,7 @@ const SelectMultiple = forwardRef<
             name={props.name}
             // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
             value={Array.isArray(value) ? value.join(',') : (value ?? '')}
-            aria-invalid={status === 'negative' || undefined}
+            aria-invalid={status === 'negative'}
             disabled={disabled}
             tabIndex={-1}
           />
@@ -228,7 +228,7 @@ const SelectMultiple = forwardRef<
               ref={composedRefs}
               gap="8px"
               alignItems="flex-start"
-              aria-invalid={status === 'negative' || undefined}
+              aria-invalid={status === 'negative'}
               aria-disabled={disabled}
               tabIndex={disabled ? -1 : 0}
               role="combobox"

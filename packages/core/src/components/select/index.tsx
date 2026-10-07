@@ -192,7 +192,7 @@ const Select = forwardRef<
           <VirtualValueInput
             name={props.name}
             value={value}
-            aria-invalid={status === 'negative' || undefined}
+            aria-invalid={status === 'negative'}
             disabled={disabled}
             tabIndex={-1}
           />
@@ -222,7 +222,7 @@ const Select = forwardRef<
               ref={composedRefs}
               gap="8px"
               alignItems="center"
-              aria-invalid={status === 'negative' || undefined}
+              aria-invalid={status === 'negative'}
               aria-disabled={disabled}
               tabIndex={disabled ? -1 : 0}
               role="combobox"
