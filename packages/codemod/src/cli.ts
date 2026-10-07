@@ -1,5 +1,4 @@
 import path from 'path';
-import fs from 'fs';
 
 import inquirer from 'inquirer';
 import meow from 'meow';
@@ -9,6 +8,7 @@ import { MIGRATION_TRANSFORMS } from './constants';
 import { renameWdsVariablesInString } from './transforms/v4/css-variable-map';
 import { renameWdsDomIdentifiersInString } from './transforms/v4/dom-identifier-map';
 import { renameSemanticTokensInString } from './transforms/v4/semantic-token-map';
+import { runStyleTextTransform } from './style-text-transform';
 
 /**
  * Transforms that also need to rewrite stylesheets, which jscodeshift cannot
@@ -115,66 +115,6 @@ const run = () => {
         transformer: selectedTransformer!,
       });
     });
-};
-
-const STYLE_EXTENSIONS = ['.css', '.scss', '.sass', '.less'];
-const IGNORED_DIRECTORIES = new Set(['node_modules', '.next', 'dist']);
-
-/**
- * jscodeshift only parses JS/TS, so stylesheets are handled with a plain text
- * pass that reuses the same rename rules. Walks files/directories passed on the
- * CLI and rewrites every `--wds-*` token it finds.
- */
-const collectStyleFiles = (target: string): Array<string> => {
-  let stat;
-
-  try {
-    stat = fs.statSync(target);
-  } catch {
-    return [];
-  }
-
-  if (stat.isFile()) {
-    return STYLE_EXTENSIONS.includes(path.extname(target)) ? [target] : [];
-  }
-
-  if (!stat.isDirectory()) {
-    return [];
-  }
-
-  return fs.readdirSync(target, { withFileTypes: true }).flatMap((entry) => {
-    if (entry.isDirectory()) {
-      return IGNORED_DIRECTORIES.has(entry.name)
-        ? []
-        : collectStyleFiles(path.join(target, entry.name));
-    }
-
-    return STYLE_EXTENSIONS.includes(path.extname(entry.name))
-      ? [path.join(target, entry.name)]
-      : [];
-  });
-};
-
-const runStyleTextTransform = (
-  files: string,
-  rename: (source: string) => string,
-) => {
-  const targets = files.split(/\s+/).filter(Boolean).flatMap(collectStyleFiles);
-
-  let changed = 0;
-
-  for (const file of new Set(targets)) {
-    const source = fs.readFileSync(file, 'utf8');
-    const next = rename(source);
-
-    if (next !== source) {
-      fs.writeFileSync(file, next);
-      changed += 1;
-      console.log(`stylesheet updated: ${file}`);
-    }
-  }
-
-  console.log(`\nStylesheets updated: ${changed}`);
 };
 
 const runTransform = ({
