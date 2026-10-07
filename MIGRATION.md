@@ -164,9 +164,16 @@ Semantic 컬러 토큰이 **용도(Property) / 역할(Intent) / 변형(Variant)*
 
 #### 삭제된 토큰 (대체 매핑)
 
-아래 accent 토큰은 삭제되었고, codemod가 가장 가까운 의미의 토큰으로 매핑합니다. 매핑 결과가 모두
-**foreground 계열**이므로, 배경색 용도로 쓰고 있었다면 codemod 실행 후 `surface.*` 계열 토큰으로
-직접 바꿔야 합니다.
+아래 accent 토큰은 삭제되었고, codemod가 가장 가까운 의미의 토큰으로 매핑합니다. 매핑 결과는 모두
+**foreground 계열**(불투명 색)입니다. 배경색 용도로 쓰고 있었다면 의도에 맞게 직접 확인하세요.
+
+- `surface.cautionary.primary` / `surface.positive.primary` / `surface.negative.primary`는 8% 틴트라
+  불투명 배경의 대체가 아닙니다.
+- 불투명 배경 토큰은 brand(`surface.brand.primary` / `.strong` / `.heavy`)와
+  `surface.accent.<color>Opaque`(lime, cyan, lightBlue, violet, purple, pink)뿐입니다.
+- orange / redOrange / green / red에는 불투명 surface 토큰이 없으므로, codemod가 넣은
+  `foreground.*` 토큰을 유지하고 값을 확인(아래 "값이 바뀐 토큰" 참고)한 뒤 시각 QA하거나, 디자인과
+  협의해 다른 semantic 토큰을 선택하세요.
 
 | 기존                                                                     | 변경                            |
 | ------------------------------------------------------------------------ | ------------------------------- |
@@ -203,9 +210,10 @@ codemod가 변환하는 것:
 - **동적으로 조립한 토큰 이름** — `` `--semantic-${x}` ``, `'semantic.' + path` 형태는 변환되지
   않습니다.
 - **값이 바뀐 토큰** — 리네임된 토큰은 값이 그대로 보존되며, 예외는 삭제된 accent 토큰의 대체
-  매핑뿐입니다: `redOrange` 계열은 orange 색으로 통합되고, `accent.foreground.orange`(light
-  39→50 스텝) / `.green`(light 40→50) / `.blue`(light 45→50, dark 65→60)도 대체 토큰의 스텝이
-  다릅니다. 해당 토큰을 쓰던 화면은 시각적 QA를 권장합니다.
+  매핑뿐입니다: `redOrange` 계열은 orange 색으로 통합되고(redOrange 48 → orange 50, dark는 redOrange 60 →
+  orange 60), `accent.foreground.orange`(light 39→50, dark 50→60) / `.green`(light 40→50, dark는 동일) /
+  `.blue`(light 45→50, dark 65→60)도 대체 토큰의 스텝이 다릅니다. `accent.foreground.red`만 값이 그대로입니다. `blue`를 배경으로 쓰던 곳은 `surface.brand.strong`이
+  light 값과 같습니다(dark는 다름). 해당 토큰을 쓰던 화면은 시각적 QA를 권장합니다.
 
 ### CSS Variable 네이밍 변경 (`--wds-` prefix 제거)
 
@@ -589,6 +597,10 @@ npx @montage-ui/codemod@latest form-control-migration src
 
 `normal`은 `full`에서만 지원되며, `popup` / `bottom`에서 `variant="normal"`을 지정하면 개발 모드에서 경고가 출력됩니다. `popup` / `bottom`에서 `normal`을 지정하고 있었다면 `variant`를 제거하거나 `emphasized` / `floating` / `search` 중 하나로 변경하세요. `display` → `variant="emphasized"` 변경은 [위 항목](#modalnavigation-전용-구현으로-분리)을 참고하세요.
 
+기본값은 현재 breakpoint에서 결정된 `ModalContainer` variant를 따르므로, `ModalContainer`의 variant를 반응형으로 바꾸는 경우 breakpoint마다 기본값이 달라집니다.
+
+제목 없이 버튼만 있는 `ModalNavigation`(예: 닫기 버튼만 있는 `<ModalNavigation trailingContent={…} />`)도 `popup` / `bottom`에서는 `emphasized`로 렌더됩니다. 빈 제목 영역이 너비를 채워 leading / trailing 버튼은 3.x처럼 양 끝에 놓이지만, 레이아웃이 3.x와 달라지므로 시각 확인이 필요합니다. 이 처리가 들어가기 전에 배포된 4.0.0 prerelease 빌드에서는 버튼이 가운데로 몰리는데, 디자인 시스템 버그이므로 소비자 코드에서 우회하지 말고 패키지를 업데이트하세요.
+
 #### `ModalContainer` `size="small"` 제거 및 사이즈 스펙 변경
 
 `size="small"`이 제거되었습니다. 기존 `small`(너비 360px)을 쓰던 곳은 `medium`으로 변경하세요. `medium`의 너비가 360px로 줄어 기존 `small`과 같은 너비가 됩니다. 단, `resize="fixed"`를 함께 쓰던 경우 높이가 400px(`small`)에서 480px(`medium`)로 커지므로, 기존 높이가 필요하면 `sx`로 `height: 400px`를 지정하세요. 기본값은 `medium`으로 동일합니다.
@@ -620,8 +632,10 @@ npx @montage-ui/codemod@latest form-control-migration src
 - **좌우 여백이 `ModalContentItem`에서 `ModalContent`로 이동했습니다.** `ModalContentItem`은 더 이상 자체 좌우 패딩을 갖지 않습니다.
   - `ModalContent` 바로 아래에 `ModalContentItem`이 아닌 요소를 두고 가장자리까지 채우던 경우(이미지, 구분선 등) 이제 좌우 여백이 생깁니다. `horizontalPadding="none"`을 지정하고, 여백이 필요한 항목에만 직접 패딩을 주세요.
   - `ModalContent` 밖에서 `ModalContentItem`을 쓰던 경우 좌우 여백이 사라집니다. `ModalContent`로 감싸세요.
+  - `ModalContent` 자체에 `sx={{ padding: 0 }}`, `style`, styled 래퍼 등으로 `padding`을 덮어쓰던 경우 이제 좌우 여백까지 사라집니다. 기존에는 좌우 여백이 각 `ModalContentItem`에 있어 상하 패딩만 바뀌었습니다. 덮어쓰기를 제거하고 상하는 `verticalPadding="none"`으로 지정하세요.
+  - `ModalContent` 안에 넣은 `ActionArea`는 `ModalContent`의 좌우 여백과 자체 `--action-area-margin-x`가 겹쳐 이중으로 들여쓰기됩니다. 해당 `ActionArea`에 `sx={{ '--action-area-margin-x': '0px' }}`를 지정하세요. `horizontalPadding="none"`은 다른 자식의 여백까지 없애므로 적합하지 않습니다.
 - **상하 여백 기본값이 바뀌었습니다.** 기존에는 모든 variant에서 위아래 모두 여백이 있었지만, `popup`은 위아래 모두 없고 `bottom` / `full`은 위쪽에만 있습니다. 기존처럼 위아래 여백이 모두 필요하면 `verticalPadding="both"`를 지정하세요.
-- **`gap`이 지정한 값대로 적용됩니다.** 기존에는 `gap`을 지정해도 무시되고 항상 콘텐츠 여백 값이 적용되었습니다(반응형 `gap`만 동작). 이제 지정한 `gap`이 그대로 적용되므로, 무시되던 `gap`을 넘기고 있었다면 간격이 바뀌지 않는지 확인하세요.
+- **`gap`이 지정한 값대로 적용됩니다.** 기존에는 `gap`을 지정해도 무시되고 항상 콘텐츠 여백 값이 적용되었습니다(반응형 `gap`만 동작). 이제 지정한 `gap`이 그대로 적용되므로, 무시되던 `gap`을 넘기고 있었다면 간격이 바뀌지 않는지 확인하세요. `gap`을 지정하지 않은 경우에도 기본 간격이 콘텐츠 여백에서 상하 여백(`popup` / `bottom` 24px, `full` 20px)으로 바뀌었으므로 항목 간격을 확인하세요(예: `medium` 20px → 24px, `xlarge` 32px → 24px).
 
 #### CSS 변수 변경
 
@@ -717,16 +731,37 @@ Figma 스펙에 맞춰 사이즈 체계와 일부 하위 컴포넌트 API가 변
 
 `TextFieldContent`의 `variant`에서 `'text-button'`이 제거되었습니다. 해당 값을 사용했다면 다른 variant로 교체하세요.
 
+또한 `text` / `timer` variant가 같은 스타일로 통일되어, `timer`에 적용되던 brand 색상과 `label1` bold가 사라졌습니다(필드 typography와 `foreground.neutral.primary`를 따름). 기존 모양이 필요하면 `color="semantic.foreground.brand.primary"`와 `sx`로 지정하세요.
+
 #### Negative 상태 우측 아이콘 제거
 
-`negative` 상태에서 Field 내부 우측에 표시되던 circle exclamation 아이콘이 제거되었습니다.
+`negative` 상태에서 Field 내부 우측에 표시되던 circle exclamation 아이콘이 제거되었습니다. 해당 아이콘의 `[data-role='text-field-invalid']`도 함께 제거되었습니다.
 
 #### 내부 DOM 구조 변경 (`[data-role='text-field-wrapper']`)
 
-기존에 `[data-role='text-field-wrapper']`에 적용되던 `padding`·`box-shadow`(inset border)가 TextField 루트 요소로 이동했습니다. `[data-role='text-field-wrapper']`를 직접 타겟해 `padding`이나 `box-shadow: inset ...`으로 커스텀했다면, 이제 TextField 요소(`sx` 또는 루트 셀렉터)에 직접 스타일을 적용해야 합니다.
+```text
+AS-IS (3.x)
+root
+  > [text-field-wrapper] (padding 12px, inset border, gap 8px)
+      > leadingContent, input, [text-field-invalid] | [text-field-positive], [text-field-reset], trailingContent
+  > trailing button (Field 외부)
 
-- AS-IS: `[data-role='text-field-wrapper'] { padding: ...; box-shadow: inset ...; }`
-- TO-BE: TextField 요소에 직접 `sx`로 `padding` / `box-shadow`를 지정
+TO-BE (4.0.0)
+root (inset border, padding Large 12px 8px / Medium 10px 6px)
+  > [text-field-wrapper] (padding 0 4px, gap 2px)
+      > [text-field-leading-content] (leadingContent가 있을 때만)
+      > input
+      > [text-field-trailing-content] > [text-field-positive], [text-field-reset], trailingContent
+  > trailing button (래퍼로 감싸져 Field 내부에 렌더)
+```
+
+- `box-shadow`(inset border)는 `[data-role='text-field-wrapper']`에서 루트로 이동했고, `padding`은 루트와 `text-field-wrapper`로 나뉘었습니다. `[data-role='text-field-wrapper']`에 `padding`이나 `box-shadow: inset ...`으로 커스텀했다면 TextField 요소(`sx` 또는 루트 셀렉터)로 옮기세요.
+- `leadingContent` / `trailingContent`는 각각 `[data-role='text-field-leading-content']` / `[data-role='text-field-trailing-content']` 래퍼 안에 렌더됩니다. `[data-role='text-field-wrapper'] > *`처럼 자식·형제 관계를 가정한 셀렉터는 확인이 필요합니다.
+
+#### 테두리 · Focus 스타일 변경
+
+- 루트의 elevation 그림자가 제거되었습니다.
+- focus 테두리가 inset 2px에서 inset 1px + **바깥 4px focus 링**으로 바뀌었습니다. `overflow: hidden` 컨테이너 안에 있으면 잘리고, 인접 요소와의 간격이 4px 미만이면 겹칩니다.
 
 ### TextArea
 
@@ -746,13 +781,13 @@ Figma 스펙에 맞춰 사이즈 체계와 `TextAreaContent` API가 변경되었
 
 `'characterCounter'`, `'badge'`, `'chip'`이 제거되고 `'content-badge'`, `'primary-icon-button'`, `'segmented-control'`이 추가되었습니다.
 
-| AS-IS              | TO-BE                                                        |
-| ------------------ | ------------------------------------------------------------ |
-| `characterCounter` | 제거 — `FormControlMessageAccessory`로 대체 (아래 항목 참조) |
-| `badge`            | `content-badge`                                              |
-| `chip`             | `custom`                                                     |
+| AS-IS              | TO-BE                                   |
+| ------------------ | --------------------------------------- |
+| `characterCounter` | 제거 — 아래 Character counter 항목 참조 |
+| `badge`            | `content-badge`                         |
+| `chip`             | `custom`                                |
 
-또한 `variant`의 기본값이 `'characterCounter'`에서 `'icon-button'`으로 변경되었습니다. `variant`를 지정하지 않고 character counter로 사용하던 `<TextAreaContent>`는 이제 icon-button으로 렌더되므로, 해당 케이스도 `FormControlMessageAccessory`로 마이그레이션해야 합니다.
+또한 `variant`의 기본값이 `'characterCounter'`에서 `'icon-button'`으로 변경되었습니다. `variant`를 지정하지 않고 character counter로 사용하던 `<TextAreaContent>`는 이제 icon-button으로 렌더되므로, 해당 케이스도 아래 Character counter 항목에 따라 마이그레이션해야 합니다.
 
 #### Character counter → `FormControlMessageAccessory`
 
@@ -785,6 +820,38 @@ const [value, setValue] = useState('');
     Helper Message
   </FormControlMessage>
 </FormControl>;
+```
+
+메시지 컴포넌트는 children이 없으면 렌더되지 않고(`accessory`도 함께 사라짐), `FormControl` 밖에서 사용하면 에러가 발생합니다. 따라서 표시할 메시지가 없거나 조건부로만 렌더되는 경우(`{error && <FormControlNegativeMessage>…}`), 또는 `FormControl`을 쓰지 않는 경우에는 카운터를 기존 위치(`leadingContent` / `trailingContent`)에 `<TextAreaContent variant="custom">`으로 직접 작성하세요. 아래 예시는 3.x 카운터 모양(label2 medium, 74% opacity, 초과 시 현재 길이를 negative 색으로 표시)을 그대로 재현합니다.
+
+- TO-BE (메시지가 없는 경우)
+
+```tsx
+const [value, setValue] = useState('');
+
+<TextArea
+  value={value}
+  onChange={(e) => setValue(e.target.value)}
+  trailingContent={
+    <TextAreaContent variant="custom">
+      <Typography
+        variant="label2"
+        weight="medium"
+        color="semantic.foreground.neutral.tertiary"
+        data-is-overflow={value.length > 200}
+        sx={(theme) => ({
+          padding: `0 ${theme.spacing[4]}`,
+          opacity: theme.opacity[74],
+          '&[data-is-overflow="true"] > span': {
+            color: theme.semantic.foreground.negative.primary,
+          },
+        })}
+      >
+        <span>{value.length}</span>/200
+      </Typography>
+    </TextAreaContent>
+  }
+/>;
 ```
 
 #### Invalid 상태 아이콘 제거
@@ -935,7 +1002,7 @@ Figma 스펙에 맞춰 사이즈 체계(Large / Medium)가 도입되었습니다
 <SelectRenderChip onClick={...}>{v}</SelectRenderChip>
 ```
 
-`Chip`을 계속 사용해도 동작하지만 새 디자인은 solid가 아닌 **outlined**이므로 시각적으로 어긋납니다. 또한 `status="negative"`, `disabled` 상태 스타일을 제공하므로 값별 에러 표시를 직접 구현했다면 `status`로 교체하세요.
+`Chip`을 계속 사용해도 동작하지만 새 디자인은 solid가 아닌 **outlined**이므로 시각적으로 어긋납니다. 또한 3.x는 `render` 결과를 `ChipProvider solid="semantic.label.alternative"`로 감싸 solid Chip의 색을 지정했지만 4.0.0에서는 제거되었으므로, solid Chip을 그대로 두면 색이 달라집니다. 유지하려면 Chip에 직접 색을 지정하세요. 또한 `status="negative"`, `disabled` 상태 스타일을 제공하므로 값별 에러 표시를 직접 구현했다면 `status`로 교체하세요.
 
 ```tsx
 <SelectRenderChip status="negative">{v}</SelectRenderChip>
@@ -1210,6 +1277,8 @@ Fallback view는 더 이상 이미지를 표시하지 않습니다. `FallbackVie
 
 > **기존 사용자의 테마 선택은 배포 후 최초 1회 초기화됩니다.** localStorage 값을 읽어오는 폴백은 제공하지 않습니다. `enableDarkMode` 사용 시 시스템 테마로, 그 외에는 light로 시작합니다.
 
+> **`enableDarkMode`를 쓰지 않는 앱**은 테마가 항상 light로 고정되어 테마 쿠키를 읽거나 쓰지 않습니다. `storageKey`는 `cookie.key`로 옮기지 말고 삭제만 하면 되며, 테마 초기화·서브도메인 공유·`domain` 관련 항목은 해당되지 않습니다. [`next-themes` 직접 사용 코드](#next-themes-직접-사용-코드)와 [`nonce`](#nonce-prop-추가) 항목은 여전히 확인이 필요합니다.
+
 #### `storageKey` prop 제거 → `cookie` 옵션
 
 저장 키를 포함한 쿠키 속성을 `cookie` 객체로 받습니다. 기본 저장 키도 `theme`에서 `montage-theme`로 변경되었습니다.
@@ -1430,7 +1499,9 @@ ListCell을 기반으로 하는 컴포넌트에 공통 적용됩니다:
 ```
 
 - `trailingContent`를 직접 지정하면 체크 대신 그 콘텐츠가 표시됩니다.
-- `MenuItem`의 선택 체크 표시가 이 공통 동작으로 통합되었습니다(시각 결과 동일). `selected`만 쓰고 `trailingContent`가 없던 **일반 ListCell에는 체크가 새로 생기므로** 의도에 맞는지 확인하세요.
+- `MenuItem` / `AutocompleteOption`의 선택 체크 표시가 이 공통 동작으로 통합되었습니다(시각 결과 동일). `selected`만 쓰고 `trailingContent`가 없던 **일반 ListCell에는 체크가 새로 생기므로** 의도에 맞는지 확인하세요.
+- `AutocompleteOption`은 v3에서 직접 넘긴 `trailingContent`를 무시하고, 선택된 옵션에는 자체 체크 아이콘을, 나머지 옵션에는 빈 값을 강제로 넣었습니다. v4에서는 넘긴 `trailingContent`가 그대로 표시되므로, **`trailingContent`를 넘기던 옵션은 선택되지 않은 상태에서도 그 콘텐츠가 보이고, 선택돼도 체크 대신 그 콘텐츠가 보입니다.** 3.x 화면을 유지하려면 `trailingContent`를 제거하세요.
+- `MenuItem` / `Option` / `AutocompleteOption`에 직접 넘긴 `selected`는 이제 체크 아이콘까지 제어합니다. v3에서는 체크가 메뉴·자동완성의 선택값만 따랐지만, v4에서는 `selected={true}`면 선택되지 않은 항목에도 체크가 생기고 `selected={false}`면 선택된 항목의 체크가 사라집니다(`aria-checked` / `aria-selected`는 선택값을 따름). 선택값과 다른 `selected`를 넘기던 곳은 확인하세요.
 
 ##### `leadingContent`에 선택 컨트롤이 있고 `trailingContent`가 없으면 반드시 꺼야 합니다
 
@@ -1479,7 +1550,7 @@ ListCell을 기반으로 하는 컴포넌트에 공통 적용됩니다:
 - 레이블: `body1` · regular → **`body2` · medium** (선택 시 medium → **bold**)
 - 캡션: `label1` → **`label2`**
 - `value` variant: `body1` → **`body2`**
-- `ListText` 기본 태그가 `p` → `div`로, 내부 텍스트가 `span` → `p`로 바뀌었습니다. `p` 태그를 타겟팅하던 CSS 셀렉터·테스트 쿼리는 확인이 필요합니다.
+- `ListText` 기본 태그가 `p` → `div`로 바뀌었습니다. 내부 텍스트 노드(`list-text-content-wrapper`, `list-text-content`, `list-text-description`)는 v3·v4 모두 `span`이라, v4 `ListText` 안에는 `p`가 없습니다. `cell.querySelector('p')`, `p[data-role='list-text-wrapper']`처럼 `p` 태그를 타겟팅하던 CSS 셀렉터·테스트 쿼리는 더 이상 매칭되지 않으므로 확인이 필요합니다.
 
 #### disabled 스타일 변경
 
@@ -1489,11 +1560,12 @@ ListCell을 기반으로 하는 컴포넌트에 공통 적용됩니다:
 
 CSS 셀렉터나 테스트 쿼리로 내부 DOM을 타겟팅하던 코드는 확인이 필요합니다:
 
-| 기존                                      | 변경                                        |
-| ----------------------------------------- | ------------------------------------------- |
-| `data-role="list-item-trailing-content"`  | `data-role="list-cell-trailing-content"`    |
-| `data-role="menu-item-active-icon-check"` | `data-role="list-cell-selected-icon-check"` |
-| `data-role="list-text-caption"`           | `data-role="list-text-description"`         |
+| 기존                                                | 변경                                        |
+| --------------------------------------------------- | ------------------------------------------- |
+| `data-role="list-item-trailing-content"`            | `data-role="list-cell-trailing-content"`    |
+| `data-role="menu-item-active-icon-check"`           | `data-role="list-cell-selected-icon-check"` |
+| `data-role="autocomplete-option-active-icon-check"` | `data-role="list-cell-selected-icon-check"` |
+| `data-role="list-text-caption"`                     | `data-role="list-text-description"`         |
 
 신규 식별자: `list-cell-leading-content`, `list-cell-label-trailing`, `list-cell-extra-content`, `list-cell-extra-content-area`, `list-cell-content-chevron`.
 
@@ -1566,9 +1638,13 @@ npx @montage-ui/codemod@latest list-cell-variant-migration src
 </IconButton>
 ```
 
-**컴포넌트의 리소스(슬롯)로 넣는 IconButton 에는 `size` 와 `interactionOverflow` 를 지정하지 마세요.** 아래 슬롯은 슬롯 크기에 맞는 값을 IconButton 에 자동으로 적용합니다. 필드 계열은 필드 `size`(`FormControl` 의 `size` 와 반응형 값 포함)를 따릅니다.
+컴포넌트의 리소스(슬롯)로 넣는 IconButton 에는 아래 슬롯이 슬롯 크기에 맞는 값을 자동으로 적용합니다. 필드 계열은 필드 `size`(`FormControl` 의 `size` 와 반응형 값 포함)를 따릅니다.
 
-직접 지정한 값은 모든 breakpoint 에서 자동 적용 값보다 우선합니다. 3.x 에서 슬롯에 맞추려고 넘기던 `size`(예: `size={32}`, `size={28}`, `size={24}`)나 `interactionOverflow` 가 남아 있으면 자동 적용 값을 덮으므로 지워주세요.
+직접 지정한 `size` 는 모든 breakpoint 에서 자동 적용 값보다 우선하지만, `interactionOverflow` 는 직접 지정한 `size` 가 있어도 슬롯 값을 따릅니다. 그래서 3.x 에서 넘기던 `size` 를 남길지 지울지에 따라 결과가 달라지므로, 화면별로 의도에 맞게 정하세요.
+
+- **`interactionOverflow` 가 적용되는 슬롯** (`MenuActionAreaContent`, `TextAreaContent` 의 `solid` 를 제외한 아래 표의 `normal` 슬롯): 남겨 둔 숫자 `size` 는 3.x 와 같이 아이콘 크기가 되므로 **3.x 와 동일하게 렌더됩니다.** 지우면 슬롯 크기를 따르며 대개 아이콘이 작아집니다(예: `ListCellContent` 의 `size={24}` → `large` 20px, Medium 필드 18px). **3.x 에서 `size` 없이 쓰던 슬롯 IconButton(3.x 기본 아이콘 24px)은 코드를 바꾸지 않아도 슬롯 크기로 작아집니다**(`ListCellContent`·Large 필드 20px, Medium 필드 18px, `TabList`/`CategoryList` 는 리스트 크기에 따름). 3.x 크기를 유지하려면 숫자 `size` 는 그대로 두고 `size` 가 없던 IconButton 에는 `size={24}` 를 추가하세요. 4.0.0 슬롯 디자인을 따르려면 `size` 를 지우고(없던 곳은 그대로) 시각 확인하세요. `SectionHeader` 는 슬롯 크기가 `xlarge`(아이콘 24px)라 3.x 의 `size={24}` 나 `size` 생략과 같은 결과이므로, 어느 쪽이든 3.x 와 동일하게 렌더됩니다.
+- **`MenuActionAreaContent`** 는 `variant="solid"` 에만 적용되며, `solid` 의 숫자 `size` 는 3.x / 4.0.0 모두 박스 크기입니다. 지우면 슬롯의 `small` 이 적용됩니다.
+- 슬롯 IconButton 에 직접 넘기던 `interactionOverflow` 는 슬롯이 이미 적용하므로 지워도 됩니다.
 
 | 컴포넌트                                                                                                               | 슬롯                                                                        | 자동 적용되는 IconButton                                                                               |
 | ---------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
@@ -1578,38 +1654,12 @@ npx @montage-ui/codemod@latest list-cell-variant-migration src
 | `SelectContent`                                                                                                        | `variant="icon-button"`                                                     | `TextFieldContent` 와 같음                                                                             |
 | `TabList`                                                                                                              | `iconButton`                                                                | 리스트 `small`, `medium` → `size="large"`, `large` → `size="xlarge"` + `interactionOverflow`           |
 | `CategoryList`                                                                                                         | `iconButton`                                                                | 리스트 `small`, `medium` → `size="large"`, `large`, `xlarge` → `size="xlarge"` + `interactionOverflow` |
-| `SectionHeader`                                                                                                        | `headingContent`, `trailingContent`                                         | `size="xlarge"`, `interactionOverflow` 미적용                                                          |
+| `SectionHeader`                                                                                                        | `headingContent`, `trailingContent`                                         | `size="xlarge"` + `interactionOverflow`                                                                |
 | `MenuActionAreaContent`                                                                                                | `variant="icon-button"`                                                     | `variant="solid"` 는 `size="small"`                                                                    |
 
-- 자동 적용 값은 `variant="normal"` IconButton 에 적용됩니다. 별도로 적힌 경우(`solid`)만 해당 variant 에 적용됩니다. 표에 적히지 않은 variant 는 자동 적용 대상이 아니므로 `size` 를 지우지 마세요. 예를 들어 `MenuActionAreaContent` 의 `normal` IconButton 은 단독 IconButton 처럼 다룹니다.
+- 자동 적용 값은 `variant="normal"` IconButton 에 적용됩니다. 별도로 적힌 경우(`solid`)만 해당 variant 에 적용됩니다. 표에 적히지 않은 variant 는 자동 적용 대상이 아닙니다. 예를 들어 `MenuActionAreaContent` 의 `normal` IconButton 은 단독 IconButton 처럼 다룹니다.
 - `interactionOverflow` 가 적용된 슬롯은 레이아웃이 아이콘 크기(`xlarge` 24, `large` 20, `medium` 18)이고, 인터랙션 영역은 레이아웃 밖으로 넘쳐 그려집니다(36 / 32 / 28). 넘친 영역은 슬롯 여백 안에서 끝나므로 인접 요소를 가리지 않습니다.
 - `TabList`, `CategoryList` 에서 3.x `medium` 에 쓰던 22px 아이콘은 4.0.0 사이즈에 없어 20px(`large`)을 사용합니다. 리스트 `size` 를 생략하면 기본값을 따릅니다(`TabList` `large` → `xlarge`, `CategoryList` `medium` → `large`).
-
-```tsx
-// AS-IS (3.x): 필드 size 에 맞춰 size 를 직접 지정
-<TextField
-  size="medium"
-  trailingContent={
-    <TextFieldContent variant="icon-button">
-      <IconButton size={28}>
-        <IconEye />
-      </IconButton>
-    </TextFieldContent>
-  }
-/>
-
-// TO-BE: size 를 지정하지 않으면 필드 size(반응형 포함)에 맞게 자동 적용
-<TextField
-  size="medium"
-  trailingContent={
-    <TextFieldContent variant="icon-button">
-      <IconButton>
-        <IconEye />
-      </IconButton>
-    </TextFieldContent>
-  }
-/>
-```
 
 컴포넌트가 직접 렌더하는 아래 IconButton 에는 필요한 값이 이미 적용되어 있으므로 따로 지정할 필요가 없습니다.
 
