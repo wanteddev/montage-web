@@ -6,8 +6,9 @@ The versions of the project that are currently supported with security updates.
 
 | Montage version | Release    | Supported                       |
 | --------------: | :--------- | :------------------------------ |
-|          ^3.0.0 | 2025-11-13 | :white_check_mark: Stable major |
-|          ^2.0.0 | 2025-04-30 | :white_check_mark:              |
+|          ^4.0.0 | 2026-10-08 | :white_check_mark: Stable major |
+|          ^3.0.0 | 2025-11-13 | :white_check_mark:              |
+|          ^2.0.0 | 2025-04-30 | :x:                             |
 |          ^1.0.0 | 2024-05-07 | :x:                             |
 |         <=1.0.0 | 2024-03-15 | :x:                             |
 
