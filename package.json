@@ -25,7 +25,7 @@
     "test:e2e": "pnpm -F @montage-ui/test-e2e test",
     "test:treeshaking": "pnpm -F @montage-ui/test-tree-shaking test",
     "lerna-deploy": "lerna publish --include-merged-tags",
-    "deploy": "node scripts/deploy.mjs",
+    "deploy:packages": "node scripts/deploy.mjs",
     "deploy:docs": "node scripts/docs-deploy.mjs",
     "prepublish": "pnpm run build",
     "size-limit": "size-limit",
@@ -36,7 +36,7 @@
     "deps:update": "pnpm dlx npm-check-updates@latest -u --deep",
     "publish:codeconnect": "figma connect publish"
   },
-  "packageManager": "pnpm@10.19.0",
+  "packageManager": "pnpm@12.9.1",
   "devDependencies": {
     "@commitlint/cli": "^19.8.1",
     "@commitlint/config-conventional": "^19.8.1",
