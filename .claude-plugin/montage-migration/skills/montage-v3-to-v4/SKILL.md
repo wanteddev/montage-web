@@ -44,7 +44,9 @@ by verification.
 6. Run codemods through the CLI (`npx -y @montage-ui/codemod@<codemodVersion> <transform> <path>`;
    resolve the version at preflight, and on resume use the state file's recorded
    `codemodVersion`), never raw jscodeshift — steps ②–④ rewrite stylesheets only via
-   the CLI.
+   the CLI. The one exception is the maintainer-only `codemodBin` override (see
+   "Testing an unreleased codemod build" under Step 1), which swaps in a local CLI build;
+   never use it on a real consumer migration.
 
 ## Step 0 — Preflight
 
@@ -145,8 +147,21 @@ rewrites `package.json` a resume looks exactly like "already migrated".
    - **Version pin.** Read the recorded `codemodVersion` and pass it as the Workflow
      `codemodVersion` arg — the pin survives sessions only through this field. On a FIRST
      run, resolve a CONCRETE version before writing the state file with
-     `npm view '@montage-ui/codemod@^4' version --json | jq -r 'if type=="array" then .[-1] else . end'`.
-     The two shorter forms are both wrong: the plain `npm view @montage-ui/codemod version`
+     `npm view '@montage-ui/codemod@^4.0.0-0' version --json | jq -er 'if type=="array" then .[-1] elif type=="string" then . else error("npm view did not return a version") end'`.
+     The `-0` floor is load-bearing: semver ranges never match a prerelease unless the range
+     itself names one on the same `major.minor.patch`, so a plain `^4` finds NOTHING while 4.x
+     ships only as prereleases (npm then prints an E404 error object), whereas `^4.0.0-0`
+     matches the 4.0.0 prereleases and, once stable 4.x exists, still picks the highest
+     version — the script's version guard accepts the prerelease suffix for the same reason.
+     While only prereleases exist, "highest" is semver order, NOT publish order: 4.0.0
+     prereleases carry commit-hash identifiers that sort alphabetically, so cross-check the
+     resolved value against `npm view @montage-ui/codemod dist-tags time --json` and, if it is
+     not the newest build, confirm the pin with the user before recording it.
+     The filter must reject non-version output itself: on a miss npm writes a JSON error
+     object to stdout, and a filter that echoes it (`else .`) exits 0 through the pipe, so a
+     "did it fail?" check on the exit status sees success. **Check the result before using
+     it**: it must match `^4\.[0-9]+\.[0-9]+(-[0-9A-Za-z.-]+)?$`; only then write it to the
+     state file. The two shorter forms are both wrong: the plain `npm view @montage-ui/codemod version`
      returns whatever `latest` points at (5.x once that ships, and this skill covers the 4.x
      transforms only — the script rejects any other major), and the range form without
      `--json` prints one line PER matching 4.x version. Recording the literal dist-tag
@@ -169,7 +184,9 @@ rewrites `package.json` a resume looks exactly like "already migrated".
      for the remaining steps). Never re-pin silently.
    - **jq-free fallback.** Both the version resolution above and step ⑥'s recovery record use
      `jq`, which many consumer repos lack. If `command -v jq` fails, resolve the version with
-     `npm view '@montage-ui/codemod@^4' version --json | node -e "let s='';process.stdin.on('data',d=>s+=d).on('end',()=>{const v=JSON.parse(s);console.log(Array.isArray(v)?v[v.length-1]:v)})"`.
+     `npm view '@montage-ui/codemod@^4.0.0-0' version --json | node -e "let s='';process.stdin.on('data',d=>s+=d).on('end',()=>{let v;try{v=JSON.parse(s)}catch{process.exit(1)}v=Array.isArray(v)?v[v.length-1]:v;if(typeof v!=='string'){console.error(JSON.stringify(v));process.exit(1)}console.log(v)})"`
+     — same contract as the jq form: exits 1 on npm's error object, and the result still goes
+     through the format check above before it reaches the state file.
      The step-⑥ recovery record needs no arg or hand-off: the `node -e` equivalent sits beside the
      jq command in the exclusion procedure, and the step agent is told to switch to it whenever
      `command -v jq` fails. Never hand-assemble either with `printf`/`echo`.
@@ -299,6 +316,13 @@ rewrites `package.json` a resume looks exactly like "already migrated".
    spellings of one tree (`src` + `./src` + `<repoRoot>/src`). In a monorepo,
    list ALL package source directories as targets of ONE migration (one state file) — do
    not run separate per-package migrations, or the run-once guarantee fragments per path.
+   **No whitespace in a target path** (the repo-relative path — whitespace in the repo root
+   itself is harmless, since steps run the CLI from the repo root). Every published `@montage-ui/codemod` build so far
+   (all 4.0.0 canaries) splits the stylesheet pass's path on whitespace, so `my app/src`
+   silently loses steps ②–④'s `.css/.scss/.sass/.less` rewrites (`known-issues.md`). The
+   workflow rejects such a target; STOP and settle it with the user before step ① — rename
+   the directory, or pin a build that carries the CLI fix and pass
+   `allowWhitespaceTargets: true`.
 5. **Ask the user once, on a FIRST run only** (single `AskUserQuestion`): confirm the
    target directories, and whether to auto-commit after each step (recommended; enables
    safe rollback of a failed step). Do not ask again mid-migration. On a resume, do not
@@ -336,7 +360,9 @@ re-enumerating). A new codemod step or M-section must be updated in ALL of these
    the manual-migration summary).
    The `targets` / `autoCommit` / `codemodVersion` values below are EXAMPLES — fill in the
    values confirmed in preflight (`codemodVersion` is always the concrete version resolved
-   there, never a dist-tag):
+   there, never a dist-tag; a maintainer test run with `codemodBin` records `local` there plus
+   a `codemodBin:` line holding the command; a run with `allowWhitespaceTargets: true` adds an
+   `allowWhitespaceTargets: true` line — pass it back on every resume, or the workflow aborts):
 
 ```markdown
 ---
@@ -408,11 +434,18 @@ Workflow({
     referencesDir: '${CLAUDE_PLUGIN_ROOT}/skills/montage-v3-to-v4/references',
     autoCommit: true,
     codemodVersion: '<concrete x.y.z resolved in preflight>',
+    // codemodBin: "node '/abs/montage-web/packages/codemod/dist/cli.js'", // MAINTAINER-ONLY;
+    //                   // replaces codemodVersion — see "Testing an unreleased codemod build"
     completedSteps: [], // step ids already marked completed in the state file
     // excludeFiles: [], // optional; repo-relative paths, form-control-migration only.
     //                   // First established on a re-run after step ⑥'s precheck reported
     //                   // them; from then on pass the state file's recorded list on EVERY
     //                   // invocation — omitting it silently un-excludes those files.
+    // allowWhitespaceTargets: false, // optional; true ONLY when the pinned build carries the
+    //                                // CLI whitespace-path fix (see known-issues.md). Checked
+    //                                // on the repo-relative target, so whitespace in repoRoot
+    //                                // alone never needs it. Recorded in the state file —
+    //                                // pass the recorded value back on every resume.
     // commitNoVerify: false, // optional; true only when preflight agreed `--no-verify` with
     //                        // the user for this repo's pre-commit hooks
     // allowOutOfOrderSteps: false, // optional; true ONLY for a genuinely out-of-order
@@ -544,11 +577,16 @@ re-resolve on resume and break the same-build guarantee. The workflow returns pe
     re-run with `commitNoVerify: true` (or with the hooks disabled for the phase).
   - **State-file verification failed on a scan-only re-run** (`aborted:
 "state-file-verification"`, all 9 steps already completed): read `stateCheckError` — the
-    script produces six distinct causes with different remediations, so never assume which.
+    script produces seven distinct causes with different remediations, so never assume which.
     (a) The verification agent returned nothing — re-run. (b) State file missing — reconcile
-    with the user, never recreate silently. (c) `targets` disagree — follow the target-lock
-    path in preflight item 1. (d) A LOCKED FIELD disagrees (`codemodVersion` or `autoCommit`
-    differs from the recorded value) — re-run with the recorded value; changing the pin
+    with the user, never recreate silently. (b′) The verification agent omitted a locked field
+    (`stateTargets`, `autoCommit`, `codemodVersion`, `codemodBin`, `excludeFiles`, `stepMarks`)
+    — re-run; if the state file itself lacks the key, reconcile it with the user rather than
+    adding a guessed value. (c) `targets` disagree (the script compares the recorded list
+    itself, after the same normalization as the invocation's) — follow the target-lock
+    path in preflight item 1. (d) A LOCKED FIELD disagrees (`codemodVersion` / `codemodBin` or `autoCommit`
+    differs from the recorded value, or the file records `allowWhitespaceTargets: true` and
+    this run did not pass it; quoting of the recorded `codemodBin` is ignored) — re-run with the recorded value; changing the pin
     mid-migration forfeits the same-build guarantee and flipping `autoCommit` changes the
     failure handling every step branches on. (e) `completedSteps` claims all nine are done while
     the state file still marks some `pending` — the list is stale; refresh it from the state
@@ -571,6 +609,19 @@ re-resolve on resume and break the same-build guarantee. The workflow returns pe
 
 Details per step (commands, pre-checks, post-step verification greps, hazards):
 `references/codemod-steps.md`.
+
+### Testing an unreleased codemod build (maintainers only)
+
+To exercise transforms that are not on npm yet (or a fix to one), build the montage-web
+checkout's codemod package (`pnpm -F @montage-ui/codemod build`) and pass
+`codemodBin: "node '<abs path>/packages/codemod/dist/cli.js'"` INSTEAD of `codemodVersion`.
+The script then skips the registry version guard, records `codemodVersion: local` plus the
+command as `codemodBin:` in the state file (both locked for the migration exactly like a
+version pin), and every step agent runs that command verbatim in place of
+`npx -y @montage-ui/codemod@<version>`. Before step ①, run `<codemodBin> __probe__` and check
+the printed transform list contains all nine ids, the same check preflight runs against a
+registry pin. Use it only on a throwaway branch or a test fixture: a local build carries no
+same-build guarantee across machines, and a consumer migration must pin a published version.
 
 ### Running a single codemod
 
@@ -605,7 +656,10 @@ re-run the same Workflow invocation with `completedSteps` listing all 9 (every s
 skipped deterministically; the run only regenerates the scans — but it still verifies the
 state file exists and its `targets` match, and aborts with `stateCheckError` otherwise), or run each pending
 M-section's scan patterns from `references/manual-migrations.md` yourself. Never work
-M-sections without a scan-derived worklist. Apply mechanical fixes directly; ask the user
+M-sections without a scan-derived worklist. The scans run before M1, so v4 was not
+installed when they ran: after M1's install, re-check every hit whose note starts with
+`VERIFY AFTER M1:` against the installed v4 (`node_modules/@montage-ui/*`) before acting on
+it. Apply mechanical fixes directly; ask the user
 before behavioral decisions (the bullets below are decision summaries only —
 `references/manual-migrations.md` is the source of truth for the full fix rules; update
 both together when an M-section changes):
@@ -627,20 +681,49 @@ both together when an M-section changes):
 - **M6 (Modal bottom sheet):** per occurrence — accept the new close-on-dismiss default
   (delete `onVisibilityChange` workarounds) or pin with `peekHeight`.
 - **M7 (TextField):** whether any field should adopt `size="medium"` (40px) now that the
-  single size maps to Large.
+  single size maps to Large. A selector that reached into the field through
+  `text-field-wrapper`'s children or siblings (`text-field-wrapper[^,{]*[>+~]`) needs its path
+  rechecked — leading/trailing content now sit in `text-field-leading-content` /
+  `text-field-trailing-content` groups and the trailing button in its own wrapper — and a
+  `TextFieldContent` `timer` that relied on v3's brand color and `label1` bold now renders
+  like `text`: restore it with `color` / `sx` or accept it, per occurrence. A removed
+  `text-field-invalid` selector is a mechanical **[zero]** deletion.
 - **M8 (TextArea):** replacing a removed `characterCounter` requires converting an
-  uncontrolled TextArea to a controlled one and moving the counter UI from inside the
-  field to the form-control message line — confirm per occurrence, and whether any
-  TextArea should adopt `size="medium"`.
-- **M9 (Semantic tokens):** which `surface.*` token replaces a deleted accent token that
-  painted a background — the codemod's `foreground.*` replacement is the wrong intent
-  there, and the replacement values differ from the originals (visual change), so decide
-  per occurrence with the user. The `surface.brand.primary` → `foreground.brand.primary`
+  uncontrolled TextArea to a controlled one (the consumer now supplies the current length),
+  then choosing where the counter lives — per occurrence. `FormControlMessageAccessory` in a
+  message's `accessory` prop fits ONLY when the TextArea sits inside a `FormControl` AND that
+  message always has text: a message with empty children renders nothing, accessory
+  included, and the message components throw outside `FormControl`. Otherwise (no message to
+  show, or no `FormControl`) keep the counter where v3 drew it — a hand-written counter in the
+  TextArea's `leadingContent` / `trailingContent` via `<TextAreaContent variant="custom">`.
+  Also decide whether any TextArea should adopt `size="medium"`.
+- **M9 (Semantic tokens):** what replaces a deleted accent token that painted a
+  background — the codemod's `foreground.*` replacement is the wrong intent there, and the
+  replacement values differ from the originals (visual change), so decide per occurrence
+  with the user, keeping the fill OPAQUE: `surface.cautionary/positive/negative.primary`
+  are 8% tints, not substitutes. Opaque v4 fills exist only for brand
+  (`surface.brand.primary` / `.strong` / `.heavy`) and the `surface.accent.<color>Opaque` hues (lime,
+  cyan, lightBlue, violet, purple, pink); for orange / redOrange / green / red there is no
+  opaque surface token, so keep the codemod's opaque `foreground.*` token (check its value
+  against M9's value table and QA) or pick another semantic token with the design team —
+  never fall back to `atomic.*`. The `surface.brand.primary` → `foreground.brand.primary`
   reclassification for text/icon usages is value-identical and mechanical once the usage
   is confirmed.
-- **M10 (ThemeProvider cookie storage):** whether the app should share its theme with
-  sibling subdomains (`cookie.domain`) or stay host-only, and whether to pass `nonce` under
-  CSP. `storageKey` → `cookie.key` is mechanical only when the old key is already a valid cookie
+  A group path used as a CSS value (`semantic.line.normal`, `background.normal`, …) is NOT a
+  decision: v3 returned the group object, which serialized to an invalid CSS value (emotion
+  emits `normal:#…;neutral:…;`, a plain template string `[object Object]`), so the
+  declaration was dropped — a pre-existing bug —
+  so without asking rewrite it to the group's `normal` leaf (the border/background now
+  paints where v3 drew none), or delete the declaration when the group has no `normal`
+  (`*.status`, `accent.*`), and list every hit in the final summary.
+- **M10 (ThemeProvider cookie storage):** first check whether the app enables dark mode at
+  all. Without `enableDarkMode` the theme is forced to light and the provider never writes the
+  cookie, so the cookie decisions below do not apply: delete `storageKey` (no `cookie.key`
+  move needed) and review only the `next-themes` and `nonce` items and any passed `cookie` options (still
+  validated — an invalid one logs a console error). With dark mode on: the
+  theme cookie is shared with sibling subdomains BY DEFAULT (`cookie.domain` defaults to
+  `'auto'`) — decide whether to keep that or opt out with `domain: 'none'` (host-only) — and
+  whether to pass `nonce` under CSP. `storageKey` → `cookie.key` is mechanical only when the old key is already a valid cookie
   name — v4 ignores a non-token key with a console error and falls back to the default, so a key
   containing `:` `/` `@` `=` or a space must be renamed (see M10). Direct `next-themes` `useTheme` calls are
   NOT — they break silently (no error, no type error), but only the ones that resolved
@@ -648,8 +731,11 @@ both together when an M-section changes):
   `resolvedTheme` → `theme` and the raw choice → `themeOriginValue`. Calls bound to the
   app's own `<NextThemeProvider>` stay as they are, dependency included.
   End users' stored theme resets once on this release; that is expected, not a defect.
-  If `domain` is adopted, confirm every app under that root domain uses the same `key` /
-  `domain` / `path` — a mixed setup shadows the shared cookie and no scan catches it.
+  Confirm every app under that root domain uses the same `key` / `domain` / `path` — a mixed
+  setup shadows the shared cookie and no scan catches it. This applies to an opted-out app too:
+  a `domain: 'none'` app on the same host as a default `'auto'` app keeps having its host-only
+  cookie deleted by the `'auto'` one, so opting out is only safe when no `'auto'` app shares
+  the host.
 - **M11 (SegmentedControl):** `variant="outlined"` has no replacement — every occurrence
   becomes the solid form (white sliding thumb, no dividers, no brand tint), so confirm the
   visual change per occurrence. Icon-only usages need `iconOnly` on the root plus an
@@ -660,8 +746,13 @@ both together when an M-section changes):
   like-for-like replacement (`variant="custom"` plus your own `sx`), and a `<SelectContent>`
   with NO `variant` silently changes meaning (text slot → icon wrapper) — decide per
   occurrence. Hand-assembled `render` Chips → `SelectRenderChip` is a visual change
-  (solid → outlined), so confirm each one, and whether any field adopts `size="medium"`
-  (40px) is the user's call too. Renaming a Select's `data-component="text-field-content"`
+  (solid → outlined), so confirm each one — and KEEPING a hand-built `solid` Chip is a
+  visual change too: v3 wrapped `render`'s output in `ChipProvider
+solid="semantic.label.alternative"`, which v4 dropped, so its text turns darker; per hit,
+  restore the color on the Chip or accept it. A `select(-multiple)?-(placeholder|values|wrapper)`
+  selector needs its path rechecked against the v4 tree (the placeholder/values wrapper is
+  gone and `leadingContent` moved into the inner row). Whether any field adopts
+  `size="medium"` (40px) is the user's call too. Renaming a Select's `data-component="text-field-content"`
   selector to `select-content` is mechanical once the hit is confirmed to be a Select's.
 - **M13 (PushBadge):** a non-literal `variant={expr}` step ⑦ could not map needs its values
   traced per occurrence — a `'new'` branch becomes `'text'` AND the element needs `text="N"`,
@@ -707,7 +798,14 @@ both together when an M-section changes):
   `trailingContent` is passed: there the right-hand check duplicates the leading
   affordance and `trailingContent={null}` is mandatory, not a decision. A cell that
   already passes its own `trailingContent` never renders the default — never overwrite it
-  with `null`. Dynamic content
+  with `null`. A consumer-passed `selected` on `MenuItem` / `Option` (normal) /
+  `AutocompleteOption` now drives the check icon directly — `selected={true}` adds a check,
+  `selected={false}` removes it while `aria-checked` / `aria-selected` stays true — so decide
+  per hit. `AutocompleteOption` also stopped ignoring a passed `trailingContent`: v3 forced
+  it in every state (check when active, nothing otherwise), so such an option now shows
+  that content on inactive options too, and instead of the check when active — keep or
+  delete per hit.
+  Dynamic content
   `variant={expr}` was skipped SILENTLY by step ⑨ — trace whether the expression can
   produce `badge`/`button`/`chevron` and rewrite its sources. `textProps`'s `caption` /
   `captionProps` became `description` / `descriptionProps`: step ⑨ rewrote every object
@@ -716,7 +814,8 @@ both together when an M-section changes):
   rewritten), props objects built outside the JSX, and consumer wrappers forwarding their
   own `caption` — a **[decision]** scan, because `ActionArea`'s `caption` prop is valid v4
   API and must never be renamed. The renamed `list-item-trailing-content` /
-  `menu-item-active-icon-check` / `list-text-caption` DOM identifiers are a
+  `menu-item-active-icon-check` / `autocomplete-option-active-icon-check` /
+  `list-text-caption` DOM identifiers are a
   mechanical **[zero]** rename of every consumer selector and test query that references
   them (stylesheets included) — they match nothing until renamed. Typography (label
   body1→body2·medium, description label1→label2), the `ListText` `p`→`div` DOM change, and
@@ -732,12 +831,19 @@ both together when an M-section changes):
   `ModalClose` — see M19) now dim the
   icon instead of drawing the interaction layer, with no opt-out prop — a visual-QA item,
   not a rewrite. The `normal` variant's `size` is now the box, not the icon: add
-  `interactionOverflow` to standalone `IconButton`s to keep the v3 layout; an `IconButton`
+  `interactionOverflow` to standalone `IconButton`s to keep the v3 layout. An `IconButton`
   passed as a component slot resource (tabled in M18, incl. the TabList / CategoryList
-  `iconButton`) whose variant the slot sizes gets its `size` / `interactionOverflow` from the
-  slot, so DELETE the v3 `size` / `interactionOverflow` it carries instead (a slot hit whose
-  variant the slot does not size is handled as standalone or QA only — see M18) —
-  a **[decision]** scan over every `<IconButton` hit.
+  `iconButton`) whose variant the slot sizes inherits the slot's `interactionOverflow` even
+  when it sets its own `size` — so in the overflow slots (ListCell family, TextField /
+  TextArea / Select content, TabList, CategoryList, SectionHeader) a kept numeric v3 `size` is
+  still the ICON size and renders exactly as in v3, while deleting it switches to the slot's
+  (usually smaller) preset icon. An unsized slot `IconButton` (24px in v3) gets that preset
+  with no edit at all. Per occurrence keep the v3 pixels (keep a numeric size, add `size={24}`
+  to an unsized one) or adopt the v4 slot size (delete `size`, leave unsized ones), and flag
+  the smaller icons for visual QA. `SectionHeader`'s preset is `xlarge` (a 24px
+  icon) — the same as v3's `size={24}` and v3's omitted `size` — so there either choice keeps
+  the v3 pixels. (A slot hit whose variant the slot does not size is handled as standalone or QA
+  only — see M18.) A **[decision]** scan over every `<IconButton` hit.
 - **M19 (TopNavigation / ModalNavigation):** `ModalClose` → `<ModalNavigationButton
 variant="close-button">` (a text-label `ModalClose` becomes `text-button` with a hand-wired
   close), `TopNavigationButton` / `ModalNavigationButton` `variant="icon"` / `"text"` →
@@ -756,7 +862,16 @@ variant="close-button">` (a text-label `ModalClose` becomes `text-button` with a
   explicit `normal` in `popup` / `bottom` warns — ask whether to delete it or switch to
   `floating` / `search`); `ModalContent` now owns the side padding (`ModalContentItem` lost
   it) and its vertical padding defaults to `none` in `popup` / `top-only` in `bottom` /
-  `full` — restore with `horizontalPadding` / `verticalPadding`; a `gap` v3 ignored now applies.
+  `full` — restore with `horizontalPadding` / `verticalPadding`; a `gap` v3 ignored now applies,
+  and the DEFAULT gap changed too (e.g. medium 20→24px, xlarge 32→24px), so QA every
+  `ModalContent` even without a `gap` prop. A `padding` override on `ModalContent` (`sx`,
+  `style`, a styled wrapper) now also wipes the side margin — replace it with
+  `verticalPadding` / `horizontalPadding`. An `ActionArea` inside `ModalContent` is inset
+  twice — zero its own inset with `sx={{ '--action-area-margin-x': '0px' }}` rather than
+  `horizontalPadding="none"`. A title-less `ModalNavigation` (e.g. a close-only bar) takes the
+  `emphasized` default in `popup` / `bottom`; its buttons stay at the edges, but flag it for
+  QA — 4.0.0 prerelease builds without the title spacer bunch them in the CENTER (a
+  design-system bug fixed in later builds, not consumer code to patch).
 - **M21 (ContentBadge outlined background):** `variant="outlined"` now renders a `transparent`
   background instead of `background.neutral.primary`, so the parent's background shows through.
   No prop changes and no type error — a **[decision]** per hit: on a `background.neutral.primary`
@@ -765,6 +880,26 @@ variant="close-button">` (a text-label `ModalClose` becomes `text-button` with a
   opaque fill via `sx` (`theme.semantic.background.neutral.primary`). Flag every hit for visual QA.
 
 M1 (package.json + configs) ends with a dependency install to refresh the lockfile.
+**Right after that install, run the project's own formatter and lint autofix over the files
+the migration changed** (e.g. `prettier --write` and `eslint --fix` on
+`git diff --name-only --diff-filter=d <pre-migration commit>`, or the repo's `format` /
+`lint:fix` script) and commit the result as its own commit (`chore(montage): v4 format cleanup`), separate from the
+codemod commits. The codemods print with recast's defaults, so their output does not follow
+the project's style: new string literals come out double-quoted (`package-name-migration`'s
+import sources, the ternaries `status-migration` and `list-cell-variant-migration` build,
+`css-variable-migration`'s rewritten literals), and `status-migration` moves an `invalid={!!x}`
+operand verbatim into a ternary test (`!!x ? "negative" : "normal"`), which ESLint's
+`no-extra-boolean-cast` flags — the `eslint --fix` here removes the redundant `!!`, so no
+hand edit is needed. `<pre-migration commit>` is the commit the migration started from: with
+`autoCommit: true`, the parent of step ①'s commit
+(`git log -1 --format=%H --grep='v4 codemod — package-name-migration'` then append `^`); with
+`autoCommit: false`, `HEAD` (every migration change is still uncommitted). Without a second
+revision, `git diff` compares that commit with the working tree, so uncommitted M-section edits
+are included; `--diff-filter=d` keeps deleted files (e.g. a removed config) out of the list
+handed to the formatter. This cannot run earlier: until M1's install the tree does not
+resolve, and the formatter / ESLint config may itself depend on the renamed packages. A repo
+with no formatter or lint autofix skips the step — the final lint run (Step 3) still reports
+what is left.
 Mark each M-section `completed` in the state file as it finishes.
 
 ## Step 3 — Final verification
@@ -791,10 +926,17 @@ Mark each M-section `completed` in the state file as it finishes.
      `positive` (`status={hasError || invalid ? …}`) is the transform's own correct output —
      never edit it and never count it against the criterion, since deleting that identifier
      breaks the ternary. Only a SECOND `invalid` / `positive` ATTRIBUTE on the element is an
-     M16 leftover. Step ⑨'s one genuine exception is its `variant="button"` content grep,
-     which is a JUDGED criterion at this stage: the manual phase may have introduced
+     M16 leftover. Step ⑨ has THREE greps that are not zero-criterion here — re-read its
+     verification classes before judging any of them: (a) the `variant="(badge|button)"`
+     content grep is a JUDGED criterion at this stage for its `button` half only (the
+     `badge` half stays zero-criterion — `badge` is never valid v4 on these content
+     components, whose value is `content-badge`): the manual phase may have introduced
      legitimate v4 general-Button usages, and renaming one to `text-button` is the exact
-     corruption Critical rule 1 names.
+     corruption Critical rule 1 names; (b) the dynamic `variant=\{` content grep is
+     REPORT-ONLY, never a criterion — valid v4 code with a dynamic variant matches it
+     forever; (c) the `caption` half of the `captionProps|caption` grep is JUDGED —
+     `ActionArea`'s `caption` prop and consumer objects with `caption:` keys are valid code
+     that must never be renamed; only its `captionProps` half is zero-criterion.
      `FormControl` is NOT an exception to list here: step ⑥'s grep is
      `\bForm(Field|Label|Message|ErrorMessage)`, which cannot match inside `FormControl*`
      at all, so a `FormControl` "hit" never comes from it — old inner-slot `FormControl`
@@ -811,7 +953,14 @@ Mark each M-section `completed` in the state file as it finishes.
      during that step's own diff review (steps ③/④ mandate reverting consumer-owned
      `--wds-*` variables and non-identifier strings, so those names legitimately survive),
      or unrelated consumer code — may remain and is listed in the final summary; only a
-     genuine Montage reference reopens M9/M3/M17. Re-read each step's verification note
+     genuine Montage reference reopens M9/M3/M17.
+   - Comment hits are a carve-out for every grep above (codemod and [zero] alike): the JS/TS
+     transforms never rewrite comments, so a commented-out v3 usage (`{/* <FormLabel> */}`,
+     `// theme.semantic.label.normal`) still matches. It is not a leftover and never reopens
+     an M-section or a step — list it in the final summary with file and line (or, if the
+     commented code is meant to come back, update it to the v4 name by hand). Stylesheet
+     comments are the exception: steps ②–④'s text pass rewrites them, so a CSS-comment hit
+     is judged like any other (see the comment-hit rule in `references/codemod-steps.md`). Re-read each step's verification note
      in `references/codemod-steps.md` before judging its hits.
 2. Project checks: install, typecheck, lint, build, unit tests — whatever the project
    defines.
@@ -819,7 +968,8 @@ Mark each M-section `completed` in the state file as it finishes.
    SegmentedControl / Select / PushBadge / SearchField / FallbackView screens (v4 changed their
    rendering and behavior, not just names) — former `variant="outlined"` SegmentedControls in
    particular (see M11),
-   Selects in dense layouts, whose focus ring now draws 4px OUTSIDE the field (see M12),
+   TextFields and Selects in dense layouts, whose focus ring now draws 4px OUTSIDE the field
+   (see M7 / M12),
    former `variant="new"` badges, whose square now comes from a fixed width instead of
    `aspect-ratio` (see M13), SearchFields whose radius and typography shifted with the size
    rename (see M14), fallback views, whose content padding now applies only
@@ -838,13 +988,21 @@ Mark each M-section `completed` in the state file as it finishes.
    navigation and modal navigation / close button, whose icon buttons now dim the icon on hover / press instead of drawing the
    interaction layer (see M18); and every screen M18's `<IconButton\b` scan changed, plus every
    slot `IconButton` hit, for its layout (see M18); and every modal navigation, whose padding
-   is now 24px at every size and whose `display` variant became `emphasized`, and every search
+   is now 24px in `popup` / `bottom` (20px in `full`) and whose `display` variant became `emphasized`, and every search
    navigation, whose unsized `SearchField` shrank from 48px to 40px (see M19); and every modal,
    whose radius, content margins, `ModalContent` padding defaults and `popup` / `bottom`
-   navigation title alignment changed (see M20); and every outlined `ContentBadge`, whose
+   navigation title alignment changed, including title-less (close-only) navigations and
+   any `ActionArea` nested in `ModalContent` (see M20); and every outlined `ContentBadge`, whose
    background is now transparent (see M21).
 4. Delete the state file, then summarize: steps run, commits created, manual fixes
-   applied, items intentionally left (with reasons).
+   applied, items intentionally left (with reasons), and a **"pre-existing v3 bugs now
+   visible"** list — code that was silently broken in v3 and starts rendering after the
+   migration, so the user is not surprised by it: every M9 group-path CSS value (v3 serialized
+   the group object into an invalid value — emotion's `normal:#…;…` or a plain
+   `[object Object]` — and dropped the declaration) — file:line, old path → new token (a border /
+   background now appears: QA it, or delete the declaration to keep the v3 look) or
+   "declaration deleted" (no `normal` leaf; the screen is unchanged). Write "none" when the
+   list is empty.
 
 ## Additional resources
 

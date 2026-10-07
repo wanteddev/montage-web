@@ -676,8 +676,8 @@ const ModalNavigation = forwardRef<
                 </FlexBox>
               )}
 
-              {Boolean(children) &&
-                (variant === 'search' ? (
+              {Boolean(children) ? (
+                variant === 'search' ? (
                   <SlotDefaultsProvider
                     value={{
                       SearchField: {
@@ -713,7 +713,16 @@ const ModalNavigation = forwardRef<
                       {children}
                     </Typography>
                   </FlexBox>
-                ))}
+                )
+              ) : (
+                variant === 'emphasized' && (
+                  <FlexBox
+                    alignItems="center"
+                    sx={modalNavigationTitleStyle(variant)}
+                    data-role="navigation-title"
+                  />
+                )
+              )}
 
               {Boolean(trailingContent) && (
                 <FlexBox

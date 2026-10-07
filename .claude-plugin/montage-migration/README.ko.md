@@ -44,8 +44,10 @@ Montage(Wanted Design System for Web) 메이저 버전 간 마이그레이션을
    `fillWidth`, selected 기본 체크 아이콘, 타이포·DOM 변경), ThemeProvider 쿠키 저장소 전환,
    IconButton `disableInteraction` → `interactionEffect` 전환(TopNavigation 아이콘 버튼은
    인터랙션 레이어 대신 아이콘이 어두워지는 방식으로 변경), 단독 아이콘 버튼의
-   `interactionOverflow` 적용(TabList / CategoryList `iconButton` 을 포함한 컴포넌트 슬롯 안에서
-   슬롯이 값을 적용하는 variant 의 아이콘 버튼은 3.x 의 `size` / `interactionOverflow` 를 제거),
+   `interactionOverflow` 적용(TabList / CategoryList `iconButton` 을 포함한 컴포넌트 슬롯 안의
+   아이콘 버튼은 슬롯의 `interactionOverflow` 를 이어받으므로, 3.x 숫자 `size` 를 남기면 3.x 와
+   같고 지우면 슬롯 크기를 따름(대개 작아짐). 3.x 에서 `size` 없이 쓰던 아이콘 버튼(3.x 24px)도 슬롯 크기를
+   따르므로(대개 작아짐), 3.x 크기를 유지하려면 `size={24}` 추가 — 화면별로 선택),
    TopNavigation / ModalNavigation 변경 대응(`ModalClose` → `ModalNavigationButton variant="close-button"`,
    `icon` / `text` → `icon-button` / `text-button` variant, ModalNavigation `display` →
    `emphasized`, 모달 navigation DOM 식별자), Modal 레이아웃·여백 변경 대응(ModalContainer
@@ -54,6 +56,11 @@ Montage(Wanted Design System for Web) 메이저 버전 간 마이그레이션을
    ContentBadge `outlined` 배경 투명화 대응.
 4. **최종 검증** — 잔여 패턴 grep, install/typecheck/lint/build/tests, 결과 요약.
 
-codemod는 순서에 민감하고 두 번 실행하면 안 됩니다(`form-control-migration` 재실행 시
-마이그레이션된 코드가 손상됩니다). 진행 상태는 `.claude/montage-migration-v4.local.md`에
-기록되어, 중단된 마이그레이션은 완료된 단계를 건너뛰고 첫 미완료 단계부터 재개됩니다.
+codemod는 순서에 민감하고 모든 단계를 한 번만 실행하는 것으로 취급합니다. 재실행은 단순히
+낭비가 아니라 코드를 손상시킬 수 있습니다: `form-control-migration`은 이미 마이그레이션된 코드를
+항상 손상시키고(FormField → FormControl → FormControlField 스왑이 새 루트 이름을 다시 바꿈),
+`list-cell-variant-migration`은 직접 작성한 v4 `variant="button"`을 `text-button`으로 조용히
+바꾸며, `list-card-migration` / `css-variable-migration`도 특정 조건(반쯤 마이그레이션된 파일·같은
+이름을 두 specifier로 import한 파일, 소비자가 정의한 `--wds-wds-*` 변수)에서 코드를 손상시킵니다.
+그래서 진행 상태는 `.claude/montage-migration-v4.local.md`에 기록되어, 중단된 마이그레이션은
+완료된 단계를 건너뛰고 첫 미완료 단계부터 재개됩니다.

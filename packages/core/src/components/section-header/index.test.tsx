@@ -9,7 +9,8 @@ describe('when given icon buttons inside section header contents', () => {
     cleanup();
   });
 
-  it('should render them at xlarge size without interactionOverflow', () => {
+  // xlarge + interactionOverflow: the layout is the 24px icon.
+  it('should render them at xlarge size with interactionOverflow', () => {
     render(
       <SectionHeader
         headingContent={
@@ -29,7 +30,7 @@ describe('when given icon buttons inside section header contents', () => {
 
     for (const label of ['Heading', 'Trailing']) {
       expect(window.getComputedStyle(screen.getByLabelText(label)).width).toBe(
-        'var(--dimension-36)',
+        '24px',
       );
     }
   });
