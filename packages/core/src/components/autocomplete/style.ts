@@ -42,10 +42,6 @@ export const autocompleteOptionStyle = (theme: Theme) => css`
     cursor: initial;
   }
 
-  [data-role='autocomplete-option-active-icon-check'] {
-    color: ${theme.semantic.foreground.brand.primary};
-  }
-
   &[data-focus='true'] > [data-component='with-interaction'] {
     opacity: ${theme.opacity[0]};
   }
