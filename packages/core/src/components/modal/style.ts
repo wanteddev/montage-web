@@ -25,6 +25,13 @@ export const modalDimmerStyle = (theme: Theme) => css`
   inset: 0;
   z-index: -1;
   background-color: ${theme.semantic.effect.dimmer.primary};
+  /*
+   * \`disableOutsidePointerEvents\` sets \`pointer-events: none\` on <body> and
+   * re-enables only the layer itself. The dimmer is a sibling of the layer, so
+   * opt it back in — otherwise a consumer \`onClick\` on a custom dimmer never
+   * fires. Dismissal still goes through the radix layer stack.
+   */
+  pointer-events: auto;
 
   &[data-snap='full'],
   &[data-snap='half'] {

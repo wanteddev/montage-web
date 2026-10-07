@@ -25,6 +25,12 @@ export const alertDimmerStyle = (theme: Theme) => css`
     theme.opacity[43],
   )};
   z-index: -1;
+  /* See \`modalDimmerStyle\` — opt back in under \`disableOutsidePointerEvents\`. */
+  pointer-events: auto;
+
+  &[data-status='close'] {
+    pointer-events: none;
+  }
 `;
 
 export const alertContainerStyle = (theme: Theme) => css`
