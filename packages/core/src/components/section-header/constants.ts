@@ -5,7 +5,7 @@ export const SECTION_HEADER_SLOT_DEFAULTS: SlotDefaults = {
   IconButton: {
     normal: {
       size: 'xlarge',
-      interactionOverflow: false,
+      interactionOverflow: true,
       color: 'semantic.foreground.neutral.quaternary',
     },
   },

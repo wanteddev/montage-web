@@ -238,14 +238,3 @@ export const textAreaContentStyle = css`
   width: fit-content;
   height: fit-content;
 `;
-
-export const textAreaCharacterCounterStyle = (theme: Theme) => css`
-  padding: ${theme.spacing[0]} ${theme.spacing[4]};
-  opacity: ${theme.opacity[74]};
-
-  &[data-is-overflow='true'] {
-    [data-role='text-area-content-character-counter-length'] {
-      color: ${theme.semantic.foreground.negative.primary};
-    }
-  }
-`;

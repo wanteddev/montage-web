@@ -14,7 +14,6 @@ import { Slot } from '@radix-ui/react-slot';
 import { useSize } from '@radix-ui/react-use-size';
 import { composeEventHandlers } from '@radix-ui/primitive';
 import { flushSync } from 'react-dom';
-import { IconCheck } from '@montage-ui/icon';
 import { useCallbackRef } from '@radix-ui/react-use-callback-ref';
 import { Box } from '@montage-ui/engine';
 
@@ -662,13 +661,6 @@ const AutocompleteOption = forwardRef<
             setAttributeSelection(ref.current, items, true);
           }
         })}
-        trailingContent={
-          active ? (
-            <ListCellContent variant="icon">
-              <IconCheck data-role="autocomplete-option-active-icon-check" />
-            </ListCellContent>
-          ) : null
-        }
         onClick={composeEventHandlers(props.onClick, (e) => {
           if (disabled) return e.preventDefault();
 
