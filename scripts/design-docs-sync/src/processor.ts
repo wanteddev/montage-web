@@ -21,7 +21,7 @@ export const processPage = async (page: Page, fileKey: string) => {
 
   const elements = document.children.find(
     ({ name, type }) =>
-      name.toLowerCase().includes('component/') && type === 'FRAME',
+      name.toLowerCase().startsWith('component/') && type === 'FRAME',
   ) as FigmaNode | undefined;
   const images = document.children.find(
     ({ name, type }) => name.toLowerCase() === 'image' && type === 'FRAME',
