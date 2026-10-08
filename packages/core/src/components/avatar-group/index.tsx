@@ -1,4 +1,10 @@
-import { Children, forwardRef } from 'react';
+import {
+  Children,
+  Fragment,
+  cloneElement,
+  forwardRef,
+  isValidElement,
+} from 'react';
 
 import { FlexBox } from '../flex-box';
 import { Typography } from '../typography';
@@ -11,8 +17,30 @@ import { AVATAR_GROUP_CONTENT_SLOT_DEFAULTS } from './constants';
 
 import type { DefaultComponentPropsInternal } from '@montage-ui/engine';
 import type { AvatarGroupContentProps, AvatarGroupProps } from './types';
+import type { ReactNode } from 'react';
 
 const MAX_AVATAR_COUNT = 5;
+
+/**
+ * `Children.toArray` keeps a Fragment as one child, so `<>{avatars}</>` would
+ * slip past the limit. Unwrap Fragments (recursively) and prefix the keys with
+ * the Fragment's key so siblings from different Fragments stay unique.
+ */
+const flattenChildren = (children: ReactNode): Array<ReactNode> =>
+  Children.toArray(children).flatMap((child) => {
+    if (
+      !isValidElement<{ children?: ReactNode }>(child) ||
+      child.type !== Fragment
+    ) {
+      return [child];
+    }
+
+    return flattenChildren(child.props.children).map((nested) =>
+      isValidElement(nested)
+        ? cloneElement(nested, { key: `${child.key}${nested.key}` })
+        : nested,
+    );
+  });
 
 const AvatarGroup = forwardRef<
   HTMLDivElement,
@@ -22,7 +50,7 @@ const AvatarGroup = forwardRef<
     { size = 'small', xs, sm, md, lg, xl, children, trailingContent, ...props },
     ref,
   ) => {
-    const reverseChildren = Children.toArray(children)
+    const reverseChildren = flattenChildren(children)
       .slice(0, MAX_AVATAR_COUNT)
       .reverse();
 
