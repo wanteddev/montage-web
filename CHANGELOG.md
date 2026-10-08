@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.0.1](https://github.com/wanteddev/montage-web/compare/v4.0.0...v4.0.1) (2026-10-08)
+
+### Bug Fixes
+
+- **core:** css exports의 types 조건을 default 앞으로 이동 ([#667](https://github.com/wanteddev/montage-web/issues/667)) ([2f1b463](https://github.com/wanteddev/montage-web/commit/2f1b4633a0b98bac069ca30432e7aa963028c454))
+
 # [4.0.0](https://github.com/wanteddev/montage-web/compare/v3.12.2...v4.0.0) (2026-10-08)
 
 ### Bug Fixes

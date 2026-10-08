@@ -1,7 +1,7 @@
 {
   "name": "@montage-ui/engine",
   "description": "Styling engine for the Montage design system powered by Emotion",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "files": [
     "dist"
   ],
