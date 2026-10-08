@@ -33,6 +33,19 @@ codemod는 import 선언만 변환합니다. 아래 항목은 수동 확인이 �
 - `package.json`의 dependencies 패키지명 변경
 - ESLint 설정에서 `@wanteddev/eslint-plugin-wds` → `@montage-ui/eslint-plugin`
 
+### 지원 브라우저 상향
+
+CSS `:has()`와 `dvh` 단위를 `@supports` 폴백 없이 사용하도록 바뀌어, 최소 지원 브라우저가 두 기능을 모두 지원하는 버전으로 올라갔습니다. 빌드 산출물의 문법 변환 타겟도 같은 버전입니다.
+
+| 브라우저            | 3.x | 4.0.0    |
+| ------------------- | --- | -------- |
+| Chrome / Edge       | 91  | **108**  |
+| Firefox             | 90  | **121**  |
+| Safari / iOS Safari | 15  | **15.4** |
+| Opera               | 77  | **94**   |
+
+3.x에서 폴백을 두었던 곳은 이제 폴백이 없습니다. 이보다 낮은 브라우저에서는 TextField · TextArea · SearchField의 포커스 테두리와 reset 버튼 표시(3.x `:focus-within` 폴백), `Modal` / `Alert` 래퍼 높이(3.x `100vh` 폴백)가 의도대로 적용되지 않습니다. 서비스의 지원 범위가 이보다 넓다면 업그레이드 전에 확인하세요.
+
 ### Theme 토큰 CSS Variable 화
 
 `theme.primitive`, `theme.opacity`, `theme.spacing`, `theme.radius`, `theme.dimension`, `theme.zIndex` 토큰이 이제 raw 값 대신 `var(--...)` 문자열을 반환합니다. 기존 `theme.atomic`, `theme.semantic`과 동일한 방식으로 통일되어, 컴포넌트에서 사용 시 다크 모드/런타임 오버라이드와 자연스럽게 동작합니다.
@@ -101,6 +114,22 @@ style={{ zIndex: `calc(${theme.zIndex.modal} + 1)` }}
 또한 React inline style에서 `zIndex` 값이 더 이상 number가 아니라 string이 됩니다. 타입 시그니처(`number | string`)를 받는 곳은 영향 없지만, `number`만 받던 props로 전달하던 코드는 prop 타입을 string으로 확장하거나 raw 값을 사용해야 합니다.
 
 > **breakpoint 토큰은 var 변환에서 제외되었습니다.** `@media (min-width: ...)` 쿼리에는 CSS variable을 사용할 수 없기 때문입니다.
+
+#### `spacing[1]` 삭제 · `Spacing` 타입 제거
+
+`theme.spacing[1]`(`'1px'`)이 삭제되었습니다. 1px이 필요하면 `theme.primitive[1]`(`var(--primitive-1)`)을 사용하세요. `spacing`의 나머지 키(`0`, `0.5`, `2` ~ `80`)는 그대로입니다.
+
+```ts
+// AS-IS
+border-width: ${theme.spacing[1]};
+
+// TO-BE
+border-width: ${theme.primitive[1]};
+```
+
+`@wanteddev/wds-theme` / `@wanteddev/wds-engine`에서 export하던 `Spacing` 타입도 제거되었습니다. 키 유니온이 필요하면 `Theme['spacing']`을, 점 표기 토큰 문자열(`'spacing.16'` 형태)이 필요하면 새로 추가된 `ThemeSpacingToken`을 사용하세요.
+
+3.x 토큰 중 삭제된 키와 타입은 이 둘뿐입니다(`semantic` 개편 제외). `opacity` / `zIndex` / `breakpoint` / `atomic`은 그대로이고, `primitive` / `radius` / `dimension` / `typography` 토큰과 대응 타입(`ThemePrimitiveToken` 등)이 새로 추가되었습니다. 이 변경은 codemod가 처리하지 않습니다.
 
 ### Semantic 토큰 구조 개편
 
@@ -254,6 +283,41 @@ npx @montage-ui/codemod@latest dom-identifier-migration src
 ```
 
 > **`data-ignore-dismissable-layer`는 이름만 바뀐 것이 아닙니다.** v3에서는 `PopperContent`(Popover / Tooltip / Menu / Select 드롭다운 등 Popper 기반 전부), `Modal`의 dialog · dimmer, `Alert`의 dimmer · container에 이 속성이 붙어 있었지만, v4에서는 **어떤 컴포넌트도 이 속성을 렌더하지 않습니다**([오버레이 dismiss 동작 변경](#오버레이-dismiss-동작-변경) 참고). codemod가 `closest('[wds-ignore-dismissable-layer]')`를 `closest('[data-ignore-dismissable-layer]')`로 바꿔도 Popper · Modal · Alert 요소는 더 이상 매칭되지 않으므로, 이 속성으로 "오버레이 내부인지" 판별하던 코드는 직접 수정해야 합니다. `DismissableLayer`는 여전히 `[data-ignore-dismissable-layer="true"]` 조상을 가진 대상의 바깥 클릭 · 포커스를 무시하므로, 사용자가 직접 붙인 요소에서는 계속 동작합니다.
+
+### Emotion cache key 변경 (`@montage-ui/nextjs`)
+
+`@montage-ui/nextjs`의 `AppRouterCacheProvider`, `AppCacheProvider` / `documentGetInitialProps`가 만드는 emotion cache의 기본 `key`가 `'wds'`에서 `'montage'`로 변경되었습니다. 이 key는 emotion이 생성하는 클래스명 접두사와 SSR `<style>`의 `data-emotion` 속성 값에 그대로 쓰입니다.
+
+| 대상           | AS-IS                         | TO-BE                                 |
+| -------------- | ----------------------------- | ------------------------------------- |
+| 클래스명       | `wds-1a2b3c`                  | `montage-1a2b3c`                      |
+| `data-emotion` | `wds 1a2b3c …` / `wds-global` | `montage 1a2b3c …` / `montage-global` |
+
+`[class*="wds-"]`, `[class^="wds-"]`, `style[data-emotion^="wds"]`처럼 key에 의존하는 셀렉터 · 테스트 쿼리 · 모니터링 설정이 있다면 수정해야 합니다. emotion 클래스명은 해시라 원래 안정적인 API가 아니므로, 가능하면 `data-component` / `data-role` 셀렉터로 바꾸세요. `dom-identifier-migration` codemod는 이 변경을 다루지 않습니다.
+
+`@montage-ui/nextjs`를 쓰지 않는 앱은 emotion 기본 key(`css`)를 그대로 쓰므로 영향이 없습니다.
+
+기존 key를 유지해야 한다면 직접 지정하세요.
+
+```tsx
+// App Router
+<AppRouterCacheProvider options={{ key: 'wds' }}>
+  {children}
+</AppRouterCacheProvider>;
+
+// Pages Router — _app과 _document에 같은 key의 cache를 넘겨야 합니다
+// (기본 cache처럼 <meta name="emotion-insertion-point">를 쓰고 있다면 insertionPoint도 지정하세요)
+import createCache from '@emotion/cache';
+
+const cache = createCache({ key: 'wds' });
+
+// _app.tsx
+<AppCacheProvider emotionCache={cache}>…</AppCacheProvider>;
+
+// _document.tsx
+MyDocument.getInitialProps = (ctx) =>
+  documentGetInitialProps(ctx, { emotionCache: cache });
+```
 
 ### 오버레이 dismiss 동작 변경
 
@@ -415,6 +479,30 @@ pac?.setAttribute('data-ignore-dismissable-layer', 'true');
 | `Alert`  | `!disableRemoveScroll \|\| !disableFocusScope`                      | `!disableAriaHiddenOthers`                     |
 
 `disableRemoveScroll` / `disableFocusScope`만으로는 더 이상 `aria-modal`이 꺼지지 않고, `disableAriaHiddenOthers`만 지정해도 `aria-modal="false"`가 됩니다. handle 바텀시트가 undimmed 스냅에 있을 때도 `false`입니다.
+
+### Popper 기반 컴포넌트 위치 · 크기 변경 (`collisionPadding`)
+
+Popper에 `collisionPadding`이 추가되고 기본값이 `20`이 되었습니다. 3.x는 화면 경계와의 여백 없이(`0`) 위치를 계산했습니다. `PopoverContent`, `TooltipContent`, `MenuContent`(Select / SelectMultiple의 드롭다운 포함), `AutocompleteList`, `DatePicker` / `DateRangePicker` / `TimePicker` 팝업에 모두 적용됩니다.
+
+- 팝업이 화면 가장자리에서 20px 안쪽에 머물도록 이동(shift)합니다.
+- 반대 방향 전환(flip)도 20px 여백을 빼고 판단하므로, 화면 끝 근처에서 3.x보다 먼저 뒤집힐 수 있습니다.
+- 남은 공간이 `--popper-available-width` / `--popper-available-height`로 노출되고, 기본 최대 크기가 이 값으로 제한됩니다.
+
+| 대상              | AS-IS                               | TO-BE                                                                                                        |
+| ----------------- | ----------------------------------- | ------------------------------------------------------------------------------------------------------------ |
+| Tooltip           | `max-width: 280px`                  | `max-width: min(280px, var(--popper-available-width))`                                                       |
+| Popover           | `max-width: 360px`                  | `max-width: min(360px, var(--popper-available-width))`                                                       |
+| Menu              | `width: 320px`, `max-height: 416px` | `width: min(320px, var(--popper-available-width))`, `max-height: min(400px, var(--popper-available-height))` |
+| Autocomplete 목록 | `max-height: 400px`                 | `max-height: min(400px, var(--popper-available-height))`                                                     |
+
+팝업 위치를 기준으로 한 시각 테스트나 좌표 단언은 확인이 필요합니다. 3.x처럼 경계에 붙여 배치하려면 `collisionPadding={0}`을 지정하세요. 방향별로 `{ top, right, bottom, left }`를 지정할 수도 있습니다. `collisionPadding={0}`이어도 위 최대 크기 제한은 그대로 적용됩니다.
+
+```tsx
+<PopoverContent collisionPadding={0} />
+<TooltipContent collisionPadding={0} />
+<Select contentProps={{ collisionPadding: 0 }} />
+<DatePicker contentProps={{ collisionPadding: 0 }} />
+```
 
 ### `invalid` / `positive` → `status`
 
@@ -915,7 +1003,7 @@ dialog · dimmer의 `wds-ignore-dismissable-layer`가 제거된 점과 `aria-mod
 
 `size`는 아이콘 계열 variant에서 `IconButton`의 `size`를, `text-button`에서는 `TextButton`의 `size`(`small` 외의 값은 `medium`)를 따릅니다.
 
-`@montage-ui/eslint-plugin`의 `icon-button-uses-name` 규칙은 `text-button` / `back-button` / `close-button` variant에 대해서는 `aria-label`을 요구하지 않습니다.
+`@montage-ui/eslint-plugin`의 `icon-button-uses-name` 규칙은 `text-button` / `back-button` variant(`ModalNavigationButton`은 `close-button` 포함)에 대해서는 `aria-label`을 요구하지 않습니다. `close-button`은 `ModalNavigationButton` 전용이며 `TopNavigationButton`에는 없습니다.
 
 별도 codemod는 제공되지 않습니다.
 
@@ -1355,7 +1443,7 @@ dot 지름, 텍스트 배지의 높이·min-width·padding·타이포그래피�
 | 외곽선 두께(신규) — 텍스트 | 1px         | 1.5px       | 2px         |
 | 외곽선 두께(신규) — dot    | 0.5px       | 1px         | 1px         |
 
-- 구 `variant="new"`는 `aspect-ratio: 1 / 1`로 정사각을 만들었습니다. v4에서는 `text`가 **한 글자짜리 문자열**일 때 높이와 같은 고정 너비를 적용해 정사각을 유지합니다. `text={3}`처럼 한 자리 숫자는 `min-width`로 처리되므로 폰트에 따라 폭이 미세하게 다를 수 있습니다.
+- 구 `variant="new"`는 `aspect-ratio: 1 / 1`로 정사각을 강제했습니다. v4는 정사각을 강제하지 않고 `min-width`(= 높이)와 좌우 여백으로 폭을 정하며, `text`가 **한 글자짜리 문자열**이면 글자가 가운데 오도록 `letter-spacing`만 미세 보정합니다. `"N"`처럼 좁은 글자는 높이와 같은 폭으로 렌더되지만 넓은 글자는 정사각보다 넓어질 수 있고, `text={3}` 같은 숫자에는 보정이 적용되지 않습니다. 정확한 정사각이 필요하면 `sx`로 `width`를 지정하세요.
 - 배지에 `box-sizing: border-box`가 적용되었습니다. 글로벌 리셋이 없는 프로젝트에서 padding만큼 커지던 문제가 사라지므로, 이를 전제로 offset을 보정해 두었다면 확인이 필요합니다.
 
 ### SearchField
@@ -1493,6 +1581,10 @@ Fallback view는 더 이상 이미지를 표시하지 않습니다. `FallbackVie
 | ----------------------------------------- | -------------------------------------- | --------------------------------------- |
 | `FallbackViewText` title/description 간격 | `10px`                                 | `12px`                                  |
 | description 색상                          | `semantic.foreground.neutral.tertiary` | `semantic.foreground.neutral.secondary` |
+| mobile 버튼 기본 `size`                   | `small`                                | `medium`                                |
+| desktop description 타이포그래피          | `body1-reading`                        | `body2-reading`                         |
+
+`FallbackViewActionAreaButton`에 `size`를 직접 지정하면 그 값이 우선합니다. mobile에서 3.x 크기를 유지하려면 `size="small"`을 지정하세요.
 
 #### DOM 식별자 변경
 
@@ -1843,6 +1935,27 @@ npx @montage-ui/codemod@latest list-cell-variant-migration src
 - 반응형 `fillWidth`의 대체 — 키는 제거되지만 `variant`가 반응형을 지원하지 않아 필요 시 `sx` 분기를 직접 작성해야 합니다.
 - `selected`만 쓰고 `trailingContent`가 없던 셀의 체크 아이콘 노출 여부 — 의도 판단이 필요해 코드를 바꾸지 않습니다. 다만 `leadingContent`에 Checkbox / Radio / Switch가 있으면서 `trailingContent`가 없는 셀은 어포던스가 중복되므로 `trailingContent={null}`을 직접 넣어야 합니다.
 
+### Button
+
+#### 사이즈 스펙 변경 · `xsmall` 추가
+
+Figma 4.0.0 스펙에 맞춰 사이즈별 radius · 여백 · 타이포그래피가 변경되었습니다. 높이는 `min-height`로 지정되며 3.x 렌더 높이(48 / 40 / 32px)와 같지만, 좌우 여백과 글자 크기가 줄어 **버튼 폭이 좁아집니다.**
+
+| 속성                        | large                     | medium                    | small                   |
+| --------------------------- | ------------------------- | ------------------------- | ----------------------- |
+| radius                      | 12px → 14px               | 10px → 12px               | 8px → 10px              |
+| padding                     | 12px 28px → 13px 20px     | 9px 20px → 10px 16px      | 7px 14px → 8px 12px     |
+| min-height (신규)           | 48px                      | 40px                      | 32px                    |
+| 타이포그래피                | body1 → body2             | body2 → label1            | label2 → caption1       |
+| gap                         | 6px                       | 5px → 4px                 | 4px                     |
+| 로딩 인디케이터             | 18px → 16px               | 16px → 14px               | 14px → 12px             |
+| `iconOnly` padding / 아이콘 | 12px / 24px → 14px / 20px | 10px / 20px → 11px / 18px | 7px / 18px → 8px / 16px |
+
+- `color="assistive"`의 글자 굵기가 `medium`에서 `bold`로 바뀌어, 모든 `color`가 `bold`를 사용합니다.
+- `size="xsmall"`이 추가되었습니다(radius 8px, min-height 28px, padding 6px 10px, caption1 bold).
+
+폭을 고정하지 않은 버튼이 들어간 레이아웃(가로 정렬, 줄바꿈 기준)은 시각 확인이 필요합니다. 3.x 크기가 꼭 필요하면 `sx`로 `padding` 등을 지정하세요.
+
 ### IconButton
 
 #### `size` 의미 변경 (아이콘 크기 → 박스 크기)
@@ -1952,7 +2065,7 @@ npx @montage-ui/codemod@latest list-cell-variant-migration src
 
 #### `TopNavigationButton` 인터랙션 변경
 
-`TopNavigationButton`, `ModalNavigationButton`의 아이콘 계열 variant(`icon-button` / `back-button` / `close-button`)는 내부 `IconButton`에 `interactionEffect="dim"`을 기본 적용합니다. hover / press 시 배경 레이어 대신 아이콘 색상이 어두워지는 방식으로 바뀌었습니다. 별도 마이그레이션은 필요 없습니다.
+`TopNavigationButton`, `ModalNavigationButton`의 아이콘 계열 variant(`icon-button` / `back-button`, `ModalNavigationButton`은 `close-button` 포함)는 내부 `IconButton`에 `interactionEffect="dim"`을 기본 적용합니다. hover / press 시 배경 레이어 대신 아이콘 색상이 어두워지는 방식으로 바뀌었습니다. 별도 마이그레이션은 필요 없습니다.
 
 ### ContentBadge
 
@@ -1977,6 +2090,29 @@ npx @montage-ui/codemod@latest list-cell-variant-migration src
   배지
 </ContentBadge>
 ```
+
+### ActionArea
+
+#### `ActionAreaButton` 기본 스타일 변경
+
+| 대상                                            | AS-IS                    | TO-BE                    |
+| ----------------------------------------------- | ------------------------ | ------------------------ |
+| `variant="cancel"`인 `ActionArea`의 `main` 버튼 | `outlined` + `assistive` | `solid` + `assistive`    |
+| `alternative` 버튼 색상                         | `primary` (outlined)     | `assistive` (outlined)   |
+| `variant="neutral"`의 main / alternative 패딩   | `12px 15px` 고정         | Button `large` 패딩 적용 |
+| `divider` 선 색상                               | `line.neutral.secondary` | `line.neutral.tertiary`  |
+
+기존 모양을 유지하려면 `buttonVariant` / `buttonColor`를 직접 지정하세요.
+
+```tsx
+<ActionArea variant="cancel">
+  <ActionAreaButton buttonVariant="outlined">취소</ActionAreaButton>
+</ActionArea>
+
+<ActionAreaButton variant="alternative" buttonColor="primary">…</ActionAreaButton>
+```
+
+배경색을 지정하는 `backgroundColor` prop이 추가되었습니다(기본값 `semantic.surface.elevated.primary`). caption과 compact 레이아웃의 DOM 변경은 [기타 DOM 변경 › ActionArea](#actionarea-1)를 참고하세요.
 
 ### 기타 DOM 변경
 
