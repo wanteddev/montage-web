@@ -26,6 +26,7 @@ jobs:
     permissions:
       contents: read
       id-token: write # npm trusted publishing
+      packages: write # github packages publishing
     runs-on: ubuntu-latest
 
     steps:
@@ -71,7 +72,7 @@ jobs:
       - name: Publish
         env:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
-          NODE_AUTH_TOKEN: ${{ steps.app-token.outputs.token }}
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: pnpm run lerna-deploy ${{ inputs.increment }} --force-publish --dist-tag ${{ contains(inputs.increment, 'pre') && 'alpha' || 'latest' }} ${{ contains(inputs.increment, 'pre') && '--conventional-prerelease' || '--conventional-commits' }} --create-release=github --yes
 
       - name: Get published version
