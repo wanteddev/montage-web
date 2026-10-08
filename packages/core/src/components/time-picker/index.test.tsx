@@ -1,3 +1,4 @@
+import { forwardRef } from 'react';
 import {
   cleanup,
   fireEvent,
@@ -223,5 +224,22 @@ describe('when given time picker component', () => {
     });
 
     expect(input).toHaveValue('10:00:00');
+  });
+});
+
+describe('when given a custom input to TimePicker', () => {
+  it('should pass the responsive props through to it', () => {
+    const receiveXs = vi.fn();
+
+    const CustomInput = forwardRef<HTMLInputElement, { xs?: unknown }>(
+      ({ xs }, ref) => {
+        receiveXs(xs);
+        return <input ref={ref} />;
+      },
+    );
+
+    render(<TimePicker input={CustomInput as never} xs={{ width: '100px' }} />);
+
+    expect(receiveXs).toHaveBeenLastCalledWith({ width: '100px' });
   });
 });

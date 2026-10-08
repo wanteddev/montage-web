@@ -1,8 +1,9 @@
 import { cleanup, render } from '@testing-library/react';
 
+import { Avatar } from '../avatar';
 import { TextButton } from '../text-button';
 
-import { AvatarGroupContent } from '.';
+import { AvatarGroup, AvatarGroupContent } from '.';
 
 import type { ReactElement } from 'react';
 
@@ -44,5 +45,33 @@ describe('when given text button inside avatar group content', () => {
         </AvatarGroupContent>,
       ),
     );
+  });
+});
+
+describe('when given more avatars than the limit', () => {
+  afterEach(() => {
+    cleanup();
+  });
+
+  const avatars = (from: number, count: number) =>
+    Array.from({ length: count }, (_, i) => <Avatar key={from + i} />);
+  const countAvatars = () =>
+    document.querySelectorAll('[data-component="avatar"]').length;
+
+  it('should render at most five', () => {
+    render(<AvatarGroup>{avatars(0, 8)}</AvatarGroup>);
+    expect(countAvatars()).toBe(5);
+  });
+
+  it('should count avatars inside fragments too', () => {
+    render(
+      <AvatarGroup>
+        <>{avatars(0, 3)}</>
+        <>
+          <>{avatars(3, 4)}</>
+        </>
+      </AvatarGroup>,
+    );
+    expect(countAvatars()).toBe(5);
   });
 });

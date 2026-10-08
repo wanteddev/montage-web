@@ -175,16 +175,26 @@ const TimeList = memo(
           asChild
           preventScrollOnEntryFocus
           onEntryFocus={() => {
-            const firstSelectedItem =
-              scrollViewportRef.current?.querySelector<HTMLElement>(
-                '[aria-selected="true"]',
-              );
+            const viewport = scrollViewportRef.current;
+            if (!viewport) return;
 
-            if (scrollViewportRef.current && firstSelectedItem) {
-              scrollIntoViewIfNeeded(
-                scrollViewportRef.current,
-                firstSelectedItem,
-              );
+            // `preventScrollOnEntryFocus` stops the browser from scrolling the
+            // entered item into view, so bring it in ourselves. Mirror radix's
+            // entry candidates (selected → current tab stop → first) and skip
+            // disabled items, which never receive focus — otherwise an empty
+            // or disabled selection leaves the focused item off-screen.
+            const enabled = ':not([aria-disabled="true"])';
+            const entryItem =
+              viewport.querySelector<HTMLElement>(
+                `[aria-selected="true"]${enabled}`,
+              ) ??
+              viewport.querySelector<HTMLElement>(
+                `[role="option"][tabindex="0"]${enabled}`,
+              ) ??
+              viewport.querySelector<HTMLElement>(`[role="option"]${enabled}`);
+
+            if (entryItem) {
+              scrollIntoViewIfNeeded(viewport, entryItem);
             }
           }}
         >

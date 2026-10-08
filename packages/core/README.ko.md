@@ -344,7 +344,9 @@ export default MyApp;
 `enableDarkMode`를 사용하면:
 
 - 기본적으로 OS 설정(`prefers-color-scheme`)을 따라갑니다.
-- 사용자가 선택한 테마는 `localStorage`에 저장됩니다. (key: `theme`, `storageKey` prop으로 변경 가능)
+- 사용자가 선택한 테마는 쿠키(`montage-theme`)에 저장됩니다. 쿠키 도메인은 기본적으로 런타임에 감지되어, 같은 루트 도메인(예: `*.wanted.co.kr`) 아래의 앱들이 테마를 공유합니다. `localhost`, IP, 프리뷰 도메인에서는 host-only 쿠키로 저장됩니다.
+- 쿠키 설정은 `cookie` prop으로 바꿀 수 있습니다 — `key`, `domain`(기본 `'auto'`, host-only는 `'none'`, 또는 `.wanted.co.kr` 같은 명시 도메인), `path`, `maxAge`, `sameSite`, `secure`. 같은 루트 도메인의 앱들은 `key`를 통일해야 합니다. 자세한 내용은 `MIGRATION.md`의 `ThemeProvider` 섹션을 참고하세요.
+- 저장된 테마는 인라인 스크립트가 첫 페인트 전에 적용합니다. CSP를 사용한다면 스크립트가 실행되도록 `nonce`를 전달하세요.
 - 테마 전환 시 CSS transition을 끄고 싶다면 `disableTransitionOnChange`를 전달하세요.
 
 현재 테마를 읽거나 변경하려면 `useThemeControl` 훅을 사용합니다. 서버에서는 테마가 항상 `'light'`로 결정되기 때문에, Next.js 같은 SSR 환경에서 `theme` 값을 그대로 렌더링하면 hydration mismatch가 발생합니다. 테마에 따라 달라지는 출력은 `NoSsr`로 감싸주세요.

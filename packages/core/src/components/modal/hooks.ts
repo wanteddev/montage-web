@@ -293,9 +293,24 @@ export const useSnapLifecycle = ({
     snapRef.current = snap;
   }, [snap, snapRef]);
 
+  // Set once a sheet that was open closes. A `peek` still in `snapRef` on the
+  // next open is then a leftover from that dismissal (with `forceMount` the
+  // container — and its snap state — survives between opens), not a snap the
+  // consumer asked to open at, so it must be reseeded like 3.x did.
+  const wasDismissedRef = useRef(false);
+  const wasOpenRef = useRef(false);
+
   // When the modal opens, seed snap from defaultSnap (flexible) or 'full'.
   useEffect(() => {
-    if (!isBottom || !isOpen) return;
+    if (!isBottom) return;
+
+    if (!isOpen) {
+      if (wasOpenRef.current) wasDismissedRef.current = true;
+      wasOpenRef.current = false;
+      return;
+    }
+
+    wasOpenRef.current = true;
 
     // A drag-dismiss closes without `applySnap`, leaving the dragged
     // `--modal-max-height` inline. Cleared here rather than on close so the
@@ -303,7 +318,10 @@ export const useSnapLifecycle = ({
     // `forceMount`, where the container survives between opens.
     containerRef.current?.style.removeProperty('--modal-max-height');
 
-    if (snapRef.current === 'peek') return;
+    const isLeftoverPeek = wasDismissedRef.current;
+    wasDismissedRef.current = false;
+
+    if (snapRef.current === 'peek' && !isLeftoverPeek) return;
 
     if (isFlexible) {
       setSnap(defaultSnap ?? 'half');
@@ -445,6 +463,12 @@ export const useDraggable = ({
   // `enableHalfSnapScroll=true`; the default path captures immediately and
   // never enters native scroll, so this ref stays false there.
   const gestureLockedToScroll = useRef(false);
+  // clientX at touchstart, and whether the gesture was judged horizontal on its
+  // first decisive move. A horizontal swipe on the content (carousel, slider,
+  // horizontally scrollable row) belongs to that content — the sheet only ever
+  // moves vertically, so it must not capture it.
+  const startedX = useRef(0);
+  const gestureLockedToHorizontal = useRef(false);
 
   // Rolling window of recent touch samples (y + timestamp). Used to compute
   // release velocity for projection-based snap resolution.
@@ -793,6 +817,8 @@ export const useDraggable = ({
 
     // Defer mode decision to the first touchmove because touchstart has no deltaY yet.
     startedY.current = touch.clientY;
+    startedX.current = touch.clientX;
+    gestureLockedToHorizontal.current = false;
     startedVisualHeight.current = readVisualHeight(container);
     startedMaxHeight.current =
       parseFloat(getComputedStyle(container).height) || 0;
@@ -833,6 +859,12 @@ export const useDraggable = ({
     const deltaY = touch.clientY - startedY.current;
 
     if (!isDragging.current) {
+      if (gestureLockedToHorizontal.current) return;
+      if (Math.abs(touch.clientX - startedX.current) > Math.abs(deltaY)) {
+        gestureLockedToHorizontal.current = true;
+        return;
+      }
+
       const viewport = context.innerContainer;
       // Sticky: once native scroll has consumed any movement in this gesture,
       // the gesture is "tainted" — even if scrollTop later returns to its

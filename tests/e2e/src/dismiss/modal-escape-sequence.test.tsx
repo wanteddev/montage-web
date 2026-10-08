@@ -1,5 +1,10 @@
 import { cleanup } from '@testing-library/react';
+import { userEvent } from 'vitest/browser';
 import {
+  Autocomplete,
+  AutocompleteField,
+  AutocompleteList,
+  AutocompleteOption,
   Button,
   Menu,
   MenuContent,
@@ -82,6 +87,21 @@ const ModalMenu = () => (
     </MenuContent>
   </Menu>
 );
+
+const ModalAutocomplete = () => (
+  <Autocomplete>
+    <AutocompleteField>
+      <input data-testid="autocomplete-field" />
+    </AutocompleteField>
+    <AutocompleteList>
+      <AutocompleteOption value="apple">Apple</AutocompleteOption>
+      <AutocompleteOption value="avocado">Avocado</AutocompleteOption>
+    </AutocompleteList>
+  </Autocomplete>
+);
+
+const autocompleteField = () =>
+  byTestId('autocomplete-field') as HTMLInputElement;
 
 describe('Escape with overlays inside a modal', () => {
   it('Select: first Escape closes the listbox, second closes the modal', async () => {
@@ -170,4 +190,49 @@ describe('Escape with overlays inside a modal', () => {
     await clickTopDimmer('modal-dimmer');
     await expect.poll(openModalCount).toBe(0);
   });
+
+  // The list is not a radix layer by itself; Escape is handled on the document
+  // in the capture phase, so without its own layer the modal used to close
+  // first — whatever the field did with the key.
+  it.each([
+    ['opened by click', async () => {}],
+    [
+      'with a highlighted option',
+      async () => {
+        await userEvent.keyboard('{ArrowDown}');
+      },
+    ],
+    [
+      'opened by typing',
+      async () => {
+        await userEvent.keyboard('a');
+      },
+    ],
+  ])(
+    'Autocomplete (%s): first Escape closes the list, second closes the modal',
+    async (_, prepare) => {
+      renderWithProvider(
+        <ModalWith>
+          <ModalAutocomplete />
+        </ModalWith>,
+      );
+
+      await click(byTestId('open-modal'));
+      await expect.poll(openModalCount).toBe(1);
+
+      await click(autocompleteField());
+      await prepare();
+      await expect.poll(listboxCount).toBe(1);
+      const typed = autocompleteField().value;
+
+      await pressEscape();
+      await expect.poll(listboxCount).toBe(0);
+      expect(openModalCount()).toBe(1);
+      // `type="search"` must not clear the value on Escape.
+      expect(autocompleteField().value).toBe(typed);
+
+      await pressEscape();
+      await expect.poll(openModalCount).toBe(0);
+    },
+  );
 });

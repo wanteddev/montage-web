@@ -292,6 +292,16 @@ const PopperContent = forwardRef<
           data-align={align}
           data-placement={placementResult}
           style={{
+            /*
+             * An open Modal / Alert / Picker sets `pointer-events: none` on
+             * <body> (radix `disableOutsidePointerEvents`) and re-enables only
+             * radix layers. This wrapper is portaled to <body> and inherits that
+             * through the DOM, so content that is not itself a layer (e.g.
+             * AutocompleteList, consumer `Popper` usage) would be unclickable
+             * inside a Modal. Opt back in; whether a click counts as "outside"
+             * is still decided through the React tree.
+             */
+            pointerEvents: 'auto',
             ...wrapperProps.style,
             ...floatingStyles,
             ...(isPositioned

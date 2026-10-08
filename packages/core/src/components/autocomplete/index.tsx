@@ -29,6 +29,7 @@ import { ScrollArea } from '../scroll-area';
 import { FlexBox } from '../flex-box';
 import { Typography } from '../typography';
 import { AnimationPresence } from '../animation-presence';
+import { DismissableLayer } from '../dismissable-layer';
 
 import {
   AUTOCOMPLETE_FIELD_NAME,
@@ -425,11 +426,20 @@ const AutocompleteField = forwardRef<HTMLElement, AutocompleteFieldProps>(
                   } else if (!asSelect) {
                     onSearch?.(value);
                   }
-                case 'Escape':
+
+                  // Keep the native submit / search behavior out of the way,
+                  // as before (this used to fall through into Escape).
                   e.preventDefault();
-                  if (open && selectedOption) {
+                  return;
+                case 'Escape':
+                  // Also stops a `type="search"` input from clearing its value.
+                  // While the list is open, the list's layer receives Escape
+                  // first (see AutocompleteList); this covers the rest.
+                  e.preventDefault();
+                  if (open) {
                     onOpenChange(false);
                   }
+                  return;
               }
             },
           )}
@@ -500,6 +510,7 @@ const AutocompleteList = forwardRef(
       asSelect,
       value,
       width,
+      onOpenChange,
       onSelectedOptionChange,
     } = useAutocompleteContext(AUTOCOMPLETE_LIST_NAME);
     const getItems = useCollection(AUTOCOMPLETE_SCOPE);
@@ -518,40 +529,62 @@ const AutocompleteList = forwardRef(
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [open, disableTrappedContent]);
 
+    const isListOpen = open && !input?.readOnly && !input?.disabled;
+
     return (
-      <AnimationPresence
-        present={(open && !input?.readOnly && !input?.disabled) || forceMount}
-      >
-        <PopperContent
-          role="presentation"
-          ref={ref}
-          offset={8}
-          position="bottom-center"
-          {...props}
-          data-status={open ? 'open' : 'close'}
-          sx={[{ width }, autocompleteListStyle, props.sx]}
-        >
-          <Box as={as ?? Slot}>
-            <ScrollArea
-              scrollbars="vertical"
-              size="small"
-              zIndex={11}
-              viewportProps={{ sx: autocompleteScrollAreaStyle }}
-              sx={{ borderRadius: 'inherit' }}
-            >
-              <List
-                role="listbox"
-                id={contentId}
-                gap="4px"
-                sx={autocompleteListContentStyle}
-                onMouseDown={(e) => e.preventDefault()}
+      <>
+        {/*
+         * While the list is open it must be the top of the radix layer stack,
+         * or Escape reaches an enclosing Modal / Alert / Popover first (radix
+         * handles Escape on the document in the capture phase, before the
+         * field's own keydown) and closes the whole overlay instead of the
+         * list. Focus stays on the field and outside clicks already close the
+         * list through the field's blur, so this layer only takes Escape. It
+         * is a hidden sentinel, mounted only while open, so the list DOM is
+         * unchanged and a closed (`forceMount`) list never swallows Escape.
+         */}
+        {isListOpen && (
+          <DismissableLayer
+            asChild
+            onDismiss={() => onOpenChange(false)}
+            onPointerDownOutside={(e) => e.preventDefault()}
+            onFocusOutside={(e) => e.preventDefault()}
+          >
+            <span hidden data-role="autocomplete-list-layer" />
+          </DismissableLayer>
+        )}
+        <AnimationPresence present={isListOpen || forceMount}>
+          <PopperContent
+            role="presentation"
+            ref={ref}
+            offset={8}
+            position="bottom-center"
+            {...props}
+            data-status={open ? 'open' : 'close'}
+            sx={[{ width }, autocompleteListStyle, props.sx]}
+          >
+            <Box as={as ?? Slot}>
+              <ScrollArea
+                scrollbars="vertical"
+                size="small"
+                zIndex={11}
+                viewportProps={{ sx: autocompleteScrollAreaStyle }}
+                sx={{ borderRadius: 'inherit' }}
               >
-                {children}
-              </List>
-            </ScrollArea>
-          </Box>
-        </PopperContent>
-      </AnimationPresence>
+                <List
+                  role="listbox"
+                  id={contentId}
+                  gap="4px"
+                  sx={autocompleteListContentStyle}
+                  onMouseDown={(e) => e.preventDefault()}
+                >
+                  {children}
+                </List>
+              </ScrollArea>
+            </Box>
+          </PopperContent>
+        </AnimationPresence>
+      </>
     );
   },
 ) as PolymorphicComponentInternal<AutocompleteListProps, 'div'>;

@@ -100,6 +100,19 @@ describe('when given autocomplete component', () => {
 
     expect(screen.getByTestId('autocomplete-field')).toHaveValue('item-2');
   });
+
+  it('should close the list on Escape even without a highlighted option', () => {
+    fireEvent.click(screen.getByTestId('autocomplete-field'));
+    expect(screen.getByTestId('autocomplete-option-1')).toBeInTheDocument();
+
+    fireEvent.keyDown(screen.getByTestId('autocomplete-field'), {
+      key: 'Escape',
+    });
+
+    expect(
+      screen.queryByTestId('autocomplete-option-1'),
+    ).not.toBeInTheDocument();
+  });
 });
 
 describe('when given autocomplete component with form control', () => {

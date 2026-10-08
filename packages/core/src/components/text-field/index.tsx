@@ -283,7 +283,10 @@ const TextFieldContent = forwardRef<
             (theme) => ({
               width: 'var(--text-field-content-icon-wrapper-size)',
               fontSize: 'var(--text-field-content-icon-size)',
-              color: color ?? theme.semantic.foreground.neutral.tertiary,
+              color: color
+                ? ((getColorByToken(theme, color) as string | undefined) ??
+                  color)
+                : theme.semantic.foreground.neutral.tertiary,
             }),
             sx,
           ]}

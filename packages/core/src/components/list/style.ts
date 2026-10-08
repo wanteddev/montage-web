@@ -37,6 +37,12 @@ export const listCellStyle =
       ? theme.semantic.foreground.brand.primary
       : theme.semantic.foreground.neutral.primary};
 
+    ${!disabled &&
+    !disableInteraction &&
+    css`
+      cursor: pointer;
+    `}
+
     ${listCellPaddingStyle({ verticalPadding }, theme)}
     ${listCellVariantStyle({ variant }, theme)}
 
@@ -135,7 +141,7 @@ export const listTextContentWrapperStyle =
     [data-role='list-text-content'] {
       display: block;
       text-align: inherit;
-      max-width: 100%;
+      width: 100%;
       ${listTextEllipsisStyle(ellipsis)}
     }
   `;

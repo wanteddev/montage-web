@@ -78,7 +78,9 @@ const SlotDefaultsContext = createContext<SlotDefaults>({});
  * (e.g. `TextFieldContent variant="badge"` → ContentBadge `size`).
  *
  * Place it as close to the slot's children as possible: the defaults reach
- * every descendant, including ones rendered through a portal.
+ * every descendant of the slot. They stop at overlay boundaries — content
+ * rendered through `PortalOrFragment` (Popover, Tooltip, Menu, Modal, …) is an
+ * independent surface and starts from no defaults (see `SlotDefaultsBoundary`).
  * Values are merged with the parent provider per component (see `mergeSlotDefaults`).
  */
 export const SlotDefaultsProvider = ({
@@ -98,6 +100,21 @@ export const SlotDefaultsProvider = ({
     </SlotDefaultsContext.Provider>
   );
 };
+
+const EMPTY_SLOT_DEFAULTS: SlotDefaults = {};
+
+/**
+ * Resets slot defaults for an overlay surface. Without it, an overlay opened
+ * from inside a slot (e.g. a Popover in `SectionHeader` `trailingContent`)
+ * would inherit that slot's IconButton color / size through React context even
+ * though it renders elsewhere — 3.x applied these defaults with CSS descendant
+ * selectors, which never reached portaled content.
+ */
+export const SlotDefaultsBoundary = ({ children }: { children: ReactNode }) => (
+  <SlotDefaultsContext.Provider value={EMPTY_SLOT_DEFAULTS}>
+    {children}
+  </SlotDefaultsContext.Provider>
+);
 
 /** Reads the slot defaults of the enclosing slot (`{}` outside of any slot). */
 export const useSlotDefaults = () => useContext(SlotDefaultsContext);

@@ -1,4 +1,5 @@
 import { cleanup, fireEvent, render, screen } from '@testing-library/react';
+import { renderToString } from 'react-dom/server';
 import { axe } from 'vitest-axe';
 
 import {
@@ -268,5 +269,18 @@ describe('when given icon button content in a large text area', () => {
         )
         .getPropertyValue('--text-area-content-icon-wrapper-width'),
     ).toBe('var(--dimension-24)');
+  });
+});
+
+describe('when the text area is server rendered', () => {
+  // Before the client measures it, the height must follow the size's
+  // line-height instead of a fixed pixel value, or it jumps after hydration.
+  it('should size the initial height from the line-height variable', () => {
+    const html = renderToString(<TextArea minRows={3} />);
+
+    expect(html).toContain(
+      '--text-area-height:calc(3 * var(--text-area-line-height))',
+    );
+    expect(html).not.toMatch(/--text-area-height:\d+px/);
   });
 });

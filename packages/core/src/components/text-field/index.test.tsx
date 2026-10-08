@@ -230,3 +230,22 @@ describe('when given icon buttons inside text field content', () => {
     expect(widthOf('Leading')).toBe('var(--dimension-24)');
   });
 });
+
+describe('when given a theme color token to an icon text field content', () => {
+  it('should resolve the token instead of emitting it as a CSS value', () => {
+    render(
+      <TextFieldContent
+        variant="icon"
+        color="semantic.foreground.brand.primary"
+      >
+        <svg />
+      </TextFieldContent>,
+    );
+
+    const css = Array.from(document.querySelectorAll('style'))
+      .map((style) => style.textContent)
+      .join('');
+
+    expect(css).not.toMatch(/color:\s*semantic\./);
+  });
+});

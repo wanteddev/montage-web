@@ -55,15 +55,17 @@ export const pageButtonStyle = (theme: Theme) => css`
 `;
 
 export const paginationFieldStyle = css`
-  border-radius: 8px;
+  border-radius: 10px;
+  padding: 6px;
 
   [data-role='text-field-wrapper'] {
-    padding: 6px;
+    padding: 0px 4px;
   }
 
   input {
     ${typographyStyle('label1', 'medium')}
     text-align: center;
+    padding: 0;
   }
 
   [data-role='text-field-reset'] {

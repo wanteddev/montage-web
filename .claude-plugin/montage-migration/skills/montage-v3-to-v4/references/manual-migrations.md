@@ -106,7 +106,8 @@ theme\.zIndex\.\w+\s*[-+*/]
 
 Also review destructured/aliased usages the patterns above miss (e.g.
 `const { spacing } = theme` followed by `parseInt(spacing[16])`). Locate the
-destructuring sites with (**[decision]**, like every M2 pattern):
+destructuring sites with (**[decision]**, like M2's other arithmetic / destructuring patterns — the `spacing[1]` scans
+below are [zero]):
 
 ```
 const\s*\{[^}]*\b(spacing|radius|dimension|opacity|zIndex|primitive)\b[^}]*\}\s*=\s*[[:alnum:]_.]*[Tt]heme
@@ -153,6 +154,18 @@ Fixes:
 - React inline style `zIndex` is now a string. Props typed `zIndex: number` need widening
   to `number | string` or a raw-value fallback. Scan **[decision]**: `zIndex` props on
   custom components fed from `theme.zIndex.*`.
+- **`theme.spacing[1]` removed, `Spacing` type removed.** v3 `spacing[1]` (`'1px'`) is gone —
+  it is `undefined` at runtime and a type error. Replace it with `theme.primitive[1]`
+  (`var(--primitive-1)`, same value); the other `spacing` keys are unchanged. The `Spacing`
+  type export of the v3 theme / engine packages is gone too: replace it with `Theme['spacing']` (the
+  same object type; `keyof Theme['spacing']` where v3 code used `keyof Spacing` for the key
+  union) or the new `ThemeSpacingToken` for dot-path token strings (`'spacing.16'`). These
+  are the only removed theme keys / type exports apart from the `semantic` overhaul (M9). No
+  codemod covers them.
+  Scan **[zero]**: `spacing\[1\]` (the escaped `]` keeps it from matching `spacing[10]` /
+  `spacing[12]`) and `['"]spacing\.1['"]` (dot-path token strings).
+  Scan **[decision]**: `\bSpacing\b` — keep only hits that are the theme type (imported from
+  the Montage theme / engine package); rewrite those, ignore unrelated identifiers.
 
 ## M3. CSS variable / DOM identifier leftovers
 
@@ -228,8 +241,28 @@ ancestor). Per hit: if the code sets the attribute on its own element, keep it; 
 the attribute to find a Montage overlay, rewrite the check against the overlay's own
 identifiers (`[data-role='modal-dimmer']`, `[role='dialog']`, the Popper content's
 `data-status`) — or drop it when it only existed to stop a nested overlay from closing its
-parent, which v4 now handles itself.
+parent, which v4 now handles itself. The consumer-marked opt-out is also the fix for DOM that
+React does not render (a third-party widget appended to `<body>`) used over an open overlay:
+together with `pointer-events: auto` it keeps a click on that DOM from dismissing the overlay
+(M22, "Portaled / out-of-overlay content", fix 3).
 Scan **[decision]** (all file types, after step ④): `data-ignore-dismissable-layer`.
+
+**Emotion cache key `'wds'` → `'montage'` (`@montage-ui/nextjs` only).** The cache that
+`AppRouterCacheProvider` and `AppCacheProvider` / `documentGetInitialProps` create now defaults
+to `key: 'montage'`, so emotion class names change `wds-1a2b3c` → `montage-1a2b3c` and the SSR
+`<style data-emotion>` value changes `wds …` / `wds-global` → `montage …` / `montage-global`.
+Apps that do not use `@montage-ui/nextjs` keep emotion's default `css` key and are unaffected.
+Step ④ does not touch class-name prefixes. Code that keys on the prefix (`[class*="wds-"]`,
+`[class^="wds-"]`, `style[data-emotion^="wds"]`, snapshot / e2e selectors, CSP or monitoring
+config) breaks. Do NOT decide alone: ask the user whether to (a) move those selectors to
+`data-component` / `data-role` (preferred — emotion hashes are not a stable API) or (b) keep the
+old key — App Router `<AppRouterCacheProvider options={{ key: 'wds' }}>`; Pages Router passes
+the SAME `createCache({ key: 'wds' })` to `<AppCacheProvider emotionCache={cache}>` in `_app` and
+`documentGetInitialProps(MyDocument, ctx, { emotionCache: cache })` in `_document` (plus `insertionPoint` if
+the app relied on the default cache's `<meta name="emotion-insertion-point">`).
+Scan **[decision]** (all file types, include tests and snapshots):
+`class[*^]?=['"]?wds-|data-emotion|\.wds-[0-9a-z]{4,}` — class-prefix selectors and emotion
+attributes; `\.wds-[0-9a-z]{4,}` also finds hashed classes in snapshots.
 
 ## M4. Card / ListCard follow-ups
 
@@ -1108,10 +1141,12 @@ section covers what the transform cannot express and the rendering changes no re
   hardcoded `1` to the token value (caption2 14px / label1 20px) — and the badge gained
   `box-sizing: border-box`: a project with no global reset previously got a badge padding-widths
   larger than the declared size, so hand-tuned `offsetX`/`offsetY` corrections may now
-  overshoot. The former `variant="new"` square came from `aspect-ratio: 1 / 1`; v4 reproduces
-  it by fixing the width to the height when `text` is a **single-character string**, so
-  `text="N"` stays a circle while `text={3}` is sized by `min-width` and can differ by a
-  fraction of a pixel. Background and text colors are now read from
+  overshoot. The former `variant="new"` square came from `aspect-ratio: 1 / 1`; v4 no longer
+  forces a square — the width comes from `min-width` (= the height) plus the side padding, and
+  a **single-character string** `text` only gets a `letter-spacing` tweak to center the glyph.
+  A narrow glyph like `text="N"` still renders as a circle, a wide glyph can come out wider
+  than the height, and numbers (`text={3}`) get no tweak. Where an exact square matters, set
+  `width` via `sx`. Background and text colors are now read from
   `--push-badge-background-color` / `--push-badge-text-color` on the wrapper, which is the
   supported override point (the dot uses the background variable as its own color).
 
@@ -1289,11 +1324,14 @@ No codemod covers this section — every fix here is a hand edit.
   change. Where the old spacing was load-bearing, put it back with `sx` on
   `FallbackViewContent` rather than reintroducing an image.
 
-- **Text style changes** (informational, no edit): the gap between
+- **Text style and button size changes** (one decision — the mobile button size): the gap between
   `FallbackViewText`'s title and description went `10px` → `12px`, and the description
   color went `semantic.foreground.neutral.tertiary` →
-  `semantic.foreground.neutral.secondary` (darker). Screens that tuned spacing around a
-  fallback view deserve a look.
+  `semantic.foreground.neutral.secondary` (darker). The mobile button's default `size` went
+  `small` → `medium` (desktop stays `large`), and the desktop description typography went
+  `body1-reading` → `body2-reading`. A `size` set on `FallbackViewActionAreaButton` still wins
+  — ask the user before pinning `size="small"` on mobile to keep the v3 look. Screens that
+  tuned spacing around a fallback view deserve a look.
   Scan **[decision]**: `\bFallbackView` file-level (prefix form on purpose — it also
   matches every sub-component and `FallbackViewProps`, all valid v4 code). Review each
   file for what the line greps cannot see: multi-line JSX props, `{...spread}`s onto a
@@ -1677,7 +1715,7 @@ and is ignored under `none`.
 - **`TopNavigationButton` icon buttons dim instead of drawing the interaction layer** (also
   `ModalNavigationButton`, and v3 `ModalClose`, which M19 replaces with its `close-button`
   variant). The icon variants (`icon-button` — the DEFAULT, v3 `variant="icon"` — plus
-  `back-button` / `close-button`) pass the inner `IconButton` `interactionEffect="dim"` by
+  `back-button`, and `close-button` on `ModalNavigationButton` only) pass the inner `IconButton` `interactionEffect="dim"` by
   default, so hover / press changes the icon color instead of showing the layer. Neither
   button's props expose `interactionEffect`, so there is no opt-out prop — this is the v4
   design; nothing to rewrite here (the variant renames are M19's), flag every top navigation
@@ -1759,7 +1797,7 @@ and is ignored under `none`.
 
     | Component                                                                                                                      | IconButton                                                                          | Layout  | Interaction area |
     | ------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------- | ------- | ---------------- |
-    | `TopNavigationButton`, `ModalNavigationButton` (`icon-button` / `back-button` / `close-button`)                                | `size={24}`, `interactionEffect="dim"`                                              | 24      | 36               |
+    | `TopNavigationButton`, `ModalNavigationButton` (`icon-button` / `back-button`; `close-button` is `ModalNavigationButton`-only) | `size={24}`, `interactionEffect="dim"`                                              | 24      | 36               |
     | `SnackbarCloseButton` (incl. `useSnackbar({ closeButton: true })`)                                                             | `size="large"`                                                                      | 20      | 32               |
     | `Popover` close button                                                                                                         | `size="small"`                                                                      | 16      | 24               |
     | `SectionMessage` close button                                                                                                  | `size="large"`, `color` / `interactionColor="semantic.foreground.neutral.tertiary"` | 20      | 32               |
@@ -2030,9 +2068,23 @@ dismissal of `Modal`, `Alert`, Popper-based overlays, and the Picker popups move
   Modal is inside it even though it is portaled out of the Modal's DOM — which is why the
   `data-ignore-dismissable-layer` markers were removed (M3).
 - `Modal` / `Alert` no longer close when focus moves outside them.
+- **A custom dimmer can no longer veto the outside-click close.** v3 closed from the dimmer's
+  `onClick`, so `e.preventDefault()` in a custom `ModalDimmer` / `AlertDimmer` `onClick` kept
+  the overlay open. v4 decides the close in the layer stack (mouse: `pointerdown`, touch:
+  `click`); no dimmer handler can stop it. The dimmer `onClick` still runs on mouse, but only
+  after the close has started (during the exit animation) and not at all if the dimmer unmounts
+  first — never put close-related logic there. Fix: a conditional veto becomes
+  `disableOutsideClickClose={condition}` on `ModalContainer` / `AlertContainer` (also a `useAlert`
+  option; add `disableEscapeKeyDownClose` if Esc must be blocked too); side effects on close move
+  to the `Modal` / `Alert` `onOpenChange`. Not codemod-able.
+  Scan **[decision]**: `<(ModalDimmer|AlertDimmer)([[:space:]>]|$)` file-level — read each hit
+  for event handlers (`onClick` / `onPointerDown` / `onMouseDown`, possibly multi-line) and
+  whether they call `preventDefault` or run close-related logic; ask the user before rewriting a
+  handler whose intent is not an obvious veto.
 - **While open, these overlays set `pointer-events: none` on `<body>`** (restored on close);
-  only the layer itself, layers above it, and the `Modal` / `Alert` dimmer receive pointer
-  events (so a consumer `onClick` on a custom `ModalDimmer` / `AlertDimmer` still fires, as in v3):
+  only the layer itself, layers above it, the `Modal` / `Alert` dimmer, and elements that set
+  `pointer-events: auto` themselves (`Autocomplete` / `PopperContent`, `Snackbar` / `Toast` — see
+  the portaled-content bullet below) receive pointer events:
 
   | Overlay                                       | Blocks outside pointer events when                                        |
   | --------------------------------------------- | ------------------------------------------------------------------------- |
@@ -2040,19 +2092,58 @@ dismissal of `Modal`, `Alert`, Popper-based overlays, and the Picker popups move
   | `Alert` (incl. alerts shown via `useAlert`)   | not `disableAriaHiddenOthers`                                             |
   | `DatePicker`, `DateRangePicker`, `TimePicker` | always, while the popup is open                                           |
 
-  Consequences: a body-level element outside the layer (a third-party chat launcher, cookie
-  banner, dev overlay — anything not rendered inside the overlay's React tree) cannot be clicked
-  while one of these is open; a test that clicks another element while a Picker is open fails
-  the user-event pointer-events check; snapshots of `<body>`'s inline `style` differ while open.
-  Do NOT decide the widget case alone: ask the user which body-level widgets must stay usable
-  over a `Modal` / `Alert`; for those overlays `disableAriaHiddenOthers` on `ModalContainer` /
-  `AlertContainer` lifts the block (it also disables screen-reader isolation and turns
-  `aria-modal` off). `useAlert` items cannot pass it — tell the user so. There is no opt-out on the
-  Pickers. In tests, close the popup (Esc or an outside click) before the next interaction.
+  Consequences: a test that clicks another element while a Picker is open fails the
+  user-event pointer-events check — and a click on the Picker's OWN input while its popup is open
+  only closes the popup (the caret / section does not move); snapshots of `<body>`'s inline
+  `style` differ while open. In tests, close the popup (Esc or an outside click) before the next
+  interaction.
   Scan **[decision]** (test files): `<(DatePicker|DateRangePicker|TimePicker)([[:space:]>]|$)`
   file-level — read each test for an interaction with another element while the popup is open.
   Scan **[decision]**: `pointer-events` (include stylesheets and tests) — consumer code that
   manipulates or asserts `<body>`'s pointer events.
+
+- **Portaled / out-of-overlay content is unclickable while one of these is open.** The block is
+  NOT limited to body-level widgets: EVERY element outside the open overlay's DOM subtree that is
+  not a Montage/Radix layer stops receiving clicks, hover and wheel — including content the
+  consumer portals to `<body>` from INSIDE a Modal. A click goes through two stages that read
+  different trees: ① browser hit-testing follows the **DOM** tree, so a portal (a DOM child of
+  `<body>`) inherits `pointer-events: none` and the click falls through to `<html>`; ② only if
+  it arrives does Radix decide "inside vs outside" through the **React** tree. React-tree
+  membership therefore does not rescue a portal from ①.
+  Already fine: `Popover`, `Menu`, `Tooltip`, `Select` / `SelectMultiple`, Picker popups, nested
+  `Modal` / `Alert` (Radix layers), `Autocomplete` lists and any consumer `Popper` /
+  `PopperContent` (the wrapper sets `pointer-events: auto`), `Snackbar` / `Toast`.
+  Broken: content rendered through `Portal` / `createPortal`; third-party libraries that portal
+  to `<body>` (react-select `menuPortalTarget`, editor toolbars, emoji pickers, antd-style
+  `getPopupContainer`); DOM appended outside React (chat launchers, cookie banners, Google
+  Places `.pac-container`). 3.x had no such block, so these regress silently on upgrade.
+  Fixes, in the order to prefer them — do NOT pick one alone; per hit, show the user the
+  options and ask:
+  1. **Render inside the overlay's DOM** — drop the portal or point it into the overlay
+     (`<Portal container={…inside the Modal…}>`, `<PopperContent disablePortal>`, omit
+     react-select `menuPortalTarget`). Inherits the layer's `pointer-events: auto`, no z-index
+     work; may be clipped by an `overflow: hidden` ancestor, in which case use 2.
+  2. **`pointer-events: auto` on the portal root, plus a z-index above the overlay**
+     (`theme.zIndex.modal` / `var(--zIndex-modal)`, default `1300`; e.g.
+     `zIndex: calc(var(--zIndex-modal) + 1)`, react-select
+     `styles={{ menuPortal: (b) => ({ ...b, zIndex: 1301, pointerEvents: 'auto' }) }}`). The
+     portal is inside the overlay's React tree, so clicking it does not dismiss the overlay.
+  3. **DOM not rendered by React** — give it `pointer-events: auto` AND
+     `data-ignore-dismissable-layer="true"` (on it or an ancestor; set it right after the widget
+     creates the node). Without the attribute the click reaches it but Radix judges it outside
+     the React tree and dismisses the overlay. This attribute is the remaining escape hatch
+     described in M3.
+  4. **`disableAriaHiddenOthers`** on `ModalContainer` / `AlertContainer` lifts the block entirely
+     — but also screen-reader isolation and `aria-modal`; only for page widgets that must stay
+     usable over an overlay. `useAlert` items and the Pickers have no such option — tell the
+     user so.
+     Scan **[decision]** (file-level, two-pass, whole repo): files that portal or append to the
+     body AND reference an overlay —
+     `comm -12 <(grep -rlE 'createPortal|<Portal([[:space:]>]|$)|menuPortalTarget|appendChild\(|getPopupContainer|portalTarget|container=\{document\.body\}' --exclude-dir=node_modules --exclude-dir=.git --exclude-dir=.next --exclude-dir=dist --exclude-dir=build --exclude-dir=out --exclude-dir=coverage --include='*.ts' --include='*.tsx' --include='*.js' --include='*.jsx' . | sort) <(grep -rlE '\b(Modal|ModalContainer|Alert|AlertContainer|useAlert|DatePicker|DateRangePicker|TimePicker)\b' --exclude-dir=node_modules --exclude-dir=.git --exclude-dir=.next --exclude-dir=dist --exclude-dir=build --exclude-dir=out --exclude-dir=coverage --include='*.ts' --include='*.tsx' --include='*.js' --include='*.jsx' . | sort)`.
+     Also list the FIRST grep's files that are not in the intersection: a portaling component
+     defined in one file and used inside a Modal elsewhere is still affected — trace its usage
+     sites. A clean scan is "nothing obvious", not proof of absence; tell the user to click-test
+     every overlay screen that hosts a dropdown / picker / widget.
 
 - **`aria-modal` condition changed.** `Modal`: v3 `open && visible && (!disableRemoveScroll || !disableFocusScope)`,
   v4 open (dimmed) `&& !disableAriaHiddenOthers`. `Alert`: v3
@@ -2061,6 +2152,29 @@ dismissal of `Modal`, `Alert`, Popper-based overlays, and the Picker popups move
   an undimmed handle-sheet snap.
   Scan **[decision]**: `disableRemoveScroll|disableFocusScope|disableAriaHiddenOthers` plus
   `aria-modal` (include tests) — per hit, check the intended modality still holds.
+
+- **Popper positioning: `collisionPadding` defaults to `20`.** v3 positioned Popper content
+  with no viewport margin (`0`). v4 keeps `PopoverContent`, `TooltipContent`, `MenuContent`
+  (incl. the Select / SelectMultiple dropdown), `AutocompleteList` and the Picker popups 20px
+  inside the viewport edges and flips them earlier near an edge. The remaining space is exposed
+  as `--popper-available-width` / `--popper-available-height` and caps the default sizes:
+
+  | Content           | v3                                  | v4                                                             |
+  | ----------------- | ----------------------------------- | -------------------------------------------------------------- |
+  | Tooltip           | `max-width: 280px`                  | `max-width: min(280px, var(--popper-available-width))`         |
+  | Popover           | `max-width: 360px`                  | `max-width: min(360px, var(--popper-available-width))`         |
+  | Menu              | `width: 320px`, `max-height: 416px` | `width: min(320px, …width)`, `max-height: min(400px, …height)` |
+  | Autocomplete list | `max-height: 400px`                 | `max-height: min(400px, var(--popper-available-height))`       |
+
+  Nothing breaks at the type level; position-based visual tests and coordinate assertions may
+  change. Restoring the v3 placement is a design decision — ask the user before adding
+  `collisionPadding={0}` (`<PopoverContent collisionPadding={0} />`, `<Select contentProps={{
+collisionPadding: 0 }} />`, `<DatePicker contentProps={{ collisionPadding: 0 }} />`); it does
+  not lift the size caps above.
+  Scan **[decision]** (include tests):
+  `(Popover|Tooltip|Menu)Content|AutocompleteList|contentProps|<(Select|SelectMultiple|Autocomplete|DatePicker|DateRangePicker|TimePicker)([[:space:]>]|$)`
+  file-level — screens whose popups sit near a viewport edge, and tests asserting popup
+  position / size.
 
 ## M23. Other DOM changes (ActionArea, Avatar / AvatarGroup, SectionMessage, Picker icons)
 
@@ -2079,6 +2193,23 @@ can depend on; none is a type error.
   Scan **[decision]** (include stylesheets and tests): `action-area-(caption|compact)`.
   Scan **[decision]**: `<ActionArea[[:space:]][^>]*caption` plus `\bActionArea\b` file-level for
   multi-line props — check each caption's `variant`.
+- **`ActionAreaButton` default styles changed** (visual, no type error):
+
+  | Target                                           | v3                       | v4                      |
+  | ------------------------------------------------ | ------------------------ | ----------------------- |
+  | `main` button in `<ActionArea variant="cancel">` | `outlined` + `assistive` | `solid` + `assistive`   |
+  | `alternative` button color                       | `primary` (outlined)     | `assistive` (outlined)  |
+  | `main` / `alternative` padding in `neutral`      | fixed `12px 15px`        | Button `large` padding  |
+  | `divider` line color                             | `line.neutral.secondary` | `line.neutral.tertiary` |
+
+  New: `backgroundColor` prop (default `semantic.surface.elevated.primary`). Keeping the v3 look
+  is a design decision — ask the user before pinning `buttonVariant="outlined"` /
+  `buttonColor="primary"` on the affected buttons.
+  Scan **[decision]**: `<ActionArea[[:space:]][^>]*variant="cancel"` and
+  `<ActionAreaButton[[:space:]][^>]*variant="alternative"` (plus the `\bActionArea\b` file-level
+  read above for multi-line props) — skip buttons that already set `buttonVariant` /
+  `buttonColor`.
+
 - **`Avatar` accessibility attributes and fallback.** The `<img>` always gets `role="img"`,
   `alt`, and `aria-label`; without an `alt` prop the alt is the variant default (`person`
   '프로필 이미지', `academy` '학원 로고', `company` '회사 로고'). `[data-role='avatar-fallback']`
@@ -2086,8 +2217,14 @@ can depend on; none is a type error.
   `<svg aria-hidden>` holding a `mask`, a `rect`, and a nested icon `svg`; the `academy` /
   `company` icons are now `IconGraduationFill` / `IconCompanyFill`. `img:not([alt])` checks,
   `getByAltText` / `getByRole('img')` queries, and selectors such as
-  `[data-role='avatar-fallback'] > svg path` change.
+  `[data-role='avatar-fallback'] > svg path` change. An explicit `alt=""` marks the avatar as
+  decorative (e.g. next to the visible name): the `<img>` keeps `alt=""` with no `role` /
+  `aria-label`, and the fallback gets `aria-hidden="true"` instead of `role="img"`. A decorative
+  avatar that v3 left without `alt` is now announced with the default label — ask the user
+  whether to pass `alt=""` there; do not add it on your own.
   Scan **[decision]** (include stylesheets and tests): `avatar-fallback|getByAltText`.
+  Scan **[decision]**: `<Avatar([[:space:]>]|$)` file-level — per usage without `alt` that sits
+  next to a visible name (or is otherwise decorative), ask whether to pass `alt=""`.
 - **`AvatarGroup` renders at most 5 avatars.** Children past the fifth are dropped from the DOM.
   Per group that can exceed five, ask the user how to show the remainder (e.g. a count in
   `trailingContent`).
@@ -2111,6 +2248,34 @@ can depend on; none is a type error.
 - New attributes (informational, nothing breaks): `data-component="chip"` on `Chip`
   (`CategoryListItem` overrides it with `category-list-item`), `data-menu-selected` on
   `MenuItem` / `MenuItemCheckbox` / `MenuItemRadio`, `aria-hidden` on `FilterButton`'s caret icon.
+
+## M24. Button size spec changes
+
+No codemod covers this section and nothing here is a type error — the sizes are a v4 design
+change. `Button` radius, padding and typography changed per size; the rendered height is held
+by a new `min-height` and matches v3 (48 / 40 / 32px), but the side padding and the font size
+shrank, so **buttons get narrower**:
+
+| Property                  | large                     | medium                    | small                   |
+| ------------------------- | ------------------------- | ------------------------- | ----------------------- |
+| radius                    | 12px → 14px               | 10px → 12px               | 8px → 10px              |
+| padding                   | 12px 28px → 13px 20px     | 9px 20px → 10px 16px      | 7px 14px → 8px 12px     |
+| min-height (new)          | 48px                      | 40px                      | 32px                    |
+| typography                | body1 → body2             | body2 → label1            | label2 → caption1       |
+| gap                       | 6px                       | 5px → 4px                 | 4px                     |
+| loading indicator         | 18px → 16px               | 16px → 14px               | 14px → 12px             |
+| `iconOnly` padding / icon | 12px / 24px → 14px / 20px | 10px / 20px → 11px / 18px | 7px / 18px → 8px / 16px |
+
+- `color="assistive"` text went `medium` → `bold`; every color is `bold` now.
+- New `size="xsmall"` (radius 8px, min-height 28px, padding 6px 10px, caption1 bold) — adoption
+  is optional.
+
+Layouts that depended on the old button width (rows of buttons, wrapping thresholds, buttons
+next to fixed-width content) need a visual check. Restoring v3 sizes with `sx` is a design
+decision — ask the user; do not pin old paddings by default.
+Scan **[decision]**: `<Button[[:space:]][^>]*(sx=|style=|width=|className=)` — buttons whose
+size was tuned by hand and may now double-correct (a line-based heuristic: multi-line props are
+missed). Every hit also goes on the Step 3 visual-QA list.
 
 ## Suggested commit boundary
 

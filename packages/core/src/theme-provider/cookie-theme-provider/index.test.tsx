@@ -534,3 +534,33 @@ describe('when a same-named cookie exists at another scope', () => {
     });
   });
 });
+
+describe('when document.cookie is not accessible (opaque origin)', () => {
+  it('should render with the default theme instead of throwing', () => {
+    const securityError = () => {
+      throw new DOMException(
+        'The document is sandboxed and lacks the allow-same-origin flag.',
+        'SecurityError',
+      );
+    };
+    const getCookie = vi
+      .spyOn(document, 'cookie', 'get')
+      .mockImplementation(securityError);
+    const setCookie = vi
+      .spyOn(document, 'cookie', 'set')
+      .mockImplementation(securityError);
+
+    expect(() =>
+      render(
+        <ThemeProvider enableDarkMode>
+          <ThemeConsumer />
+        </ThemeProvider>,
+      ),
+    ).not.toThrow();
+    expect(() => fireEvent.click(screen.getByRole('button'))).not.toThrow();
+    expect(screen.getByRole('button').textContent).toMatch(/^dark:/);
+
+    getCookie.mockRestore();
+    setCookie.mockRestore();
+  });
+});
