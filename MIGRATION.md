@@ -316,7 +316,7 @@ const cache = createCache({ key: 'wds' });
 
 // _document.tsx
 MyDocument.getInitialProps = (ctx) =>
-  documentGetInitialProps(ctx, { emotionCache: cache });
+  documentGetInitialProps(MyDocument, ctx, { emotionCache: cache });
 ```
 
 ### 오버레이 dismiss 동작 변경
