@@ -1,7 +1,7 @@
 {
   "name": "@montage-ui/core",
   "description": "Core UI component library for the Montage design system",
-  "version": "3.12.2",
+  "version": "4.0.0",
   "files": [
     "dist",
     "types.d.ts"
@@ -62,6 +62,8 @@
   },
   "dependencies": {
     "@floating-ui/react": "^0.27.19",
+    "@montage-ui/engine": "workspace:*",
+    "@montage-ui/icon": "workspace:*",
     "@radix-ui/primitive": "^1.1.3",
     "@radix-ui/react-collection": "^1.1.8",
     "@radix-ui/react-compose-refs": "^1.1.2",
@@ -75,8 +77,6 @@
     "@radix-ui/react-use-controllable-state": "^1.2.2",
     "@radix-ui/react-use-previous": "^1.1.1",
     "@radix-ui/react-use-size": "^1.1.1",
-    "@montage-ui/engine": "workspace:*",
-    "@montage-ui/icon": "workspace:*",
     "aria-hidden": "^1.2.6",
     "dayjs": "^1.11.20",
     "object-path": "^0.11.8",

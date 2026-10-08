@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.0.0](https://github.com/wanteddev/montage-web/compare/v3.12.2...v4.0.0) (2026-10-08)
+
+### Features
+
+- npm registry로 이전 및 패키지명 변경 ([#519](https://github.com/wanteddev/montage-web/issues/519)) ([cde648e](https://github.com/wanteddev/montage-web/commit/cde648e380282d9a9de8c5fb83e72d79f1e72ebd))
+- typography 토큰을 css variable로 전환 ([#611](https://github.com/wanteddev/montage-web/issues/611)) ([8f3d4a9](https://github.com/wanteddev/montage-web/commit/8f3d4a91884dcd00b8a77ba551a1594a59455147))
+
 ## [3.12.2](https://github.com/wanteddev/montage-web/compare/v3.12.1...v3.12.2) (2026-09-15)
 
 **Note:** Version bump only for package @wanteddev/wds-engine

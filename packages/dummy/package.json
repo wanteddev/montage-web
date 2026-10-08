@@ -1,7 +1,7 @@
 {
   "name": "@montage-ui/dummy",
   "description": "Presentational-only reference scaffold components for the Montage design system",
-  "version": "3.12.2",
+  "version": "4.0.0",
   "publishConfig": {
     "access": "public"
   },
@@ -42,8 +42,8 @@
     "typescript": "^5.9.3"
   },
   "dependencies": {
-    "@montage-ui/core": "workspace:*",
     "@montage-ui/brand": "workspace:*",
+    "@montage-ui/core": "workspace:*",
     "@montage-ui/engine": "workspace:*",
     "@montage-ui/icon": "workspace:*"
   },

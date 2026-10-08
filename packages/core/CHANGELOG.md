@@ -3,6 +3,41 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.0.0](https://github.com/wanteddev/montage-web/compare/v3.12.2...v4.0.0) (2026-10-08)
+
+### Bug Fixes
+
+- **core:** 4.0.0 기능 수정 및 마이그레이션 가이드 보강 ([#663](https://github.com/wanteddev/montage-web/issues/663)) ([92f20bc](https://github.com/wanteddev/montage-web/commit/92f20bc6468b186b071c83a31ec361c529837b95))
+- **core:** push badge 한 글자 고정 너비를 letter-spacing 보정으로 대체 ([#624](https://github.com/wanteddev/montage-web/issues/624)) ([7d25bca](https://github.com/wanteddev/montage-web/commit/7d25bcaee81b90834085503f7530e861b7df54df))
+- **core:** 다른 스코프에 남은 같은 이름의 theme cookie가 토글을 되돌리는 문제 수정 ([#642](https://github.com/wanteddev/montage-web/issues/642)) ([1ed2aac](https://github.com/wanteddev/montage-web/commit/1ed2aacfd4c101d11cabad5b149159f4c39fc9c6))
+- **core:** 오버레이 포커스 이동 시 확대 상태에서 화면이 튀는 현상 수정 ([#635](https://github.com/wanteddev/montage-web/issues/635)) ([a0c8b17](https://github.com/wanteddev/montage-web/commit/a0c8b1700e36bf8fed26e5dc1700b5c0b554b9c0))
+- **core:** 텍스트 슬롯 한글 줄바꿈 규칙 누락 보완 ([#631](https://github.com/wanteddev/montage-web/issues/631)) ([669b358](https://github.com/wanteddev/montage-web/commit/669b358279b884896460006220ced435058ccfa9))
+- **theme,core:** text field 디자인 QA 반영 및 negative line 토큰 수정 ([#586](https://github.com/wanteddev/montage-web/issues/586)) ([03c9cc0](https://github.com/wanteddev/montage-web/commit/03c9cc0bacff3ef3944212456c67a28db0ef1b33))
+
+### Features
+
+- **core,eslint-plugin:** chip 디자인 개편 ([#609](https://github.com/wanteddev/montage-web/issues/609)) ([94f3329](https://github.com/wanteddev/montage-web/commit/94f3329bcd1964d8fbf4929be0c4550a5039beaf))
+- **core:** action area 4.0.0 스펙 반영 및 caption icon/background color API 추가 ([#634](https://github.com/wanteddev/montage-web/issues/634)) ([11fab8f](https://github.com/wanteddev/montage-web/commit/11fab8ffa338b8439d80aaa91064dbd7a6615652))
+- **core:** add button xsmall size, negative color ([#554](https://github.com/wanteddev/montage-web/issues/554)) ([b500702](https://github.com/wanteddev/montage-web/commit/b5007022cb6e2dce972fa24cf078c6cb96c27f9c))
+- **core:** avatar group 최대 5개 제한 및 AvatarGroupContent 추가 ([#616](https://github.com/wanteddev/montage-web/issues/616)) ([b5b5fa8](https://github.com/wanteddev/montage-web/commit/b5b5fa8f770a6b314e7f613ebd59e8561584a6eb))
+- **core:** avatar placeholder 면을 아이콘 실루엣만큼 뚫린 구조로 변경 ([#654](https://github.com/wanteddev/montage-web/issues/654)) ([65b812f](https://github.com/wanteddev/montage-web/commit/65b812fa0a4eeb054467d73ce23683de23b00955))
+- **core:** avatar 디자인 업데이트 및 접근성 개선 ([#615](https://github.com/wanteddev/montage-web/issues/615)) ([03e371e](https://github.com/wanteddev/montage-web/commit/03e371e4a101eb50f75698cca09688ff45b5375b))
+- **core:** bottom sheet flexible/fill resize 추가 및 snap point 개선 ([#568](https://github.com/wanteddev/montage-web/issues/568)) ([c65b3ce](https://github.com/wanteddev/montage-web/commit/c65b3ce38f6060c56b4596f53229f027bf777520))
+- **core:** button radius, dimension, spacing 토큰 적용 ([#571](https://github.com/wanteddev/montage-web/issues/571)) ([f48ab87](https://github.com/wanteddev/montage-web/commit/f48ab87bf61d2da4e5dbe28a311fa3f32a9af96e))
+- **core:** button radius, fallback, height 정책 업데이트 ([#570](https://github.com/wanteddev/montage-web/issues/570)) ([4d7866d](https://github.com/wanteddev/montage-web/commit/4d7866d4206b0eaa377d3086103b2e62f58818cd))
+- **core:** filter button 디자인 업데이트 ([#610](https://github.com/wanteddev/montage-web/issues/610)) ([2eba49b](https://github.com/wanteddev/montage-web/commit/2eba49b2321b59a7d15efbe0f94afd73ecf7a691))
+- **core:** form control group 추가 및 label 1줄 제한 ([#604](https://github.com/wanteddev/montage-web/issues/604)) ([e9ea484](https://github.com/wanteddev/montage-web/commit/e9ea484c0ec5edc75eee2de00069249aa5bfea2f))
+- **core:** form control message accessory 추가 및 스타일 수정 ([#601](https://github.com/wanteddev/montage-web/issues/601)) ([59f01d3](https://github.com/wanteddev/montage-web/commit/59f01d3d5d61ac1ac2e09f026961ee42f9be3fe8))
+- **core:** icon button interactionOverflow 속성 및 적용 컴포넌트 반영 ([#648](https://github.com/wanteddev/montage-web/issues/648)) ([952d695](https://github.com/wanteddev/montage-web/commit/952d695bb7d26036dc0bdcafe5374f233ea4efdd))
+- **core:** icon button useLegacyInteractionLayer 하위 호환성 대응 ([#640](https://github.com/wanteddev/montage-web/issues/640)) ([a6e3e40](https://github.com/wanteddev/montage-web/commit/a6e3e4007f18d0edd31da8f7259518ccbd0b9e64))
+- **core:** icon button 토큰 적용 및 사이즈, 컨테이너 레이아웃 변경 ([#572](https://github.com/wanteddev/montage-web/issues/572)) ([d0be110](https://github.com/wanteddev/montage-web/commit/d0be1105c30021b05c6437274f4375af4e61b3fd))
+- **core:** popper collisionPadding 추가 및 오버레이 뷰포트 대응 ([#632](https://github.com/wanteddev/montage-web/issues/632)) ([c4f3e4e](https://github.com/wanteddev/montage-web/commit/c4f3e4e5e4d475f4c6ac10607dadb5948dd59109))
+- **core:** text button 토큰 적용 및 사이즈, 타이포그래피 변경 ([#578](https://github.com/wanteddev/montage-web/issues/578)) ([902faef](https://github.com/wanteddev/montage-web/commit/902faef89d824b8aa0f5c739700f7a9f827b4022))
+- **core:** with-interaction 모바일 tap highlight 제거 ([#625](https://github.com/wanteddev/montage-web/issues/625)) ([301c996](https://github.com/wanteddev/montage-web/commit/301c996fa0ff9d2193010aaa3cbaa66a30e48e3d))
+- npm registry로 이전 및 패키지명 변경 ([#519](https://github.com/wanteddev/montage-web/issues/519)) ([cde648e](https://github.com/wanteddev/montage-web/commit/cde648e380282d9a9de8c5fb83e72d79f1e72ebd))
+- **theme:** radius 토큰 28 · 32 추가 ([#647](https://github.com/wanteddev/montage-web/issues/647)) ([68b801b](https://github.com/wanteddev/montage-web/commit/68b801b3951eeefb5cd2ddf08fb412428d479f3c))
+- typography 토큰을 css variable로 전환 ([#611](https://github.com/wanteddev/montage-web/issues/611)) ([8f3d4a9](https://github.com/wanteddev/montage-web/commit/8f3d4a91884dcd00b8a77ba551a1594a59455147))
+
 ## [3.12.2](https://github.com/wanteddev/montage-web/compare/v3.12.1...v3.12.2) (2026-09-15)
 
 ### Bug Fixes

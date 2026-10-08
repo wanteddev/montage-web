@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.0.0](https://github.com/wanteddev/montage-web/compare/v3.12.2...v4.0.0) (2026-10-08)
+
+### Features
+
+- **dummy:** footer · nav-bar icon button interactionOverflow 적용 ([#650](https://github.com/wanteddev/montage-web/issues/650)) ([e2b46e2](https://github.com/wanteddev/montage-web/commit/e2b46e23061efa9cb70b3f85f03799aa5e3b77f6))
+- npm registry로 이전 및 패키지명 변경 ([#519](https://github.com/wanteddev/montage-web/issues/519)) ([cde648e](https://github.com/wanteddev/montage-web/commit/cde648e380282d9a9de8c5fb83e72d79f1e72ebd))
+
 ## [3.12.2](https://github.com/wanteddev/montage-web/compare/v3.12.1...v3.12.2) (2026-09-15)
 
 **Note:** Version bump only for package @wanteddev/wds-dummy

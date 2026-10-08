@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.0.0](https://github.com/wanteddev/montage-web/compare/v3.12.2...v4.0.0) (2026-10-08)
+
+### Features
+
+- npm registry로 이전 및 패키지명 변경 ([#519](https://github.com/wanteddev/montage-web/issues/519)) ([cde648e](https://github.com/wanteddev/montage-web/commit/cde648e380282d9a9de8c5fb83e72d79f1e72ebd))
+- **theme:** primitive·dimension에 36 토큰 추가 ([#569](https://github.com/wanteddev/montage-web/issues/569)) ([e7921d2](https://github.com/wanteddev/montage-web/commit/e7921d2e29d677a0695d60680260096a7fc010fc))
+- **theme:** radius 토큰 28 · 32 추가 ([#647](https://github.com/wanteddev/montage-web/issues/647)) ([68b801b](https://github.com/wanteddev/montage-web/commit/68b801b3951eeefb5cd2ddf08fb412428d479f3c))
+- **theme:** radius, primitive, dimension 토큰 도입 ([#561](https://github.com/wanteddev/montage-web/issues/561)) ([0cc7ece](https://github.com/wanteddev/montage-web/commit/0cc7eced212ac5f9fc4c7ed0d96d6663ebc3d139))
+- **theme:** semantic 토큰에 primary/negative interaction·line·fill 추가 ([#584](https://github.com/wanteddev/montage-web/issues/584)) ([b51ab82](https://github.com/wanteddev/montage-web/commit/b51ab8217a10618f447778dc7e2342a610ba0441))
+- typography 토큰을 css variable로 전환 ([#611](https://github.com/wanteddev/montage-web/issues/611)) ([8f3d4a9](https://github.com/wanteddev/montage-web/commit/8f3d4a91884dcd00b8a77ba551a1594a59455147))
+
 ## [3.12.2](https://github.com/wanteddev/montage-web/compare/v3.12.1...v3.12.2) (2026-09-15)
 
 **Note:** Version bump only for package @wanteddev/wds-theme
