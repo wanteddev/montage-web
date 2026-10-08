@@ -1,19 +1,18 @@
 ---
-title: IconButton
-description: 아이콘을 버튼 요소로 사용하기 위해 확대된 터치 영역을 제공합니다.
+title: IconButtonNormal
+description: 배경 없이 아이콘만 표시하는 기본 아이콘 버튼입니다.
 ---
 
-## WantedIconButton
-아이콘을 버튼 요소로 사용하기 위해 확대된 터치 영역을 제공합니다.
-활성/비활성 상태, 배경 스타일, 아이콘 색상 등 다양한 시각적 스타일을 지정할 수 있으며,
-넓은 터치 영역을 통해 사용자 편의성을 높입니다.
+## WantedIconButtonNormal
+배경 없이 아이콘만 표시하는 기본 아이콘 버튼입니다.
+[size] 로 지정한 박스 크기에서 아이콘과 모서리 반경이 자동 산출되며, 인터랙션 피드백은 [interactionEffect] 로 지정합니다.
+기본값에서는 레이아웃이 차지하는 크기가 박스(= 인터랙션 영역) 크기와 같습니다.
+아이콘 크기만 차지하고 인터랙션 영역만 바깥으로 넘치게 하려면 [interactionOverflow] 를 켭니다.
 
 ```kotlin
-WantedIconButtonBackground(
+WantedIconButtonNormal(
     icon = R.drawable.ic_icon,
-    modifier = Modifier.size(24.dp),
-    alternative = true,
-    enabled = true,
+    size = WantedIconButtonNormalSize.Xlarge,
     onClick = { /* 클릭 처리 */ }
 )
 ```
@@ -21,48 +20,68 @@ WantedIconButtonBackground(
 ### Parameters
 | 이름 | 타입 | 설명 |
 |:---|:---|:---|
-| icon | Int | 아이콘으로 사용할 drawable 리소스 ID입니다. |
-| modifier | Modifier | 버튼 외형 및 배치를 제어하는 Modifier입니다. |
-| alternative | Boolean | true일 경우 대체 배경 색상을 적용합니다. |
-| enabled | Boolean | 버튼의 활성화 여부를 지정합니다. false일 경우 흐리게 표시됩니다. |
-| tint | Color | 아이콘의 색상입니다. 기본값은 회색 계열이며 alternative에 따라 달라집니다. |
-| onClick | () -> Unit | 버튼 클릭 시 호출되는 콜백입니다. |
+| icon | Int | 아이콘 drawable 리소스 ID |
+| modifier | Modifier | 외형 및 배치를 제어하는 Modifier (size 는 자동 산출되므로 외부 정렬/패딩 용도로 사용) |
+| size | WantedIconButtonNormalSize | 박스 크기. 기본값 Xlarge, preset 외 크기는 [WantedIconButtonNormalSize.Custom] 으로 지정. [interactionOverflow] 가 true 이면 아이콘 크기를 뜻합니다(preset 은 24 · 20 · 18 · 16, Custom 은 숫자 그대로) |
+| enabled | Boolean | 활성화 여부 |
+| tint | Color | 활성 시 아이콘 색상. 기본값 `foregroundNeutralPrimary`. 비활성 시 `foregroundDisablePrimary` |
+| pushBadge | @Composable (() -> Unit)? | 지정 위치에 표시할 PushBadge 등 컴포넌트 |
+| badgePosition | IconButtonBadgePosition | pushBadge 정렬 기준점. 기본값 TopRight, 아이콘 모서리 기준으로 inset 보정 적용 |
+| interactionEffect | IconButtonInteractionEffect | 인터랙션 피드백 방식. 기본값 [IconButtonInteractionEffect.Highlight] |
+| interactionColor | Color | 인터랙션 피드백 색상. 미지정 시 ripple 은 `foregroundNeutralPrimary`, Dim 은 [tint] 를 기준으로 함 |
+| interactionOverflow | Boolean | true 이면 레이아웃 크기가 아이콘 크기가 되고, 인터랙션 영역 `max(24, ceil(아이콘 × 1.5 ÷ 4) × 4)` 이 상하좌우로 `(영역 - 아이콘) / 2` 만큼 넘칩니다. 기본값 false |
+| onClick | () -> Unit | 클릭 콜백 |
 
+## Overload
+`disableInteraction` 을 사용하는 이전 시그니처입니다.
+[IconButtonInteractionEffect] 로 대체되었으니 신규 코드에서는 사용하지 않습니다.
+
+<details>
+  <summary>Parameters</summary>
+
+
+  | 이름 | 타입 | 설명 |
+  |:---|:---|:---|
+  | icon | Int | 아이콘 drawable 리소스 ID |
+  | disableInteraction | Boolean | true이면 press/hover ripple 효과 없음 |
+  | modifier | Modifier | 외형 및 배치를 제어하는 Modifier |
+  | size | WantedIconButtonNormalSize | 박스 크기. 기본값 [WantedIconButtonNormalSize.Xlarge] |
+  | enabled | Boolean | 활성화 여부 |
+  | tint | Color | 활성 시 아이콘 색상. 기본값 `foregroundNeutralPrimary`. 비활성 시 `foregroundDisablePrimary` |
+  | pushBadge | @Composable (() -> Unit)? | 지정 위치에 표시할 PushBadge 등 컴포넌트 |
+  | badgePosition | IconButtonBadgePosition | pushBadge 정렬 기준점. 기본값 [IconButtonBadgePosition.TopRight] |
+  | interactionColor | Color | 인터랙션 피드백 색상. 미지정 시 ripple 은 `foregroundNeutralPrimary` |
+  | onClick | () -> Unit | 클릭 콜백 |
+
+</details>
 
 ## Advanced
-### WantedIconButtonNormal
-배경을 제외하고 아이콘만을 표시하는 기본 아이콘 버튼입니다.
-필요 시 우측 상단에 PushBadge 컴포넌트을 함께 표시할 수 있으며,
-터치 영역은 `WantedTouchArea`를 통해 보장되어 있습니다.
-
-```kotlin
-WantedIconButtonNormal(
-    icon = R.drawable.ic_icon,
-    modifier = Modifier.size(24.dp),
-    pushBadge = {
-        WantedPushBadge()
-    },
-    onClick = { /* 클릭 처리 */ }
-)
-```
+### IconButtonNormalContent
+아이콘과 PushBadge 를 그립니다. 배지는 [badgePosition] 기준으로 정렬한 뒤 [badgeInset] 만큼 안쪽으로 당깁니다.
+컨테이너 크기는 [modifier] 로 **항상 명시**합니다. 크기를 주지 않으면 wrapContent 가 되어
+아이콘보다 큰 [pushBadge] 가 컨테이너를 키웁니다.
 
 <details>
   <summary>Parameters</summary>
 
   | 이름 | 타입 | 설명 |
   |:---|:---|:---|
-  | icon | Int | 아이콘으로 사용할 drawable 리소스 ID입니다. |
-  | modifier | Modifier | 버튼 외형 및 배치를 제어하는 Modifier입니다. |
-  | enabled | Boolean | 버튼의 활성화 여부입니다. false일 경우 비활성 색상으로 표시됩니다. |
-  | tint | Color | 아이콘의 색상입니다. 기본값은 label_normal입니다. |
-  | pushBadge | (@Composable () -> Unit)? | 우측 상단에 표시될 PushBadge 등 컴포넌트입니다. |
-  | onClick | () -> Unit | 버튼 클릭 시 호출되는 콜백입니다. |
+  | icon | Int | 아이콘 drawable 리소스 ID |
+  | iconSize | Dp | 아이콘 크기 |
+  | iconColor | Color | 아이콘 색상 (enabled·인터랙션 상태가 반영된 최종 색) |
+  | pushBadge | @Composable (() -> Unit)? | 표시할 PushBadge 등 컴포넌트 |
+  | badgePosition | IconButtonBadgePosition | 배지 정렬 기준점 |
+  | badgeInset | Dp | 배지 inset 보정값. 컨테이너가 아이콘 크기와 같으면 0 |
+  | modifier | Modifier | 컨테이너 크기·클립·클릭을 지정하는 Modifier |
 
 </details>
 <br />
 ### WantedIconButtonOutlined
 WantedIconButtonSize를 기반으로 하는 Outlined 스타일의 아이콘 버튼입니다.
-아이콘의 크기와 패딩을 enum으로 간편하게 설정할 수 있으며, 외곽선과 배경, 텍스트 색상 등을 상태별로 지정할 수 있습니다.
+(Confluence IconButton 스펙 §3 — 2026-06-24)
+아이콘 크기 산출: `icon = round(box × 0.47)` → dimension 토큰 스냅(동률이면 작은 값).
+중앙정렬 inset = `(box - icon) / 2`. padding 방식 제거.
+Radius = `radius.full` (CircleShape). 박스는 `clamp(24dp, N, 64dp)`.
 
 ```kotlin
 WantedIconButtonOutlined(
@@ -78,7 +97,7 @@ WantedIconButtonOutlined(
   | 이름 | 타입 | 설명 |
   |:---|:---|:---|
   | icon | Int | 버튼에 표시할 drawable 리소스 ID입니다. |
-  | size | WantedIconButtonSize | 버튼의 크기와 내부 여백을 지정하는 enum입니다. |
+  | size | WantedIconButtonSize | 박스 크기를 지정하는 sealed class입니다. preset(Medium/Small) 외 박스는 [WantedIconButtonSize.Custom] 으로 지정합니다. |
   | modifier | Modifier | 외형 및 배치를 제어하는 Modifier입니다. |
   | enabled | Boolean | 버튼의 활성화 여부입니다. |
   | outlineColor | Color | 활성화 상태의 외곽선 색상입니다. |
@@ -86,46 +105,21 @@ WantedIconButtonOutlined(
   | tint | Color | 활성 상태의 아이콘 색상입니다. |
   | disableTint | Color | 비활성 상태의 아이콘 색상입니다. |
   | background | Color | 활성 상태의 배경 색상입니다. |
-  | disableBackground | Color | 비활성 상태의 배경 색상입니다. |
-  | onClick | () -> Unit | 클릭 시 호출되는 콜백입니다. |
-
-</details>
-<br />
-### WantedIconButtonOutlined
-패딩을 수동으로 지정할 수 있는 Outlined 아이콘 버튼입니다.
-이 함수는 Size 대신 Modifier 크기 및 패딩을 직접 지정하여 더 유연한 스타일링이 가능합니다.
-
-```kotlin
-WantedIconButtonOutlined(
-    icon = R.drawable.ic_icon,
-    modifier = Modifier.size(40.dp),
-    padding = 8.dp,
-    onClick = { /* 클릭 처리 */ }
-)
-```
-
-<details>
-  <summary>Parameters</summary>
-
-  | 이름 | 타입 | 설명 |
-  |:---|:---|:---|
-  | icon | Int | 버튼에 표시할 drawable 리소스 ID입니다. |
-  | modifier | Modifier | 외형 및 배치를 제어하는 Modifier입니다. |
-  | padding | Dp | 아이콘 내부 패딩입니다. |
-  | enabled | Boolean | 버튼의 활성화 여부입니다. |
-  | outlineColor | Color | 활성화 상태의 외곽선 색상입니다. |
-  | disableOutlineColor | Color | 비활성 상태의 외곽선 색상입니다. |
-  | tint | Color | 활성 상태의 아이콘 색상입니다. |
-  | disableTint | Color | 비활성 상태의 아이콘 색상입니다. |
-  | background | Color | 활성 상태의 배경 색상입니다. |
-  | disableBackground | Color | 비활성 상태의 배경 색상입니다. |
+  | disableBackground | Color | 비활성 상태의 배경 색상입니다. 기본값 `backgroundNeutralPrimary` |
+  | pushBadge | @Composable (() -> Unit)? | 지정 위치에 표시할 PushBadge 등 컴포넌트. 박스 모서리 기준으로 정렬됩니다. |
+  | badgePosition | IconButtonBadgePosition | pushBadge 정렬 기준점. 기본값 [IconButtonBadgePosition.TopRight] |
+  | disableInteraction | Boolean | true이면 press/hover ripple 효과 없음. 기본값 false |
+  | interactionColor | Color | ripple 색상. 기본값 `foregroundNeutralPrimary` |
   | onClick | () -> Unit | 클릭 시 호출되는 콜백입니다. |
 
 </details>
 <br />
 ### WantedIconButtonSolid
 WantedIconButtonSize를 사용하여 간편하게 크기와 패딩을 지정할 수 있는 Solid 스타일 아이콘 버튼입니다.
-원형 배경과 흰색 아이콘을 기본으로 하며, 배경 및 아이콘 색상은 커스터마이징이 가능합니다.
+(Confluence IconButton 스펙 §3 — 2026-06-24)
+아이콘 크기 산출: `icon = round(box × 0.47)` → dimension 토큰 스냅(동률이면 작은 값).
+중앙정렬 inset = `(box - icon) / 2`. padding 방식 제거.
+Radius = `radius.full` (CircleShape). 박스는 `clamp(24dp, N, 64dp)`.
 
 ```kotlin
 WantedIconButtonSolid(
@@ -141,24 +135,35 @@ WantedIconButtonSolid(
   | 이름 | 타입 | 설명 |
   |:---|:---|:---|
   | icon | Int | 아이콘으로 사용할 drawable 리소스 ID입니다. |
-  | size | WantedIconButtonSize | 버튼 크기와 내부 패딩을 정의하는 enum입니다. |
+  | size | WantedIconButtonSize | 박스 크기를 정의하는 sealed class입니다. preset(Medium/Small) 외 박스는 [WantedIconButtonSize.Custom] 으로 지정합니다. |
   | modifier | Modifier | 외형 및 배치를 제어하는 Modifier입니다. |
   | enabled | Boolean | 버튼의 활성화 여부입니다. |
   | tint | Color | 아이콘의 색상입니다. 기본값은 흰색입니다. |
-  | background | Color | 배경 색상입니다. 기본값은 primary_normal입니다. |
+  | background | Color | 배경 색상입니다. 기본값은 surfaceBrandPrimary입니다. |
+  | pushBadge | @Composable (() -> Unit)? | 지정 위치에 표시할 PushBadge 등 컴포넌트. 박스 모서리 기준으로 정렬됩니다. |
+  | badgePosition | IconButtonBadgePosition | pushBadge 정렬 기준점. 기본값 [IconButtonBadgePosition.TopRight] |
+  | disableInteraction | Boolean | true이면 press/hover ripple 효과 없음. 기본값 false |
+  | interactionColor | Color | ripple 색상. 기본값 `foregroundNeutralPrimary` |
   | onClick | () -> Unit | 클릭 시 호출되는 콜백입니다. |
 
 </details>
 <br />
-### WantedIconButtonSolid
-크기와 패딩을 직접 지정할 수 있는 Solid 스타일 아이콘 버튼입니다.
-배경, 아이콘 색상 및 클릭 이벤트를 자유롭게 설정할 수 있습니다.
+### WantedIconButtonBackground
+콘텐츠 위에 떠 있는 floating 아이콘 버튼. 이미지·미디어 등 오버레이 액션에 사용합니다.
+(Confluence IconButton 스펙 §3·§4)
+[size] 는 박스(컨테이너) 크기이며, 아이콘은 박스에서 자동 산출됩니다.
+- 아이콘 = `nearestDimensionToken(box × 2/3, tie → down)`
+- Border radius = `CircleShape` (radius.full)
+- 박스 = `clamp(24dp, N, 64dp)`, 글래스 레이어는 박스를 정확히 채움 (`inset: 0`)
+- Hit area = 박스 100%
+background 는 단일 [WantedIconButtonBackgroundSize.Default] (box 32dp, icon 20dp) preset 으로 수렴하며,
+박스 커스텀은 [WantedIconButtonBackgroundSize.Custom] 으로 지정합니다.
 
 ```kotlin
-WantedIconButtonSolid(
+WantedIconButtonBackground(
     icon = R.drawable.ic_icon,
-    modifier = Modifier.size(40.dp),
-    padding = 8.dp,
+    // size 미지정 → Default(box 32dp) 기본값
+    alternative = false,
     onClick = { /* 클릭 처리 */ }
 )
 ```
@@ -168,20 +173,74 @@ WantedIconButtonSolid(
 
   | 이름 | 타입 | 설명 |
   |:---|:---|:---|
-  | icon | Int | 아이콘으로 사용할 drawable 리소스 ID입니다. |
-  | modifier | Modifier | 외형 및 배치를 제어하는 Modifier입니다. |
-  | enabled | Boolean | 버튼의 활성화 여부입니다. |
-  | padding | Dp | 아이콘 내부 패딩입니다. |
-  | tint | Color | 아이콘의 색상입니다. 기본값은 흰색입니다. |
-  | background | Color | 배경 색상입니다. 기본값은 primary_normal입니다. |
-  | onClick | () -> Unit | 클릭 시 호출되는 콜백입니다. |
+  | icon | Int | 아이콘 drawable 리소스 ID |
+  | modifier | Modifier | 외형 및 배치를 제어하는 Modifier |
+  | alternative | Boolean | true 일 경우 다크 오버레이 위 사용 변형 |
+  | enabled | Boolean | 활성화 여부 |
+  | size | WantedIconButtonBackgroundSize | 박스 크기. 기본값 [WantedIconButtonBackgroundSize.Default] |
+  | tint | Color | 아이콘 색상 (기본값은 alternative 여부에 따라 자동 결정) |
+  | pushBadge | @Composable (() -> Unit)? | 지정 위치에 표시할 PushBadge 등 컴포넌트. 박스 모서리 기준으로 정렬됩니다. |
+  | badgePosition | IconButtonBadgePosition | pushBadge 정렬 기준점. 기본값 [IconButtonBadgePosition.TopRight] |
+  | disableInteraction | Boolean | true이면 press/hover ripple 효과 없음. 기본값 false |
+  | interactionColor | Color | ripple 색상. 기본값 `foregroundNeutralPrimary` |
+  | useNormalInteraction | Boolean | true이면 light 대신 normal 강도 ripple 적용. 기본값 false |
+  | onClick | () -> Unit | 클릭 콜백 |
 
 </details>
 <br />
 
 ## Enum
-### WantedIconButtonSize
+### IconButtonBadgePosition
 | 값 | 설명 |
 |:---|:---|
-| Medium | 표준 사이즈 (40dp)로, 대부분의 UI에 적합합니다. |
-| Small | 소형 사이즈 (32dp)로, 공간이 제한된 영역에 적합합니다. |
+| TopLeft | 좌측 상단입니다. |
+| TopCenter | 상단 중앙입니다. |
+| TopRight | 우측 상단입니다. |
+| MiddleLeft | 좌측 중앙입니다. |
+| MiddleCenter | 정중앙입니다. |
+| MiddleRight | 우측 중앙입니다. |
+| BottomLeft | 좌측 하단입니다. |
+| BottomCenter | 하단 중앙입니다. |
+| BottomRight | 우측 하단입니다. |
+
+### IconButtonInteractionEffect
+| 값 | 설명 |
+|:---|:---|
+| Highlight | 아이콘 뒤에 인터랙션 레이어(ripple)를 표시합니다. 기본값입니다. |
+| Dim | 레이어 대신 아이콘 투명도를 낮춥니다. Top Navigation 처럼 레이어 형태가 어색한 자리에 씁니다. Normal variant 에만 제공합니다. |
+| None | 인터랙션 피드백이 없습니다. |
+
+## Sealed Class
+### WantedIconButtonBackgroundSize
+`WantedIconButtonBackground` 의 박스(컨테이너) 크기입니다. (Confluence IconButton 스펙 §3·§4)
+background 는 string preset 을 두지 않고 단일 [Default] preset 으로 수렴하며,
+박스 커스텀은 [Custom] 으로만 지정합니다. 아이콘은 `box × 2/3` → dimension 토큰 스냅으로 자동 산출되고,
+박스는 `clamp(24dp, N, 64dp)` 범위로 클램프됩니다.
+- [Default] : box 32dp (기본값) → icon 20dp
+- [Custom]  : 임의 박스 크기. `copy` 로 커스텀할 수 있습니다.
+
+
+### WantedIconButtonNormalSize
+`WantedIconButtonNormal` 의 박스(컨테이너) 크기입니다. (Confluence IconButton 스펙 §3·§4)
+`size` 는 박스 크기를 뜻하며, 아이콘·radius 는 박스에서 자동 산출됩니다
+(`icon = box × 2/3` → dimension 토큰 스냅, `radius = box × 0.3` → radius 토큰 스냅).
+박스는 `clamp(24dp, N, 64dp)` 범위로 클램프됩니다.
+- [Xlarge] : box 36dp (기본값) → icon 24dp, radius 10dp
+- [Large]  : box 32dp → icon 20dp, radius 10dp
+- [Medium] : box 28dp → icon 18dp, radius 8dp
+- [Small]  : box 24dp → icon 16dp, radius 8dp
+- [Custom] : 임의 박스 크기. `copy` 로 커스텀할 수 있습니다.
+`interactionOverflow = true` 이면 size 는 **아이콘 크기**를 뜻합니다(Web 방식, WRP-3163).
+인터랙션 영역은 아이콘에서 `max(24, ceil(icon × 1.5 ÷ 4) × 4)` 로 계산합니다.
+- preset 은 위 표의 아이콘 크기(24 · 20 · 18 · 16)를 쓰므로 인터랙션 영역은 36 · 32 · 28 · 24 로 같습니다.
+- [Custom] 은 숫자가 그대로 아이콘 크기가 됩니다. 예) Custom(20.dp) → icon 20dp, 인터랙션 영역 32dp
+
+
+### WantedIconButtonSize
+`WantedIconButtonOutlined` / `WantedIconButtonSolid` 의 박스(컨테이너) 크기입니다.
+(Confluence IconButton 스펙 §3·§4)
+`size` 는 박스 크기를 뜻하며, 아이콘은 `box × 0.47` → dimension 토큰 스냅(동률 → 작은 값)으로 자동 산출됩니다.
+radius 는 full(CircleShape), 박스는 `clamp(24dp, N, 64dp)` 범위로 클램프됩니다.
+- [Medium] : box 40dp (기본값) → icon 18dp
+- [Small]  : box 32dp → icon 16dp
+- [Custom] : 임의 박스 크기. `copy` 로 커스텀할 수 있습니다.

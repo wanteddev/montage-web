@@ -35,10 +35,12 @@ FlowLayout(spacing: 8, lineSpacing: 12) {
 FlowLayout을 초기화합니다.
 
 - **Parameters**
+
   | Parameter | Description |
   | --- | --- |
   | `spacing` | 항목 간 수평 간격. nil인 경우 시스템 기본 간격을 사용합니다., 생략하면 기본값으로 `nil` 적용 |
   | `lineSpacing` | 줄 간 수직 간격, 생략하면 기본값으로 `10.0` 적용 |
+
 </details>
 
 ## Relationships

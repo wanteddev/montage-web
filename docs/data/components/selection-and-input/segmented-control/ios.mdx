@@ -24,13 +24,22 @@ SegmentedControl(
 SegmentedControl(
     selectedIndex: $selectedIndex,
     items: [
-        .init(image: .icon(.home), title: "홈"),
-        .init(image: .icon(.person), title: "프로필"),
+        .init(leadingIcon: .icon(.home), title: "홈"),
+        .init(leadingIcon: .icon(.person), title: "프로필"),
         .init(title: "설정")
     ]
 )
-.variant(.outlined)
 .size(.medium)
+
+// 아이콘만 표시하는 세그먼트 컨트롤 (세그먼트 너비/높이 고정)
+SegmentedControl(
+    selectedIndex: $selectedIndex,
+    items: [
+        .init(leadingIcon: .icon(.home), title: "홈"),
+        .init(leadingIcon: .icon(.person), title: "프로필")
+    ]
+)
+.iconOnly()
 ```
 
 ## Topics
@@ -43,20 +52,25 @@ SegmentedControl(
 
 
 세그먼트 컨트롤의 항목을 나타내는 구조체입니다.
+- **Overview**
+
+  각 항목은 이미지(선택 사항)와 텍스트로 구성됩니다.
 #### Initializers
 
 <details>
 
-<summary>``init(image: Image?, title: String)``</summary>
+<summary>``init(leadingIcon: Image?, title: String)``</summary>
 
 
 세그먼트 항목을 초기화합니다.
 
 - **Parameters**
+
   | Parameter | Description |
   | --- | --- |
-  | `image` | 표시할 이미지, 생략하면 기본값으로 `nil` 적용 |
-  | `title` | 표시할 텍스트 |
+  | `leadingIcon` | 텍스트 앞에 표시할 아이콘, 생략하면 기본값으로 `nil` 적용 |
+  | `title` | 표시할 텍스트. `iconOnly` 모드에서는 텍스트가 숨겨지는 대신 이 값이 세그먼트의 VoiceOver 접근성 라벨로 사용됩니다. |
+
 </details>
 
 </details>
@@ -71,11 +85,13 @@ SegmentedControl(
 항목 배열을 이용해 세그먼트 컨트롤을 초기화합니다.
 
 - **Parameters**
+
   | Parameter | Description |
   | --- | --- |
   | `selectedIndex` | 현재 선택된 항목의 인덱스 바인딩 |
   | `items` | 표시할 항목 배열 |
   | `onSelect` | 항목 선택 시 호출될 클로저, 생략하면 기본값으로 `nil` 적용 |
+
 </details>
 <details>
 
@@ -85,11 +101,13 @@ SegmentedControl(
 텍스트 배열을 이용해 세그먼트 컨트롤을 초기화합니다.
 
 - **Parameters**
+
   | Parameter | Description |
   | --- | --- |
   | `selectedIndex` | 현재 선택된 항목의 인덱스 바인딩 |
   | `labels` | 표시할 텍스트 배열 |
   | `onSelect` | 항목 선택 시 호출될 클로저, 생략하면 기본값으로 `nil` 적용 |
+
 </details>
 
 ### Instance Properties
@@ -106,30 +124,37 @@ SegmentedControl(
 
 <details>
 
+<summary>``func iconOnly(Bool) -> SegmentedControl``</summary>
+
+
+각 세그먼트를 아이콘만 표시하도록 설정합니다.
+
+- **Parameters**
+
+  | Parameter | Description |
+  | --- | --- |
+  | `iconOnly` | 아이콘만 표시할지 여부, 생략하면 기본값으로 `true` 적용 |
+
+- **Return Value**
+
+  수정된 세그먼트 컨트롤 인스턴스
+- **Discussion**
+
+  `true`이면 텍스트를 숨기고 아이콘만 표시하며, 각 세그먼트의 너비와 높이가 크기별로 고정됩니다. 이 경우 각 [SegmentedControl.Item](/documentation/montage/segmentedcontrol/item.md)에 이미지를 지정해야 하며, [SegmentedControl.Item](/documentation/montage/segmentedcontrol/item.md)의 `title`은 세그먼트의 VoiceOver 접근성 라벨로 사용됩니다.
+</details>
+<details>
+
 <summary>``func size(Size) -> SegmentedControl``</summary>
 
 
 세그먼트 컨트롤의 크기를 설정합니다.
 
 - **Parameters**
+
   | Parameter | Description |
   | --- | --- |
   | `size` | 적용할 크기 |
-- **Return Value**
 
-  수정된 세그먼트 컨트롤 인스턴스
-</details>
-<details>
-
-<summary>``func variant(Variant) -> SegmentedControl``</summary>
-
-
-세그먼트 컨트롤의 시각적 스타일을 설정합니다.
-
-- **Parameters**
-  | Parameter | Description |
-  | --- | --- |
-  | `variant` | 적용할 스타일 |
 - **Return Value**
 
   수정된 세그먼트 컨트롤 인스턴스
@@ -143,6 +168,9 @@ SegmentedControl(
 
 
 세그먼트 컨트롤의 크기를 정의하는 열거형입니다.
+- **Overview**
+
+  크기에 따라 높이, 모서리 반경, 패딩, 타이포그래피, 아이콘 크기가 함께 결정됩니다.
 #### Enumeration Cases
 
 <details>
@@ -150,45 +178,21 @@ SegmentedControl(
 <summary>``case large``</summary>
 
 
-큰 크기
+큰 크기 (높이 48)
 </details>
 <details>
 
 <summary>``case medium``</summary>
 
 
-중간 크기
+중간 크기 (높이 40)
 </details>
 <details>
 
 <summary>``case small``</summary>
 
 
-작은 크기
-</details>
-
-</details>
-<details>
-
-<summary>``enum Variant``</summary>
-
-
-세그먼트 컨트롤의 시각적 스타일을 정의하는 열거형입니다.
-#### Enumeration Cases
-
-<details>
-
-<summary>``case outlined``</summary>
-
-
-테두리만 있는 스타일
-</details>
-<details>
-
-<summary>``case solid``</summary>
-
-
-배경이 채워진 스타일
+작은 크기 (높이 32)
 </details>
 
 </details>

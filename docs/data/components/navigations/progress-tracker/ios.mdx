@@ -54,10 +54,12 @@ description: 단계별 진행 상태를 수평/수직으로 표시하는 컴포�
 진행 상태를 표시하는 컴포넌트를 생성합니다.
 
 - **Parameters**
+
   | Parameter | Description |
   | --- | --- |
   | `progress` | 진행 상태를 나타내는 바인딩 값 (1부터 시작하는 인덱스) |
   | `variant` | 레이아웃 및 구성을 정의하는 옵션 |
+
 </details>
 
 ### Instance Properties
@@ -88,9 +90,11 @@ description: 단계별 진행 상태를 수평/수직으로 표시하는 컴포�
 수평 레이아웃. 각 단계의 라벨을 지정합니다.
 
 - **Parameters**
+
   | Parameter | Description |
   | --- | --- |
   | `labels` | 각 단계의 라벨 텍스트 배열 |
+
 </details>
 <details>
 
@@ -100,9 +104,11 @@ description: 단계별 진행 상태를 수평/수직으로 표시하는 컴포�
 수직 레이아웃. 각 단계의 라벨과 보조/콘텐츠 뷰를 지정합니다.
 
 - **Parameters**
+
   | Parameter | Description |
   | --- | --- |
   | `stepContents` | 각 단계에 표시되는 콘텐츠 배열 |
+
 </details>
 
 </details>

@@ -15,7 +15,15 @@ description: 체크마크 컴포넌트입니다.
 Checkmark(checked: true) { checked in
     print("체크마크 선택 상태: \(checked)")
 }
+
+// 비활성화
+Checkmark(checked: true)
+    .disabled(true)
 ```
+
+> **Note**
+>
+> 비활성화는 SwiftUI 표준 `disabled(_:)`를 사용합니다. 상위 컨테이너에 한 번 걸면 하위 컴포넌트까지 함께 비활성 스타일로 표시됩니다.
 
 ## Topics
 
@@ -29,11 +37,13 @@ Checkmark(checked: true) { checked in
 체크마크를 생성합니다.
 
 - **Parameters**
+
   | Parameter | Description |
   | --- | --- |
   | `checked` | 체크마크의 초기 선택 상태 |
   | `size` | 체크마크 크기. 생략하면 기본값으로 `.medium` 적용 |
   | `onSelect` | 선택 상태 변경 콜백. 생략하면 기본값으로 `nil` 적용 |
+
 </details>
 
 ### Instance Properties
@@ -56,36 +66,23 @@ Checkmark(checked: true) { checked in
 레이블을 볼드체로 설정합니다.
 
 - **Parameters**
+
   | Parameter | Description |
   | --- | --- |
   | `isBold` | 볼드 적용 여부, 생략하면 기본값으로 `true` 적용 |
+
 - **Return Value**
 
   수정된 체크마크 컴포넌트
 - **Discussion**
-  >  **Note**
+  > **Note**
   >
   > 이 설정은 `labelTypography`에서 지정한 굵기보다 우선합니다.
 
-  >  **Note**
+  > **Note**
   >
   > 레이블이 지정되지 않은 경우 이 설정은 적용되지 않습니다.
 
-</details>
-<details>
-
-<summary>``func disable(Bool) -> Checkmark``</summary>
-
-
-컨트롤을 비활성화합니다.
-
-- **Parameters**
-  | Parameter | Description |
-  | --- | --- |
-  | `disable` | 비활성화 여부, 생략하면 기본값으로 `true` 적용 |
-- **Return Value**
-
-  수정된 체크마크 컴포넌트
 </details>
 <details>
 
@@ -109,16 +106,18 @@ Checkmark(checked: true) { checked in
 레이블의 타이포그래피 속성을 설정합니다.
 
 - **Parameters**
+
   | Parameter | Description |
   | --- | --- |
   | `variant` | 레이블 변형, 생략하면 기본값으로 `nil` 적용 |
   | `weight` | 레이블 굵기, 생략하면 기본값으로 `nil` 적용 |
   | `color` | 레이블 색상, 생략하면 기본값으로 `nil` 적용 |
+
 - **Return Value**
 
   수정된 체크마크 컴포넌트
 - **Discussion**
-  >  **Note**
+  > **Note**
   >
   > 레이블이 지정되지 않은 경우 이 설정은 적용되지 않습니다.
 
@@ -131,14 +130,16 @@ Checkmark(checked: true) { checked in
 레이블을 더 조밀한 레이아웃으로 표시합니다.
 
 - **Parameters**
+
   | Parameter | Description |
   | --- | --- |
   | `tight` | 조밀한 레이아웃 적용 여부, 생략하면 기본값으로 `true` 적용 |
+
 - **Return Value**
 
   수정된 체크마크 컴포넌트
 - **Discussion**
-  >  **Note**
+  > **Note**
   >
   > 레이블이 지정되지 않은 경우 이 설정은 적용되지 않습니다.
 

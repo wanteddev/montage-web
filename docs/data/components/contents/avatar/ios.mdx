@@ -9,7 +9,7 @@ description: 사용자, 회사, 학원의 프로필 이미지를 표시하는 �
 
 ## Overview
 
-원형 또는 둥근 모서리 사각형 형태로 프로필 이미지를 표시합니다. 이미지 URL이 유효하지 않을 경우 각 유형별 기본 이미지를 표시합니다.
+원형 또는 둥근 모서리 사각형 형태로 프로필 이미지를 표시합니다. 이미지 URL이 유효하지 않을 경우 각 유형별 기본 아이콘을 표시합니다.
 
 ```swift
 // 기본 사용자 아바타
@@ -22,7 +22,15 @@ Avatar("https://example.com/company-logo.png", variant: .company, size: .medium)
 // 푸시 알림 표시가 있는 아바타
 Avatar("https://example.com/profile.jpg", variant: .person)
     .pushBadge()
+
+// 비활성화
+Avatar("https://example.com/profile.jpg", variant: .person)
+    .disabled(true)
 ```
+
+> **Note**
+>
+> 비활성화는 SwiftUI 표준 `disabled(_:)`를 사용합니다. 상위 컨테이너에 한 번 걸면 하위 컴포넌트까지 함께 비활성 스타일로 표시됩니다. 이미지는 색 토큰으로 비활성을 표현할 수 없어 불투명도 `Opacity/43`을 적용합니다.
 
 ## Topics
 
@@ -36,12 +44,14 @@ Avatar("https://example.com/profile.jpg", variant: .person)
 SwiftUI Image로 아바타를 초기화합니다.
 
 - **Parameters**
+
   | Parameter | Description |
   | --- | --- |
   | `image` | 표시할 SwiftUI Image |
   | `variant` | 아바타 유형 (.person, .company, .academy) |
   | `size` | 아바타 크기, 생략하면 기본값으로 `.small` 적용 |
   | `onTap` | 탭 시 실행할 액션, 생략하면 기본값으로 `nil` 적용 |
+
 </details>
 <details>
 
@@ -51,12 +61,14 @@ SwiftUI Image로 아바타를 초기화합니다.
 URL 문자열로 아바타를 초기화합니다.
 
 - **Parameters**
+
   | Parameter | Description |
   | --- | --- |
   | `imageUrl` | 표시할 이미지의 URL 문자열 |
   | `variant` | 아바타 유형 (.person, .company, .academy) |
   | `size` | 아바타 크기, 생략하면 기본값으로 `.small` 적용 |
   | `onTap` | 탭 시 실행할 액션, 생략하면 기본값으로 `nil` 적용 |
+
 </details>
 
 ### Instance Properties
@@ -79,10 +91,12 @@ URL 문자열로 아바타를 초기화합니다.
 아바타에 테두리를 추가합니다.
 
 - **Parameters**
+
   | Parameter | Description |
   | --- | --- |
-  | `color` | 테두리 색상, 생략하면 기본값으로 `.semantic(.lineAlternative)` 적용 |
+  | `color` | 테두리 색상, 생략하면 기본값으로 `.semantic(.lineNeutralTertiary)` 적용 |
   | `width` | 테두리 두께, 생략하면 기본값으로 `1` 적용 |
+
 - **Return Value**
 
   수정된 아바타 인스턴스
@@ -95,9 +109,11 @@ URL 문자열로 아바타를 초기화합니다.
 이미지의 콘텐츠 모드를 설정합니다.
 
 - **Parameters**
+
   | Parameter | Description |
   | --- | --- |
   | `contentMode` | 콘텐츠 모드, `.fit` 또는 `.fill` |
+
 - **Return Value**
 
   수정된 아바타 인스턴스
@@ -110,9 +126,11 @@ URL 문자열로 아바타를 초기화합니다.
 아바타의 모서리 반경을 커스텀 값으로 설정합니다.
 
 - **Parameters**
+
   | Parameter | Description |
   | --- | --- |
   | `cornerRadius` | 모서리 반경 값 |
+
 - **Return Value**
 
   수정된 아바타 인스턴스
@@ -128,16 +146,18 @@ URL 문자열로 아바타를 초기화합니다.
 푸시 알림 표시 뱃지를 아바타에 추가합니다.
 
 - **Parameters**
+
   | Parameter | Description |
   | --- | --- |
   | `pushBadge` | 뱃지 표시 여부, 생략하면 기본값으로 `true` 적용 |
   | `size` | 뱃지 크기, 생략하면 아바타 크기에 따라 자동 결정 |
+
 - **Return Value**
 
   수정된 아바타 인스턴스
 - **Discussion**
 
-  푸시 뱃지는 사용자(.person) 아바타에만 적용 가능합니다.
+  모든 유형(.person, .company, .academy)의 아바타에 적용할 수 있습니다. 뱃지는 배경과 분리되도록 아웃라인 보더(outlineBorder)가 기본 적용되며, 유형·크기에 따라 부착 위치가 안쪽으로 보정됩니다.
 </details>
 
 ### Enumerations
@@ -160,7 +180,7 @@ URL 문자열로 아바타를 초기화합니다.
 
   커스텀 크기 사용 시 다음 규칙이 자동 적용됩니다:
   - pushBadge size: 36pt 이하 `.xsmall`, 37~52pt `.small`, 53pt 이상 `.medium`
-  - cornerRadius (company/academy): 크기의 25% (짝수로 올림 보정)
+  - cornerRadius (company/academy): 크기의 25%에 +2 (짝수로 올림 보정)
 
 
   [cornerRadius(_:)](/documentation/montage/avatar/cornerradius(_:).md)로 cornerRadius를 직접 지정하거나, [pushBadge(_:size:)](/documentation/montage/avatar/pushbadge(_:size:).md)의 `size` 파라미터로 뱃지 크기를 직접 지정할 수 있습니다.

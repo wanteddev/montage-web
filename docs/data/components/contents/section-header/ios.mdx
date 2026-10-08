@@ -43,9 +43,11 @@ SectionHeader(title: "카테고리") {
 섹션 헤더를 초기화합니다.
 
 - **Parameters**
+
   | Parameter | Description |
   | --- | --- |
   | `title` | 표시할 섹션 제목 |
+
 </details>
 
 ### Instance Properties
@@ -68,9 +70,11 @@ SectionHeader(title: "카테고리") {
 헤더 타이틀 옆에 추가 콘텐츠를 표시합니다.
 
 - **Parameters**
+
   | Parameter | Description |
   | --- | --- |
   | `content` | 표시할 콘텐츠를 생성하는 클로저 |
+
 - **Return Value**
 
   수정된 SectionHeader 인스턴스
@@ -86,15 +90,17 @@ SectionHeader(title: "카테고리") {
 섹션 헤더의 크기를 설정합니다.
 
 - **Parameters**
+
   | Parameter | Description |
   | --- | --- |
   | `size` | 적용할 헤더 크기 |
+
 - **Return Value**
 
   수정된 SectionHeader 인스턴스
 - **Discussion**
 
-  크기에 따라 폰트 크기와 높이가 자동으로 조정됩니다. `xsmall` 크기를 선택하면 타이틀 색상이 `.labelAlternative`로 변경됩니다.
+  크기에 따라 폰트 크기와 높이가 자동으로 조정됩니다. `xsmall` 크기를 선택하면 타이틀 색상이 `.foregroundNeutralTertiary`로 변경됩니다.
 </details>
 <details>
 
@@ -104,9 +110,11 @@ SectionHeader(title: "카테고리") {
 타이틀 텍스트의 색상을 설정합니다.
 
 - **Parameters**
+
   | Parameter | Description |
   | --- | --- |
   | `color` | 적용할 텍스트 색상 |
+
 - **Return Value**
 
   수정된 SectionHeader 인스턴스
@@ -119,9 +127,11 @@ SectionHeader(title: "카테고리") {
 헤더의 오른쪽에 추가적인 콘텐츠를 표시합니다.
 
 - **Parameters**
+
   | Parameter | Description |
   | --- | --- |
   | `content` | 표시할 콘텐츠를 생성하는 클로저 |
+
 - **Return Value**
 
   수정된 SectionHeader 인스턴스
@@ -138,6 +148,15 @@ SectionHeader(title: "카테고리") {
 
 
 섹션 헤더의 크기를 정의하는 열거형입니다.
+- **Overview**
+
+  콘텐츠의 중요도나 시각적 계층 구조에 따라 4가지 크기 옵션을 제공합니다. 각 크기는 서로 다른 폰트 크기와 높이를 가지며, 콘텐츠 구조에 맞게 선택할 수 있습니다.
+
+  ```swift
+  SectionHeader(title: "주요 기능")
+      .size(.large) // 큰 크기의 헤더 사용
+  ```
+
 #### Enumeration Cases
 
 <details>

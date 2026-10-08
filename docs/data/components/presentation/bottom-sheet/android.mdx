@@ -36,7 +36,7 @@ WantedModalBottomSheet(
 | modifier | Modifier | 컴포넌트에 적용할 Modifier입니다. |
 | background | Color | 배경 색상입니다. |
 | type | ModalType | 모달의 형태입니다. |
-| modalSize | ModalSize | 콘텐츠 패딩 등을 조절하는 크기 설정입니다. |
+| sheetDefault | WantedBottomSheetDefault | Bottom Sheet 의 모양·여백 설정입니다. 기본값은 [type] 에 맞춰 골라집니다 (Full 만 별도 값). |
 | dismissOnClickOutside | Boolean | 외부 클릭 시 닫힘 여부입니다. |
 | topBar | (@Composable () -> Unit)? | 상단 바 슬롯입니다. |
 | bottomBar | (@Composable () -> Unit)? | 하단 바 슬롯입니다. |
@@ -44,6 +44,25 @@ WantedModalBottomSheet(
 
 
 ## Advanced
+### WantedBottomSheetDefault
+Bottom Sheet / Full 의 모양과 여백을 정의하는 데이터 클래스입니다.
+값을 바꿔 쓸 때는 [WantedBottomSheetDefaults.getDefault] · [WantedBottomSheetDefaults.getFullDefault] 의 인자로 넘기거나 `copy` 를 사용합니다.
+여백은 디자인 4.0.0 기준으로 ModalSize 와 무관하게 통일되어 있고, Full 만 별도 값을 사용합니다.
+
+<details>
+  <summary>Properties</summary>
+
+  | 이름 | 타입 | 설명 |
+  |:---|:---|:---|
+  | shape | RoundedCornerShape | Bottom Sheet 의 모서리 둥글기입니다. Full 은 화면 전체를 덮으므로 0dp 입니다. |
+  | navigationPadding | Dp | Navigation 영역에 Bottom Sheet 가 추가로 얹는 여백입니다. 여백 자체는 Navigation 컴포넌트가 소유하므로 기본값은 0dp 입니다. |
+  | contentHorizontalPadding | Dp | Content 영역의 좌우 여백입니다. |
+  | contentVerticalPadding | Dp | Content 영역의 상하 여백입니다. |
+  | actionHorizontalPadding | Dp | Action Area 의 좌우 여백입니다. |
+  | actionVerticalPadding | Dp | Action Area 의 상하 여백입니다. |
+
+</details>
+<br />
 ### WantedModalDefaults
 Bottom sheet 상단에 표시되는 드래그 핸들 컴포넌트입니다.
 
@@ -62,6 +81,111 @@ WantedModalDefaults.DragHandle()
   | modifier | Modifier | 컴포넌트에 적용할 Modifier입니다. |
   | color | Color | 핸들의 배경 색상입니다. |
   | shape | Shape | 핸들의 모양입니다. |
+
+</details>
+<br />
+### getDefault
+Bottom Sheet 의 기본 설정을 생성합니다. (디자인 4.0.0)
+
+```kotlin
+// 본문 상하 여백까지 켠다 (좌우는 기본값 28)
+WantedModalBottomSheet(
+    isShow = true,
+    onDismissRequest = { },
+    sheetDefault = WantedBottomSheetDefaults.getDefault(
+        contentVerticalPadding = WantedBottomSheetDefaults.CONTENT_VERTICAL_PADDING
+    ),
+    content = { }
+)
+```
+
+<details>
+  <summary>Parameters</summary>
+
+  | 이름 | 타입 | 설명 |
+  |:---|:---|:---|
+  | shape | RoundedCornerShape | Bottom Sheet 의 모서리 둥글기입니다. |
+  | navigationPadding | Dp | Navigation 영역에 추가로 얹는 여백입니다. |
+  | contentHorizontalPadding | Dp | Content 영역의 좌우 여백입니다. |
+  | contentVerticalPadding | Dp | Content 영역의 상하 여백입니다. |
+  | actionHorizontalPadding | Dp | Action Area 의 좌우 여백입니다. |
+  | actionVerticalPadding | Dp | Action Area 의 상하 여백입니다. |
+
+</details>
+<br />
+<details>
+  <summary>Return</summary>
+
+  | 타입 | 설명 |
+  |:---|:---|
+  | WantedBottomSheetDefault | 설정된 WantedBottomSheetDefault 인스턴스를 반환합니다. |
+
+</details>
+<br />
+### getFullDefault
+Full(전체화면) 의 기본 설정을 생성합니다. 여백은 Bottom Sheet 와 다른 값을 쓰고, 모서리는 Bottom Sheet 와 같은 Sheet Radius(32) 를 씁니다. (디자인 4.0.0)
+
+```kotlin
+WantedModalBottomSheet(
+    isShow = true,
+    onDismissRequest = { },
+    type = WantedModalContract.ModalType.FixedFullScreen(),
+    sheetDefault = WantedBottomSheetDefaults.getFullDefault(),
+    content = { }
+)
+```
+
+<details>
+  <summary>Parameters</summary>
+
+  | 이름 | 타입 | 설명 |
+  |:---|:---|:---|
+  | shape | RoundedCornerShape | Full 의 모서리 둥글기입니다. Android 의 Full 은 상태바 아래에서 시작해 상단 모서리가 보이므로 Bottom Sheet 와 같은 값을 씁니다. |
+  | navigationPadding | Dp | Navigation 영역에 추가로 얹는 여백입니다. |
+  | contentHorizontalPadding | Dp | Content 영역의 좌우 여백입니다. |
+  | contentVerticalPadding | Dp | Content 영역의 상하 여백입니다. |
+  | actionHorizontalPadding | Dp | Action Area 의 좌우 여백입니다. |
+  | actionVerticalPadding | Dp | Action Area 의 상하 여백입니다. |
+
+</details>
+<br />
+<details>
+  <summary>Return</summary>
+
+  | 타입 | 설명 |
+  |:---|:---|
+  | WantedBottomSheetDefault | 설정된 WantedBottomSheetDefault 인스턴스를 반환합니다. |
+
+</details>
+<br />
+### getWithoutContentPadding
+Content 여백만 0 으로 지운 설정을 생성합니다. Navigation · Action Area 여백은 스펙 값을 그대로 씁니다.
+호출부가 본문 여백을 직접 주고 있는 화면에서 이중 패딩을 피하려고 씁니다. 신규 화면은 [getDefault] · [getFullDefault] 를 그대로 쓰세요.
+
+```kotlin
+WantedModalBottomSheet(
+    isShow = true,
+    onDismissRequest = { },
+    sheetDefault = WantedBottomSheetDefaults.getWithoutContentPadding(),
+    content = { Column(modifier = Modifier.padding(horizontal = 20.dp)) { } }
+)
+```
+
+<details>
+  <summary>Parameters</summary>
+
+  | 이름 | 타입 | 설명 |
+  |:---|:---|:---|
+  | type | ModalType | 모달의 형태입니다. Full 만 별도 여백 값을 씁니다. |
+
+</details>
+<br />
+<details>
+  <summary>Return</summary>
+
+  | 타입 | 설명 |
+  |:---|:---|
+  | WantedBottomSheetDefault | Content 여백이 0 인 WantedBottomSheetDefault 인스턴스를 반환합니다. |
 
 </details>
 <br />

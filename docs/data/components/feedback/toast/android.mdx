@@ -37,6 +37,11 @@ WantedToast(snackbarHostState = snackbarHostState)
 </details>
 
 ## Advanced
+### PlayCoreDialogWrapperActivity
+플레인 [Activity]는 DecorView에 ViewTreeLifecycleOwner가 설정되지 않아
+ComposeView를 붙이는 순간 IllegalStateException으로 앱이 종료된다.
+ComposeView 부착의 실제 전제조건인 view tree의 LifecycleOwner 존재 여부를 직접 검사한다.
+
 ### WantedGlobalToastManager
 앱 전역에서 Toast를 관리하는 싱글톤 매니저입니다.
 Activity 생명주기를 추적하여 현재 활성화된 화면에 Toast를 표시하며,
@@ -58,6 +63,15 @@ Toast 매니저를 초기화합니다.
 Application 생명주기에 콜백을 등록하여 Activity 상태를 추적합니다.
 반드시 Application 클래스에서 한 번만 호출해야 합니다.
 
+<details>
+  <summary>Parameters</summary>
+
+  | 이름 | 타입 | 설명 |
+  |:---|:---|:---|
+  | application | Application | Application 인스턴스입니다. |
+
+</details>
+<br />
 ### showToast
 텍스트와 스타일을 지정하여 Toast를 표시합니다.
 Variant를 통해 메시지 타입(긍정, 주의, 부정 등)을 지정할 수 있습니다.
@@ -70,7 +84,7 @@ Variant를 통해 메시지 타입(긍정, 주의, 부정 등)을 지정할 수 
   | text | String | 토스트에 표시할 메시지입니다. |
   | duration | ToastDuration | 토스트가 표시될 시간입니다. 기본값은 Short(3초)입니다. |
   | padding | PaddingValues | 토스트에 적용할 패딩입니다. 기본값은 하단 20dp입니다. |
-  | variant | WantedToastVariant | 토스트 스타일입니다. 기본값은 Message입니다. |
+  | variant | WantedToastVariant | 토스트 스타일입니다. 기본값은 Normal입니다. |
   | icon | (@Composable () -> Unit)? | 사용자 정의 아이콘입니다. |
 
 </details>
@@ -99,7 +113,7 @@ snackbarHostState.showToast(
   |:---|:---|:---|
   | scope | CoroutineScope | 코루틴을 실행할 스코프입니다. |
   | message | String | 토스트에 표시할 메시지입니다. |
-  | variant | WantedToastVariant | 토스트 스타일입니다. 기본값은 Message입니다. |
+  | variant | WantedToastVariant | 토스트 스타일입니다. 기본값은 Normal입니다. |
 
 </details>
 <br />
@@ -117,13 +131,15 @@ Toast 메시지의 시각적 스타일을 정의하는 sealed 클래스입니다
 각 타입은 고유의 아이콘 리소스 및 색상 리소스를 포함하고 있으며,
 사용자 피드백의 성격(정보, 긍정, 경고, 부정 등)을 나타냅니다.
 제공되는 Toast 스타일은 다음과 같습니다:
-- Message: 일반 메시지 (아이콘 없음)입니다.
+- Normal: 일반 메시지 (아이콘 없음)입니다.
+- Message: 일반 메시지 (아이콘 없음)입니다. (deprecated, Normal 을 사용하세요)
 - Positive: 긍정적인 메시지 (체크 아이콘, 초록색)입니다.
 - Cautionary: 주의 메시지 (느낌표 아이콘, 주황색)입니다.
 - Negative: 부정적인 메시지 (X 아이콘, 빨간색)입니다.
 
 | 값 | 설명 |
 |:---|:---|
+| Normal | 일반 텍스트 메시지를 표시하는 스타일입니다. 아이콘은 표시되지 않습니다. |
 | Message | 일반 텍스트 메시지를 표시하는 스타일입니다. 아이콘은 표시되지 않습니다. |
 | Positive | 긍정적인 알림을 위한 스타일입니다. 체크 아이콘과 초록색 색상이 사용됩니다. |
 | Cautionary | 주의가 필요한 상황을 나타내는 스타일입니다. 삼각형 느낌표 아이콘과 주황색 색상이 사용됩니다. |

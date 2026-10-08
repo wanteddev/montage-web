@@ -60,9 +60,11 @@ PlayBadge()
 대체 스타일을 적용합니다.
 
 - **Parameters**
+
   | Parameter | Description |
   | --- | --- |
   | `alternative` | 대체 스타일 적용 여부, 생략하면 기본값으로 `true` 적용 |
+
 - **Return Value**
 
   수정된 PlayBadge 인스턴스
@@ -78,9 +80,11 @@ PlayBadge()
 재생 배지의 크기를 설정합니다.
 
 - **Parameters**
+
   | Parameter | Description |
   | --- | --- |
   | `size` | 적용할 배지 크기 |
+
 - **Return Value**
 
   수정된 PlayBadge 인스턴스
@@ -94,6 +98,15 @@ PlayBadge()
 
 
 재생 배지의 크기를 정의하는 열거형입니다.
+- **Overview**
+
+  미디어 콘텐츠의 크기나 중요도에 따라 적절한 배지 크기를 선택할 수 있습니다.
+
+  ```swift
+  PlayBadge()
+      .size(.large) // 큰 크기의 배지 사용
+  ```
+
 #### Enumeration Cases
 
 <details>

@@ -8,55 +8,121 @@ title: Swift
 
 <details>
 
-<summary>``extension Float``</summary>
+<summary>``extension Double``</summary>
 
-#### Type Methods
+#### Type Properties
 
 <details>
 
-<summary>``static func opacity(Opacity) -> Float``</summary>
+<summary>``static let opacity0: Double``</summary>
 
 
-Opacity 열거형 값에 해당하는 Float 불투명도 값을 반환합니다.
-
-- **Parameters**
-  | Parameter | Description |
-  | --- | --- |
-  | `opacityComponent` | 사용할 불투명도 열거형 값 |
-- **Return Value**
-
-  지정된 불투명도에 해당하는 Float 값 (0.0 ~ 1.0 범위)
-- **Discussion**
-
-  디자인 시스템에서 정의된 일관된 불투명도 값을 사용할 수 있도록 합니다.
-
-  ```swift
-  let alpha = Float.opacity(.p050) // 0.5
-  ```
-
+0%의 불투명도 (완전 투명)
 </details>
 <details>
 
-<summary>``static func spacing(Spacing) -> Float``</summary>
+<summary>``static let opacity100: Double``</summary>
 
 
-Spacing 열거형 값에 해당하는 Float 값을 반환합니다.
+100%의 불투명도 (완전 불투명)
+</details>
+<details>
 
-- **Parameters**
-  | Parameter | Description |
-  | --- | --- |
-  | `spacingComponent` | 사용할 간격 열거형 값 |
-- **Return Value**
+<summary>``static let opacity12: Double``</summary>
 
-  지정된 간격에 해당하는 Float 값
-- **Discussion**
 
-  디자인 시스템에서 정의된 일관된 간격 값을 사용할 수 있도록 합니다.
+12%의 불투명도
+</details>
+<details>
 
-  ```swift
-  let padding = Float.spacing(.pt16) // 16.0
-  ```
+<summary>``static let opacity16: Double``</summary>
 
+
+16%의 불투명도
+</details>
+<details>
+
+<summary>``static let opacity22: Double``</summary>
+
+
+22%의 불투명도
+</details>
+<details>
+
+<summary>``static let opacity28: Double``</summary>
+
+
+28%의 불투명도
+</details>
+<details>
+
+<summary>``static let opacity32: Double``</summary>
+
+
+32%의 불투명도
+</details>
+<details>
+
+<summary>``static let opacity35: Double``</summary>
+
+
+35%의 불투명도
+</details>
+<details>
+
+<summary>``static let opacity43: Double``</summary>
+
+
+43%의 불투명도
+</details>
+<details>
+
+<summary>``static let opacity5: Double``</summary>
+
+
+5%의 불투명도
+</details>
+<details>
+
+<summary>``static let opacity52: Double``</summary>
+
+
+52%의 불투명도
+</details>
+<details>
+
+<summary>``static let opacity61: Double``</summary>
+
+
+61%의 불투명도
+</details>
+<details>
+
+<summary>``static let opacity74: Double``</summary>
+
+
+74%의 불투명도
+</details>
+<details>
+
+<summary>``static let opacity8: Double``</summary>
+
+
+8%의 불투명도
+</details>
+<details>
+
+<summary>``static let opacity88: Double``</summary>
+
+
+88%의 불투명도
+</details>
+<details>
+
+<summary>``static let opacity97: Double``</summary>
+
+
+97%의 불투명도
 </details>
 
 </details>

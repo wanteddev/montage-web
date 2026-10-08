@@ -26,7 +26,7 @@ Image(systemName: "person.circle")
 contentView
     .skeleton(isPresented: isLoading) {
         Skeleton.SkeletonView(.rectangle(cornerRadius: 8))
-            .color(.semantic(.fillNormal))
+            .color(.semantic(.surfaceNeutralSecondary))
             .opacity(0.7)
     }
 ```
@@ -41,6 +41,21 @@ contentView
 
 
 스켈레톤 요소의 종류를 지정하는 구조체입니다.
+- **Overview**
+
+  다양한 콘텐츠 유형에 맞게 적절한 스켈레톤 형태를 선택할 수 있습니다. 텍스트 스켈레톤은 `Typography.Variant`의 `lineHeight`를 기반으로 줄 수와 길이를 자동 계산합니다.
+
+  ```swift
+  // 자동 텍스트 스켈레톤 (variant 기반 자동 계산)
+  Skeleton.Kind.text(variant: .body1)
+  
+  // 둥근 모서리 사각형 스켈레톤
+  Skeleton.Kind.rectangle(cornerRadius: 8)
+  
+  // 원형 스켈레톤 (프로필 이미지 등에 적합)
+  Skeleton.Kind.circle
+  ```
+
 #### Instance Properties
 
 <details>
@@ -85,34 +100,14 @@ contentView
 사각형 모양의 스켈레톤을 생성합니다.
 
 - **Parameters**
+
   | Parameter | Description |
   | --- | --- |
   | `cornerRadius` | 모서리 둥글기, 생략하면 기본값으로 `3` 적용 |
+
 - **Return Value**
 
   사각형 스켈레톤 Kind
-</details>
-<details>
-
-<summary>~~``static func text(alignment: Align, lengths: [Length], cornerRadius: CGFloat, lineNumber: Int) -> Kind``~~</summary>
-
-
-텍스트 줄을 나타내는 스켈레톤을 생성합니다.
->  **Deprecated**
->
->  text(variant:alignment:cornerRadius:)를 사용하세요
-
-
-- **Parameters**
-  | Parameter | Description |
-  | --- | --- |
-  | `alignment` | 텍스트 정렬 방식 |
-  | `lengths` | 각 줄의 상대적 길이 |
-  | `cornerRadius` | 모서리 둥글기 |
-  | `lineNumber` | 텍스트 줄 수. `0`이면 자동 계산 |
-- **Return Value**
-
-  텍스트 스켈레톤 Kind
 </details>
 <details>
 
@@ -122,11 +117,13 @@ contentView
 텍스트 줄을 나타내는 스켈레톤을 생성합니다.
 
 - **Parameters**
+
   | Parameter | Description |
   | --- | --- |
   | `variant` | 텍스트의 타이포그래피 변형. `lineHeight`를 기준으로 줄 수를 자동 계산합니다 |
   | `alignment` | 텍스트 정렬 방식, 생략하면 기본값으로 `.leading` 적용 |
   | `cornerRadius` | 모서리 둥글기, 생략하면 기본값으로 `3` 적용 |
+
 - **Return Value**
 
   텍스트 스켈레톤 Kind
@@ -142,6 +139,22 @@ contentView
 
 
 스켈레톤 로딩 UI를 표시하는 뷰입니다.
+- **Overview**
+
+  지정된 형태(텍스트, 사각형, 원형)에 따라 적절한 스켈레톤 UI를 렌더링합니다. 색상, 투명도 등을 커스터마이징할 수 있습니다.
+
+  텍스트 스켈레톤의 자동 계산:
+  - `variant.lineHeight`를 기준으로 뷰 높이를 나누어 최적의 줄 수를 계산합니다.
+  - 첫 줄 100%, 중간 줄 65~90%, 마지막 줄 40~55% 비율로 자동 생성합니다.
+
+
+  ```swift
+  // variant 기반 자동 모드
+  Skeleton.SkeletonView(.text(variant: .body1))
+      .color(.gray)
+      .opacity(0.8)
+  ```
+
 #### Initializers
 
 <details>
@@ -152,9 +165,11 @@ contentView
 스켈레톤 뷰를 초기화합니다.
 
 - **Parameters**
+
   | Parameter | Description |
   | --- | --- |
   | `kind` | 표시할 스켈레톤의 종류 |
+
 </details>
 
 #### Instance Properties
@@ -177,9 +192,11 @@ contentView
 스켈레톤 뷰의 색상을 설정합니다.
 
 - **Parameters**
+
   | Parameter | Description |
   | --- | --- |
   | `color` | 적용할 색상 |
+
 - **Return Value**
 
   수정된 SkeletonView 인스턴스
@@ -192,9 +209,11 @@ contentView
 스켈레톤 뷰의 투명도를 설정합니다.
 
 - **Parameters**
+
   | Parameter | Description |
   | --- | --- |
   | `opacity` | 적용할 투명도 (0.0 ~ 1.0) |
+
 - **Return Value**
 
   수정된 SkeletonView 인스턴스
@@ -210,6 +229,14 @@ contentView
 
 
 스켈레톤 요소의 정렬 방식을 지정하는 열거형입니다.
+- **Overview**
+
+  텍스트 스켈레톤에서 각 라인의 정렬 방식을 지정할 때 사용됩니다.
+
+  ```swift
+  Skeleton.Kind.text(alignment: .center, lineNumber: 2)
+  ```
+
 #### Enumeration Cases
 
 <details>
@@ -235,21 +262,6 @@ contentView
 </details>
 
 </details>
-<details>
-
-<summary>``enum Length``</summary>
-
-
-스켈레톤 요소의 길이 비율을 지정하는 열거형입니다.
-#### Initializers
-
-<details>
-
-<summary>``init?(rawValue: CGFloat)``</summary>
-
-</details>
-
-</details>
 
 ### Associated Extensions
 
@@ -265,10 +277,12 @@ contentView
 현재 뷰에 커스텀 스켈레톤 로딩 UI를 적용합니다.
 
 - **Parameters**
+
   | Parameter | Description |
   | --- | --- |
   | `isPresented` | 스켈레톤 표시 여부를 제어하는 불리언 값 |
   | `skeletonView` | 커스텀 스켈레톤 뷰를 생성하는 클로저 |
+
 - **Return Value**
 
   스켈레톤 기능이 적용된 뷰
@@ -282,13 +296,15 @@ contentView
 현재 뷰에 미리 정의된 스켈레톤 로딩 UI를 적용합니다.
 
 - **Parameters**
+
   | Parameter | Description |
   | --- | --- |
   | `isPresented` | 스켈레톤 표시 여부를 제어하는 불리언 값 |
   | `kind` | 스켈레톤 종류 (텍스트, 사각형, 원형 등) |
-  | `color` | 스켈레톤 색상, 생략하면 기본값으로 `nil` 적용 (.semantic(.fillNormal) 사용) |
+  | `color` | 스켈레톤 색상, 생략하면 기본값으로 `nil` 적용 (.semantic(.surfaceNeutralSecondary) 사용) |
   | `opacity` | 스켈레톤 투명도, 생략하면 기본값으로 `nil` 적용 |
   | `size` | 스켈레톤 크기 (지정하지 않으면 원본 뷰 크기를 사용), 생략하면 기본값으로 `nil` 적용 |
+
 - **Return Value**
 
   스켈레톤 기능이 적용된 뷰

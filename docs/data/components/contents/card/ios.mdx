@@ -37,11 +37,13 @@ Card(
 카드를 초기화합니다.
 
 - **Parameters**
+
   | Parameter | Description |
   | --- | --- |
   | `thumbnail` | 카드에 표시할 썸네일 이미지 |
   | `skeleton` | 스켈레톤 로딩 상태 바인딩 |
   | `title` | 카드 제목으로 표시할 뷰 |
+
 </details>
 
 ### Instance Properties
@@ -64,9 +66,11 @@ Card(
 카드 하단에 표시할 콘텐츠를 설정합니다.
 
 - **Parameters**
+
   | Parameter | Description |
   | --- | --- |
   | `content` | 하단에 표시할 콘텐츠 뷰를 반환하는 클로저 |
+
 - **Return Value**
 
   수정된 카드 인스턴스
@@ -79,9 +83,11 @@ Card(
 카드의 캡션(부제목)을 설정합니다.
 
 - **Parameters**
+
   | Parameter | Description |
   | --- | --- |
   | `caption` | 표시할 캡션 문자열 |
+
 - **Return Value**
 
   수정된 카드 인스턴스
@@ -94,9 +100,11 @@ Card(
 카드의 추가 캡션을 설정합니다.
 
 - **Parameters**
+
   | Parameter | Description |
   | --- | --- |
   | `extraCaption` | 표시할 추가 캡션 문자열 |
+
 - **Return Value**
 
   수정된 카드 인스턴스
@@ -109,12 +117,14 @@ Card(
 썸네일에 오버레이할 콘텐츠를 설정합니다.
 
 - **Parameters**
+
   | Parameter | Description |
   | --- | --- |
   | `caption` | 오버레이에 표시할 텍스트 |
   | `buttonIcon` | 오버레이에 표시할 버튼 아이콘 |
   | `buttonColor` | 버튼 아이콘 색상 |
   | `onTapButton` | 버튼 탭 시 실행할 액션 |
+
 - **Return Value**
 
   수정된 카드 인스턴스
@@ -127,9 +137,11 @@ Card(
 카드의 보조 캡션을 설정합니다.
 
 - **Parameters**
+
   | Parameter | Description |
   | --- | --- |
   | `subCaption` | 표시할 보조 캡션 문자열 |
+
 - **Return Value**
 
   수정된 카드 인스턴스
@@ -142,9 +154,11 @@ Card(
 카드 상단에 표시할 콘텐츠를 설정합니다.
 
 - **Parameters**
+
   | Parameter | Description |
   | --- | --- |
   | `content` | 상단에 표시할 콘텐츠 뷰를 반환하는 클로저 |
+
 - **Return Value**
 
   수정된 카드 인스턴스

@@ -28,11 +28,10 @@ WantedAutoCompleteTextField(
 | placeholder | String | 플레이스홀더 텍스트입니다. |
 | title | String | 상단 제목입니다. |
 | description | String? | 하단 설명 또는 상태 메시지입니다. |
-| rightButton | String? | 우측 버튼 텍스트입니다. |
-| rightButtonVariant | RightVariant | 우측 버튼 스타일입니다. |
+| trailingButton | String? | 우측 버튼 텍스트입니다. |
 | status | Status | 입력 상태입니다. |
 | enabled | Boolean | 입력 가능 여부입니다. |
-| rightButtonEnabled | Boolean | 우측 버튼 활성화 여부입니다. |
+| trailingButtonEnabled | Boolean | 우측 버튼 활성화 여부입니다. |
 | maxLines | Int | 최대 줄 수입니다. |
 | minLines | Int | 최소 줄 수입니다. |
 | maxWordCount | Int | 입력 가능한 최대 글자 수입니다. |
@@ -48,7 +47,7 @@ WantedAutoCompleteTextField(
 | keyboardOptions | KeyboardOptions | 키보드 동작 설정입니다. |
 | keyboardActions | KeyboardActions | 키보드 액션 처리입니다. |
 | sectionTitle | ((Int) -> String)? | 섹션 제목 반환 함수입니다. |
-| onClickRightButton | () -> Unit | 우측 버튼 클릭 시 호출됩니다. |
+| onClickTrailingButton | () -> Unit | 우측 버튼 클릭 시 호출됩니다. |
 | onValueChange | (String) -> Unit | 값 변경 시 호출됩니다. |
 | leadingIcon | (() -> Unit)? | 좌측 아이콘 슬롯입니다. |
 | trailingIcon | (() -> Unit)? | 우측 아이콘 슬롯입니다. |
@@ -86,11 +85,10 @@ WantedAutoCompleteTextField(
   | placeholder | String | 플레이스홀더입니다. |
   | title | String | 상단 제목입니다. |
   | description | String? | 하단 설명입니다. |
-  | rightButton | String? | 우측 버튼 텍스트입니다. |
-  | rightButtonVariant | RightVariant | 우측 버튼 스타일입니다. |
+  | trailingButton | String? | 우측 버튼 텍스트입니다. |
   | status | Status | 입력 상태입니다. |
   | enabled | Boolean | 활성화 여부입니다. |
-  | rightButtonEnabled | Boolean | 우측 버튼 활성화 여부입니다. |
+  | trailingButtonEnabled | Boolean | 우측 버튼 활성화 여부입니다. |
   | maxLines | Int | 최대 줄 수입니다. |
   | minLines | Int | 최소 줄 수입니다. |
   | maxWordCount | Int | 최대 입력 글자 수입니다. |
@@ -106,7 +104,7 @@ WantedAutoCompleteTextField(
   | keyboardOptions | KeyboardOptions | 키보드 동작 설정입니다. |
   | keyboardActions | KeyboardActions | 키보드 액션 처리입니다. |
   | sectionTitle | ((Int) -> String)? | 섹션 제목 제공 함수입니다. |
-  | onClickRightButton | () -> Unit | 우측 버튼 클릭 콜백입니다. |
+  | onClickTrailingButton | () -> Unit | 우측 버튼 클릭 콜백입니다. |
   | leadingIcon | (() -> Unit)? | 좌측 아이콘 슬롯입니다. |
   | trailingIcon | (() -> Unit)? | 우측 아이콘 슬롯입니다. |
   | trailingContent | ((Dp) -> Unit)? | 우측 콘텐츠입니다. |

@@ -27,7 +27,7 @@ Button(action: {}) {
 }
 ```
 
->  **Note**
+> **Note**
 >
 > Fill로 끝나는 아이콘 이름은 채워진 스타일의 아이콘을 나타냅니다. 동일한 아이콘의 윤곽선 버전과 채워진 버전이 모두 제공되는 경우가 많습니다.
 
@@ -1843,11 +1843,13 @@ Button(action: {}) {
 Montage 디자인 시스템의 아이콘을 생성합니다.
 
 - **Parameters**
+
   | Parameter | Description |
   | --- | --- |
   | `type` | 생성할 아이콘 타입 |
   | `renderingMode` | `color`가 없을 때의 렌더링 모드 (기본 `.alwaysTemplate`) |
   | `color` | 틴트 색. 지정하면 `renderingMode`와 무관하게 색이 적용됩니다. |
+
 - **Return Value**
 
   생성된 UIImage 인스턴스
@@ -1873,11 +1875,13 @@ Montage 디자인 시스템의 아이콘을 생성합니다.
 Montage 디자인 시스템의 아이콘을 생성합니다.
 
 - **Parameters**
+
   | Parameter | Description |
   | --- | --- |
   | `type` | 생성할 아이콘 타입 |
   | `renderingMode` | `color`가 없을 때의 렌더링 모드 (기본 `.template`) |
   | `color` | 틴트 색. 지정하면 `renderingMode`와 무관하게 색이 적용됩니다. |
+
 - **Return Value**
 
   생성된 Image 인스턴스
