@@ -344,7 +344,9 @@ Dark mode is disabled by default — every page renders with the light theme. Pa
 With `enableDarkMode`:
 
 - The theme follows the OS preference (`prefers-color-scheme`) by default.
-- The user's selection is persisted to `localStorage` (key: `theme`, configurable via the `storageKey` prop).
+- The user's selection is persisted to a cookie (`montage-theme`). By default the cookie domain is detected at runtime, so every app under the same root domain (e.g. `*.wanted.co.kr`) shares the theme; `localhost`, IP and preview hosts fall back to a host-only cookie.
+- Configure the cookie with the `cookie` prop — `key`, `domain` (`'auto'` default, `'none'` for host-only, or an explicit domain such as `.wanted.co.kr`), `path`, `maxAge`, `sameSite`, `secure`. Apps on the same root domain must use the same `key`. See the `ThemeProvider` section of `MIGRATION.md` for the details.
+- An inline script applies the stored theme before the first paint. Under a Content Security Policy, pass `nonce` so the script is allowed to run.
 - Pass `disableTransitionOnChange` to disable CSS transitions while the theme switches.
 
 To read or change the current theme, use the `useThemeControl` hook. On the server the resolved theme is always `'light'`, so rendering `theme` directly causes a hydration mismatch in SSR environments such as Next.js — wrap theme-dependent output in `NoSsr`:
