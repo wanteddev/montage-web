@@ -15,13 +15,21 @@ description: 필터링 기능을 제공하는 버튼 컴포넌트입니다.
 FilterButton(
     variant: .solid,
     size: .medium,
-    text: "카테고리",
-    state: $state
+    text: "카테고리"
 )
-.backgroundColor(.semantic(.primaryNormal))
+.expanded(isExpanded)
+.backgroundColor(.semantic(.surfaceBrandPrimary))
 .fontColor(.semantic(.staticWhite))
 .active(true, label: "최신순")
+
+// 비활성화
+FilterButton(text: "카테고리")
+    .disabled(true)
 ```
+
+> **Note**
+>
+> 비활성화는 SwiftUI 표준 `disabled(_:)`를 사용합니다. 상위 컨테이너에 한 번 걸면 하위 컴포넌트까지 함께 비활성 스타일로 표시됩니다.
 
 ## Topics
 
@@ -29,19 +37,20 @@ FilterButton(
 
 <details>
 
-<summary>``init(variant: Variant, size: Size, text: String, state: Binding<State>, handler: (() -> Void)?)``</summary>
+<summary>``init(variant: Variant, size: Size, text: String, handler: (() -> Void)?)``</summary>
 
 
 필터 버튼을 초기화합니다.
 
 - **Parameters**
+
   | Parameter | Description |
   | --- | --- |
   | `variant` | 버튼의 외관 스타일, 생략하면 기본값으로 `.solid` 적용 |
   | `size` | 버튼의 크기, 생략하면 기본값으로 `.medium` 적용 |
   | `text` | 버튼에 표시할 텍스트 |
-  | `state` | 버튼의 확장 상태 바인딩, 생략하면 기본값으로 `.constant(.normal)` 적용 |
   | `handler` | 버튼 클릭 시 실행할 핸들러, 생략하면 기본값으로 `nil` 적용 |
+
 </details>
 
 ### Instance Properties
@@ -64,10 +73,12 @@ FilterButton(
 버튼의 활성화 상태와 레이블을 설정합니다.
 
 - **Parameters**
+
   | Parameter | Description |
   | --- | --- |
   | `active` | 활성화 여부 |
   | `label` | 활성화 상태일 때 표시할 레이블, 생략하면 기본값으로 `nil` 적용 |
+
 - **Return Value**
 
   수정된 버튼 인스턴스
@@ -80,9 +91,11 @@ FilterButton(
 버튼의 활성화 상태 색상을 설정합니다.
 
 - **Parameters**
+
   | Parameter | Description |
   | --- | --- |
   | `color` | 활성화 상태일 때의 색상 |
+
 - **Return Value**
 
   수정된 버튼 인스턴스
@@ -95,27 +108,34 @@ FilterButton(
 버튼의 배경색을 설정합니다.
 
 - **Parameters**
+
   | Parameter | Description |
   | --- | --- |
   | `color` | 적용할 배경색 |
+
 - **Return Value**
 
   수정된 버튼 인스턴스
 </details>
 <details>
 
-<summary>``func disabled(Bool) -> FilterButton``</summary>
+<summary>``func expanded(Bool) -> FilterButton``</summary>
 
 
-버튼의 비활성화 여부를 설정합니다.
+드롭다운이 펼쳐진 상태를 설정합니다.
 
 - **Parameters**
+
   | Parameter | Description |
   | --- | --- |
-  | `disable` | 비활성화 여부, 생략하면 기본값으로 `true` 적용 |
+  | `expanded` | 펼침 여부, 생략하면 기본값으로 `true` 적용 |
+
 - **Return Value**
 
   수정된 버튼 인스턴스
+- **Discussion**
+
+  펼쳐진 상태에서는 화살표 아이콘이 위쪽을 향합니다.
 </details>
 <details>
 
@@ -125,9 +145,11 @@ FilterButton(
 버튼의 텍스트 색상을 설정합니다.
 
 - **Parameters**
+
   | Parameter | Description |
   | --- | --- |
   | `color` | 적용할 텍스트 색상 |
+
 - **Return Value**
 
   수정된 버튼 인스턴스
@@ -140,9 +162,11 @@ FilterButton(
 아이콘의 색상을 설정합니다.
 
 - **Parameters**
+
   | Parameter | Description |
   | --- | --- |
   | `color` | 아이콘에 적용할 색상 |
+
 - **Return Value**
 
   수정된 버튼 인스턴스
@@ -193,30 +217,6 @@ FilterButton(
 
 <summary>``init?(rawValue: String)``</summary>
 
-</details>
-
-</details>
-<details>
-
-<summary>``enum State``</summary>
-
-
-버튼의 확장 상태를 정의합니다.
-#### Enumeration Cases
-
-<details>
-
-<summary>``case expand``</summary>
-
-
-확장된 상태 (드롭다운 표시)
-</details>
-<details>
-
-<summary>``case normal``</summary>
-
-
-기본 상태
 </details>
 
 </details>

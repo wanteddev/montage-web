@@ -34,7 +34,7 @@ ActionArea(variant: .cancel(
 })
 ```
 
->  **Note**
+> **Note**
 >
 > 키보드가 표시될 때 ActionArea가 위치가 자동으로 키보드 상단에 붙어있도록 조정됩니다.
 
@@ -48,6 +48,9 @@ ActionArea(variant: .cancel(
 
 
 ActionArea에 표시될 버튼 정보를 정의하는 구조체입니다.
+- **Overview**
+
+  버튼의 텍스트, 액션, 커스텀 뷰 등을 지정할 수 있습니다.
 #### Initializers
 
 <details>
@@ -58,10 +61,12 @@ ActionArea에 표시될 버튼 정보를 정의하는 구조체입니다.
 기본 버튼 정보를 초기화합니다.
 
 - **Parameters**
+
   | Parameter | Description |
   | --- | --- |
   | `text` | 버튼에 표시할 텍스트 |
   | `action` | 버튼 클릭 시 실행할 액션 |
+
 </details>
 
 #### Type Methods
@@ -74,57 +79,19 @@ ActionArea에 표시될 버튼 정보를 정의하는 구조체입니다.
 커스텀 버튼 뷰를 사용하는 버튼 정보를 생성합니다.
 
 - **Parameters**
+
   | Parameter | Description |
   | --- | --- |
   | `custom` | 커스텀 버튼 뷰를 생성하는 클로저 |
+
 - **Return Value**
 
   커스텀 뷰가 포함된 ButtonInfo 인스턴스
 - **Discussion**
-  >  **Note**
+  > **Note**
   >
-  > 버튼 크기가 가능한 한 최대 크기가 되도록 하려면 fill(horizontal:vertical:) 모디파이어를 사용하세요.
+  > 버튼 크기가 가능한 한 최대 크기가 되도록 하려면 fillWidth(_:) 모디파이어를 사용하세요.
 
-</details>
-
-</details>
-<details>
-
-<summary>``struct Model``</summary>
-
-
-ActionArea를 구성하기 위한 모델 구조체입니다.
-#### Initializers
-
-<details>
-
-<summary>``init(variant: ActionArea.Variant, backgroundTransparencyControl: ActionArea.BackgroundTransparencyControl, caption: String?)``</summary>
-
-
-ActionArea 모델을 초기화합니다.
-
-- **Parameters**
-  | Parameter | Description |
-  | --- | --- |
-  | `variant` | 버튼 레이아웃 변형 |
-  | `backgroundTransparencyControl` | 배경 투명도 제어 방식, 생략하면 기본값으로 `.automatic` 적용 |
-  | `caption` | 캡션 텍스트, 생략하면 기본값으로 `nil` 적용 |
-</details>
-<details>
-
-<summary>``init<V>(variant: ActionArea.Variant, backgroundTransparencyControl: ActionArea.BackgroundTransparencyControl, caption: String?, extra: () -> V, extraDivider: Bool)``</summary>
-
-
-ActionArea 모델을 초기화합니다.
-
-- **Parameters**
-  | Parameter | Description |
-  | --- | --- |
-  | `variant` | 버튼 레이아웃 변형 |
-  | `backgroundTransparencyControl` | 배경 투명도 제어 방식, 생략하면 기본값으로 `.automatic` 적용 |
-  | `caption` | 캡션 텍스트, 생략하면 기본값으로 `nil` 적용 |
-  | `extra` | 추가 콘텐츠를 생성하는 클로저 |
-  | `extraDivider` | 추가 콘텐츠 위에 구분선 표시 여부, 생략하면 기본값으로 `true` 적용 |
 </details>
 
 </details>
@@ -139,9 +106,11 @@ ActionArea 모델을 초기화합니다.
 ActionArea 컴포넌트를 초기화합니다.
 
 - **Parameters**
+
   | Parameter | Description |
   | --- | --- |
   | `variant` | 버튼 영역의 변형 스타일과 버튼 구성 |
+
 </details>
 
 ### Instance Properties
@@ -158,18 +127,50 @@ ActionArea 컴포넌트를 초기화합니다.
 
 <details>
 
-<summary>``func caption(String?) -> ActionArea``</summary>
+<summary>``func backgroundColor(SwiftUI.Color?) -> ActionArea``</summary>
+
+
+배경 색상을 설정합니다.
+
+- **Parameters**
+
+  | Parameter | Description |
+  | --- | --- |
+  | `backgroundColor` | 설정할 색상. `nil`을 전달하면 기본 배경색을 사용합니다. |
+
+- **Return Value**
+
+  수정된 ActionArea 인스턴스
+- **Discussion**
+
+  지정한 색은 배경뿐 아니라 상단 sticky 그라데이션의 시작색으로도 함께 적용됩니다. 두 색이 어긋나면 경계가 보이므로 값을 분리하지 않습니다.
+</details>
+<details>
+
+<summary>``func caption(String?, icon: Icon?) -> ActionArea``</summary>
 
 
 버튼 위에 표시할 캡션 텍스트를 설정합니다.
 
 - **Parameters**
+
   | Parameter | Description |
   | --- | --- |
   | `caption` | 표시할 캡션 텍스트 |
+  | `icon` | 캡션 텍스트 앞에 표시할 아이콘, 생략하면 기본값으로 `nil`을 적용하여 아이콘을 표시하지 않습니다. |
+
 - **Return Value**
 
   수정된 ActionArea 인스턴스
+- **Discussion**
+
+  `icon`을 지정하면 캡션 텍스트 앞에 16pt 아이콘을 함께 표시합니다. 아이콘 색은 캡션 텍스트와 같습니다.
+
+  ```swift
+  .caption("변경 사항을 저장하시겠습니까?")                      // 텍스트만
+  .caption("변경 사항을 저장하시겠습니까?", icon: .circleInfo)   // 아이콘 + 텍스트
+  ```
+
 </details>
 <details>
 
@@ -179,59 +180,45 @@ ActionArea 컴포넌트를 초기화합니다.
 버튼 위에 표시할 추가 콘텐츠를 설정합니다.
 
 - **Parameters**
+
   | Parameter | Description |
   | --- | --- |
   | `content` | 표시할 추가 콘텐츠를 생성하는 클로저 |
   | `divider` | 추가 콘텐츠 위에 구분선 표시 여부, 생략하면 기본값으로 `true` 적용 |
+
 - **Return Value**
 
   수정된 ActionArea 인스턴스
 </details>
 <details>
 
-<summary>``func transparentBackground(Bool) -> ActionArea``</summary>
+<summary>``func scrollReachedEnd(Bool) -> ActionArea``</summary>
 
 
-배경을 투명하게 설정합니다.
+스크롤이 바닥에 닿았는지를 직접 알려줍니다.
 
 - **Parameters**
+
   | Parameter | Description |
   | --- | --- |
-  | `transparentBackground` | 배경 투명 여부, 생략하면 기본값으로 `true` 적용 |
+  | `reachedEnd` | 스크롤이 끝에 닿았는지 여부. `true`면 그라데이션을 숨깁니다. |
+
 - **Return Value**
 
   수정된 ActionArea 인스턴스
 - **Discussion**
 
-  이 수정자를 사용하면 그라데이션 배경이 숨겨지고 투명한 배경이 표시됩니다.
+  [ActionArea](/documentation/montage/actionarea.md)는 상단 그라데이션으로 “아래에 가려진 콘텐츠가 있다”를 표현합니다. [ScrollView](/documentation/montage/scrollview.md)를 쓰면 이 값이 자동으로 전달되므로 이 수정자는 필요 없습니다. `SwiftUI.ScrollView`·`List`처럼 신호를 올려주지 않는 컨테이너를 쓸 때만 사용합니다.
+
+  ```swift
+  ActionArea(variant: .strong(main: .init(text: "확인", action: {})))
+      .scrollReachedEnd(scrollProxy.isAtBottom)
+  ```
+
 </details>
 
 ### Enumerations
 
-<details>
-
-<summary>``enum BackgroundTransparencyControl``</summary>
-
-
-ActionArea의 배경 투명도를 제어하는 열거형입니다.
-#### Enumeration Cases
-
-<details>
-
-<summary>``case automatic``</summary>
-
-
-자동으로 배경 투명도를 결정합니다. 기본적으로 스크롤 위치나 콘텐츠에 따라 투명도가 자동 처리됩니다.
-</details>
-<details>
-
-<summary>``case manual(Bool)``</summary>
-
-
-수동으로 배경 투명도를 설정합니다. true면 배경이 투명해지고, false면 배경이 표시됩니다.
-</details>
-
-</details>
 <details>
 
 <summary>``enum Variant``</summary>
@@ -248,9 +235,11 @@ ActionArea의 버튼 레이아웃 변형을 정의합니다.
 취소 버튼만 있는 간단한 레이아웃
 
 - **Parameters**
+
   | Parameter | Description |
   | --- | --- |
   | `main` | 주 버튼 정보 |
+
 </details>
 <details>
 
@@ -260,11 +249,13 @@ ActionArea의 버튼 레이아웃 변형을 정의합니다.
 중립적인 스타일의 버튼 레이아웃
 
 - **Parameters**
+
   | Parameter | Description |
   | --- | --- |
   | `main` | 주 버튼 정보 |
   | `sub` | 보조 버튼 정보, 생략하면 기본값으로 `nil` 적용 |
   | `alternative` | 대체 버튼 정보, 생략하면 기본값으로 `nil` 적용 |
+
 </details>
 <details>
 
@@ -274,11 +265,13 @@ ActionArea의 버튼 레이아웃 변형을 정의합니다.
 강조된 주 버튼과 보조/대체 버튼이 있는 레이아웃
 
 - **Parameters**
+
   | Parameter | Description |
   | --- | --- |
   | `main` | 주 버튼 정보 |
   | `sub` | 보조 버튼 정보, 생략하면 기본값으로 `nil` 적용 |
   | `alternative` | 대체 버튼 정보, 생략하면 기본값으로 `nil` 적용 |
+
 </details>
 
 </details>
@@ -291,70 +284,39 @@ ActionArea의 버튼 레이아웃 변형을 정의합니다.
 
 <details>
 
-<summary>``func actionArea(variant: ActionArea.Variant, backgroundTransparency: Bool, caption: String?) -> some View``</summary>
+<summary>``func actionArea(scrollReachedEnd: Bool?, () -> ActionArea) -> some View``</summary>
 
 
 현재 뷰에 하단 ActionArea를 적용합니다.
 
 - **Parameters**
+
   | Parameter | Description |
   | --- | --- |
-  | `variant` | ActionArea의 버튼 레이아웃 변형 |
-  | `backgroundTransparency` | 배경 투명도 설정, 생략하면 기본값으로 `false` 적용 |
-  | `caption` | 캡션 텍스트, 생략하면 기본값으로 `nil` 적용 |
+  | `scrollReachedEnd` | 콘텐츠 스크롤이 바닥에 닿았는지 여부. [ScrollView](/documentation/montage/scrollview.md)를 쓰면 자동으로 전달되므로 생략하고, `SwiftUI.ScrollView`·`List`를 쓸 때만 직접 넘깁니다. |
+  | `actionArea` | 하단에 배치할 [ActionArea](/documentation/montage/actionarea.md)를 만드는 클로저 |
+
 - **Return Value**
 
   ActionArea가 적용된 뷰
 - **Discussion**
 
-  ```swift
-  contentView
-      .actionArea(
-          variant: .strong(
-              main: .init(text: "확인", action: { confirmAction() }),
-              sub: .init(text: "취소", action: { cancelAction() })
-          ),
-          caption: "변경 사항을 저장하시겠습니까?"
-      )
-  ```
-
-</details>
-
-<details>
-
-<summary>``func actionArea<V>(variant: ActionArea.Variant, backgroundTransparency: Bool, caption: String?, extra: () -> V, extraDivider: Bool) -> some View``</summary>
-
-
-현재 뷰에 하단 ActionArea를 적용합니다.
-
-- **Parameters**
-  | Parameter | Description |
-  | --- | --- |
-  | `variant` | ActionArea의 버튼 레이아웃 변형 |
-  | `backgroundTransparency` | 배경 투명도 설정, 생략하면 기본값으로 `true` 적용 |
-  | `caption` | 캡션 텍스트, 생략하면 기본값으로 `nil` 적용 |
-  | `extra` | 추가 콘텐츠를 생성하는 클로저 |
-  | `extraDivider` | 추가 콘텐츠 위에 구분선 표시 여부, 생략하면 기본값으로 `true` 적용 |
-- **Return Value**
-
-  ActionArea가 적용된 뷰
-- **Discussion**
+  구성은 [ActionArea](/documentation/montage/actionarea.md)의 모디파이어 체인으로 하고, 완성된 인스턴스를 이 슬롯에 넘깁니다.
 
   ```swift
   contentView
-      .actionArea(
-          variant: .strong(
+      .actionArea {
+          ActionArea(variant: .strong(
               main: .init(text: "확인", action: { confirmAction() }),
               sub: .init(text: "취소", action: { cancelAction() })
-          ),
-          caption: "변경 사항을 저장하시겠습니까?",
-          extra: {
-              Text("추가 정보")
-                  .typography(variant: .label2)
-          },
-          extraDivider: true
-      )
+          ))
+          .caption("변경 사항을 저장하시겠습니까?")
+      }
   ```
+
+  > **Note**
+  >
+  > 슬롯 클로저에 `@ViewBuilder`를 붙이지 않았습니다. 붙이면 `if`문이 `_ConditionalContent`를 만들어 [ActionArea](/documentation/montage/actionarea.md) 타입 제약이 깨집니다. 공개 모디파이어가 모두 `Self`를 돌려주므로 체인과 삼항 연산자는 그대로 쓸 수 있습니다.
 
 </details>
 

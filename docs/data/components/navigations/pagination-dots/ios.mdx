@@ -31,10 +31,12 @@ PaginationDots(selectedPage: $currentPage, totalPages: 10)
 점 형태의 페이지네이션을 초기화합니다.
 
 - **Parameters**
+
   | Parameter | Description |
   | --- | --- |
   | `selectedPage` | 현재 선택된 페이지 번호 (1부터 시작) |
   | `totalPages` | 전체 페이지 수 |
+
 </details>
 
 ### Instance Properties
@@ -57,9 +59,11 @@ PaginationDots(selectedPage: $currentPage, totalPages: 10)
 점 페이지네이션의 크기를 설정합니다.
 
 - **Parameters**
+
   | Parameter | Description |
   | --- | --- |
   | `size` | 적용할 점 크기 |
+
 - **Return Value**
 
   수정된 Dot 인스턴스
@@ -72,9 +76,11 @@ PaginationDots(selectedPage: $currentPage, totalPages: 10)
 점 페이지네이션의 색상 변형을 설정합니다.
 
 - **Parameters**
+
   | Parameter | Description |
   | --- | --- |
   | `variant` | 적용할 색상 변형 |
+
 - **Return Value**
 
   수정된 Dot 인스턴스
@@ -88,6 +94,16 @@ PaginationDots(selectedPage: $currentPage, totalPages: 10)
 
 
 점 페이지네이션의 크기를 지정하는 열거형입니다.
+- **Overview**
+
+  UI 디자인 요구사항에 따라 점의 크기를 선택할 수 있습니다.
+
+  ```swift
+  // 작은 크기의 점 페이지네이션
+  PaginationDots(selectedPage: $currentPage, totalPages: 5)
+      .size(.small)
+  ```
+
 #### Enumeration Cases
 
 <details>
@@ -112,6 +128,16 @@ PaginationDots(selectedPage: $currentPage, totalPages: 10)
 
 
 점 페이지네이션의 색상 변형을 지정하는 열거형입니다.
+- **Overview**
+
+  배경색이나 사용 컨텍스트에 따라 적합한 색상 테마를 선택할 수 있습니다.
+
+  ```swift
+  // 어두운 배경에 사용
+  PaginationDots(selectedPage: $currentPage, totalPages: 5)
+      .variant(.white)
+  ```
+
 #### Enumeration Cases
 
 <details>

@@ -24,7 +24,15 @@ Checkbox(checked: true) { checked in
 Checkbox(state: .unchecked, size: .small) { state in
     print("체크박스 상태: \(state)")
 }
+
+// 비활성화
+Checkbox(state: .unchecked)
+    .disabled(true)
 ```
+
+> **Note**
+>
+> 비활성화는 SwiftUI 표준 `disabled(_:)`를 사용합니다. 상위 컨테이너에 한 번 걸면 하위 컴포넌트까지 함께 비활성 스타일로 표시됩니다.
 
 ## Topics
 
@@ -38,13 +46,15 @@ Checkbox(state: .unchecked, size: .small) { state in
 불리언 값을 이용해 체크박스를 생성합니다.
 
 - **Parameters**
+
   | Parameter | Description |
   | --- | --- |
   | `checked` | 초기 선택 상태 |
   | `size` | 체크박스 크기. 생략하면 기본값으로 `.medium` 적용 |
   | `onSelect` | 선택 상태 변경 콜백. 생략하면 기본값으로 `nil` 적용 |
+
 - **Discussion**
-  >  **Note**
+  > **Note**
   >
   > `indeterminate` 상태가 필요하다면 `checked` 파라미터를 생략하고 `state` 파라미터를 사용하여 초기 상태를 지정할 수 있습니다.
 
@@ -57,13 +67,15 @@ Checkbox(state: .unchecked, size: .small) { state in
 상태 값을 이용해 체크박스를 생성합니다.
 
 - **Parameters**
+
   | Parameter | Description |
   | --- | --- |
   | `state` | 체크박스의 초기 상태 |
   | `size` | 체크박스 크기. 생략하면 기본값으로 `.medium` 적용 |
   | `onSelect` | 상태 변경 콜백. 생략하면 기본값으로 `nil` 적용 |
+
 - **Discussion**
-  >  **Note**
+  > **Note**
   >
   > `indeterminate` 상태가 필요하지 않다면 `state` 파라미터를 생략하고 `checked` 파라미터를 사용하여 초기 선택 상태를 지정할 수 있습니다.
 
@@ -89,36 +101,23 @@ Checkbox(state: .unchecked, size: .small) { state in
 레이블을 볼드체로 설정합니다.
 
 - **Parameters**
+
   | Parameter | Description |
   | --- | --- |
   | `isBold` | 볼드 적용 여부, 생략하면 기본값으로 `true` 적용 |
+
 - **Return Value**
 
   수정된 체크박스 컴포넌트
 - **Discussion**
-  >  **Note**
+  > **Note**
   >
   > 이 설정은 `labelTypography`에서 지정한 굵기보다 우선합니다.
 
-  >  **Note**
+  > **Note**
   >
   > 레이블이 지정되지 않은 경우 이 설정은 적용되지 않습니다.
 
-</details>
-<details>
-
-<summary>``func disable(Bool) -> Checkbox``</summary>
-
-
-컨트롤을 비활성화합니다.
-
-- **Parameters**
-  | Parameter | Description |
-  | --- | --- |
-  | `disable` | 비활성화 여부, 생략하면 기본값으로 `true` 적용 |
-- **Return Value**
-
-  수정된 체크박스 컴포넌트
 </details>
 <details>
 
@@ -142,16 +141,18 @@ Checkbox(state: .unchecked, size: .small) { state in
 레이블의 타이포그래피 속성을 설정합니다.
 
 - **Parameters**
+
   | Parameter | Description |
   | --- | --- |
   | `variant` | 레이블 변형, 생략하면 기본값으로 `nil` 적용 |
   | `weight` | 레이블 굵기, 생략하면 기본값으로 `nil` 적용 |
   | `color` | 레이블 색상, 생략하면 기본값으로 `nil` 적용 |
+
 - **Return Value**
 
   수정된 체크박스 컴포넌트
 - **Discussion**
-  >  **Note**
+  > **Note**
   >
   > 레이블이 지정되지 않은 경우 이 설정은 적용되지 않습니다.
 
@@ -164,14 +165,16 @@ Checkbox(state: .unchecked, size: .small) { state in
 레이블을 더 조밀한 레이아웃으로 표시합니다.
 
 - **Parameters**
+
   | Parameter | Description |
   | --- | --- |
   | `tight` | 조밀한 레이아웃 적용 여부, 생략하면 기본값으로 `true` 적용 |
+
 - **Return Value**
 
   수정된 체크박스 컴포넌트
 - **Discussion**
-  >  **Note**
+  > **Note**
   >
   > 레이블이 지정되지 않은 경우 이 설정은 적용되지 않습니다.
 

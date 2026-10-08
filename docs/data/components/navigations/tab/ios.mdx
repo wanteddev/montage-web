@@ -35,12 +35,14 @@ Tab(selectedIndex: $selectedTab, items: tabItems) { index in
 탭 컴포넌트를 초기화합니다.
 
 - **Parameters**
+
   | Parameter | Description |
   | --- | --- |
   | `selectedIndex` | 현재 선택된 탭의 인덱스를 바인딩하는 변수 |
   | `items` | 탭 항목 텍스트 배열 |
   | `itemDisabled` | 탭 항목 비활성화 여부를 결정하는 클로저, 인덱스를 파라미터로 받음, 생략하면 기본값으로 false를 리턴하는 클로저 적용 |
   | `actions` | 탭 선택 시 호출되는 클로저, 선택된 인덱스를 파라미터로 받음, 생략하면 기본값으로 빈 클로저 적용 |
+
 </details>
 
 ### Instance Properties
@@ -63,9 +65,11 @@ Tab(selectedIndex: $selectedTab, items: tabItems) { index in
 탭 컴포넌트의 좌우 여백 사용 여부를 설정합니다.
 
 - **Parameters**
+
   | Parameter | Description |
   | --- | --- |
   | `horizontalPadding` | 좌우 여백 사용 여부, 생략하면 기본값으로 `true` 적용 |
+
 - **Return Value**
 
   수정된 Tab 인스턴스
@@ -78,10 +82,12 @@ Tab(selectedIndex: $selectedTab, items: tabItems) { index in
 탭 컴포넌트의 오른쪽에 아이콘 버튼을 추가합니다.
 
 - **Parameters**
+
   | Parameter | Description |
   | --- | --- |
   | `icon` | 표시할 아이콘 |
   | `action` | 아이콘 버튼 탭 시 실행될 클로저 |
+
 - **Return Value**
 
   수정된 Tab 인스턴스
@@ -97,9 +103,11 @@ Tab(selectedIndex: $selectedTab, items: tabItems) { index in
 탭 아이템의 너비 조정 방식을 설정합니다.
 
 - **Parameters**
+
   | Parameter | Description |
   | --- | --- |
   | `resize` | 탭 아이템 너비 조정 방식 |
+
 - **Return Value**
 
   수정된 Tab 인스턴스
@@ -112,9 +120,11 @@ Tab(selectedIndex: $selectedTab, items: tabItems) { index in
 탭 컴포넌트의 크기를 설정합니다.
 
 - **Parameters**
+
   | Parameter | Description |
   | --- | --- |
   | `size` | 적용할 탭 크기 |
+
 - **Return Value**
 
   수정된 Tab 인스턴스
@@ -128,6 +138,15 @@ Tab(selectedIndex: $selectedTab, items: tabItems) { index in
 
 
 탭 아이템 너비를 결정하는 열거형입니다.
+- **Overview**
+
+  탭 아이템의 너비가 콘텐츠에 맞게 조정될지, 전체 너비를 균등하게 분할할지 결정합니다.
+
+  ```swift
+  Tab(selectedIndex: $selectedTab, items: tabItems)
+      .resize(.fill) // 균등하게 분할
+  ```
+
 #### Enumeration Cases
 
 <details>
@@ -152,6 +171,15 @@ Tab(selectedIndex: $selectedTab, items: tabItems) { index in
 
 
 탭 아이템의 크기를 결정하는 열거형입니다.
+- **Overview**
+
+  탭 컴포넌트의 높이와 폰트 크기를 결정합니다.
+
+  ```swift
+  Tab(selectedIndex: $selectedTab, items: tabItems)
+      .size(.large) // 큰 크기의 탭
+  ```
+
 #### Enumeration Cases
 
 <details>

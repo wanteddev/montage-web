@@ -1,6 +1,6 @@
 ---
 title: Avatar group
-description: 여러 아바타를 겹쳐서 표시하는 그룹 아바타 컴포넌트입니다.
+description: 여러 사용자 아바타를 겹쳐서 표시하는 그룹 아바타 컴포넌트입니다.
 ---
 
 ```swift
@@ -9,27 +9,26 @@ description: 여러 아바타를 겹쳐서 표시하는 그룹 아바타 컴포�
 
 ## Overview
 
-최대 5개의 아바타를 부분적으로 겹쳐 표시하며, 각 아바타에 개별 탭 동작을 지정할 수 있습니다.
+최대 5개의 사용자(.person) 아바타를 부분적으로 겹쳐 표시하며, 각 아바타에 개별 탭 동작을 지정할 수 있습니다. 겹치는 아바타 사이에는 1.5pt 두께의 분리 여백이 적용됩니다.
 
 ```swift
 // 기본 그룹 아바타
 AvatarGroup(
     ["https://example.com/user1.jpg", "https://example.com/user2.jpg"],
-    variant: .person,
     size: .small
 )
 
 // 탭 동작과 후행 콘텐츠가 있는 그룹 아바타
 AvatarGroup(
     imageUrls,
-    variant: .person,
     size: .small,
     onTap: { index in
         print("탭한 아바타 인덱스: \(index)")
     }
 )
 .trailingContent {
-    Text("+3").typography(variant: .body2)
+    Text("외 3명")
+        .typography(variant: .label1, weight: .medium, semantic: .foregroundNeutralSecondary)
 }
 ```
 
@@ -39,33 +38,35 @@ AvatarGroup(
 
 <details>
 
-<summary>``init([String], variant: Avatar.Variant, size: Size, onTap: ((_ index: Int) -> Void)?)``</summary>
+<summary>``init([String], size: Size, onTap: ((_ index: Int) -> Void)?)``</summary>
 
 
 URL 문자열 배열로 그룹 아바타를 초기화합니다.
 
 - **Parameters**
+
   | Parameter | Description |
   | --- | --- |
   | `imageUrls` | 표시할 이미지의 URL 문자열 배열 (최대 5개) |
-  | `variant` | 아바타 유형 |
   | `size` | 그룹 아바타 크기 |
   | `onTap` | 각 아바타 탭 시 실행할 액션 (인덱스가 전달됨), 생략하면 기본값으로 `nil` 적용 |
+
 </details>
 <details>
 
-<summary>``init([Image], variant: Avatar.Variant, size: Size, onTap: ((_ index: Int) -> Void)?)``</summary>
+<summary>``init([Image], size: Size, onTap: ((_ index: Int) -> Void)?)``</summary>
 
 
 SwiftUI Image 배열로 그룹 아바타를 초기화합니다.
 
 - **Parameters**
+
   | Parameter | Description |
   | --- | --- |
   | `images` | 표시할 SwiftUI Image 배열 (최대 5개) |
-  | `variant` | 아바타 유형 |
   | `size` | 그룹 아바타 크기 |
   | `onTap` | 각 아바타 탭 시 실행할 액션 (인덱스가 전달됨), 생략하면 기본값으로 `nil` 적용 |
+
 </details>
 
 ### Instance Properties
@@ -88,9 +89,11 @@ SwiftUI Image 배열로 그룹 아바타를 초기화합니다.
 이미지의 콘텐츠 모드를 설정합니다.
 
 - **Parameters**
+
   | Parameter | Description |
   | --- | --- |
   | `contentMode` | 콘텐츠 모드, `.fit` 또는 `.fill` |
+
 - **Return Value**
 
   수정된 그룹 아바타 인스턴스
@@ -103,9 +106,11 @@ SwiftUI Image 배열로 그룹 아바타를 초기화합니다.
 그룹 아바타 오른쪽에 추가적인 콘텐츠를 표시합니다.
 
 - **Parameters**
+
   | Parameter | Description |
   | --- | --- |
   | `trailingContent` | 표시할 뷰를 생성하는 클로저 |
+
 - **Return Value**
 
   수정된 그룹 아바타 인스턴스

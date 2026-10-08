@@ -27,7 +27,16 @@ Thumbnail(urlString: imageURL, ratio: .r16x9)
 Thumbnail(urlString: imageURL, ratio: .r1x1)
    .width(50)
    .border(true)
+
+// 비활성화
+Thumbnail(urlString: imageURL, ratio: .r1x1)
+   .width(100)
+   .disabled(true)
 ```
+
+> **Note**
+>
+> 비활성화는 SwiftUI 표준 `disabled(_:)`를 사용합니다. 상위 컨테이너에 한 번 걸면 하위 컴포넌트까지 함께 비활성 스타일로 표시됩니다. 이미지는 색 토큰으로 비활성을 표현할 수 없어 불투명도 `Opacity/43`을 적용합니다.
 
 ## Topics
 
@@ -41,10 +50,12 @@ Thumbnail(urlString: imageURL, ratio: .r1x1)
 썸네일을 초기화합니다.
 
 - **Parameters**
+
   | Parameter | Description |
   | --- | --- |
   | `urlString` | 로드할 이미지의 URL 문자열 |
   | `ratio` | 적용할 가로세로 비율 |
+
 </details>
 
 ### Instance Properties
@@ -67,9 +78,11 @@ Thumbnail(urlString: imageURL, ratio: .r1x1)
 썸네일에 테두리를 적용합니다.
 
 - **Parameters**
+
   | Parameter | Description |
   | --- | --- |
   | `border` | 테두리 적용 여부, 생략하면 기본값으로 `true` 적용 |
+
 - **Return Value**
 
   수정된 Thumbnail 인스턴스
@@ -82,9 +95,11 @@ Thumbnail(urlString: imageURL, ratio: .r1x1)
 썸네일에 둥근 모서리를 적용합니다.
 
 - **Parameters**
+
   | Parameter | Description |
   | --- | --- |
   | `radius` | 둥근 모서리 적용 여부, 생략하면 기본값으로 `true` 적용 |
+
 - **Return Value**
 
   수정된 Thumbnail 인스턴스
@@ -97,9 +112,11 @@ Thumbnail(urlString: imageURL, ratio: .r1x1)
 썸네일의 너비를 설정합니다.
 
 - **Parameters**
+
   | Parameter | Description |
   | --- | --- |
   | `width` | 썸네일의 너비 |
+
 - **Return Value**
 
   수정된 Thumbnail 인스턴스
@@ -113,6 +130,20 @@ Thumbnail(urlString: imageURL, ratio: .r1x1)
 
 
 썸네일의 가로세로 비율을 정의하는 열거형입니다.
+- **Overview**
+
+  다양한 미디어 콘텐츠 유형에 맞는 여러 표준 비율을 제공합니다. 가로가 긴 비율(21:9, 16:9 등), 정사각형(1:1), 세로가 긴 비율(9:16, 1:2 등)을 지원합니다.
+
+  ```swift
+  // 와이드스크린 비디오용 썸네일
+  Thumbnail(urlString: videoURL, ratio: .r16x9)
+     .width(320)
+  
+  // 모바일 세로 화면용 썸네일
+  Thumbnail(urlString: storyURL, ratio: .r9x16)
+     .width(400)
+  ```
+
 #### Enumeration Cases
 
 <details>

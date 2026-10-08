@@ -21,7 +21,15 @@ Select(
     items: $items
 )
 .placeholder("선택하세요")
+
+// 비활성화
+Select(variant: .single(), items: $items)
+    .disabled(true)
 ```
+
+> **Note**
+>
+> 비활성화는 SwiftUI 표준 `disabled(_:)`를 사용합니다. 상위 컨테이너에 한 번 걸면 하위 컴포넌트까지 함께 비활성 스타일로 표시됩니다.
 
 ## Topics
 
@@ -43,12 +51,14 @@ Select 컴포넌트에서 사용하는 항목 모델을 정의합니다.
 아이템 초기화
 
 - **Parameters**
+
   | Parameter | Description |
   | --- | --- |
   | `text` | 아이템 텍스트 |
   | `icon` | 아이템 아이콘, 생략하면 기본값으로 `nil` 적용 |
   | `isNegative` | 부정적 상태 여부, 생략하면 기본값으로 `false` 적용 |
   | `isSelected` | 선택 여부, 생략하면 기본값으로 `false` 적용 |
+
 </details>
 
 #### Instance Properties
@@ -94,12 +104,14 @@ Select 컴포넌트에서 사용하는 항목 모델을 정의합니다.
 Select 컴포넌트 초기화
 
 - **Parameters**
+
   | Parameter | Description |
   | --- | --- |
   | `menuPresented` | 메뉴 표시 상태 바인딩, 생략하면 기본값으로 `nil` 적용 |
   | `variant` | 컴포넌트의 시각적/기능적 변형 |
   | `items` | 선택 가능한 항목 배열 (바인딩) |
   | `onTapItem` | 항목 선택 시 호출되는 클로저, 생략하면 기본값으로 `nil` 적용 |
+
 </details>
 
 ### Instance Properties
@@ -110,69 +122,125 @@ Select 컴포넌트 초기화
 
 
 뷰의 내용과 동작을 정의합니다.
+- **Discussion**
+
+  항상 [FormControl](/documentation/montage/formcontrol.md)로 감싼다. 라벨·메시지 유무로 분기하면 값이 런타임에 바뀔 때 뷰 identity가 갈려 메뉴 표시 상태가 초기화되므로, 설정이 비어 있어도 래퍼를 유지한다.
 </details>
 
 ### Instance Methods
 
 <details>
 
-<summary>``func description(String) -> Select``</summary>
+<summary>``func accessory<Accessory>(() -> Accessory) -> Select``</summary>
 
 
-설명을 추가합니다.
+메시지 행의 오른쪽에 표시할 액세서리 뷰를 설정합니다.
 
 - **Parameters**
+
   | Parameter | Description |
   | --- | --- |
-  | `description` | 표시할 설명 텍스트 |
+  | `accessory` | 표시할 액세서리 뷰 빌더 |
+
+- **Return Value**
+
+  수정된 Select 인스턴스
+- **Discussion**
+
+  스타일(타이포그래피·색)은 호출부에서 지정합니다.
+</details>
+<details>
+
+<summary>``func label(String?, required: Bool) -> Select``</summary>
+
+
+제목(라벨)을 붙이고 필수 표시(`*`) 여부를 설정합니다.
+
+- **Parameters**
+
+  | Parameter | Description |
+  | --- | --- |
+  | `text` | 라벨 텍스트. `nil`이거나 비어 있으면 라벨을 표시하지 않습니다. |
+  | `required` | 필수 입력 표시(`*`) 여부, 생략하면 기본값으로 `false` 적용 |
+
+- **Return Value**
+
+  수정된 Select 인스턴스
+- **Discussion**
+
+  이 모디파이어를 쓰면 Select가 [FormControl](/documentation/montage/formcontrol.md)로 감싸져 라벨·메시지·액세서리가 함께 배치됩니다.
+
+  ```swift
+  Select(variant: .single(), items: $regions)
+      .placeholder("지역을 선택하세요")
+      .label("근무 지역", required: true)
+  ```
+
+  > **Note**
+  >
+  > Select는 자신의 접근성 라벨을 placeholder로 정의하므로, 라벨을 붙이면 그 값이 우선합니다.
+
+</details>
+<details>
+
+<summary>``func labelPlacement(FormControl.LabelPlacement) -> Select``</summary>
+
+
+라벨 위치를 설정합니다.
+
+- **Parameters**
+
+  | Parameter | Description |
+  | --- | --- |
+  | `placement` | 라벨 위치, 생략하면 기본값으로 `.top` 적용 |
+
 - **Return Value**
 
   수정된 Select 인스턴스
 </details>
 <details>
 
-<summary>``func disable(Bool) -> Select``</summary>
+<summary>``func labelWidth(CGFloat) -> Select``</summary>
 
 
-활성화 여부를 조정합니다.
+leading 배치에서 라벨 열의 폭을 명시적으로 고정합니다.
 
 - **Parameters**
+
   | Parameter | Description |
   | --- | --- |
-  | `disable` | 비활성화 여부, 생략하면 기본값으로 `true` 적용 |
+  | `width` | 라벨 열 폭(pt) |
+
 - **Return Value**
 
   수정된 Select 인스턴스
+- **Discussion**
+
+  여러 입력의 라벨 열을 한꺼번에 맞추려면 각 입력에 반복하지 말고 [FormControlGroup](/documentation/montage/formcontrolgroup.md)을 사용하세요. [FormControl.LabelPlacement.top](/documentation/montage/formcontrol/labelplacement/top.md) 배치에는 영향이 없습니다.
 </details>
 <details>
 
-<summary>``func heading(String) -> Select``</summary>
+<summary>``func leading(Resource.Leading?) -> Select``</summary>
 
 
-제목을 추가합니다.
+필드 왼쪽에 표시할 요소를 지정합니다.
 
 - **Parameters**
+
   | Parameter | Description |
   | --- | --- |
-  | `heading` | 표시할 제목 텍스트 |
+  | `leading` | 표시할 요소, `nil`이면 표시하지 않음 |
+
 - **Return Value**
 
   수정된 Select 인스턴스
-</details>
-<details>
+- **Discussion**
 
-<summary>``func leadingContent(LeadingContent?) -> Select``</summary>
+  ```swift
+  Select(variant: .single(), items: $items)
+      .leading(.icon(.search))
+  ```
 
-
-왼쪽 컨텐츠를 추가합니다.
-
-- **Parameters**
-  | Parameter | Description |
-  | --- | --- |
-  | `content` | 표시할 선행 콘텐츠 |
-- **Return Value**
-
-  수정된 Select 인스턴스
 </details>
 <details>
 
@@ -182,27 +250,34 @@ Select 컴포넌트 초기화
 메뉴의 높이 detent를 지정합니다.
 
 - **Parameters**
+
   | Parameter | Description |
   | --- | --- |
   | `menuResize` | 메뉴 크기 조정 방식 |
+
 - **Return Value**
 
   수정된 Select 인스턴스
 </details>
 <details>
 
-<summary>``func negative(Bool) -> Select``</summary>
+<summary>``func message(String?) -> Select``</summary>
 
 
-negative 상태 여부를 조정합니다.
+입력 아래에 표시할 도움말/에러 메시지를 설정합니다.
 
 - **Parameters**
+
   | Parameter | Description |
   | --- | --- |
-  | `negative` | 부정적 상태 여부, 생략하면 기본값으로 `true` 적용 |
+  | `text` | 메시지 텍스트. `nil`이거나 비어 있으면 메시지를 표시하지 않습니다. |
+
 - **Return Value**
 
   수정된 Select 인스턴스
+- **Discussion**
+
+  메시지 색은 [status(_:)](/documentation/montage/select/status(_:).md)에 따라 결정되며 오류 상태에서만 강조 색으로 표시됩니다.
 </details>
 <details>
 
@@ -212,39 +287,45 @@ negative 상태 여부를 조정합니다.
 선택된 항목들이 없는 경우 placeholder를 표시합니다.
 
 - **Parameters**
+
   | Parameter | Description |
   | --- | --- |
   | `placeholder` | 표시할 플레이스홀더 텍스트 |
+
 - **Return Value**
 
   수정된 Select 인스턴스
 </details>
 <details>
 
-<summary>``func requiredBadge(Bool) -> Select``</summary>
+<summary>``func size(Size) -> Select``</summary>
 
 
-필수 표시 노출 여부를 조정합니다.
+Select 컴포넌트의 사이즈를 설정합니다.
 
 - **Parameters**
+
   | Parameter | Description |
   | --- | --- |
-  | `requiredBadge` | 필수 표시 여부, 생략하면 기본값으로 `true` 적용 |
+  | `size` | 적용할 사이즈, 생략하면 기본값으로 `.large` 적용 |
+
 - **Return Value**
 
   수정된 Select 인스턴스
 </details>
 <details>
 
-<summary>``func shadowBackgroundColor(SwiftUI.Color) -> Select``</summary>
+<summary>``func status(Status) -> Select``</summary>
 
 
-shadow 배경색을 조정합니다.
+Select 컴포넌트의 상태를 설정합니다.
 
 - **Parameters**
+
   | Parameter | Description |
   | --- | --- |
-  | `shadowBackgroundColor` | 설정할 배경색 |
+  | `status` | 적용할 상태 |
+
 - **Return Value**
 
   수정된 Select 인스턴스
@@ -252,52 +333,6 @@ shadow 배경색을 조정합니다.
 
 ### Enumerations
 
-<details>
-
-<summary>``enum LeadingContent``</summary>
-
-
-왼쪽에 표시될 컨텐트 타입입니다.
-#### Enumeration Cases
-
-<details>
-
-<summary>``case custom(() -> any View)``</summary>
-
-
-사용자 정의 뷰 표시
-
-- **Parameters**
-  | Parameter | Description |
-  | --- | --- |
-  | `content` | 사용자 정의 뷰를 반환하는 클로저 |
-</details>
-<details>
-
-<summary>``case icon(Icon)``</summary>
-
-
-아이콘 표시
-
-- **Parameters**
-  | Parameter | Description |
-  | --- | --- |
-  | `icon` | 표시할 아이콘 |
-</details>
-<details>
-
-<summary>``case iconButton(IconButton)``</summary>
-
-
-아이콘 버튼 표시
-
-- **Parameters**
-  | Parameter | Description |
-  | --- | --- |
-  | `iconButton` | 표시할 아이콘 버튼 |
-</details>
-
-</details>
 <details>
 
 <summary>``enum Render``</summary>
@@ -319,6 +354,81 @@ variant가 multiple일 때 컴포넌트에 표시될 내용의 형태를 결정�
 
 
 선택된 항목 텍스트만 표시
+</details>
+
+</details>
+<details>
+
+<summary>``enum Resource``</summary>
+
+
+필드 안에 놓을 수 있는 요소의 프리셋입니다.
+#### Enumerations
+
+<details>
+
+<summary>``enum Leading``</summary>
+
+
+필드 왼쪽([leading(_:)](/documentation/montage/select/leading(_:).md))에 놓는 요소입니다.
+##### Enumeration Cases
+
+<details>
+
+<summary>``case icon(Icon)``</summary>
+
+
+아이콘입니다. 크기와 색은 [Select.Size](/documentation/montage/select/size.md)에 맞춰 고정됩니다.
+
+- **Parameters**
+
+  | Parameter | Description |
+  | --- | --- |
+  | `icon` | 표시할 아이콘 |
+
+</details>
+<details>
+
+<summary>``case iconButton(IconButton)``</summary>
+
+
+아이콘 버튼입니다.
+
+- **Parameters**
+
+  | Parameter | Description |
+  | --- | --- |
+  | `iconButton` | 표시할 아이콘 버튼 |
+
+</details>
+<details>
+
+<summary>``case slotView(() -> AnyView)``</summary>
+
+
+프리셋에 없는 구성을 직접 그릴 때 씁니다. [slot(_:)](/documentation/montage/select/resource/leading/slot(_:).md)으로 만듭니다.
+</details>
+
+##### Type Methods
+
+<details>
+
+<summary>``static func slot<V>(() -> V) -> Leading``</summary>
+
+
+프리셋에 없는 구성을 직접 그립니다.
+
+- **Parameters**
+
+  | Parameter | Description |
+  | --- | --- |
+  | `content` | 왼쪽에 놓을 콘텐츠 |
+
+- **Return Value**
+
+  해당 콘텐츠를 그리는 [Select.Resource.Leading](/documentation/montage/select/resource/leading.md)
+</details>
+
 </details>
 
 </details>
@@ -348,6 +458,57 @@ variant가 single일 때 아이템 선택 창에 아이템이 표시되는 방�
 </details>
 <details>
 
+<summary>``enum Size``</summary>
+
+
+Select 컴포넌트의 사이즈를 정의합니다.
+- **Overview**
+
+  사이즈에 따라 컨테이너 패딩, 모서리 반경, 최소 높이, 입력 타이포그래피, 선행 아이콘 크기가 함께 결정됩니다. `TextField`의 사이즈 정책과 동일합니다.
+#### Enumeration Cases
+
+<details>
+
+<summary>``case large``</summary>
+
+
+큰 사이즈 (최소 높이 48)
+</details>
+<details>
+
+<summary>``case medium``</summary>
+
+
+중간 사이즈 (최소 높이 40)
+</details>
+
+</details>
+<details>
+
+<summary>``enum Status``</summary>
+
+
+Select 컴포넌트의 상태를 정의합니다.
+#### Enumeration Cases
+
+<details>
+
+<summary>``case negative``</summary>
+
+
+오류 상태
+</details>
+<details>
+
+<summary>``case normal``</summary>
+
+
+기본 상태
+</details>
+
+</details>
+<details>
+
 <summary>``enum Variant``</summary>
 
 
@@ -362,11 +523,13 @@ variant가 single일 때 아이템 선택 창에 아이템이 표시되는 방�
 다중 선택 모드
 
 - **Parameters**
+
   | Parameter | Description |
   | --- | --- |
   | `render` | 선택된 항목 표시 방식, 생략하면 기본값으로 `.text` 적용 |
   | `overflow` | 선택된 항목이 여러 줄로 표시되는지 여부, 생략하면 기본값으로 `false` 적용 |
   | `menuPrimaryButtonTitle` | 확인 버튼 제목 |
+
 </details>
 <details>
 
@@ -376,10 +539,12 @@ variant가 single일 때 아이템 선택 창에 아이템이 표시되는 방�
 단일 선택 모드
 
 - **Parameters**
+
   | Parameter | Description |
   | --- | --- |
   | `selectionType` | 선택 표시 방식, 생략하면 기본값으로 `.radio` 적용 |
   | `menuPrimaryButtonTitle` | 확인 버튼 제목, 생략하면 기본값으로 `nil` 적용 (버튼 표시 안 함) |
+
 </details>
 
 </details>

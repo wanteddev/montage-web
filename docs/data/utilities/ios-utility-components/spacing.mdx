@@ -1,6 +1,6 @@
 ---
 title: Spacing
-description: UI 요소 간의 간격을 정의하는 시스템
+description: UI 요소 간의 간격(gap, padding)을 정의하는 시스템
 ---
 
 ```swift
@@ -9,219 +9,52 @@ enum Spacing
 
 ## Overview
 
-Spacing은 Montage 디자인 시스템에서 UI 요소 간의 일관된 간격을 제공하기 위한 규격화된 값들을 정의합니다. 모든 간격은 4포인트 기반의 스케일로 구성되어 있어 디자인의 일관성과 조화를 유지합니다.
+Spacing은 Montage 디자인 시스템에서 UI 요소 간의 일관된 간격을 제공하기 위한 규격화된 값들을 정의합니다.
 
 ```swift
-// UIKit에서 사용
-let padding = CGFloat.spacing(.pt16)
-view.layoutMargins = UIEdgeInsets(top: padding, left: padding, bottom: padding, right: padding)
+// UIKit
+view.layoutMargins = UIEdgeInsets(
+    top: .spacing16, left: .spacing16, bottom: .spacing16, right: .spacing16
+)
 
-// SwiftUI에서 사용
+// SwiftUI
 Text("Hello, World!")
-    .padding(.horizontal, .spacing(.pt24))
-    .padding(.vertical, .spacing(.pt16))
+    .padding(.horizontal, .spacing24)
+    .padding(.vertical, .spacing16)
 ```
 
->  **Note**
+> **Note**
 >
-> 간격 이름의 숫자는 포인트 단위의 실제 간격 값을 나타냅니다. 예를 들어 pt16은 16포인트의 간격을 의미합니다.
+> 간격 이름의 숫자는 포인트 단위의 실제 간격 값을 나타냅니다. 예를 들어 spacing16은 16포인트의 간격을 의미합니다.
+
+실제 값은 `CGFloat.spacing{N}` 정적 프로퍼티로 노출됩니다. 이 타입은 문서 그룹핑 용도의 빈 네임스페이스입니다.
 
 ## Topics
 
-### Enumeration Cases
+### Type Properties
 
 <details>
 
-<summary>``case pt01``</summary>
+<summary>``static let allValues: [CGFloat]``</summary>
 
 
-1포인트 간격
-</details>
-<details>
-
-<summary>``case pt02``</summary>
-
-
-2포인트 간격
-</details>
-<details>
-
-<summary>``case pt04``</summary>
-
-
-4포인트 간격
-</details>
-<details>
-
-<summary>``case pt08``</summary>
-
-
-8포인트 간격
-</details>
-<details>
-
-<summary>``case pt12``</summary>
-
-
-12포인트 간격
-</details>
-<details>
-
-<summary>``case pt16``</summary>
-
-
-16포인트 간격 (기본 간격)
-</details>
-<details>
-
-<summary>``case pt20``</summary>
-
-
-20포인트 간격
-</details>
-<details>
-
-<summary>``case pt24``</summary>
-
-
-24포인트 간격
-</details>
-<details>
-
-<summary>``case pt28``</summary>
-
-
-28포인트 간격
-</details>
-<details>
-
-<summary>``case pt32``</summary>
-
-
-32포인트 간격
-</details>
-<details>
-
-<summary>``case pt36``</summary>
-
-
-36포인트 간격
-</details>
-<details>
-
-<summary>``case pt40``</summary>
-
-
-40포인트 간격
-</details>
-<details>
-
-<summary>``case pt48``</summary>
-
-
-48포인트 간격
-</details>
-<details>
-
-<summary>``case pt56``</summary>
-
-
-56포인트 간격
-</details>
-<details>
-
-<summary>``case pt64``</summary>
-
-
-64포인트 간격
-</details>
-<details>
-
-<summary>``case pt72``</summary>
-
-
-72포인트 간격
-</details>
-<details>
-
-<summary>``case pt80``</summary>
-
-
-80포인트 간격
-</details>
-
-### Associated Extensions
-
-<details>
-
-<summary>``extension CGFloat``</summary>
-
-<details>
-
-<summary>``static func spacing(Spacing) -> CGFloat``</summary>
-
-
-Spacing 열거형 값에 해당하는 CGFloat 값을 반환합니다.
-
-- **Parameters**
-  | Parameter | Description |
-  | --- | --- |
-  | `spacingComponent` | 사용할 간격 열거형 값 |
-- **Return Value**
-
-  지정된 간격에 해당하는 CGFloat 값
+정의된 모든 spacing 토큰 값(오름차순).
 - **Discussion**
 
-  디자인 시스템에서 정의된 일관된 간격 값을 사용할 수 있도록 합니다.
-
-  ```swift
-  let padding = CGFloat.spacing(.pt16) // 16.0
-  ```
-
+  컴포넌트가 토큰에 스냅하거나 최대/최소 토큰을 동적으로 도출할 때 사용한다. 토큰이 추가/삭제되면 이 배열만 갱신하면 사용처가 자동으로 반영된다.
 </details>
-
-
-</details>
-
-
 <details>
 
-<summary>``extension Float``</summary>
+<summary>``static var max: CGFloat``</summary>
 
+
+정의된 spacing 토큰 중 최대값.
+</details>
 <details>
 
-<summary>``static func spacing(Spacing) -> Float``</summary>
+<summary>``static var min: CGFloat``</summary>
 
 
-Spacing 열거형 값에 해당하는 Float 값을 반환합니다.
-
-- **Parameters**
-  | Parameter | Description |
-  | --- | --- |
-  | `spacingComponent` | 사용할 간격 열거형 값 |
-- **Return Value**
-
-  지정된 간격에 해당하는 Float 값
-- **Discussion**
-
-  디자인 시스템에서 정의된 일관된 간격 값을 사용할 수 있도록 합니다.
-
-  ```swift
-  let padding = Float.spacing(.pt16) // 16.0
-  ```
-
+정의된 spacing 토큰 중 최소값.
 </details>
-
-
-</details>
-
-## Relationships
-
-Conforms To
-
-`Swift.Equatable`
-
-`Swift.Hashable`
-
-
 

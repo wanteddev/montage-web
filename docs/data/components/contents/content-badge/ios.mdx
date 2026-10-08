@@ -34,10 +34,12 @@ ContentBadge(variant: .outlined, text: "Updated")
 ContentBadge를 초기화합니다.
 
 - **Parameters**
+
   | Parameter | Description |
   | --- | --- |
   | `variant` | 뱃지의 스타일, 생략하면 기본값으로 `.solid` 적용 |
   | `text` | 뱃지에 표시할 텍스트 |
+
 </details>
 
 ### Instance Properties
@@ -60,9 +62,11 @@ ContentBadge를 초기화합니다.
 뱃지의 색상 스타일을 설정합니다.
 
 - **Parameters**
+
   | Parameter | Description |
   | --- | --- |
   | `colorStyle` | 색상 스타일 |
+
 - **Return Value**
 
   변경된 색상 스타일이 적용된 ContentBadge
@@ -89,9 +93,11 @@ ContentBadge를 초기화합니다.
 뱃지의 크기를 설정합니다.
 
 - **Parameters**
+
   | Parameter | Description |
   | --- | --- |
   | `size` | 뱃지 크기 |
+
 - **Return Value**
 
   변경된 크기가 적용된 ContentBadge
@@ -104,10 +110,12 @@ ContentBadge를 초기화합니다.
 뱃지 텍스트 뒤에 표시될 아이콘을 설정합니다.
 
 - **Parameters**
+
   | Parameter | Description |
   | --- | --- |
   | `trailingIcon` | 후행 아이콘 |
   | `usesTemplate` | 아이콘 색상에 template 렌더링 적용 여부, 생략하면 기본값으로 `true` 적용 |
+
 - **Return Value**
 
   후행 아이콘이 추가된 ContentBadge
@@ -121,6 +129,13 @@ ContentBadge를 초기화합니다.
 
 
 뱃지의 색상을 결정하는 열거형입니다.
+- **Overview**
+
+  ```swift
+  ContentBadge(text: "이벤트")
+      .colorStyle(.accent(SwiftUI.Color.red))
+  ```
+
 #### Enumeration Cases
 
 <details>
@@ -131,10 +146,12 @@ ContentBadge를 초기화합니다.
 강조 색상 뱃지
 
 - **Parameters**
+
   | Parameter | Description |
   | --- | --- |
   | `contentColor` | 콘텐츠 색상 |
   | `background` | 배경 색상, 생략하면 기본값으로 `nil` 적용 (contentColor의 투명도를 조절하여 사용) |
+
 </details>
 <details>
 
@@ -144,9 +161,11 @@ ContentBadge를 초기화합니다.
 중립 색상 뱃지
 
 - **Parameters**
+
   | Parameter | Description |
   | --- | --- |
   | `contentColor` | 콘텐츠 색상, 생략하면 기본값으로 `nil` 적용 (기본 색상 사용) |
+
 </details>
 
 </details>

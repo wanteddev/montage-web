@@ -27,7 +27,15 @@ Button(icon: .bell, handler: { print("알림 보기") })
 // 로딩 상태 설정
 Button(text: "저장")
     .loading(true)
+
+// 비활성화
+Button(text: "저장")
+    .disabled(isFormInvalid)
 ```
+
+> **Note**
+>
+> 비활성화는 SwiftUI 표준 `disabled(_:)`를 사용합니다. 상위 컨테이너에 한 번 걸면 하위 컴포넌트까지 함께 비활성 스타일로 표시됩니다.
 
 ## Topics
 
@@ -41,6 +49,7 @@ Button(text: "저장")
 텍스트가 없고 아이콘만 있는 버튼을 생성합니다.
 
 - **Parameters**
+
   | Parameter | Description |
   | --- | --- |
   | `variant` | 버튼의 스타일, 생략하면 기본값으로 `.solid` 적용 |
@@ -48,6 +57,7 @@ Button(text: "저장")
   | `size` | 버튼의 크기, 생략하면 기본값으로 `.large` 적용 |
   | `icon` | 버튼에 표시할 아이콘 |
   | `handler` | 버튼 탭 시 실행할 핸들러 |
+
 - **Discussion**
 
   ```swift
@@ -64,6 +74,7 @@ Button(text: "저장")
 버튼을 생성합니다.
 
 - **Parameters**
+
   | Parameter | Description |
   | --- | --- |
   | `variant` | 버튼의 스타일, 생략하면 기본값으로 `.solid` 적용 |
@@ -73,6 +84,7 @@ Button(text: "저장")
   | `leadingIcon` | 텍스트 앞에 표시할 아이콘 |
   | `trailingIcon` | 텍스트 뒤에 표시할 아이콘 |
   | `handler` | 버튼 탭 시 실행할 핸들러 |
+
 - **Discussion**
 
   ```swift
@@ -102,9 +114,11 @@ Button(text: "저장")
 버튼 배경색을 설정합니다.
 
 - **Parameters**
+
   | Parameter | Description |
   | --- | --- |
   | `backgroundColor` | 설정할 배경색 |
+
 - **Return Value**
 
   수정된 버튼 인스턴스
@@ -126,9 +140,11 @@ Button(text: "저장")
 버튼 테두리 색상을 설정합니다.
 
 - **Parameters**
+
   | Parameter | Description |
   | --- | --- |
   | `borderColor` | 설정할 테두리 색상 |
+
 - **Return Value**
 
   수정된 버튼 인스턴스
@@ -150,9 +166,11 @@ Button(text: "저장")
 버튼 콘텐츠(텍스트와 아이콘)의 색상을 설정합니다.
 
 - **Parameters**
+
   | Parameter | Description |
   | --- | --- |
   | `contentColor` | 설정할 색상 |
+
 - **Return Value**
 
   수정된 버튼 인스턴스
@@ -166,77 +184,23 @@ Button(text: "저장")
 </details>
 <details>
 
-<summary>``func disable(Bool) -> Button``</summary>
-
-
-버튼을 비활성화 상태로 설정합니다.
-
-- **Parameters**
-  | Parameter | Description |
-  | --- | --- |
-  | `disable` | 비활성화 여부, 생략하면 기본값으로 `true` 적용 |
-- **Return Value**
-
-  수정된 버튼 인스턴스
-- **Discussion**
-
-  비활성화된 버튼은 시각적으로 흐리게 표시되며 사용자 상호작용에 반응하지 않습니다.
-
-  ```swift
-  Button(text: "저장")
-      .disable(isFormInvalid)
-  ```
-
-</details>
-<details>
-
-<summary>~~``func fill(horizontal: Bool, vertical: Bool) -> Button``~~</summary>
-
-
-버튼이 수평 또는 수직 방향으로 공간을 채우도록 설정합니다.
->  **Deprecated**
->
->  `fillWidth(_:Bool)`을 사용하세요. 참고: `vertical` 파라미터는 더 이상 지원되지 않습니다.
-
-
-- **Parameters**
-  | Parameter | Description |
-  | --- | --- |
-  | `fillHorizontal` | 수평 방향 채우기 여부, 생략하면 기본값으로 `false` 적용 |
-  | `fillVertical` | 수직 방향 채우기 여부, 생략하면 기본값으로 `false` 적용 |
-- **Return Value**
-
-  수정된 버튼 인스턴스
-- **Discussion**
-
-  버튼의 크기를 조절하여 컨테이너 뷰의 공간을 효율적으로 활용할 때 사용합니다.
-
-  ```swift
-  // 부모 뷰의 가로 너비를 모두 채우는 버튼
-  Button(text: "전체 확인")
-      .fill(horizontal: true)
-  
-  // 가로, 세로 모두 채우는 버튼
-  Button(variant: .outlined, text: "영역 전체 채우기")
-      .fill(horizontal: true, vertical: true)
-  ```
-
-</details>
-<details>
-
 <summary>``func fillWidth(Bool) -> Button``</summary>
 
 
 버튼이 수평으로 공간을 채우도록 설정합니다.
 
 - **Parameters**
+
   | Parameter | Description |
   | --- | --- |
   | `fillWidth` | 채우기 여부, 생략하면 기본값으로 `true` 적용 |
+
 - **Return Value**
 
   수정된 버튼 인스턴스
 - **Discussion**
+
+  버튼의 크기를 조절하여 컨테이너 뷰의 공간을 효율적으로 활용할 때 사용합니다.
 
   ```swift
   // 부모 뷰의 가로 너비를 모두 채우는 버튼
@@ -253,9 +217,11 @@ Button(text: "저장")
 버튼 텍스트의 폰트 변형을 설정합니다.
 
 - **Parameters**
+
   | Parameter | Description |
   | --- | --- |
   | `fontVariant` | 설정할 폰트 변형 |
+
 - **Return Value**
 
   수정된 버튼 인스턴스
@@ -277,9 +243,11 @@ Button(text: "저장")
 버튼 텍스트의 폰트 두께를 설정합니다.
 
 - **Parameters**
+
   | Parameter | Description |
   | --- | --- |
   | `fontWeight` | 설정할 폰트 두께 |
+
 - **Return Value**
 
   수정된 버튼 인스턴스
@@ -301,9 +269,11 @@ Button(text: "저장")
 버튼을 로딩 상태로 설정합니다.
 
 - **Parameters**
+
   | Parameter | Description |
   | --- | --- |
   | `loading` | 로딩 상태 여부, 생략하면 기본값으로 `true` 적용 |
+
 - **Return Value**
 
   수정된 버튼 인스턴스
@@ -334,6 +304,18 @@ Button(text: "저장")
 
 
 보조 스타일 - 덜 중요한 액션에 사용
+</details>
+<details>
+
+<summary>``case negative``</summary>
+
+
+부정적·위험 액션 스타일 - 삭제, 경고 등에 사용
+- **Discussion**
+  > **Important**
+  >
+  > `variant`가 `.outlined`인 경우 `.negative`는 지원되지 않습니다. 해당 조합으로 버튼을 생성하면 color가 `.primary`로 폴백됩니다.
+
 </details>
 <details>
 
@@ -380,6 +362,13 @@ Button(text: "저장")
 
 
 작은 크기
+</details>
+<details>
+
+<summary>``case xsmall``</summary>
+
+
+가장 작은 크기
 </details>
 
 #### Initializers
