@@ -22,7 +22,7 @@ module.exports = {
       {
         key: 'Leading content option',
         options: [
-          { label: 'None', value: { trailingContent: null } },
+          { label: 'None', value: { leadingContent: null } },
           { label: 'Icon', value: { leadingContent: '<IconBlank />' } },
           {
             label: 'Image',

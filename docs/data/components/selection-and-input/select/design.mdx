@@ -4,7 +4,7 @@ description: 사용자가 미리 정의된 옵션 목록 중 하나 혹은 하�
 image: /components/selection-and-input/select/design/Image.png
 ogImage: /components/selection-and-input/select/design/Thumbnails.png
 createdAt: 2025-08-11
-updatedAt: 2026-01-30
+updatedAt: 2026-10-07
 ---
 
 <SectionAnatomy
@@ -23,6 +23,7 @@ updatedAt: 2026-01-30
 const ref = React.useRef(null);`}
   render={(value) => {
       const props = {};
+      const size = value['Size'].toLowerCase();
       const component =
         value['Variants'] === 'Single' ? 'Select' : 'SelectMultiple';
 
@@ -59,7 +60,7 @@ const ref = React.useRef(null);`}
       }
 
       return `
-        <FormControl sx={{ width: '75%' }}>
+        <FormControl size="${size}" sx={{ width: '75%' }}>
           <FormControlLabel required>Heading</FormControlLabel>
           <FormControlField>
             <${component}
@@ -82,6 +83,14 @@ const ref = React.useRef(null);`}
       `;
     }}
   variants={[
+    {
+      key: 'Size',
+      defaultValue: 'Large',
+      options: [
+        { label: 'Large', value: {} },
+        { label: 'Medium', value: {} }
+      ]
+    },
     {
       key: 'Variants',
       options: [

@@ -273,7 +273,11 @@ const parseSectionVariants = async (pageName: string, group: string) => {
           const valueStr =
             valueParts.length > 0 ? `{ ${valueParts.join(', ')} }` : '{}';
 
-          return `        { label: '${option.label.replace(/'/g, "\\'")}', value: ${valueStr} }`;
+          const optionDisabledPart = option.disabled
+            ? `, disabled: ${formatValue(option.disabled)}`
+            : '';
+
+          return `        { label: '${option.label.replace(/'/g, "\\'")}', value: ${valueStr}${optionDisabledPart} }`;
         })
         .join(',\n');
 

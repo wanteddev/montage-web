@@ -4,7 +4,7 @@ description: 콘텐츠에서 사용자의 현재 위치를 안내하는 정보�
 image: /components/navigations/page-counter/design/Image.png
 ogImage: /components/navigations/page-counter/design/Thumbnails.png
 createdAt: 2025-10-13
-updatedAt: 2026-01-29
+updatedAt: 2026-10-07
 ---
 
 <SectionAnatomy
@@ -20,7 +20,7 @@ updatedAt: 2026-01-29
   components={['Thumbnail', 'PageCounter']}
   icons={[]}
   render={(value) => {
-      const alternative = (value['Variants'] === 'Alternative').toString();
+      const alternative = value['Alternative'].toLowerCase();
       const size = value['Size'].toLowerCase();
 
       return `
@@ -43,10 +43,10 @@ updatedAt: 2026-01-29
     }}
   variants={[
     {
-      key: 'Variants',
+      key: 'Alternative',
       options: [
-        { label: 'Normal', value: {} },
-        { label: 'Alternative', value: {} }
+        { label: 'False', value: {} },
+        { label: 'True', value: {} }
       ]
     },
     {

@@ -7,10 +7,10 @@ module.exports = {
     icons: [],
     variants: [
       {
-        key: 'Variants',
+        key: 'Alternative',
         options: [
-          { label: 'Normal', value: {} },
-          { label: 'Alternative', value: {} },
+          { label: 'False', value: {} },
+          { label: 'True', value: {} },
         ],
       },
       {
@@ -22,7 +22,7 @@ module.exports = {
       },
     ],
     render: (value) => {
-      const alternative = (value['Variants'] === 'Alternative').toString();
+      const alternative = value['Alternative'].toLowerCase();
       const size = value['Size'].toLowerCase();
 
       return `

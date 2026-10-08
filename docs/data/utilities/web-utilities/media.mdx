@@ -53,28 +53,29 @@ export const exampleStyle = (theme: Theme) => css`
 
 ```css
 .montage-exampleStyle1 {
-  width: 100px;
+  width: 50px;
   @media only screen and (min-width: 768px) {
-    width: 50px;
+    width: 100px;
   }
 }
 ```
 
 ## useMediaQuery
 
-Theme 객체를 직접 꺼내 위 유틸리티와 함께 사용할 수 있습니다.
+Theme의 breakpoint를 꺼내 위 유틸리티와 함께 사용할 수 있습니다.
 
 ```tsx
 import { Box, useMediaQuery } from '@montage-ui/core';
 
 const Component = () => {
-  const { respondTo, respondMore, respondUp, respondDown, breakpoint } = useMediaQuery();
+  const { respondTo, respondMore, respondUp, respondDown, breakpoint } =
+    useMediaQuery();
 
   return (
     <Box
       sx={{
         width: '100px',
-        [respondTo(breakpoint.xs)]: {
+        [respondTo(breakpoint.sm)]: {
           width: '200px',
         },
       }}

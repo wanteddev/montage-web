@@ -10,21 +10,23 @@ export const getVariantValueWithDisabled = (
     );
   };
 
-  const disabledVariants = variants.filter((variant) => {
-    if (typeof variant.disabled === 'function') {
-      return variant.disabled(
-        Object.entries(newVariant).reduce(
-          (acc, [key, value]) => ({
-            ...acc,
-            [key]: value.value,
-          }),
-          {},
-        ),
-      );
-    }
+  const getSelectedValues = () =>
+    Object.entries(newVariant).reduce<Record<string, string>>(
+      (acc, [key, value]) => ({
+        ...acc,
+        [key]: value.value,
+      }),
+      {},
+    );
 
-    return variant.disabled;
-  });
+  const isDisabled = (
+    disabled: SectionVariantsType[number]['disabled'],
+    values: Record<string, string>,
+  ) => (typeof disabled === 'function' ? disabled(values) : Boolean(disabled));
+
+  const disabledVariants = variants.filter((variant) =>
+    isDisabled(variant.disabled, getSelectedValues()),
+  );
 
   disabledVariants.forEach((variant) => {
     newVariant[variant.key] = {
@@ -33,8 +35,46 @@ export const getVariantValueWithDisabled = (
     };
   });
 
+  // Option-level disabled: if the selected option becomes disabled,
+  // fall back to the first enabled option of the same variant.
+  variants.forEach((variant) => {
+    const values = getSelectedValues();
+    const disabledOptions = variant.options
+      .filter((option) => isDisabled(option.disabled, values))
+      .map((option) => option.label);
+
+    if (disabledOptions.length === 0) {
+      return;
+    }
+
+    const current = newVariant[variant.key];
+    const value =
+      current && !disabledOptions.includes(current.value)
+        ? current.value
+        : (variant.options.find(
+            (option) => !disabledOptions.includes(option.label),
+          )?.label ??
+          current?.value ??
+          '');
+
+    newVariant[variant.key] = { ...current, value, disabledOptions };
+  });
+
   return newVariant;
 };
+
+// Disabled variants keep their selection in the controls (restored when re-enabled),
+// but are passed to `render` as an empty value so the demo does not reflect them.
+export const getVariantRenderValues = (
+  selectedVariant: SectionSelectedVariants,
+) =>
+  Object.entries(selectedVariant).reduce<Record<string, string>>(
+    (acc, [key, value]) => ({
+      ...acc,
+      [key]: value.disabled ? '' : value.value,
+    }),
+    {},
+  );
 
 export const isComponent = (value: any): value is string => {
   if (typeof value !== 'string') return false;

@@ -4,7 +4,7 @@ description: 앱과 모바일 웹의 최상단에 위치하는 주요 탐색 요
 image: /components/navigations/top-navigation/design/Image.png
 ogImage: /components/navigations/top-navigation/design/Thumbnails.png
 createdAt: 2025-10-02
-updatedAt: 2026-01-29
+updatedAt: 2026-10-07
 ---
 
 <SectionAnatomy
@@ -18,7 +18,7 @@ updatedAt: 2026-01-29
 
 <SectionVariants
   components={['TopNavigation', 'TopNavigationButton', 'Tab', 'TabList', 'TabListItem', 'SegmentedControl', 'SegmentedControlItem', 'FlexBox', 'Avatar', 'SearchField']}
-  icons={['IconChevronLeft', 'IconClose']}
+  icons={['IconBlank', 'IconClose']}
   render={(value) => {
       const variant = value['Variants'].toLowerCase();
       const avatar =
@@ -47,9 +47,12 @@ updatedAt: 2026-01-29
       }
 
       switch (value['Leading button area']) {
-        case 'Back button':
+        case 'Icon button':
           leadingContent =
-            '<TopNavigationButton variant="icon-button"><IconChevronLeft /></TopNavigationButton>';
+            '<TopNavigationButton variant="icon-button"><IconBlank /></TopNavigationButton>';
+          break;
+        case 'Back button':
+          leadingContent = '<TopNavigationButton variant="back-button" />';
           break;
         case 'Text button':
           leadingContent =
@@ -74,8 +77,7 @@ updatedAt: 2026-01-29
       }
 
       if (variant === 'search') {
-        title =
-          '<SearchField placeholder="Enter search keyword." />';
+        title = '<SearchField placeholder="Enter search keyword." />';
       }
 
       const sx =
@@ -119,8 +121,9 @@ updatedAt: 2026-01-29
       defaultValue: 'Back button',
       options: [
         { label: 'None', value: {} },
-        { label: 'Back button', value: {} },
-        { label: 'Text button', value: {} }
+        { label: 'Text button', value: {} },
+        { label: 'Icon button', value: {} },
+        { label: 'Back button', value: {} }
       ]
     },
     {

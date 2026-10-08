@@ -17,17 +17,50 @@ module.exports = {
       'CheckMark',
       'TextButton',
       'Switch',
+      'ToggleIcon',
+      'Button',
+      'ListCellLabelTrailing',
+      'ListCellExtraContent',
     ],
     icons: ['IconBlank'],
     render: (value) => {
-      const variant = value['Fill width'] === 'True' ? 'full' : 'inset';
+      const variant = value['Variants'].toLowerCase();
       const divider = value['Divider'] === 'True';
       const verticalPadding = value['Vertical padding'].toLowerCase();
-      const verticalAlign = value['Vertical align'].toLowerCase();
+      const verticalAlign =
+        value['Vertical align'] === 'Top' ? 'flex-start' : 'center';
       const textProps =
         value['Description'] === 'True'
           ? "{ description: 'Description' }"
           : '{}';
+
+      const chevron =
+        value['Chevron'] === 'True' && value['Trailing content'] !== 'None'
+          ? ' chevron'
+          : '';
+
+      let labelTrailing = null;
+      switch (value['Label trailing']) {
+        case 'Content badge':
+          labelTrailing =
+            '<ListCellLabelTrailing variant="content-badge"><ContentBadge color="neutral">Badge</ContentBadge></ListCellLabelTrailing>';
+          break;
+        case 'Verified check':
+          labelTrailing = '<ListCellLabelTrailing variant="verified-check" />';
+          break;
+      }
+
+      let extraContent = null;
+      switch (value['Extra content']) {
+        case 'Text':
+          extraContent =
+            '<ListCellExtraContent variant="text">Extra text</ListCellExtraContent>';
+          break;
+        case 'Content badge':
+          extraContent =
+            '<ListCellExtraContent variant="content-badge"><ContentBadge color="neutral">Badge</ContentBadge></ListCellExtraContent>';
+          break;
+      }
 
       let leadingContent = null;
 
@@ -61,44 +94,43 @@ module.exports = {
       let trailingContent = null;
       switch (value['Trailing content']) {
         case 'Icon':
-          trailingContent =
-            '<ListCellContent variant="icon"><IconBlank /></ListCellContent>';
+          trailingContent = `<ListCellContent variant="icon"${chevron}><IconBlank /></ListCellContent>`;
           break;
-        case 'Badge':
-          trailingContent =
-            '<ListCellContent variant="content-badge"><ContentBadge color="neutral" size="small">Badge</ContentBadge></ListCellContent>';
+        case 'Content badge':
+          trailingContent = `<ListCellContent variant="content-badge"${chevron}><ContentBadge color="neutral" size="small">Badge</ContentBadge></ListCellContent>`;
           break;
         case 'Checkbox':
-          trailingContent =
-            '<ListCellContent variant="checkbox"><CheckMark /></ListCellContent>';
+          trailingContent = `<ListCellContent variant="checkbox"${chevron}><CheckMark /></ListCellContent>`;
           break;
         case 'Icon button':
-          trailingContent =
-            '<ListCellContent variant="icon-button"><IconButton><IconBlank /></IconButton></ListCellContent>';
+          trailingContent = `<ListCellContent variant="icon-button"${chevron}><IconButton><IconBlank /></IconButton></ListCellContent>`;
           break;
         case 'Switch':
-          trailingContent =
-            '<ListCellContent variant="switch"><Switch /></ListCellContent>';
+          trailingContent = `<ListCellContent variant="switch"${chevron}><Switch /></ListCellContent>`;
           break;
         case 'Text button':
-          trailingContent =
-            '<ListCellContent variant="text-button"><TextButton size="small" color="assistive">Text button</TextButton></ListCellContent>';
+          trailingContent = `<ListCellContent variant="text-button"${chevron}><TextButton size="small" color="assistive">Text button</TextButton></ListCellContent>`;
+          break;
+        case 'Toggle icon':
+          trailingContent = `<ListCellContent variant="toggle-icon"${chevron}><ToggleIcon size={20}><IconBlank /></ToggleIcon></ListCellContent>`;
+          break;
+        case 'Button':
+          trailingContent = `<ListCellContent variant="button"${chevron}><Button variant="solid" color="assistive">Button</Button></ListCellContent>`;
           break;
         case 'Value':
-          trailingContent =
-            '<ListCellContent variant="value">Value</ListCellContent>';
+          trailingContent = `<ListCellContent variant="value"${chevron}>Value</ListCellContent>`;
           break;
       }
 
       return `
         <List gap="0px" sx={theme => ({ width: '85%', backgroundColor: theme.semantic.background.neutral.primary, borderRadius: '12px', ${variant === 'full' ? "padding: '8px 0px'" : "padding: '8px 20px'"} })}>
-          <ListCell verticalPadding="${verticalPadding}" alignItems="${verticalAlign}" variant="${variant}" leadingContent={${leadingContent}} trailingContent={${trailingContent}} divider={${divider}} textProps={${textProps}}>
+          <ListCell verticalPadding="${verticalPadding}" alignItems="${verticalAlign}" variant="${variant}" leadingContent={${leadingContent}} trailingContent={${trailingContent}} labelTrailing={${labelTrailing}} extraContent={${extraContent}} divider={${divider}} textProps={${textProps}}>
             Label
           </ListCell>
-          <ListCell verticalPadding="${verticalPadding}" alignItems="${verticalAlign}" variant="${variant}" leadingContent={${leadingContent}} trailingContent={${trailingContent}} divider={${divider}} textProps={${textProps}}>
+          <ListCell verticalPadding="${verticalPadding}" alignItems="${verticalAlign}" variant="${variant}" leadingContent={${leadingContent}} trailingContent={${trailingContent}} labelTrailing={${labelTrailing}} extraContent={${extraContent}} divider={${divider}} textProps={${textProps}}>
             Label
           </ListCell>
-          <ListCell verticalPadding="${verticalPadding}" alignItems="${verticalAlign}" variant="${variant}" leadingContent={${leadingContent}} trailingContent={${trailingContent}} divider={${divider}} textProps={${textProps}}>
+          <ListCell verticalPadding="${verticalPadding}" alignItems="${verticalAlign}" variant="${variant}" leadingContent={${leadingContent}} trailingContent={${trailingContent}} labelTrailing={${labelTrailing}} extraContent={${extraContent}} divider={${divider}} textProps={${textProps}}>
             Label
           </ListCell>
         </List>
@@ -106,10 +138,10 @@ module.exports = {
     },
     variants: [
       {
-        key: 'Fill width',
+        key: 'Variants',
         options: [
-          { label: 'False', value: {} },
-          { label: 'True', value: {} },
+          { label: 'Inset', value: {} },
+          { label: 'Full', value: {} },
         ],
       },
       {
@@ -138,6 +170,22 @@ module.exports = {
         ],
       },
       {
+        key: 'Label trailing',
+        options: [
+          { label: 'None', value: {} },
+          { label: 'Content badge', value: {} },
+          { label: 'Verified check', value: {} },
+        ],
+      },
+      {
+        key: 'Extra content',
+        options: [
+          { label: 'None', value: {} },
+          { label: 'Text', value: {} },
+          { label: 'Content badge', value: {} },
+        ],
+      },
+      {
         key: 'Leading content',
         defaultValue: 'Icon',
         options: [
@@ -156,12 +204,22 @@ module.exports = {
         options: [
           { label: 'None', value: {} },
           { label: 'Icon', value: {} },
-          { label: 'Badge', value: {} },
+          { label: 'Content badge', value: {} },
           { label: 'Checkbox', value: {} },
           { label: 'Icon button', value: {} },
           { label: 'Switch', value: {} },
           { label: 'Text button', value: {} },
+          { label: 'Toggle icon', value: {} },
+          { label: 'Button', value: {} },
           { label: 'Value', value: {} },
+        ],
+      },
+      {
+        key: 'Chevron',
+        disabled: (value) => value['Trailing content'] === 'None',
+        options: [
+          { label: 'False', value: {} },
+          { label: 'True', value: {} },
         ],
       },
       {

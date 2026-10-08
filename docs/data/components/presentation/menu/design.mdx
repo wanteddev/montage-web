@@ -4,7 +4,7 @@ description: 사용자가 옵션을 선택할 수 있는 요소로 버튼, 셀�
 image: /components/presentation/menu/design/Image.png
 ogImage: /components/presentation/menu/design/Thumbnails.png
 createdAt: 2025-10-14
-updatedAt: 2026-01-29
+updatedAt: 2026-10-07
 ---
 
 <SectionAnatomy
@@ -31,6 +31,7 @@ updatedAt: 2026-01-29
               <MenuActionAreaContent variant="text-button">
                 <TextButton
                   color="assistive"
+                  size="small"
                 >
                   Alternative action
                 </TextButton>
@@ -38,7 +39,7 @@ updatedAt: 2026-01-29
             }
             trailingContent={
               <MenuActionAreaContent variant="button">
-                <Button>
+                <Button size="small">
                   Button
                 </Button>
               </MenuActionAreaContent>
@@ -104,7 +105,10 @@ updatedAt: 2026-01-29
     },
     {
       key: 'Cell padding',
+      defaultValue: 'Medium',
       options: [
+        { label: 'None', value: {} },
+        { label: 'Small', value: {} },
         { label: 'Medium', value: {} },
         { label: 'Large', value: {} }
       ]

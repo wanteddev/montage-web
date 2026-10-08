@@ -35,7 +35,10 @@ module.exports = {
       },
       {
         key: 'Cell padding',
+        defaultValue: 'Medium',
         options: [
+          { label: 'None', value: {} },
+          { label: 'Small', value: {} },
           { label: 'Medium', value: {} },
           { label: 'Large', value: {} },
         ],

@@ -4,7 +4,7 @@ description: 새로운 업데이트나 알림이 있음을 시각적으로 알�
 image: /components/feedback/push-badge/design/Image.png
 ogImage: /components/feedback/push-badge/design/Thumbnails.png
 createdAt: 2025-10-01
-updatedAt: 2026-02-02
+updatedAt: 2026-10-07
 ---
 
 <SectionAnatomy
@@ -30,14 +30,14 @@ updatedAt: 2026-02-02
                   boxShadow: `inset 0 0 0 1px ${theme.semantic.line.neutral.primary}`,
                 },
               }) } },
-        { label: 'New', value: { variant: 'text', text: 'N', children: '<Box data-role="content" />', sx: (theme) => ({
+        { label: 'Text', value: { variant: 'text', text: 5, children: '<Box data-role="content" />', sx: (theme) => ({
                 ['[data-role="content"]']: {
                   width: 64,
                   height: 64,
                   boxShadow: `inset 0 0 0 1px ${theme.semantic.line.neutral.primary}`,
                 },
               }) } },
-        { label: 'Number', value: { variant: 'text', text: 5, children: '<Box data-role="content" />', sx: (theme) => ({
+        { label: 'Max count', value: { variant: 'max-count', text: 100, children: '<Box data-role="content" />', sx: (theme) => ({
                 ['[data-role="content"]']: {
                   width: 64,
                   height: 64,
@@ -52,6 +52,13 @@ updatedAt: 2026-02-02
         { label: 'Xsmall', value: { size: 'xsmall' } },
         { label: 'Small', value: { size: 'small' } },
         { label: 'Medium', value: { size: 'medium' } }
+      ]
+    },
+    {
+      key: 'Outline border',
+      options: [
+        { label: 'False', value: {} },
+        { label: 'True', value: { outlineBorder: true } }
       ]
     }
   ]}

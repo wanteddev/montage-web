@@ -4,7 +4,7 @@ description: 일정 높이의 필드 안에 한 줄 이하의 값을 입력할 �
 image: /components/selection-and-input/text-field/design/Image.png
 ogImage: /components/selection-and-input/text-field/design/Thumbnails.png
 createdAt: 2025-04-03
-updatedAt: 2026-01-29
+updatedAt: 2026-10-07
 ---
 
 <SectionAnatomy
@@ -17,9 +17,10 @@ updatedAt: 2026-01-29
   
 
 <SectionVariants
-  components={['FormControl', 'FlexBox', 'TextField', 'TextFieldContent', 'TextFieldButton', 'FormControlField', 'FormControlMessage', 'FormControlLabel', 'ContentBadge', 'Box']}
+  components={['FormControl', 'TextField', 'TextFieldContent', 'TextFieldButton', 'FormControlField', 'FormControlMessage', 'FormControlLabel', 'ContentBadge', 'IconButton', 'Box']}
   icons={['IconBlank']}
   render={(value) => {
+      const size = value['Size'].toLowerCase();
       const hasButton = value['Trailing button'] === 'Button';
 
       const leadingContent =
@@ -33,6 +34,10 @@ updatedAt: 2026-01-29
         case 'Icon':
           trailingContent =
             '<TextFieldContent variant="icon"><IconBlank /></TextFieldContent>';
+          break;
+        case 'Icon button':
+          trailingContent =
+            '<TextFieldContent variant="icon-button"><IconButton aria-label="Icon button"><IconBlank /></IconButton></TextFieldContent>';
           break;
         case 'Custom':
           trailingContent =
@@ -55,7 +60,7 @@ updatedAt: 2026-01-29
       }
 
       return `
-      <FormControl sx={{ width: '75%' }}>
+      <FormControl size="${size}" sx={{ width: '75%' }}>
         <FormControlLabel required>Heading</FormControlLabel>
         <FormControlField>
           <TextField
@@ -71,6 +76,14 @@ updatedAt: 2026-01-29
     `;
     }}
   variants={[
+    {
+      key: 'Size',
+      defaultValue: 'Large',
+      options: [
+        { label: 'Large', value: {} },
+        { label: 'Medium', value: {} }
+      ]
+    },
     {
       key: 'Leading icon',
       options: [
@@ -90,10 +103,11 @@ updatedAt: 2026-01-29
       options: [
         { label: 'None', value: {} },
         { label: 'Custom', value: {} },
-        { label: 'Badge', value: {} },
         { label: 'Text', value: {} },
+        { label: 'Timer', value: {} },
+        { label: 'Badge', value: {} },
         { label: 'Icon', value: {} },
-        { label: 'Timer', value: {} }
+        { label: 'Icon button', value: {} }
       ]
     }
   ]}

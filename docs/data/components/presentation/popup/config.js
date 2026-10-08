@@ -19,6 +19,7 @@ module.exports = {
       'ActionAreaButton',
     ],
     icons: [],
+    states: 'const [openSize, setOpenSize] = React.useState(null);',
     variants: [
       {
         key: 'Navigation',
@@ -75,9 +76,9 @@ module.exports = {
           navigation = `
             <ModalNavigation
               variant="search"
-              trailingContent={<ModalNavigationButton variant="text-button">취소</ModalNavigationButton>}
+              trailingContent={<ModalNavigationButton variant="text-button" onClick={() => setOpenSize(null)}>취소</ModalNavigationButton>}
             >
-              <SearchField placeholder="Enter search keyword." size="medium" />
+              <SearchField placeholder="Enter search keyword." />
             </ModalNavigation>
           `;
           break;
@@ -108,7 +109,10 @@ module.exports = {
 
       return `
         <FlexBox gap="24px" flexDirection="column">
-          <Modal>
+          <Modal
+            open={openSize === 'medium'}
+            onOpenChange={(open) => setOpenSize(open ? 'medium' : null)}
+          >
             <ModalTrigger>
               <Button sx={{ width: '188px' }}>Open medium popup</Button>
             </ModalTrigger>
@@ -116,7 +120,10 @@ module.exports = {
             ${getModalContainer('medium')}
           </Modal>
   
-          <Modal>
+          <Modal
+            open={openSize === 'large'}
+            onOpenChange={(open) => setOpenSize(open ? 'large' : null)}
+          >
             <ModalTrigger>
               <Button sx={{ width: '188px' }}>Open large popup</Button>
             </ModalTrigger>
@@ -124,7 +131,10 @@ module.exports = {
             ${getModalContainer('large')}
           </Modal>
   
-          <Modal>
+          <Modal
+            open={openSize === 'xlarge'}
+            onOpenChange={(open) => setOpenSize(open ? 'xlarge' : null)}
+          >
             <ModalTrigger>
               <Button sx={{ width: '188px' }}>Open xlarge popup</Button>
             </ModalTrigger>

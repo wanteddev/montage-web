@@ -18,11 +18,16 @@ module.exports = {
         options: [
           { label: 'Primary', value: { color: 'primary' } },
           { label: 'Assistive', value: { color: 'assistive' } },
-          { label: 'Negative', value: { color: 'negative' } },
+          {
+            label: 'Negative',
+            value: { color: 'negative' },
+            disabled: (value) => value['Variants'] === 'Outlined',
+          },
         ],
       },
       {
         key: 'Size',
+        defaultValue: 'Large',
         options: [
           { label: 'Xsmall', value: { size: 'xsmall' } },
           { label: 'Small', value: { size: 'small' } },

@@ -4,7 +4,7 @@ description: 사용자의 즉각적인 주의와 응답이 필요한 상황에�
 image: /components/presentation/popup/design/Image.png
 ogImage: /components/presentation/popup/design/Thumbnails.png
 createdAt: 2025-10-14
-updatedAt: 2026-03-03
+updatedAt: 2026-10-07
 ---
 
 <SectionAnatomy
@@ -19,6 +19,7 @@ updatedAt: 2026-03-03
 <SectionVariants
   components={['FlexBox', 'Button', 'Box', 'Modal', 'ModalTrigger', 'ModalNavigationButton', 'ModalContainer', 'ModalContent', 'ModalContentItem', 'ModalNavigation', 'SearchField', 'ActionArea', 'ActionAreaButton']}
   icons={[]}
+  states={`const [openSize, setOpenSize] = React.useState(null);`}
   render={(value) => {
       let actionArea = '';
 
@@ -54,9 +55,9 @@ updatedAt: 2026-03-03
           navigation = `
             <ModalNavigation
               variant="search"
-              trailingContent={<ModalNavigationButton variant="text-button">취소</ModalNavigationButton>}
+              trailingContent={<ModalNavigationButton variant="text-button" onClick={() => setOpenSize(null)}>취소</ModalNavigationButton>}
             >
-              <SearchField placeholder="Enter search keyword." size="medium" />
+              <SearchField placeholder="Enter search keyword." />
             </ModalNavigation>
           `;
           break;
@@ -87,7 +88,10 @@ updatedAt: 2026-03-03
 
       return `
         <FlexBox gap="24px" flexDirection="column">
-          <Modal>
+          <Modal
+            open={openSize === 'medium'}
+            onOpenChange={(open) => setOpenSize(open ? 'medium' : null)}
+          >
             <ModalTrigger>
               <Button sx={{ width: '188px' }}>Open medium popup</Button>
             </ModalTrigger>
@@ -95,7 +99,10 @@ updatedAt: 2026-03-03
             ${getModalContainer('medium')}
           </Modal>
   
-          <Modal>
+          <Modal
+            open={openSize === 'large'}
+            onOpenChange={(open) => setOpenSize(open ? 'large' : null)}
+          >
             <ModalTrigger>
               <Button sx={{ width: '188px' }}>Open large popup</Button>
             </ModalTrigger>
@@ -103,7 +110,10 @@ updatedAt: 2026-03-03
             ${getModalContainer('large')}
           </Modal>
   
-          <Modal>
+          <Modal
+            open={openSize === 'xlarge'}
+            onOpenChange={(open) => setOpenSize(open ? 'xlarge' : null)}
+          >
             <ModalTrigger>
               <Button sx={{ width: '188px' }}>Open xlarge popup</Button>
             </ModalTrigger>

@@ -17,8 +17,8 @@ module.exports = {
       {
         key: 'Variants',
         options: [
-          { label: 'Normal horizontal', value: {} },
-          { label: 'Normal vertical', value: {} },
+          { label: 'Horizontal', value: {} },
+          { label: 'Vertical', value: {} },
           { label: 'Stepper', value: {} },
         ],
       },
@@ -32,10 +32,10 @@ module.exports = {
       {
         key: 'Label contents',
         disabled: (value) =>
-          value['Label'] === 'False' || value['Variants'] !== 'Normal vertical',
+          value['Label'] === 'False' || value['Variants'] !== 'Vertical',
         options: [
           { label: 'Badge', value: {} },
-          { label: 'Label', value: {} },
+          { label: 'Caption', value: {} },
         ],
       },
     ],
@@ -63,7 +63,7 @@ module.exports = {
           case 'Badge':
             labelContent = `<ProgressTrackerLabelContent variant="badge"><ContentBadge color="neutral" variant="solid">Badge</ContentBadge></ProgressTrackerLabelContent>`;
             break;
-          case 'Label':
+          case 'Caption':
             labelContent = `<ProgressTrackerLabelContent variant="caption">Label</ProgressTrackerLabelContent>`;
             break;
         }

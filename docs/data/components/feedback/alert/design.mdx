@@ -4,7 +4,7 @@ description: 현재 화면 위에 창을 띄워, 사용자의 흐름을 잠시 �
 image: /components/feedback/alert/design/Image.png
 ogImage: /components/feedback/alert/design/Thumbnails.png
 createdAt: 2025-10-01
-updatedAt: 2026-02-02
+updatedAt: 2026-10-07
 ---
 
 <SectionAnatomy
@@ -24,8 +24,7 @@ updatedAt: 2026-02-02
         value['Heading'] === 'True'
           ? '<AlertHeading>Heading</AlertHeading>'
           : '';
-      const buttonVariant =
-        value['Action'] === 'Normal button' ? 'normal' : 'negative';
+      const buttonVariant = value['Action'].toLowerCase();
 
       return `
       <Alert open>
@@ -72,8 +71,8 @@ updatedAt: 2026-02-02
     {
       key: 'Action',
       options: [
-        { label: 'Normal button', value: {} },
-        { label: 'Negative button', value: {} }
+        { label: 'Normal', value: {} },
+        { label: 'Negative', value: {} }
       ]
     }
   ]}

@@ -12,10 +12,10 @@ module.exports = {
     icons: [],
     variants: [
       {
-        key: 'Fill width',
+        key: 'Variants',
         options: [
-          { label: 'False', value: {} },
-          { label: 'True', value: {} },
+          { label: 'Inset', value: {} },
+          { label: 'Full', value: {} },
         ],
       },
       {
@@ -29,7 +29,7 @@ module.exports = {
       },
     ],
     render: (value) => {
-      const variant = value['Fill width'] === 'True' ? 'full' : 'inset';
+      const variant = value['Variants'].toLowerCase();
       const verticalPadding = value['Vertical padding'];
 
       return `
