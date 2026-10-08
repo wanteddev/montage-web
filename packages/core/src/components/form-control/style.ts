@@ -267,13 +267,13 @@ export const formLabelStyle =
           variant: getPreviousValue(
             { xs, sm, md, lg, xl },
             'variant',
-            params.variant,
+            params.variant ?? variant,
             breakpoint!,
           ),
           weight: getPreviousValue(
             { xs, sm, md, lg, xl },
             'weight',
-            params.weight,
+            params.weight ?? weight,
             breakpoint!,
           ),
         })}

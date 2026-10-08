@@ -5,12 +5,14 @@ import type { UserConfig } from 'tsdown';
 export const defineConfiguration = (opts: Partial<UserConfig>) =>
   defineConfig({
     format: ['cjs', 'esm'],
+    // Lowest versions that support both CSS `:has()` and `dvh` units, which the
+    // styles use without `@supports` fallbacks (see MIGRATION.md "지원 브라우저").
     target: [
       'chrome108',
-      'firefox101',
       'edge108',
-      'safari15',
-      'ios16',
+      'firefox121',
+      'safari15.4',
+      'ios15.4',
       'opera94',
     ],
     outDir: 'dist',

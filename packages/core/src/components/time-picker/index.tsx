@@ -200,6 +200,14 @@ const TimePicker = forwardRef<
             role="combobox"
             {...props}
             {...({
+              // Raw responsive props reach a custom `input` as in 3.x (and as
+              // DateRangePicker does); the default field gets the resolved
+              // ones below.
+              xs,
+              sm,
+              md,
+              lg,
+              xl,
               autoComplete: 'off',
               type: 'text',
               readOnly,
@@ -263,16 +271,6 @@ const TimePicker = forwardRef<
               <DismissableLayer
                 asChild
                 disableOutsidePointerEvents
-                onPointerDownOutside={(e) => {
-                  if (
-                    ref.current?.contains(e.target as HTMLElement) &&
-                    (e.target as HTMLElement).closest(
-                      '[data-role="time-picker-clock-icon"]',
-                    )
-                  ) {
-                    e.preventDefault();
-                  }
-                }}
                 onDismiss={() => {
                   setOpen(false);
                 }}

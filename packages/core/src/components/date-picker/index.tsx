@@ -196,6 +196,14 @@ const DatePicker = forwardRef<
             role="combobox"
             {...props}
             {...({
+              // Raw responsive props reach a custom `input` as in 3.x (and as
+              // DateRangePicker does); the default field gets the resolved
+              // ones below.
+              xs,
+              sm,
+              md,
+              lg,
+              xl,
               type: 'text',
               autoComplete: 'off',
               readOnly,
@@ -259,16 +267,6 @@ const DatePicker = forwardRef<
               <DismissableLayer
                 asChild
                 disableOutsidePointerEvents
-                onPointerDownOutside={(e) => {
-                  if (
-                    ref.current?.contains(e.target as HTMLElement) &&
-                    (e.target as HTMLElement).closest(
-                      '[data-role="date-picker-calendar-icon"]',
-                    )
-                  ) {
-                    e.preventDefault();
-                  }
-                }}
                 onDismiss={() => {
                   setOpen(false);
                 }}

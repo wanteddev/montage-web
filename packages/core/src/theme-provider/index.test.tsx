@@ -260,6 +260,24 @@ describe('resolveThemeCookieOptions', () => {
     expect(console.error).not.toHaveBeenCalled();
   });
 
+  it.each([
+    ['the default', undefined, undefined, true],
+    ["'auto' on a host with no Domain to detect", 'auto', undefined, true],
+    ['an explicit domain', '.wanted.co.kr', undefined, true],
+    ["'none'", 'none', 'admin-theme', false],
+    ['a __Host- key', undefined, '__Host-theme', false],
+    ['a malformed domain', '.wanted.co.kr;x', undefined, false],
+  ])(
+    'marks %s as domainScoped=%s without depending on detection',
+    (_label, domain, key, expected) => {
+      // this file runs on localhost, where `'auto'` detects no domain — the
+      // same `undefined` a server without a document resolves to
+      expect(resolveThemeCookieOptions({ domain, key }).domainScoped).toBe(
+        expected,
+      );
+    },
+  );
+
   it('reports a Secure cookie written from an insecure context', () => {
     vi.stubGlobal('isSecureContext', false);
 
@@ -420,37 +438,26 @@ describe('buildThemeScript', () => {
   const baseOptions = {
     cookieKey: 'montage-theme',
     cookiePath: '/',
+    domainScoped: false,
     defaultTheme: 'system',
     enableSystem: true,
   } as const;
 
-  it('drops the shadowing host-only cookie before reading when a domain is set', () => {
-    const script = buildThemeScript({
-      ...baseOptions,
-      cookieDomain: '.wanted.co.kr',
-    });
+  it('sweeps the host-only cookie only when the read disagrees', () => {
+    const script = buildThemeScript({ ...baseOptions, domainScoped: true });
 
     expect(script).toContain('Max-Age=0');
     // no Domain attribute, so only the host-only variant is expired
     expect(script).not.toContain('Domain=');
-    // the cleanup must precede the re-read that decides the value, and that
-    // re-read must precede the light/dark/system check
-    expect(script.indexOf('Max-Age=0')).toBeLessThan(
-      script.indexOf('t=g()||t'),
+    // the sweep is gated on the disagreement (`null`), re-reads after the
+    // cleanup, and both precede the light/dark/system check
+    expect(script.indexOf('if(t===null)')).toBeLessThan(
+      script.indexOf('Max-Age=0'),
     );
-    expect(script.indexOf('t=g()||t')).toBeLessThan(
+    expect(script.indexOf('Max-Age=0')).toBeLessThan(script.indexOf('t=g()}'));
+    expect(script.indexOf('t=g()}')).toBeLessThan(
       script.indexOf("if(t!=='light'"),
     );
-  });
-
-  it('keeps the pre-clear value when only the host-only cookie held one', () => {
-    const script = buildThemeScript({
-      ...baseOptions,
-      cookieDomain: '.wanted.co.kr',
-    });
-
-    // `||` means the post-clear read only wins when it actually found a value
-    expect(script).toContain('t=g()||t');
   });
 
   it('survives a cookie value that is not valid percent-encoding', () => {
@@ -487,6 +494,44 @@ describe('buildThemeScript', () => {
     document.documentElement.removeAttribute('data-theme');
   });
 
+  it("paints the provider's default after sweeping on a host without a Domain", () => {
+    // localhost cannot carry a Domain, so a disagreement can only come from
+    // host-only cookies at different paths. The provider does not sweep here
+    // and reads the disagreement as unset; the script sweeps both and reads
+    // nothing — the same default either way.
+    window.history.pushState({}, '', '/app');
+    document.cookie = 'montage-theme=dark; Path=/app';
+    document.cookie = 'montage-theme=light; Path=/';
+
+    try {
+      new Function(buildThemeScript({ ...baseOptions, domainScoped: true }))();
+      expect(document.cookie).toBe('');
+      // the matchMedia mock resolves `system` to light
+      expect(document.documentElement.getAttribute('data-theme')).toBe('light');
+    } finally {
+      document.cookie = 'montage-theme=; Path=/app; Max-Age=0';
+      document.cookie = 'montage-theme=; Path=/; Max-Age=0';
+      window.history.pushState({}, '', '/');
+      document.documentElement.removeAttribute('data-theme');
+    }
+  });
+
+  it('leaves agreeing cookies alone even when domain-scoped', () => {
+    document.cookie = 'montage-theme=dark; Path=/';
+
+    const setCookie = vi.spyOn(document, 'cookie', 'set');
+
+    try {
+      new Function(buildThemeScript({ ...baseOptions, domainScoped: true }))();
+      expect(setCookie).not.toHaveBeenCalled();
+      expect(document.documentElement.getAttribute('data-theme')).toBe('dark');
+    } finally {
+      setCookie.mockRestore();
+      document.cookie = 'montage-theme=; Path=/; Max-Age=0';
+      document.documentElement.removeAttribute('data-theme');
+    }
+  });
+
   it('paints the stored theme when same-named cookies agree', () => {
     Object.defineProperty(document, 'cookie', {
       configurable: true,
@@ -505,7 +550,7 @@ describe('buildThemeScript', () => {
     document.documentElement.removeAttribute('data-theme');
   });
 
-  it('does not touch cookies when no domain is set', () => {
+  it('does not touch cookies when the cookie is not domain-scoped', () => {
     const script = buildThemeScript(baseOptions);
 
     expect(script).not.toContain('Max-Age=0');
@@ -515,12 +560,12 @@ describe('buildThemeScript', () => {
     const script = buildThemeScript({
       ...baseOptions,
       cookieKey: '__Secure-theme',
-      cookieDomain: '.wanted.co.kr',
+      domainScoped: true,
     });
 
     expect(script).toContain("Max-Age=0; Secure'");
     expect(
-      buildThemeScript({ ...baseOptions, cookieDomain: '.wanted.co.kr' }),
+      buildThemeScript({ ...baseOptions, domainScoped: true }),
     ).not.toContain('Secure');
   });
 
@@ -528,7 +573,7 @@ describe('buildThemeScript', () => {
     const script = buildThemeScript({
       ...baseOptions,
       cookiePath: "/'; globalThis.__themeScriptInjected = true; '",
-      cookieDomain: '.wanted.co.kr',
+      domainScoped: true,
     });
 
     new Function(script)();

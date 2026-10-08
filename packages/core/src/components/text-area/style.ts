@@ -97,6 +97,7 @@ export const textAreaWrapperSizeStyle = (
       return css`
         border-radius: ${theme.radius[14]};
 
+        --text-area-line-height: ${theme.typography.body2Reading.lineHeight};
         --text-area-content-icon-size: ${theme.dimension[20]};
         --text-area-content-icon-wrapper-width: ${theme.dimension[24]};
         --text-area-content-icon-wrapper-height: ${theme.dimension[20]};
@@ -115,6 +116,7 @@ export const textAreaWrapperSizeStyle = (
       return css`
         border-radius: ${theme.radius[12]};
 
+        --text-area-line-height: ${theme.typography.label1Reading.lineHeight};
         --text-area-content-icon-size: ${theme.dimension[18]};
         --text-area-content-icon-wrapper-width: 22px;
         --text-area-content-icon-wrapper-height: 22px;

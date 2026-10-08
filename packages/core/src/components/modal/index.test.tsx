@@ -229,6 +229,66 @@ describe('when given flexible bottom sheet', () => {
     expect(screen.getByRole('dialog')).toHaveAttribute('data-snap', 'peek');
   });
 
+  it('reopens a forceMount sheet at full instead of the peek it was dismissed at', async () => {
+    const Sheet = ({ open }: { open: boolean }) => (
+      <Modal open={open} onOpenChange={() => {}}>
+        <ModalContainer variant="bottom" handle peekHeight={64} forceMount>
+          <ModalContent>
+            <ModalContentItem>
+              <ModalHeading>Heading</ModalHeading>
+            </ModalContentItem>
+          </ModalContent>
+        </ModalContainer>
+      </Modal>
+    );
+    const dialog = () => document.querySelector('[role="dialog"]');
+
+    const { rerender } = render(<Sheet open />);
+    await tick();
+    const dimmer = document.querySelector('[data-role="modal-dimmer"]');
+    if (dimmer) fireEvent.pointerDown(dimmer);
+    expect(dialog()).toHaveAttribute('data-snap', 'peek');
+
+    rerender(<Sheet open={false} />);
+    await tick();
+    rerender(<Sheet open />);
+    await tick();
+
+    expect(dialog()).toHaveAttribute('data-snap', 'full');
+  });
+
+  it('leaves a horizontal swipe on the content to the content', async () => {
+    render(
+      <Modal open onOpenChange={() => {}}>
+        <ModalContainer variant="bottom" handle>
+          <ModalContent>
+            <ModalContentItem>
+              <ModalHeading>Heading</ModalHeading>
+            </ModalContentItem>
+          </ModalContent>
+        </ModalContainer>
+      </Modal>,
+    );
+    await tick();
+
+    const viewport = document.querySelector(
+      '[data-radix-scroll-area-viewport]',
+    ) as HTMLElement;
+    const touch = (clientX: number, clientY: number) => ({
+      touches: [{ clientX, clientY }],
+      changedTouches: [{ clientX, clientY }],
+    });
+
+    fireEvent.touchStart(viewport, touch(200, 300));
+    // fireEvent returns false when the listener called preventDefault.
+    expect(fireEvent.touchMove(viewport, touch(100, 303))).toBe(true);
+
+    // A vertical swipe is still the sheet's.
+    fireEvent.touchEnd(viewport, touch(100, 303));
+    fireEvent.touchStart(viewport, touch(200, 300));
+    expect(fireEvent.touchMove(viewport, touch(202, 360))).toBe(false);
+  });
+
   it('closes on dimmer click when peekHeight is not set', async () => {
     render(
       <Modal>

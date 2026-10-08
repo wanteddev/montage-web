@@ -77,6 +77,7 @@ const CookieThemeProvider = ({
   const {
     key: cookieKey,
     domain: cookieDomain,
+    domainScoped: cookieDomainScoped,
     path: resolvedCookiePath,
   } = resolvedCookie;
 
@@ -333,7 +334,7 @@ const CookieThemeProvider = ({
       <ThemeScript
         cookieKey={cookieKey}
         cookiePath={resolvedCookiePath}
-        cookieDomain={cookieDomain}
+        domainScoped={cookieDomainScoped}
         defaultTheme={defaultTheme}
         forcedTheme={forcedTheme}
         enableSystem={enableSystem}

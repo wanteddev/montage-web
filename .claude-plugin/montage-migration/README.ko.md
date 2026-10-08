@@ -56,7 +56,11 @@ Montage(Wanted Design System for Web) 메이저 버전 간 마이그레이션을
    ContentBadge `outlined` 배경 투명화 대응, Radix 레이어 스택 기반 오버레이 dismiss 대응(최상단
    레이어만 닫힘, Modal / Alert / Picker가 열린 동안 `<body>` `pointer-events: none`, `aria-modal`
    조건 변경), 기타 DOM 변경 대응(ActionArea caption / compact 래퍼, Avatar 접근성 속성과 fallback,
-   AvatarGroup 최대 5개, SectionMessage `leadingContent={null}`, Picker 아이콘 위치).
+   AvatarGroup 최대 5개, SectionMessage `leadingContent={null}`, Picker 아이콘 위치), Button
+   사이즈 스펙 변경 대응(사이즈별 radius · padding · 타이포, 버튼 폭 축소, assistive 굵기),
+   `theme.spacing[1]` · `Spacing` 타입 제거, `@montage-ui/nextjs` emotion cache key 변경
+   (`wds` → `montage`), Popper `collisionPadding` 기본값 20, 열린 오버레이 밖으로 포털된 요소의
+   클릭 차단 대응.
 4. **최종 검증** — 잔여 패턴 grep, install/typecheck/lint/build/tests, 결과 요약.
 
 codemod는 순서에 민감하고 모든 단계를 한 번만 실행하는 것으로 취급합니다. 재실행은 단순히

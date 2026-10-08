@@ -71,8 +71,12 @@ const Avatar = forwardRef<
 
     const fallbackMaskId = useId();
 
+    // `alt=""` marks the avatar as decorative (e.g. next to the visible name):
+    // keep it out of the accessibility tree instead of adding a default label.
+    const isDecorative = alt === '';
+
     const defaultAltText = useMemo(() => {
-      if (Boolean(alt)) {
+      if (alt !== undefined) {
         return alt;
       }
 
@@ -111,10 +115,14 @@ const Avatar = forwardRef<
       >
         {imageLoadingStatus !== 'error' && Boolean(props.src) ? (
           <ImageBase
+            role={isDecorative ? undefined : 'img'}
             {...props}
-            role="img"
             alt={defaultAltText}
-            aria-label={props['aria-label'] ?? defaultAltText}
+            aria-label={
+              isDecorative
+                ? props['aria-label']
+                : (props['aria-label'] ?? defaultAltText)
+            }
             onLoad={() => {
               props.onLoad?.();
               setImageLoadingStatus('loaded');
@@ -126,10 +134,13 @@ const Avatar = forwardRef<
           />
         ) : (
           <Box
-            role="img"
+            role={isDecorative ? undefined : (props.role ?? 'img')}
+            aria-hidden={isDecorative || undefined}
             data-role="avatar-fallback"
             sx={fallbackWrapperStyle}
-            aria-label={props['aria-label'] ?? defaultAltText}
+            aria-label={
+              isDecorative ? undefined : (props['aria-label'] ?? defaultAltText)
+            }
           >
             {/**
              * The surface is cut out by the icon silhouette (destination-out),
