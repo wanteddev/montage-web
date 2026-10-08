@@ -1,12 +1,12 @@
 ---
-title: Search
+title: SearchField
 description: 검색 입력 필드 컴포넌트입니다.
 ---
 
-## WantedSearch
+## WantedSearchField
 검색 입력 필드 컴포넌트입니다.
 String 타입의 텍스트를 받아 검색 기능을 제공하는 입력 필드를 표시합니다.
-검색 아이콘과 삭제 버튼이 자동으로 표시되며, 포커스 상태에 따라 UI가 변경됩니다.
+검색 아이콘이 항상 표시되고, 입력값이 있으면 삭제 버튼이 표시됩니다.
 
 ```kotlin
 var searchText by remember { mutableStateOf("") }
@@ -25,15 +25,15 @@ WantedSearchField(
 | modifier | Modifier | 컴포넌트에 적용할 Modifier입니다. |
 | placeholder | String | 입력 필드가 비어있을 때 표시할 힌트 텍스트입니다. |
 | enabled | Boolean | 입력 필드의 활성화 여부입니다. false인 경우 사용자 입력이 불가능합니다. |
-| size | Size | 입력 필드의 크기입니다. Size.Medium() 또는 Size.Small()을 사용할 수 있습니다. |
+| variant | Variant | 입력 필드의 스타일입니다. Solid 또는 Outlined를 사용할 수 있습니다. |
+| size | Size | 입력 필드의 크기입니다. Size.Large 또는 Size.Medium을 사용할 수 있습니다. |
 | maxWordCount | Int | 입력 가능한 최대 글자 수입니다. |
 | enabledOverflowText | Boolean | 최대 글자 수를 초과하는 입력을 허용할지 여부입니다. |
 | interactionSource | MutableInteractionSource | 사용자 상호작용 상태를 추적하는 소스입니다. |
 | keyboardOptions | KeyboardOptions | 키보드 옵션 설정입니다. |
 | keyboardActions | KeyboardActions | 키보드 액션 설정입니다. |
-| focused | State<Boolean> | 입력 필드의 포커스 상태입니다. |
-| textStyle | TextStyle | 입력 텍스트의 스타일입니다. |
-| cursorBrush | Brush | 커서의 색상을 지정하는 브러시입니다. |
+| textStyle | TextStyle? | 입력 텍스트의 스타일입니다. null이면 size별 기본 typography를 사용합니다. |
+| cursorBrush | Brush? | 커서의 색상을 지정하는 브러시입니다. null이면 primary 색상을 사용합니다. |
 | focusRequester | FocusRequester | 포커스 요청을 처리하는 객체입니다. |
 | onValueChange | (String) -> Unit | 텍스트 값이 변경될 때 호출되는 콜백 함수입니다. |
 
@@ -61,15 +61,15 @@ WantedSearchField(
   | modifier | Modifier | 컴포넌트에 적용할 Modifier입니다. |
   | placeholder | String | 입력 필드가 비어있을 때 표시할 힌트 텍스트입니다. |
   | enabled | Boolean | 입력 필드의 활성화 여부입니다. false인 경우 사용자 입력이 불가능합니다. |
-  | size | Size | 입력 필드의 크기입니다. Size.Medium() 또는 Size.Small()을 사용할 수 있습니다. |
+  | variant | Variant | 입력 필드의 스타일입니다. Solid 또는 Outlined를 사용할 수 있습니다. |
+  | size | Size | 입력 필드의 크기입니다. Size.Large 또는 Size.Medium을 사용할 수 있습니다. |
   | maxWordCount | Int | 입력 가능한 최대 글자 수입니다. |
   | enabledOverflowText | Boolean | 최대 글자 수를 초과하는 입력을 허용할지 여부입니다. |
   | interactionSource | MutableInteractionSource | 사용자 상호작용 상태를 추적하는 소스입니다. |
   | keyboardOptions | KeyboardOptions | 키보드 옵션 설정입니다. |
   | keyboardActions | KeyboardActions | 키보드 액션 설정입니다. |
-  | focused | State<Boolean> | 입력 필드의 포커스 상태입니다. |
-  | textStyle | TextStyle | 입력 텍스트의 스타일입니다. |
-  | cursorBrush | Brush | 커서의 색상을 지정하는 브러시입니다. |
+  | textStyle | TextStyle? | 입력 텍스트의 스타일입니다. null이면 size별 기본 typography를 사용합니다. |
+  | cursorBrush | Brush? | 커서의 색상을 지정하는 브러시입니다. null이면 primary 색상을 사용합니다. |
   | focusRequester | FocusRequester | 포커스 요청을 처리하는 객체입니다. |
   | onValueChange | (TextFieldValue) -> Unit | 텍스트 값이 변경될 때 호출되는 콜백 함수입니다. |
 
@@ -77,27 +77,21 @@ WantedSearchField(
 
 ## Advanced
 ### WantedSearchFieldDefaults
-WantedSearchField 컴포넌트에서 사용하는 상수들을 정의하는 객체입니다.
+WantedSearchField 컴포넌트에서 사용하는 설정 값을 정의하는 객체입니다.
+치수·타이포는 WantedTextField 와 동일한 값을 사용하며,
+Size 별 토큰은 아래 internal 확장 프로퍼티로 분리되어 있습니다.
 
+
+## Enum
+### Variant
+| 값 | 설명 |
+|:---|:---|
+| Solid | 채워진 배경을 사용하고 보더가 없습니다. |
+| Outlined | 투명한 배경 위에 1dp 보더를 사용합니다. |
 
 ## Sealed Class
 ### Size
 검색 입력 필드의 크기를 정의하는 sealed class입니다.
-Small, Medium, Custom 세 가지 타입이 존재합니다.
-
-| 값 | 설명 |
-|:---|:---|
-| Small | 작은 크기의 검색 입력 필드입니다. |
-| Medium | 중간 크기의 검색 입력 필드입니다. (기본값) |
-| Custom | 사용자 정의 크기의 검색 입력 필드입니다. |
-
-<details>
-  <summary>Properties</summary>
-
-  | 이름 | 타입 | 설명 |
-  |:---|:---|:---|
-  | padding | Dp | 입력 필드 내부의 패딩 값입니다. |
-  | minHeight | Dp | 입력 필드의 최소 높이입니다. |
-
-</details>
-<br />
+각 크기에 따라 padding, radius, 최소 높이, 입력 typography, 아이콘 크기가 달라집니다.
+- Large: 큰 크기입니다. (최소 높이 48dp)
+- Medium: 중간 크기입니다. (최소 높이 40dp)

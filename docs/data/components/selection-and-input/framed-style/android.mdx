@@ -25,6 +25,7 @@ Box(
 | status | WantedFramedStyleStatus | 프레임 상태입니다. Normal, Negative, Selected 중 하나를 선택합니다. |
 | shape | RoundedCornerShape | 모서리 둥글기 형태입니다. 기본값은 12dp입니다. |
 | enabled | Boolean | 활성화 여부입니다. false일 경우 불투명도가 낮아집니다. |
+| focused | Boolean | 포커스 여부입니다. true일 경우 컴포넌트 외곽에 4dp Focus Ring을 그립니다. |
 | shadow | WantedShadowStyle | 적용할 섀도우 스타일입니다. 기본값은 XSmall입니다. |
 
 ### Return
@@ -32,6 +33,38 @@ Box(
 |:---|:---|
 | Modifier | 스타일이 적용된 Modifier를 반환합니다. |
 
+
+## Advanced
+### Modifier.focusRing
+컴포넌트 외곽에 Focus Ring(외부 강조 테두리)을 그리는 Modifier 확장 함수입니다.
+`framedStyle`의 inset border와 관심사를 분리하여, 포커스 시 컴포넌트 경계 바깥쪽에
+stroke를 그립니다. `drawBehind`로 outset 영역에 그리므로 레이아웃에 영향을 주지 않고
+(focus 토글 시 layout shift 없음), 이후 `.clip()`에 의해 잘리지 않습니다.
+stroke는 외곽 경계를 기준으로 두께의 절반만큼 바깥으로 밀어 `[edge, edge + width]` 구간에
+위치합니다. (CSS `box-shadow: 0 0 0 width` 와 동일) corner radius는 동심을 유지하기 위해
+컴포넌트 radius + 두께 절반으로 계산합니다.
+
+<details>
+  <summary>Parameters</summary>
+
+  | 이름 | 타입 | 설명 |
+  |:---|:---|:---|
+  | visible | Boolean | ring 노출 여부입니다. false일 경우 아무것도 그리지 않습니다. |
+  | shape | RoundedCornerShape | 컴포넌트의 모서리 형태입니다. ring radius 계산에 사용됩니다. |
+  | color | Color | ring 색상입니다. 기본값은 lineBrandFocus 토큰입니다. |
+  | width | Dp | ring 두께입니다. 기본값은 4dp입니다. |
+
+</details>
+<br />
+<details>
+  <summary>Return</summary>
+
+  | 타입 | 설명 |
+  |:---|:---|
+  | Modifier | Focus Ring이 적용된 Modifier를 반환합니다. |
+
+</details>
+<br />
 
 ## Enum
 ### WantedFramedStyleStatus
