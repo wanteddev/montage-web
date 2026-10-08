@@ -153,6 +153,17 @@ Fixes:
 - React inline style `zIndex` is now a string. Props typed `zIndex: number` need widening
   to `number | string` or a raw-value fallback. Scan **[decision]**: `zIndex` props on
   custom components fed from `theme.zIndex.*`.
+- **`theme.spacing[1]` removed, `Spacing` type removed.** v3 `spacing[1]` (`'1px'`) is gone —
+  it is `undefined` at runtime and a type error. Replace it with `theme.primitive[1]`
+  (`var(--primitive-1)`, same value); the other `spacing` keys are unchanged. The `Spacing`
+  type export of the v3 theme / engine packages is gone too: use `Theme['spacing']` for the
+  key union or the new `ThemeSpacingToken` for dot-path token strings (`'spacing.16'`). These
+  are the only removed theme keys / type exports apart from the `semantic` overhaul (M9). No
+  codemod covers them.
+  Scan **[zero]**: `spacing\[1\]` (the escaped `]` keeps it from matching `spacing[10]` /
+  `spacing[12]`) and `['"]spacing\.1['"]` (dot-path token strings).
+  Scan **[decision]**: `\bSpacing\b` — keep only hits that are the theme type (imported from
+  the Montage theme / engine package); rewrite those, ignore unrelated identifiers.
 
 ## M3. CSS variable / DOM identifier leftovers
 
@@ -233,6 +244,23 @@ React does not render (a third-party widget appended to `<body>`) used over an o
 together with `pointer-events: auto` it keeps a click on that DOM from dismissing the overlay
 (M22, "Portaled / out-of-overlay content", fix 3).
 Scan **[decision]** (all file types, after step ④): `data-ignore-dismissable-layer`.
+
+**Emotion cache key `'wds'` → `'montage'` (`@montage-ui/nextjs` only).** The cache that
+`AppRouterCacheProvider` and `AppCacheProvider` / `documentGetInitialProps` create now defaults
+to `key: 'montage'`, so emotion class names change `wds-1a2b3c` → `montage-1a2b3c` and the SSR
+`<style data-emotion>` value changes `wds …` / `wds-global` → `montage …` / `montage-global`.
+Apps that do not use `@montage-ui/nextjs` keep emotion's default `css` key and are unaffected.
+Step ④ does not touch class-name prefixes. Code that keys on the prefix (`[class*="wds-"]`,
+`[class^="wds-"]`, `style[data-emotion^="wds"]`, snapshot / e2e selectors, CSP or monitoring
+config) breaks. Do NOT decide alone: ask the user whether to (a) move those selectors to
+`data-component` / `data-role` (preferred — emotion hashes are not a stable API) or (b) keep the
+old key — App Router `<AppRouterCacheProvider options={{ key: 'wds' }}>`; Pages Router passes
+the SAME `createCache({ key: 'wds' })` to `<AppCacheProvider emotionCache={cache}>` in `_app` and
+`documentGetInitialProps(ctx, { emotionCache: cache })` in `_document` (plus `insertionPoint` if
+the app relied on the default cache's `<meta name="emotion-insertion-point">`).
+Scan **[decision]** (all file types, include tests and snapshots):
+`class[*^]?=['"]?wds-|data-emotion|\.wds-[0-9a-z]{4,}` — class-prefix selectors and emotion
+attributes; `\.wds-[0-9a-z]{4,}` also finds hashed classes in snapshots.
 
 ## M4. Card / ListCard follow-ups
 
@@ -1111,10 +1139,12 @@ section covers what the transform cannot express and the rendering changes no re
   hardcoded `1` to the token value (caption2 14px / label1 20px) — and the badge gained
   `box-sizing: border-box`: a project with no global reset previously got a badge padding-widths
   larger than the declared size, so hand-tuned `offsetX`/`offsetY` corrections may now
-  overshoot. The former `variant="new"` square came from `aspect-ratio: 1 / 1`; v4 reproduces
-  it by fixing the width to the height when `text` is a **single-character string**, so
-  `text="N"` stays a circle while `text={3}` is sized by `min-width` and can differ by a
-  fraction of a pixel. Background and text colors are now read from
+  overshoot. The former `variant="new"` square came from `aspect-ratio: 1 / 1`; v4 no longer
+  forces a square — the width comes from `min-width` (= the height) plus the side padding, and
+  a **single-character string** `text` only gets a `letter-spacing` tweak to center the glyph.
+  A narrow glyph like `text="N"` still renders as a circle, a wide glyph can come out wider
+  than the height, and numbers (`text={3}`) get no tweak. Where an exact square matters, set
+  `width` via `sx`. Background and text colors are now read from
   `--push-badge-background-color` / `--push-badge-text-color` on the wrapper, which is the
   supported override point (the dot uses the background variable as its own color).
 
@@ -1295,8 +1325,11 @@ No codemod covers this section — every fix here is a hand edit.
 - **Text style changes** (informational, no edit): the gap between
   `FallbackViewText`'s title and description went `10px` → `12px`, and the description
   color went `semantic.foreground.neutral.tertiary` →
-  `semantic.foreground.neutral.secondary` (darker). Screens that tuned spacing around a
-  fallback view deserve a look.
+  `semantic.foreground.neutral.secondary` (darker). The mobile button's default `size` went
+  `small` → `medium` (desktop stays `large`), and the desktop description typography went
+  `body1-reading` → `body2-reading`. A `size` set on `FallbackViewActionAreaButton` still wins
+  — ask the user before pinning `size="small"` on mobile to keep the v3 look. Screens that
+  tuned spacing around a fallback view deserve a look.
   Scan **[decision]**: `\bFallbackView` file-level (prefix form on purpose — it also
   matches every sub-component and `FallbackViewProps`, all valid v4 code). Review each
   file for what the line greps cannot see: multi-line JSX props, `{...spread}`s onto a
@@ -1680,7 +1713,7 @@ and is ignored under `none`.
 - **`TopNavigationButton` icon buttons dim instead of drawing the interaction layer** (also
   `ModalNavigationButton`, and v3 `ModalClose`, which M19 replaces with its `close-button`
   variant). The icon variants (`icon-button` — the DEFAULT, v3 `variant="icon"` — plus
-  `back-button` / `close-button`) pass the inner `IconButton` `interactionEffect="dim"` by
+  `back-button`, and `close-button` on `ModalNavigationButton` only) pass the inner `IconButton` `interactionEffect="dim"` by
   default, so hover / press changes the icon color instead of showing the layer. Neither
   button's props expose `interactionEffect`, so there is no opt-out prop — this is the v4
   design; nothing to rewrite here (the variant renames are M19's), flag every top navigation
@@ -1762,7 +1795,7 @@ and is ignored under `none`.
 
     | Component                                                                                                                      | IconButton                                                                          | Layout  | Interaction area |
     | ------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------- | ------- | ---------------- |
-    | `TopNavigationButton`, `ModalNavigationButton` (`icon-button` / `back-button` / `close-button`)                                | `size={24}`, `interactionEffect="dim"`                                              | 24      | 36               |
+    | `TopNavigationButton`, `ModalNavigationButton` (`icon-button` / `back-button`; `close-button` is `ModalNavigationButton`-only) | `size={24}`, `interactionEffect="dim"`                                              | 24      | 36               |
     | `SnackbarCloseButton` (incl. `useSnackbar({ closeButton: true })`)                                                             | `size="large"`                                                                      | 20      | 32               |
     | `Popover` close button                                                                                                         | `size="small"`                                                                      | 16      | 24               |
     | `SectionMessage` close button                                                                                                  | `size="large"`, `color` / `interactionColor="semantic.foreground.neutral.tertiary"` | 20      | 32               |
@@ -2117,6 +2150,28 @@ dismissal of `Modal`, `Alert`, Popper-based overlays, and the Picker popups move
   Scan **[decision]**: `disableRemoveScroll|disableFocusScope|disableAriaHiddenOthers` plus
   `aria-modal` (include tests) — per hit, check the intended modality still holds.
 
+- **Popper positioning: `collisionPadding` defaults to `20`.** v3 positioned Popper content
+  with no viewport margin (`0`). v4 keeps `PopoverContent`, `TooltipContent`, `MenuContent`
+  (incl. the Select / SelectMultiple dropdown), `AutocompleteList` and the Picker popups 20px
+  inside the viewport edges and flips them earlier near an edge. The remaining space is exposed
+  as `--popper-available-width` / `--popper-available-height` and caps the default sizes:
+
+  | Content           | v3                                  | v4                                                             |
+  | ----------------- | ----------------------------------- | -------------------------------------------------------------- |
+  | Tooltip           | `max-width: 280px`                  | `max-width: min(280px, var(--popper-available-width))`         |
+  | Popover           | `max-width: 360px`                  | `max-width: min(360px, var(--popper-available-width))`         |
+  | Menu              | `width: 320px`, `max-height: 416px` | `width: min(320px, …width)`, `max-height: min(400px, …height)` |
+  | Autocomplete list | `max-height: 400px`                 | `max-height: min(400px, var(--popper-available-height))`       |
+
+  Nothing breaks at the type level; position-based visual tests and coordinate assertions may
+  change. Restoring the v3 placement is a design decision — ask the user before adding
+  `collisionPadding={0}` (`<PopoverContent collisionPadding={0} />`, `<Select contentProps={{
+collisionPadding: 0 }} />`, `<DatePicker contentProps={{ collisionPadding: 0 }} />`); it does
+  not lift the size caps above.
+  Scan **[decision]** (include tests): `(Popover|Tooltip|Menu)Content|AutocompleteList|contentProps`
+  file-level — screens whose popups sit near a viewport edge, and tests asserting popup
+  position / size.
+
 ## M23. Other DOM changes (ActionArea, Avatar / AvatarGroup, SectionMessage, Picker icons)
 
 No codemod covers this section. Each bullet is a DOM change a selector, test query, or DOM walk
@@ -2134,6 +2189,23 @@ can depend on; none is a type error.
   Scan **[decision]** (include stylesheets and tests): `action-area-(caption|compact)`.
   Scan **[decision]**: `<ActionArea[[:space:]][^>]*caption` plus `\bActionArea\b` file-level for
   multi-line props — check each caption's `variant`.
+- **`ActionAreaButton` default styles changed** (visual, no type error):
+
+  | Target                                           | v3                       | v4                      |
+  | ------------------------------------------------ | ------------------------ | ----------------------- |
+  | `main` button in `<ActionArea variant="cancel">` | `outlined` + `assistive` | `solid` + `assistive`   |
+  | `alternative` button color                       | `primary` (outlined)     | `assistive` (outlined)  |
+  | `main` / `alternative` padding in `neutral`      | fixed `12px 15px`        | Button `large` padding  |
+  | `divider` line color                             | `line.neutral.secondary` | `line.neutral.tertiary` |
+
+  New: `backgroundColor` prop (default `semantic.surface.elevated.primary`). Keeping the v3 look
+  is a design decision — ask the user before pinning `buttonVariant="outlined"` /
+  `buttonColor="primary"` on the affected buttons.
+  Scan **[decision]**: `<ActionArea[[:space:]][^>]*variant="cancel"` and
+  `<ActionAreaButton[[:space:]][^>]*variant="alternative"` (plus the `\bActionArea\b` file-level
+  read above for multi-line props) — skip buttons that already set `buttonVariant` /
+  `buttonColor`.
+
 - **`Avatar` accessibility attributes and fallback.** The `<img>` always gets `role="img"`,
   `alt`, and `aria-label`; without an `alt` prop the alt is the variant default (`person`
   '프로필 이미지', `academy` '학원 로고', `company` '회사 로고'). `[data-role='avatar-fallback']`
@@ -2170,6 +2242,34 @@ can depend on; none is a type error.
 - New attributes (informational, nothing breaks): `data-component="chip"` on `Chip`
   (`CategoryListItem` overrides it with `category-list-item`), `data-menu-selected` on
   `MenuItem` / `MenuItemCheckbox` / `MenuItemRadio`, `aria-hidden` on `FilterButton`'s caret icon.
+
+## M24. Button size spec changes
+
+No codemod covers this section and nothing here is a type error — the sizes are a v4 design
+change. `Button` radius, padding and typography changed per size; the rendered height is held
+by a new `min-height` and matches v3 (48 / 40 / 32px), but the side padding and the font size
+shrank, so **buttons get narrower**:
+
+| Property                  | large                     | medium                    | small                   |
+| ------------------------- | ------------------------- | ------------------------- | ----------------------- |
+| radius                    | 12px → 14px               | 10px → 12px               | 8px → 10px              |
+| padding                   | 12px 28px → 13px 20px     | 9px 20px → 10px 16px      | 7px 14px → 8px 12px     |
+| min-height (new)          | 48px                      | 40px                      | 32px                    |
+| typography                | body1 → body2             | body2 → label1            | label2 → caption1       |
+| gap                       | 6px                       | 5px → 4px                 | 4px                     |
+| loading indicator         | 18px → 16px               | 16px → 14px               | 14px → 12px             |
+| `iconOnly` padding / icon | 12px / 24px → 14px / 20px | 10px / 20px → 11px / 18px | 7px / 18px → 8px / 16px |
+
+- `color="assistive"` text went `medium` → `bold`; every color is `bold` now.
+- New `size="xsmall"` (radius 8px, min-height 28px, padding 6px 10px, caption1 bold) — adoption
+  is optional.
+
+Layouts that depended on the old button width (rows of buttons, wrapping thresholds, buttons
+next to fixed-width content) need a visual check. Restoring v3 sizes with `sx` is a design
+decision — ask the user; do not pin old paddings by default.
+Scan **[decision]**: `<Button[[:space:]][^>]*(sx=|style=|width=|className=)` — buttons whose
+size was tuned by hand and may now double-correct; plus `\bButton\b` file-level for multi-line
+props on screens the user flags as layout-sensitive.
 
 ## Suggested commit boundary
 

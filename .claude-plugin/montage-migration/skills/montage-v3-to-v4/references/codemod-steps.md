@@ -1118,7 +1118,7 @@ and M17's scans are the wider net.
 
 ## After all 9 steps
 
-Proceed to `manual-migrations.md` (all M-sections, M1–M23), then final verification:
+Proceed to `manual-migrations.md` (all M-sections, M1–M24), then final verification:
 
 1. Each step's verify grep zero, with its documented exceptions (step ①:
    `@wanteddev/montage-mcp`; step ⑥: hits inside the state file's `excludeFiles`; step ⑧:
@@ -1167,5 +1167,7 @@ Proceed to `manual-migrations.md` (all M-sections, M1–M23), then final verific
    background is now transparent (see M21), and every screen with a `Modal` / `Alert` / Picker
    next to a body-level widget, whose outside pointer events are now blocked while it is open
    (see M22), and every `cancel` / `compact` `ActionArea` with a caption and every `AvatarGroup`
-   that can exceed five children (see M23), and every error-only `TextArea`, whose bottom area no
-   longer renders (see M8) — behavioral and visual changes, not just renames.
+   that can exceed five children and every `cancel` / `alternative` `ActionAreaButton` (see M23),
+   and every error-only `TextArea`, whose bottom area no longer renders (see M8), and every popup
+   near a viewport edge, now kept 20px inside it (see M22), and every layout sensitive to
+   `Button` width (see M24), and mobile `FallbackView` buttons (see M15) — behavioral and visual changes, not just renames.
