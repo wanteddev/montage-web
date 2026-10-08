@@ -267,16 +267,6 @@ const DatePicker = forwardRef<
               <DismissableLayer
                 asChild
                 disableOutsidePointerEvents
-                onPointerDownOutside={(e) => {
-                  if (
-                    ref.current?.contains(e.target as HTMLElement) &&
-                    (e.target as HTMLElement).closest(
-                      '[data-role="date-picker-calendar-icon"]',
-                    )
-                  ) {
-                    e.preventDefault();
-                  }
-                }}
                 onDismiss={() => {
                   setOpen(false);
                 }}

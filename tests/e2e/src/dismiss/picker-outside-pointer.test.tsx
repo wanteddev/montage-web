@@ -81,5 +81,26 @@ describe.each(cases)(
       await click(byTestId('outside-button'));
       expect(onOutside).toHaveBeenCalledTimes(1);
     });
+
+    it('closes on a toggle-icon click while open and does not reopen', async () => {
+      renderWithProvider(picker);
+
+      const icon = () => document.querySelector(`[aria-label="${toggle}"]`);
+
+      await click(icon());
+      await expect.poll(() => mountedCount(popup)).toBe(1);
+
+      // The icon is outside the popup layer, so while open it inherits
+      // `pointer-events: none`: the press is an outside click that closes the
+      // popup, and the icon's own toggle never runs (no close-then-reopen).
+      await clickCorner(icon(), 6, 6);
+      await expect.poll(() => mountedCount(popup)).toBe(0);
+      await new Promise((resolve) => setTimeout(resolve, 300));
+      expect(mountedCount(popup)).toBe(0);
+
+      // Closed, the icon opens it again.
+      await click(icon());
+      await expect.poll(() => mountedCount(popup)).toBe(1);
+    });
   },
 );
