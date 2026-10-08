@@ -1,8 +1,18 @@
+/**
+ * The host-only sweep only matters on a host that can carry a `Domain`
+ * attribute, so this file runs on a multi-label host instead of the default
+ * `localhost`.
+ *
+ * @vitest-environment jsdom
+ * @vitest-environment-options { "url": "https://help.wanted.co.kr/" }
+ */
 import { act, render, within } from '@testing-library/react';
 import { renderToString } from 'react-dom/server';
 import { type Root, hydrateRoot } from 'react-dom/client';
 
 import ThemeProvider from '../..';
+
+import type { ReactElement } from 'react';
 
 const Child = () => <p>content</p>;
 
@@ -60,7 +70,10 @@ afterEach(() => {
 
   vi.restoreAllMocks();
   document.documentElement.removeAttribute('data-theme');
-  document.cookie = 'montage-theme=; Path=/; Max-Age=0';
+  ['montage-theme', 'admin-theme'].forEach((key) => {
+    document.cookie = `${key}=; Path=/; Max-Age=0`;
+    document.cookie = `${key}=; Path=/; Domain=.wanted.co.kr; Max-Age=0`;
+  });
   document.body.replaceChildren();
 });
 
@@ -128,5 +141,145 @@ describe('when given theme script', () => {
     expect(within(container).getByText('content')).toBeInTheDocument();
     expect(themeScript(container)?.type).toBe('application/json');
     expect(console.error).not.toHaveBeenCalled();
+  });
+});
+
+/**
+ * The script a real server sends: no document, so `cookie.domain: 'auto'` has
+ * nothing to probe and resolves to no domain at all. jsdom keeps `window`, so
+ * the client-only `application/json` marker is stripped as in renderOnServer.
+ */
+const renderScriptWithoutDocument = (element: ReactElement) => {
+  vi.stubGlobal('document', undefined);
+
+  let html: string;
+
+  try {
+    html = renderToString(element);
+  } finally {
+    vi.unstubAllGlobals();
+  }
+
+  const container = document.createElement('div');
+
+  container.innerHTML = html.replace(' type="application/json"', '');
+  document.body.append(container);
+
+  return { container, text: themeScript(container)?.textContent ?? '' };
+};
+
+/** Run the script as the parser would, before any React code */
+const runScript = (text: string) => {
+  new Function(text)();
+
+  return document.documentElement.getAttribute('data-theme');
+};
+
+const cookieWrites = () =>
+  vi.spyOn(document, 'cookie', 'set') as unknown as {
+    mock: { calls: Array<[string]> };
+  };
+
+describe('when the theme script was rendered without a document', () => {
+  it('should paint the value the provider reads when a host-only cookie disagrees with the shared one', () => {
+    // a host-only value an earlier deploy left next to the shared cookie;
+    // `system` would paint light here (matchMedia mock), so a dark shared
+    // cookie tells the default and the shared value apart
+    document.cookie = 'montage-theme=light; Path=/';
+    document.cookie = 'montage-theme=dark; Path=/; Domain=.wanted.co.kr';
+
+    const { container, text } = renderScriptWithoutDocument(tree);
+
+    expect(runScript(text)).toBe('dark');
+
+    hydrate(container, tree);
+
+    // the provider sweeps the host-only cookie and reads the shared one, so
+    // hydration leaves the first paint as it was
+    expect(document.documentElement.getAttribute('data-theme')).toBe('dark');
+    expect(document.cookie).toBe('montage-theme=dark');
+  });
+
+  it("should render the same script with and without a document under 'auto'", () => {
+    const withoutDocument = renderScriptWithoutDocument(tree).text;
+
+    document.body.replaceChildren();
+
+    const container = document.createElement('div');
+
+    // jsdom detects `.wanted.co.kr` here, which the server never can
+    container.innerHTML = renderToString(tree);
+
+    expect(themeScript(container)?.textContent).toBe(withoutDocument);
+  });
+
+  it('should not sweep when the stored values agree', () => {
+    // the first load after a host gains a domain: the host-only cookie is the
+    // only one holding the choice, and the provider re-homes it
+    document.cookie = 'montage-theme=dark; Path=/';
+
+    const { text } = renderScriptWithoutDocument(tree);
+    const writes = cookieWrites();
+
+    expect(runScript(text)).toBe('dark');
+    expect(writes.mock.calls).toEqual([]);
+  });
+
+  it("should not sweep under domain 'none'", () => {
+    const element = (
+      <ThemeProvider
+        enableDarkMode
+        cookie={{ domain: 'none', key: 'admin-theme' }}
+      >
+        <Child />
+      </ThemeProvider>
+    );
+
+    document.cookie = 'admin-theme=dark; Path=/';
+    document.cookie = 'admin-theme=light; Path=/; Domain=.wanted.co.kr';
+
+    const { text } = renderScriptWithoutDocument(element);
+    const writes = cookieWrites();
+
+    // the disagreement stays unresolved, as it does in the provider
+    expect(runScript(text)).toBe('light');
+    expect(writes.mock.calls).toEqual([]);
+    expect(text).not.toContain('Max-Age=0');
+  });
+
+  it('should not sweep for a __Host- key', () => {
+    const { text } = renderScriptWithoutDocument(
+      <ThemeProvider enableDarkMode cookie={{ key: '__Host-theme' }}>
+        <Child />
+      </ThemeProvider>,
+    );
+
+    expect(text).not.toContain('Max-Age=0');
+  });
+
+  it('should not touch cookies when the theme is forced', () => {
+    document.cookie = 'montage-theme=light; Path=/';
+    document.cookie = 'montage-theme=dark; Path=/; Domain=.wanted.co.kr';
+
+    const { text } = renderScriptWithoutDocument(
+      <ThemeProvider>
+        <Child />
+      </ThemeProvider>,
+    );
+    const writes = cookieWrites();
+
+    expect(runScript(text)).toBe('light');
+    expect(writes.mock.calls).toEqual([]);
+    expect(text).not.toContain('cookie');
+  });
+
+  it('should keep the nonce on the script', () => {
+    const { container } = renderScriptWithoutDocument(
+      <ThemeProvider enableDarkMode nonce="abc">
+        <Child />
+      </ThemeProvider>,
+    );
+
+    expect(themeScript(container)?.getAttribute('nonce')).toBe('abc');
   });
 });

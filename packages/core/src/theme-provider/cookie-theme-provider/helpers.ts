@@ -630,6 +630,13 @@ export const disableAnimation = (nonce?: string) => {
 export type ResolvedThemeCookieOptions = {
   key: string;
   domain: string | undefined;
+  /**
+   * Whether the configuration asks for a `Domain`-scoped cookie (`'auto'` or an
+   * explicit domain). Unlike `domain`, this does not depend on runtime
+   * detection, so the server and the browser agree on it — the server has no
+   * document to probe and always resolves `'auto'` to `undefined`.
+   */
+  domainScoped: boolean;
   path: string;
   maxAge: number | undefined;
   sameSite: SameSite | undefined;
@@ -700,9 +707,18 @@ export const resolveThemeCookieOptions = ({
     );
   }
 
+  const resolvedDomain = requireHostOnly
+    ? undefined
+    : resolveCookieDomain(domain);
+
   const resolved: ResolvedThemeCookieOptions = {
     key: resolvedKey,
-    domain: requireHostOnly ? undefined : resolveCookieDomain(domain),
+    domain: resolvedDomain,
+    domainScoped:
+      !requireHostOnly &&
+      (domain === undefined ||
+        domain === AUTO_COOKIE_DOMAIN ||
+        resolvedDomain !== undefined),
     path: requireHostOnly ? DEFAULT_THEME_COOKIE_PATH : resolvedPath,
     maxAge: safeCookieMaxAge(maxAge),
     sameSite: resolvedSameSite,
