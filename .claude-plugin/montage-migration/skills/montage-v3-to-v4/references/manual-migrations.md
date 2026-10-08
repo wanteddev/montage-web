@@ -106,7 +106,8 @@ theme\.zIndex\.\w+\s*[-+*/]
 
 Also review destructured/aliased usages the patterns above miss (e.g.
 `const { spacing } = theme` followed by `parseInt(spacing[16])`). Locate the
-destructuring sites with (**[decision]**, like every M2 pattern):
+destructuring sites with (**[decision]**, like M2's other arithmetic / destructuring patterns — the `spacing[1]` scans
+below are [zero]):
 
 ```
 const\s*\{[^}]*\b(spacing|radius|dimension|opacity|zIndex|primitive)\b[^}]*\}\s*=\s*[[:alnum:]_.]*[Tt]heme
@@ -156,8 +157,9 @@ Fixes:
 - **`theme.spacing[1]` removed, `Spacing` type removed.** v3 `spacing[1]` (`'1px'`) is gone —
   it is `undefined` at runtime and a type error. Replace it with `theme.primitive[1]`
   (`var(--primitive-1)`, same value); the other `spacing` keys are unchanged. The `Spacing`
-  type export of the v3 theme / engine packages is gone too: use `Theme['spacing']` for the
-  key union or the new `ThemeSpacingToken` for dot-path token strings (`'spacing.16'`). These
+  type export of the v3 theme / engine packages is gone too: replace it with `Theme['spacing']` (the
+  same object type; `keyof Theme['spacing']` where v3 code used `keyof Spacing` for the key
+  union) or the new `ThemeSpacingToken` for dot-path token strings (`'spacing.16'`). These
   are the only removed theme keys / type exports apart from the `semantic` overhaul (M9). No
   codemod covers them.
   Scan **[zero]**: `spacing\[1\]` (the escaped `]` keeps it from matching `spacing[10]` /
@@ -256,7 +258,7 @@ config) breaks. Do NOT decide alone: ask the user whether to (a) move those sele
 `data-component` / `data-role` (preferred — emotion hashes are not a stable API) or (b) keep the
 old key — App Router `<AppRouterCacheProvider options={{ key: 'wds' }}>`; Pages Router passes
 the SAME `createCache({ key: 'wds' })` to `<AppCacheProvider emotionCache={cache}>` in `_app` and
-`documentGetInitialProps(ctx, { emotionCache: cache })` in `_document` (plus `insertionPoint` if
+`documentGetInitialProps(MyDocument, ctx, { emotionCache: cache })` in `_document` (plus `insertionPoint` if
 the app relied on the default cache's `<meta name="emotion-insertion-point">`).
 Scan **[decision]** (all file types, include tests and snapshots):
 `class[*^]?=['"]?wds-|data-emotion|\.wds-[0-9a-z]{4,}` — class-prefix selectors and emotion
@@ -1322,7 +1324,7 @@ No codemod covers this section — every fix here is a hand edit.
   change. Where the old spacing was load-bearing, put it back with `sx` on
   `FallbackViewContent` rather than reintroducing an image.
 
-- **Text style changes** (informational, no edit): the gap between
+- **Text style and button size changes** (one decision — the mobile button size): the gap between
   `FallbackViewText`'s title and description went `10px` → `12px`, and the description
   color went `semantic.foreground.neutral.tertiary` →
   `semantic.foreground.neutral.secondary` (darker). The mobile button's default `size` went
@@ -2080,8 +2082,9 @@ dismissal of `Modal`, `Alert`, Popper-based overlays, and the Picker popups move
   whether they call `preventDefault` or run close-related logic; ask the user before rewriting a
   handler whose intent is not an obvious veto.
 - **While open, these overlays set `pointer-events: none` on `<body>`** (restored on close);
-  only the layer itself, layers above it, and the `Modal` / `Alert` dimmer receive pointer
-  events:
+  only the layer itself, layers above it, the `Modal` / `Alert` dimmer, and elements that set
+  `pointer-events: auto` themselves (`Autocomplete` / `PopperContent`, `Snackbar` / `Toast` — see
+  the portaled-content bullet below) receive pointer events:
 
   | Overlay                                       | Blocks outside pointer events when                                        |
   | --------------------------------------------- | ------------------------------------------------------------------------- |
@@ -2134,9 +2137,9 @@ dismissal of `Modal`, `Alert`, Popper-based overlays, and the Picker popups move
      — but also screen-reader isolation and `aria-modal`; only for page widgets that must stay
      usable over an overlay. `useAlert` items and the Pickers have no such option — tell the
      user so.
-     Scan **[decision]** (file-level, two-pass; include `.ts` / `.tsx` / `.js` / `.jsx`): files that
-     portal or append to the body AND reference an overlay —
-     `comm -12 <(grep -rlE 'createPortal|<Portal([[:space:]>]|$)|menuPortalTarget|appendChild\(|getPopupContainer|portalTarget|container=\{document\.body\}' <targets> | sort) <(grep -rlE '\b(Modal|ModalContainer|Alert|AlertContainer|useAlert|DatePicker|DateRangePicker|TimePicker)\b' <targets> | sort)`.
+     Scan **[decision]** (file-level, two-pass, whole repo): files that portal or append to the
+     body AND reference an overlay —
+     `comm -12 <(grep -rlE 'createPortal|<Portal([[:space:]>]|$)|menuPortalTarget|appendChild\(|getPopupContainer|portalTarget|container=\{document\.body\}' --exclude-dir=node_modules --exclude-dir=.git --exclude-dir=.next --exclude-dir=dist --exclude-dir=build --exclude-dir=out --exclude-dir=coverage --include='*.ts' --include='*.tsx' --include='*.js' --include='*.jsx' . | sort) <(grep -rlE '\b(Modal|ModalContainer|Alert|AlertContainer|useAlert|DatePicker|DateRangePicker|TimePicker)\b' --exclude-dir=node_modules --exclude-dir=.git --exclude-dir=.next --exclude-dir=dist --exclude-dir=build --exclude-dir=out --exclude-dir=coverage --include='*.ts' --include='*.tsx' --include='*.js' --include='*.jsx' . | sort)`.
      Also list the FIRST grep's files that are not in the intersection: a portaling component
      defined in one file and used inside a Modal elsewhere is still affected — trace its usage
      sites. A clean scan is "nothing obvious", not proof of absence; tell the user to click-test
@@ -2168,7 +2171,8 @@ dismissal of `Modal`, `Alert`, Popper-based overlays, and the Picker popups move
   `collisionPadding={0}` (`<PopoverContent collisionPadding={0} />`, `<Select contentProps={{
 collisionPadding: 0 }} />`, `<DatePicker contentProps={{ collisionPadding: 0 }} />`); it does
   not lift the size caps above.
-  Scan **[decision]** (include tests): `(Popover|Tooltip|Menu)Content|AutocompleteList|contentProps`
+  Scan **[decision]** (include tests):
+  `(Popover|Tooltip|Menu)Content|AutocompleteList|contentProps|<(Select|SelectMultiple|Autocomplete|DatePicker|DateRangePicker|TimePicker)([[:space:]>]|$)`
   file-level — screens whose popups sit near a viewport edge, and tests asserting popup
   position / size.
 
@@ -2219,6 +2223,8 @@ can depend on; none is a type error.
   avatar that v3 left without `alt` is now announced with the default label — ask the user
   whether to pass `alt=""` there; do not add it on your own.
   Scan **[decision]** (include stylesheets and tests): `avatar-fallback|getByAltText`.
+  Scan **[decision]**: `<Avatar([[:space:]>]|$)` file-level — per usage without `alt` that sits
+  next to a visible name (or is otherwise decorative), ask whether to pass `alt=""`.
 - **`AvatarGroup` renders at most 5 avatars.** Children past the fifth are dropped from the DOM.
   Per group that can exceed five, ask the user how to show the remainder (e.g. a count in
   `trailingContent`).
@@ -2268,8 +2274,8 @@ Layouts that depended on the old button width (rows of buttons, wrapping thresho
 next to fixed-width content) need a visual check. Restoring v3 sizes with `sx` is a design
 decision — ask the user; do not pin old paddings by default.
 Scan **[decision]**: `<Button[[:space:]][^>]*(sx=|style=|width=|className=)` — buttons whose
-size was tuned by hand and may now double-correct; plus `\bButton\b` file-level for multi-line
-props on screens the user flags as layout-sensitive.
+size was tuned by hand and may now double-correct (a line-based heuristic: multi-line props are
+missed). Every hit also goes on the Step 3 visual-QA list.
 
 ## Suggested commit boundary
 

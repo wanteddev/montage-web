@@ -1146,8 +1146,8 @@ Proceed to `manual-migrations.md` (all M-sections, M1–M24), then final verific
 4. Visual QA on TextField / TextArea / Modal bottom-sheet / Card list / SegmentedControl /
    Select / PushBadge / SearchField / FallbackView screens (former `variant="outlined"` in particular, see M11; Selects in
    dense layouts, whose focus ring now draws outside the field, see M12; former
-   `variant="new"` badges, whose square now comes from a fixed width instead of
-   `aspect-ratio`, see M13; SearchFields whose radius and typography shifted with the size
+   `variant="new"` badges, which are no longer forced square (`min-width` + padding; a wide
+   glyph can come out wider), see M13; SearchFields whose radius and typography shifted with the size
    rename, see M14; fallback views, whose content padding now applies only while an image
    is present — gone from every image-less view, including each one where M15's decision
    dropped the deprecated image, see M15; TextFields that used to show BOTH the negative
@@ -1165,7 +1165,8 @@ Proceed to `manual-migrations.md` (all M-sections, M1–M24), then final verific
    whose radius, content margins, `ModalContent` padding defaults and `popup` / `bottom`
    navigation title alignment changed (see M20), and every outlined `ContentBadge`, whose
    background is now transparent (see M21), and every screen with a `Modal` / `Alert` / Picker
-   next to a body-level widget, whose outside pointer events are now blocked while it is open
+   open over a body-level widget or over content portaled to `<body>` (dropdowns, pickers,
+   third-party widgets), whose pointer events are now blocked while it is open — click-test it
    (see M22), and every `cancel` / `compact` `ActionArea` with a caption and every `AvatarGroup`
    that can exceed five children and every `cancel` / `alternative` `ActionAreaButton` (see M23),
    and every error-only `TextArea`, whose bottom area no longer renders (see M8), and every popup

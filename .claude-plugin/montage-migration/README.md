@@ -61,7 +61,11 @@ What it does:
    layer stack (only the top layer closes, `<body>` `pointer-events: none` while a Modal / Alert /
    Picker is open, new `aria-modal` condition), and other DOM changes (ActionArea caption / compact
    wrappers, Avatar a11y and fallback, AvatarGroup capped at five, SectionMessage
-   `leadingContent={null}`, Picker icons inside the trailing wrapper).
+   `leadingContent={null}`, Picker icons inside the trailing wrapper), Button size spec
+   changes (per-size radius / padding / typography, narrower buttons, bold assistive text),
+   `theme.spacing[1]` / `Spacing` type removal, the `@montage-ui/nextjs` emotion cache key
+   (`wds` → `montage`), Popper `collisionPadding` defaulting to 20, and content portaled out of
+   an open overlay that no longer receives clicks.
 4. **Verification** — leftover greps, install/typecheck/lint/build/tests, summary.
 
 The codemods are order-sensitive and every one of them is treated as run-once. Re-running

@@ -174,14 +174,14 @@ const CODEMOD_STEPS = [
 const MANUAL_SCAN_SECTIONS = [
   { id: 'M1', title: 'Package references outside import declarations' },
   {
-    id: 'M2; theme.spacing[1] removed (use theme.primitive[1]) and the Spacing type export removed (Theme[spacing] / ThemeSpacingToken)',
+    id: 'M2',
     title:
-      'Theme tokens now return var(--...) strings (JS arithmetic breakage)',
+      'Theme tokens now return var(--...) strings (JS arithmetic breakage); theme.spacing[1] removed (use theme.primitive[1]) and the Spacing type export removed (Theme[spacing] / ThemeSpacingToken)',
   },
   {
-    id: 'M3; emotion cache key wds -> montage in @montage-ui/nextjs (class prefix and data-emotion change — ask whether to move selectors or keep the old key)',
+    id: 'M3',
     title:
-      'CSS variable / DOM identifier leftovers (dynamic names, out-of-target files such as E2E specs and snapshots, camelCase safety net; data-ignore-dismissable-layer is renamed by step ④ but no Montage overlay renders it any more — keep it where the consumer sets it, rework code that reads it to detect a Popper/Modal/Alert — a JUDGED scan)',
+      'CSS variable / DOM identifier leftovers (dynamic names, out-of-target files such as E2E specs and snapshots, camelCase safety net; data-ignore-dismissable-layer is renamed by step ④ but no Montage overlay renders it any more — keep it where the consumer sets it, rework code that reads it to detect a Popper/Modal/Alert — a JUDGED scan); emotion cache key wds -> montage in @montage-ui/nextjs (class prefix and data-emotion change — ask whether to move selectors or keep the old key)',
   },
   {
     id: 'M4',
@@ -229,9 +229,9 @@ const MANUAL_SCAN_SECTIONS = [
       'Select / SelectMultiple changes (size, SelectContent variants removed + default text → icon, SelectRenderChip for render chips, invalid icon removed, field DOM restructured)',
   },
   {
-    id: 'M13; single-character text is no longer a forced square, only a letter-spacing tweak',
+    id: 'M13',
     title:
-      'PushBadge changes (non-literal variant left by step ⑦, count via spread/PushBadgeProps, count+text on one element, max-count adoption, push-badge-text role removed, invisible keeps text in the DOM, dot/line-height sizing; root data-variant follows the new values, so [data-variant=number|new] selectors/assertions match nothing — a JUDGED scan)',
+      'PushBadge changes (non-literal variant left by step ⑦, count via spread/PushBadgeProps, count+text on one element, max-count adoption, push-badge-text role removed, invisible keeps text in the DOM, dot/line-height sizing; root data-variant follows the new values, so [data-variant=number|new] selectors/assertions match nothing — a JUDGED scan); single-character text is no longer a forced square, only a letter-spacing tweak',
   },
   {
     id: 'M14',
@@ -239,9 +239,9 @@ const MANUAL_SCAN_SECTIONS = [
       'SearchField changes (size values shifted medium→large / small→medium — order-sensitive hand rename, old medium stays type-valid; variant added; readOnly visual state removed — attribute stays type-valid; DOM depth +1 via search-field-wrapper; reset button now always has aria-label Reset search, and type=search is set after the spread so a consumer type is ignored — a JUDGED scan)',
   },
   {
-    id: 'M15; mobile button default size small -> medium and desktop description body1-reading -> body2-reading',
+    id: 'M15',
     title:
-      'FallbackView changes (FallbackViewButton → FallbackViewActionAreaButton wrapped in FallbackViewActionArea with a layout variant — the rename alone compiles and only breaks the layout at 2+ buttons; FallbackViewImage deprecated — stays type-valid; FallbackViewContent lost its unconditional vertical padding; fallback-view-button data-component renamed)',
+      'FallbackView changes (FallbackViewButton → FallbackViewActionAreaButton wrapped in FallbackViewActionArea with a layout variant — the rename alone compiles and only breaks the layout at 2+ buttons; FallbackViewImage deprecated — stays type-valid; FallbackViewContent lost its unconditional vertical padding; fallback-view-button data-component renamed); mobile button default size small -> medium and desktop description body1-reading -> body2-reading',
   },
   {
     id: 'M16',
@@ -274,14 +274,14 @@ const MANUAL_SCAN_SECTIONS = [
       'ContentBadge outlined background (variant="outlined" background changed from background.neutral.primary to transparent, so the parent background shows through — no prop change and no type error; solid, the default, is unchanged and no component slot forces outlined — a JUDGED scan: on a background.neutral.primary surface accept it (no visual change), on an image, a colored surface, or a surface.* / background.neutral.secondary area ask whether to accept or restore an opaque fill via sx backgroundColor theme.semantic.background.neutral.primary; a <ContentBadge listing covers multi-line, variant={expr}, spread and wrapper-relayed variants)',
   },
   {
-    id: 'M22; Popper collisionPadding default 0 -> 20 with popup max sizes capped by --popper-available-* (ask before restoring 0)',
+    id: 'M22',
     title:
-      'Overlay dismiss behavior (dismissal moved to the Radix layer stack — only the top layer reacts to Esc/outside click, nested overlays count as inside through the React tree, Modal/Alert no longer close on focus-outside, a custom ModalDimmer/AlertDimmer handler can no longer veto the close (use disableOutsideClickClose / onOpenChange); while open, Modal (dimmed, not disableAriaHiddenOthers), Alert (not disableAriaHiddenOthers, incl. useAlert which cannot opt out) and any open DatePicker/DateRangePicker/TimePicker popup set pointer-events: none on <body>, so every non-layer element outside the overlay DOM stops receiving clicks — body-level widgets AND content portaled to <body> from inside the overlay (Portal/createPortal, react-select menuPortalTarget); Montage layers, Autocomplete/PopperContent and Snackbar/Toast keep working; fixes in order: render inside the overlay DOM, pointer-events: auto + z-index above the overlay, plus data-ignore-dismissable-layer for DOM not rendered by React, or disableAriaHiddenOthers (not on useAlert/Pickers) — ask the user which fix each hit gets, never toggle disableAriaHiddenOthers on your own — and tests clicking elsewhere (or on the Picker own input) while a Picker is open fail; aria-modal now follows disableAriaHiddenOthers and, on a handle sheet, the dimmed snap (disableRemoveScroll/disableFocusScope no longer turn it off) — JUDGED scans)',
+      'Overlay dismiss behavior (dismissal moved to the Radix layer stack — only the top layer reacts to Esc/outside click, nested overlays count as inside through the React tree, Modal/Alert no longer close on focus-outside, a custom ModalDimmer/AlertDimmer handler can no longer veto the close (use disableOutsideClickClose / onOpenChange); while open, Modal (dimmed, not disableAriaHiddenOthers), Alert (not disableAriaHiddenOthers, incl. useAlert which cannot opt out) and any open DatePicker/DateRangePicker/TimePicker popup set pointer-events: none on <body>, so every non-layer element outside the overlay DOM stops receiving clicks — body-level widgets AND content portaled to <body> from inside the overlay (Portal/createPortal, react-select menuPortalTarget); Montage layers, Autocomplete/PopperContent and Snackbar/Toast keep working; fixes in order: render inside the overlay DOM, pointer-events: auto + z-index above the overlay, plus data-ignore-dismissable-layer for DOM not rendered by React, or disableAriaHiddenOthers (not on useAlert/Pickers) — ask the user which fix each hit gets, never toggle disableAriaHiddenOthers on your own — and tests clicking elsewhere (or on the Picker own input) while a Picker is open fail; aria-modal now follows disableAriaHiddenOthers and, on a handle sheet, the dimmed snap (disableRemoveScroll/disableFocusScope no longer turn it off) — JUDGED scans); Popper collisionPadding default 0 -> 20 with popup max sizes capped by --popper-available-* (ask before restoring 0)',
   },
   {
-    id: 'M23; ActionAreaButton defaults changed — cancel main outlined -> solid, alternative primary -> assistive — ask before pinning the v3 look',
+    id: 'M23',
     title:
-      'Other DOM changes (ActionArea caption gains an inner span, is no longer rendered for variant=cancel — ask — and moves into the compact row with new action-area-compact-wrapper / -compact-content-wrapper; Avatar img always gets role=img/alt/aria-label with a variant default alt, avatar-fallback gains role/aria-label and a masked nested SVG with Fill icons; AvatarGroup renders at most 5 children — ask how to show the rest; SectionMessage leadingContent={null} now drops the default icon — use undefined to keep it; Picker clock/calendar icons moved into text-field-trailing-content; informational: Chip data-component, MenuItem data-menu-selected, FilterButton caret aria-hidden — JUDGED scans)',
+      'Other DOM changes (ActionArea caption gains an inner span, is no longer rendered for variant=cancel — ask — and moves into the compact row with new action-area-compact-wrapper / -compact-content-wrapper; Avatar img always gets role=img/alt/aria-label with a variant default alt, avatar-fallback gains role/aria-label and a masked nested SVG with Fill icons; AvatarGroup renders at most 5 children — ask how to show the rest; SectionMessage leadingContent={null} now drops the default icon — use undefined to keep it; Picker clock/calendar icons moved into text-field-trailing-content; informational: Chip data-component, MenuItem data-menu-selected, FilterButton caret aria-hidden — JUDGED scans); ActionAreaButton defaults changed — cancel main outlined -> solid, alternative primary -> assistive — ask before pinning the v3 look; decorative Avatar without alt is now announced — ask whether to pass alt="" (<Avatar scan)',
   },
   {
     id: 'M24',
