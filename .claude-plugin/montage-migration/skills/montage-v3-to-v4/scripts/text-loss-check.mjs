@@ -46,6 +46,16 @@ const paths = (
     : git('diff', '--name-only', '--diff-filter=d', rev).split('\n')
 ).filter((path) => SOURCE_FILE.test(path) && existsSync(path));
 
+// A file renamed since <rev> (committed, or staged with `git mv`) is compared with
+// its old path — otherwise it would be skipped as new and its losses go unseen.
+const previousPaths = new Map(
+  git('diff', '--name-status', '-M', '--diff-filter=R', rev)
+    .split('\n')
+    .map((line) => line.split('\t'))
+    .filter(([status, from, to]) => status?.startsWith('R') && from && to)
+    .map(([, from, to]) => [to, from]),
+);
+
 const countWords = (source) => {
   const counts = new Map();
 
@@ -64,7 +74,7 @@ for (const path of paths) {
   let before;
 
   try {
-    before = git('show', `${rev}:${path}`);
+    before = git('show', `${rev}:${previousPaths.get(path) ?? path}`);
   } catch {
     continue; // new file since <rev>
   }
