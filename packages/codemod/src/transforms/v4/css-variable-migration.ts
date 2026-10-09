@@ -1,3 +1,5 @@
+import { toSourcePreservingJsx } from '../../helpers';
+
 import {
   WDS_VARIABLE_PATTERN,
   renameWdsVariablesInString,
@@ -70,7 +72,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
   // keeps the quote style needing the least escaping — selector strings like
   // `'[data-component="x"]'` must stay single-quoted instead of being reprinted
   // as `"[data-component=\"x\"]"`.
-  return root.toSource({ quote: 'auto', ...options });
+  return toSourcePreservingJsx(j, root, { quote: 'auto', ...options });
 };
 
 export default transformer;

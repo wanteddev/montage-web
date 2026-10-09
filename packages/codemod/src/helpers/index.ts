@@ -14,6 +14,45 @@ import type {
   StringLiteral,
 } from 'jscodeshift';
 
+type ParenthesizedExtra = { extra?: { parenthesized?: boolean } | null };
+
+/**
+ * `root.toSource()` 대신 사용한다. recast는 ReturnStatement 안에서 무엇이든
+ * 바뀌면 return 문 전체를 다시 출력하는데, 이때 `return (` 괄호로 감싼 JSX
+ * 인자의 `extra.parenthesized`를 잠시 꺼서 다시 출력한다. 플래그가 원본과
+ * 달라지면 JSX를 원본 그대로 재사용하지 못하고 일반 printer로 출력하고, 이
+ * printer는 JSXText 앞 줄바꿈을 지운다(`onClick={x}>삭제` + 다음 줄 들여쓰기
+ * 깨짐). 이렇게 망가진 서식은 이후 eslint --fix(prettier/prettier +
+ * react/jsx-indent)에서 텍스트가 통째로 사라지는 원인이 된다.
+ *
+ * 출력 전에 사본과 원본(`.original`) 모두에서 플래그를 지우면 JSX는 원본
+ * 소스를 그대로 패치하고, 괄호는 ReturnStatement printer가 다시 둘러준다.
+ */
+export const toSourcePreservingJsx = (
+  j: JSCodeshift,
+  root: Collection<any>,
+  options?: Parameters<Collection<any>['toSource']>[0],
+) => {
+  root.find(j.ReturnStatement).forEach((path) => {
+    const argument = path.node.argument as
+      | (ParenthesizedExtra & { original?: ParenthesizedExtra })
+      | null
+      | undefined;
+
+    if (
+      !argument ||
+      !(j.JSXElement.check(argument) || j.JSXFragment.check(argument))
+    ) {
+      return;
+    }
+
+    delete argument.extra?.parenthesized;
+    delete argument.original?.extra?.parenthesized;
+  });
+
+  return root.toSource(options);
+};
+
 export const getLocalName = (importSpecifier: ImportSpecifier) => {
   if (importSpecifier.local) {
     return importSpecifier.local.name;

@@ -1,4 +1,8 @@
-import { findImportDeclaration, getLocalName } from '../../helpers';
+import {
+  findImportDeclaration,
+  getLocalName,
+  toSourcePreservingJsx,
+} from '../../helpers';
 import { MONTAGE_SOURCES } from '../../constants';
 
 import type {
@@ -131,7 +135,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
     });
 
   // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-  return hasChanges ? root.toSource(options) : file.source;
+  return hasChanges ? toSourcePreservingJsx(j, root, options) : file.source;
 };
 
 export default transformer;
