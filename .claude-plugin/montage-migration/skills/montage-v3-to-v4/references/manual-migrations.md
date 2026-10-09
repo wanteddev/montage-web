@@ -85,7 +85,7 @@ or an unrenamed `@wanteddev/wds-mcp` (which the pattern also matches and which m
 ### Format step — JSX text loss (also for repos already on v4)
 
 M1 ends with the format cleanup (SKILL.md Step 2: formatter first, then lint autofix, guarded
-by `scripts/text-loss-check.mjs`). Codemod builds up to 4.0.1 print a JSX text child that
+by `scripts/text-loss-check.mjs`). Codemod builds 4.0.1 and earlier print a JSX text child that
 follows a changed element inside `return ( … )` onto the opening tag's line, and
 `eslint --fix` with `eslint-plugin-prettier` + `react/jsx-indent` then deletes that text.
 Before the formatter runs, the damage is visible in the codemod diff (**[zero]** once the
@@ -1990,7 +1990,7 @@ dialog"` and an `onClick` that closes the modal (`onOpenChange(false)` / `setOpe
 
 No codemod covers this section — every fix here is a hand edit. It runs after the codemod phase,
 so inside the targets v3's `--wds-modal-content-margin` already reads `--modal-content-margin`
-(step ③ `css-variable-migration` strips the `--wds-` prefix). Codemod builds after 4.0.1 split
+(step ③ `css-variable-migration` strips the `--wds-` prefix). Codemod 4.0.2 and later split
 it themselves where the reading CSS property decides the axis (`padding-left` / `-inline` /
 `left` / `right` → `-x`, `padding-top` / `-block` / `top` / `bottom` → `-y`, a 2–4 value
 `padding` / `margin` shorthand by position, an inline-style object by its key) and print a

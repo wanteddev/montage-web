@@ -951,7 +951,7 @@ the migration changed** (`git diff --name-only --diff-filter=d <pre-migration co
 **formatter first, then lint autofix, as two separate commands** — `prettier --write <files>`,
 then `eslint --fix <files>` (or the repo's `format` script, then its `lint:fix` script) — and
 commit the result as its own commit (`chore(montage): v4 format cleanup`), separate from the
-codemod commits. Never run `eslint --fix` alone or first: codemod builds up to 4.0.1 can
+codemod commits. Never run `eslint --fix` alone or first: codemod builds 4.0.1 and earlier can
 print a JSX text child that follows a changed element inside `return ( … )` onto the opening
 tag's line with the next line over-indented (`onClick={handleDelete}>삭제` + a 12-space
 `{…}` line). Prettier alone repairs that layout, but in a repo that runs

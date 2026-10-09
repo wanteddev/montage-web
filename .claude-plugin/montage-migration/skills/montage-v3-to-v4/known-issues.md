@@ -8,15 +8,6 @@ Every path below is relative to the **montage-web source repo**, not to a repo b
 this file ships with the plugin but is maintainer-facing, and none of these paths exist in a
 consumer checkout.
 
-## Version bumps deferred
-
-`.claude-plugin/montage-migration/.claude-plugin/plugin.json` (1.0.0) and
-`.claude-plugin/marketplace.json` (1.1.0) are intentionally NOT bumped during the 4.0.0
-work — the maintainer stacks these changes on `feature/4.0.0` and bumps once, when 4.0.0
-merges to `main`. Both must be bumped then (plugin minor for the new
-M12/M13/M14/M15/M16/M17/M18/M19/M20/M21/M22/M23/M24 and step ⑨ `list-cell-variant-migration` content,
-marketplace alongside it) before the plugin ships.
-
 ## SKILL.md exceeds the lean-entry-point budget
 
 `SKILL.md` runs several times the conventions' 1,000–1,500-word guidance for a lean entry point
