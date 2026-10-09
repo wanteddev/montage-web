@@ -45,13 +45,13 @@ export const collectStyleFiles = (target: string): Array<string> => {
  */
 export const runStyleTextTransform = (
   target: string,
-  rename: (source: string) => string,
+  rename: (source: string, file: string) => string,
 ) => {
   let changed = 0;
 
   for (const file of new Set(collectStyleFiles(target))) {
     const source = fs.readFileSync(file, 'utf8');
-    const next = rename(source);
+    const next = rename(source, file);
 
     if (next !== source) {
       fs.writeFileSync(file, next);
