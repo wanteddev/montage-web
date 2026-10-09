@@ -95,4 +95,14 @@ describe('mergeResponsiveProps', () => {
       ),
     ).toEqual({ xs: { width: '100%' }, sm: { size: 'medium' } });
   });
+
+  it('takes only the key from the fallback', () => {
+    expect(
+      mergeResponsiveProps<FieldProps, 'size'>(
+        {},
+        { sm: { size: 'medium', sx: { marginTop: 20 } } },
+        'size',
+      ),
+    ).toEqual({ sm: { size: 'medium' } });
+  });
 });

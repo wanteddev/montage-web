@@ -130,10 +130,16 @@ const FormControl = forwardRef(
         'columnGap',
         'sx',
       ]);
+    // 하위 Label / 필드가 물려받는 건 size뿐이다. 나머지(sx, gap 등)까지 넘기면
+    // FormControl 자신의 반응형 스타일이 Label과 필드에도 한 번 더 적용된다.
+    const { picked: inheritedResponsive } = splitResponsiveBreakpoints(
+      { xs, sm, md, lg, xl },
+      ['size'],
+    );
 
     return (
       <FormControlProvider id={id}>
-        <FormControlLayoutProvider size={size} responsive={responsiveSize}>
+        <FormControlLayoutProvider size={size} responsive={inheritedResponsive}>
           <FlexBox
             as={as || 'div'}
             ref={ref}
