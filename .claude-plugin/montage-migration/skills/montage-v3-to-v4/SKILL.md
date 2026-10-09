@@ -940,15 +940,40 @@ variant="close-button">` (a text-label `ModalClose` becomes `text-button` with a
   pinning the v3 look); a decorative `Avatar` left without `alt` is now announced — ask
   whether to pass `alt=""`.
 - **M24 (Button size spec):** radius / padding / typography changed per size; height is held
-  by a new `min-height`, but buttons get narrower and `assistive` text is bold. Visual only —
-  ask before restoring v3 sizes with `sx`.
+  by a new `min-height`, but buttons get narrower and `assistive` text is bold; a Button in a
+  flex `stretch` row now grows to the row height, and a `height`-only override needs a
+  matching `min-height`. `Chip` text is one typography step smaller at every size. Visual
+  only — ask before restoring v3 sizes with `sx` or a larger `size`.
 
 M1 (package.json + configs) ends with a dependency install to refresh the lockfile.
 **Right after that install, run the project's own formatter and lint autofix over the files
-the migration changed** (e.g. `prettier --write` and `eslint --fix` on
-`git diff --name-only --diff-filter=d <pre-migration commit>`, or the repo's `format` /
-`lint:fix` script) and commit the result as its own commit (`chore(montage): v4 format cleanup`), separate from the
-codemod commits. The codemods print with recast's defaults, so their output does not follow
+the migration changed** (`git diff --name-only --diff-filter=d <pre-migration commit>`),
+**formatter first, then lint autofix, as two separate commands** — `prettier --write <files>`,
+then `eslint --fix <files>` (or the repo's `format` script, then its `lint:fix` script) — and
+commit the result as its own commit (`chore(montage): v4 format cleanup`), separate from the
+codemod commits. Never run `eslint --fix` alone or first: codemod builds up to 4.0.1 can
+print a JSX text child that follows a changed element inside `return ( … )` onto the opening
+tag's line with the next line over-indented (`onClick={handleDelete}>삭제` + a 12-space
+`{…}` line). Prettier alone repairs that layout, but in a repo that runs
+`eslint-plugin-prettier` together with `react/jsx-indent`, `eslint --fix` splits prettier's
+repair into a "Delete `삭제`" and an "Insert `삭제⏎`" fix, drops the insert because it
+overlaps `react/jsx-indent`'s fix range, and applies only the delete — **the text node is
+silently deleted**. Guard the step with the text-loss check:
+
+1. Before the formatter, snapshot the tree: `SNAP=$(git stash create)`; if it prints nothing
+   (clean tree — `autoCommit: true`), use `SNAP=HEAD`. `git stash create` writes a commit
+   object without touching the working tree or the stash list.
+2. Run the formatter, then the lint autofix.
+3. Run `node <root>/skills/montage-v3-to-v4/scripts/text-loss-check.mjs "$SNAP" --all-words`
+   from the repo root (`<root>` resolves exactly like the Workflow's `${CLAUDE_PLUGIN_ROOT}`
+   in Step 1). It lists, per file, every word whose count dropped across the format step.
+   Formatting never removes words, so each hit is either a lint autofix that legitimately
+   deletes code (an unused import removed by an `unused-imports` rule — confirm in
+   `git diff "$SNAP" -- <file>`) or a lost text node: restore the text from
+   `git diff "$SNAP" -- <file>` by hand before committing. Do not commit the format cleanup
+   until the check is clean or every remaining hit was confirmed as an intended removal.
+
+The codemods print with recast's defaults, so their output does not follow
 the project's style: new string literals come out double-quoted (`package-name-migration`'s
 import sources, the ternaries `status-migration` and `list-cell-variant-migration` build,
 `css-variable-migration`'s rewritten literals), and `status-migration` moves an `invalid={!!x}`
@@ -1027,7 +1052,14 @@ Mark each M-section `completed` in the state file as it finishes.
      is judged like any other (see the comment-hit rule in `references/codemod-steps.md`). Re-read each step's verification note
      in `references/codemod-steps.md` before judging its hits.
 2. Project checks: install, typecheck, lint, build, unit tests — whatever the project
-   defines.
+   defines. Then run the text-loss check over the whole migration:
+   `node <root>/skills/montage-v3-to-v4/scripts/text-loss-check.mjs <pre-migration commit>`
+   (same `<root>` and `<pre-migration commit>` as the M1 format step; no `--all-words` — the
+   codemods rename ASCII identifiers, so only non-ASCII words are compared and a Korean UI
+   reports no rename noise). Every hit is a pass blocker until assessed: UI text the
+   migration deleted (restore it) or a removal made on purpose during Step 2 (list it in the
+   summary). For an English-only UI the default compares nothing — run it with
+   `--all-words` and assess the hits, which then include every codemod rename.
 3. Remind the user to visually QA TextField / TextArea / bottom-sheet Modal / Card list /
    SegmentedControl / Select / PushBadge / SearchField / FallbackView screens (v4 changed their
    rendering and behavior, not just names) — former `variant="outlined"` SegmentedControls in
@@ -1055,15 +1087,17 @@ Mark each M-section `completed` in the state file as it finishes.
    is now 24px in `popup` / `bottom` (20px in `full`) and whose `display` variant became `emphasized`, and every search
    navigation, whose unsized `SearchField` shrank from 48px to 40px (see M19); and every modal,
    whose radius, content margins, `ModalContent` padding defaults and `popup` / `bottom`
-   navigation title alignment changed, including title-less (close-only) navigations and
-   any `ActionArea` nested in `ModalContent` (see M20); and every outlined `ContentBadge`, whose
+   navigation title alignment changed, including title-less (close-only) navigations,
+   any `ActionArea` nested in `ModalContent`, modals ending in `ModalContent` with no
+   `ActionArea` (bottom spacing gone) and every default-size popup's copy, whose line breaks
+   shift with the 400 → 360px width (see M20); and every outlined `ContentBadge`, whose
    background is now transparent (see M21); and every screen with a `Modal` / `Alert` / Picker
    open over a body-level widget or over content portaled to `<body>` (dropdowns, pickers,
    third-party widgets) — click-test it (see M22); and every `cancel` / `compact` `ActionArea` with a
    caption, every `cancel` / `alternative` `ActionAreaButton` and every `AvatarGroup` that can
    exceed five (see M23); and every error-only `TextArea`, whose bottom area no longer renders
    (see M8); and every popup near a viewport edge, now kept 20px inside it (see M22); and every
-   layout sensitive to `Button` width (see M24); and mobile `FallbackView` buttons (see M15).
+   layout sensitive to `Button` width or height, and every sized `Chip` (see M24); and mobile `FallbackView` buttons (see M15).
 4. Delete the state file, then summarize: steps run, commits created, manual fixes
    applied, items intentionally left (with reasons), and a **"pre-existing v3 bugs now
    visible"** list — code that was silently broken in v3 and starts rendering after the
@@ -1085,6 +1119,8 @@ Mark each M-section `completed` in the state file as it finishes.
   fix rules.
 - **`scripts/migration-workflow.js`** — Workflow-tool script for the codemod phase; also
   the canonical per-step procedure for inline fallback execution.
+- **`scripts/text-loss-check.mjs`** — lists words that disappeared from JS/TS files since a
+  git revision; guards the M1 format step and Step 3 against deleted JSX text nodes.
 - **`known-issues.md`** — accepted trade-offs in this skill (deferred version bumps, the
   SKILL.md length budget, the line-based-heuristic scans). Maintainer-facing: read it before
   "fixing" something that was decided deliberately.

@@ -172,7 +172,11 @@ const CODEMOD_STEPS = [
 // Kept in sync with the M-sections in references/manual-migrations.md and STATE_FILE_TEMPLATE
 // below — see SKILL.md → "State file format" → Consistency surfaces for the canonical list.
 const MANUAL_SCAN_SECTIONS = [
-  { id: 'M1', title: 'Package references outside import declarations' },
+  {
+    id: 'M1',
+    title:
+      'Package references outside import declarations; JSX text children reprinted onto the opening tag line by the codemods (deleted by a later eslint --fix — the format step runs prettier first, then eslint --fix, guarded by scripts/text-loss-check.mjs)',
+  },
   {
     id: 'M2',
     title:
@@ -286,7 +290,7 @@ const MANUAL_SCAN_SECTIONS = [
   {
     id: 'M24',
     title:
-      'Button size spec changes (radius / padding / typography per size changed, min-height added so the height matches v3 but buttons get narrower, color=assistive text now bold, new size=xsmall — visual only, ask before restoring v3 sizes with sx — JUDGED scans)',
+      'Button size spec changes (radius / padding / typography per size changed, min-height added so the height matches v3 but buttons get narrower, color=assistive text now bold, new size=xsmall — visual only, ask before restoring v3 sizes with sx; height: fit-content → auto so a Button in a flex stretch row grows, and a height-only override loses to min-height; Chip typography one step smaller at every size (v4 medium 13px < v3 small 14px) — JUDGED scans)',
   },
 ];
 
