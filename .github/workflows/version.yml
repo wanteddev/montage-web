@@ -95,11 +95,26 @@ jobs:
           BEFORE_VERSION: ${{ steps.before.outputs.version }}
         run: |
           set -euo pipefail
-          git pull --ff-only || true
           VERSION=$(node -p "require('./lerna.json').version")
+          TAG="v$VERSION"
           # 버전 단계 자체가 실패했다면 올릴 버전이 없다 — 재시도가 no-op 성공으로 끝나지 않게 실패 처리
           if [[ "$INCREMENT" != "from-package" && "$VERSION" == "$BEFORE_VERSION" ]]; then
             echo "::error::버전이 $VERSION 그대로입니다 — 버전 단계에서 실패해 재시도할 배포가 없습니다"
+            exit 1
+          fi
+          # 버전 기록(커밋 · 태그 · release)이 원격에 모두 남은 버전만 배포한다.
+          # push나 release 생성에서 실패했다면 기록 없는 버전이 npm에 올라가지 않게 멈춘다.
+          git fetch --quiet origin "$GITHUB_REF_NAME"
+          if ! git ls-remote --exit-code --tags origin "refs/tags/$TAG" > /dev/null; then
+            echo "::error::원격에 $TAG 태그가 없습니다 — 버전 기록을 먼저 복구하세요"
+            exit 1
+          fi
+          if ! git merge-base --is-ancestor HEAD "origin/$GITHUB_REF_NAME"; then
+            echo "::error::$TAG 버전 커밋이 origin/$GITHUB_REF_NAME에 없습니다 — 버전 기록을 먼저 복구하세요"
+            exit 1
+          fi
+          if ! gh release view "$TAG" > /dev/null 2>&1; then
+            echo "::error::$TAG GitHub release가 없습니다 — release를 먼저 만드세요"
             exit 1
           fi
           if [[ "$VERSION" == *-* ]]; then DIST_TAG=alpha; else DIST_TAG=latest; fi
