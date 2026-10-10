@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
     inputs:
       increment:
-        description: 'SemVer Increment (prepatch = bump alpha)'
+        description: 'SemVer Increment (prepatch = bump alpha, from-package = 버전 변경 없이 레지스트리에 없는 패키지만 배포)'
         required: true
         default: 'prepatch'
         type: choice
@@ -15,6 +15,7 @@ on:
           - patch
           - minor
           - major
+          - from-package
 
 env:
   SERVICE: 'Montage web'
@@ -69,11 +70,40 @@ jobs:
       - run: git config user.name "${{ steps.app-user.outputs.name }}"
       - run: git config user.email "${{ steps.app-user.outputs.email }}"
 
+      - name: Record current version
+        id: before
+        run: echo "version=$(node -p "require('./lerna.json').version")" >> $GITHUB_OUTPUT
+
       - name: Publish
+        id: publish
+        if: ${{ inputs.increment != 'from-package' }}
+        # 실패해도 다음 단계에서 레지스트리에 빠진 패키지만 다시 배포한다
+        continue-on-error: true
         env:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: pnpm run lerna-deploy ${{ inputs.increment }} --force-publish --concurrency 1 --dist-tag ${{ contains(inputs.increment, 'pre') && 'alpha' || 'latest' }} ${{ contains(inputs.increment, 'pre') && '--conventional-prerelease' || '--conventional-commits' }} --create-release=github --yes
+
+      # 버전 커밋·태그·release는 Publish에서 끝났으므로 from-package는 package.json의
+      # 현재 버전 중 레지스트리에 없는 것만 올린다 (버전 변경·커밋·태그를 다시 하지 않음).
+      - name: Publish missing packages
+        if: ${{ inputs.increment == 'from-package' || steps.publish.outcome == 'failure' }}
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          INCREMENT: ${{ inputs.increment }}
+          BEFORE_VERSION: ${{ steps.before.outputs.version }}
+        run: |
+          set -euo pipefail
+          git pull --ff-only || true
+          VERSION=$(node -p "require('./lerna.json').version")
+          # 버전 단계 자체가 실패했다면 올릴 버전이 없다 — 재시도가 no-op 성공으로 끝나지 않게 실패 처리
+          if [[ "$INCREMENT" != "from-package" && "$VERSION" == "$BEFORE_VERSION" ]]; then
+            echo "::error::버전이 $VERSION 그대로입니다 — 버전 단계에서 실패해 재시도할 배포가 없습니다"
+            exit 1
+          fi
+          if [[ "$VERSION" == *-* ]]; then DIST_TAG=alpha; else DIST_TAG=latest; fi
+          pnpm exec lerna publish from-package --concurrency 1 --dist-tag "$DIST_TAG" --yes
 
       - name: Get published version
         id: version
