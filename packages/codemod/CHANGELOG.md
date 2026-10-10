@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.0.2](https://github.com/wanteddev/montage-web/compare/v4.0.1...v4.0.2) (2026-10-10)
+
+### Bug Fixes
+
+- **core,codemod:** v4 마이그레이션 피드백 반영 (JSX 텍스트 소실·form control 반응형 누수) ([#668](https://github.com/wanteddev/montage-web/issues/668)) ([9a0dbfc](https://github.com/wanteddev/montage-web/commit/9a0dbfc02b8c59353c9504106d386dff4102ab25))
+
 ## [4.0.1](https://github.com/wanteddev/montage-web/compare/v4.0.0...v4.0.1) (2026-10-08)
 
 **Note:** Version bump only for package @montage-ui/codemod
