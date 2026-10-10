@@ -431,6 +431,12 @@ Cautions:
   manual rename `--card-content-item-*` → `--card-row-*` (manual step M4) only works AFTER
   this step — this is a hard ordering constraint.
 - Dynamically built names (`'--wds-' + name`, `` `--wds-${x}` ``) are not matched → manual M3.
+- `--wds-modal-content-margin` has no single v4 name (v4 split it into `-x` / `-y`). Builds
+  4.0.1 and earlier strip the prefix only, leaving a `--modal-content-margin` v4 never reads;
+  4.0.2 and later pick the axis from the reading CSS property and print a
+  `--wds-modal-content-margin의 축(-x / -y)을 정하지 못해 …` line for each location left bare.
+  Neither is this step's to fix — copy those report lines into the summary and leave every
+  bare `--modal-content-margin` for M20, whose [zero] scan owns the split.
 
 Post-step verification: `grep -rn -- "--wds-" <targets>` — remaining hits should only be
 dynamically-built names (manual M3).

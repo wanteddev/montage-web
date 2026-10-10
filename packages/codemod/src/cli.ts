@@ -15,8 +15,18 @@ import { runStyleTextTransform } from './style-text-transform';
  * parse. Keyed by transform name; the value is the text rename applied to
  * .css/.scss/.sass/.less files.
  */
-const STYLE_TEXT_TRANSFORMS: Record<string, (source: string) => string> = {
-  'css-variable-migration': renameWdsVariablesInString,
+const STYLE_TEXT_TRANSFORMS: Record<
+  string,
+  (source: string, file: string) => string
+> = {
+  'css-variable-migration': (source, file) =>
+    renameWdsVariablesInString(source, {
+      onUnresolved: (excerpt) => {
+        console.log(
+          `${file}: --wds-modal-content-margin의 축(-x / -y)을 정하지 못해 --modal-content-margin으로 남깁니다 — 수동 확인이 필요합니다: ${excerpt}`,
+        );
+      },
+    }),
   'dom-identifier-migration': renameWdsDomIdentifiersInString,
   'semantic-token-migration': renameSemanticTokensInString,
 };

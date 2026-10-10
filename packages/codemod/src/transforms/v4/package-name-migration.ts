@@ -1,3 +1,5 @@
+import { toSourcePreservingJsx } from '../../helpers';
+
 import type { API, FileInfo, Options } from 'jscodeshift';
 
 const PACKAGE_NAME_MAP: Record<string, string> = {
@@ -44,7 +46,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
     });
 
   // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-  return hasChanges ? root.toSource(options) : file.source;
+  return hasChanges ? toSourcePreservingJsx(j, root, options) : file.source;
 };
 
 export default transformer;

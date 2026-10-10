@@ -45,3 +45,24 @@ describe('when given a variant to form control label with responsive props', () 
     expect(labelMediaCss()).toContain('--typography-label2-fontSize');
   });
 });
+
+describe('when given a responsive sx to form control', () => {
+  afterEach(() => {
+    cleanup();
+  });
+
+  // FormControl used to hand its whole responsive props (sx included) to the
+  // label through the layout context, applying the sx twice.
+  it('should not apply the sx to the label', () => {
+    render(
+      <FormControl sm={{ size: 'medium', sx: { marginTop: 20 } }}>
+        <FormControlLabel>Label</FormControlLabel>
+      </FormControl>,
+    );
+
+    const css = labelMediaCss();
+
+    expect(css).toContain('--typography-label2-fontSize');
+    expect(css).not.toContain('margin-top');
+  });
+});

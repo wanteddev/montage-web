@@ -82,6 +82,40 @@ or an unrenamed `@wanteddev/wds-mcp` (which the pattern also matches and which m
 `@wanteddev/montage-mcp`, NOT `@montage-ui/*`). Only the post-rename
 `@wanteddev/montage-mcp` legitimately escapes the pattern.
 
+### Format step — JSX text loss (also for repos already on v4)
+
+M1 ends with the format cleanup (SKILL.md Step 2: formatter first, then lint autofix, guarded
+by `scripts/text-loss-check.mjs`). Codemod builds 4.0.1 and earlier print a JSX text child that
+follows a changed element inside `return ( … )` onto the opening tag's line, and
+`eslint --fix` with `eslint-plugin-prettier` + `react/jsx-indent` then deletes that text.
+Before the formatter runs, the damage is visible in the codemod diff (**[zero]** once the
+format step is done):
+
+```
+(["}]|<[[:alnum:]_.]*)>[^<>{}();=[:space:]][^<>{}();=]*$
+```
+
+— a line that ends with an opening tag (`…}>`, `…">`, `<div>`, `<>`) followed by text.
+Prettier never leaves a multi-line element in that shape, so a hit in a file the codemods
+changed is a reprinted text child; a single-line `<p>text</p>` does not match (the line must
+END in the text), and TS generics (`useState<string>()`, `Promise<void>;`) are excluded by
+the `();=` class. Unrelated hits (text inside a template literal or comment) may remain.
+
+A repo that was migrated before this guard existed and already ran the format cleanup
+cannot be found by that pattern — the text is gone. Run the check against the commit the
+migration started from instead:
+
+```
+node <root>/skills/montage-v3-to-v4/scripts/text-loss-check.mjs <pre-migration commit>
+```
+
+It lists, per JS/TS file changed since that commit, every non-ASCII word whose count
+dropped (codemod renames are ASCII, so a Korean UI reports only real losses; add
+`--all-words` for an English UI and skip the rename noise by hand). Restore each lost text
+node from `git diff <pre-migration commit> -- <file>`. Without the plugin installed, the
+same check is a `git diff <pre-migration commit> -- '*.tsx' '*.jsx'` read for removed lines
+(`^-`) carrying UI text with no matching added line.
+
 ## M2. Theme tokens now return `var(--...)` strings
 
 `theme.primitive`, `theme.opacity`, `theme.spacing`, `theme.radius`, `theme.dimension`,
@@ -337,6 +371,11 @@ ancestor. Two classes of usage need manual review:
   `accessory={<FormControlMessageAccessory ... variant="character-counter" />}` — does
   NOT match; trade-off: a legacy line whose earlier prop embeds a JSX element before
   `variant=` is missed, acceptable under the line-based-heuristics caveat above).
+- **Label and message text moved 2px inward** (informational): `FormControlLabel` and the
+  message components gained `padding: 0 2px` (reset to 0 for a leading-placed label); v3's
+  `FormLabel` / messages had none. Decorations positioned against the text start (an
+  `::after` divider at a fixed `left`, icons aligned to the label) shift by 2px — move them
+  2px, or ask the user before zeroing the padding with `sx`, which departs from the v4 spec.
 - **Message children are wrapped.** `FormControlMessage` / `FormControlNegativeMessage` /
   `FormControlPositiveMessage` render `<p><span data-role="form-control-message-content">{children}</span>{accessory}</p>`
   (v3: `<p>{children}</p>`; the negative / positive wrappers are
@@ -615,6 +654,20 @@ MIGRATION.md; it does not exist in the consumer repo).
 
   Only `red` is value-preserving. For `blue`, `surface.brand.strong` (blue 45 / 55) matches the
   LIGHT value exactly but not dark. Recommend visual QA on every screen that used them.
+  **Text contrast drops in light mode** — every non-red replacement is lighter, measured on a
+  white background:
+
+  | v3 → v4 (light)                 | contrast on #FFFFFF |
+  | ------------------------------- | ------------------- |
+  | green `#009632` → `#00BF40`     | 3.88 → 2.46         |
+  | orange `#D17600` → `#FF9200`    | 3.33 → 2.24         |
+  | redOrange `#F55A00` → `#FF9200` | 3.31 → 2.24         |
+  | blue `#005EEB` → `#0066FF`      | 5.53 → 4.83         |
+
+  Where the token colors TEXT (body copy, prices, status labels), the green / orange results
+  fall well below WCAG's 3:1 even for large text — tell the user, and ask whether to keep the
+  codemod's token, pick another semantic token with the design team, or accept it; never
+  substitute an `atomic.*` color on your own.
   Scan **[decision]**: `background[^;]*semantic\.foreground\.` (a foreground token as a
   background base is the suspect shape; multi-line declarations escape this — also
   review the step 2 diff hunks that touched the deleted tokens).
@@ -1740,6 +1793,13 @@ and is ignored under `none`.
     (`background` / `outlined` / `solid`) ignore the prop — do not add it. Their layout still
     changed (e.g. the `background` default box grew from 24px to 32px, and a numeric `size`
     now gets a proportionally smaller icon), so flag every non-`normal` hit for visual QA.
+    In v3 an `outlined` / `solid` numeric `size` was the BOX (fixed 6px padding, icon = box −
+    12px), so an `sx` that widened the box grew the icon too; v4 derives the icon from `size`
+    alone (`max(24, size) × 0.47` for `outlined` / `solid`, `× 2/3` for `background`, snapped
+    to a dimension token) and an `sx` width / height no longer scales it. Example:
+    `<IconButton variant="outlined" size={16} sx={{ width: 30, height: 30 }}>` drew an 18px
+    icon in v3 and draws 12px in v4. To keep 18px, use `size="medium"` (40px box / 18px icon)
+    or `size={38}`, keeping the `sx` box if the 30px box must stay — ask the user which.
   - **Slot `IconButton`s take their size from the slot — what to do with a v3 `size` depends
     on the slot's `interactionOverflow`.** The slots below pass the `IconButton` a
     slot-appropriate `size` (and `interactionOverflow` where the design uses it); form-field
@@ -1930,7 +1990,14 @@ dialog"` and an `onClick` that closes the modal (`onOpenChange(false)` / `setOpe
 
 No codemod covers this section — every fix here is a hand edit. It runs after the codemod phase,
 so inside the targets v3's `--wds-modal-content-margin` already reads `--modal-content-margin`
-(step ③ `css-variable-migration` strips the `--wds-` prefix). Out-of-target files (E2E specs,
+(step ③ `css-variable-migration` strips the `--wds-` prefix). Codemod 4.0.2 and later split
+it themselves where the reading CSS property decides the axis (`padding-left` / `-inline` /
+`left` / `right` → `-x`, `padding-top` / `-block` / `top` / `bottom` → `-y`, a 2–4 value
+`padding` / `margin` shorthand by position, an inline-style object by its key) and print a
+`--wds-modal-content-margin의 축(-x / -y)을 정하지 못해 …` line — file and excerpt — for every
+location left bare (definitions, one-value shorthands, `gap`, other variables, template
+chunks split by `${}`); those lines are this section's worklist, and the scan below stays the
+gate for every build. Out-of-target files (E2E specs,
 other packages' stylesheets) are M3's: M3 maps this one variable straight to the split names, but a
 bare `--modal-content-margin` left there by an earlier prefix-only edit is M20's to split. `size="small"` is a type error once M1's
 install lands v4; nothing else here is caught by the typecheck.
@@ -1958,6 +2025,12 @@ install lands v4; nothing else here is caught by the typecheck.
   spacer was added render NO spacer, and their title-less `emphasized` buttons bunch up in the
   CENTER — if the pinned codemod/package build shows that, it is a design-system bug fixed in
   later builds, not something to patch in consumer code.
+  With a title AND `leadingContent` (e.g. a "취소" text button), `emphasized` lays leading →
+  title → trailing out in one row with a 16px gap, so the title starts right after the
+  leading button instead of being centred — the v4 design (title left-aligned in popup /
+  bottom), not a bug, and independent of `trailingContent` (`null` or the default close
+  button). A centred title exists only in `full` (`normal`); in popup / bottom ask the user
+  whether to accept it or move the cancel action into the `ActionArea`.
   Scan **[decision]**: `<ModalNavigation([[:space:]>]|$)` (the character class keeps
   `ModalNavigationButton` out) — read the enclosing `ModalContainer`'s `variant` (including
   responsive `xs`–`xl` keys) for each hit. Flag every popup / bottom navigation for visual QA.
@@ -1965,7 +2038,11 @@ install lands v4; nothing else here is caught by the typecheck.
 - **`ModalContainer` `size="small"` removed.** Replace it with `size="medium"` — `medium` is now
   360px wide, the v3 `small` width (v3 `medium` was 400px). With `resize="fixed"` the
   replacement changes the height: v3 `small` was 400px tall, v4 `medium` is 480px — per hit,
-  accept it (flag for QA) or pin `height: 400px` through `sx`. The default stays `medium`. Every
+  accept it (flag for QA) or pin `height: 400px` through `sx`. The default stays `medium`, so
+  **every popup without an explicit `size` shrinks 400 → 360px** (304px of text after the 28px
+  side margins, v3 had 360px): hard `<br />` breaks and long words written for the v3 width now wrap
+  mid-phrase or leave a single word on its own line — add every popup's copy to the visual QA
+  list and fix the breaks with the user (reword, drop the `<br />`, or `size="large"`). Every
   size changed spec: popup radius 24px at every size (v3: `small`/`medium` 12px,
   `large`/`xlarge` 20px), bottom-sheet top radius 32px (v3 12px), and in `popup` / `bottom`
   content margin 28px horizontal / 24px vertical and ActionArea margin 24px / 20px (x / y) at
@@ -2019,9 +2096,22 @@ install lands v4; nothing else here is caught by the typecheck.
     than v3. Zero the ActionArea's own inset on that element
     (`sx={{ '--action-area-margin-x': '0px' }}`) rather than `horizontalPadding="none"`, which
     would also strip the margin from every other child of that `ModalContent`.
+  - A modal that ENDS with `ModalContent` — no `ActionArea` after it in the same
+    `ModalContainer` — lost its bottom spacing in `popup` (default `none`) and in `bottom` /
+    `full` (default `top-only`): the last line of content now touches the container edge. Add
+    `verticalPadding="both"` (or `bottom-only` when the top already has spacing). This is the
+    most common shape in practice — check every `ModalContainer` whose last child is
+    `ModalContent`, including ones that render their own buttons inside the content.
+  - A child that brings its OWN side padding (`padding: 0 20px`, `px`, a styled wrapper or a
+    consumer layout component that pads itself) is now inset twice — `ModalContent`'s 28px
+    (24px in `full`) plus its own, typically 44–52px per side. Remove the child's horizontal
+    padding, or set `horizontalPadding="none"` on that `ModalContent` when the child's own
+    padding is the intended spec. Locate candidates inside the files the scan below names
+    with `padding(-inline|-left|-right)?:[^;]*\b(1[0-9]|2[0-9]|3[0-2])px` and the `sx` /
+    style-object forms (`padding(X|Left|Right|Inline)?:`, `px:`), then read each hit's parent.
 
   Scan **[decision]**: `\bModalContent(Item)?\b` — matches every valid v4 usage by design; read
-  each file it names for the seven shapes above. Flag every modal for visual QA.
+  each file it names for the nine shapes above. Flag every modal for visual QA.
 
 - **`--modal-content-margin` split into `-x` / `-y`.** v4 reads no bare `--modal-content-margin`.
   A consumer override or `var()` read of it maps to `--modal-content-margin-x` (horizontal
@@ -2270,12 +2360,42 @@ shrank, so **buttons get narrower**:
 - New `size="xsmall"` (radius 8px, min-height 28px, padding 6px 10px, caption1 bold) — adoption
   is optional.
 
+- **Height now stretches.** v3 set `height: fit-content`; v4 uses `height: auto` plus the
+  `min-height`. A Button that is a direct child of a `display: flex` container with the
+  default `align-items: stretch` and a taller row now stretches to the row height (e.g.
+  48 → 82px). Fix with `sx={{ alignSelf: 'center' }}` (or `flex-start`) on the Button, or
+  `align-items` on the parent.
+- **A `height`-only override loses to `min-height`.** `height: 32px` on a `medium` Button
+  (SCSS, `sx`, `styled`) now renders 40px. Set `min-height` to the same value as well (or
+  `min-height: auto`).
+
 Layouts that depended on the old button width (rows of buttons, wrapping thresholds, buttons
 next to fixed-width content) need a visual check. Restoring v3 sizes with `sx` is a design
 decision — ask the user; do not pin old paddings by default.
 Scan **[decision]**: `<Button[[:space:]][^>]*(sx=|style=|width=|className=)` — buttons whose
 size was tuned by hand and may now double-correct (a line-based heuristic: multi-line props are
-missed). Every hit also goes on the Step 3 visual-QA list.
+missed). Every hit also goes on the Step 3 visual-QA list; for a `className` hit, read the
+stylesheet rule for a `height` without a matching `min-height`. Buttons stretched by a flex
+parent cannot be found by grep — they are a visual-QA item.
+
+### Chip size scale shifted down
+
+`Chip` got the same kind of spec change, one typography step smaller at every size — so a
+v4 `medium` (13px) is smaller than a v3 `small` (14px), and a responsive
+`sm={{ size: 'medium' }}` that works correctly still looks like the old `small`:
+
+| size   | v3              | v4              |
+| ------ | --------------- | --------------- |
+| xsmall | caption1 (12px) | caption2 (11px) |
+| small  | label1 (14px)   | caption1 (12px) |
+| medium | body2 (15px)    | label2 (13px)   |
+| large  | body2 (15px)    | label1 (14px)   |
+
+Keeping the v3 look is a design decision — ask the user. The closest mapping is one size up
+(`small` → `medium`, `medium` / `large` → `large`), applied to the responsive `xs`–`xl`
+`size` keys as well; v4 has no 15px Chip.
+Scan **[decision]**: `<Chip[[:space:]][^>]*size=` and `\b(xs|sm|md|lg|xl)=\{\{[^}]*size:` in
+files that import `Chip` — every hit goes on the Step 3 visual-QA list.
 
 ## Suggested commit boundary
 

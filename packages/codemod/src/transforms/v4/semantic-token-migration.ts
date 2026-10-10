@@ -1,3 +1,5 @@
+import { toSourcePreservingJsx } from '../../helpers';
+
 import {
   SEMANTIC_CSS_VARIABLE_PATTERN,
   SEMANTIC_TOKEN_MAP,
@@ -194,7 +196,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
 
   // Reprinted literals pick recast's quote option. Use 'auto' so each literal
   // keeps the quote style needing the least escaping.
-  return root.toSource({ quote: 'auto', ...options });
+  return toSourcePreservingJsx(j, root, { quote: 'auto', ...options });
 };
 
 export default transformer;

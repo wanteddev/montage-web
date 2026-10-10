@@ -286,7 +286,12 @@ export const mergeResponsiveProps = <T extends object, K extends keyof T>(
     if (userHasKeyAtOrBelow) {
       if (userBp !== undefined) merged[bp] = userBp;
     } else {
-      merged[bp] = { ...fallbackBp, ...userBp };
+      // fallback에서는 `key`만 가져온다 — 부모의 다른 반응형 값(sx 등)이
+      // 섞여 들어오면 자식이 그 스타일을 한 번 더 적용한다.
+      merged[bp] = {
+        ...userBp,
+        [key]: (fallbackBp as Pick<T, K>)[key],
+      };
     }
   }
 

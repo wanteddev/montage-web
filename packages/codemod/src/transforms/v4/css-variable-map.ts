@@ -108,14 +108,155 @@ export const renameWdsVariable = (token: string): string => {
 };
 
 /**
+ * 3.x의 `--wds-modal-content-margin` 하나가 4.0에서 `-x` / `-y` 두 변수로
+ * 나뉘었다. 접두사만 떼면 v4가 읽지 않는 `--modal-content-margin`이 되고,
+ * fallback 없는 `var()`는 선언 전체를 무효로 만든다. 그래서 이 변수를 읽는
+ * CSS 속성으로 축을 정하고, 정할 수 없으면 접두사만 뗀 이름을 남긴 채
+ * 보고한다(마이그레이션 스킬 M20의 [zero] 스캔이 남은 것을 잡는다).
+ */
+const SPLIT_MODAL_CONTENT_MARGIN = '--wds-modal-content-margin';
+
+const BOX_PROPERTY = '(padding|margin|scroll-padding|scroll-margin|inset)';
+
+const HORIZONTAL_PROPERTY = new RegExp(
+  `^(${BOX_PROPERTY}-(left|right|inline|inline-start|inline-end)|left|right)$`,
+);
+
+const VERTICAL_PROPERTY = new RegExp(
+  `^(${BOX_PROPERTY}-(top|bottom|block|block-start|block-end)|top|bottom)$`,
+);
+
+const BOX_SHORTHAND = new RegExp(`^${BOX_PROPERTY}$`);
+
+// `padding: a b c d`의 값 개수별 각 자리의 축 (top/bottom = y, left/right = x).
+const SHORTHAND_AXES: Record<number, ReadonlyArray<'x' | 'y'>> = {
+  2: ['y', 'x'],
+  3: ['y', 'x', 'y'],
+  4: ['y', 'x', 'y', 'x'],
+};
+
+const toKebabCase = (property: string) =>
+  property.replace(/[A-Z]/g, (char) => `-${char.toLowerCase()}`);
+
+/** 괄호 밖 공백으로 나눈 값 토큰의 [시작, 끝) 범위. */
+const splitTopLevelValues = (value: string) => {
+  const ranges: Array<[number, number]> = [];
+  let depth = 0;
+  let start = -1;
+
+  for (let index = 0; index <= value.length; index += 1) {
+    const char = value[index];
+
+    if (char === '(') depth += 1;
+    if (char === ')') depth -= 1;
+
+    const isBoundary = char === undefined || (depth === 0 && /\s/.test(char));
+
+    if (isBoundary && start !== -1) {
+      ranges.push([start, index]);
+      start = -1;
+    } else if (!isBoundary && start === -1) {
+      start = index;
+    }
+  }
+
+  return ranges.filter(
+    ([from, to]) => value.slice(from, to).toLowerCase() !== '!important',
+  );
+};
+
+const resolveAxis = (
+  input: string,
+  offset: number,
+  propertyHint: string | undefined,
+): 'x' | 'y' | undefined => {
+  // 같은 문자열 안의 선언(`prop: value`)을 먼저 찾고, 없으면 호출한 쪽이
+  // 넘긴 속성(인라인 스타일 객체의 key 등)을 쓴다.
+  const declarationStart =
+    Math.max(
+      input.lastIndexOf(';', offset),
+      input.lastIndexOf('{', offset),
+      input.lastIndexOf('}', offset),
+    ) + 1;
+  const declaration = /^\s*([-a-zA-Z]+)\s*:/.exec(
+    input.slice(declarationStart, offset),
+  );
+
+  let property = propertyHint;
+  let valueStart = 0;
+
+  if (declaration?.[1]) {
+    property = declaration[1];
+    valueStart = declarationStart + declaration[0].length;
+  }
+
+  if (!property) {
+    return undefined;
+  }
+
+  property = toKebabCase(property).toLowerCase();
+
+  if (HORIZONTAL_PROPERTY.test(property)) return 'x';
+  if (VERTICAL_PROPERTY.test(property)) return 'y';
+  if (!BOX_SHORTHAND.test(property)) return undefined;
+
+  const valueEnd = input.slice(valueStart).search(/[;}]/);
+  const value = input.slice(
+    valueStart,
+    valueEnd === -1 ? undefined : valueStart + valueEnd,
+  );
+  const ranges = splitTopLevelValues(value);
+  const position = ranges.findIndex(
+    ([from, to]) => offset - valueStart >= from && offset - valueStart < to,
+  );
+
+  return SHORTHAND_AXES[ranges.length]?.[position];
+};
+
+export type RenameWdsVariablesContext = {
+  /**
+   * 문자열에 `prop:` 선언이 없을 때 쓸 CSS 속성 이름 (`paddingLeft`,
+   * `padding-left` 모두 가능) — 인라인 스타일 객체의 key 등.
+   */
+  property?: string;
+  /** 축을 정하지 못한 `--wds-modal-content-margin`마다 호출된다. */
+  onUnresolved?: (excerpt: string) => void;
+};
+
+/**
  * Rewrites every `--wds-*` token inside an arbitrary string (CSS text, a
  * `var(...)` reference, an inline-style key, etc.). Returns the input unchanged
  * when no token is present.
  */
-export const renameWdsVariablesInString = (input: string): string => {
-  return input.replace(WDS_VARIABLE_PATTERN, (token) =>
-    renameWdsVariable(token),
-  );
+export const renameWdsVariablesInString = (
+  input: string,
+  context: RenameWdsVariablesContext = {},
+): string => {
+  return input.replace(WDS_VARIABLE_PATTERN, (token, offset: number) => {
+    if (token !== SPLIT_MODAL_CONTENT_MARGIN) {
+      return renameWdsVariable(token);
+    }
+
+    // 정의(`--wds-modal-content-margin: 20px`, 인라인 스타일 key)는 두 축을
+    // 함께 바꾸던 값이라 한쪽으로 정할 수 없다.
+    const isDefinition = /^\s*:/.test(input.slice(offset + token.length));
+    const axis = isDefinition
+      ? undefined
+      : resolveAxis(input, offset, context.property);
+
+    if (axis) {
+      return `--modal-content-margin-${axis}`;
+    }
+
+    const lineStart = input.lastIndexOf('\n', offset) + 1;
+    const lineEnd = input.indexOf('\n', offset);
+
+    context.onUnresolved?.(
+      input.slice(lineStart, lineEnd === -1 ? undefined : lineEnd).trim(),
+    );
+
+    return renameWdsVariable(token);
+  });
 };
 
 /**

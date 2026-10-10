@@ -1,4 +1,8 @@
-import { findImportDeclaration, getImportedName } from '../../helpers';
+import {
+  findImportDeclaration,
+  getImportedName,
+  toSourcePreservingJsx,
+} from '../../helpers';
 import { MONTAGE_SOURCES } from '../../constants';
 
 import type { API, FileInfo, Identifier, Options } from 'jscodeshift';
@@ -139,7 +143,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
     }
   }
 
-  return hasChanges ? root.toSource(options) : file.source;
+  return hasChanges ? toSourcePreservingJsx(j, root, options) : file.source;
 };
 
 export default transformer;
