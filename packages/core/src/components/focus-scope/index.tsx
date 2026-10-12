@@ -94,6 +94,13 @@ const FocusScopeWrapper = forwardRef<
     const onMountAutoFocus = useCallbackRef(onMountAutoFocusProp);
     const onUnmountAutoFocus = useCallbackRef(onUnmountAutoFocusProp);
     const lastFocusedElementRef = useRef<HTMLElement | null>(null);
+    // Captured during the first render, before any child can move focus into
+    // the scope on mount (`autoFocus`, or effects like DateCalendar's).
+    const [focusedElementBeforeMount] = useState(() =>
+      typeof document === 'undefined'
+        ? null
+        : (document.activeElement as HTMLElement | null),
+    );
 
     const composedRefs = useComposedRefs(forwardedRef, (node) =>
       setContainer(node),
@@ -161,11 +168,9 @@ const FocusScopeWrapper = forwardRef<
     useEffect(() => {
       if (container) {
         focusScopesStack.add(focusScope);
-        const previouslyFocusedElement =
-          document.activeElement as HTMLElement | null;
-        const hasFocusedCandidate = container.contains(
-          previouslyFocusedElement,
-        );
+        focusScopeContainers.add(container);
+        const previouslyFocusedElement = focusedElementBeforeMount;
+        const hasFocusedCandidate = container.contains(document.activeElement);
 
         if (!hasFocusedCandidate) {
           const mountEvent = new CustomEvent(AUTOFOCUS_ON_MOUNT, EVENT_OPTIONS);
@@ -192,6 +197,7 @@ const FocusScopeWrapper = forwardRef<
 
         return () => {
           container.removeEventListener(AUTOFOCUS_ON_MOUNT, onMountAutoFocus);
+          focusScopeContainers.delete(container);
 
           setTimeout(() => {
             const unmountEvent = new CustomEvent(
@@ -203,7 +209,18 @@ const FocusScopeWrapper = forwardRef<
               onUnmountAutoFocus,
             );
             container.dispatchEvent(unmountEvent);
-            if (!unmountEvent.defaultPrevented) {
+            // Restore only when focus was lost with the scope's content: it
+            // fell back to the body, or to an enclosing scope's container
+            // (its MutationObserver catches the removal first). If the consumer
+            // has already moved focus elsewhere (e.g. to the next field on
+            // close), keep it there.
+            const activeElement = document.activeElement;
+            const hasLostFocus =
+              !activeElement ||
+              activeElement === document.body ||
+              focusScopeContainers.has(activeElement as HTMLElement);
+
+            if (!unmountEvent.defaultPrevented && hasLostFocus) {
               focus(previouslyFocusedElement ?? document.body, {
                 select: true,
               });
@@ -223,6 +240,7 @@ const FocusScopeWrapper = forwardRef<
       onUnmountAutoFocus,
       focusScope,
       trappedContent,
+      focusedElementBeforeMount,
     ]);
 
     const handleKeyDown = useCallback(
@@ -304,6 +322,8 @@ const createFocusScopesStack = () => {
 };
 
 const focusScopesStack = createFocusScopesStack();
+
+const focusScopeContainers = new Set<HTMLElement>();
 
 export { FocusScope };
 

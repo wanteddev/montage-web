@@ -1,5 +1,6 @@
 import { forwardRef } from 'react';
 import {
+  act,
   cleanup,
   fireEvent,
   render,
@@ -214,5 +215,91 @@ describe('when given a custom input to DatePicker', () => {
     render(<DatePicker input={CustomInput as never} xs={{ width: '100px' }} />);
 
     expect(receiveXs).toHaveBeenLastCalledWith({ width: '100px' });
+  });
+});
+
+describe('when the date picker calendar closes', () => {
+  // Unmount restore runs in a setTimeout(0).
+  const flush = () =>
+    act(() => new Promise<void>((resolve) => setTimeout(resolve, 0)));
+
+  const openCalendar = async () => {
+    const toggle = screen.getByLabelText('Toggle date picker');
+    toggle.focus();
+    fireEvent.click(toggle);
+    await flush();
+  };
+
+  afterEach(() => {
+    cleanup();
+  });
+
+  // DateCalendar focuses a day on mount, before FocusScope used to capture
+  // the element to restore focus to.
+  it('should restore focus to the calendar button on Escape', async () => {
+    render(<DatePicker locale="en-US" defaultValue={new Date('2025-01-01')} />);
+
+    await openCalendar();
+    expect(document.activeElement).toHaveAttribute('data-date', '1');
+
+    fireEvent.keyDown(document.activeElement!, { key: 'Escape' });
+    await flush();
+
+    expect(screen.getByLabelText('Toggle date picker')).toHaveFocus();
+  });
+
+  it('should restore focus to the calendar button when a date is selected', async () => {
+    render(<DatePicker locale="en-US" defaultValue={new Date('2025-01-01')} />);
+
+    await openCalendar();
+    fireEvent.click(screen.getByText('15'));
+    await flush();
+
+    expect(screen.getByLabelText('Toggle date picker')).toHaveFocus();
+  });
+
+  // A synchronous focus() here is pulled back by the still-trapped scope, so
+  // consumers defer it until the picker has closed.
+  it('should keep focus moved to the next field after onChangeComplete', async () => {
+    render(
+      <>
+        <DatePicker
+          locale="en-US"
+          onChangeComplete={() =>
+            setTimeout(() => screen.getByLabelText('next').focus())
+          }
+        />
+        <input aria-label="next" />
+      </>,
+    );
+
+    await openCalendar();
+    fireEvent.click(screen.getByText('15'));
+    await flush();
+
+    expect(screen.getByLabelText('next')).toHaveFocus();
+  });
+
+  it('should respect a custom onUnmountAutoFocus', async () => {
+    render(
+      <>
+        <button>other</button>
+        <DatePicker
+          locale="en-US"
+          contentProps={{
+            onUnmountAutoFocus: (event) => {
+              event.preventDefault();
+              screen.getByRole('button', { name: 'other' }).focus();
+            },
+          }}
+        />
+      </>,
+    );
+
+    await openCalendar();
+    fireEvent.keyDown(document.activeElement!, { key: 'Escape' });
+    await flush();
+
+    expect(screen.getByRole('button', { name: 'other' })).toHaveFocus();
   });
 });

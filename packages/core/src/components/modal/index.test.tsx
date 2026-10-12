@@ -1,8 +1,16 @@
-import { cleanup, fireEvent, render, screen } from '@testing-library/react';
+import { useState } from 'react';
+import {
+  act,
+  cleanup,
+  fireEvent,
+  render,
+  screen,
+} from '@testing-library/react';
 import { axe } from 'vitest-axe';
 
 import { Button } from '../button';
 import { ActionArea, ActionAreaButton } from '../action-area';
+import { DatePicker } from '../date-picker';
 
 import {
   Modal,
@@ -607,4 +615,90 @@ describe('when given modal navigation without a title', () => {
       ).not.toBeInTheDocument();
     },
   );
+});
+
+describe('when the modal closes', () => {
+  // Unmount restore runs in a setTimeout(0).
+  const flush = () =>
+    act(() => new Promise<void>((resolve) => setTimeout(resolve, 0)));
+
+  const ControlledModal = ({ withTrigger }: { withTrigger: boolean }) => {
+    const [open, setOpen] = useState(false);
+
+    return (
+      <>
+        {!withTrigger && <Button onClick={() => setOpen(true)}>Open</Button>}
+        <Modal open={open} onOpenChange={setOpen}>
+          {withTrigger && (
+            <ModalTrigger>
+              <Button>Open</Button>
+            </ModalTrigger>
+          )}
+          <ModalContainer>
+            <ModalContent>
+              <input aria-label="auto" autoFocus />
+            </ModalContent>
+          </ModalContainer>
+        </Modal>
+      </>
+    );
+  };
+
+  afterEach(() => {
+    cleanup();
+  });
+
+  it.each([
+    ['with ModalTrigger', true],
+    ['without ModalTrigger', false],
+  ])(
+    'should restore focus to the opener when content has autoFocus (%s)',
+    async (_, withTrigger) => {
+      render(<ControlledModal withTrigger={withTrigger} />);
+
+      const opener = screen.getByRole('button', { name: 'Open' });
+      opener.focus();
+      fireEvent.click(opener);
+      await flush();
+      expect(screen.getByLabelText('auto')).toHaveFocus();
+
+      fireEvent.keyDown(document.activeElement!, { key: 'Escape' });
+      await flush();
+
+      expect(opener).toHaveFocus();
+    },
+  );
+
+  it('should restore focus through nested overlays in order', async () => {
+    render(
+      <Modal>
+        <ModalTrigger>
+          <Button>Open</Button>
+        </ModalTrigger>
+        <ModalContainer>
+          <ModalContent>
+            <DatePicker locale="en-US" />
+          </ModalContent>
+        </ModalContainer>
+      </Modal>,
+    );
+
+    const opener = screen.getByRole('button', { name: 'Open' });
+    opener.focus();
+    fireEvent.click(opener);
+    await flush();
+
+    const calendarToggle = screen.getByLabelText('Toggle date picker');
+    calendarToggle.focus();
+    fireEvent.click(calendarToggle);
+    await flush();
+
+    fireEvent.keyDown(document.activeElement!, { key: 'Escape' });
+    await flush();
+    expect(calendarToggle).toHaveFocus();
+
+    fireEvent.keyDown(document.activeElement!, { key: 'Escape' });
+    await flush();
+    expect(opener).toHaveFocus();
+  });
 });
