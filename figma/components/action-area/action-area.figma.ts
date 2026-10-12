@@ -4,6 +4,8 @@
 
 import figma from 'figma';
 
+import { inlineInstances } from '../../helpers/imports';
+
 type InstanceHandle = ReturnType<typeof figma.selectedInstance.findInstance>;
 
 // Reads the label of an optional button layer inside the `Actions` resource.
@@ -269,4 +271,4 @@ if (figma.selectedInstance.getPropertyValue('Extra') === 'False') {
   };
 }
 
-export default template;
+export default inlineInstances(template);

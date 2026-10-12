@@ -2,6 +2,8 @@
 
 import figma from 'figma';
 
+import { inlineInstances } from '../../helpers/imports';
+
 const disabled = figma.selectedInstance.getBoolean('Disable');
 const size = figma.selectedInstance.getEnum('Size', {
   Medium: 'medium',
@@ -28,7 +30,7 @@ if (nested && nested.type !== 'ERROR') {
   __props['nested'] = nested;
 }
 
-export default {
+export default inlineInstances({
   id: 'IconButton',
   imports: ["import { IconButton } from '@montage-ui/core';"],
   example: figma.code`<IconButton variant="solid"${figma.helpers.react.renderProp(
@@ -38,4 +40,4 @@ export default {
       ${figma.helpers.react.renderChildren(nested.children)}
     </IconButton>`,
   metadata: { nestable: true, __props },
-};
+});

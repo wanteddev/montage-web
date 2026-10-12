@@ -4,6 +4,8 @@
 
 import figma from 'figma';
 
+import { inlineInstances } from '../../helpers/imports';
+
 const disabled = figma.selectedInstance.getBoolean('Disable');
 const alternative = figma.selectedInstance.getBoolean('Alternative');
 const children = figma.properties.children(['Icon']);
@@ -18,7 +20,7 @@ if (children && children.type !== 'ERROR') {
   __props['children'] = children;
 }
 
-export default {
+export default inlineInstances({
   id: 'IconButton',
   imports: ["import { IconButton } from '@montage-ui/core';"],
   example: figma.code`<IconButton variant="background"${figma.helpers.react.renderProp(
@@ -28,4 +30,4 @@ export default {
       ${figma.helpers.react.renderChildren(children)}
     </IconButton>`,
   metadata: { nestable: true, __props },
-};
+});

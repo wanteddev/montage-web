@@ -4,6 +4,7 @@
 
 import figma from 'figma';
 
+import { inlineInstances } from '../../helpers/imports';
 import { finalizeTemplate } from '../modal/collect-imports';
 import { joinTemplates } from '../../helpers/list-cell';
 import { coreImport } from '../../helpers/menu-item';
@@ -71,10 +72,11 @@ const actionArea =
     ? actionAreaLayer.executeTemplate().example
     : undefined;
 
-export default finalizeTemplate({
-  id: 'Menu',
-  imports: [coreImport([...imports])],
-  example: figma.tsx`<Menu>
+export default inlineInstances(
+  finalizeTemplate({
+    id: 'Menu',
+    imports: [coreImport([...imports])],
+    example: figma.tsx`<Menu>
   <MenuTrigger>
     <Button>Trigger</Button>
   </MenuTrigger>
@@ -89,5 +91,6 @@ ${list}
     }
   </MenuContent>
 </Menu>`,
-  metadata: { nestable: true },
-});
+    metadata: { nestable: true },
+  }),
+);

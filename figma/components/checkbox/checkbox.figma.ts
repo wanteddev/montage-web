@@ -4,6 +4,8 @@
 
 import figma from 'figma';
 
+import { inlineInstances } from '../../helpers/imports';
+
 const instance = figma.selectedInstance;
 
 const state = instance.getPropertyValue('State');
@@ -25,7 +27,7 @@ const control = `<Checkbox${state === 'Checked' ? ' defaultChecked' : ''}${state
 }${disabled ? ' disabled' : ''}${bold ? ' bold' : ''}${tight ? ' tight' : ''} />`;
 
 // Labeled controls use FormControl; without a label only the control remains.
-export default {
+export default inlineInstances({
   id: 'Checkbox',
   imports: [
     label
@@ -41,4 +43,4 @@ export default {
 </FormControl>`
     : figma.tsx`${control}`,
   metadata: { nestable: true },
-};
+});

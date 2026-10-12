@@ -2,6 +2,8 @@
 
 import figma from 'figma';
 
+import { inlineInstances } from '../../helpers/imports';
+
 import { renderNested, uniqueImports } from './top-navigation-shared';
 
 // Renders the nested search field directly (no wrapping fragment).
@@ -13,9 +15,9 @@ const imports = uniqueImports([
   ...(field?.imports ?? []),
 ]);
 
-export default {
+export default inlineInstances({
   id: 'TopNavigationSearchField',
   imports: field ? imports : [],
   example: field ? figma.tsx`${field.code}` : figma.code``,
   metadata: { nestable: true, props: { imports: field ? imports : [] } },
-};
+});

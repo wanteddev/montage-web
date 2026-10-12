@@ -4,6 +4,7 @@
 
 import figma from 'figma';
 
+import { inlineInstances } from '../../helpers/imports';
 import { finalizeTemplate } from '../modal/collect-imports';
 
 // Branch per variant; unmatched combinations render no snippet.
@@ -104,4 +105,4 @@ if (figma.selectedInstance.getPropertyValue('Variant') === 'Normal') {
   };
 }
 
-export default finalizeTemplate(template);
+export default inlineInstances(finalizeTemplate(template));

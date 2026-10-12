@@ -1,5 +1,7 @@
 import figma from 'figma';
 
+import { flattenInstances } from './imports';
+
 type InstanceHandle = ReturnType<typeof figma.selectedInstance.findInstance>;
 
 /**
@@ -109,20 +111,17 @@ export const renderPreset = (
   // A radio preset renders `RadioGroupItem`, whose `value` must identify the
   // cell inside the surrounding `RadioGroup`: the parent passes its label.
   const radioItem = metadata?.props?.radioItem as string | undefined;
-  if (importSink) {
-    const declared = metadata?.props?.imports as Array<string> | undefined;
-    declared?.forEach((statement) => importSink.add(statement));
-    // Only the preset's content: its own example also carries the preset's
-    // wrapper import (e.g. `ListCellContent`), which is replaced by `component`.
-    collectSectionImports(metadata?.__props?.children, importSink);
-  }
+  const declared = metadata?.props?.imports as Array<string> | undefined;
+  declared?.forEach((statement) => importSink?.add(statement));
   const variant = metadata?.props?.variant as string | undefined;
+  // Only the preset's content: its own example also carries the preset's
+  // wrapper import (e.g. `ListCellContent`), which is replaced by `component`.
   const children =
     radioItem !== undefined && itemValue !== undefined
       ? figma.tsx`<RadioGroupItem value=${JSON.stringify(
           itemValue,
         )} tabIndex={-1}${radioItem} />`
-      : (metadata?.__props?.children as unknown);
+      : flattenInstances(metadata?.__props?.children, importSink);
   const variantProp = (variant ? ` variant="${variant}"` : '') + extraProps;
 
   // Presets pass either rendered sections (`figma.properties.children`), a

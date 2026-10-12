@@ -4,6 +4,8 @@
 
 import figma from 'figma';
 
+import { inlineInstances } from '../../helpers/imports';
+
 // The radio in a list cell is a `RadioGroupItem`: the list is wrapped in a
 // `RadioGroup`, which owns the selection (`defaultValue`), so the Figma
 // `Checked` state is not expressed on the item. The parent cell template
@@ -17,7 +19,7 @@ const radioItem =
       (radio.getPropertyValue('Disable') === 'True' ? ' disabled' : '');
 const children = figma.tsx`<RadioGroupItem value="value" tabIndex={-1}${radioItem} />`;
 
-export default {
+export default inlineInstances({
   id: 'ListCellContent',
   imports: [
     "import { ListCellContent, RadioGroupItem } from '@montage-ui/core';",
@@ -32,4 +34,4 @@ export default {
     },
     __props: { children },
   },
-};
+});

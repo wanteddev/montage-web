@@ -4,6 +4,7 @@
 
 import figma from 'figma';
 
+import { inlineInstances } from '../../helpers/imports';
 import { pushBadgeProps } from '../../helpers/push-badge';
 
 // Branch per variant; unmatched combinations render no snippet.
@@ -131,4 +132,4 @@ if (figma.selectedInstance.getPropertyValue('Badge') === false) {
   };
 }
 
-export default template;
+export default inlineInstances(template);

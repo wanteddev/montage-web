@@ -4,6 +4,8 @@
 
 import figma from 'figma';
 
+import { inlineInstances } from '../../helpers/imports';
+
 import { finalizeTemplate } from './collect-imports';
 import { joinParts } from './modal-helpers';
 
@@ -115,4 +117,4 @@ ${joinParts(parts)}
   };
 }
 
-export default finalizeTemplate(template);
+export default inlineInstances(finalizeTemplate(template));

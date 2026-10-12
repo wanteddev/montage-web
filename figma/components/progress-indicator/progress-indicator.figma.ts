@@ -4,6 +4,8 @@
 
 import figma from 'figma';
 
+import { inlineInstances } from '../../helpers/imports';
+
 const percent = figma.selectedInstance.getEnum('Percent', {
   '0%': 0,
   '50%': 50,
@@ -14,7 +16,7 @@ if (percent && percent.type !== 'ERROR') {
   __props['percent'] = percent;
 }
 
-export default {
+export default inlineInstances({
   id: 'ProgressIndicator',
   imports: ["import { ProgressIndicator } from '@montage-ui/core';"],
   example: figma.code`<ProgressIndicator${figma.helpers.react.renderProp(
@@ -22,4 +24,4 @@ export default {
     percent,
   )}/>`,
   metadata: { nestable: true, __props },
-};
+});

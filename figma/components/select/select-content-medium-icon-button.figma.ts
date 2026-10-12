@@ -4,6 +4,7 @@
 
 import figma from 'figma';
 
+import { inlineInstances } from '../../helpers/imports';
 import {
   contentResourceImports,
   iconImportStatements,
@@ -20,7 +21,7 @@ if (children && children.type !== 'ERROR') {
   __props['children'] = children;
 }
 
-export default {
+export default inlineInstances({
   id: 'SelectContent',
   imports: [
     ...deepIconImports,
@@ -30,4 +31,4 @@ export default {
     children,
   )}</SelectContent>`,
   metadata: { nestable: true, __props },
-};
+});

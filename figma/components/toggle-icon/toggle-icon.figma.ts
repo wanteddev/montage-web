@@ -4,6 +4,7 @@
 
 import figma from 'figma';
 
+import { inlineInstances } from '../../helpers/imports';
 import { renderIcon } from '../../helpers/icon';
 
 const icon = renderIcon(figma.selectedInstance.getInstanceSwap('Icon'));
@@ -13,11 +14,11 @@ const imports = [
   ...(icon?.imports ?? []),
 ];
 
-export default {
+export default inlineInstances({
   id: 'ToggleIcon',
   imports,
   example: figma.tsx`<ToggleIcon${active ? ' defaultActive' : ''}>${
     icon ? icon.code : ''
   }</ToggleIcon>`,
   metadata: { nestable: true, props: { imports } },
-};
+});

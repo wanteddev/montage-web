@@ -4,6 +4,7 @@
 
 import figma from 'figma';
 
+import { inlineInstances } from '../../helpers/imports';
 import { finalizeTemplate } from '../modal/collect-imports';
 import {
   AUTOCOMPLETE_OPTION_SLOT_NAMES,
@@ -20,19 +21,21 @@ const leadingContent = renderPreset(
   AUTOCOMPLETE_OPTION_SLOT_NAMES.content,
 );
 
-export default finalizeTemplate({
-  id: 'AutocompleteOption',
-  imports: [
-    coreImport([
-      'AutocompleteOption',
-      ...(leadingContent ? [AUTOCOMPLETE_OPTION_SLOT_NAMES.content] : []),
-    ]),
-  ],
-  example: figma.tsx`<AutocompleteOption value=""${renderElementProp(
-    'leadingContent',
-    leadingContent,
-  )}>
+export default inlineInstances(
+  finalizeTemplate({
+    id: 'AutocompleteOption',
+    imports: [
+      coreImport([
+        'AutocompleteOption',
+        ...(leadingContent ? [AUTOCOMPLETE_OPTION_SLOT_NAMES.content] : []),
+      ]),
+    ],
+    example: figma.tsx`<AutocompleteOption value=""${renderElementProp(
+      'leadingContent',
+      leadingContent,
+    )}>
   ${label.type === 'ERROR' ? '' : label.textContent}
 </AutocompleteOption>`,
-  metadata: { nestable: true },
-});
+    metadata: { nestable: true },
+  }),
+);

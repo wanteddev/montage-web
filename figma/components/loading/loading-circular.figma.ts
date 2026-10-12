@@ -4,8 +4,10 @@
 
 import figma from 'figma';
 
-export default {
+import { inlineInstances } from '../../helpers/imports';
+
+export default inlineInstances({
   id: 'Loading',
   imports: ["import { Loading } from '@montage-ui/core';"],
   example: figma.code`<Loading variant="circular"/>`,
-};
+});

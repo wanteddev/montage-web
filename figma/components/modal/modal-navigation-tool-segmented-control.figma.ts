@@ -4,6 +4,8 @@
 
 import figma from 'figma';
 
+import { inlineInstances } from '../../helpers/imports';
+
 import { finalizeTemplate } from './collect-imports';
 
 // Navigation toolbar resource: renders the nested Segmented Control as-is (`toolbar` content).
@@ -14,9 +16,11 @@ const children =
     ? childLayer.executeTemplate().example
     : undefined;
 
-export default finalizeTemplate({
-  id: 'ModalNavigationTool',
-  imports: [],
-  example: figma.code`${figma.helpers.react.renderChildren(children)}`,
-  metadata: { nestable: true },
-});
+export default inlineInstances(
+  finalizeTemplate({
+    id: 'ModalNavigationTool',
+    imports: [],
+    example: figma.code`${figma.helpers.react.renderChildren(children)}`,
+    metadata: { nestable: true },
+  }),
+);

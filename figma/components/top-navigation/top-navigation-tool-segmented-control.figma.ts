@@ -2,14 +2,16 @@
 
 import figma from 'figma';
 
+import { inlineInstances } from '../../helpers/imports';
+
 const children = figma.properties.children(['Segmented Control']);
 const __props: Record<string, unknown> = {};
 if (children && children.type !== 'ERROR') {
   __props['children'] = children;
 }
 
-export default {
+export default inlineInstances({
   id: 'TopNavigationToolSegmentedControl',
   example: figma.code`${figma.helpers.react.renderChildren(children)}`,
   metadata: { nestable: true, __props },
-};
+});

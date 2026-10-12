@@ -4,14 +4,17 @@
 
 import figma from 'figma';
 
+import { inlineInstances } from '../../helpers/imports';
 import { finalizeTemplate } from '../modal/collect-imports';
 
 const titleLayer = figma.selectedInstance.findText('제목');
 const title = titleLayer.type === 'ERROR' ? '' : titleLayer.textContent;
 
-export default finalizeTemplate({
-  id: 'AutocompleteGroup',
-  imports: ["import { AutocompleteGroup } from '@montage-ui/core';"],
-  example: figma.tsx`<AutocompleteGroup title=${JSON.stringify(title)}>{/* AutocompleteOption */}</AutocompleteGroup>`,
-  metadata: { nestable: true, props: { title } },
-});
+export default inlineInstances(
+  finalizeTemplate({
+    id: 'AutocompleteGroup',
+    imports: ["import { AutocompleteGroup } from '@montage-ui/core';"],
+    example: figma.tsx`<AutocompleteGroup title=${JSON.stringify(title)}>{/* AutocompleteOption */}</AutocompleteGroup>`,
+    metadata: { nestable: true, props: { title } },
+  }),
+);

@@ -4,6 +4,8 @@
 
 import figma from 'figma';
 
+import { inlineInstances } from '../../helpers/imports';
+
 import { finalizeTemplate } from './collect-imports';
 import { joinParts, renderInstance } from './modal-helpers';
 
@@ -18,11 +20,13 @@ const illustration =
       figma.code`{/* 일러스트 */}`)
     : undefined;
 
-export default finalizeTemplate({
-  id: 'ModalContentItem',
-  imports: ["import { ModalContentItem } from '@montage-ui/core';"],
-  example: figma.tsx`<ModalContentItem alignItems="center" gap="20px">
+export default inlineInstances(
+  finalizeTemplate({
+    id: 'ModalContentItem',
+    imports: ["import { ModalContentItem } from '@montage-ui/core';"],
+    example: figma.tsx`<ModalContentItem alignItems="center" gap="20px">
 ${joinParts([heading, illustration]) ?? ''}
 </ModalContentItem>`,
-  metadata: { nestable: true },
-});
+    metadata: { nestable: true },
+  }),
+);

@@ -4,6 +4,8 @@
 
 import figma from 'figma';
 
+import { inlineInstances } from '../../helpers/imports';
+
 type ResultSection = ReturnType<
   ReturnType<typeof figma.selectedInstance.findInstance>['executeTemplate']
 >['example'][number];
@@ -93,7 +95,7 @@ const labelElement = hasLabel
   <FormControlLabel${required ? ' required' : ''}>${label}</FormControlLabel>`
   : '';
 
-export default {
+export default inlineInstances({
   id: 'FormControl',
   imports: [
     `import { FormControl, FormControlField${
@@ -111,4 +113,4 @@ export default {
   ${figma.helpers.react.renderChildren(footer)}
 </FormControl>`,
   metadata: { nestable: true },
-};
+});

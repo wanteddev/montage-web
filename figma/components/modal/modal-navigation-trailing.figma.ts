@@ -4,6 +4,8 @@
 
 import figma from 'figma';
 
+import { inlineInstances } from '../../helpers/imports';
+
 import { finalizeTemplate } from './collect-imports';
 import {
   NAVIGATION_BUTTON_IMPORT,
@@ -13,12 +15,14 @@ import {
 } from './modal-navigation-shared';
 
 // Group of up to three trailing actions (`trailingContent` of the navigation).
-export default finalizeTemplate({
-  id: 'ModalNavigationTrailing',
-  imports: [NAVIGATION_BUTTON_IMPORT],
-  example:
-    joinElements(
-      trailingGroupActions(figma.selectedInstance).map(renderTrailingAction),
-    ) ?? figma.code``,
-  metadata: { nestable: true },
-});
+export default inlineInstances(
+  finalizeTemplate({
+    id: 'ModalNavigationTrailing',
+    imports: [NAVIGATION_BUTTON_IMPORT],
+    example:
+      joinElements(
+        trailingGroupActions(figma.selectedInstance).map(renderTrailingAction),
+      ) ?? figma.code``,
+    metadata: { nestable: true },
+  }),
+);

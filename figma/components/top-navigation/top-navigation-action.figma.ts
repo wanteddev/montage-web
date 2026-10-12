@@ -4,15 +4,17 @@
 
 import figma from 'figma';
 
+import { inlineInstances } from '../../helpers/imports';
+
 import { renderAction } from './top-navigation-shared';
 
 // Icon | Text; the icon import is re-declared for parents.
 const action = renderAction(figma.selectedInstance);
 const imports = action?.imports ?? [];
 
-export default {
+export default inlineInstances({
   id: 'TopNavigationButton',
   imports,
   example: action ? figma.tsx`${action.code}` : figma.code``,
   metadata: { nestable: true, props: { imports } },
-};
+});

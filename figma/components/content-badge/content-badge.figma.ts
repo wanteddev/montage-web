@@ -4,6 +4,8 @@
 
 import figma from 'figma';
 
+import { inlineInstances } from '../../helpers/imports';
+
 const children = figma.selectedInstance.getString('Text');
 const leadingContent = figma.selectedInstance.getBoolean('Leading Icon', {
   true: figma.properties.children(['Leading Icon']),
@@ -48,7 +50,7 @@ if (variant && variant.type !== 'ERROR') {
   __props['variant'] = variant;
 }
 
-export default {
+export default inlineInstances({
   id: 'ContentBadge',
   imports: ["import { ContentBadge } from '@montage-ui/core';"],
   example: figma.code`<ContentBadge${figma.helpers.react.renderProp(
@@ -68,4 +70,4 @@ export default {
     variant,
   )}>${figma.helpers.react.renderChildren(children)}</ContentBadge>`,
   metadata: { nestable: true, __props },
-};
+});

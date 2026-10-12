@@ -4,17 +4,19 @@
 
 import figma from 'figma';
 
+import { inlineInstances } from '../../helpers/imports';
+
 const children = figma.properties.children(['Icons/Icons']);
 const __props: Record<string, unknown> = {};
 if (children && children.type !== 'ERROR') {
   __props['children'] = children;
 }
 
-export default {
+export default inlineInstances({
   id: 'SelectContent',
   imports: ["import { SelectContent } from '@montage-ui/core';"],
   example: figma.code`<SelectContent variant="icon">${figma.helpers.react.renderChildren(
     children,
   )}</SelectContent>`,
   metadata: { nestable: true, __props },
-};
+});

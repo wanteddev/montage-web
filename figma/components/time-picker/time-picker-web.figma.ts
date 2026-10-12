@@ -4,6 +4,8 @@
 
 import figma from 'figma';
 
+import { inlineInstances } from '../../helpers/imports';
+
 const format = figma.selectedInstance.getEnum('Variant', {
   'HH:MM': 'HH:mm',
   'AA HH': 'a hh',
@@ -24,7 +26,7 @@ if (actionArea && actionArea.type !== 'ERROR') {
   __props['actionArea'] = actionArea;
 }
 
-export default {
+export default inlineInstances({
   id: 'TimePicker',
   imports: [
     `import { ${actionArea ? 'PickerActionArea, PickerActionAreaButton, ' : ''}TimePicker } from '@montage-ui/core';`,
@@ -34,4 +36,4 @@ export default {
     format,
   )}${figma.helpers.react.renderProp('actionArea', actionArea)}/>`,
   metadata: { nestable: true, __props },
-};
+});

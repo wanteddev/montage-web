@@ -4,6 +4,8 @@
 
 import figma from 'figma';
 
+import { inlineInstances } from '../../helpers/imports';
+
 // `RadioGroupItem` only works inside `RadioGroup`; the checked state is
 // expressed through the group's uncontrolled `defaultValue`.
 const checked = figma.selectedInstance.getPropertyValue('State') === 'Checked';
@@ -26,7 +28,7 @@ const itemProps =
 const item = `<RadioGroupItem value="1"${itemProps} />`;
 
 // Labeled radios use FormControl; without a label only the item remains.
-export default {
+export default inlineInstances({
   id: 'RadioGroupItem',
   imports: [
     label
@@ -46,4 +48,4 @@ export default {
   ${item}
 </RadioGroup>`,
   metadata: { nestable: true },
-};
+});

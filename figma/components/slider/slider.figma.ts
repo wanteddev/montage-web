@@ -4,6 +4,8 @@
 
 import figma from 'figma';
 
+import { inlineInstances } from '../../helpers/imports';
+
 const range = figma.selectedInstance.getPropertyValue('Range') === 'True';
 const percent =
   figma.selectedInstance.getEnum('Percent', {
@@ -36,11 +38,11 @@ const labelProp = label
     : ` label=${JSON.stringify(single)}`
   : '';
 
-export default {
+export default inlineInstances({
   id: 'Slider',
   imports: ["import { Slider } from '@montage-ui/core';"],
   example: figma.code`<Slider defaultValue={${defaultValue}}${titleProp}${labelProp}${
     disabled ? ' disabled' : ''
   } />`,
   metadata: { nestable: true },
-};
+});

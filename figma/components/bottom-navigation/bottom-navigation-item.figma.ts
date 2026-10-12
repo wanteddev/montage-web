@@ -4,6 +4,7 @@
 
 import figma from 'figma';
 
+import { inlineInstances } from '../../helpers/imports';
 import { renderIcon } from '../../helpers/icon';
 import { renderNested } from '../top-navigation/top-navigation-shared';
 
@@ -36,11 +37,11 @@ const imports = [
   ...(icon?.imports ?? []),
 ];
 
-export default {
+export default inlineInstances({
   id: 'BottomNavigationItem',
   imports,
   example: figma.tsx`<BottomNavigationItem value=${JSON.stringify(label)} label=${JSON.stringify(
     label,
   )}${icon ? figma.tsx` icon={${icon.code}}` : ''} />`,
   metadata: { nestable: true, props: { imports } },
-};
+});

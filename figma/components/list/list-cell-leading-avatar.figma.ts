@@ -4,6 +4,8 @@
 
 import figma from 'figma';
 
+import { inlineInstances } from '../../helpers/imports';
+
 // The cell owns the interaction and `ListCellContent variant="avatar"` sizes the
 // avatar (slot default), so the avatar renders as a plain `Avatar` with its
 // variant only (docs: List cell › Avatar).
@@ -19,7 +21,7 @@ const variant =
 const children = figma.tsx`<Avatar${variant ? ` variant="${variant}"` : ''} />`;
 const imports = ["import { Avatar } from '@montage-ui/core';"];
 
-export default {
+export default inlineInstances({
   id: 'ListCellContent',
   imports: ["import { Avatar, ListCellContent } from '@montage-ui/core';"],
   example: figma.tsx`<ListCellContent variant="avatar">${children}</ListCellContent>`,
@@ -28,4 +30,4 @@ export default {
     props: { variant: 'avatar', imports },
     __props: { children },
   },
-};
+});

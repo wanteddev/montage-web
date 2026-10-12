@@ -4,6 +4,8 @@
 
 import figma from 'figma';
 
+import { inlineInstances } from '../../helpers/imports';
+
 const children = figma.selectedInstance.getString('Text');
 const leadingContent = figma.selectedInstance.getBoolean('Leading Content', {
   true: figma.properties.children(['Leading Content']),
@@ -48,7 +50,7 @@ if (variant && variant.type !== 'ERROR') {
   __props['variant'] = variant;
 }
 
-export default {
+export default inlineInstances({
   id: 'Chip',
   imports: ["import { Chip } from '@montage-ui/core';"],
   example: figma.code`<Chip${figma.helpers.react.renderProp(
@@ -71,4 +73,4 @@ export default {
     variant,
   )}>${figma.helpers.react.renderChildren(children)}</Chip>`,
   metadata: { nestable: true, __props },
-};
+});

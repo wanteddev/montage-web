@@ -4,6 +4,7 @@
 
 import figma from 'figma';
 
+import { inlineInstances } from '../../helpers/imports';
 import {
   buildImports,
   renderListCardContent,
@@ -137,4 +138,4 @@ if (instance.getPropertyValue('Skeleton') === 'False') {
   };
 }
 
-export default template;
+export default inlineInstances(template);

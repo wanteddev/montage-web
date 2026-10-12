@@ -4,6 +4,7 @@
 
 import figma from 'figma';
 
+import { inlineInstances } from '../../helpers/imports';
 import { finalizeTemplate } from '../modal/collect-imports';
 import { MENU_ITEM_SLOT_NAMES } from '../../helpers/list-cell';
 import { coreImport, renderListCellItem } from '../../helpers/menu-item';
@@ -15,10 +16,12 @@ const { example, usedNames } = renderListCellItem(
   { withMenuItemProps: true },
 );
 
-export default finalizeTemplate({
-  id: 'MenuItem',
-  imports: [coreImport(usedNames)],
-  example,
-  // Parents that re-render this item (e.g. grouped menus) read `imports`.
-  metadata: { nestable: true, props: { imports: usedNames } },
-});
+export default inlineInstances(
+  finalizeTemplate({
+    id: 'MenuItem',
+    imports: [coreImport(usedNames)],
+    example,
+    // Parents that re-render this item (e.g. grouped menus) read `imports`.
+    metadata: { nestable: true, props: { imports: usedNames } },
+  }),
+);

@@ -4,6 +4,8 @@
 
 import figma from 'figma';
 
+import { inlineInstances } from '../../helpers/imports';
+
 // Branch per variant; unmatched combinations render no snippet.
 
 let template;
@@ -140,4 +142,4 @@ if (figma.selectedInstance.getPropertyValue('Expanded') === 'False') {
   };
 }
 
-export default template;
+export default inlineInstances(template);

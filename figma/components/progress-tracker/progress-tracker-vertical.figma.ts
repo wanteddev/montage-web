@@ -4,6 +4,7 @@
 
 import figma from 'figma';
 
+import { inlineInstances } from '../../helpers/imports';
 import { executedImports } from '../modal/collect-imports';
 
 const instance = figma.selectedInstance;
@@ -70,11 +71,11 @@ const items = Array.from({ length: total }, (_, offset) => {
   ${item}`,
 );
 
-export default {
+export default inlineInstances({
   id: 'ProgressTracker',
   imports: [...imports],
   example: figma.tsx`<ProgressTracker direction="vertical" defaultValue="${current}">
   ${items}
 </ProgressTracker>`,
   metadata: { nestable: true, props: { imports: [...imports] } },
-};
+});

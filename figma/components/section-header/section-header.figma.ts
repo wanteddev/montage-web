@@ -4,6 +4,8 @@
 
 import figma from 'figma';
 
+import { inlineInstances } from '../../helpers/imports';
+
 type InstanceHandle = ReturnType<typeof figma.selectedInstance.findInstance>;
 
 const instance = figma.selectedInstance;
@@ -70,7 +72,7 @@ if (iconNames.size > 0) {
   );
 }
 
-export default {
+export default inlineInstances({
   id: 'SectionHeader',
   imports,
   example: figma.tsx`<SectionHeader${platform ? ` platform="${platform}"` : ''}${
@@ -81,4 +83,4 @@ export default {
   ${instance.getString('Heading')}
 </SectionHeader>`,
   metadata: { nestable: true },
-};
+});

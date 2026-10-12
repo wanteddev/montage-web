@@ -4,6 +4,7 @@
 
 import figma from 'figma';
 
+import { inlineInstances } from '../../helpers/imports';
 import {
   contentResourceImports,
   importStatements,
@@ -70,7 +71,7 @@ if (size && size.type !== 'ERROR') {
   __props['size'] = size;
 }
 
-export default {
+export default inlineInstances({
   id: 'TextArea',
   imports: importStatements(['TextArea'], nestedImports),
   example: figma.code`<TextArea${figma.helpers.react.renderProp(
@@ -90,4 +91,4 @@ export default {
     disabled,
   )}${figma.helpers.react.renderProp('size', size)}/>`,
   metadata: { nestable: true, __props },
-};
+});

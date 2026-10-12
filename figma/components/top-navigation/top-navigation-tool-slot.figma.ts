@@ -4,6 +4,7 @@
 
 import figma from 'figma';
 
+import { inlineInstances } from '../../helpers/imports';
 import { executedImports } from '../modal/collect-imports';
 
 // The custom toolbar slot. An empty slot (only the Figma placeholder) has no
@@ -27,11 +28,11 @@ const body =
   ${code}`,
       );
 
-export default {
+export default inlineInstances({
   id: 'TopNavigationToolSlot',
   imports: uniqueImports,
   example: figma.tsx`<>
   ${body}
 </>`,
   metadata: { nestable: true, props: { imports: uniqueImports } },
-};
+});

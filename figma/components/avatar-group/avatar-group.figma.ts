@@ -4,6 +4,8 @@
 
 import figma from 'figma';
 
+import { inlineInstances } from '../../helpers/imports';
+
 const size = figma.selectedInstance.getEnum('Size', {
   XSmall: 'xsmall',
   Small: 'small',
@@ -52,7 +54,7 @@ const renderTrailingContent = () => {
 };
 const trailingContent = renderTrailingContent();
 
-export default {
+export default inlineInstances({
   id: 'AvatarGroup',
   imports: [
     trailingContent
@@ -65,4 +67,4 @@ export default {
   ${avatars}
 </AvatarGroup>`,
   metadata: { nestable: true },
-};
+});

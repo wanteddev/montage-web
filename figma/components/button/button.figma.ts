@@ -4,6 +4,8 @@
 
 import figma from 'figma';
 
+import { inlineInstances } from '../../helpers/imports';
+
 const variant = figma.selectedInstance.getEnum('Variant', {
   Solid: 'solid',
   Outlined: 'outlined',
@@ -68,7 +70,7 @@ if (size && size.type !== 'ERROR') {
   __props['size'] = size;
 }
 
-export default {
+export default inlineInstances({
   id: 'Button',
   imports: ["import { Button } from '@montage-ui/core';"],
   example: figma.code`<Button${figma.helpers.react.renderProp(
@@ -97,4 +99,4 @@ export default {
     size,
   )}>${figma.helpers.react.renderChildren(children)}</Button>`,
   metadata: { nestable: true, __props },
-};
+});

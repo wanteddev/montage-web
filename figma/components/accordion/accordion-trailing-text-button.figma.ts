@@ -4,9 +4,11 @@
 
 import figma from 'figma';
 
+import { inlineInstances } from '../../helpers/imports';
+
 const children = figma.properties.children(['Text Button']);
 
-export default {
+export default inlineInstances({
   id: 'AccordionSummaryContent',
   imports: ["import { AccordionSummaryContent } from '@montage-ui/core';"],
   example: figma.tsx`<AccordionSummaryContent variant="text-button">${figma.helpers.react.renderChildren(
@@ -17,4 +19,4 @@ export default {
     props: { variant: 'text-button' },
     __props: { children },
   },
-};
+});

@@ -4,6 +4,7 @@
 
 import figma from 'figma';
 
+import { inlineInstances } from '../../helpers/imports';
 import { joinTemplates } from '../../helpers/list-cell';
 import { finalizeTemplate } from '../modal/collect-imports';
 
@@ -48,12 +49,13 @@ const items = (
   directInputOnTop ? [directInput, list] : [list, directInput]
 ).filter(Boolean);
 
-export default finalizeTemplate({
-  id: 'Autocomplete',
-  imports: [
-    "import { Autocomplete, AutocompleteField, AutocompleteList, TextField } from '@montage-ui/core';",
-  ],
-  example: figma.tsx`<Autocomplete>
+export default inlineInstances(
+  finalizeTemplate({
+    id: 'Autocomplete',
+    imports: [
+      "import { Autocomplete, AutocompleteField, AutocompleteList, TextField } from '@montage-ui/core';",
+    ],
+    example: figma.tsx`<Autocomplete>
   <AutocompleteField>
     <TextField />
   </AutocompleteField>
@@ -61,5 +63,6 @@ export default finalizeTemplate({
     ${items.length > 0 ? joinTemplates(items) : ''}
   </AutocompleteList>
 </Autocomplete>`,
-  metadata: { nestable: true },
-});
+    metadata: { nestable: true },
+  }),
+);

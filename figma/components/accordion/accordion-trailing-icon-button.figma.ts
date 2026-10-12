@@ -4,6 +4,8 @@
 
 import figma from 'figma';
 
+import { inlineInstances } from '../../helpers/imports';
+
 const children = figma.properties.children(['Icon Button']);
 
 // Code Connect forwards imports only one level up: the icon inside the icon
@@ -22,7 +24,7 @@ const imports = [
   ...iconImports,
 ];
 
-export default {
+export default inlineInstances({
   id: 'AccordionSummaryContent',
   imports,
   example: figma.tsx`<AccordionSummaryContent variant="icon-button">${figma.helpers.react.renderChildren(
@@ -39,4 +41,4 @@ export default {
     },
     __props: { children },
   },
-};
+});

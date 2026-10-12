@@ -4,17 +4,19 @@
 
 import figma from 'figma';
 
+import { inlineInstances } from '../../helpers/imports';
+
 const children = figma.properties.children(['Content Badge/Content Badge']);
 const __props: Record<string, unknown> = {};
 if (children && children.type !== 'ERROR') {
   __props['children'] = children;
 }
 
-export default {
+export default inlineInstances({
   id: 'ListCellExtraContent',
   imports: ["import { ListCellExtraContent } from '@montage-ui/core';"],
   example: figma.code`<ListCellExtraContent variant="content-badge">
         ${figma.helpers.react.renderChildren(children)}
       </ListCellExtraContent>`,
   metadata: { nestable: true, props: { variant: 'content-badge' }, __props },
-};
+});

@@ -4,6 +4,8 @@
 
 import figma from 'figma';
 
+import { inlineInstances } from '../../helpers/imports';
+
 import { finalizeTemplate } from './collect-imports';
 import {
   NAVIGATION_IMPORT,
@@ -11,9 +13,11 @@ import {
 } from './modal-navigation-shared';
 
 // The `emphasized` navigation bar on its own (the navigation resources wrap it).
-export default finalizeTemplate({
-  id: 'ModalNavigation',
-  imports: [NAVIGATION_IMPORT],
-  example: renderModalNavigation(figma.selectedInstance, 'emphasized'),
-  metadata: { nestable: true },
-});
+export default inlineInstances(
+  finalizeTemplate({
+    id: 'ModalNavigation',
+    imports: [NAVIGATION_IMPORT],
+    example: renderModalNavigation(figma.selectedInstance, 'emphasized'),
+    metadata: { nestable: true },
+  }),
+);

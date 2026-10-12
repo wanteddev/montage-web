@@ -4,6 +4,7 @@
 
 import figma from 'figma';
 
+import { inlineInstances } from '../../helpers/imports';
 import { finalizeTemplate } from '../modal/collect-imports';
 import {
   AUTOCOMPLETE_OPTION_SLOT_NAMES,
@@ -48,9 +49,11 @@ const rendered = (() => {
   return { example, usedNames: ['AutocompleteOption', ...cell.usedNames] };
 })();
 
-export default finalizeTemplate({
-  id: 'AutocompleteOption',
-  imports: [coreImport(rendered.usedNames)],
-  example: rendered.example,
-  metadata: { nestable: true },
-});
+export default inlineInstances(
+  finalizeTemplate({
+    id: 'AutocompleteOption',
+    imports: [coreImport(rendered.usedNames)],
+    example: rendered.example,
+    metadata: { nestable: true },
+  }),
+);

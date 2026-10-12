@@ -4,6 +4,8 @@
 
 import figma from 'figma';
 
+import { inlineInstances } from '../../helpers/imports';
+
 const children = figma.selectedInstance.getString('Label');
 const disabled = figma.selectedInstance.getBoolean('Disable');
 const __props: Record<string, unknown> = {};
@@ -14,7 +16,7 @@ if (disabled && disabled.type !== 'ERROR') {
   __props['disabled'] = disabled;
 }
 
-export default {
+export default inlineInstances({
   id: 'TextFieldButton',
   imports: ["import { TextFieldButton } from '@montage-ui/core';"],
   example: figma.code`<TextFieldButton${figma.helpers.react.renderProp(
@@ -22,4 +24,4 @@ export default {
     disabled,
   )}>${figma.helpers.react.renderChildren(children)}</TextFieldButton>`,
   metadata: { nestable: true, __props },
-};
+});

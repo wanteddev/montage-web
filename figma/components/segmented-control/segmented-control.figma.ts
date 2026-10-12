@@ -4,6 +4,7 @@
 
 import figma from 'figma';
 
+import { inlineInstances } from '../../helpers/imports';
 import { joinTemplates } from '../../helpers/list-cell';
 import {
   iconComponentName,
@@ -70,7 +71,7 @@ const imports = [
   ...iconImportStatements([...iconNames]),
 ];
 
-export default {
+export default inlineInstances({
   id: 'SegmentedControl',
   imports,
   example: figma.tsx`<SegmentedControl defaultValue="${defaultValue}"${figma.helpers.react.renderProp(
@@ -80,4 +81,4 @@ export default {
   ${joinTemplates(items)}
 </SegmentedControl>`,
   metadata: { nestable: true, props: { imports } },
-};
+});

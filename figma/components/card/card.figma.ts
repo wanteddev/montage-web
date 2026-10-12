@@ -4,6 +4,8 @@
 
 import figma from 'figma';
 
+import { inlineInstances } from '../../helpers/imports';
+
 import { buildImports, renderRow, renderSaveToggle } from './card-content';
 
 const instance = figma.selectedInstance;
@@ -146,4 +148,4 @@ if (instance.getPropertyValue('Skeleton') === 'False') {
   };
 }
 
-export default template;
+export default inlineInstances(template);

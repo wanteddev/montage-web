@@ -4,6 +4,8 @@
 
 import figma from 'figma';
 
+import { inlineInstances } from '../../helpers/imports';
+
 // Branch per variant; unmatched combinations render no snippet.
 
 let template;
@@ -29,4 +31,4 @@ if (figma.selectedInstance.getPropertyValue('Color') === 'Normal') {
   };
 }
 
-export default template;
+export default inlineInstances(template);

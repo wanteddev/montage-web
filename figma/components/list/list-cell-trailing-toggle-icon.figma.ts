@@ -4,6 +4,7 @@
 
 import figma from 'figma';
 
+import { inlineInstances } from '../../helpers/imports';
 import { renderIcon } from '../../helpers/icon';
 
 // The nested toggle icon is a library (remote) instance, so its own snippet is
@@ -24,7 +25,7 @@ const imports = [
   ...(icon?.imports ?? []),
 ];
 
-export default {
+export default inlineInstances({
   id: 'ListCellContent',
   imports: ["import { ListCellContent } from '@montage-ui/core';", ...imports],
   example: figma.tsx`<ListCellContent variant="toggle-icon">${children}</ListCellContent>`,
@@ -33,4 +34,4 @@ export default {
     props: { variant: 'toggle-icon', imports },
     __props: { children },
   },
-};
+});

@@ -4,6 +4,7 @@
 
 import figma from 'figma';
 
+import { inlineInstances } from '../../helpers/imports';
 import { wrapWithPushBadge } from '../../helpers/push-badge';
 
 const instance = figma.selectedInstance;
@@ -41,9 +42,9 @@ const names = [
   ...(pushBadge ? ['PushBadge'] : []),
 ].sort();
 
-export default {
+export default inlineInstances({
   id: 'Avatar',
   imports: [`import { ${names.join(', ')} } from '@montage-ui/core';`],
   example: figma.tsx`${code}`,
   metadata: { nestable: true },
-};
+});

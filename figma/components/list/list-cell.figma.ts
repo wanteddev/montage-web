@@ -4,6 +4,7 @@
 
 import figma from 'figma';
 
+import { inlineInstances } from '../../helpers/imports';
 import {
   LIST_CELL_SLOT_NAMES,
   readListCell,
@@ -40,7 +41,7 @@ const flags =
   (selected ? ' selected' : '') +
   (disabled ? ' disabled' : '');
 
-export default {
+export default inlineInstances({
   id: 'ListCell',
   imports: [coreImport(['ListCell', ...cell.usedNames])],
   example: figma.tsx`<ListCell${flags}${renderDescriptionProp(
@@ -55,4 +56,4 @@ export default {
   ${cell.label ?? ''}
 </ListCell>`,
   metadata: { nestable: true },
-};
+});

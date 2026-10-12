@@ -4,6 +4,8 @@
 
 import figma from 'figma';
 
+import { inlineInstances } from '../../helpers/imports';
+
 const instance = figma.selectedInstance;
 
 // Without a description the message renders only its accessory (if any).
@@ -16,7 +18,7 @@ const accessoryProp = hasAccessory
   ? ' accessory={<FormControlMessageAccessory variant="character-counter" length={0} maxLength={100} />}'
   : '';
 
-export default {
+export default inlineInstances({
   id: 'FormControlNegativeMessage',
   imports: [
     `import { FormControlNegativeMessage${hasAccessory ? ', FormControlMessageAccessory' : ''} } from '@montage-ui/core';`,
@@ -25,4 +27,4 @@ export default {
     ? figma.tsx`<FormControlNegativeMessage${accessoryProp}>${text}</FormControlNegativeMessage>`
     : figma.tsx`<FormControlNegativeMessage${accessoryProp} />`,
   metadata: { nestable: true },
-};
+});

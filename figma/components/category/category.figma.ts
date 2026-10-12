@@ -4,6 +4,7 @@
 
 import figma from 'figma';
 
+import { inlineInstances } from '../../helpers/imports';
 import {
   elementProp,
   findFirst,
@@ -73,7 +74,7 @@ const imports = uniqueImports([
   ...(iconButton?.imports ?? []),
 ]);
 
-export default {
+export default inlineInstances({
   id: 'Category',
   imports,
   example: figma.tsx`<Category defaultValue="${defaultValue}">
@@ -84,4 +85,4 @@ export default {
   </CategoryList>
 </Category>`,
   metadata: { nestable: true, props: { imports } },
-};
+});

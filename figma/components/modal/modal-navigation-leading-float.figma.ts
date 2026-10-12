@@ -4,6 +4,8 @@
 
 import figma from 'figma';
 
+import { inlineInstances } from '../../helpers/imports';
+
 import { finalizeTemplate } from './collect-imports';
 import {
   NAVIGATION_BUTTON_IMPORT,
@@ -11,9 +13,11 @@ import {
 } from './modal-navigation-shared';
 
 // Leading navigation button (web). Back Button / Icon Button / Text Button.
-export default finalizeTemplate({
-  id: 'ModalNavigationButton',
-  imports: [NAVIGATION_BUTTON_IMPORT],
-  example: renderLeadingButton(figma.selectedInstance) ?? figma.code``,
-  metadata: { nestable: true },
-});
+export default inlineInstances(
+  finalizeTemplate({
+    id: 'ModalNavigationButton',
+    imports: [NAVIGATION_BUTTON_IMPORT],
+    example: renderLeadingButton(figma.selectedInstance) ?? figma.code``,
+    metadata: { nestable: true },
+  }),
+);

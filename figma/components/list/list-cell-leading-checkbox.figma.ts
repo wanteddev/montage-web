@@ -4,6 +4,8 @@
 
 import figma from 'figma';
 
+import { inlineInstances } from '../../helpers/imports';
+
 // `ListCellContent variant="checkbox"` already provides `tight`, and the cell owns
 // focus, so the control gets `tabIndex={-1}` (docs: List cell › Checkbox).
 const checkbox = figma.selectedInstance.findInstance('Checkbox');
@@ -18,7 +20,7 @@ const props =
       (checkbox.getPropertyValue('Disable') === 'True' ? ' disabled' : '');
 const children = figma.tsx`<Checkbox tabIndex={-1}${props} />`;
 
-export default {
+export default inlineInstances({
   id: 'ListCellContent',
   imports: ["import { Checkbox, ListCellContent } from '@montage-ui/core';"],
   example: figma.tsx`<ListCellContent variant="checkbox">${children}</ListCellContent>`,
@@ -30,4 +32,4 @@ export default {
     },
     __props: { children },
   },
-};
+});

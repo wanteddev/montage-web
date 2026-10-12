@@ -4,6 +4,7 @@
 
 import figma from 'figma';
 
+import { inlineInstances } from '../../helpers/imports';
 import {
   contentResourceImports,
   iconImportStatements,
@@ -167,4 +168,4 @@ if (figma.selectedInstance.getPropertyValue('Type') === 'Button') {
   };
 }
 
-export default template;
+export default inlineInstances(template);

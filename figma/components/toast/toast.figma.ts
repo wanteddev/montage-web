@@ -4,6 +4,8 @@
 
 import figma from 'figma';
 
+import { inlineInstances } from '../../helpers/imports';
+
 // Branch per variant; unmatched combinations render no snippet.
 
 let template;
@@ -149,4 +151,4 @@ if (
   };
 }
 
-export default template;
+export default inlineInstances(template);

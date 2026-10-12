@@ -4,15 +4,17 @@
 
 import figma from 'figma';
 
+import { inlineInstances } from '../../helpers/imports';
+
 import { renderLeading } from './top-navigation-shared';
 
 // Back | Icon Button | Text Button; the icon import is re-declared for parents.
 const leading = renderLeading(figma.selectedInstance);
 const imports = leading?.imports ?? [];
 
-export default {
+export default inlineInstances({
   id: 'TopNavigationButton',
   imports,
   example: leading ? figma.tsx`${leading.code}` : figma.code``,
   metadata: { nestable: true, props: { imports } },
-};
+});

@@ -4,6 +4,8 @@
 
 import figma from 'figma';
 
+import { inlineInstances } from '../../helpers/imports';
+
 import { finalizeTemplate } from './collect-imports';
 import {
   modalImport,
@@ -55,4 +57,4 @@ if (instance.getPropertyValue('Platform') === 'Web') {
   };
 }
 
-export default finalizeTemplate(template);
+export default inlineInstances(finalizeTemplate(template));

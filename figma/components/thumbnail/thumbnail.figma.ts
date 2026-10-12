@@ -4,6 +4,8 @@
 
 import figma from 'figma';
 
+import { inlineInstances } from '../../helpers/imports';
+
 const border = figma.selectedInstance.getBoolean('Border');
 const radius = figma.selectedInstance.getBoolean('Radius');
 // The overlay swap is a `Thumbnail/Resource/Overlay/*` wrapper without its own
@@ -74,7 +76,7 @@ if (ratio && ratio.type !== 'ERROR') {
   __props['ratio'] = ratio;
 }
 
-export default {
+export default inlineInstances({
   id: 'Thumbnail',
   imports: [
     overlay
@@ -95,4 +97,4 @@ export default {
     radius,
   )}${figma.helpers.react.renderProp('overlay', overlay)}/>`,
   metadata: { nestable: true, __props },
-};
+});

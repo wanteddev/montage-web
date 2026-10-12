@@ -4,6 +4,8 @@
 
 import figma from 'figma';
 
+import { inlineInstances } from '../../helpers/imports';
+
 import { contentResourceImports, iconImportStatements } from './nested-imports';
 
 // Icons inside nested IconButton / Button instances are not hoisted by Code Connect.
@@ -113,4 +115,4 @@ if (figma.selectedInstance.getPropertyValue('Variant') === 'Custom') {
   };
 }
 
-export default template;
+export default inlineInstances(template);

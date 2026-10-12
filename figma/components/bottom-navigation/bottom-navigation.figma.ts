@@ -4,6 +4,7 @@
 
 import figma from 'figma';
 
+import { inlineInstances } from '../../helpers/imports';
 import {
   renderNested,
   uniqueImports,
@@ -75,4 +76,4 @@ if (figma.selectedInstance.getPropertyValue('Platform') === 'Web Mobile') {
   };
 }
 
-export default template;
+export default inlineInstances(template);

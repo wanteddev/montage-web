@@ -4,6 +4,8 @@
 
 import figma from 'figma';
 
+import { inlineInstances } from '../../helpers/imports';
+
 const showHeading = figma.selectedInstance.getBoolean('Heading') === true;
 
 // Branch per variant; unmatched combinations render no snippet.
@@ -281,4 +283,4 @@ if (
   };
 }
 
-export default template;
+export default inlineInstances(template);

@@ -5,6 +5,7 @@ import {
   renderDescriptionProp,
   renderElementProp,
 } from './list-cell';
+import { mergeImports } from './imports';
 
 import type { ListCellSlotNames } from './list-cell';
 
@@ -75,36 +76,9 @@ export const renderListCellItem = (
 };
 
 /**
- * Builds the import statements for a snippet: plain names are merged into one
- * `@montage-ui/core` import, and full `import …` statements (nested imports
- * collected by the list-cell helpers) are appended as-is.
+ * Builds the import statement block for a snippet: plain names go to
+ * `@montage-ui/core`, and full statements (nested imports collected by the
+ * list-cell helpers) are merged per module.
  */
-export const coreImport = (names: Array<string>) => {
-  const core = new Set<string>();
-  const statements = new Set<string>();
-  for (const entry of names) {
-    if (!entry.startsWith('import ')) {
-      core.add(entry);
-      continue;
-    }
-    // Fold `@montage-ui/core` statements into the single core import.
-    const match = /^import \{([^}]*)\} from ['"]@montage-ui\/core['"];?$/.exec(
-      entry.trim(),
-    );
-    if (match) {
-      match[1]
-        .split(',')
-        .map((name) => name.trim())
-        .filter(Boolean)
-        .forEach((name) => core.add(name));
-    } else {
-      // Normalize quotes / trailing semicolon so the same statement emitted by
-      // different templates (`"` vs `'`) is declared once.
-      statements.add(entry.trim().replace(/"/g, "'").replace(/;?$/, ';'));
-    }
-  }
-  return [
-    `import { ${[...core].sort().join(', ')} } from '@montage-ui/core';`,
-    ...statements,
-  ].join('\n');
-};
+export const coreImport = (names: Array<string>) =>
+  mergeImports(names).join('\n');

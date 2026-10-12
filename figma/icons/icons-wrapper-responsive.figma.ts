@@ -4,6 +4,7 @@
 
 import figma from 'figma';
 
+import { inlineInstances } from '../helpers/imports';
 import { renderIcon } from '../helpers/icon';
 
 // The Icons wrapper only hosts the swapped icon. Render that icon and re-declare
@@ -14,9 +15,9 @@ const icon = rendered?.code as Parameters<
 >[0];
 const imports = rendered?.imports ?? [];
 
-export default {
+export default inlineInstances({
   id: 'IconsWrapperResponsive',
   imports,
   example: figma.code`${figma.helpers.react.renderChildren(icon)}`,
   metadata: { nestable: true, props: { imports }, __props: { icon } },
-};
+});

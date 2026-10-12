@@ -4,6 +4,8 @@
 
 import figma from 'figma';
 
+import { inlineInstances } from '../../helpers/imports';
+
 const size = figma.selectedInstance.getEnum('Size', {
   Small: 'small',
   Medium: 'medium',
@@ -17,7 +19,7 @@ if (divider && divider.type !== 'ERROR') {
   __props['divider'] = divider;
 }
 
-export default {
+export default inlineInstances({
   id: 'ProgressStepIndicator',
   imports: [
     "import { ProgressStepIndicator, ProgressStepIndicatorItem } from '@montage-ui/core';",
@@ -32,4 +34,4 @@ export default {
       <ProgressStepIndicatorItem value="4"/>
     </ProgressStepIndicator>`,
   metadata: { nestable: true, __props },
-};
+});

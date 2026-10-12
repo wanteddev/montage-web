@@ -4,6 +4,8 @@
 
 import figma from 'figma';
 
+import { inlineInstances } from '../../helpers/imports';
+
 // `RadioGroupItem` only works inside `RadioGroup`; the checked state is
 // expressed through the group's uncontrolled `defaultValue`.
 const checked = figma.selectedInstance.getPropertyValue('State') === 'Checked';
@@ -19,11 +21,11 @@ const itemProps =
   (disabled ? ' disabled' : '') +
   (tight ? ' tight' : '');
 
-export default {
+export default inlineInstances({
   id: 'RadioGroupItem',
   imports: ["import { RadioGroup, RadioGroupItem } from '@montage-ui/core';"],
   example: figma.tsx`<RadioGroup${checked ? ' defaultValue="1"' : ''}>
   <RadioGroupItem value="1"${itemProps} />
 </RadioGroup>`,
   metadata: { nestable: true },
-};
+});

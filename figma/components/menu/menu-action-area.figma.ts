@@ -4,6 +4,7 @@
 
 import figma from 'figma';
 
+import { inlineInstances } from '../../helpers/imports';
 import { finalizeTemplate } from '../modal/collect-imports';
 
 const leadingContent = figma.selectedInstance.getBoolean('Leading Content', {
@@ -24,12 +25,14 @@ if (trailingContent && trailingContent.type !== 'ERROR') {
   __props['trailingContent'] = trailingContent;
 }
 
-export default finalizeTemplate({
-  id: 'MenuActionArea',
-  imports: ["import { MenuActionArea } from '@montage-ui/core';"],
-  example: figma.code`<MenuActionArea${figma.helpers.react.renderProp(
-    'leadingContent',
-    leadingContent,
-  )}${figma.helpers.react.renderProp('trailingContent', trailingContent)}/>`,
-  metadata: { nestable: true, __props },
-});
+export default inlineInstances(
+  finalizeTemplate({
+    id: 'MenuActionArea',
+    imports: ["import { MenuActionArea } from '@montage-ui/core';"],
+    example: figma.code`<MenuActionArea${figma.helpers.react.renderProp(
+      'leadingContent',
+      leadingContent,
+    )}${figma.helpers.react.renderProp('trailingContent', trailingContent)}/>`,
+    metadata: { nestable: true, __props },
+  }),
+);

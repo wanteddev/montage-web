@@ -4,6 +4,7 @@
 
 import figma from 'figma';
 
+import { inlineInstances } from '../../helpers/imports';
 import { finalizeTemplate } from '../modal/collect-imports';
 
 // Rendered directly so the nested component's imports reach parent snippets.
@@ -17,11 +18,13 @@ if (children && children.type !== 'ERROR') {
   __props['children'] = children;
 }
 
-export default finalizeTemplate({
-  id: 'MenuActionAreaContent',
-  imports: ["import { MenuActionAreaContent } from '@montage-ui/core';"],
-  example: figma.code`<MenuActionAreaContent variant="badge">${figma.helpers.react.renderChildren(
-    children,
-  )}</MenuActionAreaContent>`,
-  metadata: { nestable: true, __props },
-});
+export default inlineInstances(
+  finalizeTemplate({
+    id: 'MenuActionAreaContent',
+    imports: ["import { MenuActionAreaContent } from '@montage-ui/core';"],
+    example: figma.code`<MenuActionAreaContent variant="badge">${figma.helpers.react.renderChildren(
+      children,
+    )}</MenuActionAreaContent>`,
+    metadata: { nestable: true, __props },
+  }),
+);

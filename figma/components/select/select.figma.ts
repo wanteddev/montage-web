@@ -4,6 +4,7 @@
 
 import figma from 'figma';
 
+import { inlineInstances } from '../../helpers/imports';
 import { OPTION_SLOT_NAMES, joinTemplates } from '../../helpers/list-cell';
 import { coreImport, renderListCellItem } from '../../helpers/menu-item';
 import {
@@ -203,4 +204,4 @@ if (figma.selectedInstance.getPropertyValue('Render') === 'Text') {
   };
 }
 
-export default template;
+export default inlineInstances(template);

@@ -4,14 +4,16 @@
 
 import figma from 'figma';
 
+import { inlineInstances } from '../../helpers/imports';
+
 // With `Interaction Effect=Dim`, the icon button's `Icon` layer is this resource
 // (one variant per interaction state) wrapping the actual icon. Pass the inner
 // icon through so the icon button renders it as its children.
 const icon = figma.properties.children(['Icon']);
 
-export default {
+export default inlineInstances({
   id: 'IconButtonDimIcon',
   imports: [],
   example: figma.code`${figma.helpers.react.renderChildren(icon)}`,
   metadata: { nestable: true },
-};
+});

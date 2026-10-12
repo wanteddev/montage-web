@@ -2,6 +2,8 @@
 
 import figma from 'figma';
 
+import { inlineInstances } from '../../helpers/imports';
+
 import {
   joinRendered,
   renderTrailingGroup,
@@ -12,9 +14,9 @@ import {
 const trailing = joinRendered(renderTrailingGroup(figma.selectedInstance));
 const imports = uniqueImports(trailing?.imports ?? []);
 
-export default {
+export default inlineInstances({
   id: 'TopNavigationTrailing',
   imports,
   example: trailing ? figma.tsx`${trailing.code}` : figma.code``,
   metadata: { nestable: true, props: { imports } },
-};
+});

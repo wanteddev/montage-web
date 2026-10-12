@@ -4,6 +4,8 @@
 
 import figma from 'figma';
 
+import { inlineInstances } from '../../helpers/imports';
+
 const variant = figma.selectedInstance.getEnum('Variant', {
   Normal: 'normal',
   Assistive: 'assistive',
@@ -30,7 +32,7 @@ if (button && button.type !== 'ERROR') {
   __props['button'] = button;
 }
 
-export default {
+export default inlineInstances({
   id: 'AlertActionAreaButton',
   imports: ["import { AlertActionAreaButton } from '@montage-ui/core';"],
   example: figma.code`<AlertActionAreaButton${figma.helpers.react.renderProp(
@@ -40,4 +42,4 @@ export default {
       ${figma.helpers.react.renderChildren(button.label)}
     </AlertActionAreaButton>`,
   metadata: { nestable: true, __props },
-};
+});

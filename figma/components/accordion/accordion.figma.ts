@@ -4,6 +4,7 @@
 
 import figma from 'figma';
 
+import { inlineInstances } from '../../helpers/imports';
 import {
   ACCORDION_SUMMARY_SLOT_NAMES,
   renderElementProp,
@@ -87,7 +88,7 @@ const details = [
     : '',
 ];
 
-export default {
+export default inlineInstances({
   id: 'Accordion',
   imports: [
     coreImport([
@@ -118,4 +119,4 @@ export default {
   }
 </Accordion>`,
   metadata: { nestable: true },
-};
+});

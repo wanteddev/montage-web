@@ -4,6 +4,7 @@
 
 import figma from 'figma';
 
+import { inlineInstances } from '../../helpers/imports';
 import { coreImport } from '../../helpers/menu-item';
 
 type InstanceHandle = ReturnType<typeof figma.selectedInstance.findInstance>;
@@ -79,7 +80,7 @@ const paginationResources =
         .filter((id): id is string => Boolean(id))
     : [];
 
-export default {
+export default inlineInstances({
   id: 'Table',
   imports: [
     coreImport([
@@ -102,4 +103,4 @@ export default {
   </TableBody>
 </Table>`,
   metadata: { nestable: true },
-};
+});

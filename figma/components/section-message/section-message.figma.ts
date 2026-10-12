@@ -4,6 +4,8 @@
 
 import figma from 'figma';
 
+import { inlineInstances } from '../../helpers/imports';
+
 const instance = figma.selectedInstance;
 
 const variant = instance.getEnum('Variant', {
@@ -94,7 +96,7 @@ const prop = (name: string, value: unknown) =>
   ${name}={${value}}`
     : '';
 
-export default {
+export default inlineInstances({
   id: 'SectionMessage',
   imports: ["import { SectionMessage } from '@montage-ui/core';"],
   example: figma.tsx`<SectionMessage${variant ? ` variant="${variant}"` : ''}${
@@ -108,4 +110,4 @@ export default {
   ${heading}
 </SectionMessage>`,
   metadata: { nestable: true },
-};
+});

@@ -4,6 +4,8 @@
 
 import figma from 'figma';
 
+import { inlineInstances } from '../../helpers/imports';
+
 // Framed Style is a style utility, not a component: it renders as a `Box`
 // styled with `framedStyle()`, wrapping whatever is placed in the Content slot.
 const selected = figma.selectedInstance.getPropertyValue('Selected') === 'True';
@@ -22,11 +24,11 @@ const params = [
 const framedStyleCall =
   params.length > 0 ? `framedStyle({ ${params.join(', ')} })` : 'framedStyle()';
 
-export default {
+export default inlineInstances({
   id: 'FramedStyle',
   imports: ["import { Box, framedStyle } from '@montage-ui/core';"],
   example: figma.tsx`<Box tabIndex={0} sx={${framedStyleCall}}>
   ${hasContent ? figma.helpers.react.renderChildren(content) : '{/* 콘텐츠 */}'}
 </Box>`,
   metadata: { nestable: true },
-};
+});

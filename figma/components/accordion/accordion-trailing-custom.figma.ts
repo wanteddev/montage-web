@@ -4,9 +4,11 @@
 
 import figma from 'figma';
 
-export default {
+import { inlineInstances } from '../../helpers/imports';
+
+export default inlineInstances({
   id: 'AccordionSummaryContent',
   imports: ["import { AccordionSummaryContent } from '@montage-ui/core';"],
   example: figma.tsx`<AccordionSummaryContent variant="custom" />`,
   metadata: { nestable: true, props: { variant: 'custom' } },
-};
+});

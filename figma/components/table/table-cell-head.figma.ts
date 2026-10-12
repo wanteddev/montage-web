@@ -4,6 +4,7 @@
 
 import figma from 'figma';
 
+import { inlineInstances } from '../../helpers/imports';
 import { collectNestedImports } from '../../helpers/list-cell';
 
 // Branch per variant; unmatched combinations render no snippet.
@@ -113,4 +114,4 @@ if (template.example) {
   };
 }
 
-export default template;
+export default inlineInstances(template);

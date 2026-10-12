@@ -4,6 +4,8 @@
 
 import figma from 'figma';
 
+import { inlineInstances } from '../../helpers/imports';
+
 const variant = figma.selectedInstance.getEnum('Variant', {
   Single: 'single',
   Horizontal: 'horizontal',
@@ -21,7 +23,7 @@ if (children && children.type !== 'ERROR') {
   __props['children'] = children;
 }
 
-export default {
+export default inlineInstances({
   id: 'FallbackViewActionArea',
   imports: [
     "import { FallbackViewActionArea, FallbackViewActionAreaButton } from '@montage-ui/core';",
@@ -31,4 +33,4 @@ export default {
     variant,
   )}>${figma.helpers.react.renderChildren(children)}</FallbackViewActionArea>`,
   metadata: { nestable: true, __props },
-};
+});

@@ -4,6 +4,8 @@
 
 import figma from 'figma';
 
+import { inlineInstances } from '../../helpers/imports';
+
 import { finalizeTemplate } from './collect-imports';
 import {
   modalImport,
@@ -21,9 +23,11 @@ const actionArea =
     ? renderInstance(instance.findInstance('Action Area'))
     : undefined;
 
-export default finalizeTemplate({
-  id: 'Modal',
-  imports: [modalImport(content.usedNames)],
-  example: renderModal('full', '', [navigation, content.code, actionArea]),
-  metadata: { nestable: true },
-});
+export default inlineInstances(
+  finalizeTemplate({
+    id: 'Modal',
+    imports: [modalImport(content.usedNames)],
+    example: renderModal('full', '', [navigation, content.code, actionArea]),
+    metadata: { nestable: true },
+  }),
+);

@@ -4,8 +4,10 @@
 
 import figma from 'figma';
 
-export default {
+import { inlineInstances } from '../helpers/imports';
+
+export default inlineInstances({
   id: 'IconSymbol',
   imports: ["import { IconSymbol } from '@montage-ui/icon';"],
   example: figma.code`<IconSymbol />`,
-};
+});

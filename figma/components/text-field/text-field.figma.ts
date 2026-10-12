@@ -4,6 +4,8 @@
 
 import figma from 'figma';
 
+import { inlineInstances } from '../../helpers/imports';
+
 import { contentResourceImports, iconImportStatements } from './nested-imports';
 
 // `Trailing Content` renders further instances (IconButton, icons, …) whose imports Code
@@ -178,4 +180,4 @@ if (figma.selectedInstance.getPropertyValue('Leading Icon') === false) {
   };
 }
 
-export default template;
+export default inlineInstances(template);

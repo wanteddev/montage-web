@@ -4,15 +4,19 @@
 
 import figma from 'figma';
 
+import { inlineInstances } from '../../helpers/imports';
+
 import { finalizeTemplate } from './collect-imports';
 import { renderPopupBody } from './modal-helpers';
 
 // `Modal/Resource/Modal`: the popup body (navigation, content, action area).
 const { example, imports } = renderPopupBody(figma.selectedInstance);
 
-export default finalizeTemplate({
-  id: 'Modal',
-  imports,
-  example,
-  metadata: { nestable: true },
-});
+export default inlineInstances(
+  finalizeTemplate({
+    id: 'Modal',
+    imports,
+    example,
+    metadata: { nestable: true },
+  }),
+);

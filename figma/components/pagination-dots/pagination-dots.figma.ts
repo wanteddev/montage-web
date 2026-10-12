@@ -4,6 +4,8 @@
 
 import figma from 'figma';
 
+import { inlineInstances } from '../../helpers/imports';
+
 const size = figma.selectedInstance.getEnum('Size', {
   Small: 'small',
   // Core defaults: `size="medium"`, `color="normal"`.
@@ -21,7 +23,7 @@ if (color && color.type !== 'ERROR') {
   __props['color'] = color;
 }
 
-export default {
+export default inlineInstances({
   id: 'PaginationDots',
   imports: ["import { PaginationDots } from '@montage-ui/core';"],
   example: figma.code`<PaginationDots totalPages={5} currentPage={1}${figma.helpers.react.renderProp(
@@ -29,4 +31,4 @@ export default {
     size,
   )}${figma.helpers.react.renderProp('color', color)}/>`,
   metadata: { nestable: true, __props },
-};
+});

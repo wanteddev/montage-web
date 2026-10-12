@@ -4,6 +4,8 @@
 
 import figma from 'figma';
 
+import { inlineInstances } from '../../helpers/imports';
+
 import { finalizeTemplate } from './collect-imports';
 import { joinParts } from './modal-helpers';
 
@@ -22,11 +24,13 @@ const rendered = figma.selectedInstance
       : undefined,
   );
 
-export default finalizeTemplate({
-  id: 'ModalPresetTextfield',
-  imports: ["import { FlexBox } from '@montage-ui/core';"],
-  example: figma.tsx`<FlexBox flexDirection="column" gap="20px">
+export default inlineInstances(
+  finalizeTemplate({
+    id: 'ModalPresetTextfield',
+    imports: ["import { FlexBox } from '@montage-ui/core';"],
+    example: figma.tsx`<FlexBox flexDirection="column" gap="20px">
 ${joinParts(rendered) ?? ''}
 </FlexBox>`,
-  metadata: { nestable: true },
-});
+    metadata: { nestable: true },
+  }),
+);

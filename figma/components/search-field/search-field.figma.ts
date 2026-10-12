@@ -4,6 +4,8 @@
 
 import figma from 'figma';
 
+import { inlineInstances } from '../../helpers/imports';
+
 const placeholder = figma.selectedInstance.getString('Placeholder');
 const variant = figma.selectedInstance.getEnum('Variant', {
   Solid: 'solid',
@@ -28,7 +30,7 @@ if (size && size.type !== 'ERROR') {
   __props['size'] = size;
 }
 
-export default {
+export default inlineInstances({
   id: 'SearchField',
   imports: ["import { SearchField } from '@montage-ui/core';"],
   example: figma.code`<SearchField${figma.helpers.react.renderProp(
@@ -42,4 +44,4 @@ export default {
     disabled,
   )}${figma.helpers.react.renderProp('size', size)}/>`,
   metadata: { nestable: true, __props },
-};
+});

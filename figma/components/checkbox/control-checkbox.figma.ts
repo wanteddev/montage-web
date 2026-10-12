@@ -4,6 +4,8 @@
 
 import figma from 'figma';
 
+import { inlineInstances } from '../../helpers/imports';
+
 const state = figma.selectedInstance.getEnum('State', {
   Checked: ' defaultChecked',
   Unchecked: '',
@@ -16,7 +18,7 @@ const size = figma.selectedInstance.getEnum('Size', {
 });
 const tight = figma.selectedInstance.getBoolean('Tight');
 
-export default {
+export default inlineInstances({
   id: 'Checkbox',
   imports: ["import { Checkbox } from '@montage-ui/core';"],
   example: figma.code`<Checkbox${state ?? ''}${figma.helpers.react.renderProp(
@@ -27,4 +29,4 @@ export default {
     tight,
   )}${figma.helpers.react.renderProp('disabled', disabled)} />`,
   metadata: { nestable: true, __props: { disabled, size, tight } },
-};
+});

@@ -4,6 +4,8 @@
 
 import figma from 'figma';
 
+import { inlineInstances } from '../../helpers/imports';
+
 import { finalizeTemplate } from './collect-imports';
 import { joinParts } from './modal-helpers';
 
@@ -27,11 +29,13 @@ const rows = texts.map((text, index) => {
 </FlexBox>`;
 });
 
-export default finalizeTemplate({
-  id: 'ModalPresetInfo',
-  imports: ["import { FlexBox, Typography } from '@montage-ui/core';"],
-  example: figma.tsx`<FlexBox flexDirection="column" gap="6px">
+export default inlineInstances(
+  finalizeTemplate({
+    id: 'ModalPresetInfo',
+    imports: ["import { FlexBox, Typography } from '@montage-ui/core';"],
+    example: figma.tsx`<FlexBox flexDirection="column" gap="6px">
 ${joinParts(rows) ?? ''}
 </FlexBox>`,
-  metadata: { nestable: true },
-});
+    metadata: { nestable: true },
+  }),
+);

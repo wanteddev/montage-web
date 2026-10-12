@@ -4,6 +4,8 @@
 
 import figma from 'figma';
 
+import { inlineInstances } from '../../helpers/imports';
+
 const size = figma.selectedInstance.getEnum('Size', {
   Small: 'small',
   // `medium` is the core default.
@@ -18,7 +20,7 @@ if (alternative && alternative.type !== 'ERROR') {
   __props['alternative'] = alternative;
 }
 
-export default {
+export default inlineInstances({
   id: 'PageCounter',
   imports: ["import { PageCounter } from '@montage-ui/core';"],
   example: figma.code`<PageCounter totalPages={5} currentPage={1}${figma.helpers.react.renderProp(
@@ -26,4 +28,4 @@ export default {
     size,
   )}${figma.helpers.react.renderProp('alternative', alternative)}/>`,
   metadata: { nestable: true, __props },
-};
+});

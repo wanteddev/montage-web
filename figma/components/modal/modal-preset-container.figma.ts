@@ -4,6 +4,8 @@
 
 import figma from 'figma';
 
+import { inlineInstances } from '../../helpers/imports';
+
 import { finalizeTemplate } from './collect-imports';
 
 // A text-only sample layout (title, sub title, content, caption). Texts are
@@ -14,10 +16,11 @@ const texts = instance
   .map((text) => (text.type === 'TEXT' ? text.textContent : ''));
 const [title = '', subTitle = '', content = '', caption = ''] = texts;
 
-export default finalizeTemplate({
-  id: 'ModalPresetContainer',
-  imports: ["import { FlexBox, Typography } from '@montage-ui/core';"],
-  example: figma.tsx`<FlexBox flexDirection="column" gap="16px">
+export default inlineInstances(
+  finalizeTemplate({
+    id: 'ModalPresetContainer',
+    imports: ["import { FlexBox, Typography } from '@montage-ui/core';"],
+    example: figma.tsx`<FlexBox flexDirection="column" gap="16px">
   <Typography variant="headline2" weight="bold">
     ${title}
   </Typography>
@@ -35,5 +38,6 @@ export default finalizeTemplate({
     </Typography>
   </FlexBox>
 </FlexBox>`,
-  metadata: { nestable: true },
-});
+    metadata: { nestable: true },
+  }),
+);

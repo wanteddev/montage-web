@@ -4,6 +4,8 @@
 
 import figma from 'figma';
 
+import { inlineInstances } from '../../helpers/imports';
+
 import { finalizeTemplate } from './collect-imports';
 import { joinParts } from './modal-helpers';
 
@@ -26,15 +28,17 @@ const rows = terms.map((checkbox, index) => {
 </FlexBox>`;
 });
 
-export default finalizeTemplate({
-  id: 'ModalPresetAgreement',
-  imports: ["import { Divider, FlexBox } from '@montage-ui/core';"],
-  example: figma.tsx`<FlexBox flexDirection="column" gap="20px">
+export default inlineInstances(
+  finalizeTemplate({
+    id: 'ModalPresetAgreement',
+    imports: ["import { Divider, FlexBox } from '@montage-ui/core';"],
+    example: figma.tsx`<FlexBox flexDirection="column" gap="20px">
 ${all ? all.executeTemplate().example : ''}
 <Divider />
 <FlexBox flexDirection="column" gap="16px">
 ${joinParts(rows) ?? ''}
 </FlexBox>
 </FlexBox>`,
-  metadata: { nestable: true },
-});
+    metadata: { nestable: true },
+  }),
+);

@@ -4,6 +4,7 @@
 
 import figma from 'figma';
 
+import { inlineInstances } from '../../helpers/imports';
 import {
   joinRendered,
   renderNested,
@@ -18,9 +19,9 @@ const items = joinRendered(
 );
 const imports = uniqueImports(items?.imports ?? []);
 
-export default {
+export default inlineInstances({
   id: 'BottomNavigationContent',
   imports,
   example: items ? figma.tsx`${items.code}` : figma.code``,
   metadata: { nestable: true, props: { imports } },
-};
+});

@@ -4,6 +4,8 @@
 
 import figma from 'figma';
 
+import { inlineInstances } from '../../helpers/imports';
+
 const children = figma.selectedInstance.getString('Label');
 const leadingContent = figma.selectedInstance.getBoolean('Leading Icon', {
   true: figma.properties.children(['Leading Icon']),
@@ -46,7 +48,7 @@ if (size && size.type !== 'ERROR') {
   __props['size'] = size;
 }
 
-export default {
+export default inlineInstances({
   id: 'TextButton',
   imports: ["import { TextButton } from '@montage-ui/core';"],
   example: figma.code`<TextButton${figma.helpers.react.renderProp(
@@ -69,4 +71,4 @@ export default {
     size,
   )}>${figma.helpers.react.renderChildren(children)}</TextButton>`,
   metadata: { nestable: true, __props },
-};
+});

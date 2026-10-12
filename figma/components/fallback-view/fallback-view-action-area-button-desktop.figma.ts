@@ -4,6 +4,8 @@
 
 import figma from 'figma';
 
+import { inlineInstances } from '../../helpers/imports';
+
 const button = (function () {
   const nestedLayer23 = figma.selectedInstance.findInstance('Button/Button');
   return {
@@ -26,7 +28,7 @@ if (button && button.type !== 'ERROR') {
   __props['button'] = button;
 }
 
-export default {
+export default inlineInstances({
   id: 'FallbackViewActionAreaButton',
   imports: ["import { FallbackViewActionAreaButton } from '@montage-ui/core';"],
   example: figma.code`<FallbackViewActionAreaButton${figma.helpers.react.renderProp(
@@ -36,4 +38,4 @@ export default {
         ${figma.helpers.react.renderChildren(button.label)}
       </FallbackViewActionAreaButton>`,
   metadata: { nestable: true, __props },
-};
+});

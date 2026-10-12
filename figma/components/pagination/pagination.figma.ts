@@ -4,6 +4,8 @@
 
 import figma from 'figma';
 
+import { inlineInstances } from '../../helpers/imports';
+
 const variant = figma.selectedInstance.getEnum('Variant', {
   // `extended` is the core default.
   Extended: undefined,
@@ -30,7 +32,7 @@ if (trailingContent && trailingContent.type !== 'ERROR') {
   __props['trailingContent'] = trailingContent;
 }
 
-export default {
+export default inlineInstances({
   id: 'Pagination',
   imports: ["import { Pagination } from '@montage-ui/core';"],
   example: figma.code`<Pagination totalPages={10}${figma.helpers.react.renderProp(
@@ -41,4 +43,4 @@ export default {
     leadingContent,
   )}${figma.helpers.react.renderProp('trailingContent', trailingContent)}/>`,
   metadata: { nestable: true, __props },
-};
+});

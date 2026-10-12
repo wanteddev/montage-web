@@ -4,6 +4,8 @@
 
 import figma from 'figma';
 
+import { inlineInstances } from '../../helpers/imports';
+
 import {
   elementProp,
   findFirst,
@@ -131,4 +133,4 @@ if (instance.getPropertyValue('Platform') === 'Web' && variant) {
   };
 }
 
-export default template;
+export default inlineInstances(template);

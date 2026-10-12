@@ -4,6 +4,7 @@
 
 import figma from 'figma';
 
+import { inlineInstances } from '../../helpers/imports';
 import {
   elementProp,
   renderIconButton,
@@ -63,7 +64,7 @@ const imports = uniqueImports([
   ...(iconButton?.imports ?? []),
 ]);
 
-export default {
+export default inlineInstances({
   id: 'Tab',
   imports,
   example: figma.tsx`<Tab defaultValue="${defaultValue}">
@@ -74,4 +75,4 @@ export default {
   </TabList>
 </Tab>`,
   metadata: { nestable: true, props: { imports } },
-};
+});
