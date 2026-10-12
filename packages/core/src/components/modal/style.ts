@@ -257,10 +257,6 @@ const modalContainerSize = (
         [data-component='modal-navigation'] {
           --tab-list-padding: var(--modal-content-margin-x);
         }
-
-        [data-role='action-area-extra-content'] {
-          margin-bottom: var(--action-area-margin-y, 20px);
-        }
       `;
     case 'large':
       return css`
@@ -288,10 +284,6 @@ const modalContainerSize = (
 
         [data-component='modal-navigation'] {
           --tab-list-padding: var(--modal-content-margin-x);
-        }
-
-        [data-role='action-area-extra-content'] {
-          margin-bottom: var(--action-area-margin-y, 20px);
         }
       `;
     case 'xlarge':
@@ -321,10 +313,6 @@ const modalContainerSize = (
 
         [data-component='modal-navigation'] {
           --tab-list-padding: var(--modal-content-margin-x);
-        }
-
-        [data-role='action-area-extra-content'] {
-          margin-bottom: var(--action-area-margin-y, 20px);
         }
       `;
   }
