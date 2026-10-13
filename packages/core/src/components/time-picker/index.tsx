@@ -196,9 +196,9 @@ const TimePicker = forwardRef<
             inputMode={focusedSection?.type}
             aria-haspopup="dialog"
             aria-expanded={open}
-            data-role="time-picker-field"
             role="combobox"
             {...props}
+            data-role="time-picker-field"
             {...({
               // Raw responsive props reach a custom `input` as in 3.x (and as
               // DateRangePicker does); the default field gets the resolved

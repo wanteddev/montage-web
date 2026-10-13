@@ -196,9 +196,9 @@ const DateRangePicker = forwardRef<
             onChange={() => {}}
             aria-haspopup="dialog"
             aria-expanded={open}
-            data-role="date-range-picker-field"
             role="combobox"
             {...props}
+            data-role="date-range-picker-field"
             {...({
               ...responsiveRest,
               type: 'text',
