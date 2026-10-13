@@ -237,7 +237,7 @@
         ]
       },
       {
-        "url": "<FIGMA_ICONS_BASE>?node-id=8-731",
+        "url": "<FIGMA_ICONS_BASE>?node-id=40167-141716",
         "component": "IconBlankColor",
         "variants": [
           {
@@ -737,7 +737,13 @@
           {
             "name": "circlePoint",
             "component": "IconCirclePoint"
-          },
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=53254-552",
+        "component": "IconCirclePointFill",
+        "variants": [
           {
             "name": "circlePointFill",
             "component": "IconCirclePointFill"
@@ -1305,7 +1311,7 @@
         ]
       },
       {
-        "url": "<FIGMA_ICONS_BASE>?node-id=53254-932",
+        "url": "<FIGMA_ICONS_BASE>?node-id=50227-80939",
         "component": "IconHashTag",
         "variants": [
           {
@@ -2155,7 +2161,13 @@
           {
             "name": "pouch",
             "component": "IconPouch"
-          },
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=53254-573",
+        "component": "IconPouchFill",
+        "variants": [
           {
             "name": "pouchFill",
             "component": "IconPouchFill"
@@ -2741,6 +2753,10 @@
           {
             "name": "video",
             "component": "IconVideo"
+          },
+          {
+            "name": "videoFill",
+            "component": "IconVideoFill"
           }
         ]
       },
@@ -2799,7 +2815,27 @@
         ]
       },
       {
-        "url": "<FIGMA_ICONS_BASE>?node-id=40167-141716",
+        "url": "<FIGMA_ICONS_BASE>?node-id=53254-711",
+        "component": "IconPositionReview",
+        "variants": [
+          {
+            "name": "positionReview",
+            "component": "IconPositionReview"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=53254-932",
+        "component": "IconHashTag",
+        "variants": [
+          {
+            "name": "hashTag",
+            "component": "IconHashTag"
+          }
+        ]
+      },
+      {
+        "url": "<FIGMA_ICONS_BASE>?node-id=8-731",
         "component": "IconBlankColor",
         "variants": [
           {
