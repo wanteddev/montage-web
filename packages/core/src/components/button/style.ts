@@ -16,7 +16,7 @@ export const buttonStyle =
     box-sizing: border-box;
     line-height: initial;
     white-space: nowrap;
-    height: auto;
+    height: fit-content;
     position: relative;
     cursor: pointer;
 
