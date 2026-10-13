@@ -116,6 +116,10 @@ const modalContainerWrapperVariant = (
           pointer-events: none;
           transition: initial;
         }
+
+        [data-component='action-area'] {
+          padding-bottom: var(--action-area-margin-y);
+        }
       `;
     case 'popup':
       return css`
@@ -128,6 +132,10 @@ const modalContainerWrapperVariant = (
           pointer-events: none;
           transition: initial;
         }
+
+        [data-component='action-area'] {
+          padding-bottom: calc(var(--action-area-margin-y) + 4px);
+        }
       `;
     case 'bottom':
       return css`
@@ -139,6 +147,10 @@ const modalContainerWrapperVariant = (
           opacity: 0;
           pointer-events: none;
           transition: opacity ${BOTTOM_SHEET_SETTLE_TRANSITION};
+        }
+
+        [data-component='action-area'] {
+          padding-bottom: var(--action-area-margin-y);
         }
       `;
   }
