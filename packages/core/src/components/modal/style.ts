@@ -111,14 +111,12 @@ const modalContainerWrapperVariant = (
         align-items: initial;
         padding: 0px;
 
+        --action-area-bottom-offset-enabled: 0;
+
         [data-role='modal-dimmer'][data-status='close'] {
           opacity: initial;
           pointer-events: none;
           transition: initial;
-        }
-
-        [data-component='action-area'] {
-          padding-bottom: var(--action-area-margin-y);
         }
       `;
     case 'popup':
@@ -127,14 +125,12 @@ const modalContainerWrapperVariant = (
         justify-content: center;
         padding: 20px;
 
+        --action-area-bottom-offset-enabled: 1;
+
         [data-role='modal-dimmer'][data-status='close'] {
           opacity: initial;
           pointer-events: none;
           transition: initial;
-        }
-
-        [data-component='action-area'] {
-          padding-bottom: calc(var(--action-area-margin-y) + 4px);
         }
       `;
     case 'bottom':
@@ -143,14 +139,12 @@ const modalContainerWrapperVariant = (
         align-items: flex-end;
         justify-content: center;
 
+        --action-area-bottom-offset-enabled: 0;
+
         [data-role='modal-dimmer'][data-status='close'] {
           opacity: 0;
           pointer-events: none;
           transition: opacity ${BOTTOM_SHEET_SETTLE_TRANSITION};
-        }
-
-        [data-component='action-area'] {
-          padding-bottom: var(--action-area-margin-y);
         }
       `;
   }

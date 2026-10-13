@@ -430,6 +430,34 @@ describe('when given full variant', () => {
   });
 });
 
+describe('when given action area with sx padding', () => {
+  afterEach(() => {
+    cleanup();
+  });
+
+  it.each(['popup', 'full', 'bottom'] as const)(
+    'should keep the sx padding-bottom in %s variant',
+    (variant) => {
+      render(
+        <Modal open>
+          <ModalContainer variant={variant}>
+            <ModalContent>
+              <ModalContentItem>Content</ModalContentItem>
+            </ModalContent>
+            <ActionArea data-testid="action-area" sx={{ padding: '10px 20px' }}>
+              <ActionAreaButton>Action</ActionAreaButton>
+            </ActionArea>
+          </ModalContainer>
+        </Modal>,
+      );
+
+      expect(
+        getComputedStyle(screen.getByTestId('action-area')).paddingBottom,
+      ).toBe('10px');
+    },
+  );
+});
+
 describe('when two modals are open simultaneously', () => {
   afterEach(() => {
     cleanup();

@@ -9,10 +9,18 @@ export const actionAreaStyle =
   ({ divider, background, extra, backgroundColor }: ActionAreaProps) =>
   (theme: Theme) => css`
     width: 100%;
-    padding: var(--action-area-margin-y, 20px) var(--action-area-margin-x, 20px);
+    padding: var(--action-area-margin-y, 20px) var(--action-area-margin-x, 20px)
+      calc(
+        var(--action-area-margin-y, 20px) + var(--action-area-bottom-offset) *
+          var(--action-area-bottom-offset-enabled, 0)
+      );
     position: relative;
 
     --action-area-background-color: ${getColorByToken(theme, backgroundColor!)};
+    --action-area-bottom-offset: max(
+      0px,
+      var(--action-area-margin-x, 20px) - var(--action-area-margin-y, 20px)
+    );
 
     [data-role='action-area-extra-content'] {
       [data-role='label-content'] > [data-role='label-content-text'] {
