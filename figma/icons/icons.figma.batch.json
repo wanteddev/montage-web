@@ -237,7 +237,7 @@
         ]
       },
       {
-        "url": "<FIGMA_ICONS_BASE>?node-id=8-731",
+        "url": "<FIGMA_ICONS_BASE>?node-id=40167-141716",
         "component": "IconBlankColor",
         "variants": [
           {
@@ -731,7 +731,7 @@
         ]
       },
       {
-        "url": "<FIGMA_ICONS_BASE>?node-id=4741-31418",
+        "url": "<FIGMA_ICONS_BASE>?node-id=53254-552",
         "component": "IconCirclePoint",
         "variants": [
           {
@@ -2139,7 +2139,7 @@
         ]
       },
       {
-        "url": "<FIGMA_ICONS_BASE>?node-id=47320-87187",
+        "url": "<FIGMA_ICONS_BASE>?node-id=53254-711",
         "component": "IconPositionReview",
         "variants": [
           {
@@ -2149,7 +2149,7 @@
         ]
       },
       {
-        "url": "<FIGMA_ICONS_BASE>?node-id=46447-83797",
+        "url": "<FIGMA_ICONS_BASE>?node-id=53254-573",
         "component": "IconPouch",
         "variants": [
           {
@@ -2741,6 +2741,10 @@
           {
             "name": "video",
             "component": "IconVideo"
+          },
+          {
+            "name": "videoFill",
+            "component": "IconVideoFill"
           }
         ]
       },
@@ -2799,7 +2803,7 @@
         ]
       },
       {
-        "url": "<FIGMA_ICONS_BASE>?node-id=40167-141716",
+        "url": "<FIGMA_ICONS_BASE>?node-id=8-731",
         "component": "IconBlankColor",
         "variants": [
           {

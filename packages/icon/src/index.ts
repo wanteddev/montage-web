@@ -351,6 +351,7 @@ export { default as IconVerifiedCheckFill } from './icon-verified-check-fill';
 export { default as IconVerifiedStar } from './icon-verified-star';
 export { default as IconVerifiedStarFill } from './icon-verified-star-fill';
 export { default as IconVideo } from './icon-video';
+export { default as IconVideoFill } from './icon-video-fill';
 export { default as IconWebinar } from './icon-webinar';
 export { default as IconWholeWord } from './icon-whole-word';
 export { default as IconWrite } from './icon-write';

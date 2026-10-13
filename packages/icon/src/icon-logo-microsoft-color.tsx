@@ -25,9 +25,12 @@ const IconLogoMicrosoftColor = forwardRef<SVGSVGElement, Props>(
         ref={ref}
         {...props}
       >
-        <path d="M12.6428 12.6429H21V21.0001H12.6428V12.6429Z" fill="#FBB604" />
+        <path
+          d="M12.6431 12.6429H21.0002V21.0001H12.6431V12.6429Z"
+          fill="#FBB604"
+        />
         <path d="M11.3571 12.6429H3V21.0001H11.3571V12.6429Z" fill="#03A4EE" />
-        <path d="M21 3H12.6428V11.3571H21V3Z" fill="#7EB903" />
+        <path d="M21.0002 3H12.6431V11.3571H21.0002V3Z" fill="#7EB903" />
         <path d="M11.3571 3H3V11.3571H11.3571V3Z" fill="#F05022" />
       </Box>
     );
