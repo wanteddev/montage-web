@@ -4,7 +4,7 @@ description: 콘텐츠 필터링을 위한 컴팩트한 선택 컨트롤로, Ico
 image: /components/selection-and-input/filter-button/design/Image.png
 ogImage: /components/selection-and-input/filter-button/design/Thumbnails.png
 createdAt: 2025-08-11
-updatedAt: 2026-01-29
+updatedAt: 2026-10-15
 ---
 
 <SectionAnatomy
@@ -62,7 +62,7 @@ updatedAt: 2026-01-29
 
 
 <SectionStates
-  ratio="95 / 47"
+  ratio="380 / 183"
   src="/components/selection-and-input/filter-button/design/Image-2.png"
 />
 
@@ -94,37 +94,19 @@ updatedAt: 2026-01-29
 <SectionLayout title="Timing of applying value">
   <SectionFigureGroup title="Immediately">
     <SectionFigure
-      ratio="38 / 27"
+      ratio="95 / 67"
       src="/components/selection-and-input/filter-button/design/Image-6.png"
       description={`Filter button에서 한 개의 값만 선택할 시 즉시 값이 반영되며 호출된 컴포넌트가 닫힙니다.`}
     />
   </SectionFigureGroup>
   <SectionFigureGroup title="Click to button">
     <SectionFigure
-      ratio="95 / 71"
+      ratio="380 / 287"
       src="/components/selection-and-input/filter-button/design/Image-7.png"
       description={`Filter button에서 두 개 이상의 값을 선택할 시 적용 버튼을 눌러 값을 반영합니다. 다중 선택 된 항목은 외 1개와 같이 줄여서 표기하는 것을 권장합니다.`}
     />
   </SectionFigureGroup>
 </SectionLayout>
-
-<SectionHierarchy>
-  <SectionHierarchyItem
-    description={`Level.2 → 한 개 이하의 중요한 필터가 단독으로 위치할 때 사용합니다.`}
-    components={[
-  "FilterButton",
-  "Box"
-]}
-    render={`<Box sx={{ width:'102px'}}><FilterButton expanded active size="small" variant="solid" activeLabel="1">Solid</FilterButton></Box>`}
-  />
-  <SectionHierarchyItem
-    description={`Level.1 → 두 개 이상의 필터가 나란히 위치할 때 사용합니다.`}
-    components={[
-  "FilterButton"
-]}
-    render={`<FilterButton expanded active size="small" variant="outlined" activeLabel="1">Outlined</FilterButton>`}
-  />
-</SectionHierarchy>
 
 <SectionLayout title="Usage">
   <SectionFigure
@@ -158,7 +140,10 @@ updatedAt: 2026-01-29
   {
     "key": "Filter button",
     "options": [
-      "contentColor"
+      "contentColor",
+      "backgroundColor",
+      "activeColor",
+      "iconColor"
     ]
   }
 ]}

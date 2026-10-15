@@ -4,14 +4,14 @@ description: 일정 높이의 필드 안에 한 줄 이하의 값을 입력할 �
 image: /components/selection-and-input/text-field/design/Image.png
 ogImage: /components/selection-and-input/text-field/design/Thumbnails.png
 createdAt: 2025-04-03
-updatedAt: 2026-10-07
+updatedAt: 2026-10-15
 ---
 
 <SectionAnatomy
   src="/components/selection-and-input/text-field/design/Image-1.png"
-  ratio="380 / 267"
+  ratio="152 / 99"
   data={[
-    'Heading','Placeholder','Description','Leading icon','Field','Required badge','Trailing contents','Trailing button'
+    'Container','Leading icon','Placeholder','Trailing contents','Value','Clear button','Positive icon','Trailing button'
   ]}
 />
   
@@ -115,51 +115,51 @@ updatedAt: 2026-10-07
 
 
 <SectionStates
-  ratio="380 / 291"
+  ratio="190 / 143"
   src="/components/selection-and-input/text-field/design/Image-2.png"
 />
+
+<SectionLayout title="Size">
+  <SectionFigure
+    ratio="190 / 77"
+    src="/components/selection-and-input/text-field/design/Image-3.png"
+    description={`Large, Medium 2가지 사이즈를 제공합니다. 너비는 자유롭게 지정할 수 있으며, 내부 아이콘·배지·버튼은 Field 사이즈에 맞춰 크기가 정해집니다.`}
+  />
+</SectionLayout>
 
 <SectionLayout title="Input mask">
   <SectionFigureGroup title="Call number">
     <SectionFigure
       ratio="38 / 13"
-      src="/components/selection-and-input/text-field/design/Image-3.png"
-      description={`휴대전화 번호 입력 시 4자 단위로 하이픈(-)이 포함된 형식을 사용하는 것을 권장합니다. 컴포넌트 자체 지원이 아닌 각 프로젝트 담당자들간의 커뮤니케이션으로 적용 가능합니다.`}
+      src="/components/selection-and-input/text-field/design/Image-4.png"
+      description={`휴대전화 번호 입력 시 4자 단위로 하이픈(-)이 포함된 형식을 사용하는 것을 권장합니다. 컴포넌트 자체 지원이 아닌 각
+프로젝트 담당자들간의 커뮤니케이션으로 적용 가능합니다.`}
     />
   </SectionFigureGroup>
   <SectionFigureGroup title="Card number">
     <SectionFigure
       ratio="190 / 59"
-      src="/components/selection-and-input/text-field/design/Image-4.png"
+      src="/components/selection-and-input/text-field/design/Image-5.png"
       description={`카드번호 16자 입력 시 4자 단위로 하이픈(-)이 포함된 형식을 사용하는 것을 권장합니다. 컴포넌트 자체 지원이 아닌 각 프로젝트 담당자들간의 커뮤니케이션으로 적용가능합니다.`}
     />
   </SectionFigureGroup>
   <SectionFigureGroup title="Date">
     <SectionFigure
       ratio="190 / 59"
-      src="/components/selection-and-input/text-field/design/Image-5.png"
+      src="/components/selection-and-input/text-field/design/Image-6.png"
       description={`날짜를 직접 입력할 시 YYYY. MM. DD 양식 사용을 권장하며, 가급적 Text input을 기반으로 한 Date picker 컴포넌트 사용을 권장합니다.`}
     />
   </SectionFigureGroup>
 </SectionLayout>
 
-<SectionLayout title="Gap">
-  <SectionFigure
-    ratio="380 / 169"
-    src="/components/selection-and-input/text-field/design/Image-6.png"
-    description={`필드 간의 간격은 기본적으로 Description의 활성 여부와 관계없이 동일한 간격을 유지합니다. 단, 레이아웃이 제한적인 상황일 경우 필드가 고정으로 위치하여 Description 만큼 간격이 줄어들 수 있습니다.`}
-  />
-</SectionLayout>
-
-<SectionLayout title="Validation check">
-  <SectionFigure
-    ratio="760 / 307"
-    src="/components/selection-and-input/text-field/design/Image-7.png"
-    description={`값을 입력하고 확인 버튼을 눌러 유효성 검사를 실시하도록 설계하는 것을 권장합니다.`}
-  />
-</SectionLayout>
-
 <SectionLayout title="Usage">
+  <SectionFigureGroup title="With form control">
+    <SectionFigure
+      ratio="38 / 15"
+      src="/components/selection-and-input/text-field/design/Image-7.png"
+      description={`Label과 Message는 Text field가 아닌 Form control이 제공합니다. 입력할 내용이나 입력 조건을 안내해야 할 때 Form control로 감싸서 사용합니다.`}
+    />
+  </SectionFigureGroup>
   <SectionFigureGroup title="Password">
     <SectionFigure
       ratio="95 / 49"
@@ -171,7 +171,8 @@ updatedAt: 2026-10-07
     <SectionFigure
       ratio="190 / 173"
       src="/components/selection-and-input/text-field/design/Image-9.png"
-      description={`Trailing button을 활성하여 사용하며 인증번호 입력 필드가 노출 될 때 포커스가 이동합니다. 행동을 유도하는 발송, 재발송과 같은 특정 행동을 유도하는 버튼은 Normal을 사용하며 행동을 종료하는 ‘확인’은 Assistive를 권장합니다. 일정 시간 이후 필드의 버튼과 타이머가 비활성화 됩니다.`}
+      description={`Trailing button을 활성하여 사용하며 인증번호 입력 필드가 노출 될 때 포커스가 이동합니다. 
+일정 시간 이후 필드의 버튼과 타이머가 비활성화 됩니다.`}
     />
   </SectionFigureGroup>
   <SectionFigureGroup title="Unit">
@@ -186,15 +187,15 @@ updatedAt: 2026-10-07
 <SectionLayout title="How to use">
   <SectionFigureGroup>
     <SectionFigure
-      ratio="38 / 13"
+      ratio="95 / 31"
       src="/components/selection-and-input/text-field/design/Image-11.png"
       variant="positive"
-      description={`실패 사유를 명확하게 안내하여 사용자에게 명확한 행동을 유도합니다.`}
+      description={`Placeholder에는 입력할 값의 예시를 적습니다.`}
     />
   </SectionFigureGroup>
   <SectionFigureGroup>
     <SectionFigure
-      ratio="190 / 59"
+      ratio="95 / 31"
       src="/components/selection-and-input/text-field/design/Image-12.png"
       variant="negative"
       description={`버튼명을 6자 이상으로 길게 적용하지 않습니다.`}

@@ -8,6 +8,7 @@ import {
   getComponentImageDirectory,
   getImageNames,
 } from './helpers';
+import { FIGMA_ESCAPE_LINE_BREAK } from './constants';
 
 import type { FrameNode } from '@figma/rest-api-spec';
 import type { FigmaNode, Page } from './types';
@@ -54,7 +55,9 @@ const processComponentGuide = async (
 ) => {
   const frontmatter = parseComponentFrontmatter(elements, pageName, group);
 
-  const content = await parseComponentSections(elements, pageName, group);
+  const content = (
+    await parseComponentSections(elements, pageName, group)
+  ).replaceAll(FIGMA_ESCAPE_LINE_BREAK, '\n');
 
   if (
     fs.existsSync(
@@ -66,14 +69,18 @@ const processComponentGuide = async (
       'utf8',
     );
 
-    if (
-      prevContent.replace(/^---[\s\S]*?---\s*/, '').trim() === content.trim()
-    ) {
+    const stripUpdatedAt = (s: string) =>
+      s.replace(/^updatedAt: .*$/m, '').trim();
+
+    if (stripUpdatedAt(prevContent) === stripUpdatedAt(frontmatter + content)) {
       return { content: '', isUpdated: false };
     }
   }
 
-  return { content: frontmatter + content, isUpdated: true };
+  return {
+    content: frontmatter + content,
+    isUpdated: true,
+  };
 };
 
 const processImageDownload = async (

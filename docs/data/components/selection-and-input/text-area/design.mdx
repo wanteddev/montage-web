@@ -4,14 +4,14 @@ description: 필드 내부에 2줄 이상의 텍스트를 입력할 때 사용�
 image: /components/selection-and-input/text-area/design/Image.png
 ogImage: /components/selection-and-input/text-area/design/Thumbnails.png
 createdAt: 2025-04-03
-updatedAt: 2026-10-07
+updatedAt: 2026-10-15
 ---
 
 <SectionAnatomy
   src="/components/selection-and-input/text-area/design/Image-1.png"
-  ratio="19 / 10"
+  ratio="190 / 117"
   data={[
-    'Heading','Placeholder','Leading content','Description','Required badge','Field','Trailing content'
+    'Container','Placeholder','Leading content','Trailing content','Value'
   ]}
 />
   
@@ -26,27 +26,15 @@ updatedAt: 2026-10-07
       const hasCharacterCounter = value['Character counter'] === 'True';
       const size = value['Size'].toLowerCase();
 
-      const custom =
-        '<TextAreaContent variant="custom"><Box sx={theme => ({ width: 24, height: 24, backgroundColor: theme.semantic.surface.accent.violetOpaque, opacity: 0.08 })} /></TextAreaContent>';
       const primaryIconButton =
         '<TextAreaContent variant="primary-icon-button"><Button variant="solid" color="primary" iconOnly><IconBlank /></Button></TextAreaContent>';
       const segmentedControl =
         '<TextAreaContent variant="segmented-control"><SegmentedControl iconOnly defaultValue="1"><SegmentedControlItem value="1" aria-label="Item 1"><IconBlank /></SegmentedControlItem><SegmentedControlItem value="2" aria-label="Item 2"><IconBlank /></SegmentedControlItem></SegmentedControl></TextAreaContent>';
 
       switch (value['Leading contents']) {
-        case 'Custom':
-          leadingContent = custom;
-          break;
-        case 'Button':
-          leadingContent =
-            '<TextAreaContent variant="button"><TextButton color="assistive">Button</TextButton></TextAreaContent>';
-          break;
         case 'Icon button':
           leadingContent =
             '<TextAreaContent variant="icon-button"><IconButton variant="normal"><IconBlank /></IconButton></TextAreaContent>';
-          break;
-        case 'Primary icon button':
-          leadingContent = primaryIconButton;
           break;
         case 'Icon':
           leadingContent =
@@ -64,16 +52,13 @@ updatedAt: 2026-10-07
       }
 
       switch (value['Trailing contents']) {
-        case 'Custom':
-          trailingContent = custom;
-          break;
         case 'Button':
           trailingContent =
-            '<TextAreaContent variant="button"><TextButton color="primary">Button</TextButton></TextAreaContent>';
+            '<TextAreaContent variant="button"><Button variant="outlined" color="assistive">Button</Button></TextAreaContent>';
           break;
         case 'Icon button':
           trailingContent =
-            '<TextAreaContent variant="icon-button"><IconButton variant="solid"><IconBlank /></IconButton></TextAreaContent>';
+            '<TextAreaContent variant="icon-button"><IconButton variant="normal"><IconBlank /></IconButton></TextAreaContent>';
           break;
         case 'Primary icon button':
           trailingContent = primaryIconButton;
@@ -141,15 +126,20 @@ updatedAt: 2026-10-07
       ]
     },
     {
+      key: 'Character counter',
+      defaultValue: 'True',
+      options: [
+        { label: 'False', value: {} },
+        { label: 'True', value: {} }
+      ]
+    },
+    {
       key: 'Leading contents',
       options: [
         { label: 'None', value: {} },
-        { label: 'Custom', value: {} },
-        { label: 'Button', value: {} },
         { label: 'Content badge', value: {} },
         { label: 'Icon', value: {} },
         { label: 'Icon button', value: {} },
-        { label: 'Primary icon button', value: {} },
         { label: 'Segmented control', value: {} }
       ]
     },
@@ -158,7 +148,6 @@ updatedAt: 2026-10-07
       defaultValue: 'Button',
       options: [
         { label: 'None', value: {} },
-        { label: 'Custom', value: {} },
         { label: 'Button', value: {} },
         { label: 'Content badge', value: {} },
         { label: 'Icon', value: {} },
@@ -166,48 +155,48 @@ updatedAt: 2026-10-07
         { label: 'Primary icon button', value: {} },
         { label: 'Segmented control', value: {} }
       ]
-    },
-    {
-      key: 'Character counter',
-      defaultValue: 'True',
-      options: [
-        { label: 'False', value: {} },
-        { label: 'True', value: {} }
-      ]
     }
   ]}
 />
 
 
 <SectionStates
-  ratio="38 / 35"
+  ratio="19 / 21"
   src="/components/selection-and-input/text-area/design/Image-2.png"
 />
+
+<SectionLayout title="Size">
+  <SectionFigure
+    ratio="95 / 53"
+    src="/components/selection-and-input/text-area/design/Image-3.png"
+    description={`Large, Medium 2가지 사이즈를 제공합니다. 너비는 자유롭게 지정할 수 있으며, 높이는 기본적으로 텍스트 2줄에 맞춰 정해집니다. Bottom 영역에 넣는 버튼·배지·아이콘은 필드 사이즈에 맞춰 크기가 정해집니다.`}
+  />
+</SectionLayout>
 
 <SectionLayout title="Resize">
   <SectionFigureGroup title="Normal">
     <SectionFigure
-      ratio="95 / 49"
-      src="/components/selection-and-input/text-area/design/Image-3.png"
+      ratio="190 / 83"
+      src="/components/selection-and-input/text-area/design/Image-4.png"
       description={`필드 내부의 텍스트 양과 비례하여 필드의 높이가 제한 없이 아래로 늘어납니다.`}
     />
   </SectionFigureGroup>
   <SectionFigureGroup title="Limited">
     <SectionFigure
-      ratio="380 / 257"
-      src="/components/selection-and-input/text-area/design/Image-4.png"
-      description={`기본 높이에서 필드 내부의 텍스트 양과 비례하며 일정 높이까지 필드가 늘어나다가 고정됩니다. 필드의 최대 높이가 지정되어 있으며 iOS는 ‘높이’ 기준, Android, Web은 ‘글 줄'로 소통합니다. 단, 프로젝트 정책에 따라 최대 높이를 사용자가 직접 지정할 수 있습니다.
+      ratio="19 / 10"
+      src="/components/selection-and-input/text-area/design/Image-5.png"
+      description={`기본 높이에서 필드 내부의 텍스트 양에 비례하여 일정 높이까지 늘어나다가 고정되며, 이후에는 스크롤됩니다. 최대 높이는 플랫폼 모두 '줄 수' 기준으로 소통합니다. 단, 프로젝트 정책에 따라 최대 높이를 사용자가 직접 지정할 수 있습니다.
 Default max height
-- iOS: 102px/Android: 3줄/Web: 12줄`}
+- 6줄`}
     />
   </SectionFigureGroup>
   <SectionFigureGroup title="Fixed">
     <SectionFigure
       ratio="76 / 31"
-      src="/components/selection-and-input/text-area/design/Image-5.png"
-      description={`사용자의 의도에 따라 텍스트 양에 관계 없이 필드의 기본, 최대 높이를 자유롭게 고정하여 사용할 수 있습니다. 단, Textfield와의 구분을 위해 Textarea의 최소 권장 높이를 지켜가며 디자인합니다.
+      src="/components/selection-and-input/text-area/design/Image-6.png"
+      description={`텍스트 양에 관계없이 필드의 높이를 고정하여 사용할 수 있으며, 고정한 높이를 넘는 텍스트는 스크롤됩니다. 단, Textfield와 구분되도록 최소 권장 높이 이상으로 지정합니다.
 Min height
-- iOS: 76px/Android: 2줄/Web: 2줄`}
+- 2줄`}
     />
   </SectionFigureGroup>
 </SectionLayout>
@@ -216,39 +205,24 @@ Min height
   <SectionFigureGroup title="Leading contents">
     <SectionFigure
       ratio="38 / 15"
-      src="/components/selection-and-input/text-area/design/Image-6.png"
-      description={`Charactor counter, Text button, Icon button, Icon, Content badge, Filter button이 자리할 수 있습니다. 고정된 요소들만 들어갈 수 있으며 다른 요소가 들어갈 경우 커스터마이징하여 사용할 수 있습니다. Leading contents는 메인 영역 이외에 2개의 Extra가 존재하며 간격을 자유롭게 조절할 수 있습니다.`}
+      src="/components/selection-and-input/text-area/design/Image-7.png"
+      description={`슬롯 영역으로 원하는 요소를 배치할 수 있습니다. Icon, Icon button, Content badge, Segmented control은 기본 제공 요소로, 필드 사이즈에 맞춰 크기가 자동으로 정해집니다. Leading contents는 Bottom 영역 왼쪽 끝에 정렬되며, 요소 간 기본 간격은 Large 8px, Medium 6px이고 필요에 따라 조절할 수 있습니다.`}
     />
   </SectionFigureGroup>
   <SectionFigureGroup title="Trailing contents">
     <SectionFigure
       ratio="38 / 15"
-      src="/components/selection-and-input/text-area/design/Image-7.png"
-      description={`Bottom 영역은 비활성할 수 있으며, Charactor counter, Text button(Primary, Assistive), Icon button(Normal, Solid), Icon, Content badge, Filter button이 위치합니다. 다른 요소가 들어갈 경우 커스터마이징할 수 있습니다. Trailing contents는 메인 영역 이외에 2개의 Extra가 존재하며 요소끼리의 간격을 2배수로 자유롭게 조절할 수 있습니다.`}
-    />
-  </SectionFigureGroup>
-  <SectionFigureGroup title="Validation icon">
-    <SectionFigure
-      ratio="38 / 15"
       src="/components/selection-and-input/text-area/design/Image-8.png"
-      description={`입력한 내용이 유효하지 않을 때 Validation icon이 노출됩니다. 단, Trailing contents가 있는 경우엔 제외합니다.`}
+      description={`슬롯 영역으로 원하는 요소를 배치할 수 있습니다. Button, Icon, Icon button, Primary icon button, Content badge, Segmented control은 기본 제공 요소로, 필드 사이즈에 맞춰 크기가 자동으로 정해집니다. Trailing contents는 Bottom 영역 오른쪽 끝에 정렬되며, 요소 간 기본 간격은 Large 8px, Medium 6px이고 필요에 따라 조절할 수 있습니다.`}
     />
   </SectionFigureGroup>
-</SectionLayout>
-
-<SectionLayout title="Keyboard sticky">
-  <SectionFigure
-    ratio="38 / 25"
-    src="/components/selection-and-input/text-area/design/Image-9.png"
-    description={`키보드와 함께 사용하는 타입으로 필드의 최대 높이는 기본 5줄 이하로 권장합니다.`}
-  />
 </SectionLayout>
 
 <SectionLayout title="How to use">
   <SectionFigureGroup>
     <SectionFigure
-      ratio="190 / 91"
-      src="/components/selection-and-input/text-area/design/Image-10.png"
+      ratio="760 / 339"
+      src="/components/selection-and-input/text-area/design/Image-9.png"
       variant="positive"
       description={`Bottom의 Contents는 인터랙션 영역을 고려하여 간격을 조절합니다.`}
     />
@@ -256,7 +230,7 @@ Min height
   <SectionFigureGroup>
     <SectionFigure
       ratio="190 / 91"
-      src="/components/selection-and-input/text-area/design/Image-11.png"
+      src="/components/selection-and-input/text-area/design/Image-10.png"
       variant="negative"
       description={`모바일에서 높이가 지속적으로 늘어나는 Resize=Normal 타입을 사용하여 사용성 혼란을 주지 않습니다.`}
     />

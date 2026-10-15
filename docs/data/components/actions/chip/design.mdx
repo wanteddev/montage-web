@@ -4,7 +4,7 @@ description: 간결한 정보나 선택 상태를 시각적으로 표현합니�
 image: /components/actions/chip/design/Image.png
 ogImage: /components/actions/chip/design/Thumbnails.png
 createdAt: 2025-05-12
-updatedAt: 2026-10-07
+updatedAt: 2026-10-15
 ---
 
 <SectionAnatomy
@@ -63,7 +63,7 @@ updatedAt: 2026-10-07
 <SectionLayout title="Usage">
   <SectionFigureGroup title="Chip group">
     <SectionFigure
-      ratio="152 / 71"
+      ratio="380 / 181"
       src="/components/actions/chip/design/Image-4.png"
       description={`클릭으로 상태로 변경할 수 있습니다. 선택할 수 있는 모든 값이 한 화면에 보일 때 사용하는 것을 권장합니다. 요소를 나열할 시 요소 간의 간격을 균일하게 유지하며 레이아웃을 채웁니다.`}
     />
@@ -76,23 +76,6 @@ updatedAt: 2026-10-07
     />
   </SectionFigureGroup>
 </SectionLayout>
-
-<SectionHierarchy>
-  <SectionHierarchyItem
-    description={`Level.2 → Solid는 Active 상태에서 Outlined보다 높은 위계를 가지며 화면 전체를 컨트롤 합니다.`}
-    components={[
-  "Chip"
-]}
-    render={`<Chip size="xsmall" active>Chip</Chip>`}
-  />
-  <SectionHierarchyItem
-    description={`Level.1 → Outlined는 Active 상태에서 Solid보다 낮은 위계를 가지며 일부 영역, 다중 선택 시 사용합니다.`}
-    components={[
-  "Chip"
-]}
-    render={`<Chip size="xsmall" variant="outlined" active>Chip</Chip>`}
-  />
-</SectionHierarchy>
 
 <SectionLayout title="Role">
   <SectionFigureGroup title="Clickable value">
@@ -122,7 +105,7 @@ updatedAt: 2026-10-07
   </SectionFigureGroup>
   <SectionFigureGroup>
     <SectionFigure
-      ratio="95 / 37"
+      ratio="760 / 301"
       src="/components/actions/chip/design/Image-9.png"
       variant="negative"
       description={`Border의 색상이나 둥글기를 임의로 변경하여 사용하지 않습니다.`}
@@ -137,6 +120,7 @@ updatedAt: 2026-10-07
     "options": [
       "contentColor",
       "backgroundColor",
+      "borderColor",
       "activeColor"
     ]
   }

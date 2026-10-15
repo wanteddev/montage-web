@@ -38,15 +38,20 @@ module.exports = {
         ],
       },
       {
+        key: 'Character counter',
+        defaultValue: 'True',
+        options: [
+          { label: 'False', value: {} },
+          { label: 'True', value: {} },
+        ],
+      },
+      {
         key: 'Leading contents',
         options: [
           { label: 'None', value: {} },
-          { label: 'Custom', value: {} },
-          { label: 'Button', value: {} },
           { label: 'Content badge', value: {} },
           { label: 'Icon', value: {} },
           { label: 'Icon button', value: {} },
-          { label: 'Primary icon button', value: {} },
           { label: 'Segmented control', value: {} },
         ],
       },
@@ -55,21 +60,12 @@ module.exports = {
         defaultValue: 'Button',
         options: [
           { label: 'None', value: {} },
-          { label: 'Custom', value: {} },
           { label: 'Button', value: {} },
           { label: 'Content badge', value: {} },
           { label: 'Icon', value: {} },
           { label: 'Icon button', value: {} },
           { label: 'Primary icon button', value: {} },
           { label: 'Segmented control', value: {} },
-        ],
-      },
-      {
-        key: 'Character counter',
-        defaultValue: 'True',
-        options: [
-          { label: 'False', value: {} },
-          { label: 'True', value: {} },
         ],
       },
     ],
@@ -80,27 +76,15 @@ module.exports = {
       const hasCharacterCounter = value['Character counter'] === 'True';
       const size = value['Size'].toLowerCase();
 
-      const custom =
-        '<TextAreaContent variant="custom"><Box sx={theme => ({ width: 24, height: 24, backgroundColor: theme.semantic.surface.accent.violetOpaque, opacity: 0.08 })} /></TextAreaContent>';
       const primaryIconButton =
         '<TextAreaContent variant="primary-icon-button"><Button variant="solid" color="primary" iconOnly><IconBlank /></Button></TextAreaContent>';
       const segmentedControl =
         '<TextAreaContent variant="segmented-control"><SegmentedControl iconOnly defaultValue="1"><SegmentedControlItem value="1" aria-label="Item 1"><IconBlank /></SegmentedControlItem><SegmentedControlItem value="2" aria-label="Item 2"><IconBlank /></SegmentedControlItem></SegmentedControl></TextAreaContent>';
 
       switch (value['Leading contents']) {
-        case 'Custom':
-          leadingContent = custom;
-          break;
-        case 'Button':
-          leadingContent =
-            '<TextAreaContent variant="button"><TextButton color="assistive">Button</TextButton></TextAreaContent>';
-          break;
         case 'Icon button':
           leadingContent =
             '<TextAreaContent variant="icon-button"><IconButton variant="normal"><IconBlank /></IconButton></TextAreaContent>';
-          break;
-        case 'Primary icon button':
-          leadingContent = primaryIconButton;
           break;
         case 'Icon':
           leadingContent =
@@ -118,16 +102,13 @@ module.exports = {
       }
 
       switch (value['Trailing contents']) {
-        case 'Custom':
-          trailingContent = custom;
-          break;
         case 'Button':
           trailingContent =
-            '<TextAreaContent variant="button"><TextButton color="primary">Button</TextButton></TextAreaContent>';
+            '<TextAreaContent variant="button"><Button variant="outlined" color="assistive">Button</Button></TextAreaContent>';
           break;
         case 'Icon button':
           trailingContent =
-            '<TextAreaContent variant="icon-button"><IconButton variant="solid"><IconBlank /></IconButton></TextAreaContent>';
+            '<TextAreaContent variant="icon-button"><IconButton variant="normal"><IconBlank /></IconButton></TextAreaContent>';
           break;
         case 'Primary icon button':
           trailingContent = primaryIconButton;

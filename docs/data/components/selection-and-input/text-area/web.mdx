@@ -217,6 +217,25 @@ const Demo = () => {
       <TextArea
         width="25ch"
         size="medium"
+        placeholder="Button"
+        leadingContent={(
+          <TextAreaContent variant="button">
+            <Button variant="outlined" color="assistive">
+              Button
+            </Button>
+          </TextAreaContent>
+        )}
+        trailingContent={(
+           <TextAreaContent variant="button">
+            <Button variant="outlined" color="assistive">
+              Button
+            </Button>
+          </TextAreaContent>
+        )}
+      />
+      <TextArea
+        width="25ch"
+        size="medium"
         placeholder="Icon button"
         leadingContent={(
           <TextAreaContent variant="icon-button">
@@ -332,6 +351,25 @@ const Demo = () => {
             <ContentBadge color="neutral">
               Badge
             </ContentBadge>
+          </TextAreaContent>
+        )}
+      />
+      <TextArea
+        width="25ch"
+        size="large"
+        placeholder="Button"
+        leadingContent={(
+          <TextAreaContent variant="button">
+            <Button variant="outlined" color="assistive">
+              Button
+            </Button>
+          </TextAreaContent>
+        )}
+        trailingContent={(
+           <TextAreaContent variant="button">
+            <Button variant="outlined" color="assistive">
+              Button
+            </Button>
           </TextAreaContent>
         )}
       />

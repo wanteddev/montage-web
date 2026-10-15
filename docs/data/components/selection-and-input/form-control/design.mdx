@@ -1,10 +1,10 @@
 ---
 title: Form control
-description: 입력 필드에 Label과 Message를 붙여 무엇을 입력해야 하는지 안내하는 컴포넌트입니다. Text field, Text area, Select와 같은 입력 필드를 감싸서 사용하며, 접근성 연결을 처리합니다.
+description: 입력 필드에 Label과 Message를 붙여 무엇을 입력해야 하는지 안내하는 컴포넌트입니다.\nText field, Text area, Select와 같은 입력 필드를 감싸서 사용하며, 접근성 연결을 처리합니다.
 image: /components/selection-and-input/form-control/design/Image.png
 ogImage: /components/selection-and-input/form-control/design/Thumbnails.png
 createdAt: 2026-10-07
-updatedAt: 2026-10-07
+updatedAt: 2026-10-15
 ---
 
 <SectionAnatomy
@@ -114,18 +114,34 @@ updatedAt: 2026-10-07
   />
 </SectionLayout>
 
+<SectionLayout title="Gap">
+  <SectionFigure
+    ratio="95 / 41"
+    src="/components/selection-and-input/form-control/design/Image-3.png"
+    description={`필드 간의 간격은 기본적으로 Message의 활성 여부와 관계없이 동일한 간격을 유지합니다. 단, 레이아웃이 제한적인 상황일 경우 필드가 고정으로 위치하여 Message 만큼 간격이 줄어들 수 있습니다.`}
+  />
+</SectionLayout>
+
+<SectionLayout title="Validation check">
+  <SectionFigure
+    ratio="760 / 307"
+    src="/components/selection-and-input/form-control/design/Image-4.png"
+    description={`값을 입력하고 확인 버튼을 눌러 유효성 검사를 실시하도록 설계하는 것을 권장합니다.`}
+  />
+</SectionLayout>
+
 <SectionLayout title="Label placement">
   <SectionFigureGroup title="Top">
     <SectionFigure
       ratio="190 / 69"
-      src="/components/selection-and-input/form-control/design/Image-3.png"
+      src="/components/selection-and-input/form-control/design/Image-5.png"
       description={`Label을 입력 필드 위에 배치합니다. 기본 배치입니다.`}
     />
   </SectionFigureGroup>
   <SectionFigureGroup title="Leading">
     <SectionFigure
       ratio="95 / 31"
-      src="/components/selection-and-input/form-control/design/Image-4.png"
+      src="/components/selection-and-input/form-control/design/Image-6.png"
       description={`Label을 입력 필드 왼쪽에 배치합니다. Label은 입력 필드 첫 줄(Large 48, Medium 40)의 중앙에 맞추며, Text area처럼 입력 필드가 여러 줄이 되어도 첫 줄 기준을 유지합니다.`}
     />
   </SectionFigureGroup>
@@ -135,14 +151,14 @@ updatedAt: 2026-10-07
   <SectionFigureGroup title="With input">
     <SectionFigure
       ratio="95 / 89"
-      src="/components/selection-and-input/form-control/design/Image-5.png"
+      src="/components/selection-and-input/form-control/design/Image-7.png"
       description={`Text field, Text area, Select 등 입력 필드를 Input 영역에 넣어 사용합니다.`}
     />
   </SectionFigureGroup>
   <SectionFigureGroup title="Message">
     <SectionFigure
       ratio="38 / 31"
-      src="/components/selection-and-input/form-control/design/Image-6.png"
+      src="/components/selection-and-input/form-control/design/Image-8.png"
       description={`입력 필드 아래에 안내 문구가 필요할 때 사용합니다. Status에 따라 문구의 종류가 바뀝니다.
 - Helper text (Normal): 입력할 내용의 형식이나 조건을 안내합니다.
 - Error message: 입력한 값이 유효하지 않을 때 실패 사유를 안내합니다.
@@ -152,7 +168,7 @@ updatedAt: 2026-10-07
   <SectionFigureGroup title="Form control group">
     <SectionFigure
       ratio="95 / 66"
-      src="/components/selection-and-input/form-control/design/Image-7.png"
+      src="/components/selection-and-input/form-control/design/Image-9.png"
       description={`Leading 배치의 Form control을 여러 개 쌓아 사용할 때는 Form control group으로 묶어 사용합니다.
 가장 긴 Label에 맞춰 Label 너비가 통일되어, Label 길이가 달라도 입력 필드의 시작 위치가 같아집니다. 여러 화면에서 같은 
 너비를 써야 할 때는 Label 너비를 고정할 수 있습니다.`}
@@ -164,7 +180,7 @@ updatedAt: 2026-10-07
   <SectionFigureGroup>
     <SectionFigure
       ratio="38 / 15"
-      src="/components/selection-and-input/form-control/design/Image-8.png"
+      src="/components/selection-and-input/form-control/design/Image-10.png"
       variant="positive"
       description={`실패 사유를 명확하게 안내하여 사용자에게 명확한 행동을 유도합니다.`}
     />
@@ -172,7 +188,7 @@ updatedAt: 2026-10-07
   <SectionFigureGroup>
     <SectionFigure
       ratio="760 / 249"
-      src="/components/selection-and-input/form-control/design/Image-9.png"
+      src="/components/selection-and-input/form-control/design/Image-11.png"
       variant="negative"
       description={`Label을 한 줄이 넘도록 길게 쓰지 않습니다.`}
     />

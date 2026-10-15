@@ -12,6 +12,7 @@ import {
   toKebabCase,
 } from './helpers';
 import { getPages } from './api';
+import { FIGMA_ESCAPE_LINE_BREAK } from './constants';
 
 import type { FigmaNode, Page } from './types';
 import type { InstanceNode, TextNode } from '@figma/rest-api-spec';
@@ -92,7 +93,7 @@ export const parseComponentFrontmatter = (
 
   return `---
 title: ${title}
-description: ${description.replace(/\n/g, '\\n')}
+description: ${description.replaceAll(FIGMA_ESCAPE_LINE_BREAK, '\n').replace(/\n/g, '\\n')}
 image: /components/${group}/${pageName}/design/Image.png
 ogImage: /components/${group}/${pageName}/design/Thumbnails.png
 createdAt: ${createdAt}

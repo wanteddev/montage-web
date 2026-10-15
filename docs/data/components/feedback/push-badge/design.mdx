@@ -4,7 +4,7 @@ description: 새로운 업데이트나 알림이 있음을 시각적으로 알�
 image: /components/feedback/push-badge/design/Image.png
 ogImage: /components/feedback/push-badge/design/Thumbnails.png
 createdAt: 2025-10-01
-updatedAt: 2026-10-07
+updatedAt: 2026-10-15
 ---
 
 <SectionAnatomy
@@ -85,7 +85,7 @@ updatedAt: 2026-10-07
     <SectionFigure
       ratio="19 / 8"
       src="/components/feedback/push-badge/design/Image-4.png"
-      description={`Avatar와 함께 사용자의 상태 변화를 시각적으로 알리기 위해 사용할 수 있습니다. 사용자의 프로필에 새로운 활동이 있거나 업데이트가 필요할 때 표시하여 사용자의 확인을 유도합니다.`}
+      description={`Avatar와 함께 사용자의 상태 변화를 시각적으로 알리기 위해 사용할 수 있습니다. 사용자의 프로필에 새로운 활동이 있거나 업데이트가 필요할 때 표시하여 사용자의 확인을 유도합니다. Avatar나 아이콘 위에 겹쳐 사용할 때는 Outline border를 활성화하여 배지의 경계가 묻히지 않도록 합니다.`}
     />
   </SectionFigureGroup>
   <SectionFigureGroup title="Tab">
@@ -113,7 +113,7 @@ updatedAt: 2026-10-07
     <SectionFigure
       ratio="19 / 8"
       src="/components/feedback/push-badge/design/Image-8.png"
-      description={`Number badeg에 표시되는 숫자는 최대 99까지입니다. 표시할 항목의 개수가 99개를 초과할 경우, 숫자 대신 '99+'로 표시하여 시각적인 복잡성을 줄입니다.`}
+      description={`Max count는 숫자를 최대 99까지 표시합니다. 표시할 항목의 개수가 99개를 초과할 경우, 숫자 대신 '99+'로 표시하여 시각적인 복잡성을 줄입니다.`}
     />
   </SectionFigureGroup>
 </SectionLayout>
@@ -132,7 +132,7 @@ updatedAt: 2026-10-07
       ratio="19 / 8"
       src="/components/feedback/push-badge/design/Image-10.png"
       variant="negative"
-      description={`작은 공간에서 Number badge를 사용하지 않습니다.`}
+      description={`작은 공간에서 Text badge를 사용하지 않습니다.`}
     />
   </SectionFigureGroup>
 </SectionLayout>
@@ -143,8 +143,10 @@ updatedAt: 2026-10-07
     "key": "Push Badge",
     "options": [
       "offset",
-      "typographyColor",
-      "backgroundColor"
+      "contentColor",
+      "backgroundColor",
+      "outlineBorderColor",
+      "maxCount"
     ]
   }
 ]}
