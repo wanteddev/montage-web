@@ -11,6 +11,9 @@ export const TEXT_AREA_SLOT_SIZE: Partial<
   'primary-icon-button': {
     Button: { size: { large: 'small', medium: 'xsmall' } },
   },
+  button: {
+    Button: { size: { large: 'small', medium: 'xsmall' } },
+  },
   'icon-button': FORM_FIELD_ICON_BUTTON_SLOT_SIZE,
   // `icon` shares the icon button layout with `icon-button`.
   icon: FORM_FIELD_ICON_BUTTON_SLOT_SIZE,
@@ -23,6 +26,6 @@ export const TEXT_AREA_SLOT_DEFAULTS: Partial<
   'content-badge': { ContentBadge: { size: 'small' } },
   'icon-button': { IconButton: { solid: { size: 'small' } } },
   icon: { IconButton: { solid: { size: 'small' } } },
-  button: { TextButton: { size: 'small' } },
+  button: { Button: { size: 'small' } },
   'segmented-control': { SegmentedControl: { size: 'small' } },
 };
