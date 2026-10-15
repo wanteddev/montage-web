@@ -12,7 +12,6 @@ import { Button } from '../button';
 import { ContentBadge } from '../content-badge';
 import { IconButton } from '../icon-button';
 import { SegmentedControl, SegmentedControlItem } from '../segmented-control';
-import { TextButton } from '../text-button';
 
 import { TextArea, TextAreaContent } from '.';
 
@@ -118,6 +117,29 @@ describe('when given text area inside form control', () => {
       window.getComputedStyle(screen.getByLabelText('Send')).minHeight,
     ).toBe('var(--dimension-28)');
   });
+
+  it.each([
+    ['large', 'var(--dimension-32)'],
+    ['medium', 'var(--dimension-28)'],
+  ] as const)(
+    'should size the button by the %s text area size',
+    (size, minHeight) => {
+      render(
+        <TextArea
+          size={size}
+          trailingContent={
+            <TextAreaContent variant="button">
+              <Button aria-label="Submit">Submit</Button>
+            </TextAreaContent>
+          }
+        />,
+      );
+
+      expect(
+        window.getComputedStyle(screen.getByLabelText('Submit')).minHeight,
+      ).toBe(minHeight);
+    },
+  );
 });
 
 describe('when given components inside text area fixed size content', () => {
@@ -145,14 +167,6 @@ describe('when given components inside text area fixed size content', () => {
         <ContentBadge data-testid="child" size={size}>
           Badge
         </ContentBadge>
-      ),
-    ],
-    [
-      'button',
-      (size?: 'small' | 'medium') => (
-        <TextButton data-testid="child" size={size}>
-          Text
-        </TextButton>
       ),
     ],
     [
