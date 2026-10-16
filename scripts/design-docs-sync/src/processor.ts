@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-import { getImages, getNodes } from './api';
+import { downloadImage, getImages, getNodes } from './api';
 import { parseComponentFrontmatter, parseComponentSections } from './parser';
 import {
   getComponentDirectory,
@@ -101,12 +101,6 @@ const processImageDownload = async (
 
   console.log(`Get download urls for images ${pageName}`);
 
-  const files = fs.globSync(path.join(directory, 'Image*.png'));
-
-  files.forEach((file) => {
-    fs.rmSync(file);
-  });
-
   const imageDownloadUrls = await getImages(fileKey, {
     ids: imageIds.join(','),
     scale: 2,
@@ -119,20 +113,24 @@ const processImageDownload = async (
 
   const entries = Object.entries(imageDownloadUrls.images);
 
-  await Promise.all(
-    entries.map(async ([id, url], i) => {
-      const fileResponse = await fetch(url as string);
-
-      if (!fileResponse.ok) {
-        throw new Error(`Failed to download image ${id} for ${pageName}`);
+  // 전부 받은 뒤에 기존 이미지를 교체해 중간 실패 시 이미지가 비지 않도록 한다
+  const imageBuffers = await Promise.all(
+    entries.map(async ([id, url]) => {
+      if (!url) {
+        throw new Error(`Failed to render image ${id} for ${pageName}`);
       }
 
-      const imageBuffer = await fileResponse.arrayBuffer();
-
-      fs.writeFileSync(
-        path.join(directory, getImageNames(i)),
-        Buffer.from(imageBuffer),
-      );
+      return downloadImage(url);
     }),
   );
+
+  const files = fs.globSync(path.join(directory, 'Image*.png'));
+
+  files.forEach((file) => {
+    fs.rmSync(file);
+  });
+
+  imageBuffers.forEach((imageBuffer, i) => {
+    fs.writeFileSync(path.join(directory, getImageNames(i)), imageBuffer);
+  });
 };

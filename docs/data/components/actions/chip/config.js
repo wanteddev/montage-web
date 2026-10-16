@@ -49,14 +49,4 @@ module.exports = {
       },
     ],
   },
-  hierarchy: [
-    {
-      components: ['Chip'],
-      render: '<Chip size="xsmall" active>Chip</Chip>',
-    },
-    {
-      components: ['Chip'],
-      render: '<Chip size="xsmall" variant="outlined" active>Chip</Chip>',
-    },
-  ],
 };

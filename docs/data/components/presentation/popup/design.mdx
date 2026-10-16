@@ -4,7 +4,7 @@ description: 사용자의 즉각적인 주의와 응답이 필요한 상황에�
 image: /components/presentation/popup/design/Image.png
 ogImage: /components/presentation/popup/design/Thumbnails.png
 createdAt: 2025-10-14
-updatedAt: 2026-10-07
+updatedAt: 2026-10-16
 ---
 
 <SectionAnatomy
@@ -178,32 +178,32 @@ updatedAt: 2026-10-07
 </SectionLayout>
 
 <SectionLayout title="Navigation">
-  <SectionFigureGroup title="Normal">
-    <SectionFigure
-      ratio="95 / 67"
-      src="/components/presentation/popup/design/Image-5.png"
-      description={`콘텐츠의 주목도를 높이기 위해 콘텐츠를 중앙배열로 배치할 때 사용합니다.`}
-    />
-  </SectionFigureGroup>
-  <SectionFigureGroup title="Emphasize">
+  <SectionFigureGroup title="Emphasized">
     <SectionFigure
       ratio="95 / 51"
-      src="/components/presentation/popup/design/Image-6.png"
+      src="/components/presentation/popup/design/Image-5.png"
       description={`콘텐츠나 리스트 셀 항목들이 좌측에 순차적으로 배열 되어 글의 흐름이 좌→우로 흐르는 경우에 사용합니다.`}
+    />
+  </SectionFigureGroup>
+  <SectionFigureGroup title="Search">
+    <SectionFigure
+      ratio="760 / 379"
+      src="/components/presentation/popup/design/Image-6.png"
+      description={`Popup 안에서 목록을 검색해야 할 때 Navigation 영역에 Search field를 배치하여 사용합니다.`}
     />
   </SectionFigureGroup>
   <SectionFigureGroup title="Floating">
     <SectionFigure
-      ratio="190 / 137"
+      ratio="380 / 297"
       src="/components/presentation/popup/design/Image-7.png"
-      description={`Popup에 타이틀을 두지않고 [X] 버튼만 배치할 때 사용합니다.`}
+      description={`Navigation이 콘텐츠 위에 겹쳐 배치되는 타입으로, 이미지와 같이 Popup 상단까지 콘텐츠를 채워 보여줄 때 사용합니다. 타이틀은 가운데 정렬되며, 타이틀 없이 [X] 버튼만 배치할 수도 있습니다. 이미지 위에서도 버튼이 잘 보이도록 버튼에 배경을 적용할 수 있습니다.`}
     />
   </SectionFigureGroup>
 </SectionLayout>
 
 <SectionLayout title="Action area">
   <SectionFigure
-    ratio="190 / 161"
+    ratio="95 / 84"
     src="/components/presentation/popup/design/Image-8.png"
     description={`- Strong: 버튼이 상하로 배치되어 Main action을 강조하는 타입으로 Xlarge 이상의 Popup에서는 사용을 지양합니다.
 - Neutral: 버튼이 양옆으로 배치되어 메인행동과 보조행동의 선택을 대등하게 제공하는 UX를 의도할 때 사용하는 타입입니다. 너비 960px 이상의 Popup에서는 사용을 지양합니다.
@@ -215,14 +215,14 @@ updatedAt: 2026-10-07
 <SectionLayout title="Usage">
   <SectionFigureGroup title="Contents - Center align">
     <SectionFigure
-      ratio="380 / 219"
+      ratio="380 / 227"
       src="/components/presentation/popup/design/Image-9.png"
       description={`화이트 스페이스의 활용을 극대화 할 수 있는 배치로 콘텐츠의 주목도가 좋은 배치입니다. 사용자에게 중요한 알림, 주요 상태를 표현할 때 시용하면 효과를 극대화 할 수 있습니다. 짧은 텍스트와 작은 모달에서 더 나은 균형을 제공할 수 있습니다.`}
     />
   </SectionFigureGroup>
   <SectionFigureGroup title="Contents - Left align">
     <SectionFigure
-      ratio="760 / 469"
+      ratio="760 / 481"
       src="/components/presentation/popup/design/Image-10.png"
       description={`일반적인 시선의 흐름을 따른(Left -> Right / Top -> Bottom) 가독성이 좋은 배치로 비교적 긴 컨텐츠에서 조화롭게 사용 될 수 있으며 사용자에게 보다 긴 정보의 내용을 효과적으로 전달하기 위해 사용합니다.`}
     />
@@ -247,7 +247,7 @@ updatedAt: 2026-10-07
   </SectionFigureGroup>
   <SectionFigureGroup>
     <SectionFigure
-      ratio="380 / 239"
+      ratio="190 / 117"
       src="/components/presentation/popup/design/Image-13.png"
       variant="negative"
       description={`닫기 버튼과 [X] 버튼을 중복하여 배치하지 않습니다.`}

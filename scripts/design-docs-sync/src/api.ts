@@ -78,3 +78,38 @@ export const getImages = (fileKey: string, params: GetImagesQueryParams) =>
   client
     .get<GetImagesResponse>(`/images/${fileKey}`, { params })
     .then((res) => res.data);
+
+export const downloadImage = async (url: string): Promise<Buffer> => {
+  for (let retryCount = 0; ; retryCount++) {
+    try {
+      const res = await fetch(url);
+
+      if (res.ok) {
+        return Buffer.from(await res.arrayBuffer());
+      }
+
+      if (res.status !== 429 && res.status < 500) {
+        throw new Error(`Failed to download image: ${res.status} ${url}`);
+      }
+
+      if (retryCount >= MAX_RETRIES) {
+        throw new Error(`Failed to download image: ${res.status} ${url}`);
+      }
+    } catch (error) {
+      const isNetworkError =
+        error instanceof TypeError && error.message === 'fetch failed';
+
+      if (!isNetworkError || retryCount >= MAX_RETRIES) {
+        throw error;
+      }
+    }
+
+    const delayMs = Math.min(1000 * Math.pow(2, retryCount), 10000);
+
+    console.warn(
+      `[Download] retry ${retryCount + 1}/${MAX_RETRIES} after ${delayMs}ms: ${url}`,
+    );
+
+    await sleep(delayMs);
+  }
+};
