@@ -29,7 +29,7 @@ updatedAt: 2026-10-16
       if (interaction) {
         return `
           <AvatarButton>
-            ${pushBadge ? `<PushBadge size="small" variant="dot">` : ''}
+            ${pushBadge ? `<PushBadge size="small" variant="dot" outlineBorder>` : ''}
             ${avatar}
             ${pushBadge ? `</PushBadge>` : ''}
           </AvatarButton>
@@ -37,7 +37,7 @@ updatedAt: 2026-10-16
       }
 
       return `
-        ${pushBadge ? `<PushBadge size="small" variant="dot">` : ''}
+        ${pushBadge ? `<PushBadge size="small" variant="dot" outlineBorder>` : ''}
           ${avatar}
         ${pushBadge ? `</PushBadge>` : ''}
       `;

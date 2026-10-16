@@ -39,7 +39,7 @@ module.exports = {
       if (interaction) {
         return `
           <AvatarButton>
-            ${pushBadge ? `<PushBadge size="small" variant="dot">` : ''}
+            ${pushBadge ? `<PushBadge size="small" variant="dot" outlineBorder>` : ''}
             ${avatar}
             ${pushBadge ? `</PushBadge>` : ''}
           </AvatarButton>
@@ -47,7 +47,7 @@ module.exports = {
       }
 
       return `
-        ${pushBadge ? `<PushBadge size="small" variant="dot">` : ''}
+        ${pushBadge ? `<PushBadge size="small" variant="dot" outlineBorder>` : ''}
           ${avatar}
         ${pushBadge ? `</PushBadge>` : ''}
       `;
