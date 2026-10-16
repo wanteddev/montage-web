@@ -71,6 +71,10 @@ export const timeItemStyle =
       font-weight: 400;
     }
 
+    [data-role='list-text-content-wrapper'] {
+      justify-content: center;
+    }
+
     ${!disabled &&
     active &&
     css`

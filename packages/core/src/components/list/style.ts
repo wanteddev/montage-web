@@ -141,7 +141,7 @@ export const listTextContentWrapperStyle =
     [data-role='list-text-content'] {
       display: block;
       text-align: inherit;
-      width: 100%;
+      max-width: 100%;
       ${listTextEllipsisStyle(ellipsis)}
     }
   `;
