@@ -13,8 +13,7 @@ export const autocompleteListStyle = (theme: Theme) => css`
 
 export const autocompleteScrollAreaStyle = (theme: Theme) => css`
   border: 1px solid ${theme.semantic.line.neutral.secondaryOpaque};
-  border-radius: 16px;
-  height: auto;
+  max-height: inherit;
   border-radius: inherit;
 `;
 

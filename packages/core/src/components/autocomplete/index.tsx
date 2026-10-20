@@ -569,7 +569,7 @@ const AutocompleteList = forwardRef(
                 size="small"
                 zIndex={11}
                 viewportProps={{ sx: autocompleteScrollAreaStyle }}
-                sx={{ borderRadius: 'inherit' }}
+                sx={{ borderRadius: 'inherit', maxHeight: 'inherit' }}
               >
                 <List
                   role="listbox"
