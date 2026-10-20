@@ -16,6 +16,7 @@ export const popoverStyle =
     box-shadow: ${theme.semantic.elevation.shadow.spread.small};
     backdrop-filter: blur(32px);
     min-width: 140px;
+    max-height: var(--popper-available-height, 100vh);
 
     ${popoverVariantStyle(variant)}
   `;

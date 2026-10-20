@@ -6,7 +6,9 @@ import type { Theme } from '@montage-ui/engine';
 export const menuPopoverContentStyle = (theme: Theme) => css`
   padding: 0;
   width: min(320px, var(--popper-available-width, 100vw));
+  max-height: min(400px, var(--popper-available-height, 100vh));
   box-shadow: ${theme.semantic.elevation.shadow.normal.small};
+  min-width: 140px;
   border-radius: 16px;
   backdrop-filter: none;
   background-color: transparent;
@@ -14,8 +16,6 @@ export const menuPopoverContentStyle = (theme: Theme) => css`
 
 export const menuScrollAreaStyle = (theme: Theme) => css`
   width: 100%;
-  min-width: 140px;
-  max-height: min(400px, var(--popper-available-height, 100vh));
   height: auto;
   border-radius: inherit;
   border: 1px solid ${theme.semantic.line.neutral.secondaryOpaque};
