@@ -64,6 +64,9 @@ module.exports = {
             heading={${heading}}
             action={${action}}
             closeButton={${closeButton}}
+            sx={{
+              maxHeight: 'initial',
+            }}
             wrapperProps={{
               sx: {
                 width: '80%',
