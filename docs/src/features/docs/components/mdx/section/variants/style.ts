@@ -62,7 +62,7 @@ export const sectionVariantsControlMobileStyle = (theme: Theme) => css`
   box-shadow: inset 0 0 0 1px ${theme.semantic.line.neutral.tertiary};
   width: 280px;
   border-radius: 16px;
-  max-height: min(400px, var(--popper-available-height));
+  max-height: min(400px, var(--popper-available-height, 100vh));
   padding: 0px;
   filter: none;
   padding: 0px 2px;
