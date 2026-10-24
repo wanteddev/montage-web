@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.1.4](https://github.com/wanteddev/montage-web/compare/v4.1.3...v4.1.4) (2026-10-24)
+
+### Bug Fixes
+
+- **core:** autocomplete, popper의 useLayoutEffect를 useEnhancedEffect로 교체 ([#689](https://github.com/wanteddev/montage-web/issues/689)) ([0f33e59](https://github.com/wanteddev/montage-web/commit/0f33e59b37a0bb50db2dfe8ca44a73599af8534b))
+- **core:** list cell 텍스트 너비를 max-width로 복구하고 time view 텍스트 가운데 정렬 ([#685](https://github.com/wanteddev/montage-web/issues/685)) ([5864f80](https://github.com/wanteddev/montage-web/commit/5864f80d2e711ab4d60d92de72188a380383cde2))
+- **core:** popover 기본 max-height를 가용 높이로 제한 ([#687](https://github.com/wanteddev/montage-web/issues/687)) ([dbf7052](https://github.com/wanteddev/montage-web/commit/dbf70529545039ef83cea7f26b84cde460f2d912))
+- **core:** text-area button 슬롯 사이즈를 Button 기준으로 변경 ([#683](https://github.com/wanteddev/montage-web/issues/683)) ([74ff618](https://github.com/wanteddev/montage-web/commit/74ff61804e648d36954d51d62cd228ab1dfd4fe5))
+
 ## [4.1.3](https://github.com/wanteddev/montage-web/compare/v4.1.2...v4.1.3) (2026-10-13)
 
 ### Bug Fixes
