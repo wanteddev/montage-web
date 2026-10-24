@@ -11,18 +11,13 @@ import {
 } from '@floating-ui/react';
 import { useComposedRefs } from '@radix-ui/react-compose-refs';
 import { useSize } from '@radix-ui/react-use-size';
-import {
-  forwardRef,
-  useEffect,
-  useLayoutEffect,
-  useRef,
-  useState,
-} from 'react';
+import { forwardRef, useEffect, useRef, useState } from 'react';
 import { Slot } from '@radix-ui/react-slot';
 import { Box, useTheme } from '@montage-ui/engine';
 
 import { PortalOrFragment } from '../portal-or-fragment';
 import { FlexBox } from '../flex-box';
+import useEnhancedEffect from '../../hooks/internal/use-enhanced-effect';
 
 import {
   PopperContentProvider,
@@ -273,7 +268,7 @@ const PopperContent = forwardRef<
 
     const [contentZIndex, setContentZIndex] = useState<string>();
 
-    useLayoutEffect(() => {
+    useEnhancedEffect(() => {
       if (content) setContentZIndex(window.getComputedStyle(content).zIndex);
     }, [content]);
 
