@@ -3,7 +3,6 @@ import {
   useCallback,
   useEffect,
   useId,
-  useLayoutEffect,
   useRef,
   useState,
 } from 'react';
@@ -30,6 +29,7 @@ import { FlexBox } from '../flex-box';
 import { Typography } from '../typography';
 import { AnimationPresence } from '../animation-presence';
 import { DismissableLayer } from '../dismissable-layer';
+import useEnhancedEffect from '../../hooks/internal/use-enhanced-effect';
 
 import {
   AUTOCOMPLETE_FIELD_NAME,
@@ -515,7 +515,7 @@ const AutocompleteList = forwardRef(
     } = useAutocompleteContext(AUTOCOMPLETE_LIST_NAME);
     const getItems = useCollection(AUTOCOMPLETE_SCOPE);
 
-    useLayoutEffect(() => {
+    useEnhancedEffect(() => {
       if (!open || !asSelect || disableTrappedContent) return;
 
       requestAnimationFrame(() => {
@@ -526,7 +526,6 @@ const AutocompleteList = forwardRef(
         focusSelectedOption(option, items);
         onSelectedOptionChange(option ?? null);
       });
-      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [open, disableTrappedContent]);
 
     const isListOpen = open && !input?.readOnly && !input?.disabled;
