@@ -4,12 +4,15 @@ import { compile } from '@mdx-js/mdx';
 import remarkGfm from 'remark-gfm';
 
 import { serializeMdx } from '../../../../docs/src/features/docs/helpers/mdx';
+import { normalizeFrontmatter } from '../../generate-mobile-docs/src/helpers';
 
 const getPatterns = () =>
   (process.env.INPUT_FILES || '**/*.{md,mdx}')
     .split('\n')
     .map((pattern) => pattern.trim())
     .filter(Boolean);
+
+const isMobileSource = process.env['INPUT_MOBILE-SOURCE'] === 'true';
 
 /**
  * next-mdx-remote가 감싼 에러에는 위치 정보가 없어서, 원본 MDX 컴파일러로 다시 컴파일해 줄 번호를 찾는다
@@ -34,7 +37,9 @@ const run = async () => {
   const failures: Array<string> = [];
 
   for (const file of files) {
-    const source = fs.readFileSync(file, 'utf8');
+    const rawSource = fs.readFileSync(file, 'utf8');
+    // 모바일 저장소 원본은 docs로 옮겨질 때와 같은 변환을 거친 뒤 검증한다
+    const source = isMobileSource ? normalizeFrontmatter(rawSource) : rawSource;
 
     try {
       await serializeMdx(source);

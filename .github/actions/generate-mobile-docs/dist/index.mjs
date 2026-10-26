@@ -10672,6 +10672,14 @@ glob.glob = glob;
 
 // src/modules/base.ts
 var exec = __toESM(require_exec());
+
+// src/helpers.ts
+var normalizeFrontmatter = (content) => content.replace(
+  /^(---\n[\s\S]*?\n---)/,
+  (frontmatter) => frontmatter.replace(/`/g, "")
+);
+
+// src/modules/base.ts
 var BaseModule = class {
   tempFiles = {};
   PLATFORM;
@@ -10703,11 +10711,7 @@ var BaseModule = class {
         const designSlug = f.split("/");
         return designSlug.at(designSlug.length - 2).replace(/-/g, "") === (customTitle || title);
       });
-      let fileContent = fs.readFileSync(file, "utf8");
-      fileContent = fileContent.replace(
-        /^(---\n[\s\S]*?\n---)/,
-        (frontmatter) => frontmatter.replace(/`/g, "")
-      );
+      const fileContent = normalizeFrontmatter(fs.readFileSync(file, "utf8"));
       if (designFile) {
         this.tempFiles[designFile.replace(/design\.mdx$/, `${this.PLATFORM}.mdx`)] = fileContent;
       } else {

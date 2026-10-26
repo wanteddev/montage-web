@@ -6,6 +6,10 @@ inputs:
     description: Glob patterns of md/mdx files to validate (newline separated)
     required: false
     default: '**/*.{md,mdx}'
+  mobile-source:
+    description: Validate original docs from a mobile repository (applies the same transform as generate-mobile-docs)
+    required: false
+    default: 'false'
 
 runs:
   using: 'node24'

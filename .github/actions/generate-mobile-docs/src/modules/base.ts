@@ -4,6 +4,8 @@ import fs from 'node:fs';
 import { globSync } from 'glob';
 import * as exec from '@actions/exec';
 
+import { normalizeFrontmatter } from '../helpers';
+
 export type CustomComponentMap = Record<string, string>;
 export type CopyComponentMap = Record<string, Array<string>>;
 
@@ -61,12 +63,7 @@ export default abstract class BaseModule {
         );
       });
 
-      let fileContent = fs.readFileSync(file, 'utf8');
-
-      fileContent = fileContent.replace(
-        /^(---\n[\s\S]*?\n---)/,
-        (frontmatter) => frontmatter.replace(/`/g, ''),
-      );
+      const fileContent = normalizeFrontmatter(fs.readFileSync(file, 'utf8'));
 
       if (designFile) {
         this.tempFiles[

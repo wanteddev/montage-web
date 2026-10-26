@@ -44370,8 +44370,15 @@ var serializeMdx = (rawSource) => {
   });
 };
 
+// ../generate-mobile-docs/src/helpers.ts
+var normalizeFrontmatter = (content3) => content3.replace(
+  /^(---\n[\s\S]*?\n---)/,
+  (frontmatter) => frontmatter.replace(/`/g, "")
+);
+
 // src/index.ts
 var getPatterns = () => (process.env.INPUT_FILES || "**/*.{md,mdx}").split("\n").map((pattern) => pattern.trim()).filter(Boolean);
+var isMobileSource = process.env["INPUT_MOBILE-SOURCE"] === "true";
 var findErrorLine = async (source) => {
   const content3 = source.replace(
     /^---\n[\s\S]*?\n---/,
@@ -44389,7 +44396,8 @@ var run = async () => {
   });
   const failures = [];
   for (const file of files) {
-    const source = fs2.readFileSync(file, "utf8");
+    const rawSource = fs2.readFileSync(file, "utf8");
+    const source = isMobileSource ? normalizeFrontmatter(rawSource) : rawSource;
     try {
       await serializeMdx(source);
     } catch (error) {
