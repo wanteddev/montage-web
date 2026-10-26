@@ -1,4 +1,4 @@
-FROM node:24.21.0-alpine AS base
+FROM node:24.22.1-alpine AS base
 
 FROM base AS runner
 
