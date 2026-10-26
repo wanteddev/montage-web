@@ -1,0 +1,12 @@
+name: Validate Docs
+description: Compile md/mdx files the same way the docs build does and fail on errors
+
+inputs:
+  files:
+    description: Glob patterns of md/mdx files to validate (newline separated)
+    required: false
+    default: '**/*.{md,mdx}'
+
+runs:
+  using: 'node24'
+  main: 'dist/index.mjs'

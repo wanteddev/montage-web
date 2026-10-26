@@ -95,18 +95,11 @@ const preprocessGenericTypes = (source: string): string => {
   });
 };
 
-export const getSourceBySlug = async (slug: Array<string>) => {
-  const filePaths = getFilePaths(slug);
-
-  const filePath = filePaths.find((path) => existsSync(path));
-
-  if (!filePath) {
-    throw new Error(`File not found for slug: ${slug.join('/')}`);
-  }
-
-  const source = preprocessDemoCode(
-    preprocessGenericTypes(readFileSync(filePath, 'utf8')),
-  );
+/**
+ * 문서 빌드와 docs 유효성 검증(.github/actions/validate-docs)이 함께 사용한다
+ */
+export const serializeMdx = (rawSource: string) => {
+  const source = preprocessDemoCode(preprocessGenericTypes(rawSource));
 
   return serialize<unknown, Frontmatter>(source, {
     parseFrontmatter: true,
@@ -116,4 +109,16 @@ export const getSourceBySlug = async (slug: Array<string>) => {
       remarkPlugins: [remarkGfm, remarkStyle, remarkTable, remarkPropsTable],
     },
   });
+};
+
+export const getSourceBySlug = async (slug: Array<string>) => {
+  const filePaths = getFilePaths(slug);
+
+  const filePath = filePaths.find((path) => existsSync(path));
+
+  if (!filePath) {
+    throw new Error(`File not found for slug: ${slug.join('/')}`);
+  }
+
+  return serializeMdx(readFileSync(filePath, 'utf8'));
 };

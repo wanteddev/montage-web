@@ -1,6 +1,11 @@
 name: Generate Mobile Docs
 description: Generate mobile docs from mobile document
 
+inputs:
+  platform:
+    description: Mobile platform to generate docs from (android | ios)
+    required: true
+
 runs:
   using: 'node24'
   main: 'dist/index.mjs'

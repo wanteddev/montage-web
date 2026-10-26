@@ -5,10 +5,10 @@ on:
       platform:
         description: Platform
         required: true
-        default: 'mobile'
         type: choice
         options:
-          - 'mobile'
+          - 'ios'
+          - 'android'
           - 'design'
       deploy:
         description: Run docs deploy after sync (only when changes are pushed)
@@ -30,8 +30,7 @@ env:
 permissions: {}
 
 jobs:
-  sync-mobile-docs:
-    if: ${{ inputs.platform == 'mobile' }}
+  sync-docs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -62,7 +61,7 @@ jobs:
       - name: Check existing PR and checkout branch
         id: check-branch
         run: |
-          EXISTING_BRANCH=$(gh pr list --base ${{ steps.extract-current-branch.outputs.base_branch }} --search "docs: sync from mobile document" --json headRefName --jq '.[0].headRefName')
+          EXISTING_BRANCH=$(gh pr list --base ${{ steps.extract-current-branch.outputs.base_branch }} --search "docs: sync from ${{ inputs.platform }} document" --json headRefName --jq '.[0].headRefName')
 
           if [ -n "$EXISTING_BRANCH" ]; then
             echo "branch=$EXISTING_BRANCH" >> $GITHUB_OUTPUT
@@ -81,104 +80,32 @@ jobs:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
 
       - name: Generate Mobile Docs
+        if: ${{ inputs.platform != 'design' }}
         uses: ./.github/actions/generate-mobile-docs
         timeout-minutes: 15
-
-      - name: Get GitHub App user info
-        id: app-user
-        env:
-          GH_TOKEN: ${{ steps.app-token.outputs.token }}
-        run: |
-          set -euo pipefail
-          APP_SLUG="${{ steps.app-token.outputs.app-slug }}"
-          USER_ID=$(gh api "/users/${APP_SLUG}[bot]" --jq .id)
-          if [ -z "$USER_ID" ]; then
-            echo "Failed to resolve GitHub App user ID for ${APP_SLUG}[bot]" >&2
-            exit 1
-          fi
-          echo "name=${APP_SLUG}[bot]" >> "$GITHUB_OUTPUT"
-          echo "email=${USER_ID}+${APP_SLUG}[bot]@users.noreply.github.com" >> "$GITHUB_OUTPUT"
-
-      - run: git config user.name "${{ steps.app-user.outputs.name }}"
-      - run: git config user.email "${{ steps.app-user.outputs.email }}"
-
-      - name: Commit and push to existing branch
-        id: commit
-        run: |
-          set -euo pipefail
-          git add -A
-          if git diff --cached --quiet; then
-            echo "변경사항이 없어 push와 PR 생성을 건너뜁니다."
-            echo "has_changes=false" >> "$GITHUB_OUTPUT"
-            exit 0
-          fi
-          git commit -m "docs: sync with mobile docs" --no-verify
-          git push origin ${{ steps.check-branch.outputs.branch }}
-          echo "has_changes=true" >> "$GITHUB_OUTPUT"
-
-      - name: Create New PR
-        if: steps.check-branch.outputs.branch_exists == 'false' && steps.commit.outputs.has_changes == 'true'
-        run: |
-          gh pr create -B ${{ steps.extract-current-branch.outputs.base_branch }} -H ${{ steps.check-branch.outputs.branch }} --title "docs: sync from mobile document" --body "sync from mobile document" --label "ci: skip document deploy" --label "ci: skip test"
-        env:
-          GH_TOKEN: ${{ steps.app-token.outputs.token }}
-          GH_REPO: ${{ github.repository }}
-
-  sync-design-docs:
-    if: ${{ inputs.platform == 'design' }}
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-    outputs:
-      branch: ${{ steps.check-branch.outputs.branch }}
-      has_changes: ${{ steps.commit.outputs.has_changes }}
-    steps:
-      - name: Generate GitHub App Token
-        id: app-token
-        uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510 # v3.3.0
         with:
-          app-id: ${{ secrets.BOT_APP_ID }}
-          private-key: ${{ secrets.BOT_APP_PRIVATE_KEY }}
+          platform: ${{ inputs.platform }}
 
-      - name: Checkout Repo
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          token: ${{ steps.app-token.outputs.token }}
-
-      - name: Extract current branch name
-        shell: bash
-        run: echo "base_branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
-        id: extract-current-branch
-
-      - name: Install dependencies
-        uses: ./.github/actions/pnpm-install
-
-      - name: Check existing PR and checkout branch
-        id: check-branch
-        run: |
-          EXISTING_BRANCH=$(gh pr list --base ${{ steps.extract-current-branch.outputs.base_branch }} --search "docs: sync from design document" --json headRefName --jq '.[0].headRefName')
-
-          if [ -n "$EXISTING_BRANCH" ]; then
-            echo "branch=$EXISTING_BRANCH" >> $GITHUB_OUTPUT
-            echo "branch_exists=true" >> $GITHUB_OUTPUT
-
-            git fetch origin $EXISTING_BRANCH
-            git checkout $EXISTING_BRANCH
-          else
-            BRANCH="feature/sync-docs/${{ github.run_id }}"
-
-            echo "branch=$BRANCH" >> $GITHUB_OUTPUT
-            echo "branch_exists=false" >> $GITHUB_OUTPUT
-            git checkout -b $BRANCH
-          fi
-        env:
-          GH_TOKEN: ${{ steps.app-token.outputs.token }}
-
-      - name: Generate Mobile Docs
+      - name: Generate Design Docs
+        if: ${{ inputs.platform == 'design' }}
         timeout-minutes: 15
         run: |
           pnpm -F design-docs-sync start
 
+      - name: Validate Mobile Docs
+        if: ${{ inputs.platform != 'design' }}
+        uses: ./.github/actions/validate-docs
+        with:
+          files: |
+            docs/data/components/**/${{ inputs.platform }}.mdx
+            docs/data/utilities/${{ inputs.platform }}-*/*.mdx
+
+      - name: Validate Design Docs
+        if: ${{ inputs.platform == 'design' }}
+        uses: ./.github/actions/validate-docs
+        with:
+          files: docs/data/components/**/design.mdx
+
       - name: Get GitHub App user info
         id: app-user
         env:
@@ -207,40 +134,27 @@ jobs:
             echo "has_changes=false" >> "$GITHUB_OUTPUT"
             exit 0
           fi
-          git commit -m "docs: sync with design docs" --no-verify
+          git commit -m "docs: sync with ${{ inputs.platform }} docs" --no-verify
           git push origin ${{ steps.check-branch.outputs.branch }}
           echo "has_changes=true" >> "$GITHUB_OUTPUT"
 
       - name: Create New PR
         if: steps.check-branch.outputs.branch_exists == 'false' && steps.commit.outputs.has_changes == 'true'
         run: |
-          gh pr create -B ${{ steps.extract-current-branch.outputs.base_branch }} -H ${{ steps.check-branch.outputs.branch }} --title "docs: sync from design document" --body "sync from design document" --label "ci: skip document deploy" --label "ci: skip test"
+          gh pr create -B ${{ steps.extract-current-branch.outputs.base_branch }} -H ${{ steps.check-branch.outputs.branch }} --title "docs: sync from ${{ inputs.platform }} document" --body "sync from ${{ inputs.platform }} document" --label "ci: skip document deploy" --label "ci: skip test"
         env:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
           GH_REPO: ${{ github.repository }}
 
-  deploy-mobile-docs:
-    needs: sync-mobile-docs
-    if: ${{ inputs.deploy && needs.sync-mobile-docs.outputs.has_changes == 'true' }}
+  deploy-docs:
+    needs: sync-docs
+    if: ${{ inputs.deploy && needs.sync-docs.outputs.has_changes == 'true' }}
     permissions:
       contents: read
       id-token: write
     uses: ./.github/workflows/docs-deploy.yml
     with:
       server_type: ${{ inputs.server_type }}
-      ref: ${{ needs.sync-mobile-docs.outputs.branch }}
-      algolia: true
-    secrets: inherit
-
-  deploy-design-docs:
-    needs: sync-design-docs
-    if: ${{ inputs.deploy && needs.sync-design-docs.outputs.has_changes == 'true' }}
-    permissions:
-      contents: read
-      id-token: write
-    uses: ./.github/workflows/docs-deploy.yml
-    with:
-      server_type: ${{ inputs.server_type }}
-      ref: ${{ needs.sync-design-docs.outputs.branch }}
+      ref: ${{ needs.sync-docs.outputs.branch }}
       algolia: true
     secrets: inherit
