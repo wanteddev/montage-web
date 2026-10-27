@@ -94,7 +94,18 @@ export const tableRowStyle = (interaction?: boolean) => (theme: Theme) => css`
 
   ${interaction &&
   css`
+    --table-row-interaction-color: ${theme.semantic.foreground.neutral.primary};
+
     cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    // Safari < 27 doesn't treat tr as a containing block, so ::after covers the whole table. Clip it to the row.
+    clip-path: inset(0);
+
+    &:focus-visible {
+      outline-style: solid;
+      outline-width: 2px;
+      outline-offset: -2px;
+    }
 
     ::after {
       content: '';
@@ -103,7 +114,7 @@ export const tableRowStyle = (interaction?: boolean) => (theme: Theme) => css`
       pointer-events: none;
       width: 100%;
       height: 100%;
-      background-color: ${theme.semantic.foreground.neutral.primary};
+      background-color: var(--table-row-interaction-color);
       opacity: 0;
       transition:
         background ease 0.2s,
@@ -112,6 +123,12 @@ export const tableRowStyle = (interaction?: boolean) => (theme: Theme) => css`
 
     &:hover::after {
       ${hoverInteractionStyle(theme, 'normal')}
+    }
+
+    @media not (pointer: fine) {
+      &:hover::after {
+        opacity: ${theme.opacity[0]};
+      }
     }
 
     &:active::after {
