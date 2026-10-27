@@ -35935,15 +35935,13 @@ function remarkGfm(options2) {
   toMarkdownExtensions.push(gfmToMarkdown(settings));
 }
 
-// ../generate-mobile-docs/src/helpers.ts
+// src/index.ts
+var getPatterns = () => (process.env.INPUT_FILES || "**/*.{md,mdx}").split("\n").map((pattern) => pattern.trim()).filter(Boolean);
+var isMobileSource = process.env["INPUT_MOBILE-SOURCE"] === "true";
 var normalizeFrontmatter = (content3) => content3.replace(
   /^(---\n[\s\S]*?\n---)/,
   (frontmatter) => frontmatter.replace(/`/g, "")
 );
-
-// src/index.ts
-var getPatterns = () => (process.env.INPUT_FILES || "**/*.{md,mdx}").split("\n").map((pattern) => pattern.trim()).filter(Boolean);
-var isMobileSource = process.env["INPUT_MOBILE-SOURCE"] === "true";
 var preprocessDemoCode = (source) => {
   return source.replace(
     /<Demo\s+code=\{`([^`]*)`\}/g,
@@ -35966,12 +35964,21 @@ var preprocessGenericTypes = (source) => {
   });
 };
 var blankFrontmatter = (source) => source.replace(
-  /^---\n[\s\S]*?\n---/,
+  /^---\r?\n[\s\S]*?\r?\n---/,
   (frontmatter) => frontmatter.replace(/[^\n]/g, "")
 );
+var rejectJavaScriptFrontmatter = () => {
+  throw new Error("JavaScript frontmatter\uB294 \uC9C0\uC6D0\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4");
+};
+var MATTER_OPTIONS = {
+  engines: {
+    js: rejectJavaScriptFrontmatter,
+    javascript: rejectJavaScriptFrontmatter
+  }
+};
 var validate = async (source) => {
   try {
-    (0, import_gray_matter.default)(source, {});
+    (0, import_gray_matter.default)(source, MATTER_OPTIONS);
   } catch (error) {
     const { message, mark: mark2 } = error;
     return { message, line: mark2 ? mark2.line + 1 : void 0 };

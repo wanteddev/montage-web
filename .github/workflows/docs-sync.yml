@@ -24,9 +24,6 @@ on:
           - 'dev'
           - 'www'
 
-env:
-  FIGMA_TOKEN: ${{ secrets.FIGMA_TOKEN }}
-
 permissions: {}
 
 jobs:
@@ -91,6 +88,8 @@ jobs:
         timeout-minutes: 15
         run: |
           pnpm -F design-docs-sync start
+        env:
+          FIGMA_TOKEN: ${{ secrets.FIGMA_TOKEN }}
 
       - name: Validate Mobile Docs
         if: ${{ inputs.platform != 'design' }}

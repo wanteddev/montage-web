@@ -4,8 +4,6 @@ import { compile } from '@mdx-js/mdx';
 import matter from 'gray-matter';
 import remarkGfm from 'remark-gfm';
 
-import { normalizeFrontmatter } from '../../generate-mobile-docs/src/helpers';
-
 type ErrorWithPosition = Error & {
   line?: number;
   mark?: { line: number };
@@ -18,6 +16,14 @@ const getPatterns = () =>
     .filter(Boolean);
 
 const isMobileSource = process.env['INPUT_MOBILE-SOURCE'] === 'true';
+
+/**
+ * generate-mobile-docs/src/helpers.ts와 동일하게 유지한다
+ */
+const normalizeFrontmatter = (content: string) =>
+  content.replace(/^(---\n[\s\S]*?\n---)/, (frontmatter) =>
+    frontmatter.replace(/`/g, ''),
+  );
 
 /**
  * 아래 두 전처리는 docs/src/features/docs/helpers/mdx.ts와 동일하게 유지한다
@@ -50,15 +56,29 @@ const preprocessGenericTypes = (source: string): string => {
  * frontmatter는 같은 줄 수의 빈 줄로 바꿔 본문 에러 위치가 원본 파일 기준이 되게 한다
  */
 const blankFrontmatter = (source: string) =>
-  source.replace(/^---\n[\s\S]*?\n---/, (frontmatter) =>
+  source.replace(/^---\r?\n[\s\S]*?\r?\n---/, (frontmatter) =>
     frontmatter.replace(/[^\n]/g, ''),
   );
+
+/**
+ * gray-matter는 ---js frontmatter를 eval로 실행하므로, 검증 대상 문서의 코드가 검증 단계에서 실행되지 않게 막는다
+ */
+const rejectJavaScriptFrontmatter = () => {
+  throw new Error('JavaScript frontmatter는 지원하지 않습니다');
+};
+
+const MATTER_OPTIONS = {
+  engines: {
+    js: rejectJavaScriptFrontmatter,
+    javascript: rejectJavaScriptFrontmatter,
+  },
+};
 
 const validate = async (source: string) => {
   try {
     // docs 빌드처럼 gray-matter로 frontmatter를 파싱한다
     // 옵션을 넘기지 않으면 같은 내용의 파일은 캐시를 반환해 파싱 에러가 다시 나지 않는다
-    matter(source, {});
+    matter(source, MATTER_OPTIONS);
   } catch (error) {
     const { message, mark } = error as ErrorWithPosition;
 
