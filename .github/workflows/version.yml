@@ -19,6 +19,7 @@ on:
 
 env:
   SERVICE: 'Montage web'
+  NPM_CONFIG_TIMEOUT: 60000
 
 permissions: {}
 
@@ -118,6 +119,8 @@ jobs:
             exit 1
           fi
           if [[ "$VERSION" == *-* ]]; then DIST_TAG=alpha; else DIST_TAG=latest; fi
+          # Publish가 중간에 실패하면 lerna가 고쳐 쓴 package.json을 되돌리지 않아 EUNCOMMIT으로 멈춘다
+          git checkout -- .
           pnpm exec lerna publish from-package --concurrency 1 --dist-tag "$DIST_TAG" --yes
 
       - name: Get published version
