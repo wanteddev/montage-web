@@ -1,10 +1,5 @@
 import { css } from '@montage-ui/engine';
 
-import {
-  activeInteractionStyle,
-  hoverInteractionStyle,
-} from '../with-interaction/style';
-
 import type { Theme } from '@montage-ui/engine';
 
 export const tableStyle = (theme: Theme) => css`
@@ -95,11 +90,10 @@ export const tableRowStyle = (interaction?: boolean) => (theme: Theme) => css`
   ${interaction &&
   css`
     --table-row-interaction-color: ${theme.semantic.foreground.neutral.primary};
+    --table-row-interaction-opacity: ${theme.opacity[0]};
 
     cursor: pointer;
     -webkit-tap-highlight-color: transparent;
-    // Safari < 27 doesn't treat tr as a containing block, so ::after covers the whole table. Clip it to the row.
-    clip-path: inset(0);
 
     &:focus-visible {
       outline-style: solid;
@@ -107,32 +101,40 @@ export const tableRowStyle = (interaction?: boolean) => (theme: Theme) => css`
       outline-offset: -2px;
     }
 
-    ::after {
+    // Safari < 27 doesn't treat tr as a containing block, so tr::after covers the whole table.
+    // Draw the layer per cell instead.
+    & > :where(td, th) {
+      position: relative;
+    }
+
+    & > td::after,
+    & > th::after {
       content: '';
       position: absolute;
       inset: 0;
       pointer-events: none;
-      width: 100%;
-      height: 100%;
       background-color: var(--table-row-interaction-color);
-      opacity: 0;
+      opacity: var(--table-row-interaction-opacity);
       transition:
         background ease 0.2s,
         opacity ease 0.2s;
     }
 
-    &:hover::after {
-      ${hoverInteractionStyle(theme, 'normal')}
+    &:hover > td::after,
+    &:hover > th::after {
+      --table-row-interaction-opacity: ${theme.opacity[5]};
     }
 
     @media not (pointer: fine) {
-      &:hover::after {
-        opacity: ${theme.opacity[0]};
+      &:hover > td::after,
+      &:hover > th::after {
+        --table-row-interaction-opacity: ${theme.opacity[0]};
       }
     }
 
-    &:active::after {
-      ${activeInteractionStyle(theme, 'normal')}
+    &:active > td::after,
+    &:active > th::after {
+      --table-row-interaction-opacity: ${theme.opacity[12]};
     }
   `}
 `;
