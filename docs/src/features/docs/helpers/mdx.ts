@@ -95,22 +95,6 @@ const preprocessGenericTypes = (source: string): string => {
   });
 };
 
-/**
- * 문서 빌드와 docs 유효성 검증(.github/actions/validate-docs)이 함께 사용한다
- */
-export const serializeMdx = (rawSource: string) => {
-  const source = preprocessDemoCode(preprocessGenericTypes(rawSource));
-
-  return serialize<unknown, Frontmatter>(source, {
-    parseFrontmatter: true,
-    blockJS: false,
-    mdxOptions: {
-      rehypePlugins: [rehypeSlug],
-      remarkPlugins: [remarkGfm, remarkStyle, remarkTable, remarkPropsTable],
-    },
-  });
-};
-
 export const getSourceBySlug = async (slug: Array<string>) => {
   const filePaths = getFilePaths(slug);
 
@@ -120,5 +104,16 @@ export const getSourceBySlug = async (slug: Array<string>) => {
     throw new Error(`File not found for slug: ${slug.join('/')}`);
   }
 
-  return serializeMdx(readFileSync(filePath, 'utf8'));
+  const source = preprocessDemoCode(
+    preprocessGenericTypes(readFileSync(filePath, 'utf8')),
+  );
+
+  return serialize<unknown, Frontmatter>(source, {
+    parseFrontmatter: true,
+    blockJS: false,
+    mdxOptions: {
+      rehypePlugins: [rehypeSlug],
+      remarkPlugins: [remarkGfm, remarkStyle, remarkTable, remarkPropsTable],
+    },
+  });
 };

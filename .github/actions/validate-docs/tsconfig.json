@@ -7,10 +7,7 @@
     "module": "ESNext",
     "moduleResolution": "bundler",
     "strictNullChecks": true,
-    "allowSyntheticDefaultImports": true,
-    "paths": {
-      "@/*": ["../../../docs/src/*"]
-    }
+    "allowSyntheticDefaultImports": true
   },
   "include": ["src"],
   "exclude": ["node_modules"]

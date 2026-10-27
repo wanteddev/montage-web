@@ -310,8 +310,11 @@ importers:
   .github/actions/validate-docs:
     dependencies:
       '@mdx-js/mdx':
-        specifier: ^3.1.1
+        specifier: 3.1.1
         version: 3.1.1(supports-color@7.2.0)
+      gray-matter:
+        specifier: ^4.0.3
+        version: 4.0.3
       remark-gfm:
         specifier: ^4.0.1
         version: 4.0.1(supports-color@7.2.0)

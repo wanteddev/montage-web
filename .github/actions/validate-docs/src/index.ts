@@ -1,10 +1,15 @@
 import fs from 'node:fs';
 
 import { compile } from '@mdx-js/mdx';
+import matter from 'gray-matter';
 import remarkGfm from 'remark-gfm';
 
-import { serializeMdx } from '../../../../docs/src/features/docs/helpers/mdx';
 import { normalizeFrontmatter } from '../../generate-mobile-docs/src/helpers';
+
+type ErrorWithPosition = Error & {
+  line?: number;
+  mark?: { line: number };
+};
 
 const getPatterns = () =>
   (process.env.INPUT_FILES || '**/*.{md,mdx}')
@@ -15,18 +20,61 @@ const getPatterns = () =>
 const isMobileSource = process.env['INPUT_MOBILE-SOURCE'] === 'true';
 
 /**
- * next-mdx-remote가 감싼 에러에는 위치 정보가 없어서, 원본 MDX 컴파일러로 다시 컴파일해 줄 번호를 찾는다
- * frontmatter는 같은 줄 수의 빈 줄로 바꿔 원본 파일 기준 줄 번호를 유지한다
+ * 아래 두 전처리는 docs/src/features/docs/helpers/mdx.ts와 동일하게 유지한다
+ * 줄 수를 바꾸지 않으므로 에러 위치는 원본 파일 기준 그대로다
  */
-const findErrorLine = async (source: string) => {
-  const content = source.replace(/^---\n[\s\S]*?\n---/, (frontmatter) =>
+const preprocessDemoCode = (source: string): string => {
+  return source.replace(
+    /<Demo\s+code=\{`([^`]*)`\}/g,
+    (match, codeContent: string) => {
+      const lines = codeContent.split('\n');
+      const processedLines = lines.map((line) => {
+        const spaceMatch = line.match(/^( {2,})/);
+        if (spaceMatch) {
+          return '  ' + line;
+        }
+        return line;
+      });
+      return `<Demo code={\`${processedLines.join('\n')}\`}`;
+    },
+  );
+};
+
+const preprocessGenericTypes = (source: string): string => {
+  return source.replace(/(\|[^|\n]*?)(<|>)([^|\n]*?)(?=\|)/g, (match) => {
+    return match.replace(/</g, '\\<').replace(/>/g, '\\>');
+  });
+};
+
+/**
+ * frontmatter는 같은 줄 수의 빈 줄로 바꿔 본문 에러 위치가 원본 파일 기준이 되게 한다
+ */
+const blankFrontmatter = (source: string) =>
+  source.replace(/^---\n[\s\S]*?\n---/, (frontmatter) =>
     frontmatter.replace(/[^\n]/g, ''),
   );
 
+const validate = async (source: string) => {
   try {
-    await compile(content, { remarkPlugins: [remarkGfm] });
+    // docs 빌드처럼 gray-matter로 frontmatter를 파싱한다
+    // 옵션을 넘기지 않으면 같은 내용의 파일은 캐시를 반환해 파싱 에러가 다시 나지 않는다
+    matter(source, {});
   } catch (error) {
-    return (error as { line?: number }).line;
+    const { message, mark } = error as ErrorWithPosition;
+
+    // mark.line은 여는 --- 줄부터 0으로 세므로 1을 더하면 원본 파일 기준 줄 번호다
+    return { message, line: mark ? mark.line + 1 : undefined };
+  }
+
+  try {
+    await compile(
+      preprocessDemoCode(preprocessGenericTypes(blankFrontmatter(source))),
+      { remarkPlugins: [remarkGfm] },
+    );
+  } catch (error) {
+    const { message, line } = error as ErrorWithPosition;
+
+    return { message, line };
   }
 };
 
@@ -48,19 +96,12 @@ const run = async () => {
     const rawSource = fs.readFileSync(file, 'utf8');
     // 모바일 저장소 원본은 docs로 옮겨질 때와 같은 변환을 거친 뒤 검증한다
     const source = isMobileSource ? normalizeFrontmatter(rawSource) : rawSource;
+    const error = await validate(source);
 
-    try {
-      await serializeMdx(source);
-    } catch (error) {
-      const line = await findErrorLine(source);
-      const message = (error as Error).message
-        .replace('[next-mdx-remote] error compiling MDX:', '')
-        .replace(/More information: .*$/, '')
-        .trim();
-
+    if (error) {
       failures.push(file);
       console.log(
-        `::error file=${file}${line ? `,line=${line}` : ''}::${message.replace(/\n/g, '%0A')}`,
+        `::error file=${file}${error.line ? `,line=${error.line}` : ''}::${error.message.replace(/\n/g, '%0A')}`,
       );
     }
   }

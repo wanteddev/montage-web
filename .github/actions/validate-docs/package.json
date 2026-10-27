@@ -4,7 +4,8 @@
   "main": "dist/index.mjs",
   "private": true,
   "dependencies": {
-    "@mdx-js/mdx": "^3.1.1",
+    "@mdx-js/mdx": "3.1.1",
+    "gray-matter": "^4.0.3",
     "remark-gfm": "^4.0.1"
   },
   "engines": {
