@@ -3,7 +3,8 @@
   "description": "Presentational-only reference scaffold components for the Montage design system",
   "version": "4.1.5",
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "timeout": 60000
   },
   "files": [
     "dist"

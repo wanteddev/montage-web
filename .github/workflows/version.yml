@@ -19,7 +19,6 @@ on:
 
 env:
   SERVICE: 'Montage web'
-  NPM_CONFIG_TIMEOUT: 60000
 
 permissions: {}
 
