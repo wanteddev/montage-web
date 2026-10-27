@@ -53,14 +53,6 @@ const preprocessGenericTypes = (source: string): string => {
 };
 
 /**
- * frontmatter는 같은 줄 수의 빈 줄로 바꿔 본문 에러 위치가 원본 파일 기준이 되게 한다
- */
-const blankFrontmatter = (source: string) =>
-  source.replace(/^---\r?\n[\s\S]*?\r?\n---/, (frontmatter) =>
-    frontmatter.replace(/[^\n]/g, ''),
-  );
-
-/**
  * gray-matter는 ---js frontmatter를 eval로 실행하므로, 검증 대상 문서의 코드가 검증 단계에서 실행되지 않게 막는다
  */
 const rejectJavaScriptFrontmatter = () => {
@@ -75,10 +67,12 @@ const MATTER_OPTIONS = {
 };
 
 const validate = async (source: string) => {
+  let content: string;
+
   try {
     // docs 빌드처럼 gray-matter로 frontmatter를 파싱한다
     // 옵션을 넘기지 않으면 같은 내용의 파일은 캐시를 반환해 파싱 에러가 다시 나지 않는다
-    matter(source, MATTER_OPTIONS);
+    ({ content } = matter(source, MATTER_OPTIONS));
   } catch (error) {
     const { message, mark } = error as ErrorWithPosition;
 
@@ -86,11 +80,14 @@ const validate = async (source: string) => {
     return { message, line: mark ? mark.line + 1 : undefined };
   }
 
+  // gray-matter가 frontmatter로 인식한 범위만 같은 줄 수의 빈 줄로 바꿔 본문 에러 위치가 원본 파일 기준이 되게 한다
+  const frontmatter = source.slice(0, source.length - content.length);
+  const body = frontmatter.replace(/[^\n]/g, '') + content;
+
   try {
-    await compile(
-      preprocessDemoCode(preprocessGenericTypes(blankFrontmatter(source))),
-      { remarkPlugins: [remarkGfm] },
-    );
+    await compile(preprocessDemoCode(preprocessGenericTypes(body)), {
+      remarkPlugins: [remarkGfm],
+    });
   } catch (error) {
     const { message, line } = error as ErrorWithPosition;
 

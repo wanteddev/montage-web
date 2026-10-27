@@ -35963,10 +35963,6 @@ var preprocessGenericTypes = (source) => {
     return match.replace(/</g, "\\<").replace(/>/g, "\\>");
   });
 };
-var blankFrontmatter = (source) => source.replace(
-  /^---\r?\n[\s\S]*?\r?\n---/,
-  (frontmatter) => frontmatter.replace(/[^\n]/g, "")
-);
 var rejectJavaScriptFrontmatter = () => {
   throw new Error("JavaScript frontmatter\uB294 \uC9C0\uC6D0\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4");
 };
@@ -35977,17 +35973,19 @@ var MATTER_OPTIONS = {
   }
 };
 var validate = async (source) => {
+  let content3;
   try {
-    (0, import_gray_matter.default)(source, MATTER_OPTIONS);
+    ({ content: content3 } = (0, import_gray_matter.default)(source, MATTER_OPTIONS));
   } catch (error) {
     const { message, mark: mark2 } = error;
     return { message, line: mark2 ? mark2.line + 1 : void 0 };
   }
+  const frontmatter = source.slice(0, source.length - content3.length);
+  const body = frontmatter.replace(/[^\n]/g, "") + content3;
   try {
-    await compile(
-      preprocessDemoCode(preprocessGenericTypes(blankFrontmatter(source))),
-      { remarkPlugins: [remarkGfm] }
-    );
+    await compile(preprocessDemoCode(preprocessGenericTypes(body)), {
+      remarkPlugins: [remarkGfm]
+    });
   } catch (error) {
     const { message, line } = error;
     return { message, line };
