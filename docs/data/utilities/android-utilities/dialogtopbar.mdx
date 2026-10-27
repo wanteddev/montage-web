@@ -5,13 +5,14 @@ description: 다이얼로그용 TopAppBar 컴포넌트입니다.
 
 ## WantedDialogTopAppBar
 다이얼로그용 TopAppBar 컴포넌트입니다.
+
 타이틀과 좌우 컴포넌트를 설정할 수 있습니다.
 
 ```kotlin
 WantedDialogTopAppBar(
     title = "다이얼로그 제목",
-    navigationIcon = { Icon(...) },
-    actions = { IconButton(...) }
+    navigationIcon = { Icon(painter = painterResource(R.drawable.icon_normal_close), contentDescription = null) },
+    actions = { IconButton(onClick = { /* 알림 */ }) { Icon(painter = painterResource(R.drawable.icon_normal_bell), contentDescription = "알림") } }
 )
 ```
 
@@ -19,23 +20,24 @@ WantedDialogTopAppBar(
 | 이름 | 타입 | 설명 |
 |:---|:---|:---|
 | modifier | Modifier | 컴포넌트에 적용할 Modifier입니다. |
-| windowInsets | WindowInsets | 적용할 WindowInsets입니다. |
-| backgroundColor | Color | 앱바 배경 색상입니다. |
-| background | Boolean | 앱바 배경을 표시할지 여부입니다. |
+| windowInsets | WindowInsets | 적용할 WindowInsets입니다. 기본값은 WindowInsets(0)(여백 없음)으로, 시트·팝업 안에서 쓰는 것을 전제로 합니다. |
+| backgroundColor | Color | 앱바 배경 색상입니다. 기본값은 surfaceElevatedPrimary 입니다. |
+| background | Boolean | 앱바 배경을 표시할지 여부입니다. true(기본값)이면 항상 배경을 칠하고, false 이면 scrollableState 가 처음 위치에서 벗어나 스크롤된 동안(canScrollBackward)에만 칠합니다. |
 | variant | Variant | 앱바 형태입니다. |
-| navigationPadding | Dp | Navigation 의 상하좌우 여백입니다. 기본값은 Popup · Bottom Sheet 값(24)이고 Full 은 [WantedDialogTopAppBarDefaults.FULL_NAVIGATION_PADDING] 을 넘깁니다. |
-| scrollableState | ScrollableState? | 스크롤 상태를 관리하는 객체입니다. |
+| navigationPadding | Dp | Navigation 의 상하좌우 여백입니다. 기본값은 Popup · Bottom Sheet 값(24)이고 Full 은 `WantedDialogTopAppBarDefaults.FULL_NAVIGATION_PADDING` 을 넘깁니다. Emphasized·Search 에만 적용되며 Normal·Floating 은 좌우 16dp 고정입니다. |
+| scrollableState | ScrollableState? | 스크롤 상태를 관리하는 객체입니다. background 가 false 일 때만 쓰이며, 처음 위치에서 벗어나 스크롤된 동안 배경을 칠합니다. |
 | title | String | 타이틀 텍스트입니다. |
 | navigationIcon | (@Composable () -> Unit)? | 좌측 아이콘 슬롯입니다. |
 | actions | (@Composable RowScope.() -> Unit)? | 우측 액션 슬롯입니다. |
 
 ## Overload
-닫기 버튼이 포함된 다이얼로그용 TopAppBar 컴포넌트입니다.
-우측에 닫기 아이콘이 고정으로 배치됩니다.
+슬롯으로 타이틀·좌우 콘텐츠를 구성하는 다이얼로그용 TopAppBar 컴포넌트입니다.
+
+닫기 버튼은 포함하지 않으며, 필요하면 WantedDialogCloseTopAppBar 를 사용합니다.
 
 ```kotlin
 WantedDialogTopAppBar(
-    title = "제목",
+    title = { Text("제목") },
     navigationIcon = { },
     actions = { }
 )
@@ -47,12 +49,12 @@ WantedDialogTopAppBar(
   | 이름 | 타입 | 설명 |
   |:---|:---|:---|
   | modifier | Modifier | 컴포넌트에 적용할 Modifier입니다. |
-  | windowInsets | WindowInsets | 적용할 WindowInsets입니다. |
-  | backgroundColor | Color | 앱바 배경 색상입니다. |
-  | background | Boolean | 앱바 배경을 표시할지 여부입니다. |
+  | windowInsets | WindowInsets | 적용할 WindowInsets입니다. 이 슬롯 오버로드는 기본값이 WantedTopAppBarDefaults.windowInsets(상단 시스템 바)라 다른 오버로드(WindowInsets(0))와 다릅니다. 시트·팝업 안에서는 WindowInsets(0) 을 넘깁니다. |
+  | backgroundColor | Color | 앱바 배경 색상입니다. 이 슬롯 오버로드는 기본값이 backgroundNeutralPrimary 라 다른 오버로드(surfaceElevatedPrimary)와 다릅니다. |
+  | background | Boolean | 앱바 배경을 표시할지 여부입니다. true(기본값)이면 항상 배경을 칠하고, false 이면 scrollableState 가 처음 위치에서 벗어나 스크롤된 동안(canScrollBackward)에만 칠합니다. |
   | variant | Variant | 앱바 형태입니다. |
-  | navigationPadding | Dp | Navigation 의 상하좌우 여백입니다. 기본값은 Popup · Bottom Sheet 값(24)이고 Full 은 [WantedDialogTopAppBarDefaults.FULL_NAVIGATION_PADDING] 을 넘깁니다. |
-  | scrollableState | ScrollableState? | 스크롤 상태를 관리하는 객체입니다. |
+  | navigationPadding | Dp | Navigation 의 상하좌우 여백입니다. 기본값은 Popup · Bottom Sheet 값(24)이고 Full 은 `WantedDialogTopAppBarDefaults.FULL_NAVIGATION_PADDING` 을 넘깁니다. Emphasized·Search 에만 적용되며 Normal·Floating 은 좌우 16dp 고정입니다. |
+  | scrollableState | ScrollableState? | 스크롤 상태를 관리하는 객체입니다. background 가 false 일 때만 쓰이며, 처음 위치에서 벗어나 스크롤된 동안 배경을 칠합니다. |
   | navigationIcon | (@Composable () -> Unit)? | 좌측 아이콘 슬롯입니다. |
   | title | (@Composable () -> Unit)? | 타이틀 텍스트 슬롯입니다. |
   | actions | (@Composable RowScope.() -> Unit)? | 우측 액션 슬롯입니다. |
@@ -62,6 +64,7 @@ WantedDialogTopAppBar(
 ## Advanced
 ### WantedDialogCloseTopAppBar
 닫기 버튼이 포함된 다이얼로그용 TopAppBar 컴포넌트입니다.
+
 우측에 닫기 아이콘이 고정으로 배치됩니다.
 
 ```kotlin
@@ -77,12 +80,12 @@ WantedDialogCloseTopAppBar(
   | 이름 | 타입 | 설명 |
   |:---|:---|:---|
   | modifier | Modifier | 컴포넌트에 적용할 Modifier입니다. |
-  | windowInsets | WindowInsets | 적용할 WindowInsets입니다. |
-  | backgroundColor | Color | 앱바 배경 색상입니다. |
-  | background | Boolean | 앱바 배경을 표시할지 여부입니다. |
+  | windowInsets | WindowInsets | 적용할 WindowInsets입니다. 기본값은 WindowInsets(0)(여백 없음)으로, 시트·팝업 안에서 쓰는 것을 전제로 합니다. |
+  | backgroundColor | Color | 앱바 배경 색상입니다. 기본값은 surfaceElevatedPrimary 입니다. |
+  | background | Boolean | 앱바 배경을 표시할지 여부입니다. true(기본값)이면 항상 배경을 칠하고, false 이면 scrollableState 가 처음 위치에서 벗어나 스크롤된 동안(canScrollBackward)에만 칠합니다. |
   | variant | Variant | 앱바 형태입니다. |
-  | navigationPadding | Dp | Navigation 의 상하좌우 여백입니다. 기본값은 Popup · Bottom Sheet 값(24)이고 Full 은 [WantedDialogTopAppBarDefaults.FULL_NAVIGATION_PADDING] 을 넘깁니다. |
-  | scrollableState | ScrollableState? | 스크롤 상태를 관리하는 객체입니다. |
+  | navigationPadding | Dp | Navigation 의 상하좌우 여백입니다. 기본값은 Popup · Bottom Sheet 값(24)이고 Full 은 `WantedDialogTopAppBarDefaults.FULL_NAVIGATION_PADDING` 을 넘깁니다. Emphasized·Search 에만 적용되며 Normal·Floating 은 좌우 16dp 고정입니다. |
+  | scrollableState | ScrollableState? | 스크롤 상태를 관리하는 객체입니다. background 가 false 일 때만 쓰이며, 처음 위치에서 벗어나 스크롤된 동안 배경을 칠합니다. |
   | navigationIcon | (@Composable () -> Unit)? | 좌측 아이콘 슬롯입니다. |
   | title | String | 타이틀 텍스트입니다. |
   | onClickClose | () -> Unit | 닫기 버튼 클릭 시 호출되는 콜백입니다. |
@@ -91,8 +94,9 @@ WantedDialogCloseTopAppBar(
 <br />
 ### WantedDialogSearchTopAppBar
 검색 필드가 포함된 다이얼로그용 TopAppBar 컴포넌트입니다. (Variant.Search)
+
 제목 대신 검색 필드(폭 가변)를 두고, 우측에 취소 텍스트 버튼을 배치합니다.
-화면용 WantedSearchTopAppBar 와 같은 WantedSearchField(Medium, 높이 40)를 사용합니다.
+화면용 WantedSearchTopAppBar 의 String 오버로드와 같은 WantedSearchField(Medium, 높이 40)를 사용합니다(TextFieldValue 오버로드의 기본값은 Large).
 
 ```kotlin
 var keyword by remember { mutableStateOf("") }
@@ -113,11 +117,11 @@ WantedDialogSearchTopAppBar(
   |:---|:---|:---|
   | text | String | 검색 필드에 입력된 텍스트입니다. |
   | modifier | Modifier | 컴포넌트에 적용할 Modifier입니다. |
-  | windowInsets | WindowInsets | 적용할 WindowInsets입니다. |
-  | backgroundColor | Color | 앱바 배경 색상입니다. |
-  | background | Boolean | 앱바 배경을 표시할지 여부입니다. |
-  | navigationPadding | Dp | Navigation 의 상하좌우 여백입니다. 기본값은 Popup · Bottom Sheet 값(24)이고 Full 은 [WantedDialogTopAppBarDefaults.FULL_NAVIGATION_PADDING] 을 넘깁니다. |
-  | scrollableState | ScrollableState? | 스크롤 상태를 관리하는 객체입니다. |
+  | windowInsets | WindowInsets | 적용할 WindowInsets입니다. 기본값은 WindowInsets(0)(여백 없음)으로, 시트·팝업 안에서 쓰는 것을 전제로 합니다. |
+  | backgroundColor | Color | 앱바 배경 색상입니다. 기본값은 surfaceElevatedPrimary 입니다. |
+  | background | Boolean | 앱바 배경을 표시할지 여부입니다. true(기본값)이면 항상 배경을 칠하고, false 이면 scrollableState 가 처음 위치에서 벗어나 스크롤된 동안(canScrollBackward)에만 칠합니다. |
+  | navigationPadding | Dp | Navigation 의 상하좌우 여백입니다. 기본값은 Popup · Bottom Sheet 값(24)이고 Full 은 `WantedDialogTopAppBarDefaults.FULL_NAVIGATION_PADDING` 을 넘깁니다. Emphasized·Search 에만 적용되며 Normal·Floating 은 좌우 16dp 고정입니다. |
+  | scrollableState | ScrollableState? | 스크롤 상태를 관리하는 객체입니다. background 가 false 일 때만 쓰이며, 처음 위치에서 벗어나 스크롤된 동안 배경을 칠합니다. |
   | placeholder | String | 검색 필드의 placeholder 입니다. |
   | enabled | Boolean | 검색 필드 입력 가능 여부입니다. |
   | keyboardOptions | KeyboardOptions | 키보드 옵션입니다. |
@@ -135,6 +139,7 @@ DialogTopAppBar 컴포넌트에서 사용하는 설정 값을 정의하는 객�
 
 ### WantedDialogTopAppBarDefaults
 Modal Navigation(Popup · Bottom Sheet · Full) 의 여백 기본값을 제공하는 객체입니다. (Figma 4.0.0)
+
 Navigation 여백은 Modal 이 아니라 Navigation 컴포넌트가 소유합니다 — Modal 쪽 `navigationPadding` 은 0 으로 두고 이 값을 씁니다.
 
 
@@ -146,6 +151,6 @@ Normal, Emphasized, Floating, Search 네 가지를 제공합니다.
 | 값 | 설명 |
 |:---|:---|
 | Normal | Title 이 Center 에 위치합니다. Full 에서만 사용합니다. |
-| Emphasized | Title 이 왼쪽에 위치합니다. Popup · Bottom Sheet 의 기본값입니다. |
-| Floating | 플로팅 형태입니다. Title 없이 Leading · Trailing 버튼만 콘텐츠 위에 떠 있습니다. |
-| Search | 제목 대신 검색 필드(폭 가변)를 두는 형태입니다. Popup · Bottom Sheet · Full 어디서나 사용할 수 있습니다. 여백은 다른 variant 와 같은 navigationPadding 을 쓰고, 바 높이는 검색 필드(40) + 상하 여백으로 정해집니다. (Popup · Bottom Sheet 88, Full 80) |
+| Emphasized | Title 이 왼쪽에 위치합니다. WantedPopup 의 title 오버로드는 이 값으로 고정되고 Popup·Bottom Sheet 디자인도 이 값을 씁니다. 다만 WantedDialogTopAppBar 의 variant 기본값은 Normal 이므로 topBar 슬롯에 직접 넣을 때는 이 값을 넘겨야 합니다. |
+| Floating | 플로팅 형태입니다. Leading · Trailing 버튼만 콘텐츠 위에 떠 있는 디자인이므로 title 은 비워 둡니다(title 을 넘기면 Normal 처럼 가운데에 표시됩니다). iconBackground(기본 false)를 true 로 주면 WantedDialogCloseTopAppBar 의 닫기 버튼에 원형 배경이 들어가며, 상단에 이미지가 깔릴 때 씁니다. WantedDialogTopAppBar·WantedDialogSearchTopAppBar 의 슬롯에는 적용되지 않습니다. background = true(기본값)이거나 스크롤된 동안에는 backgroundColor 88% → 투명 세로 그라데이션과 하단 16dp 여백이 깔리므로, 이미지 위에 투명하게 띄우려면 background = false 로 둡니다. |
+| Search | 제목 대신 검색 필드(폭 가변)를 두는 형태입니다. Popup · Bottom Sheet · Full 어디서나 사용할 수 있습니다. 여백은 Emphasized 와 같은 navigationPadding 을 쓰고, 바 높이는 검색 필드(40) + 상하 여백으로 정해집니다. (Popup · Bottom Sheet 88, Full 80) |

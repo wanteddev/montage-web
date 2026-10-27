@@ -5,6 +5,7 @@ description: 문자열 리스트 기반의 Segmented Control 컴포넌트입니�
 
 ## WantedSegmentedControl
 문자열 리스트 기반의 Segmented Control 컴포넌트입니다.
+
 선택된 항목을 강조 표시하며, 애니메이션되는 Knob으로 선택 상태를 표현합니다.
 
 ```kotlin
@@ -29,9 +30,10 @@ WantedSegmentedControl(
 
 ## Overload
 사용자 정의 항목으로 구성할 수 있는 Segmented Control 컴포넌트입니다.
+
 각 항목을 커스텀 컴포넌트로 구성할 수 있으며, 선택 애니메이션은 Knob 위치 이동으로 표현됩니다.
-`iconOnly = true` 로 설정하면 각 세그먼트가 사이즈별 고정 너비로 배치되고, [LocalWantedSegmentedIconOnly]
-를 통해 하위 [WantedSegmentedControlItem] 이 아이콘 전용으로 렌더링됩니다.
+`iconOnly = true` 로 설정하면 각 세그먼트가 사이즈별 고정 너비로 배치되고, `LocalWantedSegmentedIconOnly`
+를 통해 하위 `WantedSegmentedControlItem` 이 아이콘 전용으로 렌더링됩니다.
 
 ```kotlin
 var selectedIndex by remember { mutableIntStateOf(0) }
@@ -43,7 +45,7 @@ WantedSegmentedControl(
         WantedSegmentedControlItem(
             title = "옵션 $index",
             isSelected = index == selectedIndex,
-            icon = { Icon(...) }
+            icon = { Icon(painter = painterResource(R.drawable.icon_normal_bookmark), contentDescription = null) }
         )
     },
     onClick = { selectedIndex = it }
@@ -68,12 +70,15 @@ WantedSegmentedControl(
 ## Advanced
 ### WantedSegmentedControlItem
 SegmentedControl 내 개별 항목을 구성하는 컴포넌트입니다.
+
 선택 여부에 따라 텍스트·아이콘 색상이 변경되며, 선택 시 강조 색상(foregroundNeutralPrimary)이 적용됩니다.
-사이즈별 타이포·아이콘 크기·간격은 [LocalWantedSegmentedSize] 로 전달된 값을 따릅니다.
-아이콘 전용(Icon Only) 여부는 파라미터가 아니라 상위 컨트롤이 제공하는 [LocalWantedSegmentedIconOnly]
-로 결정됩니다. 컨트롤([WantedSegmentedControl])에서 `iconOnly = true` 로 설정하면 이 항목은
+사이즈별 타이포·아이콘 크기·간격은 `LocalWantedSegmentedSize` 로 전달된 값을 따릅니다.
+
+아이콘 전용(Icon Only) 여부는 파라미터가 아니라 상위 컨트롤이 제공하는 `LocalWantedSegmentedIconOnly`
+로 결정됩니다. 컨트롤(`WantedSegmentedControl`)에서 `iconOnly = true` 로 설정하면 이 항목은
 텍스트 없이 아이콘만 중앙 정렬하며, 사이즈별 고정 너비(`iconOnlyWidth`)를 갖습니다.
 아이콘 크기도 icon + text 모드(`iconSize`)보다 한 단계 큰 `iconOnlyIconSize` 를 사용합니다.
+
 아이콘 슬롯은 사이즈별 크기(`iconSize` / `iconOnlyIconSize`)를 가진 Box 로 감쌉니다. 이 Box 는
 최대 크기만 제한하므로 슬롯보다 **작은** 아이콘은 확대되지 않습니다. 스펙 크기로 꽉 채우려면
 호출측에서 아이콘에 `Modifier.fillMaxSize()` 를 지정해야 합니다.
@@ -84,13 +89,13 @@ SegmentedControl 내 개별 항목을 구성하는 컴포넌트입니다.
 WantedSegmentedControlItem(
     title = "알림",
     isSelected = true,
-    icon = { Icon(modifier = Modifier.fillMaxSize(), ...) }
+    icon = { Icon(modifier = Modifier.fillMaxSize(), painter = painterResource(R.drawable.icon_normal_bookmark), contentDescription = null) }
 )
 
 // icon only — 컨트롤에서 iconOnly = true 를 지정하면 title 없이 아이콘만 렌더링됩니다.
 WantedSegmentedControlItem(
     isSelected = true,
-    icon = { Icon(modifier = Modifier.fillMaxSize(), ...) }
+    icon = { Icon(modifier = Modifier.fillMaxSize(), painter = painterResource(R.drawable.icon_normal_bookmark), contentDescription = null) }
 )
 ```
 
@@ -112,3 +117,8 @@ SegmentedControl 컴포넌트에서 사용하는 설정값을 정의하는 객�
 
 ## Enum
 ### SegmentedSize
+| 값 | 설명 |
+|:---|:---|
+| Small | 항목 높이 24dp, 트랙 radius 10dp, Knob radius 8dp, 아이콘 14dp(Icon Only 16dp·너비 26dp), caption1Medium 입니다. |
+| Medium | 항목 높이 32dp, 트랙 radius 12dp, Knob radius 8dp, 아이콘 16dp(Icon Only 18dp·너비 34dp), label1Medium 입니다. |
+| Large | 항목 높이 40dp, 트랙 radius 14dp, Knob radius 10dp, 아이콘 18dp(Icon Only 20dp·너비 42dp), body2Medium 입니다. |

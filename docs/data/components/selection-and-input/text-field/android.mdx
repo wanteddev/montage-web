@@ -5,6 +5,7 @@ description: 입력 필드 본체만 렌더링하는 Text field 컴포넌트입�
 
 ## WantedTextField
 입력 필드 본체만 렌더링하는 Text field 컴포넌트입니다.
+
 라벨·필수 표시(*)·하단 메시지는 포함하지 않습니다. 해당 요소가 필요하면
 WantedFormControl 의 input 슬롯에 조합해서 사용합니다.
 커서 위치와 선택 영역을 다루기 위해 TextFieldValue 로 값을 주고받습니다.
@@ -68,19 +69,37 @@ WantedFormControl(
 
 ## Overload
 (Deprecated) 라벨·메시지 레이아웃을 함께 렌더링하는 문자열 기반 Text field 컴포넌트입니다.
+
 title·requiredBadge·description 은 WantedFormControl 의 label·required·description 으로
 대체되었습니다. 입력 필드 본체만 담당하는 WantedTextField(value = ...) 를
 WantedFormControl 의 input 슬롯에 조합해서 사용합니다.
 
 ```kotlin
 // 대체 방식
+val state = remember { mutableStateOf(TextFieldValue("")) }
+
 WantedFormControl(
     label = "주제",
     required = true,
     description = "메시지에 마침표를 찍어요.",
     status = WantedFormControlDefaults.Status.Negative
 ) {
-    WantedTextField(value = state.value, ..., onValueChange = { state.value = it })
+    WantedTextField(
+        value = state.value,
+        placeholder = "주제를 입력해 주세요.",
+        error = true,
+        enabled = true,
+        trailingButtonEnabled = true,
+        complete = false,
+        maxLines = 1,
+        minLines = 1,
+        maxWordCount = 2000,
+        enabledOverflowText = false,
+        interactionSource = remember { MutableInteractionSource() },
+        keyboardOptions = KeyboardOptions.Default,
+        keyboardActions = KeyboardActions.Default,
+        onValueChange = { state.value = it },
+    )
 }
 ```
 <details>
@@ -120,6 +139,7 @@ WantedFormControl(
 <br />
 
 (Deprecated) 라벨·메시지 레이아웃을 함께 렌더링하는 TextFieldValue 기반 Text field 컴포넌트입니다.
+
 커서 위치 및 선택 영역 처리를 위해 TextFieldValue 를 사용합니다.
 title·requiredBadge·description 은 WantedFormControl 의 label·required·description 으로
 대체되었습니다. 입력 필드 본체만 담당하는 WantedTextField(value = ...) 를
@@ -130,7 +150,22 @@ WantedFormControl 의 input 슬롯에 조합해서 사용합니다.
 val state = remember { mutableStateOf(TextFieldValue("")) }
 
 WantedFormControl(label = "주제", required = true) {
-    WantedTextField(value = state.value, ..., onValueChange = { state.value = it })
+    WantedTextField(
+        value = state.value,
+        placeholder = "주제를 입력해 주세요.",
+        error = true,
+        enabled = true,
+        trailingButtonEnabled = true,
+        complete = false,
+        maxLines = 1,
+        minLines = 1,
+        maxWordCount = 2000,
+        enabledOverflowText = false,
+        interactionSource = remember { MutableInteractionSource() },
+        keyboardOptions = KeyboardOptions.Default,
+        keyboardActions = KeyboardActions.Default,
+        onValueChange = { state.value = it },
+    )
 }
 ```
 <details>
@@ -171,7 +206,10 @@ WantedFormControl(label = "주제", required = true) {
 ## Advanced
 ### WantedTextFieldDefaults
 TextField 컴포넌트에서 사용되는 설정 값을 정의하는 객체입니다.
-선택 렌더링 방식과 선택 UI 스타일을 제어할 수 있는 enum 클래스를 포함합니다.
+
+상태(Status)와 크기(Size) enum 을 포함합니다.
+
+Status 는 deprecated 오버로드·WantedAutoCompleteTextField 에서 사용하며, 본체 WantedTextField 는 error·complete 로 표현합니다.
 
 
 ## Enum
