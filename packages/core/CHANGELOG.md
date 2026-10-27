@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.1.5](https://github.com/wanteddev/montage-web/compare/v4.1.4...v4.1.5) (2026-10-27)
+
+### Bug Fixes
+
+- **core:** safari 27 미만에서 table row 인터랙션 레이어가 테이블 전체를 덮는 문제 수정 ([#694](https://github.com/wanteddev/montage-web/issues/694)) ([24999be](https://github.com/wanteddev/montage-web/commit/24999be287875e4c2c7e3b333533bbe45bfc1b48))
+
 ## [4.1.4](https://github.com/wanteddev/montage-web/compare/v4.1.3...v4.1.4) (2026-10-24)
 
 ### Bug Fixes

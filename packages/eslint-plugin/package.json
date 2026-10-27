@@ -1,7 +1,7 @@
 {
   "name": "@montage-ui/eslint-plugin",
   "description": "ESLint plugin for Montage best practices",
-  "version": "4.1.4",
+  "version": "4.1.5",
   "files": [
     "dist"
   ],

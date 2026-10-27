@@ -1,7 +1,7 @@
 {
   "name": "@montage-ui/icon",
   "description": "Icon components for the Montage design system",
-  "version": "4.1.4",
+  "version": "4.1.5",
   "files": [
     "dist"
   ],
