@@ -1,10 +1,5 @@
 import { css } from '@montage-ui/engine';
 
-import {
-  activeInteractionStyle,
-  hoverInteractionStyle,
-} from '../with-interaction/style';
-
 import type { Theme } from '@montage-ui/engine';
 
 export const tableStyle = (theme: Theme) => css`
@@ -94,28 +89,52 @@ export const tableRowStyle = (interaction?: boolean) => (theme: Theme) => css`
 
   ${interaction &&
   css`
-    cursor: pointer;
+    --table-row-interaction-color: ${theme.semantic.foreground.neutral.primary};
+    --table-row-interaction-opacity: ${theme.opacity[0]};
 
-    ::after {
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+
+    &:focus-visible {
+      outline-style: solid;
+      outline-width: 2px;
+      outline-offset: -2px;
+    }
+
+    // Safari < 27 doesn't treat tr as a containing block, so tr::after covers the whole table.
+    // Draw the layer per cell instead.
+    & > :where(td, th) {
+      position: relative;
+    }
+
+    & > td::after,
+    & > th::after {
       content: '';
       position: absolute;
       inset: 0;
       pointer-events: none;
-      width: 100%;
-      height: 100%;
-      background-color: ${theme.semantic.foreground.neutral.primary};
-      opacity: 0;
+      background-color: var(--table-row-interaction-color);
+      opacity: var(--table-row-interaction-opacity);
       transition:
         background ease 0.2s,
         opacity ease 0.2s;
     }
 
-    &:hover::after {
-      ${hoverInteractionStyle(theme, 'normal')}
+    &:hover > td::after,
+    &:hover > th::after {
+      --table-row-interaction-opacity: ${theme.opacity[5]};
     }
 
-    &:active::after {
-      ${activeInteractionStyle(theme, 'normal')}
+    @media not (pointer: fine) {
+      &:hover > td::after,
+      &:hover > th::after {
+        --table-row-interaction-opacity: ${theme.opacity[0]};
+      }
+    }
+
+    &:active > td::after,
+    &:active > th::after {
+      --table-row-interaction-opacity: ${theme.opacity[12]};
     }
   `}
 `;
