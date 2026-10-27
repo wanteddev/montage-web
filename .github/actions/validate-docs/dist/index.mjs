@@ -44395,6 +44395,11 @@ var run = async () => {
     exclude: (file) => file.includes("node_modules")
   });
   const failures = [];
+  if (files.length === 0) {
+    console.log(`::error::\uAC80\uC99D\uD560 \uBB38\uC11C\uAC00 \uC5C6\uC2B5\uB2C8\uB2E4: ${getPatterns().join(", ")}`);
+    process.exitCode = 1;
+    return;
+  }
   for (const file of files) {
     const rawSource = fs2.readFileSync(file, "utf8");
     const source = isMobileSource ? normalizeFrontmatter(rawSource) : rawSource;

@@ -143,7 +143,7 @@ export default abstract class BaseModule {
 
       this.tempFiles[
         designFile.replace(/design\.mdx$/, `${this.PLATFORM}.mdx`)
-      ] = fs.readFileSync(file, 'utf8');
+      ] = normalizeFrontmatter(fs.readFileSync(file, 'utf8'));
     }
   }
 

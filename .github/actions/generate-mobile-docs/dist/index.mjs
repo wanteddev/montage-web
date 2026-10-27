@@ -10763,7 +10763,7 @@ var BaseModule = class {
       if (!designFile) {
         continue;
       }
-      this.tempFiles[designFile.replace(/design\.mdx$/, `${this.PLATFORM}.mdx`)] = fs.readFileSync(file, "utf8");
+      this.tempFiles[designFile.replace(/design\.mdx$/, `${this.PLATFORM}.mdx`)] = normalizeFrontmatter(fs.readFileSync(file, "utf8"));
     }
   }
   getComponentTitle(file) {

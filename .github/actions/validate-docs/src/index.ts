@@ -36,6 +36,14 @@ const run = async () => {
   });
   const failures: Array<string> = [];
 
+  // 대상이 없으면 경로 오타나 문서 생성 실패일 수 있으므로 통과시키지 않는다
+  if (files.length === 0) {
+    console.log(`::error::검증할 문서가 없습니다: ${getPatterns().join(', ')}`);
+    process.exitCode = 1;
+
+    return;
+  }
+
   for (const file of files) {
     const rawSource = fs.readFileSync(file, 'utf8');
     // 모바일 저장소 원본은 docs로 옮겨질 때와 같은 변환을 거친 뒤 검증한다
