@@ -10672,6 +10672,14 @@ glob.glob = glob;
 
 // src/modules/base.ts
 var exec = __toESM(require_exec());
+
+// src/helpers.ts
+var normalizeFrontmatter = (content) => content.replace(
+  /^(---\n[\s\S]*?\n---)/,
+  (frontmatter) => frontmatter.replace(/`/g, "")
+);
+
+// src/modules/base.ts
 var BaseModule = class {
   tempFiles = {};
   PLATFORM;
@@ -10703,11 +10711,7 @@ var BaseModule = class {
         const designSlug = f.split("/");
         return designSlug.at(designSlug.length - 2).replace(/-/g, "") === (customTitle || title);
       });
-      let fileContent = fs.readFileSync(file, "utf8");
-      fileContent = fileContent.replace(
-        /^(---\n[\s\S]*?\n---)/,
-        (frontmatter) => frontmatter.replace(/`/g, "")
-      );
+      const fileContent = normalizeFrontmatter(fs.readFileSync(file, "utf8"));
       if (designFile) {
         this.tempFiles[designFile.replace(/design\.mdx$/, `${this.PLATFORM}.mdx`)] = fileContent;
       } else {
@@ -10759,7 +10763,7 @@ var BaseModule = class {
       if (!designFile) {
         continue;
       }
-      this.tempFiles[designFile.replace(/design\.mdx$/, `${this.PLATFORM}.mdx`)] = fs.readFileSync(file, "utf8");
+      this.tempFiles[designFile.replace(/design\.mdx$/, `${this.PLATFORM}.mdx`)] = normalizeFrontmatter(fs.readFileSync(file, "utf8"));
     }
   }
   getComponentTitle(file) {
@@ -10861,9 +10865,17 @@ ${parsedMatter.data.description}
 };
 
 // src/index.ts
+var MODULES = {
+  android: Android,
+  ios: IOS
+};
 var run = async () => {
-  (await new Android().gitClone()).load().convert().save().cleanup();
-  (await new IOS().gitClone()).load().convert().save().cleanup();
+  const platform = process.env.INPUT_PLATFORM ?? "";
+  const Module = MODULES[platform];
+  if (!Module) {
+    throw new Error(`Unknown platform: ${platform}`);
+  }
+  (await new Module().gitClone()).load().convert().save().cleanup();
 };
 run();
 /*! Bundled license information:
