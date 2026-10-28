@@ -2,10 +2,16 @@ import fs from 'node:fs';
 
 import { compile } from '@mdx-js/mdx';
 import matter from 'gray-matter';
+import { serialize } from 'next-mdx-remote/serialize';
+import rehypeSlug from 'rehype-slug';
 import remarkGfm from 'remark-gfm';
 
-type ErrorWithPosition = Error & {
-  line?: number;
+import {
+  remarkStyle,
+  remarkTable,
+} from '../../../../docs/src/features/docs/helpers/remark';
+
+type YAMLError = Error & {
   mark?: { line: number };
 };
 
@@ -26,7 +32,7 @@ const normalizeFrontmatter = (content: string) =>
   );
 
 /**
- * 아래 두 전처리는 docs/src/features/docs/helpers/mdx.ts와 동일하게 유지한다
+ * 아래 두 전처리와 serialize 옵션은 docs/src/features/docs/helpers/mdx.ts와 동일하게 유지한다
  * 줄 수를 바꾸지 않으므로 에러 위치는 원본 파일 기준 그대로다
  */
 const preprocessDemoCode = (source: string): string => {
@@ -66,32 +72,67 @@ const MATTER_OPTIONS = {
   },
 };
 
-const validate = async (source: string) => {
-  let content: string;
+/**
+ * serialize가 frontmatter를 떼어낼 때 쓰는 vfile-matter와 같은 정규식
+ */
+const FRONTMATTER_REGEX =
+  /^---(?:\r?\n|\r)(?:([\s\S]*?)(?:\r?\n|\r))?---(?:\r?\n|\r|$)/;
+
+const REMARK_PLUGINS = [remarkGfm, remarkStyle, remarkTable];
+const REHYPE_PLUGINS = [rehypeSlug];
+
+/**
+ * serialize 에러는 위치 정보가 빠지는 경우가 많아, 같은 본문과 플러그인으로 MDX 컴파일러를 다시 돌려 줄 번호를 찾는다
+ * serialize가 떼어내는 frontmatter 범위는 같은 줄 수의 빈 줄로 바꿔 원본 파일 기준 줄 번호를 유지한다
+ */
+const findErrorLine = async (source: string) => {
+  const frontmatter = FRONTMATTER_REGEX.exec(source)?.[0] ?? '';
+  const body =
+    frontmatter.replace(/[^\n]/g, '') + source.slice(frontmatter.length);
 
   try {
-    // docs 빌드처럼 gray-matter로 frontmatter를 파싱한다
-    // 옵션을 넘기지 않으면 같은 내용의 파일은 캐시를 반환해 파싱 에러가 다시 나지 않는다
-    ({ content } = matter(source, MATTER_OPTIONS));
+    await compile(body, {
+      rehypePlugins: REHYPE_PLUGINS,
+      remarkPlugins: REMARK_PLUGINS,
+    });
   } catch (error) {
-    const { message, mark } = error as ErrorWithPosition;
+    return (error as { line?: number }).line;
+  }
+};
+
+const validate = async (rawSource: string) => {
+  try {
+    // docs 빌드는 목록·메타데이터를 gray-matter로 읽으므로 같은 파서로 frontmatter를 확인한다
+    // 옵션을 넘기지 않으면 같은 내용의 파일은 캐시를 반환해 파싱 에러가 다시 나지 않는다
+    matter(rawSource, MATTER_OPTIONS);
+  } catch (error) {
+    const { message, mark } = error as YAMLError;
 
     // mark.line은 여는 --- 줄부터 0으로 세므로 1을 더하면 원본 파일 기준 줄 번호다
     return { message, line: mark ? mark.line + 1 : undefined };
   }
 
-  // gray-matter가 frontmatter로 인식한 범위만 같은 줄 수의 빈 줄로 바꿔 본문 에러 위치가 원본 파일 기준이 되게 한다
-  const frontmatter = source.slice(0, source.length - content.length);
-  const body = frontmatter.replace(/[^\n]/g, '') + content;
+  const source = preprocessDemoCode(preprocessGenericTypes(rawSource));
 
   try {
-    await compile(preprocessDemoCode(preprocessGenericTypes(body)), {
-      remarkPlugins: [remarkGfm],
+    // remarkPropsTable은 docs/generated/api.json이 있을 때만 동작하고 검증 환경에는 없으므로 제외한다
+    await serialize(source, {
+      parseFrontmatter: true,
+      blockJS: false,
+      mdxOptions: {
+        rehypePlugins: REHYPE_PLUGINS,
+        remarkPlugins: REMARK_PLUGINS,
+      },
     });
   } catch (error) {
-    const { message, line } = error as ErrorWithPosition;
+    const { message } = error as Error;
+    // 첫 줄의 [next-mdx-remote] 접두어와 코드 프레임을 빼고 원래 에러 메시지만 남긴다
+    const [summary = ''] = message.split('\n\n');
 
-    return { message, line };
+    return {
+      message: summary.split('\n').slice(1).join('\n'),
+      line: await findErrorLine(source),
+    };
   }
 };
 

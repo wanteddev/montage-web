@@ -315,6 +315,12 @@ importers:
       gray-matter:
         specifier: ^4.0.3
         version: 4.0.3
+      next-mdx-remote:
+        specifier: 6.0.0
+        version: 6.0.0(@types/react@19.2.14)(react@19.2.4)(supports-color@7.2.0)
+      rehype-slug:
+        specifier: ^6.0.0
+        version: 6.0.0
       remark-gfm:
         specifier: ^4.0.1
         version: 4.0.1(supports-color@7.2.0)
@@ -17023,7 +17029,7 @@ snapshots:
 
   next-mdx-remote@6.0.0(@types/react@19.2.14)(react@19.2.4)(supports-color@7.2.0):
     dependencies:
-      '@babel/code-frame': 7.29.0
+      '@babel/code-frame': 7.29.7
       '@mdx-js/mdx': 3.1.1(supports-color@7.2.0)
       '@mdx-js/react': 3.1.1(@types/react@19.2.14)(react@19.2.4)
       react: 19.2.4
@@ -19178,7 +19184,7 @@ snapshots:
   vfile-matter@5.0.1:
     dependencies:
       vfile: 6.0.3
-      yaml: 2.8.3
+      yaml: 2.9.0
 
   vfile-message@4.0.3:
     dependencies:
