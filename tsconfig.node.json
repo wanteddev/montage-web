@@ -4,9 +4,11 @@
     "skipLibCheck": true,
     "module": "ESNext",
     "moduleResolution": "bundler",
+    "strict": false,
     "strictNullChecks": true,
     "allowSyntheticDefaultImports": true,
-    "allowJs": true
+    "allowJs": true,
+    "types": ["node"]
   },
   "exclude": ["**/node_modules", "./dist", "*.cjs"],
   "include": [

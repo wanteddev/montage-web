@@ -190,7 +190,6 @@ const ListCell = forwardRef(
                   (controllable as HTMLElement).focus({
                     preventScroll: false,
                     // https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#focusvisible
-                    // @ts-expect-error
                     focusVisible: false,
                   });
                 }
