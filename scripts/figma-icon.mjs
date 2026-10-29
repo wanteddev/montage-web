@@ -5,9 +5,8 @@ import {
   writeFile,
   writeFileSync,
 } from 'node:fs';
+import { spawnSync } from 'node:child_process';
 import { join } from 'node:path';
-
-import shelljs from 'shelljs';
 
 const outputDir = './output';
 
@@ -211,10 +210,11 @@ const main = async () => {
     'utf-8',
   );
 
-  shelljs.exec(
+  spawnSync(
     'pnpm jscodeshift ./packages/icon/src --extensions=tsx, --parasr=tsx --transform=./packages/codemod/src/transforms/svg-use-id.ts',
+    { shell: true, stdio: 'inherit' },
   );
-  shelljs.exec('pnpm -F icon lint:fix src');
+  spawnSync('pnpm -F icon lint:fix src', { shell: true, stdio: 'inherit' });
 
   rmSync(outputDir, { recursive: true, force: true });
 

@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-require-imports */
 // @ts-check
-const { exec } = require('shelljs');
+const { execSync } = require('node:child_process');
+
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
 });
@@ -13,7 +14,7 @@ const isDev = process.env.NEXT_PUBLIC_SERVER_TYPE?.toLowerCase() === 'dev';
 const isPreview = Boolean(previewHash);
 const isVersioned = Boolean(versionPath);
 
-const commitHash = exec('git rev-parse --short HEAD').stdout.trim();
+const commitHash = execSync('git rev-parse --short HEAD').toString().trim();
 const host = isDev
   ? 'https://dev-montage.wanted.co.kr'
   : 'https://montage.wanted.co.kr';

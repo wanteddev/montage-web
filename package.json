@@ -12,11 +12,11 @@
     "node": ">= 24"
   },
   "scripts": {
-    "build": "NX_REJECT_UNKNOWN_LOCAL_CACHE=0 lerna run build",
+    "build": "lerna run build",
     "build:api": "pnpm -F @montage-ui/api-generator build",
-    "lint": "NX_REJECT_UNKNOWN_LOCAL_CACHE=0 lerna run lint",
+    "lint": "lerna run lint",
     "clean": "pnpm store prune && rm -rf node_modules",
-    "watch": "NX_REJECT_UNKNOWN_LOCAL_CACHE=0 lerna watch -- echo \\$LERNA_PACKAGE_NAME \\$LERNA_FILE_CHANGES",
+    "watch": "lerna watch -- echo \\$LERNA_PACKAGE_NAME \\$LERNA_FILE_CHANGES",
     "test:unit": "vitest run",
     "test:unit:watch": "vitest",
     "test:visual": "pnpm -F @montage-ui/test-visual test",
@@ -49,7 +49,6 @@
     "@types/node": "^24.13.6",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
-    "@types/shelljs": "^0.8.17",
     "@vitest/browser-playwright": "^4.1.11",
     "change-case": "^5.4.4",
     "eslint": "^9.39.5",
@@ -78,7 +77,6 @@
     "vitest-axe": "1.0.0-pre.5"
   },
   "dependencies": {
-    "inquirer": "^9.3.8",
-    "shelljs": "^0.8.5"
+    "inquirer": "^9.3.8"
   }
 }
