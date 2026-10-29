@@ -15,13 +15,15 @@ export const progressTrackerWrapperStyle = ({
   padding: 0;
   margin: 0;
 
-  ${direction === 'horizontal'
-    ? css`
-        flex-direction: row;
-      `
-    : css`
-        flex-direction: column;
-      `}
+  ${
+    direction === 'horizontal'
+      ? css`
+          flex-direction: row;
+        `
+      : css`
+          flex-direction: column;
+        `
+  }
 `;
 
 export const progressTrackerItemVerticalStyle = css`
@@ -56,20 +58,24 @@ export const progressTrackerItemHorizontalWrapperStyle = css`
 export const progressTrackerItemDividerStyle =
   (isActive: boolean, direction: ProgressTrackerProps['direction']) =>
   (theme: Theme) => css`
-    background-color: ${isActive
-      ? theme.semantic.surface.brand.primary
-      : theme.semantic.line.neutral.primary};
+    background-color: ${
+      isActive
+        ? theme.semantic.surface.brand.primary
+        : theme.semantic.line.neutral.primary
+    };
 
-    ${direction === 'vertical'
-      ? css`
-          height: 100%;
-          width: 1px;
-          flex: 1 1 0;
-        `
-      : css`
-          flex: 1 1 auto;
-          height: 1px;
-        `}
+    ${
+      direction === 'vertical'
+        ? css`
+            height: 100%;
+            width: 1px;
+            flex: 1 1 0;
+          `
+        : css`
+            flex: 1 1 auto;
+            height: 1px;
+          `
+    }
   `;
 
 export const progressTrackerItemContentStyle = css`
@@ -93,12 +99,14 @@ export const progressCircleStyle =
         ${addOpacity(theme.semantic.static.black, theme.opacity[12])};
     }
 
-    ${(isActive || completed) &&
-    css`
-      background-color: ${theme.semantic.surface.brand.primary};
+    ${
+      (isActive || completed) &&
+      css`
+        background-color: ${theme.semantic.surface.brand.primary};
 
-      [data-role='progress-tracker-item-step'] {
-        text-shadow: none;
-      }
-    `}
+        [data-role='progress-tracker-item-step'] {
+          text-shadow: none;
+        }
+      `
+    }
   `;

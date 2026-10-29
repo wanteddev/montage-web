@@ -46,24 +46,26 @@ export const checkMarkStyle =
       theme,
     )(
       (params, breakpoint) => css`
-        ${(params?.size !== undefined || params?.bold !== undefined) &&
-        css`
-          ${checkMarkSizeStyle({
-            size: getPreviousValue(
-              { xs, sm, md, lg, xl },
-              'size',
-              params.size,
-              breakpoint!,
-            ),
-            bold: getPreviousValue(
-              { xs, sm, md, lg, xl },
-              'bold',
-              params.bold,
-              breakpoint!,
-            ),
-            tight,
-          })}
-        `}
+        ${
+          (params?.size !== undefined || params?.bold !== undefined) &&
+          css`
+            ${checkMarkSizeStyle({
+              size: getPreviousValue(
+                { xs, sm, md, lg, xl },
+                'size',
+                params.size,
+                breakpoint!,
+              ),
+              bold: getPreviousValue(
+                { xs, sm, md, lg, xl },
+                'bold',
+                params.bold,
+                breakpoint!,
+              ),
+              tight,
+            })}
+          `
+        }
         ${params?.sx}
       `,
     )}
@@ -82,19 +84,21 @@ const checkMarkSizeStyle = ({
         height: 24px;
         padding: 0px;
 
-        ${tight &&
-        css`
-          width: 20px;
+        ${
+          tight &&
+          css`
+            width: 20px;
 
-          svg {
-            display: block;
-            margin: 0 auto;
-          }
+            svg {
+              display: block;
+              margin: 0 auto;
+            }
 
-          [data-component='with-interaction'] {
-            width: calc(100% + 12px);
-          }
-        `}
+            [data-component='with-interaction'] {
+              width: calc(100% + 12px);
+            }
+          `
+        }
 
         & ~ label {
           ${typographyStyle('body2', bold ? 'bold' : 'regular')}
@@ -108,19 +112,21 @@ const checkMarkSizeStyle = ({
         height: 20px;
         padding: 0px;
 
-        ${tight &&
-        css`
-          width: 16px;
+        ${
+          tight &&
+          css`
+            width: 16px;
 
-          svg {
-            display: block;
-            margin: 0 auto;
-          }
+            svg {
+              display: block;
+              margin: 0 auto;
+            }
 
-          [data-component='with-interaction'] {
-            width: calc(100% + 12px);
-          }
-        `}
+            [data-component='with-interaction'] {
+              width: calc(100% + 12px);
+            }
+          `
+        }
 
         & ~ label {
           ${typographyStyle('label1', bold ? 'bold' : 'regular')}

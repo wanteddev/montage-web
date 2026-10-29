@@ -50,20 +50,22 @@ export const timeItemStyle =
     padding-right: 0;
     width: 60px;
 
-    ${variant === 'first'
-      ? css`
-          border-top-left-radius: 8px;
-          border-bottom-left-radius: 8px;
-        `
-      : variant === 'last'
+    ${
+      variant === 'first'
         ? css`
-            border-top-right-radius: 8px;
-            border-bottom-right-radius: 8px;
+            border-top-left-radius: 8px;
+            border-bottom-left-radius: 8px;
           `
-        : variant === 'single' &&
-          css`
-            border-radius: 8px;
-          `};
+        : variant === 'last'
+          ? css`
+              border-top-right-radius: 8px;
+              border-bottom-right-radius: 8px;
+            `
+          : variant === 'single' &&
+            css`
+              border-radius: 8px;
+            `
+    };
 
     &,
     span {
@@ -75,19 +77,21 @@ export const timeItemStyle =
       justify-content: center;
     }
 
-    ${!disabled &&
-    active &&
-    css`
-      &,
-      span {
-        color: ${theme.semantic.foreground.neutral.primary};
-      }
+    ${
+      !disabled &&
+      active &&
+      css`
+        &,
+        span {
+          color: ${theme.semantic.foreground.neutral.primary};
+        }
 
-      background-color: ${addOpacity(
-        theme.semantic.surface.brand.primary,
-        theme.opacity[8],
-      )};
-    `}
+        background-color: ${addOpacity(
+          theme.semantic.surface.brand.primary,
+          theme.opacity[8],
+        )};
+      `
+    }
 
     &:focus-visible {
       outline: none;

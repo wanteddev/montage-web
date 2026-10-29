@@ -15,9 +15,11 @@ export const toggleIconStyle =
     border-radius: 9999px;
     border: none;
     box-shadow: none;
-    color: ${active
-      ? getColorByToken(theme, activeColor!)
-      : theme.semantic.foreground.neutral.quaternary};
+    color: ${
+      active
+        ? getColorByToken(theme, activeColor!)
+        : theme.semantic.foreground.neutral.quaternary
+    };
 
     &:disabled,
     &[aria-disabled='true'] {

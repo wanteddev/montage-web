@@ -78,26 +78,34 @@ export const menuActionAreaContentStyle = (
   height: fit-content;
 
   &[data-role='menu-action-area-leading-content'] {
-    ${variant === 'icon' &&
-    css`
-      padding-left: 6px;
-    `}
+    ${
+      variant === 'icon' &&
+      css`
+        padding-left: 6px;
+      `
+    }
 
-    ${variant === 'text-button' &&
-    css`
-      padding-left: 8px;
-    `}
+    ${
+      variant === 'text-button' &&
+      css`
+        padding-left: 8px;
+      `
+    }
 
-    ${variant === 'badge' &&
-    css`
-      padding-left: 6px;
-    `}
+    ${
+      variant === 'badge' &&
+      css`
+        padding-left: 6px;
+      `
+    }
   }
 
   &[data-role='menu-action-area-trailing-content'] {
-    ${variant === 'badge' &&
-    css`
-      padding-right: 6px;
-    `}
+    ${
+      variant === 'badge' &&
+      css`
+        padding-right: 6px;
+      `
+    }
   }
 `;

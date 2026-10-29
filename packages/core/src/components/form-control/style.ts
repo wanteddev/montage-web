@@ -30,40 +30,54 @@ export const formControlGroupStyle =
   (theme: Theme) => css`
     gap: ${gap === undefined ? theme.spacing[16] : toCssValue(gap)};
 
-    ${rowGap !== undefined &&
-    css`
-      row-gap: ${toCssValue(rowGap)};
-    `}
-    ${columnGap !== undefined &&
-    css`
-      column-gap: ${toCssValue(columnGap)};
-    `}
-    ${labelWidth !== undefined &&
-    css`
-      --form-control-leading-label-width: ${labelWidth};
-    `}
+    ${
+      rowGap !== undefined &&
+      css`
+        row-gap: ${toCssValue(rowGap)};
+      `
+    }
+    ${
+      columnGap !== undefined &&
+      css`
+        column-gap: ${toCssValue(columnGap)};
+      `
+    }
+    ${
+      labelWidth !== undefined &&
+      css`
+        --form-control-leading-label-width: ${labelWidth};
+      `
+    }
 
     ${createResponsiveStyle(
       { xs, sm, md, lg, xl },
       theme,
     )(
       (params) => css`
-        ${params?.gap !== undefined &&
-        css`
-          gap: ${toCssValue(params.gap)};
-        `};
-        ${params?.rowGap !== undefined &&
-        css`
-          row-gap: ${toCssValue(params.rowGap)};
-        `}
-        ${params?.columnGap !== undefined &&
-        css`
-          column-gap: ${toCssValue(params.columnGap)};
-        `}
-        ${params?.labelWidth !== undefined &&
-        css`
-          --form-control-leading-label-width: ${params.labelWidth};
-        `}
+        ${
+          params?.gap !== undefined &&
+          css`
+            gap: ${toCssValue(params.gap)};
+          `
+        };
+        ${
+          params?.rowGap !== undefined &&
+          css`
+            row-gap: ${toCssValue(params.rowGap)};
+          `
+        }
+        ${
+          params?.columnGap !== undefined &&
+          css`
+            column-gap: ${toCssValue(params.columnGap)};
+          `
+        }
+        ${
+          params?.labelWidth !== undefined &&
+          css`
+            --form-control-leading-label-width: ${params.labelWidth};
+          `
+        }
 
         ${params?.sx}
       `,
@@ -162,14 +176,18 @@ const formControlLayoutStyle = (
         grid-template-columns: initial;
         gap: ${gap === undefined ? theme.spacing[8] : toCssValue(gap)};
 
-        ${rowGap !== undefined &&
-        css`
-          row-gap: ${toCssValue(rowGap)};
-        `}
-        ${columnGap !== undefined &&
-        css`
-          column-gap: ${toCssValue(columnGap)};
-        `}
+        ${
+          rowGap !== undefined &&
+          css`
+            row-gap: ${toCssValue(rowGap)};
+          `
+        }
+        ${
+          columnGap !== undefined &&
+          css`
+            column-gap: ${toCssValue(columnGap)};
+          `
+        }
 
         & > [data-component='form-control-label'] {
           display: inline-block;
@@ -182,18 +200,24 @@ const formControlLayoutStyle = (
         grid-template-columns:
           var(--form-control-leading-label-width, minmax(10px, auto))
           1fr;
-        gap: ${gap === undefined
-          ? `${theme.spacing[8]} ${theme.spacing[16]}`
-          : toCssValue(gap)};
+        gap: ${
+          gap === undefined
+            ? `${theme.spacing[8]} ${theme.spacing[16]}`
+            : toCssValue(gap)
+        };
 
-        ${rowGap !== undefined &&
-        css`
-          row-gap: ${toCssValue(rowGap)};
-        `}
-        ${columnGap !== undefined &&
-        css`
-          column-gap: ${toCssValue(columnGap)};
-        `}
+        ${
+          rowGap !== undefined &&
+          css`
+            row-gap: ${toCssValue(rowGap)};
+          `
+        }
+        ${
+          columnGap !== undefined &&
+          css`
+            column-gap: ${toCssValue(columnGap)};
+          `
+        }
 
         & > [data-component='form-control-message'],
         & > [data-component='form-control-negative-message'],
@@ -278,10 +302,12 @@ export const formLabelStyle =
           ),
         })}
 
-        ${Boolean(params.align) &&
-        css`
-          text-align: ${params.align};
-        `}
+        ${
+          Boolean(params.align) &&
+          css`
+            text-align: ${params.align};
+          `
+        }
 
         ${params.sx}
       `,

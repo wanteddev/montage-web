@@ -33,15 +33,19 @@ export const listCellStyle =
     width: 100%;
     padding: var(--list-cell-vertical-padding)
       var(--list-cell-horizontal-padding);
-    color: ${selected
-      ? theme.semantic.foreground.brand.primary
-      : theme.semantic.foreground.neutral.primary};
+    color: ${
+      selected
+        ? theme.semantic.foreground.brand.primary
+        : theme.semantic.foreground.neutral.primary
+    };
 
-    ${!disabled &&
-    !disableInteraction &&
-    css`
-      cursor: pointer;
-    `}
+    ${
+      !disabled &&
+      !disableInteraction &&
+      css`
+        cursor: pointer;
+      `
+    }
 
     ${listCellPaddingStyle({ verticalPadding }, theme)}
     ${listCellVariantStyle({ variant }, theme)}
@@ -51,12 +55,14 @@ export const listCellStyle =
       display: var(--list-cell-interaction-display, block);
     }
 
-    ${selected &&
-    css`
-      [data-role='list-text-wrapper'] {
-        color: ${theme.semantic.foreground.brand.primary};
-      }
-    `}
+    ${
+      selected &&
+      css`
+        [data-role='list-text-wrapper'] {
+          color: ${theme.semantic.foreground.brand.primary};
+        }
+      `
+    }
 
     &[aria-disabled='true'] {
       cursor: initial;
@@ -69,23 +75,25 @@ export const listCellStyle =
       }
     }
 
-    ${!disabled &&
-    !disableInteraction &&
-    css`
-      @media (pointer: fine) {
-        &:hover {
+    ${
+      !disabled &&
+      !disableInteraction &&
+      css`
+        @media (pointer: fine) {
+          &:hover {
+            [data-role='list-cell-divider'] {
+              opacity: var(--list-cell-active-divider-opacity, 0);
+            }
+          }
+        }
+
+        &:active {
           [data-role='list-cell-divider'] {
             opacity: var(--list-cell-active-divider-opacity, 0);
           }
         }
-      }
-
-      &:active {
-        [data-role='list-cell-divider'] {
-          opacity: var(--list-cell-active-divider-opacity, 0);
-        }
-      }
-    `}
+      `
+    }
 
     ${createResponsiveStyle(
       { xs, sm, md, lg, xl },
@@ -119,8 +127,9 @@ export const listCellTrailingContentAreaStyle = (theme: Theme) => css`
   min-height: ${theme.dimension[24]};
   gap: ${theme.spacing[8]};
 
-  --list-cell-content-icon-color: ${theme.semantic.foreground.neutral
-    .secondary};
+  --list-cell-content-icon-color: ${
+    theme.semantic.foreground.neutral.secondary
+  };
 
   [data-component='list-cell-content'] {
     justify-content: flex-end;

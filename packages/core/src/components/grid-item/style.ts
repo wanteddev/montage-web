@@ -30,10 +30,12 @@ const gridItemAlignStyle = ({
   alignSelf,
 }: GridItemProps = {}) => {
   return css`
-    ${Boolean(alignSelf) &&
-    css`
-      align-self: ${alignSelf};
-    `}
+    ${
+      Boolean(alignSelf) &&
+      css`
+        align-self: ${alignSelf};
+      `
+    }
 
     ${gridItemLayoutStyle(columns)}
     ${gridItemOffsetStyle(offset)}

@@ -34,16 +34,18 @@ export const textButtonStyle =
       }
     }
 
-    ${loading &&
-    css`
-      cursor: wait;
-      &
-        > *:not([data-role='text-button-loading']):not(
-          [data-component='with-interaction']
-        ) {
-        visibility: hidden;
-      }
-    `}
+    ${
+      loading &&
+      css`
+        cursor: wait;
+        &
+          > *:not([data-role='text-button-loading']):not(
+            [data-component='with-interaction']
+          ) {
+          visibility: hidden;
+        }
+      `
+    }
 
     &:disabled,
     &[aria-disabled='true'] {
@@ -72,9 +74,11 @@ const getColorTheme = (
   switch (color) {
     case 'primary':
       return css`
-        color: ${overrideColor
-          ? getColorByToken(theme, overrideColor)
-          : theme.semantic.foreground.brand.primary};
+        color: ${
+          overrideColor
+            ? getColorByToken(theme, overrideColor)
+            : theme.semantic.foreground.brand.primary
+        };
         background-color: transparent;
         border: none;
         box-shadow: none;
@@ -93,9 +97,11 @@ const getColorTheme = (
         background-color: transparent;
         border: none;
         box-shadow: none;
-        color: ${overrideColor
-          ? getColorByToken(theme, overrideColor)
-          : theme.semantic.foreground.neutral.tertiary};
+        color: ${
+          overrideColor
+            ? getColorByToken(theme, overrideColor)
+            : theme.semantic.foreground.neutral.tertiary
+        };
 
         [data-role='text-button-loading'] {
           color: ${theme.semantic.foreground.neutral.quaternary};

@@ -315,8 +315,7 @@ export const resolveDragMode = ({
 };
 
 type ReleaseResolution =
-  | { type: 'snap'; snap: ModalBottomSheetSnap }
-  | { type: 'close' };
+  { type: 'snap'; snap: ModalBottomSheetSnap } | { type: 'close' };
 
 type Candidate = {
   result: ReleaseResolution;

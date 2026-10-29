@@ -93,8 +93,10 @@ export const modalContainerWrapperStyle =
       theme,
     )(
       (params) => css`
-        ${Boolean(params?.variant) &&
-        modalContainerWrapperVariant(params!.variant)}
+        ${
+          Boolean(params?.variant) &&
+          modalContainerWrapperVariant(params!.variant)
+        }
 
         ${params?.sx}
       `,
@@ -191,40 +193,47 @@ export const modalContainerStyle =
       theme,
     )(
       (params, breakpoint) => css`
-        ${(params?.resize || params?.size || params?.variant) &&
-        css`
-          ${modalContainerSize(
-            getPreviousValue({ xs, sm, md, lg, xl }, 'size', size, breakpoint!),
-            getPreviousValue(
-              { xs, sm, md, lg, xl },
-              'resize',
-              resize,
-              breakpoint!,
-            ),
-          )}
-          ${modalContainerVariant(
-            getPreviousValue(
-              { xs, sm, md, lg, xl },
-              'variant',
-              variant,
-              breakpoint!,
-            ),
-          )}
+        ${
+          (params?.resize || params?.size || params?.variant) &&
+          css`
+            ${modalContainerSize(
+              getPreviousValue(
+                { xs, sm, md, lg, xl },
+                'size',
+                size,
+                breakpoint!,
+              ),
+              getPreviousValue(
+                { xs, sm, md, lg, xl },
+                'resize',
+                resize,
+                breakpoint!,
+              ),
+            )}
+            ${modalContainerVariant(
+              getPreviousValue(
+                { xs, sm, md, lg, xl },
+                'variant',
+                variant,
+                breakpoint!,
+              ),
+            )}
           ${modalContainerBottomResize(
-            getPreviousValue(
-              { xs, sm, md, lg, xl },
-              'variant',
-              variant,
-              breakpoint!,
-            ),
-            getPreviousValue(
-              { xs, sm, md, lg, xl },
-              'resize',
-              resize,
-              breakpoint!,
-            ),
-          )}
-        `}
+              getPreviousValue(
+                { xs, sm, md, lg, xl },
+                'variant',
+                variant,
+                breakpoint!,
+              ),
+              getPreviousValue(
+                { xs, sm, md, lg, xl },
+                'resize',
+                resize,
+                breakpoint!,
+              ),
+            )}
+          `
+        }
 
         ${params?.sx}
       `,
@@ -244,10 +253,12 @@ const modalContainerSize = (
         height: initial;
         max-height: 100%;
 
-        ${resize === 'fixed' &&
-        css`
-          height: 480px;
-        `}
+        ${
+          resize === 'fixed' &&
+          css`
+            height: 480px;
+          `
+        }
 
         --modal-popup-border-radius: 24px;
 
@@ -272,10 +283,12 @@ const modalContainerSize = (
         height: initial;
         max-height: 100%;
 
-        ${resize === 'fixed' &&
-        css`
-          height: 560px;
-        `}
+        ${
+          resize === 'fixed' &&
+          css`
+            height: 560px;
+          `
+        }
 
         --modal-popup-border-radius: 24px;
 
@@ -300,10 +313,12 @@ const modalContainerSize = (
         height: initial;
         max-height: 100%;
 
-        ${resize === 'fixed' &&
-        css`
-          height: 640px;
-        `}
+        ${
+          resize === 'fixed' &&
+          css`
+            height: 640px;
+          `
+        }
 
         --modal-popup-border-radius: 24px;
 
@@ -871,11 +886,13 @@ export const modalContentStyle =
     width: 100%;
     ${modalContentMarginStyle({ gap, verticalPadding, horizontalPadding })}
 
-    ${verticalPadding === undefined &&
-    css`
-      padding-top: var(--modal-content-default-padding-top, 0px);
-      padding-bottom: var(--modal-content-default-padding-bottom, 0px);
-    `}
+    ${
+      verticalPadding === undefined &&
+      css`
+        padding-top: var(--modal-content-default-padding-top, 0px);
+        padding-bottom: var(--modal-content-default-padding-bottom, 0px);
+      `
+    }
 
     ${createResponsiveStyle(
       { xs, sm, md, lg, xl },
@@ -944,9 +961,11 @@ const modalContentMarginStyle = ({
     ${getVerticalPaddingStyle()}
     ${getHorizontalPaddingStyle()}
 
-   ${gap !== undefined &&
-    css`
-      gap: ${toCssValue(gap)};
-    `}
+   ${
+      gap !== undefined &&
+      css`
+        gap: ${toCssValue(gap)};
+      `
+    }
   `;
 };

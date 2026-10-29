@@ -45,47 +45,57 @@ const Typography = forwardRef(
           (theme) => css`
             ${typographyStyle(variant, weight)}
             ${noWrap && ellipsisTypographyStyle(1)}
-            ${Boolean(align) &&
-            css`
-              text-align: ${align};
-            `}
-            ${Boolean(display) &&
-            css`
-              display: ${display};
-            `}
-            ${Boolean(color)
-              ? css`
-                  color: ${getColorByToken(theme, color!)};
-                `
-              : css`
-                  color: inherit;
-                `}
+            ${
+              Boolean(align) &&
+              css`
+                text-align: ${align};
+              `
+            }
+            ${
+              Boolean(display) &&
+              css`
+                display: ${display};
+              `
+            }
+            ${
+              Boolean(color)
+                ? css`
+                    color: ${getColorByToken(theme, color!)};
+                  `
+                : css`
+                    color: inherit;
+                  `
+            }
 
             ${createResponsiveStyle(
               { xs, sm, md, lg, xl },
               theme,
             )(
               (params, breakpoint) => css`
-                ${(Boolean(params?.variant) || Boolean(params?.weight)) &&
-                typographyStyle(
-                  getPreviousValue(
-                    { xs, sm, md, lg, xl },
-                    'variant',
-                    variant,
-                    breakpoint!,
-                  )!,
-                  getPreviousValue(
-                    { xs, sm, md, lg, xl },
-                    'weight',
-                    weight,
-                    breakpoint!,
-                  ),
-                )}
+                ${
+                  (Boolean(params?.variant) || Boolean(params?.weight)) &&
+                  typographyStyle(
+                    getPreviousValue(
+                      { xs, sm, md, lg, xl },
+                      'variant',
+                      variant,
+                      breakpoint!,
+                    )!,
+                    getPreviousValue(
+                      { xs, sm, md, lg, xl },
+                      'weight',
+                      weight,
+                      breakpoint!,
+                    ),
+                  )
+                }
 
-                ${Boolean(params?.align) &&
-                css`
-                  text-align: ${params?.align};
-                `}
+                ${
+                  Boolean(params?.align) &&
+                  css`
+                    text-align: ${params?.align};
+                  `
+                }
                 
                 ${params?.sx}
               `,

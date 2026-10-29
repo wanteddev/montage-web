@@ -16,12 +16,14 @@ export const containerStyle = (xl?: boolean) => (theme: Theme) => css`
   ${respondMore(theme.breakpoint.sm)} {
     width: 90%;
 
-    ${xl
-      ? css`
-          max-width: 1400px;
-        `
-      : css`
-          max-width: 1060px;
-        `}
+    ${
+      xl
+        ? css`
+            max-width: 1400px;
+          `
+        : css`
+            max-width: 1060px;
+          `
+    }
   }
 `;

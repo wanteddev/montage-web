@@ -24,14 +24,18 @@ export const interactionStyle =
     top: 50%;
     transform: translate(-50%, -50%);
 
-    ${width !== undefined &&
-    css`
-      width: ${toCssValue(width)};
-    `}
-    ${height !== undefined &&
-    css`
-      height: ${toCssValue(height)};
-    `}
+    ${
+      width !== undefined &&
+      css`
+        width: ${toCssValue(width)};
+      `
+    }
+    ${
+      height !== undefined &&
+      css`
+        height: ${toCssValue(height)};
+      `
+    }
   `;
 
 export const getWrapperStyle =
@@ -45,50 +49,54 @@ export const getWrapperStyle =
       outline-width: 2px;
     }
 
-    ${!disabled &&
-    css`
-      &:hover > [data-component='with-interaction'] {
-        ${hoverInteractionStyle(theme, variant)}
-      }
-
-      @media not (pointer: fine) {
-        &:hover > [data-component='with-interaction'] {
-          opacity: ${theme.opacity[0]};
-        }
-      }
-
-      &:focus-visible > [data-component='with-interaction'] {
-        opacity: ${theme.opacity[0]};
-      }
-      &:active > [data-component='with-interaction'] {
-        ${activeInteractionStyle(theme, variant)}
-      }
-
-      ${scale &&
+    ${
+      !disabled &&
       css`
-        & > [data-component='with-interaction'] {
-          transform: translate(-50%, -50%) scale(0.95);
-        }
-
         &:hover > [data-component='with-interaction'] {
-          transform: translate(-50%, -50%) scale(1);
+          ${hoverInteractionStyle(theme, variant)}
         }
 
         @media not (pointer: fine) {
           &:hover > [data-component='with-interaction'] {
-            transform: translate(-50%, -50%) scale(0.95);
+            opacity: ${theme.opacity[0]};
           }
         }
 
+        &:focus-visible > [data-component='with-interaction'] {
+          opacity: ${theme.opacity[0]};
+        }
         &:active > [data-component='with-interaction'] {
-          transform: translate(-50%, -50%) scale(1);
+          ${activeInteractionStyle(theme, variant)}
         }
 
-        &:focus-visible > [data-component='with-interaction'] {
-          transform: translate(-50%, -50%) scale(0.95);
+        ${
+          scale &&
+          css`
+            & > [data-component='with-interaction'] {
+              transform: translate(-50%, -50%) scale(0.95);
+            }
+
+            &:hover > [data-component='with-interaction'] {
+              transform: translate(-50%, -50%) scale(1);
+            }
+
+            @media not (pointer: fine) {
+              &:hover > [data-component='with-interaction'] {
+                transform: translate(-50%, -50%) scale(0.95);
+              }
+            }
+
+            &:active > [data-component='with-interaction'] {
+              transform: translate(-50%, -50%) scale(1);
+            }
+
+            &:focus-visible > [data-component='with-interaction'] {
+              transform: translate(-50%, -50%) scale(0.95);
+            }
+          `
         }
-      `}
-    `}
+      `
+    }
   `;
 
 export const hoverInteractionStyle = (

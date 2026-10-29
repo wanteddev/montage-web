@@ -108,8 +108,7 @@ export const inlineInstances = <
   const sink = new Set<string>();
   const example = flattenInstances(template.example, sink);
   const metadata = template.metadata as
-    | { props?: { imports?: Array<string> } }
-    | undefined;
+    { props?: { imports?: Array<string> } } | undefined;
   const declared = metadata?.props?.imports;
   return {
     ...template,

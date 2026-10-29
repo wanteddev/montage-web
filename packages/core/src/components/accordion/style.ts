@@ -13,30 +13,32 @@ export const accordionStyle = ({
     opacity: ${disabled ? 0.2 : 1};
   }
 
-  ${!expanded &&
-  css`
-    @media (pointer: fine) {
+  ${
+    !expanded &&
+    css`
+      @media (pointer: fine) {
+        &:has(:hover),
+        &:hover {
+          :not(:has([data-disable-interaction='true'])) {
+            [data-role='accordion-divider'] {
+              opacity: 0;
+            }
+          }
+        }
+      }
+
       &:has(:hover),
-      &:hover {
+      &:has(:active),
+      &:hover,
+      &:active {
         :not(:has([data-disable-interaction='true'])) {
           [data-role='accordion-divider'] {
             opacity: 0;
           }
         }
       }
-    }
-
-    &:has(:hover),
-    &:has(:active),
-    &:hover,
-    &:active {
-      :not(:has([data-disable-interaction='true'])) {
-        [data-role='accordion-divider'] {
-          opacity: 0;
-        }
-      }
-    }
-  `}
+    `
+  }
 `;
 
 export const accordionSummaryStyle = ({
@@ -44,10 +46,12 @@ export const accordionSummaryStyle = ({
 }: {
   disabled: boolean;
 }) => css`
-  ${!disabled &&
-  css`
-    cursor: pointer;
-  `}
+  ${
+    !disabled &&
+    css`
+      cursor: pointer;
+    `
+  }
 `;
 
 export const accordionSummaryTextStyle = css`
@@ -73,21 +77,27 @@ export const accordionSummaryContentStyle =
     justify-content: center;
     z-index: 1;
 
-    ${rotate &&
-    css`
-      will-change: transform;
-      transform: rotate(0deg);
-
-      ${!disableAnimation &&
+    ${
+      rotate &&
       css`
-        transition: transform 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
-      `}
+        will-change: transform;
+        transform: rotate(0deg);
 
-      ${expanded &&
-      css`
-        transform: rotate(180deg);
-      `}
-    `}
+        ${
+          !disableAnimation &&
+          css`
+            transition: transform 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+          `
+        }
+
+        ${
+          expanded &&
+          css`
+            transform: rotate(180deg);
+          `
+        }
+      `
+    }
   `;
 
 const mountKeyframes = keyframes`
@@ -128,17 +138,19 @@ export const accordionDetailsStyle = ({
     overflow: hidden;
   }
 
-  ${!disableAnimation &&
-  shouldAnimate &&
-  css`
-    &[data-status='open'] {
-      animation: ${mountKeyframes} 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
-    }
+  ${
+    !disableAnimation &&
+    shouldAnimate &&
+    css`
+      &[data-status='open'] {
+        animation: ${mountKeyframes} 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+      }
 
-    &[data-status='close'] {
-      animation: ${unmountKeyframes} 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
-    }
-  `}
+      &[data-status='close'] {
+        animation: ${unmountKeyframes} 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+      }
+    `
+  }
 `;
 
 export const accordionDetailsWrapperStyle = css`
@@ -157,10 +169,12 @@ export const accordionDividerStyle = ({
   margin: 0 auto;
   width: calc(100% - (var(--list-cell-horizontal-padding, 0px) * 2));
 
-  ${!disableAnimation &&
-  css`
-    transition: opacity 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
-  `}
+  ${
+    !disableAnimation &&
+    css`
+      transition: opacity 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+    `
+  }
 `;
 
 export const accordionContentStyle = css`

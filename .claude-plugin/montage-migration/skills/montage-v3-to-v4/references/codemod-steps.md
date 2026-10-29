@@ -110,8 +110,8 @@ npx -y @montage-ui/codemod@<codemodVersion> <transform> <target>
   DOM-identifier selectors (`[wds-component="card"]`, `#wds-region-manager`) is otherwise
   never discovered and step ④ silently never runs on it. **Exclude build output from that
   discovery, twice** — `--exclude-dir=node_modules --exclude-dir=.next --exclude-dir=dist
-  --exclude-dir=build --exclude-dir=out --exclude-dir=coverage
-  --exclude-dir=storybook-static` on the grep itself, plus
+--exclude-dir=build --exclude-dir=out --exclude-dir=coverage
+--exclude-dir=storybook-static` on the grep itself, plus
   `| grep -vE '(^|\./|/)(node_modules|\.next|dist|build|out|coverage|storybook-static)/'` as
   the backstop. The `(^|\./|/)` leading alternation is required, not cosmetic: whether the
   discovery grep prefixes paths with `./` depends on which grep is on PATH (Claude Code

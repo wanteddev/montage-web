@@ -37,8 +37,7 @@ export type DateFormatNumericSection = {
 };
 
 export type DateFormatSection =
-  | DateFormatTextSection
-  | DateFormatNumericSection;
+  DateFormatTextSection | DateFormatNumericSection;
 
 const chunksFormat = (fmt: string) => {
   let current = null,

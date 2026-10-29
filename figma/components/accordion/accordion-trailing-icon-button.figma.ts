@@ -16,8 +16,7 @@ const iconWrapper =
 const iconImports =
   iconWrapper && iconWrapper.type !== 'ERROR' && iconWrapper.hasCodeConnect()
     ? ((iconWrapper.executeTemplate().metadata?.props?.imports as
-        | Array<string>
-        | undefined) ?? [])
+        Array<string> | undefined) ?? [])
     : [];
 const imports = [
   "import { AccordionSummaryContent, IconButton } from '@montage-ui/core';",

@@ -26,42 +26,46 @@ export const demoStyle =
     display: flex;
     flex-direction: column;
 
-    ${hideCode &&
-    css`
-      border-radius: inherit;
-    `}
+    ${
+      hideCode &&
+      css`
+        border-radius: inherit;
+      `
+    }
 
-    ${isTransparent &&
-    css`
-      background-color: ${theme.semantic.background.neutral.primary};
-      background-image:
-        linear-gradient(
-          45deg,
-          ${theme.semantic.background.neutral.secondary} 25%,
-          transparent 25%
-        ),
-        linear-gradient(
-          135deg,
-          ${theme.semantic.background.neutral.secondary} 25%,
-          transparent 25%
-        ),
-        linear-gradient(
-          45deg,
-          transparent 75%,
-          ${theme.semantic.background.neutral.secondary} 75%
-        ),
-        linear-gradient(
-          135deg,
-          transparent 75%,
-          ${theme.semantic.background.neutral.secondary} 75%
-        );
-      background-position:
-        0px 0px,
-        10px 0px,
-        10px -10px,
-        0px 10px;
-      background-size: 20px 20px;
-    `}
+    ${
+      isTransparent &&
+      css`
+        background-color: ${theme.semantic.background.neutral.primary};
+        background-image:
+          linear-gradient(
+            45deg,
+            ${theme.semantic.background.neutral.secondary} 25%,
+            transparent 25%
+          ),
+          linear-gradient(
+            135deg,
+            ${theme.semantic.background.neutral.secondary} 25%,
+            transparent 25%
+          ),
+          linear-gradient(
+            45deg,
+            transparent 75%,
+            ${theme.semantic.background.neutral.secondary} 75%
+          ),
+          linear-gradient(
+            135deg,
+            transparent 75%,
+            ${theme.semantic.background.neutral.secondary} 75%
+          );
+        background-position:
+          0px 0px,
+          10px 0px,
+          10px -10px,
+          0px 10px;
+        background-size: 20px 20px;
+      `
+    }
   `;
 
 type EditorWrapperStyleParams = {
@@ -91,43 +95,45 @@ export const editorWrapperStyle =
         inset 0 0 0 1px ${theme.semantic.surface.elevated.primary};
     }
 
-    ${hasError
-      ? css`
-          &::before {
-            box-shadow:
-              inset 0 0 0 1px
-                ${addOpacity(
-                  theme.semantic.foreground.negative.primary,
-                  theme.opacity[28],
-                )},
-              inset 0 0 0 1px ${theme.semantic.surface.elevated.primary};
-          }
-
-          &:has(.cm-focused) {
+    ${
+      hasError
+        ? css`
             &::before {
               box-shadow:
-                inset 0 0 0 2px
+                inset 0 0 0 1px
                   ${addOpacity(
                     theme.semantic.foreground.negative.primary,
-                    theme.opacity[43],
+                    theme.opacity[28],
                   )},
-                inset 0 0 0 2px ${theme.semantic.surface.elevated.primary};
+                inset 0 0 0 1px ${theme.semantic.surface.elevated.primary};
             }
-          }
-        `
-      : css`
-          &:has(.cm-focused) {
-            &::before {
-              box-shadow:
-                inset 0 0 0 2px
-                  ${addOpacity(
-                    theme.semantic.surface.brand.primary,
-                    theme.opacity[43],
-                  )},
-                inset 0 0 0 2px ${theme.semantic.surface.elevated.primary};
+
+            &:has(.cm-focused) {
+              &::before {
+                box-shadow:
+                  inset 0 0 0 2px
+                    ${addOpacity(
+                      theme.semantic.foreground.negative.primary,
+                      theme.opacity[43],
+                    )},
+                  inset 0 0 0 2px ${theme.semantic.surface.elevated.primary};
+              }
             }
-          }
-        `}
+          `
+        : css`
+            &:has(.cm-focused) {
+              &::before {
+                box-shadow:
+                  inset 0 0 0 2px
+                    ${addOpacity(
+                      theme.semantic.surface.brand.primary,
+                      theme.opacity[43],
+                    )},
+                  inset 0 0 0 2px ${theme.semantic.surface.elevated.primary};
+              }
+            }
+          `
+    }
   `;
 
 export const editorFallbackStyle = (theme: Theme) => css`

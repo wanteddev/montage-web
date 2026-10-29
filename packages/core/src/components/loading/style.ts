@@ -17,11 +17,13 @@ export const loadingStyle =
       theme,
     )(
       (params) => css`
-        ${params?.size !== undefined &&
-        css`
-          width: ${params.size};
-          height: ${params.size};
-        `}
+        ${
+          params?.size !== undefined &&
+          css`
+            width: ${params.size};
+            height: ${params.size};
+          `
+        }
         ${params?.sx}
       `,
     )}

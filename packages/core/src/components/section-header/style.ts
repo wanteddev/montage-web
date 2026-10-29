@@ -32,25 +32,27 @@ export const sectionHeaderStyle =
       theme,
     )(
       (params, breakpoint) => css`
-        ${(Boolean(params?.size) || Boolean(params?.platform)) &&
-        sectionHeaderSizeStyle(
-          {
-            size: getPreviousValue(
-              { xs, sm, md, lg, xl },
-              'size',
-              size,
-              breakpoint!,
-            ),
-            color,
-            platform: getPreviousValue(
-              { xs, sm, md, lg, xl },
-              'platform',
-              platform,
-              breakpoint!,
-            ),
-          },
-          theme,
-        )}
+        ${
+          (Boolean(params?.size) || Boolean(params?.platform)) &&
+          sectionHeaderSizeStyle(
+            {
+              size: getPreviousValue(
+                { xs, sm, md, lg, xl },
+                'size',
+                size,
+                breakpoint!,
+              ),
+              color,
+              platform: getPreviousValue(
+                { xs, sm, md, lg, xl },
+                'platform',
+                platform,
+                breakpoint!,
+              ),
+            },
+            theme,
+          )
+        }
         ${params?.sx}
       `,
     )}

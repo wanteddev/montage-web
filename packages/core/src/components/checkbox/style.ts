@@ -101,56 +101,62 @@ export const checkboxStyle =
 
     ${checkboxSizeStyle({ size, bold, tight })}
 
-    ${(checked || indeterminate) &&
-    css`
-      [data-role='checkbox-icon-wrapper'] {
-        box-shadow: inset 0 0 0 1.5px ${theme.semantic.surface.brand.primary};
-        background-color: ${theme.semantic.surface.brand.primary};
+    ${
+      (checked || indeterminate) &&
+      css`
+        [data-role='checkbox-icon-wrapper'] {
+          box-shadow: inset 0 0 0 1.5px ${theme.semantic.surface.brand.primary};
+          background-color: ${theme.semantic.surface.brand.primary};
 
-        svg {
-          opacity: 1;
-          transform: scale(1);
+          svg {
+            opacity: 1;
+            transform: scale(1);
+          }
         }
-      }
-    `}
+      `
+    }
 
-  ${disabled &&
-    css`
-      opacity: ${theme.opacity[43]};
+  ${
+      disabled &&
+      css`
+        opacity: ${theme.opacity[43]};
 
-      & ~ label,
-      & {
-        cursor: initial;
-      }
+        & ~ label,
+        & {
+          cursor: initial;
+        }
 
-      & ~ label {
-        color: ${theme.semantic.foreground.disable.primary};
-      }
-    `}
+        & ~ label {
+          color: ${theme.semantic.foreground.disable.primary};
+        }
+      `
+    }
 
       ${createResponsiveStyle(
       { xs, sm, md, lg, xl },
       theme,
     )(
       (params, breakpoint) => css`
-        ${(params?.size !== undefined || params?.bold !== undefined) &&
-        css`
-          ${checkboxSizeStyle({
-            size: getPreviousValue(
-              { xs, sm, md, lg, xl },
-              'size',
-              params.size,
-              breakpoint!,
-            ),
-            bold: getPreviousValue(
-              { xs, sm, md, lg, xl },
-              'bold',
-              params.bold,
-              breakpoint!,
-            ),
-            tight,
-          })}
-        `}
+        ${
+          (params?.size !== undefined || params?.bold !== undefined) &&
+          css`
+            ${checkboxSizeStyle({
+              size: getPreviousValue(
+                { xs, sm, md, lg, xl },
+                'size',
+                params.size,
+                breakpoint!,
+              ),
+              bold: getPreviousValue(
+                { xs, sm, md, lg, xl },
+                'bold',
+                params.bold,
+                breakpoint!,
+              ),
+              tight,
+            })}
+          `
+        }
         ${params?.sx}
       `,
     )}
@@ -169,16 +175,18 @@ const checkboxSizeStyle = ({
         font-size: 16px;
         padding: 3px;
 
-        ${tight === true &&
-        css`
-          padding-left: 1px;
-          padding-right: 1px;
-          width: 20px;
+        ${
+          tight === true &&
+          css`
+            padding-left: 1px;
+            padding-right: 1px;
+            width: 20px;
 
-          [data-component='with-interaction'] {
-            width: calc(100% + 12px);
-          }
-        `}
+            [data-component='with-interaction'] {
+              width: calc(100% + 12px);
+            }
+          `
+        }
 
         & ~ label {
           ${typographyStyle('body2', bold ? 'bold' : 'regular')}
@@ -193,16 +201,18 @@ const checkboxSizeStyle = ({
         font-size: 14px;
         padding: 2px;
 
-        ${tight === true &&
-        css`
-          padding-left: 0px;
-          padding-right: 0px;
-          width: 16px;
+        ${
+          tight === true &&
+          css`
+            padding-left: 0px;
+            padding-right: 0px;
+            width: 16px;
 
-          [data-component='with-interaction'] {
-            width: calc(100% + 12px);
-          }
-        `}
+            [data-component='with-interaction'] {
+              width: calc(100% + 12px);
+            }
+          `
+        }
 
         & ~ label {
           ${typographyStyle('label1', bold ? 'bold' : 'regular')}

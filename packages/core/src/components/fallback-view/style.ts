@@ -35,10 +35,12 @@ export const fallbackViewStyle =
       (params) => css`
         ${fallbackViewPlatformStyle({ platform: params?.platform }, theme)}
         ${fallbackViewPaddingStyle({ padding: params?.padding }, theme)}
-        ${params?.width !== undefined &&
-        css`
-          width: ${toCssValue(params.width)};
-        `}
+        ${
+          params?.width !== undefined &&
+          css`
+            width: ${toCssValue(params.width)};
+          `
+        }
         ${params?.sx}
       `,
     )}
