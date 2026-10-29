@@ -80,10 +80,12 @@ export const listCardStyle =
       theme,
     )(
       (params) => css`
-        ${params?.width !== undefined &&
-        css`
-          width: ${params.width};
-        `}
+        ${
+          params?.width !== undefined &&
+          css`
+            width: ${params.width};
+          `
+        }
         ${listCardPlatformStyle({ platform: params?.platform })}
         ${params?.sx}
       `,
@@ -174,10 +176,12 @@ export const listCardSkeletonStyle =
       theme,
     )(
       (params) => css`
-        ${params?.width !== undefined &&
-        css`
-          width: ${params.width};
-        `}
+        ${
+          params?.width !== undefined &&
+          css`
+            width: ${params.width};
+          `
+        }
         ${listCardSkeletonPlatformStyle({
           platform: params?.platform,
           hasLeadingContent,

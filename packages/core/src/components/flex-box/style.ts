@@ -39,60 +39,88 @@ const flexibleStyle = ({
   rowGap,
   columnGap,
 }: FlexBoxDefaultProps = {}) => css`
-  ${gap !== undefined &&
-  css`
-    gap: ${toCssValue(gap)};
-  `}
-  ${rowGap !== undefined &&
-  css`
-    row-gap: ${toCssValue(rowGap)};
-  `}
-    ${columnGap !== undefined &&
-  css`
-    column-gap: ${toCssValue(columnGap)};
-  `}
-  ${flexDirection !== undefined &&
-  css`
-    flex-direction: ${flexDirection};
-  `}
-  ${flexWrap !== undefined &&
-  css`
-    flex-wrap: ${flexWrap};
-  `}
-	${justifyContent !== undefined &&
-  css`
-    justify-content: ${justifyContent};
-  `}
-	${alignItems !== undefined &&
-  css`
-    align-items: ${alignItems};
-  `}
-	${alignContent !== undefined &&
-  css`
-    align-content: ${alignContent};
-  `}
-	${order !== undefined &&
-  css`
-    order: ${order};
-  `}
-	${flex !== undefined &&
-  css`
-    flex: ${flex};
-  `}
-	${flexGrow !== undefined &&
-  css`
-    flex-grow: ${flexGrow};
-  `}
-	${flexShrink !== undefined &&
-  css`
-    flex-shrink: ${flexShrink};
-  `}
-	${alignSelf !== undefined &&
-  css`
-    align-self: ${alignSelf};
-  `}
-  ${flexBasis !== undefined &&
-  css`
-    flex-basis: ${toCssValue(flexBasis)};
-  `}
+  ${
+    gap !== undefined &&
+    css`
+      gap: ${toCssValue(gap)};
+    `
+  }
+  ${
+    rowGap !== undefined &&
+    css`
+      row-gap: ${toCssValue(rowGap)};
+    `
+  }
+    ${
+    columnGap !== undefined &&
+    css`
+      column-gap: ${toCssValue(columnGap)};
+    `
+  }
+  ${
+    flexDirection !== undefined &&
+    css`
+      flex-direction: ${flexDirection};
+    `
+  }
+  ${
+    flexWrap !== undefined &&
+    css`
+      flex-wrap: ${flexWrap};
+    `
+  }
+	${
+    justifyContent !== undefined &&
+    css`
+      justify-content: ${justifyContent};
+    `
+  }
+	${
+    alignItems !== undefined &&
+    css`
+      align-items: ${alignItems};
+    `
+  }
+	${
+    alignContent !== undefined &&
+    css`
+      align-content: ${alignContent};
+    `
+  }
+	${
+    order !== undefined &&
+    css`
+      order: ${order};
+    `
+  }
+	${
+    flex !== undefined &&
+    css`
+      flex: ${flex};
+    `
+  }
+	${
+    flexGrow !== undefined &&
+    css`
+      flex-grow: ${flexGrow};
+    `
+  }
+	${
+    flexShrink !== undefined &&
+    css`
+      flex-shrink: ${flexShrink};
+    `
+  }
+	${
+    alignSelf !== undefined &&
+    css`
+      align-self: ${alignSelf};
+    `
+  }
+  ${
+    flexBasis !== undefined &&
+    css`
+      flex-basis: ${toCssValue(flexBasis)};
+    `
+  }
 `;

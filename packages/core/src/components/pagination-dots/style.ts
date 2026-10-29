@@ -48,8 +48,9 @@ export const paginationDotsWrapperStyle =
         margin-left: var(--pagination-dot-size, 10px);
 
         &::after {
-          --pagination-dot-border-color: ${theme.semantic.line.neutral
-            .secondary};
+          --pagination-dot-border-color: ${
+            theme.semantic.line.neutral.secondary
+          };
         }
 
         &:first-of-type {
@@ -156,14 +157,16 @@ export const paginationDotsStyle = (scale: number, isFirst: boolean) => css`
   padding: 0px;
   border-radius: 1000px;
 
-  ${scale === 0 &&
-  css`
-    &::after {
-      --pagination-dot-border-color: transparent;
-    }
-  `}
+  ${
+    scale === 0 &&
+    css`
+      &::after {
+        --pagination-dot-border-color: transparent;
+      }
+    `
+  }
 
-  margin-left: ${scale === 0 || isFirst
-    ? 0
-    : 'var(--pagination-dot-size, 10px)'};
+  margin-left: ${
+    scale === 0 || isFirst ? 0 : 'var(--pagination-dot-size, 10px)'
+  };
 `;

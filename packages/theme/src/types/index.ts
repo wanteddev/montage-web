@@ -9,10 +9,9 @@ type MergeWithDot<T extends string> = T extends '' ? '' : `.${T}`;
 type ObjectToNestedKeys<T> = (
   T extends object
     ? {
-        [K in Exclude<
-          keyof T,
-          symbol
-        >]: `${K}${MergeWithDot<ObjectToNestedKeys<T[K]>>}`;
+        [
+          K in Exclude<keyof T, symbol>
+        ]: `${K}${MergeWithDot<ObjectToNestedKeys<T[K]>>}`;
       }[Exclude<keyof T, symbol>]
     : ''
 ) extends infer D

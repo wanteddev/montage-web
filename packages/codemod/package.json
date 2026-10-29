@@ -5,7 +5,7 @@
   "dependencies": {
     "execa": "4.0.3",
     "inquirer": "8.2.7",
-    "jscodeshift": "17.1.1",
+    "jscodeshift": "17.4.0",
     "meow": "7.0.1"
   },
   "files": [

@@ -72,28 +72,32 @@ export const radioStyle =
 
     ${radioSizeStyle({ size, tight })}
 
-    ${checked &&
-    css`
-      span {
-        box-shadow: none;
-        background-color: ${theme.semantic.surface.brand.primary};
-        color: ${theme.semantic.static.white};
-      }
-    `}
+    ${
+      checked &&
+      css`
+        span {
+          box-shadow: none;
+          background-color: ${theme.semantic.surface.brand.primary};
+          color: ${theme.semantic.static.white};
+        }
+      `
+    }
 
-  ${disabled &&
-    css`
-      opacity: ${theme.opacity[43]};
+  ${
+      disabled &&
+      css`
+        opacity: ${theme.opacity[43]};
 
-      & ~ label,
-      & {
-        cursor: initial;
-      }
+        & ~ label,
+        & {
+          cursor: initial;
+        }
 
-      & ~ label {
-        color: ${theme.semantic.foreground.disable.primary};
-      }
-    `}
+        & ~ label {
+          color: ${theme.semantic.foreground.disable.primary};
+        }
+      `
+    }
 
       ${createResponsiveStyle(
       { xs, sm, md, lg, xl },
@@ -126,14 +130,16 @@ const radioSizeStyle = ({
           padding: 1px 0px;
         }
 
-        ${tight &&
-        css`
-          width: 20px;
+        ${
+          tight &&
+          css`
+            width: 20px;
 
-          [data-component='with-interaction'] {
-            width: calc(100% + 12px);
-          }
-        `}
+            [data-component='with-interaction'] {
+              width: calc(100% + 12px);
+            }
+          `
+        }
       `;
 
     case 'small':
@@ -151,14 +157,16 @@ const radioSizeStyle = ({
           padding: 0px;
         }
 
-        ${tight &&
-        css`
-          width: 16px;
+        ${
+          tight &&
+          css`
+            width: 16px;
 
-          [data-component='with-interaction'] {
-            width: calc(100% + 12px);
-          }
-        `}
+            [data-component='with-interaction'] {
+              width: calc(100% + 12px);
+            }
+          `
+        }
       `;
   }
 };

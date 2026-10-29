@@ -58,12 +58,14 @@ export const framedStyle = (params?: FramedStyleParams) => (theme: Theme) => {
       transition: box-shadow ease 0.2s;
     }
 
-    ${disabled &&
-    css`
-      &::before {
-        opacity: ${theme.opacity[43]};
-      }
-    `}
+    ${
+      disabled &&
+      css`
+        &::before {
+          opacity: ${theme.opacity[43]};
+        }
+      `
+    }
   `;
 };
 

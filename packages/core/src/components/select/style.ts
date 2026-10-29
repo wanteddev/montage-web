@@ -63,44 +63,50 @@ export const selectStyle =
       color: ${theme.semantic.foreground.neutral.primary};
     }
 
-    ${status === 'negative' &&
-    css`
-      box-shadow: inset 0 0 0 1px ${theme.semantic.line.negative.primary};
-    `}
+    ${
+      status === 'negative' &&
+      css`
+        box-shadow: inset 0 0 0 1px ${theme.semantic.line.negative.primary};
+      `
+    }
 
-    ${disabled
-      ? css`
-          background-color: ${theme.semantic.surface.neutral.tertiary};
-          backdrop-filter: none;
-          box-shadow: inset 0 0 0 1px ${theme.semantic.line.neutral.tertiary};
-          cursor: default;
+    ${
+      disabled
+        ? css`
+            background-color: ${theme.semantic.surface.neutral.tertiary};
+            backdrop-filter: none;
+            box-shadow: inset 0 0 0 1px ${theme.semantic.line.neutral.tertiary};
+            cursor: default;
 
-          [data-role='select-placeholder'],
-          [data-role='select-multiple-placeholder'] {
-            color: ${theme.semantic.foreground.disable.primary};
-          }
+            [data-role='select-placeholder'],
+            [data-role='select-multiple-placeholder'] {
+              color: ${theme.semantic.foreground.disable.primary};
+            }
 
-          [data-role='select-values'],
-          [data-role='select-multiple-values'] {
-            color: ${theme.semantic.foreground.neutral.primary};
-          }
-        `
-      : css`
-          &:focus,
-          &[aria-expanded='true'] {
-            ${status === 'negative'
-              ? css`
-                  box-shadow:
-                    inset 0 0 0 1px ${theme.semantic.line.negative.strong},
-                    0 0 0 4px ${theme.semantic.line.negative.focus};
-                `
-              : css`
-                  box-shadow:
-                    inset 0 0 0 1px ${theme.semantic.line.brand.strong},
-                    0 0 0 4px ${theme.semantic.line.brand.focus};
-                `}
-          }
-        `}
+            [data-role='select-values'],
+            [data-role='select-multiple-values'] {
+              color: ${theme.semantic.foreground.neutral.primary};
+            }
+          `
+        : css`
+            &:focus,
+            &[aria-expanded='true'] {
+              ${
+                status === 'negative'
+                  ? css`
+                      box-shadow:
+                        inset 0 0 0 1px ${theme.semantic.line.negative.strong},
+                        0 0 0 4px ${theme.semantic.line.negative.focus};
+                    `
+                  : css`
+                      box-shadow:
+                        inset 0 0 0 1px ${theme.semantic.line.brand.strong},
+                        0 0 0 4px ${theme.semantic.line.brand.focus};
+                    `
+              }
+            }
+          `
+    }
 
 
     ${createResponsiveStyle(
@@ -108,15 +114,19 @@ export const selectStyle =
       theme,
     )(
       (params) => css`
-        ${params?.width !== undefined &&
-        css`
-          width: ${toCssValue(params.width)};
-        `}
+        ${
+          params?.width !== undefined &&
+          css`
+            width: ${toCssValue(params.width)};
+          `
+        }
 
-        ${params?.height !== undefined &&
-        css`
-          height: ${toCssValue(params.height)};
-        `}
+        ${
+          params?.height !== undefined &&
+          css`
+            height: ${toCssValue(params.height)};
+          `
+        }
 
         ${selectSizeStyle({ size: params?.size }, theme)}
         ${params?.sx}
@@ -208,13 +218,15 @@ export const selectContentStyle = css`
 export const selectIconStyle =
   ({ disabled }: SelectMultipleProps) =>
   (theme: Theme) => css`
-    ${disabled
-      ? css`
-          color: ${theme.semantic.foreground.disable.primary};
-        `
-      : css`
-          color: ${theme.semantic.foreground.neutral.tertiary};
-        `}
+    ${
+      disabled
+        ? css`
+            color: ${theme.semantic.foreground.disable.primary};
+          `
+        : css`
+            color: ${theme.semantic.foreground.neutral.tertiary};
+          `
+    }
   `;
 
 export const selectTextStyle = css`
@@ -227,19 +239,21 @@ export const selectTextStyle = css`
 export const selectRenderChipStyle =
   ({ status }: SelectRenderChipProps) =>
   (theme: Theme) => css`
-    ${status === 'negative' &&
-    css`
-      box-shadow: inset 0 0 0 1px ${theme.semantic.line.negative.primary};
-      color: ${theme.semantic.foreground.negative.primary};
-
-      svg {
+    ${
+      status === 'negative' &&
+      css`
+        box-shadow: inset 0 0 0 1px ${theme.semantic.line.negative.primary};
         color: ${theme.semantic.foreground.negative.primary};
-      }
 
-      & > [data-component='with-interaction'] {
-        background-color: ${theme.semantic.foreground.negative.primary};
-      }
-    `}
+        svg {
+          color: ${theme.semantic.foreground.negative.primary};
+        }
+
+        & > [data-component='with-interaction'] {
+          background-color: ${theme.semantic.foreground.negative.primary};
+        }
+      `
+    }
 
     &:disabled,
     &[aria-disabled='true'] {

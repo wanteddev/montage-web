@@ -37,13 +37,15 @@ export const avatarWrapperStyle =
       font-size: inherit;
       text-align: center;
 
-      ${variant === 'person'
-        ? css`
-            object-fit: cover;
-          `
-        : css`
-            object-fit: contain;
-          `}
+      ${
+        variant === 'person'
+          ? css`
+              object-fit: cover;
+            `
+          : css`
+              object-fit: contain;
+            `
+      }
     }
 
     ${createResponsiveStyle(
@@ -112,21 +114,25 @@ const avatarSizeStyle = ({ size, variant }: AvatarProps, theme: Theme) => {
       case 'academy':
       case 'company':
         return css`
-          border-radius: ${typeof rounded === 'number'
-            ? `${rounded}px`
-            : rounded};
+          border-radius: ${
+            typeof rounded === 'number' ? `${rounded}px` : rounded
+          };
 
           &::before {
-            border-radius: ${typeof rounded === 'number'
-              ? `${rounded + 8}px`
-              : `calc(${rounded} + 8px)`};
+            border-radius: ${
+              typeof rounded === 'number'
+                ? `${rounded + 8}px`
+                : `calc(${rounded} + 8px)`
+            };
           }
 
           & > [data-component='with-interaction'],
           & + [data-component='with-interaction'] {
-            border-radius: ${typeof rounded === 'number'
-              ? `${rounded + 8}px`
-              : `calc(${rounded} + 8px)`};
+            border-radius: ${
+              typeof rounded === 'number'
+                ? `${rounded + 8}px`
+                : `calc(${rounded} + 8px)`
+            };
           }
 
           & > [data-component='push-badge'],

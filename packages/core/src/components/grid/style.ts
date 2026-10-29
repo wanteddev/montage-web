@@ -35,14 +35,18 @@ const gridContainerStyle = (
   }: GridProps = {},
   theme: Theme,
 ) => css`
-  ${Boolean(alignItems) &&
-  css`
-    align-items: ${alignItems};
-  `}
-  ${Boolean(justifyContent) &&
-  css`
-    justify-content: ${justifyContent};
-  `}
+  ${
+    Boolean(alignItems) &&
+    css`
+      align-items: ${alignItems};
+    `
+  }
+  ${
+    Boolean(justifyContent) &&
+    css`
+      justify-content: ${justifyContent};
+    `
+  }
 
   ${gridSpacingStyle(rowSpacing || spacing, 'row', theme)}
   ${gridSpacingStyle(columnSpacing || spacing, 'column', theme)}

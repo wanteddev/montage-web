@@ -58,35 +58,39 @@ export const switchStyle =
       }
     }
 
-    ${checked &&
-    css`
-      background-color: ${theme.semantic.surface.brand.primary};
+    ${
+      checked &&
+      css`
+        background-color: ${theme.semantic.surface.brand.primary};
 
-      span {
-        margin-left: calc(
-          var(--switch-width, 52px) - var(--switch-thumb-size, 24px) -
-            (var(--switch-padding, 4px) * 2)
-        );
-      }
-
-      &:hover:active {
         span {
-          width: calc(
-            var(--switch-thumb-size, 24px) + var(--switch-padding, 4px)
-          );
           margin-left: calc(
             var(--switch-width, 52px) - var(--switch-thumb-size, 24px) -
-              (var(--switch-padding, 4px) * 3)
+              (var(--switch-padding, 4px) * 2)
           );
         }
-      }
-    `}
 
-    ${disabled &&
-    css`
-      opacity: ${theme.opacity[43]};
-      cursor: initial;
-    `}
+        &:hover:active {
+          span {
+            width: calc(
+              var(--switch-thumb-size, 24px) + var(--switch-padding, 4px)
+            );
+            margin-left: calc(
+              var(--switch-width, 52px) - var(--switch-thumb-size, 24px) -
+                (var(--switch-padding, 4px) * 3)
+            );
+          }
+        }
+      `
+    }
+
+    ${
+      disabled &&
+      css`
+        opacity: ${theme.opacity[43]};
+        cursor: initial;
+      `
+    }
 
       ${createResponsiveStyle(
       { xs, sm, md, lg, xl },

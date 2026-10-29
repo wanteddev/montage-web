@@ -27,16 +27,19 @@ export const customSelectMultipleRenderWrapperStyle = ({
           -ms-overflow-style: none;
           scrollbar-width: none;
 
-          ${(isScrollableLeft || isScrollableRight) &&
-          css`
-            mask-composite: intersect;
-            mask-image: ${[
-              isScrollableRight &&
-                getGradientMaskImage('right', '40px', 'mask'),
-              isScrollableLeft && getGradientMaskImage('left', '40px', 'mask'),
-            ]
-              .filter(Boolean)
-              .join(', ')};
-          `}
+          ${
+            (isScrollableLeft || isScrollableRight) &&
+            css`
+              mask-composite: intersect;
+              mask-image: ${[
+                isScrollableRight &&
+                  getGradientMaskImage('right', '40px', 'mask'),
+                isScrollableLeft &&
+                  getGradientMaskImage('left', '40px', 'mask'),
+              ]
+                .filter(Boolean)
+                .join(', ')};
+            `
+          }
         }
       `;

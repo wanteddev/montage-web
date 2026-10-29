@@ -53,15 +53,17 @@ export const wrapperStyle =
       width: 100%;
     }
 
-    ${!disableAnimation &&
-    css`
-      &[data-status='open'] {
-        animation: ${mountKeyframes} 0.2s ease;
-      }
-      &[data-status='close'] {
-        animation: ${unmountKeyframes} 0.2s ease;
-      }
-    `}
+    ${
+      !disableAnimation &&
+      css`
+        &[data-status='open'] {
+          animation: ${mountKeyframes} 0.2s ease;
+        }
+        &[data-status='close'] {
+          animation: ${unmountKeyframes} 0.2s ease;
+        }
+      `
+    }
   `;
 
 export const snackbarStyle = css`

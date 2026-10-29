@@ -319,8 +319,7 @@ export const mergeResponsiveProps = <T extends object, K extends keyof T>(
 export const resolveInheritedResponsive = <T extends object, K extends keyof T>(
   own: { base: T[K] | undefined; responsive: ResponsiveProps<T> },
   inherited:
-    | { base?: T[K]; responsive?: ResponsiveProps<Pick<T, K>> }
-    | undefined,
+    { base?: T[K]; responsive?: ResponsiveProps<Pick<T, K>> } | undefined,
   key: K,
 ): { base: T[K] | undefined; responsive: ResponsiveProps<T> } => {
   if (own.base !== undefined || !inherited) return own;

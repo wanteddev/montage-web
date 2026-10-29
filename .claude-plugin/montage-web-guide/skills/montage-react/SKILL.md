@@ -156,9 +156,11 @@ Use mobile-first sizing, then override with `sm`, `md`, `lg`, `xl`. Typically on
 ```tsx
 // style.ts
 export const buttonStyle = (isActive: boolean) => (theme: Theme) => css`
-  color: ${isActive
-    ? theme.semantic.foreground.brand.primary
-    : theme.semantic.foreground.neutral.tertiary};
+  color: ${
+    isActive
+      ? theme.semantic.foreground.brand.primary
+      : theme.semantic.foreground.neutral.tertiary
+  };
 `;
 
 // index.tsx

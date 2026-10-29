@@ -131,10 +131,12 @@ export const cardStyle =
       theme,
     )(
       (params) => css`
-        ${params?.width !== undefined &&
-        css`
-          width: ${toCssValue(params.width)};
-        `}
+        ${
+          params?.width !== undefined &&
+          css`
+            width: ${toCssValue(params.width)};
+          `
+        }
         ${cardPlatformStyle({ platform: params?.platform })}
         ${params?.sx}
       `,
@@ -289,10 +291,12 @@ export const cardTypographyStyle =
     return css`
       ${getTypographyStyle(props)}
 
-      ${Boolean(props.color) &&
-      css`
-        color: ${getColorByToken(theme, props.color!)};
-      `}
+      ${
+        Boolean(props.color) &&
+        css`
+          color: ${getColorByToken(theme, props.color!)};
+        `
+      }
 
     ${createResponsiveStyle(
         { xs, sm, md, lg, xl },
@@ -408,10 +412,12 @@ export const cardSkeletonStyle =
       theme,
     )(
       (params) => css`
-        ${params?.width !== undefined &&
-        css`
-          width: ${params.width};
-        `}
+        ${
+          params?.width !== undefined &&
+          css`
+            width: ${params.width};
+          `
+        }
         ${cardSkeletonPlatformStyle({ platform: params?.platform })}
         ${params?.sx}
       `,
@@ -429,28 +435,36 @@ const cardSkeletonWidthStyle =
   ({ width, height, xs, sm, md, lg, xl }: CardTitleSkeletonProps) =>
   (theme: Theme) => {
     return css`
-      ${width !== undefined &&
-      css`
-        width: ${toCssValue(width)};
-      `}
-      ${height !== undefined &&
-      css`
-        height: ${toCssValue(height)};
-      `}
+      ${
+        width !== undefined &&
+        css`
+          width: ${toCssValue(width)};
+        `
+      }
+      ${
+        height !== undefined &&
+        css`
+          height: ${toCssValue(height)};
+        `
+      }
 
     ${createResponsiveStyle(
         { xs, sm, md, lg, xl },
         theme,
       )(
         (params) => css`
-          ${params?.width !== undefined &&
-          css`
-            width: ${toCssValue(params.width)};
-          `}
-          ${params?.height !== undefined &&
-          css`
-            height: ${toCssValue(params.height)};
-          `}
+          ${
+            params?.width !== undefined &&
+            css`
+              width: ${toCssValue(params.width)};
+            `
+          }
+          ${
+            params?.height !== undefined &&
+            css`
+              height: ${toCssValue(params.height)};
+            `
+          }
         `,
       )}
     `;

@@ -7,13 +7,13 @@
     "test": "pnpm run build && size-limit"
   },
   "devDependencies": {
-    "@vitejs/plugin-react-swc": "^4.3.0",
     "@montage-ui/core": "workspace:*",
     "@montage-ui/icon": "workspace:*",
+    "@vitejs/plugin-react-swc": "^4.3.3",
     "rolldown-vite": "^7.3.1"
   },
   "dependencies": {
-    "react": "^19.2.4",
-    "react-dom": "^19.2.4"
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
   }
 }

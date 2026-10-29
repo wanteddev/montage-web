@@ -48,31 +48,33 @@ export const searchFieldWrapperStyle =
       height: 100%;
     }
 
-    ${disabled
-      ? css`
-          cursor: default;
+    ${
+      disabled
+        ? css`
+            cursor: default;
 
-          [data-role='search-field-icon'] {
-            color: ${theme.semantic.foreground.disable.primary};
-          }
-
-          [data-role='search-field-reset'] {
-            display: none;
-          }
-        `
-      : css`
-          &:where(:has(input:focus)) {
-            [data-role='search-field-reset'] {
-              display: flex;
+            [data-role='search-field-icon'] {
+              color: ${theme.semantic.foreground.disable.primary};
             }
 
-            &:where(:has(input:placeholder-shown)) {
+            [data-role='search-field-reset'] {
+              display: none;
+            }
+          `
+        : css`
+            &:where(:has(input:focus)) {
               [data-role='search-field-reset'] {
-                display: none;
+                display: flex;
+              }
+
+              &:where(:has(input:placeholder-shown)) {
+                [data-role='search-field-reset'] {
+                  display: none;
+                }
               }
             }
-          }
-        `}
+          `
+    }
 
     input {
       caret-color: ${theme.semantic.foreground.brand.primary};
@@ -115,10 +117,12 @@ export const searchFieldWrapperStyle =
       theme,
     )(
       (params) => css`
-        ${params?.width !== undefined &&
-        css`
-          width: ${toCssValue(params.width)};
-        `}
+        ${
+          params?.width !== undefined &&
+          css`
+            width: ${toCssValue(params.width)};
+          `
+        }
 
         ${searchFieldWrapperSizeStyle({ size: params?.size }, theme)}
 
@@ -182,12 +186,14 @@ const searchFieldWrapperVariantStyle = (
         backdrop-filter: blur(32px);
         box-shadow: 0 0 0 1px inset ${theme.semantic.line.neutral.secondary};
 
-        ${disabled &&
-        css`
-          background-color: ${theme.semantic.surface.neutral.tertiary};
-          backdrop-filter: none;
-          box-shadow: 0 0 0 1px inset ${theme.semantic.line.neutral.tertiary};
-        `}
+        ${
+          disabled &&
+          css`
+            background-color: ${theme.semantic.surface.neutral.tertiary};
+            backdrop-filter: none;
+            box-shadow: 0 0 0 1px inset ${theme.semantic.line.neutral.tertiary};
+          `
+        }
       `;
     default:
     case 'solid':
@@ -196,12 +202,14 @@ const searchFieldWrapperVariantStyle = (
         backdrop-filter: blur(32px);
         box-shadow: none;
 
-        ${disabled &&
-        css`
-          background-color: ${theme.semantic.surface.neutral.secondary};
-          backdrop-filter: blur(32px);
-          box-shadow: none;
-        `}
+        ${
+          disabled &&
+          css`
+            background-color: ${theme.semantic.surface.neutral.secondary};
+            backdrop-filter: blur(32px);
+            box-shadow: none;
+          `
+        }
       `;
   }
 };

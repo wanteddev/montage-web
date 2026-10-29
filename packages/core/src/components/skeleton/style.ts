@@ -38,10 +38,12 @@ export const skeletonStyle =
       flex-shrink: 0;
       width: 100%;
 
-      ${animation &&
-      css`
-        animation: ${pulse} 2s ease-in-out infinite;
-      `}
+      ${
+        animation &&
+        css`
+          animation: ${pulse} 2s ease-in-out infinite;
+        `
+      }
 
       & > span {
         border-radius: inherit;
@@ -80,23 +82,29 @@ const skeletonSizeStyle = ({
         height: ${toCssValue(height) ?? '22px'};
 
         > span {
-          ${width !== undefined &&
-          css`
-            width: ${toCssValue(width)};
-          `}
+          ${
+            width !== undefined &&
+            css`
+              width: ${toCssValue(width)};
+            `
+          }
         }
       `;
     case 'rectangle':
     case 'circle':
       return css`
-        ${width !== undefined &&
-        css`
-          width: ${toCssValue(width)};
-        `}
-        ${height !== undefined &&
-        css`
-          height: ${toCssValue(height)};
-        `}
+        ${
+          width !== undefined &&
+          css`
+            width: ${toCssValue(width)};
+          `
+        }
+        ${
+          height !== undefined &&
+          css`
+            height: ${toCssValue(height)};
+          `
+        }
       `;
   }
 };
@@ -118,16 +126,19 @@ const skeletonVariantStyle = (
         display: inline-flex;
         padding: 2px 0px;
         border-radius: 3px;
-        justify-content: ${{
-          left: 'flex-start',
-          center: 'center',
-          right: 'flex-end',
-        }[alignProp ?? 'left']};
+        justify-content: ${
+          {
+            left: 'flex-start',
+            center: 'center',
+            right: 'flex-end',
+          }[alignProp ?? 'left']
+        };
 
         & > span {
           display: inline-block;
-          background-color: ${color ??
-          theme.semantic.surface.neutral.secondary};
+          background-color: ${
+            color ?? theme.semantic.surface.neutral.secondary
+          };
         }
       `;
     case 'rectangle':
@@ -143,8 +154,9 @@ const skeletonVariantStyle = (
         border-radius: 50%;
 
         & > span {
-          background-color: ${color ??
-          theme.semantic.surface.neutral.secondary};
+          background-color: ${
+            color ?? theme.semantic.surface.neutral.secondary
+          };
         }
       `;
   }

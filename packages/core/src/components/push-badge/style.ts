@@ -46,24 +46,30 @@ export const pushBadgeWrapperStyle =
       theme,
     )(
       (params) => css`
-        ${params?.size &&
-        css`
-          & > [data-component='push-badge'] {
-            ${pushBadgeSizeStyle(
-              { variant, size: params.size, shouldFixedWidth },
-              theme,
-            )}
-          }
-        `}
+        ${
+          params?.size &&
+          css`
+            & > [data-component='push-badge'] {
+              ${pushBadgeSizeStyle(
+                { variant, size: params.size, shouldFixedWidth },
+                theme,
+              )}
+            }
+          `
+        }
 
-        ${params?.offsetX !== undefined &&
-        css`
-          --push-badge-offset-x: ${params.offsetX};
-        `}
-          ${params?.offsetY !== undefined &&
-        css`
-          --push-badge-offset-y: ${params.offsetY};
-        `}
+        ${
+          params?.offsetX !== undefined &&
+          css`
+            --push-badge-offset-x: ${params.offsetX};
+          `
+        }
+          ${
+          params?.offsetY !== undefined &&
+          css`
+            --push-badge-offset-y: ${params.offsetY};
+          `
+        }
         ${params?.sx}
       `,
     )}
@@ -84,10 +90,12 @@ const pushBadgeSizeStyle = (
             padding: 1px ${theme.spacing[4]};
             ${typographyStyle('caption2', 'bold')}
 
-            ${shouldFixedWidth &&
-            css`
-              letter-spacing: -0.003em;
-            `}
+            ${
+              shouldFixedWidth &&
+              css`
+                letter-spacing: -0.003em;
+              `
+            }
 
             --push-badge-outline-border-width: 1px;
           `;
@@ -98,10 +106,12 @@ const pushBadgeSizeStyle = (
             padding: 3px ${theme.spacing[6]};
             ${typographyStyle('caption2', 'bold')}
 
-            ${shouldFixedWidth &&
-            css`
-              letter-spacing: -0.003em;
-            `}
+            ${
+              shouldFixedWidth &&
+              css`
+                letter-spacing: -0.003em;
+              `
+            }
 
             --push-badge-outline-border-width: 1.5px;
           `;
@@ -112,10 +122,12 @@ const pushBadgeSizeStyle = (
             padding: ${theme.spacing[2]} 7px;
             ${typographyStyle('label1', 'bold')}
 
-            ${shouldFixedWidth &&
-            css`
-              letter-spacing: -0.003em;
-            `}
+            ${
+              shouldFixedWidth &&
+              css`
+                letter-spacing: -0.003em;
+              `
+            }
 
             --push-badge-outline-border-width: 2px;
           `;
@@ -167,15 +179,17 @@ export const pushBadgeStyle =
     transition: transform 0.2s ease;
     transform-origin: 0% 0%;
 
-    ${outlineBorder &&
-    css`
-      outline: var(--push-badge-outline-border-width) solid
-        ${getColorByToken(
-          theme,
-          outlineBorderColor ?? 'semantic.background.neutral.primary',
-        )};
-      outline-offset: 0px;
-    `}
+    ${
+      outlineBorder &&
+      css`
+        outline: var(--push-badge-outline-border-width) solid
+          ${getColorByToken(
+            theme,
+            outlineBorderColor ?? 'semantic.background.neutral.primary',
+          )};
+        outline-offset: 0px;
+      `
+    }
 
     ${pushBadgePositionStyle({ invisible, position })}
     ${pushBadgeVariantStyle({ variant }, theme)}

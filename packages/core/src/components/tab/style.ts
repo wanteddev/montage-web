@@ -67,41 +67,43 @@ export const tabListStyle =
       theme,
     )(
       (params, breakpoint) => css`
-        ${(Boolean(params?.resize) ||
-          Boolean(params?.size) ||
-          params?.horizontalPadding !== undefined) &&
-        css`
-          ${tabPaddingStyle({
-            horizontalPadding: getPreviousValue(
-              { xs, sm, md, lg, xl },
-              'horizontalPadding',
-              horizontalPadding,
-              breakpoint!,
-            ),
-            resize: getPreviousValue(
-              { xs, sm, md, lg, xl },
-              'resize',
-              resize,
-              breakpoint!,
-            )!,
-            isScrollableLeft,
-            isScrollableRight,
-          })}
-          ${tabSizeStyle({
-            size: getPreviousValue(
-              { xs, sm, md, lg, xl },
-              'size',
-              size,
-              breakpoint!,
-            ),
-            resize: getPreviousValue(
-              { xs, sm, md, lg, xl },
-              'resize',
-              resize,
-              breakpoint!,
-            ),
-          })}
-        `}
+        ${
+          (Boolean(params?.resize) ||
+            Boolean(params?.size) ||
+            params?.horizontalPadding !== undefined) &&
+          css`
+            ${tabPaddingStyle({
+              horizontalPadding: getPreviousValue(
+                { xs, sm, md, lg, xl },
+                'horizontalPadding',
+                horizontalPadding,
+                breakpoint!,
+              ),
+              resize: getPreviousValue(
+                { xs, sm, md, lg, xl },
+                'resize',
+                resize,
+                breakpoint!,
+              )!,
+              isScrollableLeft,
+              isScrollableRight,
+            })}
+            ${tabSizeStyle({
+              size: getPreviousValue(
+                { xs, sm, md, lg, xl },
+                'size',
+                size,
+                breakpoint!,
+              ),
+              resize: getPreviousValue(
+                { xs, sm, md, lg, xl },
+                'resize',
+                resize,
+                breakpoint!,
+              ),
+            })}
+          `
+        }
         ${params?.sx}
       `,
     )}
@@ -157,26 +159,28 @@ const tabPaddingStyle = ({
           padding: 0px 0px 0px var(--tab-list-padding, 20px);
         }
 
-        ${isScrollableRight
-          ? css`
-              &:not(:has([data-role='tab-list-icon-button']))
-                [data-radix-scroll-area-wrapper] {
-                mask-image: none;
-              }
+        ${
+          isScrollableRight
+            ? css`
+                &:not(:has([data-role='tab-list-icon-button']))
+                  [data-radix-scroll-area-wrapper] {
+                  mask-image: none;
+                }
 
-              &:has([data-role='tab-list-icon-button'])
-                [data-radix-scroll-area-wrapper] {
-                mask-image: ${getGradientMaskImage('right', '48px', 'mask')};
-              }
-            `
-          : css`
-              &:not(:has([data-role='tab-list-icon-button']))
-                [data-radix-scroll-area-wrapper],
-              &:has([data-role='tab-list-icon-button'])
-                [data-radix-scroll-area-wrapper] {
-                mask-image: none;
-              }
-            `}
+                &:has([data-role='tab-list-icon-button'])
+                  [data-radix-scroll-area-wrapper] {
+                  mask-image: ${getGradientMaskImage('right', '48px', 'mask')};
+                }
+              `
+            : css`
+                &:not(:has([data-role='tab-list-icon-button']))
+                  [data-radix-scroll-area-wrapper],
+                &:has([data-role='tab-list-icon-button'])
+                  [data-radix-scroll-area-wrapper] {
+                  mask-image: none;
+                }
+              `
+        }
 
         --tab-list-item-flex: initial;
         --tab-list-item-overflow: initial;
@@ -198,31 +202,33 @@ const tabPaddingStyle = ({
           padding: 0px;
         }
 
-        ${isScrollableLeft || isScrollableRight
-          ? css`
-              &:has([data-role='tab-list-icon-button'])
-                [data-radix-scroll-area-wrapper],
-              &:not(:has([data-role='tab-list-icon-button']))
-                [data-radix-scroll-area-wrapper] {
-                mask-composite: intersect;
-                mask-image: ${[
-                  isScrollableLeft &&
-                    getGradientMaskImage('left', '48px', 'mask'),
-                  isScrollableRight &&
-                    getGradientMaskImage('right', '48px', 'mask'),
-                ]
-                  .filter(Boolean)
-                  .join(', ')};
-              }
-            `
-          : css`
-              &:not(:has([data-role='tab-list-icon-button']))
-                [data-radix-scroll-area-wrapper],
-              &:has([data-role='tab-list-icon-button'])
-                [data-radix-scroll-area-wrapper] {
-                mask-image: none;
-              }
-            `}
+        ${
+          isScrollableLeft || isScrollableRight
+            ? css`
+                &:has([data-role='tab-list-icon-button'])
+                  [data-radix-scroll-area-wrapper],
+                &:not(:has([data-role='tab-list-icon-button']))
+                  [data-radix-scroll-area-wrapper] {
+                  mask-composite: intersect;
+                  mask-image: ${[
+                    isScrollableLeft &&
+                      getGradientMaskImage('left', '48px', 'mask'),
+                    isScrollableRight &&
+                      getGradientMaskImage('right', '48px', 'mask'),
+                  ]
+                    .filter(Boolean)
+                    .join(', ')};
+                }
+              `
+            : css`
+                &:not(:has([data-role='tab-list-icon-button']))
+                  [data-radix-scroll-area-wrapper],
+                &:has([data-role='tab-list-icon-button'])
+                  [data-radix-scroll-area-wrapper] {
+                  mask-image: none;
+                }
+              `
+        }
 
         --tab-list-item-flex: initial;
         --tab-list-item-overflow: initial;
@@ -344,45 +350,47 @@ export const tabListItemStyle =
       outline: none;
     }
 
-    ${disabled
-      ? css`
-          cursor: initial;
-          [data-role='tab-list-item-text'] {
-            color: ${theme.semantic.foreground.disable.primary};
-          }
-
-          &[data-ssr-motion='true'] {
-            [data-role='tab-list-item-divider'] {
-              max-height: 2px;
-              background-color: var(--tab-list-disabled-divider-color);
-            }
-          }
-        `
-      : css`
-          &[aria-selected='false']:hover [data-role='tab-list-item-text'] {
-            color: ${theme.semantic.foreground.neutral.tertiary};
-          }
-
-          &[aria-selected='false'] [data-role='tab-list-item-text'] {
-            color: ${theme.semantic.foreground.neutral.quaternary};
-            &:hover {
-              color: ${theme.semantic.foreground.neutral.tertiary};
-            }
-          }
-
-          &[aria-selected='true'] {
+    ${
+      disabled
+        ? css`
+            cursor: initial;
             [data-role='tab-list-item-text'] {
-              color: ${theme.semantic.foreground.neutral.strong};
+              color: ${theme.semantic.foreground.disable.primary};
             }
 
             &[data-ssr-motion='true'] {
               [data-role='tab-list-item-divider'] {
                 max-height: 2px;
-                background-color: var(--tab-list-active-divider-color);
+                background-color: var(--tab-list-disabled-divider-color);
               }
             }
-          }
-        `}
+          `
+        : css`
+            &[aria-selected='false']:hover [data-role='tab-list-item-text'] {
+              color: ${theme.semantic.foreground.neutral.tertiary};
+            }
+
+            &[aria-selected='false'] [data-role='tab-list-item-text'] {
+              color: ${theme.semantic.foreground.neutral.quaternary};
+              &:hover {
+                color: ${theme.semantic.foreground.neutral.tertiary};
+              }
+            }
+
+            &[aria-selected='true'] {
+              [data-role='tab-list-item-text'] {
+                color: ${theme.semantic.foreground.neutral.strong};
+              }
+
+              &[data-ssr-motion='true'] {
+                [data-role='tab-list-item-divider'] {
+                  max-height: 2px;
+                  background-color: var(--tab-list-active-divider-color);
+                }
+              }
+            }
+          `
+    }
 
     &:focus-visible {
       outline-offset: -1px;

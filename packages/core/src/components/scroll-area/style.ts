@@ -33,20 +33,22 @@ export const scrollBarStyle =
       height: 100%;
     }
 
-    ${orientation === 'vertical'
-      ? css`
-          height: 100%;
-          border-left-width: 1px;
-          border-left-color: transparent;
-          padding: 3px;
-        `
-      : css`
-          width: 100%;
-          flex-direction: column;
-          border-top-width: 1px;
-          border-top-color: transparent;
-          padding: 3px;
-        `}
+    ${
+      orientation === 'vertical'
+        ? css`
+            height: 100%;
+            border-left-width: 1px;
+            border-left-color: transparent;
+            padding: 3px;
+          `
+        : css`
+            width: 100%;
+            flex-direction: column;
+            border-top-width: 1px;
+            border-top-color: transparent;
+            padding: 3px;
+          `
+    }
 
     &[data-state='hidden'] {
       opacity: 0;

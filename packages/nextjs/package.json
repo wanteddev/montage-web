@@ -40,9 +40,9 @@
     "directory": "packages/nextjs"
   },
   "devDependencies": {
-    "@types/react": "^19.2.14",
-    "next": "^16.3.6",
-    "react": "^19.2.4",
+    "@types/react": "^19.3.0",
+    "next": "^16.4.3",
+    "react": "^19.3.1",
     "typescript": "^6.0.3"
   },
   "dependencies": {

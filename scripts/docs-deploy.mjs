@@ -1,25 +1,22 @@
+import { spawnSync } from 'node:child_process';
+import { existsSync, readFileSync } from 'node:fs';
+import { homedir } from 'node:os';
+import { join } from 'node:path';
+
 import inquirer from 'inquirer';
-import shelljs from 'shelljs';
 
 const SERVER_TYPES = ['dev', 'www'];
 
+const run = (command) =>
+  spawnSync(command, { shell: true, encoding: 'utf-8' }).stdout.trim();
+
 const main = async () => {
-  const branchName = shelljs
-    .exec('git symbolic-ref --short -q HEAD', {
-      silent: true,
-    })
-    .stdout.trim();
+  const branchName = run('git symbolic-ref --short -q HEAD');
 
   const [localHash, remoteHash] = [
     'git rev-parse HEAD | cut -c1-8',
     `git rev-parse origin/${branchName} | cut -c1-8`,
-  ].map((command) =>
-    shelljs
-      .exec(command, {
-        silent: true,
-      })
-      .stdout.trim(),
-  );
+  ].map(run);
 
   if (localHash !== remoteHash) {
     console.error('최신 코드 상태로 실행해주세요.');
@@ -59,7 +56,10 @@ const main = async () => {
     algolia = algoliaCrawler;
   }
 
-  const rawToken = shelljs.exec('cat ~/.npmrc', { silent: true }).stdout;
+  const npmrcPath = join(homedir(), '.npmrc');
+  const rawToken = existsSync(npmrcPath)
+    ? readFileSync(npmrcPath, 'utf-8')
+    : '';
   const match = new RegExp(
     /\/\/npm.pkg.github.com\/:_authToken=(?<token>.*)/,
   ).exec(rawToken);
@@ -74,26 +74,32 @@ const main = async () => {
     return;
   }
 
-  const command = `curl \
-    -X POST \
-    -H "Accept: application/vnd.github.v3+json" \
-    -H "Authorization: token ${token}" \
-    https://api.github.com/repos/wanteddev/montage-web/actions/workflows/docs-deploy.yml/dispatches \
-    -d '{"ref":"${branchName}",  "inputs": { "serverType": "${serverType}", "algolia": "${algolia}" }}'`;
+  const response = await fetch(
+    'https://api.github.com/repos/wanteddev/montage-web/actions/workflows/docs-deploy.yml/dispatches',
+    {
+      method: 'POST',
+      headers: {
+        Accept: 'application/vnd.github.v3+json',
+        Authorization: `token ${token}`,
+      },
+      body: JSON.stringify({
+        ref: branchName,
+        inputs: { serverType, algolia: `${algolia}` },
+      }),
+    },
+  );
 
-  shelljs.exec(command, { fatal: true }, (code, _stdout, stderr) => {
-    if (code !== 0) {
-      console.log('ERROR');
-      console.log(stderr);
-      return;
-    }
+  if (!response.ok) {
+    console.log('ERROR');
+    console.log(await response.text());
+    return;
+  }
 
-    console.log('Deployment successfully triggered, view the output logs in');
-    console.log(
-      '\x1b[32m%s\x1b[0m',
-      'https://github.com/wanteddev/montage-web/actions/workflows/docs-deploy.yml',
-    );
-  });
+  console.log('Deployment successfully triggered, view the output logs in');
+  console.log(
+    '\x1b[32m%s\x1b[0m',
+    'https://github.com/wanteddev/montage-web/actions/workflows/docs-deploy.yml',
+  );
 };
 
 main();

@@ -92,7 +92,9 @@ export type FormFieldSlotSizeTable = {
   [K in SizedSlotName]?: FormFieldSizedEntry<SlotDefaultsMap[K]>;
 } & {
   IconButton?: {
-    [V in keyof SlotDefaultsMap['IconButton']]?: FormFieldSizedEntry<IconButtonSlotDefaults>;
+    [
+      V in keyof SlotDefaultsMap['IconButton']
+    ]?: FormFieldSizedEntry<IconButtonSlotDefaults>;
   };
 };
 

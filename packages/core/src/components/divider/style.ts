@@ -53,24 +53,28 @@ const dividerSizeStyle = ({
   thickness,
   vertical,
 }: Pick<DividerProps, 'size' | 'thickness' | 'vertical'>) => css`
-  ${Boolean(thickness) &&
-  (vertical
-    ? css`
-        border-width: 0px;
-        border-right-width: ${toCssValue(thickness)};
-      `
-    : css`
-        border-width: 0px;
-        border-bottom-width: ${toCssValue(thickness)};
-      `)}
+  ${
+    Boolean(thickness) &&
+    (vertical
+      ? css`
+          border-width: 0px;
+          border-right-width: ${toCssValue(thickness)};
+        `
+      : css`
+          border-width: 0px;
+          border-bottom-width: ${toCssValue(thickness)};
+        `)
+  }
 
-  ${vertical
-    ? css`
-        width: 0px;
-        height: ${toCssValue(size)};
-      `
-    : css`
-        height: 0px;
-        width: ${toCssValue(size)};
-      `};
+  ${
+    vertical
+      ? css`
+          width: 0px;
+          height: ${toCssValue(size)};
+        `
+      : css`
+          height: 0px;
+          width: ${toCssValue(size)};
+        `
+  };
 `;

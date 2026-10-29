@@ -58,24 +58,26 @@ export const categoryListStyle =
           isScrollableLeft,
           isScrollableRight,
         })}
-        ${(params?.horizontalPadding !== undefined ||
-          params?.size !== undefined) &&
-        css`
-          ${categorySizeStyle({
-            size: getPreviousValue(
-              { xs, sm, md, lg, xl },
-              'size',
-              params.size,
-              breakpoint!,
-            ),
-            verticalPadding: getPreviousValue(
-              { xs, sm, md, lg, xl },
-              'verticalPadding',
-              params.verticalPadding,
-              breakpoint!,
-            ),
-          })}
-        `}
+        ${
+          (params?.horizontalPadding !== undefined ||
+            params?.size !== undefined) &&
+          css`
+            ${categorySizeStyle({
+              size: getPreviousValue(
+                { xs, sm, md, lg, xl },
+                'size',
+                params.size,
+                breakpoint!,
+              ),
+              verticalPadding: getPreviousValue(
+                { xs, sm, md, lg, xl },
+                'verticalPadding',
+                params.verticalPadding,
+                breakpoint!,
+              ),
+            })}
+          `
+        }
         ${params?.sx}
       `,
     )}
@@ -106,26 +108,28 @@ const categoryPaddingStyle = ({
           padding: 0px 0px 0px var(--category-list-padding, 20px);
         }
 
-        ${isScrollableRight
-          ? css`
-              &:not(:has([data-role='category-list-icon-button']))
-                [data-radix-scroll-area-wrapper] {
-                mask-image: none;
-              }
+        ${
+          isScrollableRight
+            ? css`
+                &:not(:has([data-role='category-list-icon-button']))
+                  [data-radix-scroll-area-wrapper] {
+                  mask-image: none;
+                }
 
-              &:has([data-role='category-list-icon-button'])
-                [data-radix-scroll-area-wrapper] {
-                mask-image: ${getGradientMaskImage('right', '48px', 'mask')};
-              }
-            `
-          : css`
-              &:not(:has([data-role='category-list-icon-button']))
-                [data-radix-scroll-area-wrapper],
-              &:has([data-role='category-list-icon-button'])
-                [data-radix-scroll-area-wrapper] {
-                mask-image: none;
-              }
-            `}
+                &:has([data-role='category-list-icon-button'])
+                  [data-radix-scroll-area-wrapper] {
+                  mask-image: ${getGradientMaskImage('right', '48px', 'mask')};
+                }
+              `
+            : css`
+                &:not(:has([data-role='category-list-icon-button']))
+                  [data-radix-scroll-area-wrapper],
+                &:has([data-role='category-list-icon-button'])
+                  [data-radix-scroll-area-wrapper] {
+                  mask-image: none;
+                }
+              `
+        }
 
         --category-icon-button-padding: 0px
           calc(var(--category-list-padding, 20px) - 4px) 0px 0px;
@@ -143,31 +147,33 @@ const categoryPaddingStyle = ({
           padding: 0px;
         }
 
-        ${isScrollableLeft || isScrollableRight
-          ? css`
-              &:has([data-role='category-list-icon-button'])
-                [data-radix-scroll-area-wrapper],
-              &:not(:has([data-role='category-list-icon-button']))
-                [data-radix-scroll-area-wrapper] {
-                mask-composite: intersect;
-                mask-image: ${[
-                  isScrollableLeft &&
-                    getGradientMaskImage('left', '48px', 'mask'),
-                  isScrollableRight &&
-                    getGradientMaskImage('right', '48px', 'mask'),
-                ]
-                  .filter(Boolean)
-                  .join(', ')};
-              }
-            `
-          : css`
-              &:not(:has([data-role='category-list-icon-button']))
-                [data-radix-scroll-area-wrapper],
-              &:has([data-role='category-list-icon-button'])
-                [data-radix-scroll-area-wrapper] {
-                mask-image: none;
-              }
-            `}
+        ${
+          isScrollableLeft || isScrollableRight
+            ? css`
+                &:has([data-role='category-list-icon-button'])
+                  [data-radix-scroll-area-wrapper],
+                &:not(:has([data-role='category-list-icon-button']))
+                  [data-radix-scroll-area-wrapper] {
+                  mask-composite: intersect;
+                  mask-image: ${[
+                    isScrollableLeft &&
+                      getGradientMaskImage('left', '48px', 'mask'),
+                    isScrollableRight &&
+                      getGradientMaskImage('right', '48px', 'mask'),
+                  ]
+                    .filter(Boolean)
+                    .join(', ')};
+                }
+              `
+            : css`
+                &:not(:has([data-role='category-list-icon-button']))
+                  [data-radix-scroll-area-wrapper],
+                &:has([data-role='category-list-icon-button'])
+                  [data-radix-scroll-area-wrapper] {
+                  mask-image: none;
+                }
+              `
+        }
 
         --category-icon-button-padding: 0px;
       `;
@@ -181,15 +187,19 @@ const categorySizeStyle = ({ size, verticalPadding }: CategoryListProps) => {
         [data-role='category-list-wrapper'] {
           gap: 4px;
 
-          ${verticalPadding === true &&
-          css`
-            padding: 8px 0px;
-          `}
+          ${
+            verticalPadding === true &&
+            css`
+              padding: 8px 0px;
+            `
+          }
 
-          ${verticalPadding === false &&
-          css`
-            padding: 0px;
-          `}
+          ${
+            verticalPadding === false &&
+            css`
+              padding: 0px;
+            `
+          }
         }
       `;
     case 'medium':
@@ -197,15 +207,19 @@ const categorySizeStyle = ({ size, verticalPadding }: CategoryListProps) => {
         [data-role='category-list-wrapper'] {
           gap: 6px;
 
-          ${verticalPadding === true &&
-          css`
-            padding: 8px 0px;
-          `}
+          ${
+            verticalPadding === true &&
+            css`
+              padding: 8px 0px;
+            `
+          }
 
-          ${verticalPadding === false &&
-          css`
-            padding: 0px;
-          `}
+          ${
+            verticalPadding === false &&
+            css`
+              padding: 0px;
+            `
+          }
         }
       `;
     case 'large':
@@ -213,15 +227,19 @@ const categorySizeStyle = ({ size, verticalPadding }: CategoryListProps) => {
         [data-role='category-list-wrapper'] {
           gap: 8px;
 
-          ${verticalPadding === true &&
-          css`
-            padding: 10px 0px;
-          `}
+          ${
+            verticalPadding === true &&
+            css`
+              padding: 10px 0px;
+            `
+          }
 
-          ${verticalPadding === false &&
-          css`
-            padding: 0px;
-          `}
+          ${
+            verticalPadding === false &&
+            css`
+              padding: 0px;
+            `
+          }
         }
       `;
     case 'xlarge':
@@ -229,15 +247,19 @@ const categorySizeStyle = ({ size, verticalPadding }: CategoryListProps) => {
         [data-role='category-list-wrapper'] {
           gap: 10px;
 
-          ${verticalPadding === true &&
-          css`
-            padding: 10px 0px;
-          `}
+          ${
+            verticalPadding === true &&
+            css`
+              padding: 10px 0px;
+            `
+          }
 
-          ${verticalPadding === false &&
-          css`
-            padding: 0px;
-          `}
+          ${
+            verticalPadding === false &&
+            css`
+              padding: 0px;
+            `
+          }
         }
       `;
   }
@@ -270,18 +292,20 @@ export const categoryListItemStyle =
     position: relative;
 
     &[data-active='true']:not(:disabled):not([aria-disabled='true']) {
-      ${variant === 'alternative'
-        ? css`
-            box-shadow: inset 0 0 0 1px ${theme.semantic.line.brand.strong};
-          `
-        : css`
-            color: ${theme.semantic.foreground.neutral.inverse};
-            background-color: ${theme.semantic.foreground.neutral.strong};
+      ${
+        variant === 'alternative'
+          ? css`
+              box-shadow: inset 0 0 0 1px ${theme.semantic.line.brand.strong};
+            `
+          : css`
+              color: ${theme.semantic.foreground.neutral.inverse};
+              background-color: ${theme.semantic.foreground.neutral.strong};
 
-            & > [data-component='with-interaction'] {
-              background-color: ${theme.semantic.foreground.neutral.inverse};
-            }
-          `}
+              & > [data-component='with-interaction'] {
+                background-color: ${theme.semantic.foreground.neutral.inverse};
+              }
+            `
+      }
     }
   `;
 

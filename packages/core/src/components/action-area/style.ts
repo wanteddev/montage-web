@@ -44,54 +44,58 @@ const actionAreaBackgroundStyle = (
   switch (extra) {
     case true:
       return css`
-        ${divider &&
-        css`
-          border-top: 1px solid ${theme.semantic.line.neutral.tertiary};
-        `}
+        ${
+          divider &&
+          css`
+            border-top: 1px solid ${theme.semantic.line.neutral.tertiary};
+          `
+        }
         background-color: var(--action-area-background-color);
       `;
     case false:
     default:
       return css`
-        ${background
-          ? css`
-              &::before {
-                pointer-events: none;
-                ${gradient(
-                  'var(--action-area-background-color)',
-                  'top',
-                  'calc(var(--action-area-margin-y, 20px) * 2)',
-                  'mask',
-                )}
-                height: calc(100% + var(--action-area-margin-y, 20px));
-                content: '';
-                z-index: 0;
-                position: absolute;
-                left: 0;
-                bottom: 0;
-                width: 100%;
-              }
+        ${
+          background
+            ? css`
+                &::before {
+                  pointer-events: none;
+                  ${gradient(
+                    'var(--action-area-background-color)',
+                    'top',
+                    'calc(var(--action-area-margin-y, 20px) * 2)',
+                    'mask',
+                  )}
+                  height: calc(100% + var(--action-area-margin-y, 20px));
+                  content: '';
+                  z-index: 0;
+                  position: absolute;
+                  left: 0;
+                  bottom: 0;
+                  width: 100%;
+                }
 
-              & > * {
-                position: relative;
-              }
-            `
-          : css`
-              &::before {
-                pointer-events: none;
-                content: '';
-                z-index: 0;
-                position: absolute;
-                left: 0;
-                bottom: 0;
-                height: 100%;
-                width: 100%;
-              }
+                & > * {
+                  position: relative;
+                }
+              `
+            : css`
+                &::before {
+                  pointer-events: none;
+                  content: '';
+                  z-index: 0;
+                  position: absolute;
+                  left: 0;
+                  bottom: 0;
+                  height: 100%;
+                  width: 100%;
+                }
 
-              & > * {
-                position: relative;
-              }
-            `}
+                & > * {
+                  position: relative;
+                }
+              `
+        }
       `;
   }
 };

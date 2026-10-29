@@ -355,8 +355,7 @@ const SelectContent = forwardRef<
               // Accept a theme token as well as a raw CSS color.
               color: color
                 ? ((getColorByToken(theme, color as ThemeColorsToken) as
-                    | string
-                    | undefined) ?? color)
+                    string | undefined) ?? color)
                 : theme.semantic.foreground.neutral.tertiary,
             }),
             sx,

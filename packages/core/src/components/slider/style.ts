@@ -13,29 +13,31 @@ export const sliderProgressWrapperStyle =
     user-select: none;
     -webkit-tap-highlight-color: transparent;
 
-    ${disabled
-      ? css`
-          cursor: initial;
+    ${
+      disabled
+        ? css`
+            cursor: initial;
 
-          [data-role='slider-progress-range'] {
-            background-color: ${theme.semantic.surface.disable.primary};
-          }
+            [data-role='slider-progress-range'] {
+              background-color: ${theme.semantic.surface.disable.primary};
+            }
 
-          [data-role='slider-progress'] {
-            background-color: ${theme.semantic.surface.disable.primary};
-          }
-        `
-      : css`
-          cursor: pointer;
+            [data-role='slider-progress'] {
+              background-color: ${theme.semantic.surface.disable.primary};
+            }
+          `
+        : css`
+            cursor: pointer;
 
-          [data-role='slider-progress-range'] {
-            background-color: ${theme.semantic.surface.neutral.strong};
-          }
+            [data-role='slider-progress-range'] {
+              background-color: ${theme.semantic.surface.neutral.strong};
+            }
 
-          [data-role='slider-progress'] {
-            background-color: ${theme.semantic.surface.brand.primary};
-          }
-        `}
+            [data-role='slider-progress'] {
+              background-color: ${theme.semantic.surface.brand.primary};
+            }
+          `
+    }
   `;
 
 export const sliderProgressStyle = css`

@@ -40,13 +40,13 @@
     "packages": "packages/lottie"
   },
   "devDependencies": {
-    "@types/react": "^19.2.14",
-    "react": "^19.2.4",
+    "@types/react": "^19.3.0",
+    "react": "^19.3.1",
     "typescript": "^6.0.3"
   },
   "dependencies": {
     "@montage-ui/engine": "workspace:*",
-    "@radix-ui/react-compose-refs": "^1.1.2",
+    "@radix-ui/react-compose-refs": "^1.1.5",
     "lottie-web": "^5.13.0"
   },
   "peerDependencies": {

@@ -25,10 +25,12 @@ export const thumbnailStyle =
   (theme: Theme) => css`
     position: relative;
 
-    ${width !== undefined &&
-    css`
-      width: ${toCssValue(width)};
-    `}
+    ${
+      width !== undefined &&
+      css`
+        width: ${toCssValue(width)};
+      `
+    }
 
     ${thumbnailRatioStyle({ ratio, portrait })}
     ${thumbnailBorderRadiusStyle({ radius, border }, theme)}
@@ -52,27 +54,31 @@ export const thumbnailStyle =
       theme,
     )(
       (params, breakpoint) => css`
-        ${(params?.ratio !== undefined || params?.portrait !== undefined) &&
-        thumbnailRatioStyle({
-          ratio: getPreviousValue(
-            { xs, sm, md, lg, xl },
-            'ratio',
-            ratio,
-            breakpoint!,
-          ),
-          portrait: getPreviousValue(
-            { xs, sm, md, lg, xl },
-            'portrait',
-            portrait,
-            breakpoint!,
-          ),
-        })}
+        ${
+          (params?.ratio !== undefined || params?.portrait !== undefined) &&
+          thumbnailRatioStyle({
+            ratio: getPreviousValue(
+              { xs, sm, md, lg, xl },
+              'ratio',
+              ratio,
+              breakpoint!,
+            ),
+            portrait: getPreviousValue(
+              { xs, sm, md, lg, xl },
+              'portrait',
+              portrait,
+              breakpoint!,
+            ),
+          })
+        }
         ${thumbnailBorderRadiusStyle(params || {}, theme)}
         
-        ${params?.width !== undefined &&
-        css`
-          width: ${toCssValue(params.width)};
-        `}
+        ${
+          params?.width !== undefined &&
+          css`
+            width: ${toCssValue(params.width)};
+          `
+        }
 
         ${params?.sx}
       `,
@@ -83,34 +89,42 @@ const thumbnailBorderRadiusStyle = (
   { radius, border }: Pick<ThumbnailProps, 'radius' | 'border'>,
   theme: Theme,
 ) => css`
-  ${radius === true &&
-  css`
-    border-radius: 12px;
-  `}
-  ${radius === false &&
-  css`
-    border-radius: 0px;
-  `}
+  ${
+    radius === true &&
+    css`
+      border-radius: 12px;
+    `
+  }
+  ${
+    radius === false &&
+    css`
+      border-radius: 0px;
+    `
+  }
 
-  ${border === true &&
-  css`
-    position: relative;
+  ${
+    border === true &&
+    css`
+      position: relative;
 
-    &::after {
-      content: '';
-      border-radius: inherit;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      position: absolute;
-      border: 1px solid ${theme.semantic.line.neutral.secondary};
-    }
-  `}
+      &::after {
+        content: '';
+        border-radius: inherit;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        border: 1px solid ${theme.semantic.line.neutral.secondary};
+      }
+    `
+  }
 
-  ${border === false &&
-  css`
-    border: none;
-  `}
+  ${
+    border === false &&
+    css`
+      border: none;
+    `
+  }
 `;
 
 const thumbnailRatioStyle = ({

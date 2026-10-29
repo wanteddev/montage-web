@@ -107,10 +107,12 @@ export const segmentedControlItemStyle =
       flex-shrink: 0;
     }
 
-    ${disabled &&
-    css`
-      cursor: initial;
-    `}
+    ${
+      disabled &&
+      css`
+        cursor: initial;
+      `
+    }
 
     color: ${theme.semantic.foreground.neutral.tertiary};
     background-color: transparent;

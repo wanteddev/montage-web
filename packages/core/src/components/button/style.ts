@@ -30,16 +30,18 @@ export const buttonStyle =
       }
     }
 
-    ${loading &&
-    css`
-      cursor: wait;
-      &
-        > *:not([data-role='button-loading']):not(
-          [data-component='with-interaction']
-        ) {
-        visibility: hidden;
-      }
-    `}
+    ${
+      loading &&
+      css`
+        cursor: wait;
+        &
+          > *:not([data-role='button-loading']):not(
+            [data-component='with-interaction']
+          ) {
+          visibility: hidden;
+        }
+      `
+    }
 
     &:disabled,
     &[aria-disabled='true'] {
@@ -81,23 +83,25 @@ const buttonSizeStyle = (
           height: ${theme.dimension[16]};
         }
 
-        ${iconOnly
-          ? css`
-              padding: ${theme.spacing[14]};
-              font-size: 20px;
-
-              svg {
-                flex-shrink: 0;
-              }
-            `
-          : css`
-              & > svg {
+        ${
+          iconOnly
+            ? css`
+                padding: ${theme.spacing[14]};
                 font-size: 20px;
-              }
-              & > span {
-                ${typographyStyle('body2', 'bold')}
-              }
-            `}
+
+                svg {
+                  flex-shrink: 0;
+                }
+              `
+            : css`
+                & > svg {
+                  font-size: 20px;
+                }
+                & > span {
+                  ${typographyStyle('body2', 'bold')}
+                }
+              `
+        }
       `;
     case 'medium':
       return css`
@@ -111,23 +115,25 @@ const buttonSizeStyle = (
           height: ${theme.dimension[14]};
         }
 
-        ${iconOnly
-          ? css`
-              padding: 11px;
-              font-size: 18px;
-
-              svg {
-                flex-shrink: 0;
-              }
-            `
-          : css`
-              & > svg {
+        ${
+          iconOnly
+            ? css`
+                padding: 11px;
                 font-size: 18px;
-              }
-              & > span {
-                ${typographyStyle('label1', 'bold')}
-              }
-            `}
+
+                svg {
+                  flex-shrink: 0;
+                }
+              `
+            : css`
+                & > svg {
+                  font-size: 18px;
+                }
+                & > span {
+                  ${typographyStyle('label1', 'bold')}
+                }
+              `
+        }
       `;
     case 'small':
       return css`
@@ -141,23 +147,25 @@ const buttonSizeStyle = (
           height: ${theme.dimension[12]};
         }
 
-        ${iconOnly
-          ? css`
-              padding: ${theme.spacing[8]};
-              font-size: 16px;
-
-              svg {
-                flex-shrink: 0;
-              }
-            `
-          : css`
-              & > svg {
+        ${
+          iconOnly
+            ? css`
+                padding: ${theme.spacing[8]};
                 font-size: 16px;
-              }
-              & > span {
-                ${typographyStyle('caption1', 'bold')}
-              }
-            `}
+
+                svg {
+                  flex-shrink: 0;
+                }
+              `
+            : css`
+                & > svg {
+                  font-size: 16px;
+                }
+                & > span {
+                  ${typographyStyle('caption1', 'bold')}
+                }
+              `
+        }
       `;
     case 'xsmall':
       return css`
@@ -171,23 +179,25 @@ const buttonSizeStyle = (
           height: ${theme.dimension[12]};
         }
 
-        ${iconOnly
-          ? css`
-              padding: 7px;
-              font-size: 14px;
-
-              svg {
-                flex-shrink: 0;
-              }
-            `
-          : css`
-              & > svg {
+        ${
+          iconOnly
+            ? css`
+                padding: 7px;
                 font-size: 14px;
-              }
-              & > span {
-                ${typographyStyle('caption1', 'bold')}
-              }
-            `}
+
+                svg {
+                  flex-shrink: 0;
+                }
+              `
+            : css`
+                & > svg {
+                  font-size: 14px;
+                }
+                & > span {
+                  ${typographyStyle('caption1', 'bold')}
+                }
+              `
+        }
       `;
   }
 };

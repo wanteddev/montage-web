@@ -30,35 +30,41 @@ export const textAreaWrapperStyle =
 
     ${textAreaWrapperSizeStyle({ size }, theme)}
 
-    ${status === 'negative' &&
-    css`
-      box-shadow: inset 0 0 0 1px ${theme.semantic.line.negative.primary};
-    `}
+    ${
+      status === 'negative' &&
+      css`
+        box-shadow: inset 0 0 0 1px ${theme.semantic.line.negative.primary};
+      `
+    }
 
-    ${disabled
-      ? css`
-          background-color: ${theme.semantic.surface.neutral.tertiary};
-          backdrop-filter: none;
-          box-shadow: inset 0 0 0 1px ${theme.semantic.line.neutral.tertiary};
-          cursor: default;
-        `
-      : css`
-          cursor: text;
+    ${
+      disabled
+        ? css`
+            background-color: ${theme.semantic.surface.neutral.tertiary};
+            backdrop-filter: none;
+            box-shadow: inset 0 0 0 1px ${theme.semantic.line.neutral.tertiary};
+            cursor: default;
+          `
+        : css`
+            cursor: text;
 
-          &:where(:has(textarea:focus)) {
-            ${status === 'negative'
-              ? css`
-                  box-shadow:
-                    inset 0 0 0 1px ${theme.semantic.line.negative.strong},
-                    0 0 0 4px ${theme.semantic.line.negative.focus};
-                `
-              : css`
-                  box-shadow:
-                    inset 0 0 0 1px ${theme.semantic.line.brand.strong},
-                    0 0 0 4px ${theme.semantic.line.brand.focus};
-                `}
-          }
-        `}
+            &:where(:has(textarea:focus)) {
+              ${
+                status === 'negative'
+                  ? css`
+                      box-shadow:
+                        inset 0 0 0 1px ${theme.semantic.line.negative.strong},
+                        0 0 0 4px ${theme.semantic.line.negative.focus};
+                    `
+                  : css`
+                      box-shadow:
+                        inset 0 0 0 1px ${theme.semantic.line.brand.strong},
+                        0 0 0 4px ${theme.semantic.line.brand.focus};
+                    `
+              }
+            }
+          `
+    }
 
     button {
       flex-shrink: 0;
@@ -76,10 +82,12 @@ export const textAreaWrapperStyle =
       theme,
     )(
       (params) => css`
-        ${params?.width !== undefined &&
-        css`
-          width: ${toCssValue(params.width)};
-        `}
+        ${
+          params?.width !== undefined &&
+          css`
+            width: ${toCssValue(params.width)};
+          `
+        }
 
         ${textAreaWrapperSizeStyle({ size: params?.size }, theme)}
 
@@ -179,10 +187,12 @@ export const textAreaStyle =
       theme,
     )(
       (params) => css`
-        ${Boolean(params?.width) &&
-        css`
-          width: ${params!.width};
-        `}
+        ${
+          Boolean(params?.width) &&
+          css`
+            width: ${params!.width};
+          `
+        }
 
         ${textAreaSizeStyle({ size: params?.size })}
       `,

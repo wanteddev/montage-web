@@ -33,14 +33,16 @@ export const stepperCircleStyle =
         ${addOpacity(theme.semantic.static.black, theme.opacity[12])};
     }
 
-    ${(isActive || completed) &&
-    css`
-      background-color: ${theme.semantic.surface.brand.primary};
+    ${
+      (isActive || completed) &&
+      css`
+        background-color: ${theme.semantic.surface.brand.primary};
 
-      [data-role='stepper-item-step'] {
-        text-shadow: none;
-      }
-    `}
+        [data-role='stepper-item-step'] {
+          text-shadow: none;
+        }
+      `
+    }
   `;
 
 export const stepperLabelStyle = css`

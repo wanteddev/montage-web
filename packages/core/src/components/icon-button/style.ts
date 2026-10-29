@@ -103,11 +103,13 @@ const numberSizeStyle = (
   return css`
     width: ${box}px;
     height: ${box}px;
-    ${variant === 'normal' &&
-    css`
-      border-radius: ${nearestRadiusToken(theme, box * RADIUS_RATIO)};
-      ${badgeInsetStyle(insetPx(box, iconSize))}
-    `}
+    ${
+      variant === 'normal' &&
+      css`
+        border-radius: ${nearestRadiusToken(theme, box * RADIUS_RATIO)};
+        ${badgeInsetStyle(insetPx(box, iconSize))}
+      `
+    }
 
     svg {
       font-size: ${theme.dimension[iconSize as keyof typeof theme.dimension]};
@@ -121,11 +123,13 @@ const presetSizeStyle = (
 ) => css`
   width: ${theme.dimension[preset.box]};
   height: ${theme.dimension[preset.box]};
-  ${'radius' in preset &&
-  css`
-    border-radius: ${theme.radius[preset.radius]};
-    ${badgeInsetStyle(insetPx(preset.box, preset.iconSize))}
-  `}
+  ${
+    'radius' in preset &&
+    css`
+      border-radius: ${theme.radius[preset.radius]};
+      ${badgeInsetStyle(insetPx(preset.box, preset.iconSize))}
+    `
+  }
 
   svg {
     font-size: ${theme.dimension[preset.iconSize]};
@@ -219,42 +223,48 @@ const iconButtonColorStyle = (
     case 'normal':
       return css`
         background-color: transparent;
-        ${Boolean(color) &&
-        css`
-          color: ${getColorByToken(theme, color!)};
-        `}
+        ${
+          Boolean(color) &&
+          css`
+            color: ${getColorByToken(theme, color!)};
+          `
+        }
         border: none;
         box-shadow: none;
 
-        ${interactionEffect === 'dim' &&
-        css`
-          transition:
-            color 0.15s ease,
-            opacity 0.15s ease;
+        ${
+          interactionEffect === 'dim' &&
+          css`
+            transition:
+              color 0.15s ease,
+              opacity 0.15s ease;
 
-          @media (pointer: fine) {
-            &:hover {
-              color: ${getColorByToken(theme, interactionColor!)};
-              opacity: ${theme.opacity[52]};
+            @media (pointer: fine) {
+              &:hover {
+                color: ${getColorByToken(theme, interactionColor!)};
+                opacity: ${theme.opacity[52]};
+              }
             }
-          }
 
-          &:active {
-            color: ${getColorByToken(theme, interactionColor!)};
-            opacity: ${theme.opacity[22]};
-          }
+            &:active {
+              color: ${getColorByToken(theme, interactionColor!)};
+              opacity: ${theme.opacity[22]};
+            }
 
-          & > [data-component='with-interaction'] {
-            display: none;
-          }
-        `}
+            & > [data-component='with-interaction'] {
+              display: none;
+            }
+          `
+        }
 
-        ${Boolean(interactionColor) &&
-        css`
-          & > [data-component='with-interaction'] {
-            background-color: ${getColorByToken(theme, interactionColor!)};
-          }
-        `}
+        ${
+          Boolean(interactionColor) &&
+          css`
+            & > [data-component='with-interaction'] {
+              background-color: ${getColorByToken(theme, interactionColor!)};
+            }
+          `
+        }
 
         &:disabled, &[aria-disabled='true'] {
           background-color: transparent;
@@ -268,36 +278,44 @@ const iconButtonColorStyle = (
         border: none;
         box-shadow: none;
         background-color: transparent;
-        color: ${alternative
-          ? addOpacity(theme.semantic.static.white, theme.opacity[88])
-          : addOpacity(theme.semantic.static.black, theme.opacity[43])};
+        color: ${
+          alternative
+            ? addOpacity(theme.semantic.static.white, theme.opacity[88])
+            : addOpacity(theme.semantic.static.black, theme.opacity[43])
+        };
 
-        ${!alternative &&
-        css`
-          @supports (-webkit-backdrop-filter: none) {
-            color: ${addOpacity(
-              theme.atomic.coolNeutral[50],
-              theme.opacity[61],
-            )};
-          }
-        `}
+        ${
+          !alternative &&
+          css`
+            @supports (-webkit-backdrop-filter: none) {
+              color: ${addOpacity(
+                theme.atomic.coolNeutral[50],
+                theme.opacity[61],
+              )};
+            }
+          `
+        }
 
         svg {
           position: relative;
 
-          ${!alternative &&
-          css`
-            @supports (-webkit-backdrop-filter: none) {
-              will-change: mix-blend-mode;
-              mix-blend-mode: plus-darker;
-            }
-          `}
+          ${
+            !alternative &&
+            css`
+              @supports (-webkit-backdrop-filter: none) {
+                will-change: mix-blend-mode;
+                mix-blend-mode: plus-darker;
+              }
+            `
+          }
         }
 
-        ${Boolean(color) &&
-        css`
-          color: ${getColorByToken(theme, color!)};
-        `}
+        ${
+          Boolean(color) &&
+          css`
+            color: ${getColorByToken(theme, color!)};
+          `
+        }
 
         &::before {
           position: absolute;
@@ -305,33 +323,35 @@ const iconButtonColorStyle = (
           inset: 0;
           border-radius: inherit;
 
-          ${alternative
-            ? css`
-                background-color: ${addOpacity(
-                  theme.atomic.coolNeutral[30],
-                  theme.opacity[61],
-                )};
-              `
-            : css`
-                background-color: ${addOpacity(
-                  theme.semantic.static.white,
-                  theme.opacity[52],
-                )};
-                will-change: backdrop-filter;
-                backdrop-filter: blur(32px) saturate(150%) brightness(150%);
+          ${
+            alternative
+              ? css`
+                  background-color: ${addOpacity(
+                    theme.atomic.coolNeutral[30],
+                    theme.opacity[61],
+                  )};
+                `
+              : css`
+                  background-color: ${addOpacity(
+                    theme.semantic.static.white,
+                    theme.opacity[52],
+                  )};
+                  will-change: backdrop-filter;
+                  backdrop-filter: blur(32px) saturate(150%) brightness(150%);
 
-                @supports (-webkit-backdrop-filter: none) {
-                  clip-path: inset(0 round 1000px);
-                  overflow: auto;
-                  border-radius: 0;
-                }
+                  @supports (-webkit-backdrop-filter: none) {
+                    clip-path: inset(0 round 1000px);
+                    overflow: auto;
+                    border-radius: 0;
+                  }
 
-                @supports (-moz-appearance: none) {
-                  clip-path: inset(0 round 1000px);
-                  overflow: auto;
-                  border-radius: 0;
-                }
-              `}
+                  @supports (-moz-appearance: none) {
+                    clip-path: inset(0 round 1000px);
+                    overflow: auto;
+                    border-radius: 0;
+                  }
+                `
+          }
         }
 
         &:focus-visible {
@@ -375,10 +395,12 @@ const iconButtonColorStyle = (
         background-color: transparent;
         box-shadow: inset 0 0 0 1px ${theme.semantic.line.neutral.secondary};
         background-color: transparent;
-        ${Boolean(color) &&
-        css`
-          color: ${getColorByToken(theme, color!)};
-        `}
+        ${
+          Boolean(color) &&
+          css`
+            color: ${getColorByToken(theme, color!)};
+          `
+        }
 
         &:disabled, &[aria-disabled='true'] {
           color: ${theme.semantic.foreground.disable.primary};
@@ -391,10 +413,12 @@ const iconButtonColorStyle = (
         border: none;
         background-color: ${theme.semantic.surface.brand.primary};
 
-        ${Boolean(color) &&
-        css`
-          color: ${getColorByToken(theme, color!)};
-        `}
+        ${
+          Boolean(color) &&
+          css`
+            color: ${getColorByToken(theme, color!)};
+          `
+        }
 
         &:disabled, &[aria-disabled='true'] {
           color: ${theme.semantic.foreground.disable.primary};

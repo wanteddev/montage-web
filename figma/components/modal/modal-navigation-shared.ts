@@ -24,8 +24,7 @@ export const renderLayer = (layer: InstanceHandle | undefined) =>
 const firstChildInstance = (layer: InstanceHandle) =>
   isInstance(layer)
     ? (layer.children.find((child) => child.type === 'INSTANCE') as
-        | InstanceHandle
-        | undefined)
+        InstanceHandle | undefined)
     : undefined;
 
 const buttonTag = (variant: string, props: string, children?: unknown) =>
