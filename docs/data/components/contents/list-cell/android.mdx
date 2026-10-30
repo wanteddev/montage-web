@@ -5,6 +5,7 @@ description: 텍스트와 설명, 아이콘 등의 요소를 조합하여 하나
 
 ## WantedListCell
 텍스트와 설명, 아이콘 등의 요소를 조합하여 하나의 Cell 형태로 표현하는 컴포넌트입니다.
+
 String 기반 텍스트 입력을 받아 내부적으로 AnnotatedString 변환 후 처리합니다.
 아이콘, 설명, 클릭 이벤트, 구분선 등 다양한 UI 옵션을 제공합니다.
 
@@ -21,8 +22,8 @@ WantedListCell(
 | 이름 | 타입 | 설명 |
 |:---|:---|:---|
 | text | String | 셀에 표시할 메인 텍스트입니다. |
-| modifier | Modifier | 셀 최외곽 노드에 적용됩니다. 클릭 영역이 이 노드 기준이며, padding 은 클릭 영역 바깥 마진이 됩니다. |
-| textMaxLine | Int | ellipsis가 true일 때 적용할 텍스트 최대 줄 수입니다. 기본값은 1입니다. |
+| modifier | Modifier | 셀 최외곽 노드에 적용됩니다. 배경·테두리는 이 노드 기준이고, 클릭·리플 영역은 variant 의 interactionOutset 만큼(Inset 12dp, Full 0dp) 좌우로 이 노드 밖으로 넘칩니다. verticalPadding 이 None 이면 넘치는 영역과 리플만 없어지고, onClick 은 셀(이 노드) 영역에서 그대로 호출됩니다. |
+| textMaxLine | Int | ellipsis가 true일 때 메인 텍스트에 적용할 최대 줄 수입니다. 설명은 이 값과 무관하게 1줄입니다. 기본값은 1입니다. |
 | description | String | 서브 텍스트(설명)로 보조 정보를 제공합니다. |
 | variant | WantedListCellDefaults.Variant | 좌우 패딩·인터랙션 영역·radius를 묶어 지정합니다. 기본값은 Inset입니다. |
 | verticalPadding | WantedListCellDefaults.VerticalPadding | 셀 상하 패딩 크기를 조정합니다. None 은 인터랙션(outset·radius·ripple)을 사용하지 않습니다. |
@@ -30,18 +31,19 @@ WantedListCell(
 | divider | Boolean | true일 경우 셀 하단에 구분선을 표시합니다. |
 | isEnable | Boolean | 셀의 활성화 여부를 설정합니다. 비활성화 시 클릭이 차단되고(onClick 미호출), 타이틀·설명·Check·chevron에 disable 색상을 적용합니다. 슬롯 콘텐츠는 자동으로 비활성 표현되지 않습니다. 아바타·썸네일처럼 색으로 표현할 수 없는 이미지 계열은 호출부에서 Opacity/43(OPACITY_43)을 적용합니다. |
 | selected | Boolean | true일 경우 메인 텍스트를 primary 색상과 Body 2 Bold로 강조 표시하고, trailingContent 가 비어 있으면 우측에 Check 아이콘을 표시합니다. chevrons 와 함께 쓰지 않습니다(함께 켜면 chevron 이 우선). |
-| ellipsis | Boolean | true일 경우 textMaxLine 줄로 제한하고 넘칠 시 생략 부호(...)를 표시합니다. false일 경우 줄 수를 제한하지 않습니다. 기본값은 false입니다. |
+| ellipsis | Boolean | true일 경우 메인 텍스트는 textMaxLine 줄, 설명은 항상 1줄로 제한하고 넘칠 시 생략 부호(...)를 표시합니다. false일 경우 줄 수를 제한하지 않습니다. 기본값은 false입니다. |
 | verticalAlignCenter | Boolean | leading·trailing(chevron 포함) 슬롯을 타이틀 첫 줄에 맞추는 기준입니다. 슬롯의 최소 높이는 타이틀 첫 줄 높이이고 슬롯 안 콘텐츠는 수직 중앙 정렬됩니다. false(기본값)면 슬롯 top 을 첫 줄 top 에, true 면 슬롯 center 를 첫 줄 center 에 맞춥니다. 설명·extraContent 가 있거나 타이틀이 여러 줄이어도 기준은 텍스트 영역 전체가 아니라 첫 줄입니다. |
 | chevrons | Boolean | true일 경우 우측에 chevron 아이콘을 표시합니다. selected 와 함께 켜면 Check 대신 chevron 이 표시됩니다. |
-| labelTrailingContent | (@Composable RowScope.() -> Unit)?  | 타이틀 옆 배지 슬롯입니다. 다중 배치(간격 4dp), 높이 22dp 고정이며 폭은 이 슬롯이 우선입니다. |
-| extraContent | (@Composable () -> Unit)?  | 설명 아래에 배치하는 자유 슬롯입니다. 폭은 부모를 채우며, 내부 구성과 타이포·색상은 사용처가 정합니다(가로 배치 시 권장 간격 6dp). |
-| leadingContent | (@Composable RowScope.() -> Unit)?  | 좌측 슬롯입니다. 여러 개를 넣을 수 있고 항목 간 간격은 8dp입니다. |
-| trailingContent | (@Composable RowScope.() -> Unit)?  | 우측 슬롯입니다. 여러 개를 넣을 수 있고 항목 간 간격은 8dp입니다. selected 일 때 이 슬롯을 채우면 Check 아이콘 대신 넣은 것이 보입니다. |
-| enabledInnerTouch | Boolean | true일 경우 슬롯에 넣은 컨트롤(체크박스·스위치·버튼 등)이 자기 터치를 먼저 받습니다. 기본값 false 에서는 셀 클릭 영역이 콘텐츠 위를 덮어, 슬롯 안 어디를 눌러도 [onClick] 만 호출됩니다. true 로 두면 컨트롤 영역의 터치는 컨트롤이 처리하고 [onClick] 은 호출되지 않으므로, 컨트롤 콜백에서 상태를 갱신해야 합니다. |
-| onClick | (() -> Unit)?  | 셀 클릭 시 호출되는 콜백 함수입니다. |
+| labelTrailingContent | (@Composable RowScope.() -> Unit)? | 타이틀 옆 배지 슬롯입니다. 다중 배치(간격 4dp), 높이 22dp 고정이며 폭은 이 슬롯이 우선입니다. |
+| extraContent | (@Composable () -> Unit)? | 설명 아래에 배치하는 자유 슬롯입니다. 폭은 부모를 채우며, 내부 구성과 타이포·색상은 사용처가 정합니다(가로 배치 시 권장 간격 6dp). |
+| leadingContent | (@Composable RowScope.() -> Unit)? | 좌측 슬롯입니다. 여러 개를 넣을 수 있고 항목 간 간격은 8dp입니다. |
+| trailingContent | (@Composable RowScope.() -> Unit)? | 우측 슬롯입니다. 여러 개를 넣을 수 있고 항목 간 간격은 8dp입니다. selected 일 때 이 슬롯을 채우면 Check 아이콘 대신 넣은 것이 보입니다. |
+| enabledInnerTouch | Boolean | true일 경우 슬롯에 넣은 컨트롤(체크박스·스위치·버튼 등)이 자기 터치를 먼저 받습니다. 기본값 false 에서는 셀 클릭 영역이 콘텐츠 위를 덮어, 슬롯 안 어디를 눌러도 `onClick` 만 호출됩니다. true 로 두면 컨트롤 영역의 터치는 컨트롤이 처리하고 `onClick` 은 호출되지 않으므로, 컨트롤 콜백에서 상태를 갱신해야 합니다. |
+| onClick | (() -> Unit)? | 셀 클릭 시 호출되는 콜백 함수입니다. clickOnce 를 쓰는 디자인 시스템 컴포넌트의 직전 클릭(다른 컴포넌트 포함)으로부터 200ms 안의 클릭은 무시됩니다. |
 
 ## Overload
 `AnnotatedString` 기반 텍스트와 서브 텍스트를 활용하는 Cell 컴포넌트입니다.
+
 보통 내부에서 String 기반 `WantedListCell` 함수로부터 호출되며, 텍스트 스타일과 Annotation을 직접 다룰 수 있는 고급 인터페이스입니다.
 
 ```kotlin
@@ -58,57 +60,37 @@ WantedListCell(
   | 이름 | 타입 | 설명 |
   |:---|:---|:---|
   | annotatedString | AnnotatedString | 표시할 메인 텍스트입니다. |
-  | modifier | Modifier | 셀 최외곽 노드에 적용됩니다. 클릭 영역이 이 노드 기준이며, padding 은 클릭 영역 바깥 마진이 됩니다. |
+  | modifier | Modifier | 셀 최외곽 노드에 적용됩니다. 배경·테두리는 이 노드 기준이고, 클릭·리플 영역은 variant 의 interactionOutset 만큼(Inset 12dp, Full 0dp) 좌우로 이 노드 밖으로 넘칩니다. verticalPadding 이 None 이면 넘치는 영역과 리플만 없어지고, onClick 은 셀(이 노드) 영역에서 그대로 호출됩니다. |
   | annotatedDescription | AnnotatedString | 서브 텍스트(설명)입니다. |
   | variant | WantedListCellDefaults.Variant | 좌우 패딩·인터랙션 영역·radius를 묶어 지정합니다. 기본값은 Inset입니다. |
   | verticalPadding | WantedListCellDefaults.VerticalPadding | 셀 상하 패딩 크기를 조정합니다. None 은 인터랙션(outset·radius·ripple)을 사용하지 않습니다. |
   | cellDefault | WantedListCellDefault | 셀 표면(배경색·모양·테두리·안쪽 여백) 설정을 담는 객체입니다. |
   | divider | Boolean | true일 경우 셀 하단에 구분선을 표시합니다. |
   | isEnable | Boolean | 셀의 활성화 여부를 설정합니다. 비활성화 시 클릭이 차단되고(onClick 미호출), 타이틀·설명·Check·chevron에 disable 색상을 적용합니다. 슬롯 콘텐츠는 자동으로 비활성 표현되지 않습니다. 아바타·썸네일처럼 색으로 표현할 수 없는 이미지 계열은 호출부에서 Opacity/43(OPACITY_43)을 적용합니다. |
-  | selected | Boolean | true일 경우 텍스트를 primary 색상과 Body 2 Bold로 강조하고, trailingContent 가 비어 있으면 우측에 Check 아이콘을 표시합니다. chevrons 와 함께 쓰지 않습니다(함께 켜면 chevron 이 우선). |
-  | ellipsis | Boolean | true일 경우 textMaxLine 줄로 제한하고 넘칠 시 생략 부호(...)를 표시합니다. false일 경우 줄 수를 제한하지 않습니다. 기본값은 false입니다. |
+  | selected | Boolean | true일 경우 텍스트를 primary 색상으로 강조하고 titleStyle 이 null 이면 Body 2 Bold 를 적용하며(titleStyle 을 지정하면 그 스타일을 그대로 써서 Bold 가 적용되지 않습니다), trailingContent 가 비어 있으면 우측에 Check 아이콘을 표시합니다. chevrons 와 함께 쓰지 않습니다(함께 켜면 chevron 이 우선). |
+  | ellipsis | Boolean | true일 경우 메인 텍스트는 textMaxLine 줄, 설명은 항상 1줄로 제한하고 넘칠 시 생략 부호(...)를 표시합니다. false일 경우 줄 수를 제한하지 않습니다. 기본값은 false입니다. |
   | verticalAlignCenter | Boolean | leading·trailing(chevron 포함) 슬롯을 타이틀 첫 줄에 맞추는 기준입니다. 슬롯의 최소 높이는 타이틀 첫 줄 높이이고 슬롯 안 콘텐츠는 수직 중앙 정렬됩니다. false(기본값)면 슬롯 top 을 첫 줄 top 에, true 면 슬롯 center 를 첫 줄 center 에 맞춥니다. 설명·extraContent 가 있거나 타이틀이 여러 줄이어도 기준은 텍스트 영역 전체가 아니라 첫 줄입니다. |
   | chevrons | Boolean | true일 경우 우측에 chevron 아이콘을 표시합니다. selected 와 함께 켜면 Check 대신 chevron 이 표시됩니다. |
-  | textMaxLine | Int | ellipsis가 true일 때 적용할 텍스트 최대 줄 수입니다. 기본값은 1입니다. |
-  | titleStyle | TextStyle?  | 메인 텍스트의 커스텀 스타일을 설정할 수 있습니다. |
-  | descriptionStyle | TextStyle?  | 설명 텍스트의 커스텀 스타일을 설정할 수 있습니다. |
-  | labelTrailingContent | (@Composable RowScope.() -> Unit)?  | 타이틀 옆 배지 슬롯입니다. 다중 배치(간격 4dp), 높이 22dp 고정이며 폭은 이 슬롯이 우선입니다. |
-  | extraContent | (@Composable () -> Unit)?  | 설명 아래에 배치하는 자유 슬롯입니다. 폭은 부모를 채우며, 내부 구성과 타이포·색상은 사용처가 정합니다(가로 배치 시 권장 간격 6dp). |
-  | leadingContent | (@Composable RowScope.() -> Unit)?  | 좌측 슬롯입니다. 여러 개를 넣을 수 있고 항목 간 간격은 8dp입니다. |
-  | trailingContent | (@Composable RowScope.() -> Unit)?  | 우측 슬롯입니다. 여러 개를 넣을 수 있고 항목 간 간격은 8dp입니다. selected 일 때 이 슬롯을 채우면 Check 아이콘 대신 넣은 것이 보입니다. |
-  | enabledInnerTouch | Boolean | true일 경우 슬롯에 넣은 컨트롤(체크박스·스위치·버튼 등)이 자기 터치를 먼저 받습니다. 기본값 false 에서는 셀 클릭 영역이 콘텐츠 위를 덮어, 슬롯 안 어디를 눌러도 [onClick] 만 호출됩니다. true 로 두면 컨트롤 영역의 터치는 컨트롤이 처리하고 [onClick] 은 호출되지 않으므로, 컨트롤 콜백에서 상태를 갱신해야 합니다. |
-  | onClick | (() -> Unit)?  | 셀 클릭 시 호출되는 콜백 함수입니다. |
+  | textMaxLine | Int | ellipsis가 true일 때 메인 텍스트에 적용할 최대 줄 수입니다. 설명은 이 값과 무관하게 1줄입니다. 기본값은 1입니다. |
+  | titleStyle | TextStyle? | 메인 텍스트의 커스텀 스타일을 설정할 수 있습니다. 지정하면 selected 의 Body 2 Bold 보다 우선합니다. 스타일의 color 는 쓰지 않으며, 색은 isEnable·selected 규칙(foregroundNeutralPrimary / foregroundBrandPrimary / foregroundDisablePrimary)을 따릅니다. |
+  | descriptionStyle | TextStyle? | 설명 텍스트의 커스텀 스타일을 설정할 수 있습니다. 스타일의 color 는 쓰지 않으며, 색은 isEnable 에 따라 foregroundNeutralTertiary / foregroundDisablePrimary 입니다. |
+  | labelTrailingContent | (@Composable RowScope.() -> Unit)? | 타이틀 옆 배지 슬롯입니다. 다중 배치(간격 4dp), 높이 22dp 고정이며 폭은 이 슬롯이 우선입니다. |
+  | extraContent | (@Composable () -> Unit)? | 설명 아래에 배치하는 자유 슬롯입니다. 폭은 부모를 채우며, 내부 구성과 타이포·색상은 사용처가 정합니다(가로 배치 시 권장 간격 6dp). |
+  | leadingContent | (@Composable RowScope.() -> Unit)? | 좌측 슬롯입니다. 여러 개를 넣을 수 있고 항목 간 간격은 8dp입니다. |
+  | trailingContent | (@Composable RowScope.() -> Unit)? | 우측 슬롯입니다. 여러 개를 넣을 수 있고 항목 간 간격은 8dp입니다. selected 일 때 이 슬롯을 채우면 Check 아이콘 대신 넣은 것이 보입니다. |
+  | enabledInnerTouch | Boolean | true일 경우 슬롯에 넣은 컨트롤(체크박스·스위치·버튼 등)이 자기 터치를 먼저 받습니다. 기본값 false 에서는 셀 클릭 영역이 콘텐츠 위를 덮어, 슬롯 안 어디를 눌러도 `onClick` 만 호출됩니다. true 로 두면 컨트롤 영역의 터치는 컨트롤이 처리하고 `onClick` 은 호출되지 않으므로, 컨트롤 콜백에서 상태를 갱신해야 합니다. |
+  | onClick | (() -> Unit)? | 셀 클릭 시 호출되는 콜백 함수입니다. clickOnce 를 쓰는 디자인 시스템 컴포넌트의 직전 클릭(다른 컴포넌트 포함)으로부터 200ms 안의 클릭은 무시됩니다. |
 
 </details>
 
 ## Advanced
-### Modifier.cellBorder
-셀 표면 테두리를 배경 위에 그립니다. cellDefault.border 가 null 이면 아무것도 적용하지 않습니다.
-background 다음에 호출해야 테두리가 배경에 가려지지 않습니다.
-
-<details>
-  <summary>Parameters</summary>
-
-  | 이름 | 타입 | 설명 |
-  |:---|:---|:---|
-  | cellDefault | WantedListCellDefault | 테두리와 모양 정보를 담은 설정 객체입니다. |
-
-</details>
-<br />
-<details>
-  <summary>Return</summary>
-
-  | 타입 | 설명 |
-  |:---|:---|
-  | Modifier | 테두리가 적용된 Modifier 입니다. |
-
-</details>
-<br />
 ### WantedListCellDefault
 셀 표면(배경색·모양·테두리·안쪽 여백) 스펙을 한 덩어리로 묶어 전달하는 데이터 클래스입니다.
-`modifier` 는 셀 최외곽(클릭·리플 영역 바깥) 노드에 적용되므로, `modifier` 에 배경·테두리·안쪽 여백을 주면
-인터랙션 영역과 어긋납니다. 표면 표현은 모두 이 객체로 지정합니다.
-좌우 패딩·인터랙션 영역·radius 는 표면이 아니라 [WantedListCellDefaults.Variant] 가 정합니다.
+
+표면(배경·테두리)은 `modifier` 와 같은 최외곽 노드에 그려지고, 클릭·리플 영역은 Variant 의 interactionOutset 만큼 그 노드 밖으로 넘칩니다.
+`modifier` 에 배경·테두리를 주면 이 객체의 표면 아래·위로 겹쳐 그려지므로, 표면 표현은 모두 이 객체로 지정합니다.
+
+좌우 패딩·인터랙션 영역·radius 는 표면이 아니라 `WantedListCellDefaults.Variant` 가 정합니다.
 
 <details>
   <summary>Properties</summary>
@@ -118,7 +100,7 @@ background 다음에 호출해야 테두리가 배경에 가려지지 않습니�
   | backgroundColor | Color | 셀 표면 배경색입니다. 기본값 Transparent 는 배경을 그리지 않는 것과 같습니다. |
   | shape | Shape | 배경 모양입니다. |
   | border | BorderStroke? | 셀 표면 테두리입니다. null 이면 테두리를 그리지 않습니다. 배경 위에 그려지므로 modifier 에 직접 border 를 주면 배경에 가려집니다. |
-  | contentPadding | PaddingValues | 셀 콘텐츠 안쪽 여백입니다. modifier 의 padding 은 클릭 영역 바깥 마진이 되므로 안쪽 여백은 이 값으로 줍니다. |
+  | contentPadding | PaddingValues | 셀 콘텐츠 안쪽 여백입니다. modifier 의 padding 은 표면 바깥 여백이 되므로(넘치는 클릭 영역보다 좁으면 클릭 영역 안에 들어감) 안쪽 여백은 이 값으로 줍니다. |
 
 </details>
 <br />
@@ -162,8 +144,8 @@ val surface = WantedListCellDefaults.getDefault(
 ### Variant
 | 값 | 설명 |
 |:---|:---|
-| [Inset] | 셀이 콘텐츠 폭을 갖고 **리스트가 좌우 여백을 준다.** 인터랙션은 셀보다 좌우로 12dp 넓고 radius 16dp 입니다. |
-| [Full] | 셀이 **리스트 폭을 채우고** 내부 좌우 패딩 20dp 를 갖는다. 인터랙션은 셀과 동일하며 radius 0dp 입니다. |
+| Inset | 셀이 콘텐츠 폭을 갖고 **리스트가 좌우 여백을 준다.** 인터랙션은 셀보다 좌우로 12dp 넓고 radius 16dp 입니다. |
+| Full | 셀이 **리스트 폭을 채우고** 내부 좌우 패딩 20dp 를 갖는다. 인터랙션은 셀과 동일하며 radius 0dp 입니다. |
 
 ### VerticalPadding
 | 값 | 설명 |

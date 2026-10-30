@@ -1,0 +1,25 @@
+---
+title: Dimension
+description: Figma Dimension 컬렉션을 매핑한 시맨틱 토큰. height/width 용도.
+---
+
+## WantedDimension
+Figma `Dimension` 컬렉션을 매핑한 시맨틱 토큰. height/width 용도.
+각 값은 `WantedPrimitive`를 alias 한다.
+
+
+## Advanced
+### WantedPrimitive
+Figma `Primitive` 컬렉션을 매핑한 원시 척도 토큰.
+
+직접 사용하지 말고 가능한 `WantedSpacing`, `WantedRadius`, `WantedDimension` 시맨틱 토큰을 사용한다.
+
+### WantedRadius
+Figma `Radius` 컬렉션을 매핑한 시맨틱 토큰. corner-radius 용도.
+각 값은 `WantedPrimitive`를 alias 한다.
+
+`radiusFull`은 Figma의 `radius/full(9999px)`에 해당하며 Compose에선 `CircleShape`로 노출한다.
+
+### WantedSpacing
+Figma `Spacing` 컬렉션을 매핑한 시맨틱 토큰. GAP(간격, 패딩, 마진)에 사용한다.
+각 값은 `WantedPrimitive`를 alias 한다.

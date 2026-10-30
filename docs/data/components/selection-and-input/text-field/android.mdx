@@ -5,6 +5,7 @@ description: 입력 필드 본체만 렌더링하는 Text field 컴포넌트입�
 
 ## WantedTextField
 입력 필드 본체만 렌더링하는 Text field 컴포넌트입니다.
+
 라벨·필수 표시(*)·하단 메시지는 포함하지 않습니다. 해당 요소가 필요하면
 WantedFormControl 의 input 슬롯에 조합해서 사용합니다.
 커서 위치와 선택 영역을 다루기 위해 TextFieldValue 로 값을 주고받습니다.
@@ -66,112 +67,14 @@ WantedFormControl(
 | onValueChange | (TextFieldValue) -> Unit | 값 변경 시 콜백입니다. |
 | focusRequester | FocusRequester | 포커스 요청에 사용하는 FocusRequester 입니다. |
 
-## Overload
-(Deprecated) 라벨·메시지 레이아웃을 함께 렌더링하는 문자열 기반 Text field 컴포넌트입니다.
-title·requiredBadge·description 은 WantedFormControl 의 label·required·description 으로
-대체되었습니다. 입력 필드 본체만 담당하는 WantedTextField(value = ...) 를
-WantedFormControl 의 input 슬롯에 조합해서 사용합니다.
-
-```kotlin
-// 대체 방식
-WantedFormControl(
-    label = "주제",
-    required = true,
-    description = "메시지에 마침표를 찍어요.",
-    status = WantedFormControlDefaults.Status.Negative
-) {
-    WantedTextField(value = state.value, ..., onValueChange = { state.value = it })
-}
-```
-<details>
-  <summary>Parameters</summary>
-
-
-  | 이름 | 타입 | 설명 |
-  |:---|:---|:---|
-  | text | String | 현재 입력된 텍스트입니다. |
-  | modifier | Modifier | 레이아웃 및 스타일을 설정합니다. |
-  | placeholder | String | 텍스트 필드에 힌트로 표시될 문자열입니다. |
-  | title | String | 상단 제목 텍스트입니다. 빈 문자열이면 제목을 렌더링하지 않습니다. |
-  | description | String? | 하단에 표시할 설명 또는 상태 메시지입니다. |
-  | trailingButton | String? | 우측 버튼에 표시될 텍스트입니다. |
-  | size | WantedTextFieldDefaults.Size | 텍스트 필드의 크기입니다. (Large, Medium) |
-  | status | WantedTextFieldDefaults.Status | 텍스트 필드의 상태입니다. (Normal, Positive, Negative) |
-  | enabled | Boolean | 입력 가능 여부입니다. |
-  | trailingButtonEnabled | Boolean | 우측 버튼 활성화 여부입니다. |
-  | maxLines | Int | 텍스트 필드의 최대 줄 수입니다. |
-  | minLines | Int | 텍스트 필드의 최소 줄 수입니다. |
-  | maxWordCount | Int | 허용되는 최대 글자 수입니다. |
-  | enabledOverflowText | Boolean | 최대 글자 수 초과 입력 허용 여부입니다. |
-  | requiredBadge | Boolean | 제목 옆에 필수 뱃지 표시 여부입니다. |
-  | interactionSource | MutableInteractionSource | 포커스 및 인터랙션 상태를 추적합니다. |
-  | focusRequester | FocusRequester | 포커스 요청에 사용하는 FocusRequester 입니다. |
-  | keyboardOptions | KeyboardOptions | 키보드 동작 옵션입니다. |
-  | keyboardActions | KeyboardActions | 키보드 액션에 대한 핸들링입니다. |
-  | background | Color | 텍스트 필드 배경 색상입니다. |
-  | visualTransformation | VisualTransformation | 텍스트 표시 방식을 변환합니다 (예: 비밀번호 마스킹). |
-  | leadingIcon | (@Composable () -> Unit)? | 좌측 아이콘 슬롯입니다. |
-  | trailingIcon | (@Composable () -> Unit)? | 우측 아이콘 슬롯입니다. |
-  | trailingContent | (@Composable () -> Unit)? | 우측 아이콘과 버튼 사이에 들어갈 커스텀 콘텐츠 슬롯입니다. |
-  | onClickTrailingButton | () -> Unit | 우측 버튼 클릭 시 콜백입니다. |
-  | onValueChange | (String) -> Unit | 텍스트 변경 시 콜백입니다. |
-
-</details>
-<br />
-
-(Deprecated) 라벨·메시지 레이아웃을 함께 렌더링하는 TextFieldValue 기반 Text field 컴포넌트입니다.
-커서 위치 및 선택 영역 처리를 위해 TextFieldValue 를 사용합니다.
-title·requiredBadge·description 은 WantedFormControl 의 label·required·description 으로
-대체되었습니다. 입력 필드 본체만 담당하는 WantedTextField(value = ...) 를
-WantedFormControl 의 input 슬롯에 조합해서 사용합니다.
-
-```kotlin
-// 대체 방식
-val state = remember { mutableStateOf(TextFieldValue("")) }
-
-WantedFormControl(label = "주제", required = true) {
-    WantedTextField(value = state.value, ..., onValueChange = { state.value = it })
-}
-```
-<details>
-  <summary>Parameters</summary>
-
-
-  | 이름 | 타입 | 설명 |
-  |:---|:---|:---|
-  | value | TextFieldValue | 입력된 텍스트 및 커서·선택 영역 상태를 포함한 값입니다. |
-  | onValueChange | (TextFieldValue) -> Unit | 값 변경 시 호출되는 콜백입니다. |
-  | modifier | Modifier | 외형 및 레이아웃 설정입니다. |
-  | enabled | Boolean | 입력 가능 여부입니다. |
-  | title | String | 상단 제목 텍스트입니다. 빈 문자열이면 제목을 렌더링하지 않습니다. |
-  | requiredBadge | Boolean | 제목 옆에 필수 뱃지 표시 여부입니다. |
-  | placeholder | String | 값이 비어 있을 때 힌트로 표시될 문자열입니다. |
-  | description | String? | 하단에 표시할 설명 또는 상태 메시지입니다. |
-  | leadingIcon | (@Composable () -> Unit)? | 좌측 아이콘 슬롯입니다. |
-  | trailingIcon | (@Composable () -> Unit)? | 우측 아이콘 슬롯입니다. |
-  | trailingContent | (@Composable () -> Unit)? | 우측 아이콘과 버튼 사이에 들어갈 커스텀 콘텐츠 슬롯입니다. |
-  | trailingButton | String? | 우측 버튼에 표시될 텍스트입니다. |
-  | onClickTrailingButton | () -> Unit | 우측 버튼 클릭 시 콜백입니다. |
-  | trailingButtonEnabled | Boolean | 우측 버튼 활성화 여부입니다. |
-  | size | WantedTextFieldDefaults.Size | 텍스트 필드의 크기입니다. (Large, Medium) |
-  | status | WantedTextFieldDefaults.Status | 텍스트 필드의 상태입니다. (Normal, Positive, Negative) |
-  | maxWordCount | Int | 허용되는 최대 글자 수입니다. |
-  | enabledOverflowText | Boolean | 최대 글자 수 초과 입력 허용 여부입니다. |
-  | minLines | Int | 텍스트 필드의 최소 줄 수입니다. |
-  | maxLines | Int | 텍스트 필드의 최대 줄 수입니다. |
-  | interactionSource | MutableInteractionSource | 포커스 및 인터랙션 상태를 추적합니다. |
-  | focusRequester | FocusRequester | 포커스 요청에 사용하는 FocusRequester 입니다. |
-  | keyboardOptions | KeyboardOptions | 키보드 동작 옵션입니다. |
-  | keyboardActions | KeyboardActions | 키보드 액션에 대한 핸들링입니다. |
-  | background | Color | 텍스트 필드 배경 색상입니다. |
-  | visualTransformation | VisualTransformation | 텍스트 표시 방식을 변환합니다 (예: 비밀번호 마스킹). |
-
-</details>
 
 ## Advanced
 ### WantedTextFieldDefaults
 TextField 컴포넌트에서 사용되는 설정 값을 정의하는 객체입니다.
-선택 렌더링 방식과 선택 UI 스타일을 제어할 수 있는 enum 클래스를 포함합니다.
+
+상태(Status)와 크기(Size) enum 을 포함합니다.
+
+Status 는 deprecated 오버로드·WantedAutoCompleteTextField 에서 사용하며, 본체 WantedTextField 는 error·complete 로 표현합니다.
 
 
 ## Enum
