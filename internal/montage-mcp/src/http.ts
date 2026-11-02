@@ -9,6 +9,7 @@ import {
   createOAuthProvider,
   firestore,
   getServerUrl,
+  handleConsent,
   handleGoogleCallback,
 } from './auth';
 import { getServer } from './server';
@@ -50,6 +51,13 @@ app.use(
     issuerUrl: new URL(getServerUrl()),
     scopesSupported: ['openid', 'email', 'profile'],
   }),
+);
+
+// Consent screen submission (rendered by /authorize)
+app.post(
+  '/oauth/consent',
+  express.urlencoded({ extended: false, limit: '1kb' }),
+  handleConsent,
 );
 
 // Google OAuth callback
