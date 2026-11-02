@@ -31,7 +31,7 @@ jobs:
         uses: ./.github/actions/package-build
 
       - name: Install playwright
-        run: pnpm dlx playwright@1.56.1 install chromium
+        run: pnpm exec playwright install --with-deps chromium
 
       - name: Run Visual Test and update screenshots
         run: pnpm run test:visual --update
