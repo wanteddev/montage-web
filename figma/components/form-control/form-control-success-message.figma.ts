@@ -8,9 +8,9 @@ import { inlineInstances } from '../../helpers/imports';
 
 const instance = figma.selectedInstance;
 
-// Without a description the message renders only its accessory (if any).
+// Without a message text the message renders only its accessory (if any).
 const text =
-  instance.getPropertyValue('Description') === 'True'
+  instance.getPropertyValue('Message') === 'True'
     ? instance.getString('┗ Success Text')
     : '';
 const hasAccessory = instance.getPropertyValue('Accessory') === 'True';

@@ -7,11 +7,17 @@ import figma from 'figma';
 import { inlineInstances } from '../../helpers/imports';
 import { finalizeTemplate } from '../modal/collect-imports';
 
+// The small tooltip binds its text to `Label(Only Desktop)` instead of `Label`.
+const tooltipLabel = () =>
+  figma.selectedInstance.getPropertyValue('Size') === 'Small'
+    ? figma.selectedInstance.getString('Label(Only Desktop)')
+    : figma.selectedInstance.getString('Label');
+
 // Branch per variant; unmatched combinations render no snippet.
 
 let template;
 if (figma.selectedInstance.getPropertyValue('Position') === 'Top') {
-  const label = figma.selectedInstance.getString('Label');
+  const label = tooltipLabel();
   const size = figma.selectedInstance.getEnum('Size', {
     Small: 'small',
     Medium: 'medium',
@@ -69,7 +75,7 @@ if (figma.selectedInstance.getPropertyValue('Position') === 'Top') {
     metadata: { nestable: true, __props },
   };
 } else if (figma.selectedInstance.getPropertyValue('Position') === 'Bottom') {
-  const label = figma.selectedInstance.getString('Label');
+  const label = tooltipLabel();
   const size = figma.selectedInstance.getEnum('Size', {
     Small: 'small',
     Medium: 'medium',
@@ -127,7 +133,7 @@ if (figma.selectedInstance.getPropertyValue('Position') === 'Top') {
     metadata: { nestable: true, __props },
   };
 } else if (figma.selectedInstance.getPropertyValue('Position') === 'Left') {
-  const label = figma.selectedInstance.getString('Label');
+  const label = tooltipLabel();
   const size = figma.selectedInstance.getEnum('Size', {
     Small: 'small',
     Medium: 'medium',
@@ -185,7 +191,7 @@ if (figma.selectedInstance.getPropertyValue('Position') === 'Top') {
     metadata: { nestable: true, __props },
   };
 } else if (figma.selectedInstance.getPropertyValue('Position') === 'Right') {
-  const label = figma.selectedInstance.getString('Label');
+  const label = tooltipLabel();
   const size = figma.selectedInstance.getEnum('Size', {
     Small: 'small',
     Medium: 'medium',

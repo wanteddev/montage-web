@@ -30,9 +30,9 @@ if (
     true: figma.helpers.react.jsxElement('<SnackbarCloseButton />'),
     false: undefined,
   });
-  // The icon is the `Leading Content` instance (Icons wrapper) inside the
-  // `Icon` frame. Its icon import is two levels down, so re-declare it here.
-  const iconLayer = figma.selectedInstance.findInstance('Leading Content');
+  // The icon is the `Icon` instance (Icons wrapper). Its icon import is two
+  // levels down, so re-declare it here.
+  const iconLayer = figma.selectedInstance.findInstance('Icon');
   const iconResult =
     iconLayer.type === 'ERROR' ? undefined : iconLayer.executeTemplate();
   const icon = iconResult?.example;
@@ -105,9 +105,9 @@ if (
     true: figma.helpers.react.jsxElement('<SnackbarCloseButton />'),
     false: undefined,
   });
-  // The icon is the `Leading Content` instance (Icons wrapper) inside the
-  // `Icon` frame. Its icon import is two levels down, so re-declare it here.
-  const iconLayer = figma.selectedInstance.findInstance('Leading Content');
+  // The icon is the `Icon` instance (Icons wrapper). Its icon import is two
+  // levels down, so re-declare it here.
+  const iconLayer = figma.selectedInstance.findInstance('Icon');
   const iconResult =
     iconLayer.type === 'ERROR' ? undefined : iconLayer.executeTemplate();
   const icon = iconResult?.example;
