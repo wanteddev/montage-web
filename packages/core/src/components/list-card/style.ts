@@ -19,6 +19,7 @@ const listCardPlatformStyle = ({ platform }: Pick<CardProps, 'platform'>) => {
         // thumbnail
         [data-component='thumbnail'],
         [data-component='thumbnail-skeleton'] {
+          flex-shrink: 0;
           width: 120px;
         }
         // text
@@ -36,6 +37,7 @@ const listCardPlatformStyle = ({ platform }: Pick<CardProps, 'platform'>) => {
         // thumbnail
         [data-component='thumbnail'],
         [data-component='thumbnail-skeleton'] {
+          flex-shrink: 0;
           width: 96px;
         }
         // text
@@ -94,6 +96,7 @@ export const listCardStyle =
     `;
 
 export const listCardContentStyle = css`
+  flex-shrink: 0;
   width: 24px;
   height: 24px;
   font-size: 24px;

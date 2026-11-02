@@ -56,7 +56,7 @@ const ContentBadge = forwardRef<
         ]}
       >
         {Boolean(leadingContent) && leadingContent}
-        <span>{children}</span>
+        <span data-role="content-badge-text">{children}</span>
         {Boolean(trailingContent) && trailingContent}
       </Box>
     );

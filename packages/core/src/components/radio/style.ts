@@ -11,6 +11,7 @@ export const radioStyle =
   (theme: Theme) =>
     css`
       display: flex;
+      flex-shrink: 0;
       padding: 2px;
       align-items: center;
       justify-content: center;

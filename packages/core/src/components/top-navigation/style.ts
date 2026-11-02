@@ -243,7 +243,10 @@ export const topNavigationRightIconStyle = (
         top: var(--top-navigation-padding-y, 16px);
       `;
     case 'display':
-      return undefined;
+    case 'search':
+      return css`
+        flex-shrink: 0;
+      `;
   }
 };
 
@@ -259,7 +262,10 @@ export const topNavigationLeftIconStyle = (
         top: var(--top-navigation-padding-y, 16px);
       `;
     case 'display':
-      return undefined;
+    case 'search':
+      return css`
+        flex-shrink: 0;
+      `;
   }
 };
 

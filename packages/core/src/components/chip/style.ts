@@ -26,6 +26,10 @@ export const chipStyle =
         color 0.3s ease,
         box-shadow 0.3s ease;
 
+      & > svg {
+        flex-shrink: 0;
+      }
+
       &:disabled,
       &[aria-disabled='true'] {
         pointer-events: none;

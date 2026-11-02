@@ -793,6 +793,11 @@ export const modalNavigationRightIconStyle = (
         right: 0px;
         top: auto;
       `;
+    case 'emphasized':
+    case 'search':
+      return css`
+        flex-shrink: 0;
+      `;
   }
 };
 
@@ -812,6 +817,11 @@ export const modalNavigationLeftIconStyle = (
         position: absolute;
         left: 0px;
         top: auto;
+      `;
+    case 'emphasized':
+    case 'search':
+      return css`
+        flex-shrink: 0;
       `;
   }
 };
