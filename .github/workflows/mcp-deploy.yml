@@ -105,8 +105,6 @@ jobs:
         run: |
           DOCKER_BUILDKIT=1 docker build \
           --platform=linux/amd64 \
-          --provenance=false \
-          --sbom=false \
           -t $ECR_REGISTRY/$ECR_REPOSITORY:latest \
           -f Dockerfile \
           --build-arg BUILDKIT_INLINE_CACHE=1 \
