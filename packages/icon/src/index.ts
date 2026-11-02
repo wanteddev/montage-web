@@ -163,6 +163,8 @@ export { default as IconFire } from './icon-fire';
 export { default as IconFireFill } from './icon-fire-fill';
 export { default as IconFlag } from './icon-flag';
 export { default as IconFlagFill } from './icon-flag-fill';
+export { default as IconFlask } from './icon-flask';
+export { default as IconFlaskFill } from './icon-flask-fill';
 export { default as IconFlip } from './icon-flip';
 export { default as IconFlipBackward } from './icon-flip-backward';
 export { default as IconFolder } from './icon-folder';

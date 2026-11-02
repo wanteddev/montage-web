@@ -3,12 +3,14 @@ import {
   readFileSync,
   readdirSync,
   rmSync,
+  unlinkSync,
   writeFile,
   writeFileSync,
 } from 'node:fs';
 import { join } from 'node:path';
 
 const outputDir = './output';
+const iconSourceDir = './packages/icon/src';
 
 const ignoreSyncIcons = [
   {
@@ -178,6 +180,21 @@ const main = async () => {
     )}\n`,
   );
 
+  // Figma에서 사라진 아이콘 파일을 지운다. 동기화에서 제외했거나 직접 관리하는 아이콘은 남긴다.
+  const keepFileNames = new Set([
+    ...files.map(([fileName]) => fileName),
+    ...[...ignoreSyncIcons.map((icon) => icon.name), ...includeIndexIcons].map(
+      kebabCase,
+    ),
+  ]);
+  readdirSync(iconSourceDir)
+    .filter((filename) => /^icon-.*\.tsx$/.test(filename))
+    .filter((filename) => !keepFileNames.has(filename.replace(/\.tsx$/, '')))
+    .forEach((filename) => {
+      unlinkSync(join(iconSourceDir, filename));
+      console.log(`Removed stale icon: ${filename}`);
+    });
+
   await Promise.all(
     files.map(
       ([fileName, fileContents]) =>
@@ -214,7 +231,14 @@ const main = async () => {
     'pnpm jscodeshift ./packages/icon/src --extensions=tsx, --parasr=tsx --transform=./packages/codemod/src/transforms/svg-use-id.ts',
     { shell: true, stdio: 'inherit' },
   );
-  spawnSync('pnpm -F icon lint:fix src', { shell: true, stdio: 'inherit' });
+  spawnSync('pnpm exec oxlint --fix --fix-suggestions packages/icon/src', {
+    shell: true,
+    stdio: 'inherit',
+  });
+  spawnSync('pnpm exec oxfmt packages/icon/src', {
+    shell: true,
+    stdio: 'inherit',
+  });
 
   rmSync(outputDir, { recursive: true, force: true });
 

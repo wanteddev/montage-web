@@ -11,7 +11,7 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 /**
  * 동영상을 표현합니다.
  * 키워드: Video, 비디오, Film, 영화
- * 속성: Outlined
+ * 속성: Solid
  */
 const IconVideoFill = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
