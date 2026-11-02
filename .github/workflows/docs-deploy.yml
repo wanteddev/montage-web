@@ -3,8 +3,14 @@ name: Docs deploy
 on:
   pull_request:
     types: [opened, synchronize, reopened, ready_for_review]
-    paths-ignore:
-      - 'figma/**'
+    paths:
+      - '.github/workflows/docs-deploy.yml'
+      - '.github/actions/pnpm-install/**'
+      - '.github/actions/package-build/**'
+      - 'docs/**'
+      - 'packages/**'
+      - 'pnpm-lock.yaml'
+      - 'package.json'
   workflow_dispatch:
     inputs:
       algolia:
