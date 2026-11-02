@@ -20,7 +20,9 @@ const PORT = parseInt(process.env.PORT ?? '3000', 10);
 
 const app = express();
 
-app.set('trust proxy', 2);
+// Number of reverse proxies in front of the app (CloudFront, ALB, ...);
+// rate limiting keys on req.ip, so this must match the deployed path
+app.set('trust proxy', parseInt(process.env.TRUST_PROXY_HOPS ?? '2', 10));
 app.use(express.json({ limit: '256kb' }));
 
 const provider = createOAuthProvider();

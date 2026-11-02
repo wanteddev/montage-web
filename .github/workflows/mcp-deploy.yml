@@ -100,6 +100,8 @@ jobs:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           ECR_REPOSITORY: ${{ needs.set-env.outputs.ecr_repository }}
           IMAGE_TAG: ${{ needs.set-env.outputs.short_sha }}
+          # dev goes through APISIX on EKS: CloudFront -> ALB -> APISIX -> ECS
+          TRUST_PROXY_HOPS: ${{ needs.set-env.outputs.server_type == 'dev' && '3' || '2' }}
         run: |
           DOCKER_BUILDKIT=1 docker build \
           --platform=linux/amd64 \
@@ -108,6 +110,7 @@ jobs:
           -t $ECR_REGISTRY/$ECR_REPOSITORY:latest \
           -f Dockerfile \
           --build-arg BUILDKIT_INLINE_CACHE=1 \
+          --build-arg TRUST_PROXY_HOPS=$TRUST_PROXY_HOPS \
           --cache-from $ECR_REGISTRY/$ECR_REPOSITORY:latest .
           docker tag $ECR_REGISTRY/$ECR_REPOSITORY:latest $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
