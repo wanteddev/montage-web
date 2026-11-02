@@ -1,25 +1,36 @@
 import { Box } from '@montage-ui/engine';
-    import { forwardRef } from 'react';
+import { forwardRef } from 'react';
 
-    import type { SxProp } from '@montage-ui/engine';
-    import type { ComponentPropsWithoutRef } from 'react';
+import type { SxProp } from '@montage-ui/engine';
+import type { ComponentPropsWithoutRef } from 'react';
 
-    type Props = ComponentPropsWithoutRef<'svg'> & {
-      sx?: SxProp;
-    };
+type Props = ComponentPropsWithoutRef<'svg'> & {
+  sx?: SxProp;
+};
 
-    /**
+/**
  * 실험실을 표현합니다.
  * 키워드: 실험실, Flask, 과학, 실험, 플라스크
  * 속성: Solid
  */
-    const IconFlaskFill = forwardRef<SVGSVGElement, Props>((props, ref) => {
-      return (
-        <Box as="svg"   viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" ref={ref} {...props}>
-<path d="M15.7491 3.48047C16.2461 3.48047 16.6494 3.88392 16.6495 4.38086C16.6495 4.87792 16.2462 5.28125 15.7491 5.28125H14.8995V11.0273L19.8731 16.3213C20.2598 16.7329 20.5932 17.0868 20.8263 17.3838C21.0435 17.6608 21.3078 18.0482 21.3351 18.5254C21.369 19.1241 21.1178 19.7036 20.6583 20.0889C20.2917 20.396 19.8294 20.4686 19.4786 20.5C19.1024 20.5336 18.6162 20.5332 18.0509 20.5332H5.94736C5.38204 20.5332 4.89579 20.5336 4.51963 20.5C4.21266 20.4725 3.82017 20.4134 3.48154 20.1934L3.33994 20.0889L3.17783 19.9355C2.8228 19.5584 2.63354 19.049 2.66318 18.5254C2.69046 18.0482 2.95472 17.6608 3.17197 17.3838C3.40504 17.0867 3.73816 16.7332 4.1251 16.3213L9.09873 11.0273V5.28125H8.24912C7.75211 5.2812 7.34873 4.87788 7.34873 4.38086C7.34886 3.88395 7.75219 3.48052 8.24912 3.48047H15.7491Z" fill="currentColor"/>
-</Box>
+const IconFlaskFill = forwardRef<SVGSVGElement, Props>((props, ref) => {
+  return (
+    <Box
+      as="svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      width="1em"
+      height="1em"
+      ref={ref}
+      {...props}
+    >
+      <path
+        d="M15.7491 3.48047C16.2461 3.48047 16.6494 3.88392 16.6495 4.38086C16.6495 4.87792 16.2462 5.28125 15.7491 5.28125H14.8995V11.0273L19.8731 16.3213C20.2598 16.7329 20.5932 17.0868 20.8263 17.3838C21.0435 17.6608 21.3078 18.0482 21.3351 18.5254C21.369 19.1241 21.1178 19.7036 20.6583 20.0889C20.2917 20.396 19.8294 20.4686 19.4786 20.5C19.1024 20.5336 18.6162 20.5332 18.0509 20.5332H5.94736C5.38204 20.5332 4.89579 20.5336 4.51963 20.5C4.21266 20.4725 3.82017 20.4134 3.48154 20.1934L3.33994 20.0889L3.17783 19.9355C2.8228 19.5584 2.63354 19.049 2.66318 18.5254C2.69046 18.0482 2.95472 17.6608 3.17197 17.3838C3.40504 17.0867 3.73816 16.7332 4.1251 16.3213L9.09873 11.0273V5.28125H8.24912C7.75211 5.2812 7.34873 4.87788 7.34873 4.38086C7.34886 3.88395 7.75219 3.48052 8.24912 3.48047H15.7491Z"
+        fill="currentColor"
+      />
+    </Box>
+  );
+});
 
-      )
-    });
-
-    export default IconFlaskFill;
+export default IconFlaskFill;

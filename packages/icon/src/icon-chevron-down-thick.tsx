@@ -1,25 +1,36 @@
 import { Box } from '@montage-ui/engine';
-    import { forwardRef } from 'react';
+import { forwardRef } from 'react';
 
-    import type { SxProp } from '@montage-ui/engine';
-    import type { ComponentPropsWithoutRef } from 'react';
+import type { SxProp } from '@montage-ui/engine';
+import type { ComponentPropsWithoutRef } from 'react';
 
-    type Props = ComponentPropsWithoutRef<'svg'> & {
-      sx?: SxProp;
-    };
+type Props = ComponentPropsWithoutRef<'svg'> & {
+  sx?: SxProp;
+};
 
-    /**
+/**
  * 아래쪽 방향의 꺾쇠를 표현합니다. 굵기와 사이즈 옵션을 조절할 수 있습니다.
  * 키워드: Thick, Chevron, Arrow, Down, Bottom, 꺾쇠, 아래, 화살표, 표시, 하단
  * 속성: Outlined
  */
-    const IconChevronDownThick = forwardRef<SVGSVGElement, Props>((props, ref) => {
-      return (
-        <Box as="svg"   viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" ref={ref} {...props}>
-<path d="M3.08096 7.58071C3.58864 7.07303 4.41175 7.07303 4.91943 7.58071L12.0002 14.6615L19.081 7.58071C19.5886 7.07303 20.4118 7.07303 20.9194 7.58071C21.4271 8.08839 21.4271 8.91151 20.9194 9.41919L12.9194 17.4192C12.4118 17.9269 11.5886 17.9269 11.081 17.4192L3.08096 9.41919C2.57327 8.91151 2.57327 8.08839 3.08096 7.58071Z" fill="currentColor"/>
-</Box>
+const IconChevronDownThick = forwardRef<SVGSVGElement, Props>((props, ref) => {
+  return (
+    <Box
+      as="svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      width="1em"
+      height="1em"
+      ref={ref}
+      {...props}
+    >
+      <path
+        d="M3.08096 7.58071C3.58864 7.07303 4.41175 7.07303 4.91943 7.58071L12.0002 14.6615L19.081 7.58071C19.5886 7.07303 20.4118 7.07303 20.9194 7.58071C21.4271 8.08839 21.4271 8.91151 20.9194 9.41919L12.9194 17.4192C12.4118 17.9269 11.5886 17.9269 11.081 17.4192L3.08096 9.41919C2.57327 8.91151 2.57327 8.08839 3.08096 7.58071Z"
+        fill="currentColor"
+      />
+    </Box>
+  );
+});
 
-      )
-    });
-
-    export default IconChevronDownThick;
+export default IconChevronDownThick;
