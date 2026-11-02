@@ -20,6 +20,10 @@ export const buttonStyle =
     position: relative;
     cursor: pointer;
 
+    & > svg {
+      flex-shrink: 0;
+    }
+
     [data-role='button-loading'] {
       position: absolute;
       top: 50%;

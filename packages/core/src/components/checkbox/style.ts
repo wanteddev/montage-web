@@ -25,6 +25,7 @@ export const checkboxStyle =
   }: CheckboxProps) =>
   (theme: Theme) => css`
     display: flex;
+    flex-shrink: 0;
     align-items: center;
     justify-content: center;
     background-color: transparent;

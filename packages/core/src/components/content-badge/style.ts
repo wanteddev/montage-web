@@ -15,6 +15,17 @@ export const contentBadgeStyle =
     justify-content: center;
     width: fit-content;
     height: fit-content;
+    flex-shrink: 0;
+
+    svg {
+      flex-shrink: 0;
+    }
+
+    [data-role='content-badge-text'] {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
 
     ${contentBadgeColorVariant(props, theme)}
     ${getSizeStyle(props)}

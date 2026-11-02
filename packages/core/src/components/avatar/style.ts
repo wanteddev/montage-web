@@ -13,6 +13,7 @@ export const avatarWrapperStyle =
     align-items: center;
     justify-content: center;
     position: relative;
+    flex-shrink: 0;
 
     &::after {
       box-shadow: inset 0 0 0 1px ${theme.semantic.line.neutral.tertiary};
