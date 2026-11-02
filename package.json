@@ -66,6 +66,7 @@
     "jsdom": "^26.1.0",
     "lerna": "^10.1.1",
     "lint-staged": "^15.5.2",
+    "playwright": "1.64.1",
     "prettier": "^3.9.10",
     "react": "^19.3.1",
     "size-limit": "^14.3.0",
