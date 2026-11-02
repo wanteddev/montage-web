@@ -3,6 +3,8 @@
   "editor.formatOnSave": true,
   "editor.formatOnType": true,
   "editor.defaultFormatter": "oxc.oxc-vscode",
+  "eslint.enable": false,
+  "prettier.enable": false,
   "editor.codeActionsOnSave": {
     "source.fixAll.oxc": "explicit",
     "source.organizeImports": "never"

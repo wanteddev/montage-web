@@ -681,9 +681,6 @@ importers:
         specifier: ^3.3.5
         version: 3.3.5
     devDependencies:
-      '@types/eslint':
-        specifier: ^8.56.12
-        version: 8.56.12
       '@types/estree':
         specifier: ^1.0.9
         version: 1.0.9
@@ -4296,9 +4293,6 @@ packages:
 
   '@types/deep-eql@4.0.2':
     resolution: {integrity: sha512-c9h9dVVMigMPc4bwTvC5dxqtqJZwQPePsWjPlpSOnojbor6pGqdk541lfA7AqFQr5pB1BRdq0juY9db81BwyFw==}
-
-  '@types/eslint@8.56.12':
-    resolution: {integrity: sha512-03ruubjWyOHlmljCVoxSuNDdmfZDzsrrz0P2LeJsOXr+ZwFQ+0yQIwNCwt/GYhV7Z31fgtXJTAEs+FYlEL851g==}
 
   '@types/estree-jsx@1.0.5':
     resolution: {integrity: sha512-52CcUVNFyfb1A2ALocQw/Dd1BQFNmSdkuC3BkZ6iqhdMfQz7JWOFRuJFloOzjk+6WijU56m9oKXFAXc7o3Towg==}
@@ -12275,11 +12269,6 @@ snapshots:
       '@types/ms': 2.1.0
 
   '@types/deep-eql@4.0.2': {}
-
-  '@types/eslint@8.56.12':
-    dependencies:
-      '@types/estree': 1.0.9
-      '@types/json-schema': 7.0.15
 
   '@types/estree-jsx@1.0.5':
     dependencies:
