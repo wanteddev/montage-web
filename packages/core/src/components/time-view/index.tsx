@@ -164,7 +164,7 @@ const TimeList = memo(
         if (currentTimeValue) {
           scrollToTime(view, currentTimeValue, scrollViewportRef);
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+        // oxlint-disable-next-line react-hooks/exhaustive-deps
       }, [currentTimeValue]);
 
       return (

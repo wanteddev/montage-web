@@ -27,7 +27,7 @@ const useAnimationPresenceState = (initialState: PresenceState) => {
   );
 };
 
-// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+// oxlint-disable-next-line @typescript-eslint/no-unnecessary-condition
 const useSafeLayoutEffect = globalThis?.document ? useLayoutEffect : () => {};
 
 export const useAnimationPresence = (

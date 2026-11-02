@@ -35,7 +35,7 @@ const useResizeObserver = (
       debounceHandleResize.clear();
       cancelAnimationFrame(rAF);
       containerWindow.removeEventListener('resize', debounceHandleResize);
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+      // oxlint-disable-next-line @typescript-eslint/no-unnecessary-condition
       if (resizeObserver) {
         resizeObserver.unobserve(target);
         resizeObserver.disconnect();

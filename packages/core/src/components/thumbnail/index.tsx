@@ -46,7 +46,7 @@ const Thumbnail = forwardRef<
     useEffect(() => {
       if (prevSrc.current !== props.src) {
         prevSrc.current = props.src;
-        // eslint-disable-next-line react-hooks/set-state-in-effect
+        // oxlint-disable-next-line react-hooks/set-state-in-effect
         setImageLoadingStatus('idle');
       }
     }, [props.src]);

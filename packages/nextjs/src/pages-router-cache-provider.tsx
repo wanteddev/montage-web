@@ -102,6 +102,7 @@ export async function documentGetInitialProps(
   return createGetInitialProps(document, [
     {
       enhanceApp: (App: any) =>
+        // oxlint-disable-next-line react/function-component-definition
         function EnhanceApp(props) {
           return <App emotionCache={cache} {...props} />;
         },

@@ -54,7 +54,7 @@ const SectionHierarchyItem = ({
 
   const code = useMemo(() => {
     return makeSectionHierarchyCode(components, render);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // oxlint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const { element } = useRunner({

@@ -98,7 +98,7 @@ export const useDateField = ({
     if (focusedSection) {
       setFocusedSection(newSections[focusedSection.index]);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // oxlint-disable-next-line react-hooks/exhaustive-deps
   }, [format, locale, timezone]);
 
   const isFirstRender = useRef(true);
@@ -149,7 +149,7 @@ export const useDateField = ({
       setValue(dateTypeToDateObject(value, timezone));
       prevTimezone.current = timezone;
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // oxlint-disable-next-line react-hooks/exhaustive-deps
   }, [timezone, value, locale, format]);
 
   const handleNextSection = useCallback(

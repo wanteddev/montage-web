@@ -114,7 +114,7 @@ const Snackbar = forwardRef(
           disablePortal={disablePortal}
           container={
             container ??
-            // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+            // oxlint-disable-next-line @typescript-eslint/no-unnecessary-condition
             globalThis?.document?.querySelector(
               '#montage-region-manager-bottom',
             )

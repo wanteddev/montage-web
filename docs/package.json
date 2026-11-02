@@ -6,8 +6,6 @@
     "dev": "pnpm -w run build && pnpm run -w build:api && NODE_TLS_REJECT_UNAUTHORIZED=0 next dev",
     "build": "pnpm -w run build:api && next build",
     "start": "next start",
-    "lint": "eslint",
-    "lint:fix": "eslint --fix",
     "analyze": "ANALYZE=true next build"
   },
   "dependencies": {

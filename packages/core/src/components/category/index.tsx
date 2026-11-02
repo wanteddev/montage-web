@@ -334,7 +334,7 @@ const CategoryListItem = forwardRef<any, CategoryListItemProps>(
       if (!context.disableScrollMoveOnChange) {
         scrollMove();
       }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
+      // oxlint-disable-next-line react-hooks/exhaustive-deps
     }, [context.value, value, context.disableScrollMoveOnChange]);
 
     return (
@@ -410,7 +410,7 @@ const CategoryPanel = forwardRef<
     if (!firstRendered && isActive) {
       setFirstRendered(true);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // oxlint-disable-next-line react-hooks/exhaustive-deps
   }, [isActive]);
 
   useEffect(() => {
@@ -422,7 +422,7 @@ const CategoryPanel = forwardRef<
     return () => {
       context.onPanelsChange((prev) => [...prev.filter((v) => v !== value)]);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // oxlint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);
 
   if (!isActive) {

@@ -23,8 +23,6 @@
     }
   },
   "scripts": {
-    "lint": "eslint",
-    "lint:fix": "eslint --fix",
     "build": "tsc --noEmit && tsdown",
     "watch": "tsdown --watch"
   },
@@ -44,7 +42,8 @@
     "@types/estree": "^1.0.9",
     "@types/estree-jsx": "^1.0.5",
     "@types/jsx-ast-utils": "^3.3.1",
-    "eslint": "^8.57.1",
+    "eslint": "^9.39.5",
+    "eslint-vitest-rule-tester": "^3.2.0",
     "typescript": "^6.0.3"
   },
   "dependencies": {

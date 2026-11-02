@@ -166,7 +166,7 @@ const Autocomplete = forwardRef<
       } else {
         input?.removeAttribute('aria-activedescendant');
       }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
+      // oxlint-disable-next-line react-hooks/exhaustive-deps
     }, [selectedOption, open]);
 
     return (

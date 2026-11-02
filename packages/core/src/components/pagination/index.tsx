@@ -99,7 +99,7 @@ const Pagination = forwardRef<
         },
         set: setPage,
       }),
-      // eslint-disable-next-line react-hooks/exhaustive-deps
+      // oxlint-disable-next-line react-hooks/exhaustive-deps
       [page, totalPages],
     );
 

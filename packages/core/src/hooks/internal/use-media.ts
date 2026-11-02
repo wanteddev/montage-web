@@ -17,7 +17,7 @@ export const useMedia = <T>(
     }
 
     return queries.map((q) => window.matchMedia(q));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // oxlint-disable-next-line react-hooks/exhaustive-deps
   }, Object.values(queries));
 
   const getValue = useCallback(() => {

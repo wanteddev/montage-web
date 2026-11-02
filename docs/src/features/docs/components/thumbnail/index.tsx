@@ -26,7 +26,7 @@ const DocsThumbnail = ({ src, alt, sx }: Props) => {
 
   const frontmatter = useMemo(() => {
     return allFrontmatter.find((v) => v.slug.toString() === slug.toString());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // oxlint-disable-next-line react-hooks/exhaustive-deps
   }, [slug.toString(), allFrontmatter]);
 
   const image = useMemo(() => {

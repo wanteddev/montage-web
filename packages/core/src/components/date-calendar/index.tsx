@@ -348,7 +348,7 @@ const DateCalendar = forwardRef<
             </FlexBox>
 
             <FlexBox sx={{ paddingBottom: 14 }} flexDirection="column">
-              {/* eslint-disable-next-line @typescript-eslint/no-unnecessary-condition */}
+              {/* oxlint-disable-next-line @typescript-eslint/no-unnecessary-condition */}
               {calendarComponent[view ?? 'day']}
             </FlexBox>
           </ScrollArea>
@@ -395,6 +395,7 @@ const YearCalendar = forwardRef<
 
   const [focusedIdx, setFocusedIdx] = useState(yearRange.length > 0 ? 0 : -1);
 
+  // oxlint-disable-next-line react-hooks/exhaustive-deps
   useEffect(
     () => {
       const selectedDateIdx = isValidDate(value)
@@ -427,7 +428,7 @@ const YearCalendar = forwardRef<
 
       setFocusedIdx(fallbackDateIdx);
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // oxlint-disable-next-line react-hooks/exhaustive-deps
     yearRange.map((v) => v),
   );
 
@@ -644,6 +645,7 @@ const MonthCalendar = memo(
       monthRange.findIndex((v) => !v.disabled),
     );
 
+    // oxlint-disable-next-line react-hooks/exhaustive-deps
     useEffect(
       () => {
         const selectedDateIdx = isValidDate(value)
@@ -684,7 +686,7 @@ const MonthCalendar = memo(
 
         setFocusedIdx(fallbackDateIdx);
       },
-      // eslint-disable-next-line react-hooks/exhaustive-deps
+      // oxlint-disable-next-line react-hooks/exhaustive-deps
       monthRange.map((v) => v.value),
     );
 
@@ -919,6 +921,7 @@ const DayCalendar = memo(
     );
 
     // first focus
+    // oxlint-disable-next-line react-hooks/exhaustive-deps
     useEffect(
       () => {
         const selectedDateIdx = isValidDate(value)
@@ -971,7 +974,7 @@ const DayCalendar = memo(
 
         setFocusedIdx(fallbackDateIdx);
       },
-      // eslint-disable-next-line react-hooks/exhaustive-deps
+      // oxlint-disable-next-line react-hooks/exhaustive-deps
       dayRange.map((v) => v.value.format('YYYY MM DD')),
     );
 

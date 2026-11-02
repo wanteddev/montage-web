@@ -36,8 +36,6 @@
     }
   },
   "scripts": {
-    "lint": "eslint",
-    "lint:fix": "eslint --fix",
     "build": "tsc --noEmit && tsdown && node scripts/build.mjs",
     "watch": "tsdown --watch && node scripts/build.mjs"
   },

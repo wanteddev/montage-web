@@ -29,7 +29,7 @@ const DocsTitle = ({
     return allFrontmatter.find(
       (v) => v.slug.toString() === params.slug?.toString(),
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // oxlint-disable-next-line react-hooks/exhaustive-deps
   }, [params.slug?.toString(), allFrontmatter]);
 
   const title = useMemo(() => {

@@ -99,7 +99,7 @@ const Sidebar = () => {
       window.removeEventListener('scroll', throttledCheckVisibility);
       window.removeEventListener('resize', throttledCheckVisibility);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // oxlint-disable-next-line react-hooks/exhaustive-deps
   }, [isSectionVisible, headings]);
 
   return (

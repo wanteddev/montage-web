@@ -45,6 +45,7 @@ export const useDefaultSelectedDate = (
   );
 
   useEffect(() => {
+    // oxlint-disable-next-line react-hooks/set-state-in-effect
     setDefaultSelectedDate(getDefaultSelectedDate());
   }, [getDefaultSelectedDate]);
 

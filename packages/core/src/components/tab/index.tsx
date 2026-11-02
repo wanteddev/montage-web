@@ -313,13 +313,13 @@ const TabListItem = forwardRef<any, TabListItemProps>(
     const { handleResize } = useTabListContext(TAB_LIST_ITEM_NAME);
     const isDisabled = disabled;
 
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+    // oxlint-disable-next-line @typescript-eslint/no-unnecessary-condition
     const isActive = context.value?.toString() === value?.toString();
 
     const isArrowKeyPressedRef = useRef(false);
 
     const controls = context.panels.find(
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+      // oxlint-disable-next-line @typescript-eslint/no-unnecessary-condition
       (v) => v?.toString() === value?.toString(),
     );
 
@@ -372,7 +372,7 @@ const TabListItem = forwardRef<any, TabListItemProps>(
       if (!context.disableScrollMoveOnChange) {
         scrollMove();
       }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
+      // oxlint-disable-next-line react-hooks/exhaustive-deps
     }, [context.value, value, context.disableScrollMoveOnChange]);
 
     return (
@@ -447,14 +447,14 @@ const TabPanel = forwardRef<
   const [firstRendered, setFirstRendered] = useState(false);
 
   const deferredValue = useDeferredValue(value);
-  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+  // oxlint-disable-next-line @typescript-eslint/no-unnecessary-condition
   const isActive = context.value?.toString() === value?.toString();
 
   useEffect(() => {
     if (!firstRendered && isActive) {
       setFirstRendered(true);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // oxlint-disable-next-line react-hooks/exhaustive-deps
   }, [isActive]);
 
   useEffect(() => {
@@ -466,7 +466,7 @@ const TabPanel = forwardRef<
     return () => {
       context.onPanelsChange((prev) => [...prev.filter((v) => v !== value)]);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // oxlint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);
 
   if (!isActive) {

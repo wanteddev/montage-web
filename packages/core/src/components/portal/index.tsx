@@ -10,7 +10,7 @@ const Portal = forwardRef<
 >(
   (
     {
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+      // oxlint-disable-next-line @typescript-eslint/no-unnecessary-condition
       container = globalThis?.document?.body,
       children,
       ...props

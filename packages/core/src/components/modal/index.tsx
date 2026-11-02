@@ -210,7 +210,7 @@ const ModalContainer = forwardRef(
     // whatever snap was active when the user dismissed the sheet.
     useEffect(() => {
       if (!isPresent) setSnap(defaultSnap);
-      // eslint-disable-next-line react-hooks/exhaustive-deps
+      // oxlint-disable-next-line react-hooks/exhaustive-deps
     }, [isPresent]);
 
     const composedRefs = useComposedRefs<HTMLDivElement>(
@@ -255,7 +255,7 @@ const ModalContainer = forwardRef(
         setSnap(defaultSnap);
         onOpenChange(false);
       }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
+      // oxlint-disable-next-line react-hooks/exhaustive-deps
     }, [resolvedVariant, open, snap, onOpenChange]);
 
     const modalNavigationHeight =
@@ -304,7 +304,7 @@ const ModalContainer = forwardRef(
 
         return undo;
       }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
+      // oxlint-disable-next-line react-hooks/exhaustive-deps
     }, [
       isBottomSheetWithHandle,
       isUndimmed,

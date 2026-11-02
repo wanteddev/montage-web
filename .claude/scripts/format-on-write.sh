@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # PostToolUse hook: auto-format files written/edited by Claude.
-# - .ts/.tsx/.js/.jsx/.mjs/.cjs → eslint --fix (block on failure)
-# - everything else            → prettier --write (best-effort)
+# - .ts/.tsx/.js/.jsx/.mjs/.cjs → oxfmt, then oxlint --fix (block on lint failure)
+# - everything else            → oxfmt (best-effort)
 #
 # Reads the tool event JSON from stdin and pulls the touched file path.
 
@@ -15,12 +15,13 @@ fi
 
 case "$file" in
   *.ts | *.tsx | *.js | *.jsx | *.mjs | *.cjs)
-    if ! out=$(pnpm exec eslint --fix --no-warn-ignored "$file" 2>&1); then
+    pnpm exec oxfmt "$file" >/dev/null 2>&1 || true
+    if ! out=$(pnpm exec oxlint --fix "$file" 2>&1); then
       echo "$out" >&2
       exit 2
     fi
     ;;
   *)
-    pnpm exec prettier --write --ignore-unknown "$file" 2>/dev/null || true
+    pnpm exec oxfmt --no-error-on-unmatched-pattern "$file" >/dev/null 2>&1 || true
     ;;
 esac

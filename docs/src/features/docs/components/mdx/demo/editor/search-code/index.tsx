@@ -86,7 +86,7 @@ const SearchCode = forwardRef<HTMLDivElement, Props>(
       if (getSearchQuery(view.current.state).search !== search) {
         setValue('search', getSearchQuery(view.current.state).search);
       }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
+      // oxlint-disable-next-line react-hooks/exhaustive-deps
     }, [defaultValues && JSON.stringify(defaultValues)]);
 
     const handleKeyDown = (e: KeyboardEvent) => {

@@ -186,7 +186,7 @@ Each round is expensive (four large sub-agents), so converge deliberately:
 Practically: expect ONE re-run after the first substantive fix pass, occasionally two if
 that pass surfaced new `critical`/`major`. If a round yields only heuristic-refinement
 `minor`s, you are done — stop and report. The structure reviewer already runs the
-mechanical checks (workflow-script syntax wrap + `node --check`, prettier); run them
+mechanical checks (workflow-script syntax wrap + `node --check`, oxfmt); run them
 manually (procedure in the conventions doc) after your final edits instead of triggering
 a whole validation round just to confirm formatting.
 

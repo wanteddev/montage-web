@@ -75,6 +75,7 @@ const PickerActionAreaButton = forwardRef(
                 ? undefined
                 : composeEventHandlers(props.onClick, () => {
                     onChangeComplete(
+                      // oxlint-disable-next-line react-hooks/purity
                       dateTypeToDateObject(new Date(), timezone),
                     );
                   })

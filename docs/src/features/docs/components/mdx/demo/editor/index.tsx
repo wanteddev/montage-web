@@ -231,7 +231,7 @@ const Editor = ({
         view.current?.destroy();
       };
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // oxlint-disable-next-line react-hooks/exhaustive-deps
     [node],
   );
 
@@ -241,13 +241,13 @@ const Editor = ({
     view.current?.setState(handleCreateState());
     handleCloseSearchPanel();
     handleResetComplete();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // oxlint-disable-next-line react-hooks/exhaustive-deps
   }, [isResetting]);
 
   const handleFocusEditor = useCallback(() => {
     node?.querySelector<HTMLElement>('[contenteditable="true"]')?.focus();
     onCollapseChange(false);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // oxlint-disable-next-line react-hooks/exhaustive-deps
   }, [node]);
 
   return (

@@ -530,7 +530,7 @@ const RangeDayGrid = memo(({ panelMonth, panelIndex }: RangeDayGridProps) => {
 
       setFocusedIdx(dayRange.findIndex((v) => !v.isOtherMonth && !v.disabled));
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // oxlint-disable-next-line react-hooks/exhaustive-deps
     [panelMonth.format('YYYY-MM')],
   );
 
@@ -801,6 +801,7 @@ const RangeMonthPanel = memo(() => {
     monthRange.findIndex((v) => !v.disabled),
   );
 
+  // oxlint-disable-next-line react-hooks/exhaustive-deps
   useEffect(
     () => {
       const [start] = rangeValue;
@@ -836,7 +837,7 @@ const RangeMonthPanel = memo(() => {
 
       setFocusedIdx(monthRange.findIndex((v) => !v.disabled));
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // oxlint-disable-next-line react-hooks/exhaustive-deps
     monthRange.map((v) => v.value),
   );
 
@@ -1216,6 +1217,7 @@ const RangeYearPanel = memo(({ yearsOrder = 'asc' }: RangeYearPanelProps) => {
 
   const [focusedIdx, setFocusedIdx] = useState(yearRange.length > 0 ? 0 : -1);
 
+  // oxlint-disable-next-line react-hooks/exhaustive-deps
   useEffect(
     () => {
       const [start] = rangeValue;
@@ -1255,7 +1257,7 @@ const RangeYearPanel = memo(({ yearsOrder = 'asc' }: RangeYearPanelProps) => {
       }
       setFocusedIdx(fallbackDateIdx);
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // oxlint-disable-next-line react-hooks/exhaustive-deps
     yearRange.map((v) => v),
   );
 

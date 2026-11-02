@@ -40,7 +40,7 @@ const ImageBase = forwardRef<
     return () => {
       abortController.abort();
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // oxlint-disable-next-line react-hooks/exhaustive-deps
   }, [src]);
 
   return <img ref={composedRefs} src={src} {...props} />;

@@ -116,7 +116,7 @@ export const useDateRangeField = ({
     setEndInputValue(newEnd);
     setStartSections(getDateformatSections(newStart || format, format, locale));
     setEndSections(getDateformatSections(newEnd || format, format, locale));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // oxlint-disable-next-line react-hooks/exhaustive-deps
   }, [value[0], value[1], format, locale, timezone]);
 
   // --- Helpers ---

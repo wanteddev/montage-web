@@ -42,7 +42,7 @@ export const createRecentSearchStorage = <Item extends DocSearchHit>({
 
   return {
     add(item: Item): void {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      // oxlint-disable-next-line @typescript-eslint/no-unused-vars
       const { _highlightResult, _snippetResult, ...hit } =
         item as unknown as DocSearchHit;
 
@@ -130,7 +130,7 @@ export const getPropertyByPath = (
   const parts = path.split('.');
 
   return parts.reduce((prev, current) => {
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+    // oxlint-disable-next-line @typescript-eslint/no-unnecessary-condition
     if (prev?.[current]) return prev[current];
     return null;
   }, object);

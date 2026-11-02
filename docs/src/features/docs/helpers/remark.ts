@@ -196,7 +196,7 @@ export const remarkTable = () => {
       );
 
       if (Boolean(apiTableHeadLabels)) {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        // oxlint-disable-next-line @typescript-eslint/no-unused-vars
         const [_, ...rows] = node.children;
 
         const propertyIndex = tableHeadLabels.findIndex((label) =>

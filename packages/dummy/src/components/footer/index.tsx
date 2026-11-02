@@ -34,6 +34,7 @@ import type { DefaultComponentProps } from '@montage-ui/engine';
  */
 const Footer = forwardRef<HTMLDivElement, DefaultComponentProps<{}, 'div'>>(
   (props, ref) => {
+    // oxlint-disable-next-line react-hooks/purity
     const [currentYear] = useState(new Date().getFullYear());
 
     return (

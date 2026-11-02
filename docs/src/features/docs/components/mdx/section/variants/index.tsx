@@ -85,7 +85,7 @@ const SectionVariants = ({
     }, {}) as SectionSelectedVariants;
 
     return getVariantValueWithDisabled(variants, defaultVariant);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // oxlint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const [selectedVariant, setSelectedVariant] = useState(
@@ -104,7 +104,7 @@ const SectionVariants = ({
 
       return { ...acc, ...val };
     }, {});
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // oxlint-disable-next-line react-hooks/exhaustive-deps
   }, [JSON.stringify(selectedVariant)]);
 
   const renderResult = useMemo(() => {
@@ -113,7 +113,7 @@ const SectionVariants = ({
     }
 
     return undefined;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // oxlint-disable-next-line react-hooks/exhaustive-deps
   }, [JSON.stringify(selectedVariant)]);
 
   const handleSelectedVariantChange = (
@@ -257,7 +257,7 @@ const SectionVariantsItemDemo = memo(
         render,
         states,
       );
-      // eslint-disable-next-line react-hooks/exhaustive-deps
+      // oxlint-disable-next-line react-hooks/exhaustive-deps
     }, [JSON.stringify(props), render, states]);
 
     const scope = useMemo(() => {

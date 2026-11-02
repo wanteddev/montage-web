@@ -26,7 +26,6 @@ dist-ssr
 # cache
 .cache
 *.tsbuildinfo
-.eslintcache
 
 # Build directories (next.js...)
 /.next/

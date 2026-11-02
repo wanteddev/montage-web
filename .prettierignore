@@ -1,8 +1,0 @@
-pnpm-lock.yaml
-
-docs/data/**/*.mdx
-docs/data/**/*.md
-
-figma/icons/icons.figma.batch.json
-/.nx/cache
-/.nx/workspace-data

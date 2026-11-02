@@ -50,7 +50,7 @@ export const useHexColor = (color: string) => {
         : rgbaToHex(color).toUpperCase();
     };
 
-    // eslint-disable-next-line react-hooks/set-state-in-effect
+    // oxlint-disable-next-line react-hooks/set-state-in-effect
     setHex(getHexValue());
 
     // 테마 전환은 ThemeProvider가 <html> 속성을 바꾸는 방식이고 그 시점이 이 effect보다

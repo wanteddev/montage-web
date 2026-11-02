@@ -33,8 +33,6 @@
   },
   "scripts": {
     "build": "tsc --noEmit && tsdown",
-    "lint": "eslint",
-    "lint:fix": "eslint --fix",
     "watch": "tsdown --watch"
   },
   "devDependencies": {

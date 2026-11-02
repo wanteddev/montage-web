@@ -174,7 +174,7 @@ The PR is **release-irrelevant** (skip the milestone entirely — do not run 8a�
 
 - `docs/**` (the docs site package — not published)
 - `.claude/**` (Claude Code environment: settings, hooks, skills, references, scripts)
-- Root meta files: `AGENTS.md`, `CLAUDE.md`, `README.md`, `.gitignore`, `.editorconfig`, `.prettierrc*`, `.eslintrc*` (and similar tooling configs that don't ship inside any package)
+- Root meta files: `AGENTS.md`, `CLAUDE.md`, `README.md`, `.gitignore`, `.editorconfig`, `.oxlintrc.json`, `.oxfmtrc.json` (and similar tooling configs that don't ship inside any package)
 
 If **any** changed path falls outside that set — especially anything under `packages/<pkg>/src/**`, `packages/<pkg>/package.json`, or `lerna.json` — the PR _is_ release-relevant and must follow the normal milestone flow (8a–8e).
 

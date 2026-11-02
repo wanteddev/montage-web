@@ -291,7 +291,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
       [xs, sm, md, lg, xl].forEach(handleBreakpointAttribute);
     });
 
-  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+  // oxlint-disable-next-line @typescript-eslint/no-unnecessary-condition
   return hasChanges ? root.toSource(options) : file.source;
 };
 

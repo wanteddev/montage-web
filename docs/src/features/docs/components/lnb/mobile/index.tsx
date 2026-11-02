@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/set-state-in-effect */
+/* oxlint-disable react-hooks/set-state-in-effect */
 'use client';
 import {
   FlexBox,

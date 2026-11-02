@@ -43,7 +43,7 @@ const Lnb = () => {
     } else {
       viewport.scrollTop = 0;
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // oxlint-disable-next-line react-hooks/exhaustive-deps
   }, [groupKey]);
 
   return (

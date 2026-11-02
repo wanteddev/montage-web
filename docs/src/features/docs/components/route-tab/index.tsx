@@ -36,6 +36,7 @@ const RouteTab = ({ tabs, sx }: Props) => {
   }, 250);
 
   useEffect(() => {
+    // oxlint-disable-next-line react-hooks/set-state-in-effect
     setValue(pathname);
   }, [pathname]);
 

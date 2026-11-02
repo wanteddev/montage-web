@@ -5,7 +5,7 @@ import type { ReactElement } from 'react';
 import type { RunnerOptions, Scope } from './types';
 
 const evalCode = (code: string, scope: Scope) => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  // oxlint-disable-next-line @typescript-eslint/no-unused-vars
   const { default: _, import: imports, ...rest } = scope;
   const finalScope: Scope = {
     React,

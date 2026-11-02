@@ -5,9 +5,9 @@
 ## Code Conventions
 
 - **Arrow functions only** for React components (`react/function-component-definition`)
-- **Type imports**: Use `import type { ... }` consistently (`@typescript-eslint/consistent-type-imports`)
-- **Array types**: Use `Array<T>` generic syntax, not `T[]` (`@typescript-eslint/array-type`)
-- **Import ordering**: Groups separated by newlines — builtin, external, internal, parent, sibling, index, object, type. Type-only imports come last as their own group.
+- **Type imports**: Use `import type { ... }` consistently (oxlint `typescript/consistent-type-imports`)
+- **Array types**: Use `Array<T>` generic syntax, not `T[]` (oxlint `typescript/array-type`)
+- **Import ordering**: Groups separated by newlines — builtin, external, internal, parent, sibling, index, type, each sorted alphabetically. Type-only imports come last as their own group.
 - **Naming**: PascalCase for interfaces/types, camelCase for variables/functions
 
 ## Component Folder Structure
@@ -99,13 +99,13 @@ See [architecture.md](./architecture.md#component-type-system) for `DefaultCompo
 ### Default (fixed-element) pattern
 
 ```tsx
-import { forwardRef } from 'react';
 import { Box } from '@montage-ui/engine';
+import { forwardRef } from 'react';
 
 import { contentBadgeStyle } from './style';
 
-import type { DefaultComponentPropsInternal } from '@montage-ui/engine';
 import type { ContentBadgeProps } from './types';
+import type { DefaultComponentPropsInternal } from '@montage-ui/engine';
 
 const ContentBadge = forwardRef<
   HTMLSpanElement,
@@ -190,29 +190,27 @@ Note the trailing `as PolymorphicComponentInternal<...>` cast — it's required 
 
 ### Import ordering inside `index.tsx`
 
-Three groups, blank line between each:
+Value imports first (external → parent → sibling, blank line between each group), then all type-only imports as one last group. Each group is sorted alphabetically by module path:
 
 ```tsx
-// 1) Value imports — external (react first), then internal (parent → sibling)
-import { forwardRef, useId } from 'react';
 import { Box } from '@montage-ui/engine';
 import { composeEventHandlers } from '@radix-ui/primitive';
+import { forwardRef, useId } from 'react';
 
-import { WithInteraction } from '../with-interaction';
 import { Loading } from '../loading';
+import { WithInteraction } from '../with-interaction';
 
 import { buttonStyle } from './style';
 
-// 2) Type-only imports — same ordering, but as a separate group
+import type { ButtonProps } from './types';
 import type {
   PolymorphicComponentInternal,
   PolymorphicPropsInternal,
 } from '@montage-ui/engine';
 import type { ElementType, ForwardedRef, SyntheticEvent } from 'react';
-import type { ButtonProps } from './types';
 ```
 
-ESLint's `import/order` enforces the value-import ordering; the type-only block is a project convention.
+oxfmt's `sortImports` (`.oxfmtrc.json`) enforces this ordering, including the type-only block — run `pnpm format` instead of ordering by hand.
 
 ## style.ts — Style Function Patterns
 
@@ -222,17 +220,19 @@ When the style needs theme tokens, use the curried form:
 
 ```ts
 import { css } from '@montage-ui/engine';
-import type { Theme } from '@montage-ui/engine';
+
 import type { ButtonProps } from './types';
+import type { Theme } from '@montage-ui/engine';
 
 export const buttonStyle =
   ({ loading, xs, sm, md, lg, xl, ...props }: ButtonProps) =>
-  (theme: Theme) => css`
-    display: inline-flex;
-    color: ${theme.semantic.foreground.neutral.primary};
-    background-color: ${theme.semantic.surface.brand.primary};
-    /* ... */
-  `;
+  (theme: Theme) =>
+    css`
+      display: inline-flex;
+      color: ${theme.semantic.foreground.neutral.primary};
+      background-color: ${theme.semantic.surface.brand.primary};
+      /* ... */
+    `;
 ```
 
 The outer call captures props; the inner function receives `theme` from `Box`. This lets the same function be passed directly into `sx={[buttonStyle({...}), props.sx]}`.
