@@ -4824,7 +4824,7 @@ function expand_(str2, max, maxLength, maxDepth, depth, maxRewrites, isTop) {
   return acc;
 }
 
-// ../../../node_modules/.pnpm/minimatch@10.2.5/node_modules/minimatch/dist/esm/assert-valid-pattern.js
+// ../../../node_modules/.pnpm/minimatch@10.2.6/node_modules/minimatch/dist/esm/assert-valid-pattern.js
 var MAX_PATTERN_LENGTH = 1024 * 64;
 var assertValidPattern = (pattern) => {
   if (typeof pattern !== "string") {
@@ -4835,7 +4835,7 @@ var assertValidPattern = (pattern) => {
   }
 };
 
-// ../../../node_modules/.pnpm/minimatch@10.2.5/node_modules/minimatch/dist/esm/brace-expressions.js
+// ../../../node_modules/.pnpm/minimatch@10.2.6/node_modules/minimatch/dist/esm/brace-expressions.js
 var posixClasses = {
   "[:alnum:]": ["\\p{L}\\p{Nl}\\p{Nd}", true],
   "[:alpha:]": ["\\p{L}\\p{Nl}", true],
@@ -4944,7 +4944,7 @@ var parseClass = (glob2, position) => {
   return [comb, uflag, endPos - pos, true];
 };
 
-// ../../../node_modules/.pnpm/minimatch@10.2.5/node_modules/minimatch/dist/esm/unescape.js
+// ../../../node_modules/.pnpm/minimatch@10.2.6/node_modules/minimatch/dist/esm/unescape.js
 var unescape = (s, { windowsPathsNoEscape = false, magicalBraces = true } = {}) => {
   if (magicalBraces) {
     return windowsPathsNoEscape ? s.replace(/\[([^/\\])\]/g, "$1") : s.replace(/((?!\\).|^)\[([^/\\])\]/g, "$1$2").replace(/\\([^/])/g, "$1");
@@ -4952,7 +4952,7 @@ var unescape = (s, { windowsPathsNoEscape = false, magicalBraces = true } = {}) 
   return windowsPathsNoEscape ? s.replace(/\[([^/\\{}])\]/g, "$1") : s.replace(/((?!\\).|^)\[([^/\\{}])\]/g, "$1$2").replace(/\\([^/{}])/g, "$1");
 };
 
-// ../../../node_modules/.pnpm/minimatch@10.2.5/node_modules/minimatch/dist/esm/ast.js
+// ../../../node_modules/.pnpm/minimatch@10.2.6/node_modules/minimatch/dist/esm/ast.js
 var _a;
 var types = /* @__PURE__ */ new Set(["!", "?", "+", "*", "@"]);
 var isExtglobType = (c) => types.has(c);
@@ -5596,7 +5596,7 @@ var AST = class {
 };
 _a = AST;
 
-// ../../../node_modules/.pnpm/minimatch@10.2.5/node_modules/minimatch/dist/esm/escape.js
+// ../../../node_modules/.pnpm/minimatch@10.2.6/node_modules/minimatch/dist/esm/escape.js
 var escape = (s, { windowsPathsNoEscape = false, magicalBraces = false } = {}) => {
   if (magicalBraces) {
     return windowsPathsNoEscape ? s.replace(/[?*()[\]{}]/g, "[$&]") : s.replace(/[?*()[\]\\{}]/g, "\\$&");
@@ -5604,7 +5604,7 @@ var escape = (s, { windowsPathsNoEscape = false, magicalBraces = false } = {}) =
   return windowsPathsNoEscape ? s.replace(/[?*()[\]]/g, "[$&]") : s.replace(/[?*()[\]\\]/g, "\\$&");
 };
 
-// ../../../node_modules/.pnpm/minimatch@10.2.5/node_modules/minimatch/dist/esm/index.js
+// ../../../node_modules/.pnpm/minimatch@10.2.6/node_modules/minimatch/dist/esm/index.js
 var minimatch = (p, pattern, options2 = {}) => {
   assertValidPattern(pattern);
   if (!options2.nocomment && pattern.charAt(0) === "#") {
@@ -10715,7 +10715,9 @@ var BaseModule = class {
       if (designFile) {
         this.tempFiles[designFile.replace(/design\.mdx$/, `${this.PLATFORM}.mdx`)] = fileContent;
       } else {
-        const matchUtilityPath = file.match(/\/utilities\/([^/]+)\//)?.[1];
+        const matchUtilityPath = file.match(
+          /\/utilities\/(?:.+\/)?([^/]+)\/[^/]+$/
+        )?.[1];
         const utilityPath = matchUtilityPath ?? `${this.PLATFORM}-utilities`;
         this.tempFiles[`docs/data/utilities/${utilityPath}/${title}.mdx`] = fileContent;
       }

@@ -433,6 +433,23 @@ View의 지오메트리 변경정보를 디바운스시켜서 받습니다.
 </details>
 <details>
 
+<summary>``func onWindowSafeAreaChange(perform: (WindowSafeAreaMetrics) -> Void) -> some View``</summary>
+
+
+이 뷰가 놓인 window의 safe area를 처음 한 번, 그리고 바뀔 때마다 알려 줍니다.
+
+- **Parameters**
+
+  | Parameter | Description |
+  | --- | --- |
+  | `action` | 바뀐 safe area를 받는 클로저 |
+
+- **Discussion**
+
+  인셋만 필요하면 [WindowSafeArea](/documentation/montage/windowsafearea.md)와 [readsWindowSafeArea(_:)](/documentation/montage/swiftuicore/view/readswindowsafearea(_:).md)를 씁니다. 이 modifier는 safe area 크기까지 필요할 때 씁니다. window에 붙기 전에는 호출되지 않으므로 받기 전에 쓸 값을 정해 둡니다.
+</details>
+<details>
+
 <summary>``func popoverCustom<V>(isPresented: Binding<Bool>, content: () -> V) -> some View``</summary>
 
 
@@ -636,6 +653,20 @@ View의 지오메트리 변경정보를 디바운스시켜서 받습니다.
   Image.icon(.bell)
       .pushBadge()  // 기본값: 우측 상단에 빨간 점
   ```
+
+</details>
+<details>
+
+<summary>``func readsWindowSafeArea(Binding<EdgeInsets>) -> some View``</summary>
+
+
+이 뷰가 놓인 window의 safe area 인셋을 [WindowSafeArea](/documentation/montage/windowsafearea.md) 상태에 넣습니다.
+
+- **Parameters**
+
+  | Parameter | Description |
+  | --- | --- |
+  | `insets` | [WindowSafeArea](/documentation/montage/windowsafearea.md)의 projected value(`$`) |
 
 </details>
 <details>

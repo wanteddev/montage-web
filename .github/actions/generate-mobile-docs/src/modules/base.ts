@@ -70,7 +70,10 @@ export default abstract class BaseModule {
           designFile.replace(/design\.mdx$/, `${this.PLATFORM}.mdx`)
         ] = fileContent;
       } else {
-        const matchUtilityPath = file.match(/\/utilities\/([^/]+)\//)?.[1];
+        // utilities 하위 중첩 폴더(예: utilities/modifiers/ios-utility-components)는 파일 바로 위 폴더를 기준으로 분류한다
+        const matchUtilityPath = file.match(
+          /\/utilities\/(?:.+\/)?([^/]+)\/[^/]+$/,
+        )?.[1];
 
         const utilityPath = matchUtilityPath ?? `${this.PLATFORM}-utilities`;
 
