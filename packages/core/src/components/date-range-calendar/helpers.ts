@@ -1,15 +1,15 @@
 import dayjs from 'dayjs';
 
+import { focusIntoView } from '../../utils/internal/element';
 import {
   dateTypeToDateObject,
   dayjsTimezone,
   isValidDate,
 } from '../date-calendar/helpers';
-import { focusIntoView } from '../../utils/internal/element';
 
-import type { Dayjs } from 'dayjs';
 import type { DateType, ViewType } from '../date-calendar/types';
 import type { DateRangeType } from './types';
+import type { Dayjs } from 'dayjs';
 
 export const isSameDateForView = (
   date1: DateType,

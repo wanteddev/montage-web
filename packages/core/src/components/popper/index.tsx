@@ -9,16 +9,22 @@ import {
   size,
   useFloating,
 } from '@floating-ui/react';
+import { Box, useTheme } from '@montage-ui/engine';
 import { useComposedRefs } from '@radix-ui/react-compose-refs';
+import { Slot } from '@radix-ui/react-slot';
 import { useSize } from '@radix-ui/react-use-size';
 import { forwardRef, useEffect, useRef, useState } from 'react';
-import { Slot } from '@radix-ui/react-slot';
-import { Box, useTheme } from '@montage-ui/engine';
 
-import { PortalOrFragment } from '../portal-or-fragment';
-import { FlexBox } from '../flex-box';
 import useEnhancedEffect from '../../hooks/internal/use-enhanced-effect';
+import { FlexBox } from '../flex-box';
+import { PortalOrFragment } from '../portal-or-fragment';
 
+import {
+  POPPER_ANCHOR_NAME,
+  POPPER_ARROW_NAME,
+  POPPER_CONTENT_NAME,
+  POPPER_NAME,
+} from './constants';
 import {
   PopperContentProvider,
   PopperProvider,
@@ -32,21 +38,15 @@ import {
   roundByDPR,
   transformOrigin,
 } from './helpers';
-import {
-  POPPER_ANCHOR_NAME,
-  POPPER_ARROW_NAME,
-  POPPER_CONTENT_NAME,
-  POPPER_NAME,
-} from './constants';
 
 import type { ScopedProps } from '../../hooks/internal/use-scope-context';
-import type { DefaultComponentPropsInternal } from '@montage-ui/engine';
 import type {
   PopperAnchorProps,
   PopperArrowProps,
   PopperContentProps,
   PopperProps,
 } from './types';
+import type { DefaultComponentPropsInternal } from '@montage-ui/engine';
 
 const OPPOSITE_SIDE = {
   top: 'bottom',

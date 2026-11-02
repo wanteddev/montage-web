@@ -8,24 +8,25 @@ import type { Theme } from '@montage-ui/engine';
 
 export const topNavigationStyle =
   ({ background, variant, xs, sm, md, lg, xl }: TopNavigationProps) =>
-  (theme: Theme) => css`
-    width: 100%;
-    align-items: center;
-    position: relative;
-    background-color: transparent;
+  (theme: Theme) =>
+    css`
+      width: 100%;
+      align-items: center;
+      position: relative;
+      background-color: transparent;
 
-    ${topNavigationBackgroundStyle({ variant, background }, theme)}
-    ${topNavigationVariant(variant)}
+      ${topNavigationBackgroundStyle({ variant, background }, theme)}
+      ${topNavigationVariant(variant)}
 
-    ${createResponsiveStyle(
-      { xs, sm, md, lg, xl },
-      theme,
-    )(
-      (params) => css`
-        ${params?.sx}
-      `,
-    )}
-  `;
+      ${createResponsiveStyle(
+        { xs, sm, md, lg, xl },
+        theme,
+      )(
+        (params) => css`
+          ${params?.sx}
+        `,
+      )}
+    `;
 
 export const topNavigationWrapperStyle = (
   variant: TopNavigationProps['variant'],

@@ -1,12 +1,12 @@
 'use client';
 import { FlexBox, ScrollArea } from '@montage-ui/core';
-import { useEffect, useRef } from 'react';
 import { usePathname } from 'next/navigation';
+import { useEffect, useRef } from 'react';
 
 import { useMDXContext } from '../../contexts';
 
-import { lnbWrapperStyle } from './style';
 import LnbGroup from './group';
+import { lnbWrapperStyle } from './style';
 
 const Lnb = () => {
   const pathname = usePathname();
@@ -43,7 +43,7 @@ const Lnb = () => {
     } else {
       viewport.scrollTop = 0;
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // oxlint-disable-next-line react-hooks/exhaustive-deps
   }, [groupKey]);
 
   return (

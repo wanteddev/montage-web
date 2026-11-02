@@ -1,9 +1,9 @@
+import { MONTAGE_SOURCES } from '../../constants';
 import {
   findImportDeclaration,
   getLocalName,
   toSourcePreservingJsx,
 } from '../../helpers';
-import { MONTAGE_SOURCES } from '../../constants';
 
 import type {
   API,
@@ -600,7 +600,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
       });
   });
 
-  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+  // oxlint-disable-next-line @typescript-eslint/no-unnecessary-condition
   return hasChanges ? toSourcePreservingJsx(j, root, options) : file.source;
 };
 

@@ -1,10 +1,10 @@
 import { FlexBox } from '@montage-ui/core';
 
+import Behind from '@/features/home/components/behind';
+import Faq from '@/features/home/components/faq';
 import Hero from '@/features/home/components/hero';
 import HomeLayout from '@/features/home/components/layout';
 import Resources from '@/features/home/components/resources';
-import Behind from '@/features/home/components/behind';
-import Faq from '@/features/home/components/faq';
 import Footer from '@/features/layout/components/footer';
 import { createMetadata } from '@/helpers/metadata';
 

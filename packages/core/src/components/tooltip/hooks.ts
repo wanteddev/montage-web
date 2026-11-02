@@ -6,8 +6,8 @@ import { isElementDisabled } from '../../utils/internal/element';
 import { useTooltipGroupContext } from './contexts';
 
 import type { PointerDownOutsideEvent } from '../dismissable-layer/types';
-import type { MouseEvent, MouseEventHandler } from 'react';
 import type { TooltipProps } from './types';
+import type { MouseEvent, MouseEventHandler } from 'react';
 
 export const useTooltip = ({
   mode,

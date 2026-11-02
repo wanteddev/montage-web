@@ -4,8 +4,8 @@
 
 import figma from 'figma';
 
-import { inlineInstances } from '../../helpers/imports';
 import { renderIcon } from '../../helpers/icon';
+import { inlineInstances } from '../../helpers/imports';
 import { renderNested } from '../top-navigation/top-navigation-shared';
 
 const instance = figma.selectedInstance;

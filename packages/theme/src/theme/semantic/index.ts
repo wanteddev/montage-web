@@ -1,6 +1,6 @@
+import { addHexOpacity } from '../../utils';
 import atomic from '../atomic';
 import opacity from '../opacity';
-import { addHexOpacity } from '../../utils';
 
 export const light = {
   static: {

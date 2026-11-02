@@ -1534,7 +1534,7 @@ forces.
   keeps its `invalid` key and silently stops applying the negative border, since
   `FramedStyleParams` no longer reads it.
   Scan **[decision]**: `framedStyle\(` file-level — every correct v4 `framedStyle({ status
-})` call matches, so the criterion is that each call's argument shape was assessed, not a
+  })` call matches, so the criterion is that each call's argument shape was assessed, not a
   zero count. `selected` is unchanged and stays a boolean.
 
 ## M17. ListCell 개편 follow-ups
@@ -1912,7 +1912,7 @@ the literal shapes below — but not for selectors, CSS variables, or spread-car
   with M19's `\b(TopNavigationButton|ModalNavigationButton)\b` scan): inside `ModalNavigation`'s `leadingContent` / `trailingContent`
   → rewrite as above; anywhere else (`ModalContent`, a footer, a custom header) → either move it
   into a `ModalNavigation`, or replace it with an `IconButton` carrying `aria-label="Close
-dialog"` and an `onClick` that closes the modal (`onOpenChange(false)` / `setOpen(false)` on
+  dialog"` and an `onClick` that closes the modal (`onOpenChange(false)` / `setOpen(false)` on
   a controlled `Modal`).
 
   Scan **[zero]**: `\bModalClose` (prefix form — also catches `ModalCloseProps`; no v4 export
@@ -2259,7 +2259,7 @@ dismissal of `Modal`, `Alert`, Popper-based overlays, and the Picker popups move
   Nothing breaks at the type level; position-based visual tests and coordinate assertions may
   change. Restoring the v3 placement is a design decision — ask the user before adding
   `collisionPadding={0}` (`<PopoverContent collisionPadding={0} />`, `<Select contentProps={{
-collisionPadding: 0 }} />`, `<DatePicker contentProps={{ collisionPadding: 0 }} />`); it does
+  collisionPadding: 0 }} />`, `<DatePicker contentProps={{ collisionPadding: 0 }} />`); it does
   not lift the size caps above.
   Scan **[decision]** (include tests):
   `(Popover|Tooltip|Menu)Content|AutocompleteList|contentProps|<(Select|SelectMultiple|Autocomplete|DatePicker|DateRangePicker|TimePicker)([[:space:]>]|$)`

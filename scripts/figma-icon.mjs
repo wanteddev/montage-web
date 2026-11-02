@@ -1,3 +1,4 @@
+import { spawnSync } from 'node:child_process';
 import {
   readFileSync,
   readdirSync,
@@ -5,7 +6,6 @@ import {
   writeFile,
   writeFileSync,
 } from 'node:fs';
-import { spawnSync } from 'node:child_process';
 import { join } from 'node:path';
 
 const outputDir = './output';

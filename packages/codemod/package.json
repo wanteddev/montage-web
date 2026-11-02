@@ -18,8 +18,6 @@
     "./package.json": "./package.json"
   },
   "scripts": {
-    "lint": "eslint",
-    "lint:fix": "eslint --fix",
     "watch": "tsdown --watch",
     "build": "tsc --noEmit && tsdown"
   },

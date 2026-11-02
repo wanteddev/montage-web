@@ -1,7 +1,7 @@
 import type { MenuContent } from '../menu';
-import type { CSSProperties, ComponentProps, ReactNode } from 'react';
-import type { Merge, ResponsiveProps, WithSxProps } from '@montage-ui/engine';
 import type { MenuGroupProps, MenuItemProps } from '../menu/types';
+import type { Merge, ResponsiveProps, WithSxProps } from '@montage-ui/engine';
+import type { CSSProperties, ComponentProps, ReactNode } from 'react';
 
 export type SelectDefaultProps = WithSxProps<{
   /** The status of the select. `negative` marks the select invalid. */

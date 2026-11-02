@@ -1,10 +1,10 @@
-import type { SlotProps } from '@radix-ui/react-slot';
+import type { RegionToastItem } from '../../stores/region-store';
+import type { FlexBoxProps } from '../flex-box/types';
 import type { PortalOrFragmentProps } from '../portal-or-fragment/types';
 import type { TypographyProps } from '../typography/types';
-import type { FlexBoxProps } from '../flex-box/types';
-import type { RegionToastItem } from '../../stores/region-store';
-import type { ReactNode } from 'react';
 import type { WithSxProps } from '@montage-ui/engine';
+import type { SlotProps } from '@radix-ui/react-slot';
+import type { ReactNode } from 'react';
 
 export type ToastProps = Pick<
   RegionToastItem,

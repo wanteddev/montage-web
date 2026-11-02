@@ -50,7 +50,7 @@ export const createScopeContext = <ContextValueType extends object | null>(
 
     const value = useMemo(
       () => context,
-      // eslint-disable-next-line react-hooks/exhaustive-deps
+      // oxlint-disable-next-line react-hooks/exhaustive-deps
       Object.values(context),
     ) as ContextValueType;
 

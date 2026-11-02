@@ -1,3 +1,14 @@
+import { getColorByToken } from '@montage-ui/engine';
+import {
+  IconChevronDownThickSmall,
+  IconChevronUpThickSmall,
+  IconClose,
+} from '@montage-ui/icon';
+import { composeEventHandlers } from '@radix-ui/primitive';
+import { useComposedRefs } from '@radix-ui/react-compose-refs';
+import { useCallbackRef } from '@radix-ui/react-use-callback-ref';
+import { useControllableState } from '@radix-ui/react-use-controllable-state';
+import { useSize } from '@radix-ui/react-use-size';
 import {
   type ElementType,
   forwardRef,
@@ -7,18 +18,22 @@ import {
   useRef,
   useState,
 } from 'react';
-import {
-  IconChevronDownThickSmall,
-  IconChevronUpThickSmall,
-  IconClose,
-} from '@montage-ui/icon';
-import { getColorByToken } from '@montage-ui/engine';
-import { useControllableState } from '@radix-ui/react-use-controllable-state';
-import { useSize } from '@radix-ui/react-use-size';
-import { useComposedRefs } from '@radix-ui/react-compose-refs';
-import { useCallbackRef } from '@radix-ui/react-use-callback-ref';
-import { composeEventHandlers } from '@radix-ui/primitive';
 
+import { SlotDefaultsProvider } from '../../hooks/internal/use-slot-defaults';
+import { ellipsisTypographyStyle } from '../../utils';
+import { Chip } from '../chip';
+import { FlexBox } from '../flex-box';
+import { FORM_FIELD_ICON_BUTTON_SLOT_SIZE } from '../form-control/constants';
+import { FormFieldLayoutProvider } from '../form-control/contexts';
+import {
+  useFormFieldSize,
+  useFormFieldSlotDefaults,
+} from '../form-control/hooks';
+import {
+  ListCellContent,
+  ListCellExtraContent,
+  ListCellLabelTrailing,
+} from '../list';
 import {
   Menu,
   MenuContent,
@@ -27,32 +42,9 @@ import {
   MenuList,
   MenuTrigger,
 } from '../menu';
-import { FlexBox } from '../flex-box';
 import { Typography } from '../typography';
 import { VirtualValueInput } from '../virtual-input';
-import {
-  ListCellContent,
-  ListCellExtraContent,
-  ListCellLabelTrailing,
-} from '../list';
-import { FORM_FIELD_ICON_BUTTON_SLOT_SIZE } from '../form-control/constants';
-import { FormFieldLayoutProvider } from '../form-control/contexts';
-import {
-  useFormFieldSize,
-  useFormFieldSlotDefaults,
-} from '../form-control/hooks';
-import { SlotDefaultsProvider } from '../../hooks/internal/use-slot-defaults';
-import { ellipsisTypographyStyle } from '../../utils';
-import { Chip } from '../chip';
 
-import {
-  selectContentStyle,
-  selectIconStyle,
-  selectRenderChipStyle,
-  selectStyle,
-  selectTextStyle,
-} from './style';
-import { convertChildrenToData } from './helpers';
 import {
   OPTION_CONTENT_NAME,
   OPTION_EXTRA_CONTENT_NAME,
@@ -64,6 +56,14 @@ import {
   SELECT_RENDER_CHIP_NAME,
 } from './constants';
 import { SelectProvider, useSelectContext } from './context';
+import { convertChildrenToData } from './helpers';
+import {
+  selectContentStyle,
+  selectIconStyle,
+  selectRenderChipStyle,
+  selectStyle,
+  selectTextStyle,
+} from './style';
 
 import type {
   ListCellContentProps,
@@ -71,19 +71,19 @@ import type {
   ListCellLabelTrailingProps,
 } from '../list';
 import type {
-  DefaultComponentPropsInternal,
-  PolymorphicComponentInternal,
-  PolymorphicPropsInternal,
-  ThemeColorsToken,
-} from '@montage-ui/engine';
-import type { ForwardedRef } from 'react';
-import type {
   OptionGroupProps,
   OptionProps,
   SelectContentProps,
   SelectProps,
   SelectRenderChipProps,
 } from './types';
+import type {
+  DefaultComponentPropsInternal,
+  PolymorphicComponentInternal,
+  PolymorphicPropsInternal,
+  ThemeColorsToken,
+} from '@montage-ui/engine';
+import type { ForwardedRef } from 'react';
 
 const Select = forwardRef<
   HTMLDivElement,
@@ -355,7 +355,8 @@ const SelectContent = forwardRef<
               // Accept a theme token as well as a raw CSS color.
               color: color
                 ? ((getColorByToken(theme, color as ThemeColorsToken) as
-                    string | undefined) ?? color)
+                    | string
+                    | undefined) ?? color)
                 : theme.semantic.foreground.neutral.tertiary,
             }),
             sx,

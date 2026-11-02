@@ -4,12 +4,12 @@ import createLooseContext from '../../hooks/internal/use-loose-context';
 
 import { MODAL_CONTAINER_NAME, MODAL_NAME } from './constants';
 
-import type { RefObject } from 'react';
 import type {
   ModalBottomSheetSnap,
   ModalContainerProps,
   ModalNavigationProps,
 } from './types';
+import type { RefObject } from 'react';
 
 type ModalContextValue = {
   containerRef: RefObject<HTMLDivElement | null>;

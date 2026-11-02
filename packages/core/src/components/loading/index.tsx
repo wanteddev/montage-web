@@ -1,5 +1,5 @@
-import { forwardRef } from 'react';
 import { Box, type DefaultComponentPropsInternal } from '@montage-ui/engine';
+import { forwardRef } from 'react';
 
 import { FlexBox } from '../flex-box';
 

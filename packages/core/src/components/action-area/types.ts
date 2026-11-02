@@ -1,6 +1,6 @@
-import type { ThemeColorsToken, WithSxProps } from '@montage-ui/engine';
-import type { TextButtonProps } from '../text-button/types';
 import type { ButtonProps } from '../button/types';
+import type { TextButtonProps } from '../text-button/types';
+import type { ThemeColorsToken, WithSxProps } from '@montage-ui/engine';
 import type { ReactNode } from 'react';
 
 export type ActionAreaProps = WithSxProps<{

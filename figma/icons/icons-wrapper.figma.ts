@@ -4,8 +4,8 @@
 
 import figma from 'figma';
 
-import { inlineInstances } from '../helpers/imports';
 import { renderIcon } from '../helpers/icon';
+import { inlineInstances } from '../helpers/imports';
 
 // The Icons wrapper only hosts the swapped icon. Render that icon and re-declare
 // its import here, because Code Connect forwards imports only one level up.

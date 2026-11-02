@@ -1,6 +1,6 @@
+import { ThemeProvider } from '@montage-ui/core';
 import { render } from '@testing-library/react';
 import { userEvent } from 'vitest/browser';
-import { ThemeProvider } from '@montage-ui/core';
 
 import type { ReactNode } from 'react';
 

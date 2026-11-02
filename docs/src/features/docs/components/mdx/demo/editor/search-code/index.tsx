@@ -1,15 +1,4 @@
 import {
-  Box,
-  FlexBox,
-  IconButton,
-  Tooltip,
-  TooltipContent,
-  TooltipGroup,
-  TooltipTrigger,
-} from '@montage-ui/core';
-import { forwardRef, useEffect, useState } from 'react';
-import { Controller, useForm } from 'react-hook-form';
-import {
   SearchQuery,
   findNext,
   findPrevious,
@@ -18,6 +7,15 @@ import {
   replaceNext,
   setSearchQuery,
 } from '@codemirror/search';
+import {
+  Box,
+  FlexBox,
+  IconButton,
+  Tooltip,
+  TooltipContent,
+  TooltipGroup,
+  TooltipTrigger,
+} from '@montage-ui/core';
 import {
   IconChevronDown,
   IconChevronUp,
@@ -28,6 +26,8 @@ import {
   IconTextFormat,
   IconWholeWord,
 } from '@montage-ui/icon';
+import { forwardRef, useEffect, useState } from 'react';
+import { Controller, useForm } from 'react-hook-form';
 
 import {
   searchInputStyle,
@@ -86,7 +86,7 @@ const SearchCode = forwardRef<HTMLDivElement, Props>(
       if (getSearchQuery(view.current.state).search !== search) {
         setValue('search', getSearchQuery(view.current.state).search);
       }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
+      // oxlint-disable-next-line react-hooks/exhaustive-deps
     }, [defaultValues && JSON.stringify(defaultValues)]);
 
     const handleKeyDown = (e: KeyboardEvent) => {

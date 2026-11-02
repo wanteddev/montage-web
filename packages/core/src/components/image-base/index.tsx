@@ -1,5 +1,5 @@
-import { forwardRef, useEffect, useRef } from 'react';
 import { useComposedRefs } from '@radix-ui/react-compose-refs';
+import { forwardRef, useEffect, useRef } from 'react';
 
 import { loadImage } from './helpers';
 
@@ -40,7 +40,7 @@ const ImageBase = forwardRef<
     return () => {
       abortController.abort();
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // oxlint-disable-next-line react-hooks/exhaustive-deps
   }, [src]);
 
   return <img ref={composedRefs} src={src} {...props} />;

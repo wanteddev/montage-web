@@ -4,8 +4,8 @@
 
 import figma from 'figma';
 
-import { inlineInstances } from '../../helpers/imports';
 import { renderIcon } from '../../helpers/icon';
+import { inlineInstances } from '../../helpers/imports';
 
 const icon = renderIcon(figma.selectedInstance.getInstanceSwap('Icon'));
 const active = figma.selectedInstance.getPropertyValue('Active') === 'True';

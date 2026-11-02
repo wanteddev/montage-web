@@ -73,104 +73,106 @@ export const tableCellStyle = css`
   overflow-wrap: anywhere;
 `;
 
-export const tableRowStyle = (interaction?: boolean) => (theme: Theme) => css`
-  position: relative;
-  display: table-row;
-  margin: 0;
-  padding: 0;
-  border: none;
+export const tableRowStyle = (interaction?: boolean) => (theme: Theme) =>
+  css`
+    position: relative;
+    display: table-row;
+    margin: 0;
+    padding: 0;
+    border: none;
 
-  td:last-child {
-    padding-right: var(--table-head-cell-padding-x, 20px);
-  }
-  th:last-child {
-    padding-right: var(--table-head-cell-padding-x, 20px);
-  }
+    td:last-child {
+      padding-right: var(--table-head-cell-padding-x, 20px);
+    }
+    th:last-child {
+      padding-right: var(--table-head-cell-padding-x, 20px);
+    }
 
-  ${
-    interaction &&
-    css`
-      --table-row-interaction-color: ${theme.semantic.foreground.neutral.primary};
-      --table-row-interaction-opacity: ${theme.opacity[0]};
+    ${
+      interaction &&
+      css`
+        --table-row-interaction-color: ${theme.semantic.foreground.neutral.primary};
+        --table-row-interaction-opacity: ${theme.opacity[0]};
 
-      cursor: pointer;
-      -webkit-tap-highlight-color: transparent;
+        cursor: pointer;
+        -webkit-tap-highlight-color: transparent;
 
-      &:focus-visible {
-        outline-style: solid;
-        outline-width: 2px;
-        outline-offset: -2px;
-      }
+        &:focus-visible {
+          outline-style: solid;
+          outline-width: 2px;
+          outline-offset: -2px;
+        }
 
-      // Safari < 27 doesn't treat tr as a containing block, so tr::after covers the whole table.
-      // Draw the layer per cell instead.
-      & > :where(td, th) {
-        position: relative;
-      }
+        // Safari < 27 doesn't treat tr as a containing block, so tr::after covers the whole table.
+        // Draw the layer per cell instead.
+        & > :where(td, th) {
+          position: relative;
+        }
 
-      & > td::after,
-      & > th::after {
-        content: '';
-        position: absolute;
-        inset: 0;
-        pointer-events: none;
-        background-color: var(--table-row-interaction-color);
-        opacity: var(--table-row-interaction-opacity);
-        transition:
-          background ease 0.2s,
-          opacity ease 0.2s;
-      }
+        & > td::after,
+        & > th::after {
+          content: '';
+          position: absolute;
+          inset: 0;
+          pointer-events: none;
+          background-color: var(--table-row-interaction-color);
+          opacity: var(--table-row-interaction-opacity);
+          transition:
+            background ease 0.2s,
+            opacity ease 0.2s;
+        }
 
-      &:hover > td::after,
-      &:hover > th::after {
-        --table-row-interaction-opacity: ${theme.opacity[5]};
-      }
-
-      @media not (pointer: fine) {
         &:hover > td::after,
         &:hover > th::after {
-          --table-row-interaction-opacity: ${theme.opacity[0]};
+          --table-row-interaction-opacity: ${theme.opacity[5]};
         }
-      }
 
-      &:active > td::after,
-      &:active > th::after {
-        --table-row-interaction-opacity: ${theme.opacity[12]};
-      }
-    `
-  }
-`;
-
-export const tableHeadStyle = (isSticky?: boolean) => (theme: Theme) => css`
-  margin: 0;
-  padding: 0;
-  display: table-header-group;
-  position: sticky;
-  top: 0px;
-  z-index: 1;
-  border: none;
-  will-change: backdrop-filter;
-
-  ${
-    isSticky
-      ? css`
-          ${theme.semantic.platform.ios.navigation}
-
-          &::before {
-            content: '';
-            width: 100%;
-            height: 100%;
-            inset: 0;
-            z-index: -1;
-            position: absolute;
-            background-color: ${theme.semantic.surface.neutral.tertiary};
+        @media not (pointer: fine) {
+          &:hover > td::after,
+          &:hover > th::after {
+            --table-row-interaction-opacity: ${theme.opacity[0]};
           }
-        `
-      : css`
-          background-color: ${theme.semantic.surface.neutral.tertiary};
-        `
-  }
-`;
+        }
+
+        &:active > td::after,
+        &:active > th::after {
+          --table-row-interaction-opacity: ${theme.opacity[12]};
+        }
+      `
+    }
+  `;
+
+export const tableHeadStyle = (isSticky?: boolean) => (theme: Theme) =>
+  css`
+    margin: 0;
+    padding: 0;
+    display: table-header-group;
+    position: sticky;
+    top: 0px;
+    z-index: 1;
+    border: none;
+    will-change: backdrop-filter;
+
+    ${
+      isSticky
+        ? css`
+            ${theme.semantic.platform.ios.navigation}
+
+            &::before {
+              content: '';
+              width: 100%;
+              height: 100%;
+              inset: 0;
+              z-index: -1;
+              position: absolute;
+              background-color: ${theme.semantic.surface.neutral.tertiary};
+            }
+          `
+        : css`
+            background-color: ${theme.semantic.surface.neutral.tertiary};
+          `
+    }
+  `;
 
 export const tableBodyStyle = css`
   margin: 0;

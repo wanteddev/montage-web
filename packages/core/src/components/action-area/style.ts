@@ -7,35 +7,37 @@ import type { Merge, Theme } from '@montage-ui/engine';
 
 export const actionAreaStyle =
   ({ divider, background, extra, backgroundColor }: ActionAreaProps) =>
-  (theme: Theme) => css`
-    width: 100%;
-    padding: var(--action-area-margin-y, 20px) var(--action-area-margin-x, 20px)
-      calc(
-        var(--action-area-margin-y, 20px) +
-          var(--action-area-bottom-offset, 0px)
-      );
-    position: relative;
+  (theme: Theme) =>
+    css`
+      width: 100%;
+      padding: var(--action-area-margin-y, 20px)
+        var(--action-area-margin-x, 20px)
+        calc(
+          var(--action-area-margin-y, 20px) +
+            var(--action-area-bottom-offset, 0px)
+        );
+      position: relative;
 
-    --action-area-background-color: ${getColorByToken(theme, backgroundColor!)};
+      --action-area-background-color: ${getColorByToken(theme, backgroundColor!)};
 
-    [data-role='action-area-extra-content'] {
-      [data-role='label-content'] > [data-role='label-content-text'] {
-        white-space: initial;
+      [data-role='action-area-extra-content'] {
+        [data-role='label-content'] > [data-role='label-content-text'] {
+          white-space: initial;
+        }
       }
-    }
 
-    [data-role='action-area-compact-content-wrapper'] {
-      min-width: 0;
-      word-break: keep-all;
-      overflow-wrap: anywhere;
+      [data-role='action-area-compact-content-wrapper'] {
+        min-width: 0;
+        word-break: keep-all;
+        overflow-wrap: anywhere;
 
-      [data-role='label-content'] > [data-role='label-content-text'] {
-        white-space: initial;
+        [data-role='label-content'] > [data-role='label-content-text'] {
+          white-space: initial;
+        }
       }
-    }
 
-    ${actionAreaBackgroundStyle({ divider, background, extra }, theme)}
-  `;
+      ${actionAreaBackgroundStyle({ divider, background, extra }, theme)}
+    `;
 
 const actionAreaBackgroundStyle = (
   { divider, background, extra }: ActionAreaProps,

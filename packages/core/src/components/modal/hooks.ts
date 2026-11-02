@@ -1,6 +1,6 @@
+import { useTheme } from '@montage-ui/engine';
 import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { flushSync } from 'react-dom';
-import { useTheme } from '@montage-ui/engine';
 
 import { useMedia } from '../../hooks/internal/use-media';
 import { getPreviousValue } from '../../utils/internal/responsive-props';
@@ -28,10 +28,10 @@ import {
   runSpring,
 } from './helpers';
 
-import type { RefObject } from 'react';
-import type { BreakPoint } from '@montage-ui/engine';
 import type { SpringHandle } from './helpers';
 import type { ModalBottomSheetSnap, ModalContainerProps } from './types';
+import type { BreakPoint } from '@montage-ui/engine';
+import type { RefObject } from 'react';
 
 type ResponsiveSlice = Pick<
   ModalContainerProps,
@@ -238,7 +238,7 @@ export const useSpringSettle = ({
     // render and force the mousemove/up `useEffect` to re-bind window
     // listeners. `isFlexible` already triggers re-creation on the only axis
     // that matters for behavior (responsive variant flip).
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // oxlint-disable-next-line react-hooks/exhaustive-deps
     [cancelSpring, dimmerRef, setSnap, isFlexible],
   );
 
@@ -328,7 +328,7 @@ export const useSnapLifecycle = ({
     } else if (snapRef.current !== 'full') {
       setSnap('full');
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // oxlint-disable-next-line react-hooks/exhaustive-deps
   }, [isBottom, isFlexible, isOpen]);
 
   // Apply snap → inline height whenever snap changes outside of an active drag.
@@ -349,7 +349,7 @@ export const useSnapLifecycle = ({
     applySnap(container, dimmerRef.current, snap, {
       peekHeight: peekHeightRef.current,
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // oxlint-disable-next-line react-hooks/exhaustive-deps
   }, [snap, isBottom]);
 
   // Reset inline height when the modal closes so it returns to its CSS default
@@ -363,7 +363,7 @@ export const useSnapLifecycle = ({
     container.style.removeProperty('--modal-translate');
     dimmerRef.current?.style.removeProperty('transition');
     dimmerRef.current?.style.removeProperty('opacity');
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // oxlint-disable-next-line react-hooks/exhaustive-deps
   }, [isEnabled, isOpen]);
 };
 
@@ -1146,7 +1146,7 @@ export const useDraggable = ({
     // The handlers close over refs and stable callbacks only — re-binding on
     // every render would churn through window listeners for no behavioral
     // change.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // oxlint-disable-next-line react-hooks/exhaustive-deps
   }, [context, isEnabled, isFlexible, settleToSnap, dismissAfterDrag]);
 
   // Bind viewport touch listeners separately so they can preventDefault
@@ -1168,7 +1168,7 @@ export const useDraggable = ({
       viewport.removeEventListener('touchstart', onViewportTouchStart);
       viewport.removeEventListener('touchmove', onViewportTouchMove);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // oxlint-disable-next-line react-hooks/exhaustive-deps
   }, [context.innerContainer, isFlexible, isEnabled]);
 
   return {

@@ -21,7 +21,7 @@ type ObjectToNestedKeys<T> = (
 export type ThemeToken = ObjectToNestedKeys<Theme>;
 
 type PickThemeShadowToken<T extends string> =
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  // oxlint-disable-next-line @typescript-eslint/no-unused-vars
   T extends `semantic.elevation.shadow.${infer _}` ? T : never;
 
 export type ThemeShadowToken = PickThemeShadowToken<

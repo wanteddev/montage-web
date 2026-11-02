@@ -4,8 +4,8 @@
 
 import figma from 'figma';
 
-import { inlineInstances } from '../../helpers/imports';
 import { renderIcon } from '../../helpers/icon';
+import { inlineInstances } from '../../helpers/imports';
 
 // The nested toggle icon is a library (remote) instance, so its own snippet is
 // not resolvable here. Rebuild it from its props: `Active` and the swapped icon.

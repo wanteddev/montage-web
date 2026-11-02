@@ -1,7 +1,7 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { liteClient } from 'algoliasearch/lite';
 import { createAutocomplete } from '@algolia/autocomplete-core';
+import { liteClient } from 'algoliasearch/lite';
 import { useRouter } from 'next/navigation';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { useMDXContext } from '@/features/docs/contexts';
 import useRouteScroll from '@/features/docs/hooks/use-route-scroll';
@@ -14,13 +14,13 @@ import {
   sortByText,
 } from './helpers';
 
-import type { OnSelectParams } from '@algolia/autocomplete-core';
-import type { SearchResponse } from 'algoliasearch/lite';
 import type {
   DocSearchHit,
   DocSearchState,
   InternalDocSearchHit,
 } from './types';
+import type { OnSelectParams } from '@algolia/autocomplete-core';
+import type { SearchResponse } from 'algoliasearch/lite';
 import type { FormEvent } from 'react';
 
 type UseDocSearchParams = {
@@ -312,7 +312,7 @@ export const useDocSearch = ({
     if (inputRef.current) {
       inputRef.current.focus();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // oxlint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const isQueryEmpty = !state.query;

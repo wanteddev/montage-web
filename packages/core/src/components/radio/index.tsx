@@ -1,17 +1,17 @@
-import { forwardRef, useRef, useState } from 'react';
+import { Box } from '@montage-ui/engine';
+import { IconDot } from '@montage-ui/icon';
 import { composeEventHandlers } from '@radix-ui/primitive';
 import { useComposedRefs } from '@radix-ui/react-compose-refs';
-import { IconDot } from '@montage-ui/icon';
-import { Box } from '@montage-ui/engine';
+import { forwardRef, useRef, useState } from 'react';
 
-import { WithInteraction } from '../with-interaction';
 import { VirtualCheckboxInput } from '../virtual-input';
+import { WithInteraction } from '../with-interaction';
 
-import { radioStyle } from './style';
 import { useRadioContext } from './contexts';
+import { radioStyle } from './style';
 
-import type { DefaultComponentPropsInternal } from '@montage-ui/engine';
 import type { RadioProps } from './types';
+import type { DefaultComponentPropsInternal } from '@montage-ui/engine';
 
 const Radio = forwardRef<
   HTMLButtonElement,

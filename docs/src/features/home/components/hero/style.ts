@@ -130,120 +130,121 @@ export const marqueeGroupStyle = css`
 `;
 
 export const marqueeBackgroundOverlayStyle =
-  (position: 'left' | 'right') => (theme: Theme) => css`
-    ${position === 'left' ? 'left: 0;' : 'right: 0;'};
-    --overlay-direction: ${`to ${position}`};
-    pointer-events: none;
-    position: absolute;
-    width: 300px;
-    height: 100%;
-    z-index: 0;
-
-    &::before {
-      content: '';
+  (position: 'left' | 'right') => (theme: Theme) =>
+    css`
+      ${position === 'left' ? 'left: 0;' : 'right: 0;'};
+      --overlay-direction: ${`to ${position}`};
+      pointer-events: none;
       position: absolute;
-      width: 100%;
+      width: 300px;
       height: 100%;
-      background-color: ${theme.semantic.background.neutral.primary};
-      mask-image: linear-gradient(
-        ${position === 'left' ? 'to right' : 'to left'},
-        #000 10%,
-        rgba(0, 0, 0, 0.86) 14.03%,
-        rgba(0, 0, 0, 0.73) 26.24%,
-        rgba(0, 0, 0, 0.62) 36.8%,
-        rgba(0, 0, 0, 0.52) 45.9%,
-        rgba(0, 0, 0, 0.43) 53.7%,
-        rgba(0, 0, 0, 0.35) 60.4%,
-        rgba(0, 0, 0, 0.29) 66.16%,
-        rgba(0, 0, 0, 0.23) 71.17%,
-        rgba(0, 0, 0, 0.18) 75.6%,
-        rgba(0, 0, 0, 0.14) 79.63%,
-        rgba(0, 0, 0, 0.1) 83.44%,
-        rgba(0, 0, 0, 0.07) 87.2%,
-        rgba(0, 0, 0, 0.04) 91.1%,
-        rgba(0, 0, 0, 0.02) 95.3%,
-        rgba(0, 0, 0, 0) 100%
-      );
-    }
+      z-index: 0;
 
-    ${respondTo(theme.breakpoint.md)} {
-      width: 200px;
-    }
-
-    ${respondTo(theme.breakpoint.sm)} {
-      width: 80px;
-    }
-
-    [data-role='marquee-background-overlay-layer'] {
-      position: absolute;
-      top: 0;
-      left: 0;
-      bottom: 0;
-      right: 0;
-
-      &:nth-child(1) {
-        mask: linear-gradient(
-          var(--overlay-direction),
-          rgba(0, 0, 0, 0),
-          rgba(0, 0, 0, 1) 10%,
-          rgba(0, 0, 0, 1) 30%,
-          rgba(0, 0, 0, 0) 40%
+      &::before {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background-color: ${theme.semantic.background.neutral.primary};
+        mask-image: linear-gradient(
+          ${position === 'left' ? 'to right' : 'to left'},
+          #000 10%,
+          rgba(0, 0, 0, 0.86) 14.03%,
+          rgba(0, 0, 0, 0.73) 26.24%,
+          rgba(0, 0, 0, 0.62) 36.8%,
+          rgba(0, 0, 0, 0.52) 45.9%,
+          rgba(0, 0, 0, 0.43) 53.7%,
+          rgba(0, 0, 0, 0.35) 60.4%,
+          rgba(0, 0, 0, 0.29) 66.16%,
+          rgba(0, 0, 0, 0.23) 71.17%,
+          rgba(0, 0, 0, 0.18) 75.6%,
+          rgba(0, 0, 0, 0.14) 79.63%,
+          rgba(0, 0, 0, 0.1) 83.44%,
+          rgba(0, 0, 0, 0.07) 87.2%,
+          rgba(0, 0, 0, 0.04) 91.1%,
+          rgba(0, 0, 0, 0.02) 95.3%,
+          rgba(0, 0, 0, 0) 100%
         );
-        backdrop-filter: blur(1px);
       }
 
-      &:nth-child(2) {
-        mask: linear-gradient(
-          var(--overlay-direction),
-          rgba(0, 0, 0, 0) 10%,
-          rgba(0, 0, 0, 1) 20%,
-          rgba(0, 0, 0, 1) 40%,
-          rgba(0, 0, 0, 0) 50%
-        );
-        backdrop-filter: blur(2px);
+      ${respondTo(theme.breakpoint.md)} {
+        width: 200px;
       }
 
-      &:nth-child(3) {
-        mask: linear-gradient(
-          var(--overlay-direction),
-          rgba(0, 0, 0, 0) 20%,
-          rgba(0, 0, 0, 1) 40%,
-          rgba(0, 0, 0, 1) 60%,
-          rgba(0, 0, 0, 0) 70%
-        );
-        backdrop-filter: blur(4px);
+      ${respondTo(theme.breakpoint.sm)} {
+        width: 80px;
       }
 
-      &:nth-child(4) {
-        mask: linear-gradient(
-          var(--overlay-direction),
-          rgba(0, 0, 0, 0) 40%,
-          rgba(0, 0, 0, 1) 60%,
-          rgba(0, 0, 0, 1) 80%,
-          rgba(0, 0, 0, 0) 90%
-        );
-        backdrop-filter: blur(6px);
-      }
+      [data-role='marquee-background-overlay-layer'] {
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
 
-      &:nth-child(5) {
-        mask: linear-gradient(
-          var(--overlay-direction),
-          rgba(0, 0, 0, 0) 60%,
-          rgba(0, 0, 0, 1) 80%
-        );
-        backdrop-filter: blur(8px);
-      }
+        &:nth-child(1) {
+          mask: linear-gradient(
+            var(--overlay-direction),
+            rgba(0, 0, 0, 0),
+            rgba(0, 0, 0, 1) 10%,
+            rgba(0, 0, 0, 1) 30%,
+            rgba(0, 0, 0, 0) 40%
+          );
+          backdrop-filter: blur(1px);
+        }
 
-      &:nth-child(6) {
-        mask: linear-gradient(
-          var(--overlay-direction),
-          rgba(0, 0, 0, 0) 70%,
-          rgba(0, 0, 0, 1) 100%
-        );
-        backdrop-filter: blur(10px);
+        &:nth-child(2) {
+          mask: linear-gradient(
+            var(--overlay-direction),
+            rgba(0, 0, 0, 0) 10%,
+            rgba(0, 0, 0, 1) 20%,
+            rgba(0, 0, 0, 1) 40%,
+            rgba(0, 0, 0, 0) 50%
+          );
+          backdrop-filter: blur(2px);
+        }
+
+        &:nth-child(3) {
+          mask: linear-gradient(
+            var(--overlay-direction),
+            rgba(0, 0, 0, 0) 20%,
+            rgba(0, 0, 0, 1) 40%,
+            rgba(0, 0, 0, 1) 60%,
+            rgba(0, 0, 0, 0) 70%
+          );
+          backdrop-filter: blur(4px);
+        }
+
+        &:nth-child(4) {
+          mask: linear-gradient(
+            var(--overlay-direction),
+            rgba(0, 0, 0, 0) 40%,
+            rgba(0, 0, 0, 1) 60%,
+            rgba(0, 0, 0, 1) 80%,
+            rgba(0, 0, 0, 0) 90%
+          );
+          backdrop-filter: blur(6px);
+        }
+
+        &:nth-child(5) {
+          mask: linear-gradient(
+            var(--overlay-direction),
+            rgba(0, 0, 0, 0) 60%,
+            rgba(0, 0, 0, 1) 80%
+          );
+          backdrop-filter: blur(8px);
+        }
+
+        &:nth-child(6) {
+          mask: linear-gradient(
+            var(--overlay-direction),
+            rgba(0, 0, 0, 0) 70%,
+            rgba(0, 0, 0, 1) 100%
+          );
+          backdrop-filter: blur(10px);
+        }
       }
-    }
-  `;
+    `;
 
 export const marqueeImageStyle = (theme: Theme) => css`
   width: auto;

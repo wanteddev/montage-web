@@ -35,9 +35,9 @@ Pretendard 를 사용하기 때문에 폰트를 불러와야 합니다.
 ### React
 
 ```tsx
+import { ThemeProvider } from '@montage-ui/core';
 // App.tsx
 import { createRoot } from 'react-dom/client';
-import { ThemeProvider } from '@montage-ui/core';
 
 import App from './App';
 
@@ -59,9 +59,9 @@ root.render(
 [Pretend 옵션](https://emotion.sh/docs/@emotion/cache#prepend)을 사용하면 스타일 태그를 DOM 노드에 앞부분에 추가할지 여부를 설정할 수 있습니다.
 
 ```tsx
+import { ThemeProvider, CacheProvider, createCache } from '@montage-ui/core';
 // App.tsx
 import { createRoot } from 'react-dom/client';
-import { ThemeProvider, CacheProvider, createCache } from '@montage-ui/core';
 
 import App from './App';
 
@@ -91,9 +91,9 @@ pnpm i @montage-ui/nextjs
 ```tsx
 // app/layout.tsx
 'use client';
-import { Head } from '@wanted-frontend/config';
 import { ThemeProvider } from '@montage-ui/core';
 import { AppRouterCacheProvider } from '@montage-ui/nextjs';
+import { Head } from '@wanted-frontend/config';
 
 import type { PropsWithChildren } from 'react';
 
@@ -122,9 +122,9 @@ export default RootLayout;
 ```tsx
 // app/layout.tsx
 'use client';
-import { Head } from '@wanted-frontend/config';
 import { ThemeProvider } from '@montage-ui/core';
 import { AppRouterCacheProvider } from '@montage-ui/nextjs';
+import { Head } from '@wanted-frontend/config';
 import { ThemeProvider as StyledComponentsProvider } from 'styled-components';
 
 import type { PropsWithChildren } from 'react';
@@ -162,8 +162,8 @@ pnpm i @montage-ui/nextjs
 import { ThemeProvider } from '@montage-ui/core';
 import { AppCacheProvider } from '@montage-ui/nextjs';
 
-import type { AppProps } from 'next/app';
 import type { EmotionCacheProviderProps } from '@montage-ui/nextjs';
+import type { AppProps } from 'next/app';
 
 import '@montage-ui/core/global.css';
 
@@ -309,8 +309,8 @@ import { ThemeProvider } from '@montage-ui/core';
 import { AppCacheProvider } from '@montage-ui/nextjs';
 import { ThemeProvider as StyledComponentsProvider } from 'styled-components';
 
-import type { AppProps } from 'next/app';
 import type { EmotionCacheProviderProps } from '@montage-ui/nextjs';
+import type { AppProps } from 'next/app';
 
 import '@montage-ui/core/global.css';
 

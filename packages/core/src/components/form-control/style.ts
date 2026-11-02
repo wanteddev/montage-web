@@ -1,18 +1,18 @@
 import { css } from '@montage-ui/engine';
 
+import { ellipsisTypographyStyle, typographyStyle } from '../../utils';
+import { toCssValue } from '../../utils/internal/css';
 import {
   createResponsiveStyle,
   getPreviousValue,
 } from '../../utils/internal/responsive-props';
-import { ellipsisTypographyStyle, typographyStyle } from '../../utils';
-import { toCssValue } from '../../utils/internal/css';
 
+import type { FormControlLayoutContextType } from './contexts';
 import type {
   FormControlGroupProps,
   FormControlLabelProps,
   FormControlProps,
 } from './types';
-import type { FormControlLayoutContextType } from './contexts';
 import type { Theme } from '@montage-ui/engine';
 
 export const formControlGroupStyle =
@@ -27,62 +27,63 @@ export const formControlGroupStyle =
     lg,
     xl,
   }: FormControlGroupProps) =>
-  (theme: Theme) => css`
-    gap: ${gap === undefined ? theme.spacing[16] : toCssValue(gap)};
+  (theme: Theme) =>
+    css`
+      gap: ${gap === undefined ? theme.spacing[16] : toCssValue(gap)};
 
-    ${
-      rowGap !== undefined &&
-      css`
-        row-gap: ${toCssValue(rowGap)};
-      `
-    }
-    ${
-      columnGap !== undefined &&
-      css`
-        column-gap: ${toCssValue(columnGap)};
-      `
-    }
-    ${
-      labelWidth !== undefined &&
-      css`
-        --form-control-leading-label-width: ${labelWidth};
-      `
-    }
+      ${
+        rowGap !== undefined &&
+        css`
+          row-gap: ${toCssValue(rowGap)};
+        `
+      }
+      ${
+        columnGap !== undefined &&
+        css`
+          column-gap: ${toCssValue(columnGap)};
+        `
+      }
+      ${
+        labelWidth !== undefined &&
+        css`
+          --form-control-leading-label-width: ${labelWidth};
+        `
+      }
 
-    ${createResponsiveStyle(
-      { xs, sm, md, lg, xl },
-      theme,
-    )(
-      (params) => css`
-        ${
-          params?.gap !== undefined &&
-          css`
-            gap: ${toCssValue(params.gap)};
-          `
-        };
-        ${
-          params?.rowGap !== undefined &&
-          css`
-            row-gap: ${toCssValue(params.rowGap)};
-          `
-        }
-        ${
-          params?.columnGap !== undefined &&
-          css`
-            column-gap: ${toCssValue(params.columnGap)};
-          `
-        }
-        ${
-          params?.labelWidth !== undefined &&
-          css`
-            --form-control-leading-label-width: ${params.labelWidth};
-          `
-        }
+      ${createResponsiveStyle(
+        { xs, sm, md, lg, xl },
+        theme,
+      )(
+        (params) => css`
+          ${
+            params?.gap !== undefined &&
+            css`
+              gap: ${toCssValue(params.gap)};
+            `
+          };
+          ${
+            params?.rowGap !== undefined &&
+            css`
+              row-gap: ${toCssValue(params.rowGap)};
+            `
+          }
+          ${
+            params?.columnGap !== undefined &&
+            css`
+              column-gap: ${toCssValue(params.columnGap)};
+            `
+          }
+          ${
+            params?.labelWidth !== undefined &&
+            css`
+              --form-control-leading-label-width: ${params.labelWidth};
+            `
+          }
 
-        ${params?.sx}
-      `,
-    )}
-  `;
+          ${params?.sx}
+        `,
+      )}
+    `;
 
 export const formControlStyle =
   ({
@@ -97,52 +98,53 @@ export const formControlStyle =
     lg,
     xl,
   }: FormControlProps) =>
-  (theme: Theme) => css`
-    ${formControlLayoutStyle({ labelPlacement, gap, rowGap, columnGap }, theme)}
+  (theme: Theme) =>
+    css`
+      ${formControlLayoutStyle({ labelPlacement, gap, rowGap, columnGap }, theme)}
 
-    ${formControlSizeStyle({ size }, theme)}
+      ${formControlSizeStyle({ size }, theme)}
 
-    ${createResponsiveStyle(
-      { xs, sm, md, lg, xl },
-      theme,
-    )(
-      (params, breakpoint) => css`
-        ${formControlSizeStyle({ size: params?.size }, theme)}
+      ${createResponsiveStyle(
+        { xs, sm, md, lg, xl },
+        theme,
+      )(
+        (params, breakpoint) => css`
+          ${formControlSizeStyle({ size: params?.size }, theme)}
 
-        ${formControlLayoutStyle(
-          {
-            labelPlacement: getPreviousValue(
-              { xs, sm, md, lg, xl },
-              'labelPlacement',
-              params?.labelPlacement ?? labelPlacement,
-              breakpoint!,
-            ),
-            gap: getPreviousValue(
-              { xs, sm, md, lg, xl },
-              'gap',
-              params?.gap ?? gap,
-              breakpoint!,
-            ),
-            rowGap: getPreviousValue(
-              { xs, sm, md, lg, xl },
-              'rowGap',
-              params?.rowGap ?? rowGap,
-              breakpoint!,
-            ),
-            columnGap: getPreviousValue(
-              { xs, sm, md, lg, xl },
-              'columnGap',
-              params?.columnGap ?? columnGap,
-              breakpoint!,
-            ),
-          },
-          theme,
-        )}
+          ${formControlLayoutStyle(
+            {
+              labelPlacement: getPreviousValue(
+                { xs, sm, md, lg, xl },
+                'labelPlacement',
+                params?.labelPlacement ?? labelPlacement,
+                breakpoint!,
+              ),
+              gap: getPreviousValue(
+                { xs, sm, md, lg, xl },
+                'gap',
+                params?.gap ?? gap,
+                breakpoint!,
+              ),
+              rowGap: getPreviousValue(
+                { xs, sm, md, lg, xl },
+                'rowGap',
+                params?.rowGap ?? rowGap,
+                breakpoint!,
+              ),
+              columnGap: getPreviousValue(
+                { xs, sm, md, lg, xl },
+                'columnGap',
+                params?.columnGap ?? columnGap,
+                breakpoint!,
+              ),
+            },
+            theme,
+          )}
 
-        ${params?.sx}
-      `,
-    )}
-  `;
+          ${params?.sx}
+        `,
+      )}
+    `;
 
 const formControlSizeStyle = (
   { size }: Pick<FormControlProps, 'size'>,
@@ -250,69 +252,70 @@ export const formLabelStyle =
     responsive,
   }: FormControlLabelProps &
     Pick<FormControlLayoutContextType, 'responsive' | 'size'>) =>
-  (theme: Theme) => css`
-    padding: ${theme.spacing[0]} ${theme.spacing[2]};
-    ${formLabelSizeStyle({ size, variant, weight })}
+  (theme: Theme) =>
+    css`
+      padding: ${theme.spacing[0]} ${theme.spacing[2]};
+      ${formLabelSizeStyle({ size, variant, weight })}
 
-    [data-role='label-content'] {
-      display: inline-flex;
-      max-width: 100%;
-      min-width: 0;
+      [data-role='label-content'] {
+        display: inline-flex;
+        max-width: 100%;
+        min-width: 0;
 
-      [data-role='label-content-text'] {
-        ${ellipsisTypographyStyle(1)}
-        word-break: keep-all;
-        overflow-wrap: anywhere;
-      }
-
-      [data-role='label-required-mark'] {
-        flex-shrink: 0;
-      }
-    }
-
-    ${createResponsiveStyle(
-      {
-        xs: { ...xs, ...responsive?.xs },
-        sm: { ...sm, ...responsive?.sm },
-        md: { ...md, ...responsive?.md },
-        lg: { ...lg, ...responsive?.lg },
-        xl: { ...xl, ...responsive?.xl },
-      },
-      theme,
-    )(
-      (params, breakpoint) => css`
-        ${formLabelSizeStyle({
-          size: getPreviousValue(
-            responsive ?? {},
-            'size',
-            params.size ?? size,
-            breakpoint!,
-          ),
-          variant: getPreviousValue(
-            { xs, sm, md, lg, xl },
-            'variant',
-            params.variant ?? variant,
-            breakpoint!,
-          ),
-          weight: getPreviousValue(
-            { xs, sm, md, lg, xl },
-            'weight',
-            params.weight ?? weight,
-            breakpoint!,
-          ),
-        })}
-
-        ${
-          Boolean(params.align) &&
-          css`
-            text-align: ${params.align};
-          `
+        [data-role='label-content-text'] {
+          ${ellipsisTypographyStyle(1)}
+          word-break: keep-all;
+          overflow-wrap: anywhere;
         }
 
-        ${params.sx}
-      `,
-    )}
-  `;
+        [data-role='label-required-mark'] {
+          flex-shrink: 0;
+        }
+      }
+
+      ${createResponsiveStyle(
+        {
+          xs: { ...xs, ...responsive?.xs },
+          sm: { ...sm, ...responsive?.sm },
+          md: { ...md, ...responsive?.md },
+          lg: { ...lg, ...responsive?.lg },
+          xl: { ...xl, ...responsive?.xl },
+        },
+        theme,
+      )(
+        (params, breakpoint) => css`
+          ${formLabelSizeStyle({
+            size: getPreviousValue(
+              responsive ?? {},
+              'size',
+              params.size ?? size,
+              breakpoint!,
+            ),
+            variant: getPreviousValue(
+              { xs, sm, md, lg, xl },
+              'variant',
+              params.variant ?? variant,
+              breakpoint!,
+            ),
+            weight: getPreviousValue(
+              { xs, sm, md, lg, xl },
+              'weight',
+              params.weight ?? weight,
+              breakpoint!,
+            ),
+          })}
+
+          ${
+            Boolean(params.align) &&
+            css`
+              text-align: ${params.align};
+            `
+          }
+
+          ${params.sx}
+        `,
+      )}
+    `;
 
 const formLabelSizeStyle = ({
   size,

@@ -1,3 +1,4 @@
+import { composeEventHandlers } from '@radix-ui/primitive';
 /**
  * Most of this file is based on code from @radix-ui/react-focus-scope.
  * MIT Licensed, Copyright (c) 2022 WorkOS
@@ -5,10 +6,9 @@
  * https://github.com/radix-ui/primitives/blob/main/packages/react/focus-scope/src/FocusScope.tsx
  */
 import { useComposedRefs } from '@radix-ui/react-compose-refs';
+import { Slot } from '@radix-ui/react-slot';
 import { useCallbackRef } from '@radix-ui/react-use-callback-ref';
 import { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
-import { composeEventHandlers } from '@radix-ui/primitive';
-import { Slot } from '@radix-ui/react-slot';
 
 import {
   arrayRemove,
@@ -20,8 +20,8 @@ import {
   removeLinks,
 } from './helpers';
 
-import type { DefaultComponentPropsInternal } from '@montage-ui/engine';
 import type { FocusScopeProps } from './types';
+import type { DefaultComponentPropsInternal } from '@montage-ui/engine';
 import type { ComponentRef, KeyboardEvent } from 'react';
 
 const AUTOFOCUS_ON_MOUNT = 'focusScope.autoFocusOnMount';

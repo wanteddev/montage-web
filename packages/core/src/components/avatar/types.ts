@@ -1,6 +1,6 @@
 import type { ImageBaseProps } from '../image-base';
-import type { ReactNode } from 'react';
 import type { Merge, ResponsiveProps, WithSxProps } from '@montage-ui/engine';
+import type { ReactNode } from 'react';
 
 type AvatarDefaultProps = WithSxProps<{
   size?: 'xsmall' | 'small' | 'medium' | 'large' | 'xlarge' | number;

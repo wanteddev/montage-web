@@ -1,6 +1,13 @@
-import type { TimeView } from '../time-view';
+import type { DateType } from '../date-picker';
+import type { FocusScope } from '../focus-scope';
 import type { PopperContent } from '../popper';
 import type { TextFieldProps } from '../text-field/types';
+import type { TimeView } from '../time-view';
+import type {
+  DefaultComponentPropsInternal,
+  Merge,
+  WithSxProps,
+} from '@montage-ui/engine';
 import type {
   ComponentProps,
   ComponentPropsWithoutRef,
@@ -8,13 +15,6 @@ import type {
   ReactNode,
   Ref,
 } from 'react';
-import type { DateType } from '../date-picker';
-import type {
-  DefaultComponentPropsInternal,
-  Merge,
-  WithSxProps,
-} from '@montage-ui/engine';
-import type { FocusScope } from '../focus-scope';
 
 export type TimePickerProps = Merge<
   {

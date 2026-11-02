@@ -1,4 +1,3 @@
-import { cleanup } from '@testing-library/react';
 import {
   Alert,
   AlertActionArea,
@@ -15,6 +14,7 @@ import {
   ModalHeading,
   ModalTrigger,
 } from '@montage-ui/core';
+import { cleanup } from '@testing-library/react';
 
 import {
   byTestId,

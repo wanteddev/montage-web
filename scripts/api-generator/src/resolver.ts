@@ -213,7 +213,7 @@ export class Resolver {
         const valueDecl =
           prop.getValueDeclaration() ?? prop.getDeclarations()[0];
 
-        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+        // oxlint-disable-next-line @typescript-eslint/no-unnecessary-condition
         if (!valueDecl) {
           return null;
         }

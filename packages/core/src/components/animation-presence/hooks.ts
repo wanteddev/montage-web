@@ -1,5 +1,5 @@
-import { useLayoutEffect, useReducer, useState } from 'react';
 import { useCallbackRef } from '@radix-ui/react-use-callback-ref';
+import { useLayoutEffect, useReducer, useState } from 'react';
 
 import type { AnimationOptions } from './types';
 
@@ -27,7 +27,7 @@ const useAnimationPresenceState = (initialState: PresenceState) => {
   );
 };
 
-// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+// oxlint-disable-next-line @typescript-eslint/no-unnecessary-condition
 const useSafeLayoutEffect = globalThis?.document ? useLayoutEffect : () => {};
 
 export const useAnimationPresence = (

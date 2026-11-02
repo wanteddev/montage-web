@@ -1,6 +1,6 @@
+import { TimeView } from '@montage-ui/core';
 import { cleanup } from '@testing-library/react';
 import { userEvent } from 'vitest/browser';
-import { TimeView } from '@montage-ui/core';
 
 import { byTestId, click, renderWithProvider } from '../helpers';
 

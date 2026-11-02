@@ -32,8 +32,8 @@ Write test cases with a given situation and an expected result.
 Also, for design system components, it is recommended to include accessibility tests.
 
 ```tsx
-import { axe } from 'vitest-axe';
 import { cleanup, render, screen } from '@testing-library/react';
+import { axe } from 'vitest-axe';
 
 describe('...', () => {
   it('should pass accessibility tests', async () => {
@@ -88,8 +88,8 @@ is no need to import `describe` / `it` / `expect`. Render through the shared
 `RegionArea` so `useAlert`, snackbars and toasts work).
 
 ```tsx
-import { cleanup } from '@testing-library/react';
 import { Button, Modal, ModalContainer, ModalTrigger } from '@montage-ui/core';
+import { cleanup } from '@testing-library/react';
 
 import {
   byTestId,

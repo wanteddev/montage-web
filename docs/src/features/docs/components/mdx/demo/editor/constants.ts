@@ -1,6 +1,6 @@
 import { HighlightStyle, syntaxHighlighting } from '@codemirror/language';
-import { tags as t } from '@lezer/highlight';
 import { EditorView } from '@codemirror/view';
+import { tags as t } from '@lezer/highlight';
 import { addOpacity } from '@montage-ui/core';
 
 import type { Extension } from '@codemirror/state';

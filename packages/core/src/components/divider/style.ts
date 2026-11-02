@@ -1,52 +1,53 @@
 import { css, getColorByToken } from '@montage-ui/engine';
 
+import { toCssValue } from '../../utils/internal/css';
 import {
   createResponsiveStyle,
   getPreviousValue,
 } from '../../utils/internal/responsive-props';
-import { toCssValue } from '../../utils/internal/css';
 
 import type { DividerProps } from './types';
 import type { Theme } from '@montage-ui/engine';
 
 export const dividerStyle =
   ({ vertical, color, size, thickness, xs, sm, md, lg, xl }: DividerProps) =>
-  (theme: Theme) => css`
-    margin: 0px;
-    border-style: solid;
-    border-color: ${getColorByToken(theme, color!)};
+  (theme: Theme) =>
+    css`
+      margin: 0px;
+      border-style: solid;
+      border-color: ${getColorByToken(theme, color!)};
 
-    ${dividerSizeStyle({ size, vertical, thickness })}
+      ${dividerSizeStyle({ size, vertical, thickness })}
 
-    ${createResponsiveStyle(
-      { xs, sm, md, lg, xl },
-      theme,
-    )(
-      (params, breakpoint) => css`
-        ${dividerSizeStyle({
-          size: getPreviousValue(
-            { xs, sm, md, lg, xl },
-            'size',
-            size,
-            breakpoint!,
-          ),
-          thickness: getPreviousValue(
-            { xs, sm, md, lg, xl },
-            'thickness',
-            thickness,
-            breakpoint!,
-          ),
-          vertical: getPreviousValue(
-            { xs, sm, md, lg, xl },
-            'vertical',
-            vertical,
-            breakpoint!,
-          ),
-        })}
-        ${params?.sx}
-      `,
-    )}
-  `;
+      ${createResponsiveStyle(
+        { xs, sm, md, lg, xl },
+        theme,
+      )(
+        (params, breakpoint) => css`
+          ${dividerSizeStyle({
+            size: getPreviousValue(
+              { xs, sm, md, lg, xl },
+              'size',
+              size,
+              breakpoint!,
+            ),
+            thickness: getPreviousValue(
+              { xs, sm, md, lg, xl },
+              'thickness',
+              thickness,
+              breakpoint!,
+            ),
+            vertical: getPreviousValue(
+              { xs, sm, md, lg, xl },
+              'vertical',
+              vertical,
+              breakpoint!,
+            ),
+          })}
+          ${params?.sx}
+        `,
+      )}
+    `;
 
 const dividerSizeStyle = ({
   size,

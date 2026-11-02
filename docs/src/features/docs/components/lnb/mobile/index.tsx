@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/set-state-in-effect */
+/* oxlint-disable react-hooks/set-state-in-effect */
 'use client';
 import {
   FlexBox,
@@ -10,16 +10,16 @@ import {
   ModalNavigationButton,
   Typography,
 } from '@montage-ui/core';
-import { memo, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { IconArrowLeft, IconClose } from '@montage-ui/icon';
-import { usePathname } from 'next/navigation';
 import { sentenceCase } from 'change-case';
+import { usePathname } from 'next/navigation';
+import { memo, useEffect, useLayoutEffect, useRef, useState } from 'react';
 
 import { useMDXContext } from '@/features/docs/contexts';
 
+import { useLnbContext } from '../contexts';
 import LnbGroup from '../group';
 import LnbGroupItem from '../group/item';
-import { useLnbContext } from '../contexts';
 
 import {
   backButtonStyle,

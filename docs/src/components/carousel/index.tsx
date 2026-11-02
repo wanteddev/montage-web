@@ -8,13 +8,13 @@ import {
   carouselWrapperStyle,
 } from './style';
 
+import type { SxProp } from '@montage-ui/core';
 import type {
   HTMLAttributes,
   PropsWithChildren,
   ReactNode,
   RefObject,
 } from 'react';
-import type { SxProp } from '@montage-ui/core';
 
 type Props = PropsWithChildren<{
   sx?: SxProp;

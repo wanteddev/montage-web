@@ -5,10 +5,10 @@ import { getImageUrl } from '@/helpers/image';
 
 import { Heading2 } from '../mdx/section/layout';
 
-import { descriptionStyle, thumbnailStyle } from './style';
-import Resources from './resources';
 import Principles from './principles';
+import Resources from './resources';
 import Steps from './steps';
+import { descriptionStyle, thumbnailStyle } from './style';
 
 const GettingStarted = () => {
   return (

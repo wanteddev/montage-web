@@ -62,7 +62,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
     hasChanges = true;
   });
 
-  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+  // oxlint-disable-next-line @typescript-eslint/no-unnecessary-condition
   if (hasChanges) {
     const reactImportDeclaration = root.find(j.ImportDeclaration, {
       source: { value: 'react' },
@@ -80,7 +80,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
     });
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+  // oxlint-disable-next-line @typescript-eslint/no-unnecessary-condition
   return hasChanges ? root.toSource(options) : file.source;
 };
 

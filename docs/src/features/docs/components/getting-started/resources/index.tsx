@@ -3,8 +3,8 @@ import { IconArrowUpRight } from '@montage-ui/icon';
 import Link from 'next/link';
 import { useState } from 'react';
 
-import { resourceItemStyle } from './style';
 import GithubModal from './github-modal';
+import { resourceItemStyle } from './style';
 
 const Resources = () => {
   const [isGithubModalOpen, setIsGithubModalOpen] = useState(false);

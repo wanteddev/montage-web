@@ -2,14 +2,14 @@ import { cleanup, fireEvent, render, screen } from '@testing-library/react';
 import { renderToString } from 'react-dom/server';
 import { axe } from 'vitest-axe';
 
+import { Button } from '../button';
+import { ContentBadge } from '../content-badge';
 import {
   FormControl,
   FormControlField,
   FormControlLabel,
   FormControlMessage,
 } from '../form-control';
-import { Button } from '../button';
-import { ContentBadge } from '../content-badge';
 import { IconButton } from '../icon-button';
 import { SegmentedControl, SegmentedControlItem } from '../segmented-control';
 

@@ -5,10 +5,6 @@ import { visit } from 'unist-util-visit';
 
 import type { ComponentInfo } from '../types';
 import type {
-  MdxJsxAttribute,
-  MdxJsxAttributeValueExpression,
-} from 'mdast-util-mdx-jsx';
-import type {
   InlineCode,
   Paragraph,
   PhrasingContent,
@@ -17,6 +13,10 @@ import type {
   TableCell,
   Text,
 } from 'mdast';
+import type {
+  MdxJsxAttribute,
+  MdxJsxAttributeValueExpression,
+} from 'mdast-util-mdx-jsx';
 
 /**
  * @description jsx 구문으로 작성되지 않은 style을 객체 형태로 변환한다.
@@ -196,7 +196,7 @@ export const remarkTable = () => {
       );
 
       if (Boolean(apiTableHeadLabels)) {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        // oxlint-disable-next-line @typescript-eslint/no-unused-vars
         const [_, ...rows] = node.children;
 
         const propertyIndex = tableHeadLabels.findIndex((label) =>

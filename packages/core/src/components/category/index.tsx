@@ -1,4 +1,14 @@
 import {
+  Box,
+  type DefaultComponentPropsInternal,
+  type PolymorphicComponentInternal,
+  type PolymorphicPropsInternal,
+} from '@montage-ui/engine';
+import { composeEventHandlers } from '@radix-ui/primitive';
+import { useComposedRefs } from '@radix-ui/react-compose-refs';
+import * as RovingFocusGroup from '@radix-ui/react-roving-focus';
+import { useControllableState } from '@radix-ui/react-use-controllable-state';
+import {
   forwardRef,
   useCallback,
   useDeferredValue,
@@ -8,36 +18,14 @@ import {
   useRef,
   useState,
 } from 'react';
-import { useComposedRefs } from '@radix-ui/react-compose-refs';
-import * as RovingFocusGroup from '@radix-ui/react-roving-focus';
-import { useControllableState } from '@radix-ui/react-use-controllable-state';
-import { composeEventHandlers } from '@radix-ui/primitive';
-import {
-  Box,
-  type DefaultComponentPropsInternal,
-  type PolymorphicComponentInternal,
-  type PolymorphicPropsInternal,
-} from '@montage-ui/engine';
 
-import { FlexBox } from '../flex-box';
-import { ScrollArea } from '../scroll-area';
-import { Chip } from '../chip';
 import useResizeObserver from '../../hooks/internal/use-resize-observer';
 import { SlotDefaultsProvider } from '../../hooks/internal/use-slot-defaults';
 import { mapResponsiveProps } from '../../utils/internal/responsive-props';
+import { Chip } from '../chip';
+import { FlexBox } from '../flex-box';
+import { ScrollArea } from '../scroll-area';
 
-import {
-  categoryListItemStyle,
-  categoryListStyle,
-  scrollWrapperStyle,
-  stickyButtonStyle,
-} from './style';
-import {
-  CategoryListProvider,
-  CategoryProvider,
-  useCategoryContext,
-  useCategoryListContext,
-} from './contexts';
 import {
   CATEGORY_ICON_BUTTON_SIZE,
   CATEGORY_LIST_ITEM_NAME,
@@ -45,20 +33,32 @@ import {
   CATEGORY_NAME,
   CATEGORY_PANEL_NAME,
 } from './constants';
+import {
+  CategoryListProvider,
+  CategoryProvider,
+  useCategoryContext,
+  useCategoryListContext,
+} from './contexts';
 import { getCategoryChipSize, getCategoryListItemSize } from './helpers';
+import {
+  categoryListItemStyle,
+  categoryListStyle,
+  scrollWrapperStyle,
+  stickyButtonStyle,
+} from './style';
 
-import type {
-  ComponentRef,
-  ElementType,
-  ForwardedRef,
-  UIEventHandler,
-} from 'react';
 import type {
   CategoryListItemProps,
   CategoryListProps,
   CategoryPanelProps,
   CategoryProps,
 } from './types';
+import type {
+  ComponentRef,
+  ElementType,
+  ForwardedRef,
+  UIEventHandler,
+} from 'react';
 
 const ARROW_KEYS = ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'];
 
@@ -334,7 +334,7 @@ const CategoryListItem = forwardRef<any, CategoryListItemProps>(
       if (!context.disableScrollMoveOnChange) {
         scrollMove();
       }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
+      // oxlint-disable-next-line react-hooks/exhaustive-deps
     }, [context.value, value, context.disableScrollMoveOnChange]);
 
     return (
@@ -410,7 +410,7 @@ const CategoryPanel = forwardRef<
     if (!firstRendered && isActive) {
       setFirstRendered(true);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // oxlint-disable-next-line react-hooks/exhaustive-deps
   }, [isActive]);
 
   useEffect(() => {
@@ -422,7 +422,7 @@ const CategoryPanel = forwardRef<
     return () => {
       context.onPanelsChange((prev) => [...prev.filter((v) => v !== value)]);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // oxlint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);
 
   if (!isActive) {

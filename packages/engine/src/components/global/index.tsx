@@ -3,8 +3,8 @@ import { Global as StyleEngineGlobal } from '@emotion/react';
 import { useTheme } from '../../hooks';
 import { interpolationTheme } from '../../utils';
 
-import type { Theme } from '@montage-ui/theme';
 import type { Interpolation } from '@emotion/react';
+import type { Theme } from '@montage-ui/theme';
 
 type Props = {
   styles: Interpolation<Theme>;

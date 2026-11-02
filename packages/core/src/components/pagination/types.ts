@@ -1,8 +1,8 @@
+import type { FlexBoxProps } from '../flex-box/types';
 import type { MenuContent } from '../menu';
 import type { TextFieldProps } from '../text-field/types';
 import type { Merge, WithSxProps } from '@montage-ui/engine';
 import type { ComponentPropsWithoutRef, ReactNode } from 'react';
-import type { FlexBoxProps } from '../flex-box/types';
 
 export type PaginationProps = Merge<PaginationDefaultProps, FlexBoxProps>;
 

@@ -1,6 +1,11 @@
 import { Box } from '@montage-ui/engine';
 
-import { useRegionStore } from '../../hooks';
+import {
+  Toast,
+  ToastContainer,
+  ToastContent,
+  ToastIcon,
+} from '../../components';
 import {
   Snackbar,
   SnackbarAction,
@@ -10,20 +15,15 @@ import {
   SnackbarExtraContent,
   SnackbarHeading,
 } from '../../components/snackbar';
-import {
-  Toast,
-  ToastContainer,
-  ToastContent,
-  ToastIcon,
-} from '../../components';
+import { useRegionStore } from '../../hooks';
 
-import type { CSSProperties } from 'react';
 import type {
   RegionItem,
   RegionSnackbarItem,
   RegionToastItem,
   WithSystemRegionStoreItem,
 } from '../../stores/region-store';
+import type { CSSProperties } from 'react';
 
 const isSnackbar = (item: RegionItem): item is RegionSnackbarItem => {
   return item.type === 'snackbar';

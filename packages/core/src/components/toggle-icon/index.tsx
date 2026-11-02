@@ -1,18 +1,18 @@
-import { forwardRef } from 'react';
-import { useControllableState } from '@radix-ui/react-use-controllable-state';
-import { composeEventHandlers } from '@radix-ui/primitive';
 import { Box } from '@montage-ui/engine';
+import { composeEventHandlers } from '@radix-ui/primitive';
+import { useControllableState } from '@radix-ui/react-use-controllable-state';
+import { forwardRef } from 'react';
 
 import { WithInteraction } from '../with-interaction';
 
 import { toggleIconStyle } from './style';
 
+import type { ToggleIconProps } from './types';
 import type {
   PolymorphicComponentInternal,
   PolymorphicPropsInternal,
 } from '@montage-ui/engine';
 import type { ElementType, ForwardedRef } from 'react';
-import type { ToggleIconProps } from './types';
 
 const ToggleIcon = forwardRef(
   <T extends ElementType = 'button'>(

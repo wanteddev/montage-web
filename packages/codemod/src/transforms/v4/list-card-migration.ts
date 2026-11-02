@@ -1,10 +1,10 @@
+import { MONTAGE_SOURCES } from '../../constants';
 import {
   findImportDeclaration,
   getImportedName,
   getLocalName,
   toSourcePreservingJsx,
 } from '../../helpers';
-import { MONTAGE_SOURCES } from '../../constants';
 
 import type {
   API,

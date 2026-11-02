@@ -1,8 +1,8 @@
 import type { ButtonProps } from '../button/types';
-import type { TypographyProps } from '../typography/types';
-import type { CSSProperties, ReactNode } from 'react';
-import type { Merge, ResponsiveProps, WithSxProps } from '@montage-ui/engine';
 import type { FlexBoxProps } from '../flex-box/types';
+import type { TypographyProps } from '../typography/types';
+import type { Merge, ResponsiveProps, WithSxProps } from '@montage-ui/engine';
+import type { CSSProperties, ReactNode } from 'react';
 
 export type FallbackViewDefaultProps = WithSxProps<{
   platform?: 'desktop' | 'mobile';

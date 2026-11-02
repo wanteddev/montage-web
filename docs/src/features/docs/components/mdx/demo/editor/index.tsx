@@ -1,11 +1,33 @@
 import {
-  startTransition,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+  autocompletion,
+  closeBrackets,
+  closeBracketsKeymap,
+  completionKeymap,
+} from '@codemirror/autocomplete';
+import {
+  defaultKeymap,
+  history,
+  historyKeymap,
+  indentWithTab,
+} from '@codemirror/commands';
 import { javascript } from '@codemirror/lang-javascript';
+import {
+  bracketMatching,
+  defaultHighlightStyle,
+  foldGutter,
+  foldKeymap,
+  indentOnInput,
+  syntaxHighlighting,
+} from '@codemirror/language';
+import {
+  closeSearchPanel,
+  getSearchQuery,
+  highlightSelectionMatches,
+  openSearchPanel,
+  search,
+  searchKeymap,
+  setSearchQuery,
+} from '@codemirror/search';
 import { EditorState } from '@codemirror/state';
 import {
   EditorView,
@@ -19,27 +41,6 @@ import {
   lineNumbers,
 } from '@codemirror/view';
 import {
-  defaultKeymap,
-  history,
-  historyKeymap,
-  indentWithTab,
-} from '@codemirror/commands';
-import {
-  autocompletion,
-  closeBrackets,
-  closeBracketsKeymap,
-  completionKeymap,
-} from '@codemirror/autocomplete';
-import {
-  closeSearchPanel,
-  getSearchQuery,
-  highlightSelectionMatches,
-  openSearchPanel,
-  search,
-  searchKeymap,
-  setSearchQuery,
-} from '@codemirror/search';
-import {
   Box,
   ScrollArea,
   Typography,
@@ -47,18 +48,17 @@ import {
   useTheme,
 } from '@montage-ui/core';
 import {
-  bracketMatching,
-  defaultHighlightStyle,
-  foldGutter,
-  foldKeymap,
-  indentOnInput,
-  syntaxHighlighting,
-} from '@codemirror/language';
+  startTransition,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 
 import { viewTheme } from './constants';
-import { collapsedStyle, editorStyle, focusGuardStyle } from './style';
-import SearchCode from './search-code';
 import { getDefaultSearchQuery } from './helpers';
+import SearchCode from './search-code';
+import { collapsedStyle, editorStyle, focusGuardStyle } from './style';
 
 import type { SearchQuery } from '@codemirror/search';
 import type { ViewUpdate } from '@codemirror/view';
@@ -231,7 +231,7 @@ const Editor = ({
         view.current?.destroy();
       };
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // oxlint-disable-next-line react-hooks/exhaustive-deps
     [node],
   );
 
@@ -241,13 +241,13 @@ const Editor = ({
     view.current?.setState(handleCreateState());
     handleCloseSearchPanel();
     handleResetComplete();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // oxlint-disable-next-line react-hooks/exhaustive-deps
   }, [isResetting]);
 
   const handleFocusEditor = useCallback(() => {
     node?.querySelector<HTMLElement>('[contenteditable="true"]')?.focus();
     onCollapseChange(false);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // oxlint-disable-next-line react-hooks/exhaustive-deps
   }, [node]);
 
   return (

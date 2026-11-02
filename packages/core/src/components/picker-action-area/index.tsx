@@ -1,24 +1,24 @@
-import { forwardRef, useEffect } from 'react';
 import { composeEventHandlers } from '@radix-ui/primitive';
+import { forwardRef, useEffect } from 'react';
 
 import { ActionArea } from '../action-area';
 import { dateTypeToDateObject } from '../date-calendar/helpers';
 import { TextButton } from '../text-button';
 
-import { pickerActionAreaStyle } from './style';
 import { PICKER_ACTION_AREA_BUTTON_NAME } from './constants';
 import { usePickerActionAreaContext } from './contexts';
+import { pickerActionAreaStyle } from './style';
 
 import type {
   PickerActionAreaButtonProps,
   PickerActionAreaProps,
 } from './types';
-import type { ElementType, ForwardedRef } from 'react';
 import type {
   DefaultComponentPropsInternal,
   PolymorphicComponentInternal,
   PolymorphicPropsInternal,
 } from '@montage-ui/engine';
+import type { ElementType, ForwardedRef } from 'react';
 
 const PickerActionArea = forwardRef<
   HTMLDivElement,
@@ -75,6 +75,7 @@ const PickerActionAreaButton = forwardRef(
                 ? undefined
                 : composeEventHandlers(props.onClick, () => {
                     onChangeComplete(
+                      // oxlint-disable-next-line react-hooks/purity
                       dateTypeToDateObject(new Date(), timezone),
                     );
                   })

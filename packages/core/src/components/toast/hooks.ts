@@ -2,8 +2,8 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { isCursorDevice } from './helpers';
 
-import type { CSSProperties } from 'react';
 import type { RegionToastItem } from '../../stores/region-store';
+import type { CSSProperties } from 'react';
 
 type UseToastAnimationParams = Pick<
   RegionToastItem,

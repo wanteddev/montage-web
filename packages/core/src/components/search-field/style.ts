@@ -1,8 +1,8 @@
 import { css } from '@montage-ui/engine';
 
-import { typographyStyle } from '../../utils/typography';
-import { createResponsiveStyle } from '../../utils/internal/responsive-props';
 import { toCssValue } from '../../utils/internal/css';
+import { createResponsiveStyle } from '../../utils/internal/responsive-props';
+import { typographyStyle } from '../../utils/typography';
 
 import type { SearchFieldProps } from './types';
 import type { Theme } from '@montage-ui/engine';
@@ -21,115 +21,116 @@ export const searchFieldWrapperStyle =
     lg,
     xl,
   }: SearchFieldWrapperStyleProps) =>
-  (theme: Theme) => css`
-    display: flex;
-    align-items: center;
-    border: none;
-    width: ${toCssValue(width)};
-    cursor: text;
+  (theme: Theme) =>
+    css`
+      display: flex;
+      align-items: center;
+      border: none;
+      width: ${toCssValue(width)};
+      cursor: text;
 
-    ${searchFieldWrapperSizeStyle({ size }, theme)}
-    ${searchFieldWrapperVariantStyle({ variant, disabled }, theme)}
+      ${searchFieldWrapperSizeStyle({ size }, theme)}
+      ${searchFieldWrapperVariantStyle({ variant, disabled }, theme)}
 
       [data-role='search-field-icon'] {
-      transition: color ease 0.2s;
-      color: ${theme.semantic.foreground.neutral.tertiary};
-    }
-
-    [data-role='search-field-reset'] {
-      display: none;
-    }
-
-    [data-role='search-field-wrapper'] {
-      padding: ${theme.spacing[0]} ${theme.spacing[4]};
-      gap: ${theme.spacing[2]};
-      align-items: center;
-      width: 100%;
-      height: 100%;
-    }
-
-    ${
-      disabled
-        ? css`
-            cursor: default;
-
-            [data-role='search-field-icon'] {
-              color: ${theme.semantic.foreground.disable.primary};
-            }
-
-            [data-role='search-field-reset'] {
-              display: none;
-            }
-          `
-        : css`
-            &:where(:has(input:focus)) {
-              [data-role='search-field-reset'] {
-                display: flex;
-              }
-
-              &:where(:has(input:placeholder-shown)) {
-                [data-role='search-field-reset'] {
-                  display: none;
-                }
-              }
-            }
-          `
-    }
-
-    input {
-      caret-color: ${theme.semantic.foreground.brand.primary};
-      transition: color ease 0.2s;
-      width: 100%;
-      margin: 0;
-      background-color: transparent;
-      outline: none;
-      border: none;
-      box-shadow: none;
-      color: ${theme.semantic.foreground.neutral.primary};
-
-      &::placeholder {
+        transition: color ease 0.2s;
         color: ${theme.semantic.foreground.neutral.tertiary};
       }
 
-      &:disabled {
-        color: ${theme.semantic.foreground.disable.primary};
+      [data-role='search-field-reset'] {
+        display: none;
+      }
+
+      [data-role='search-field-wrapper'] {
+        padding: ${theme.spacing[0]} ${theme.spacing[4]};
+        gap: ${theme.spacing[2]};
+        align-items: center;
+        width: 100%;
+        height: 100%;
+      }
+
+      ${
+        disabled
+          ? css`
+              cursor: default;
+
+              [data-role='search-field-icon'] {
+                color: ${theme.semantic.foreground.disable.primary};
+              }
+
+              [data-role='search-field-reset'] {
+                display: none;
+              }
+            `
+          : css`
+              &:where(:has(input:focus)) {
+                [data-role='search-field-reset'] {
+                  display: flex;
+                }
+
+                &:where(:has(input:placeholder-shown)) {
+                  [data-role='search-field-reset'] {
+                    display: none;
+                  }
+                }
+              }
+            `
+      }
+
+      input {
+        caret-color: ${theme.semantic.foreground.brand.primary};
+        transition: color ease 0.2s;
+        width: 100%;
+        margin: 0;
+        background-color: transparent;
+        outline: none;
+        border: none;
+        box-shadow: none;
+        color: ${theme.semantic.foreground.neutral.primary};
 
         &::placeholder {
+          color: ${theme.semantic.foreground.neutral.tertiary};
+        }
+
+        &:disabled {
           color: ${theme.semantic.foreground.disable.primary};
+
+          &::placeholder {
+            color: ${theme.semantic.foreground.disable.primary};
+          }
+        }
+
+        [type='number'] {
+          -moz-appearance: textfield;
+        }
+
+        &::-webkit-inner-spin-button,
+        &::-webkit-search-cancel-button,
+        &::-webkit-search-cancel-button,
+        &::-webkit-search-results-button,
+        &::-webkit-search-results-decoration {
+          appearance: none;
         }
       }
 
-      [type='number'] {
-        -moz-appearance: textfield;
-      }
+      ${createResponsiveStyle(
+        { xs, sm, md, lg, xl },
+        theme,
+      )(
+        (params) => css`
+          ${
+            params?.width !== undefined &&
+            css`
+              width: ${toCssValue(params.width)};
+            `
+          }
 
-      &::-webkit-inner-spin-button,
-      &::-webkit-search-cancel-button,
-      &::-webkit-search-cancel-button,
-      &::-webkit-search-results-button,
-      &::-webkit-search-results-decoration {
-        appearance: none;
-      }
-    }
+          ${searchFieldWrapperSizeStyle({ size: params?.size }, theme)}
 
-    ${createResponsiveStyle(
-      { xs, sm, md, lg, xl },
-      theme,
-    )(
-      (params) => css`
-        ${
-          params?.width !== undefined &&
-          css`
-            width: ${toCssValue(params.width)};
-          `
-        }
-
-        ${searchFieldWrapperSizeStyle({ size: params?.size }, theme)}
-
-        ${params?.sx}
-      `,
-    )}
-  `;
+          ${params?.sx}
+        `,
+      )}
+    `;
 
 const searchFieldWrapperSizeStyle = (
   { size }: Pick<SearchFieldProps, 'size'>,

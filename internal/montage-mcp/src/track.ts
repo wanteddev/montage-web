@@ -1,8 +1,8 @@
+import { execSync } from 'node:child_process';
 import crypto from 'node:crypto';
+import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import fs from 'node:fs';
-import { execSync } from 'node:child_process';
 
 import { DOCS_BASE_URL } from './constants';
 

@@ -1,3 +1,4 @@
+import { act, fireEvent, render, screen } from '@testing-library/react';
 /**
  * Cookie scope can only be exercised on a host that is allowed to carry a
  * `Domain` attribute, so this file runs on a multi-label host instead of the
@@ -8,10 +9,9 @@
  * @vitest-environment-options { "url": "https://help.wanted.co.kr/" }
  */
 import { StrictMode } from 'react';
-import { act, fireEvent, render, screen } from '@testing-library/react';
 
-import useThemeControl from '../../hooks/use-theme-control';
 import ThemeProvider from '..';
+import useThemeControl from '../../hooks/use-theme-control';
 
 import {
   clearHostOnlyThemeCookie,

@@ -1,11 +1,11 @@
 'use client';
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { usePathname } from 'next/navigation';
 import { Box, Tab, TabList, TabListItem } from '@montage-ui/core';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
-import useThrottle from '@/hooks/use-throttle';
 import { GNB_HEIGHT } from '@/features/layout/constants';
+import useThrottle from '@/hooks/use-throttle';
 
 import useRouteScroll from '../../hooks/use-route-scroll';
 
@@ -36,6 +36,7 @@ const RouteTab = ({ tabs, sx }: Props) => {
   }, 250);
 
   useEffect(() => {
+    // oxlint-disable-next-line react-hooks/set-state-in-effect
     setValue(pathname);
   }, [pathname]);
 

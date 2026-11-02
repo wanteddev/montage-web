@@ -4,8 +4,8 @@ import { Component } from 'react';
 
 import { generateElement } from './helpers';
 
-import type { ReactElement } from 'react';
 import type { RunnerOptions, Scope } from './types';
+import type { ReactElement } from 'react';
 
 type Params = RunnerOptions & {
   disableCache?: boolean;
@@ -23,7 +23,7 @@ export const useRunner = ({ code, scope, disableCache }: Params) => {
       scope,
       onRendered: (error: any) => {
         if (error) {
-          // eslint-disable-next-line react-hooks/immutability
+          // oxlint-disable-next-line react-hooks/immutability
           setState({
             element: disableCache ? null : elementRef.current,
             error: error.toString(),

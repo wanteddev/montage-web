@@ -2,8 +2,8 @@ import { Typography } from '@montage-ui/core';
 
 import ListGroup from './list-group';
 
-import type { ReactNode } from 'react';
 import type { DescriptionContentItem, DescriptionListItem } from './types';
+import type { ReactNode } from 'react';
 
 export const parseContent = (text: string): Array<DescriptionContentItem> => {
   const lines = text.split('\n');

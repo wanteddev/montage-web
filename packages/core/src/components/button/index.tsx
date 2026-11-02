@@ -1,19 +1,19 @@
-import { forwardRef, useId } from 'react';
 import { Box } from '@montage-ui/engine';
 import { composeEventHandlers } from '@radix-ui/primitive';
+import { forwardRef, useId } from 'react';
 
-import { WithInteraction } from '../with-interaction';
-import { Loading } from '../loading';
 import { useInheritedSize } from '../../hooks/internal/use-slot-defaults';
+import { Loading } from '../loading';
+import { WithInteraction } from '../with-interaction';
 
 import { buttonStyle } from './style';
 
+import type { ButtonProps } from './types';
 import type {
   PolymorphicComponentInternal,
   PolymorphicPropsInternal,
 } from '@montage-ui/engine';
 import type { ElementType, ForwardedRef, SyntheticEvent } from 'react';
-import type { ButtonProps } from './types';
 
 const Button = forwardRef(
   <T extends ElementType = 'button'>(

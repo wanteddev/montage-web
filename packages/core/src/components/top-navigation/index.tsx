@@ -1,4 +1,3 @@
-import { forwardRef } from 'react';
 import {
   Box,
   type DefaultComponentPropsInternal,
@@ -6,14 +5,16 @@ import {
   type PolymorphicPropsInternal,
 } from '@montage-ui/engine';
 import { IconChevronLeft } from '@montage-ui/icon';
+import { forwardRef } from 'react';
 
+import { SlotDefaultsProvider } from '../../hooks/internal/use-slot-defaults';
 import { FlexBox } from '../flex-box';
-import { Typography } from '../typography';
 import { IconButton } from '../icon-button';
 import { TextButton } from '../text-button';
 import { TextButtonProvider } from '../text-button/contexts';
-import { SlotDefaultsProvider } from '../../hooks/internal/use-slot-defaults';
+import { Typography } from '../typography';
 
+import { TOP_NAVIGATION_ACTION_NAME, TOP_NAVIGATION_NAME } from './constants';
 import {
   topNavigationButtonTextStyle,
   topNavigationFloatingBackgroundStyle,
@@ -23,10 +24,9 @@ import {
   topNavigationTitleStyle,
   topNavigationWrapperStyle,
 } from './style';
-import { TOP_NAVIGATION_ACTION_NAME, TOP_NAVIGATION_NAME } from './constants';
 
-import type { ElementType, ForwardedRef } from 'react';
 import type { TopNavigationButtonProps, TopNavigationProps } from './types';
+import type { ElementType, ForwardedRef } from 'react';
 
 const TopNavigation = forwardRef<
   HTMLDivElement,

@@ -1,4 +1,3 @@
-import type { CSSProperties } from 'react';
 import type {
   Merge,
   ResponsiveProps,
@@ -6,6 +5,7 @@ import type {
   ThemeOpacityToken,
   WithSxProps,
 } from '@montage-ui/engine';
+import type { CSSProperties } from 'react';
 
 type SkeletonDefaultProps = WithSxProps<{
   /** The variant of the skeleton. */

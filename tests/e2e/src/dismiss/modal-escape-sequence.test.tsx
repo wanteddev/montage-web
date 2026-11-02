@@ -1,5 +1,3 @@
-import { cleanup } from '@testing-library/react';
-import { userEvent } from 'vitest/browser';
 import {
   Autocomplete,
   AutocompleteField,
@@ -21,6 +19,8 @@ import {
   OptionGroup,
   Select,
 } from '@montage-ui/core';
+import { cleanup } from '@testing-library/react';
+import { userEvent } from 'vitest/browser';
 
 import {
   byTestId,

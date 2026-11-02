@@ -5,9 +5,9 @@ import { Heading2 } from '@/features/docs/components/mdx/section/layout';
 
 import TokenExample from '../token-example';
 
-import StyleGrid from './style-grid';
 import { SPREAD_TOKENS } from './constants';
 import { tokenContentStyle } from './style';
+import StyleGrid from './style-grid';
 
 const FoundationsElevationSpread = () => {
   return (

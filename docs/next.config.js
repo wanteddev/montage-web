@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-require-imports */
+/* oxlint-disable @typescript-eslint/no-require-imports */
 // @ts-check
 const { execSync } = require('node:child_process');
 

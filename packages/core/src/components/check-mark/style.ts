@@ -1,75 +1,76 @@
 import { css } from '@montage-ui/engine';
 
+import { typographyStyle } from '../../utils';
 import {
   createResponsiveStyle,
   getPreviousValue,
 } from '../../utils/internal/responsive-props';
-import { typographyStyle } from '../../utils';
 
 import type { CheckMarkProps } from './types';
 import type { Theme } from '@montage-ui/engine';
 
 export const checkMarkStyle =
   ({ size, bold, tight, xs, sm, md, lg, xl }: CheckMarkProps) =>
-  (theme: Theme) => css`
-    padding: 0px;
-    background-color: transparent;
-    border-radius: 9999px;
-    border: none;
-    box-shadow: none;
-    ${checkMarkSizeStyle({ size, bold, tight })}
-
-    svg {
-      opacity: 1;
-      transform: none;
-      transition: color 0.15s ease;
-    }
-
-    [data-role='checkbox-icon-wrapper'] {
+  (theme: Theme) =>
+    css`
+      padding: 0px;
       background-color: transparent;
-      color: ${theme.semantic.foreground.neutral.quaternary};
       border-radius: 9999px;
       border: none;
       box-shadow: none;
-    }
+      ${checkMarkSizeStyle({ size, bold, tight })}
 
-    &[aria-checked='true'] {
+      svg {
+        opacity: 1;
+        transform: none;
+        transition: color 0.15s ease;
+      }
+
       [data-role='checkbox-icon-wrapper'] {
         background-color: transparent;
-        color: ${theme.semantic.foreground.brand.primary};
-        transform: none;
+        color: ${theme.semantic.foreground.neutral.quaternary};
+        border-radius: 9999px;
+        border: none;
+        box-shadow: none;
       }
-    }
 
-    ${createResponsiveStyle(
-      { xs, sm, md, lg, xl },
-      theme,
-    )(
-      (params, breakpoint) => css`
-        ${
-          (params?.size !== undefined || params?.bold !== undefined) &&
-          css`
-            ${checkMarkSizeStyle({
-              size: getPreviousValue(
-                { xs, sm, md, lg, xl },
-                'size',
-                params.size,
-                breakpoint!,
-              ),
-              bold: getPreviousValue(
-                { xs, sm, md, lg, xl },
-                'bold',
-                params.bold,
-                breakpoint!,
-              ),
-              tight,
-            })}
-          `
+      &[aria-checked='true'] {
+        [data-role='checkbox-icon-wrapper'] {
+          background-color: transparent;
+          color: ${theme.semantic.foreground.brand.primary};
+          transform: none;
         }
-        ${params?.sx}
-      `,
-    )}
-  `;
+      }
+
+      ${createResponsiveStyle(
+        { xs, sm, md, lg, xl },
+        theme,
+      )(
+        (params, breakpoint) => css`
+          ${
+            (params?.size !== undefined || params?.bold !== undefined) &&
+            css`
+              ${checkMarkSizeStyle({
+                size: getPreviousValue(
+                  { xs, sm, md, lg, xl },
+                  'size',
+                  params.size,
+                  breakpoint!,
+                ),
+                bold: getPreviousValue(
+                  { xs, sm, md, lg, xl },
+                  'bold',
+                  params.bold,
+                  breakpoint!,
+                ),
+                tight,
+              })}
+            `
+          }
+          ${params?.sx}
+        `,
+      )}
+    `;
 
 const checkMarkSizeStyle = ({
   size,

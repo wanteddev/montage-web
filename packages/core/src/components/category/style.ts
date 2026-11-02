@@ -6,8 +6,8 @@ import {
   getPreviousValue,
 } from '../../utils/internal/responsive-props';
 
-import type { Theme } from '@montage-ui/engine';
 import type { CategoryListProps } from './types';
+import type { Theme } from '@montage-ui/engine';
 
 export const categoryListStyle =
   ({
@@ -25,63 +25,63 @@ export const categoryListStyle =
     isScrollableLeft: boolean;
     isScrollableRight: boolean;
   }) =>
-  (theme: Theme) => css`
-    width: 100%;
-    list-style: none;
-    position: relative;
-    padding: 0;
-    margin: 0;
-    gap: 20px;
-
-    [data-radix-scroll-area-viewport] {
+  (theme: Theme) =>
+    css`
+      width: 100%;
+      list-style: none;
       position: relative;
-    }
-    [data-radix-scroll-area-content] {
-      overflow: hidden;
-    }
+      padding: 0;
+      margin: 0;
+      gap: 20px;
 
-    ${categoryPaddingStyle({
-      horizontalPadding,
-      isScrollableLeft,
-      isScrollableRight,
-    })}
-    ${categorySizeStyle({ size, verticalPadding })}
+      [data-radix-scroll-area-viewport] {
+        position: relative;
+      }
+      [data-radix-scroll-area-content] {
+        overflow: hidden;
+      }
 
+      ${categoryPaddingStyle({
+        horizontalPadding,
+        isScrollableLeft,
+        isScrollableRight,
+      })}
+      ${categorySizeStyle({ size, verticalPadding })}
 
-    ${createResponsiveStyle(
-      { xs, sm, md, lg, xl },
-      theme,
-    )(
-      (params, breakpoint) => css`
-        ${categoryPaddingStyle({
-          horizontalPadding: params?.horizontalPadding,
-          isScrollableLeft,
-          isScrollableRight,
-        })}
-        ${
-          (params?.horizontalPadding !== undefined ||
-            params?.size !== undefined) &&
-          css`
-            ${categorySizeStyle({
-              size: getPreviousValue(
-                { xs, sm, md, lg, xl },
-                'size',
-                params.size,
-                breakpoint!,
-              ),
-              verticalPadding: getPreviousValue(
-                { xs, sm, md, lg, xl },
-                'verticalPadding',
-                params.verticalPadding,
-                breakpoint!,
-              ),
-            })}
-          `
-        }
-        ${params?.sx}
-      `,
-    )}
-  `;
+      ${createResponsiveStyle(
+        { xs, sm, md, lg, xl },
+        theme,
+      )(
+        (params, breakpoint) => css`
+          ${categoryPaddingStyle({
+            horizontalPadding: params?.horizontalPadding,
+            isScrollableLeft,
+            isScrollableRight,
+          })}
+          ${
+            (params?.horizontalPadding !== undefined ||
+              params?.size !== undefined) &&
+            css`
+              ${categorySizeStyle({
+                size: getPreviousValue(
+                  { xs, sm, md, lg, xl },
+                  'size',
+                  params.size,
+                  breakpoint!,
+                ),
+                verticalPadding: getPreviousValue(
+                  { xs, sm, md, lg, xl },
+                  'verticalPadding',
+                  params.verticalPadding,
+                  breakpoint!,
+                ),
+              })}
+            `
+          }
+          ${params?.sx}
+        `,
+      )}
+    `;
 
 const categoryPaddingStyle = ({
   horizontalPadding,
@@ -287,27 +287,28 @@ export const scrollWrapperStyle = css`
 // category-specific active colors are layered on top.
 export const categoryListItemStyle =
   ({ variant }: Pick<CategoryListProps, 'variant'>) =>
-  (theme: Theme) => css`
-    scroll-margin-inline: 25px;
-    position: relative;
+  (theme: Theme) =>
+    css`
+      scroll-margin-inline: 25px;
+      position: relative;
 
-    &[data-active='true']:not(:disabled):not([aria-disabled='true']) {
-      ${
-        variant === 'alternative'
-          ? css`
-              box-shadow: inset 0 0 0 1px ${theme.semantic.line.brand.strong};
-            `
-          : css`
-              color: ${theme.semantic.foreground.neutral.inverse};
-              background-color: ${theme.semantic.foreground.neutral.strong};
+      &[data-active='true']:not(:disabled):not([aria-disabled='true']) {
+        ${
+          variant === 'alternative'
+            ? css`
+                box-shadow: inset 0 0 0 1px ${theme.semantic.line.brand.strong};
+              `
+            : css`
+                color: ${theme.semantic.foreground.neutral.inverse};
+                background-color: ${theme.semantic.foreground.neutral.strong};
 
-              & > [data-component='with-interaction'] {
-                background-color: ${theme.semantic.foreground.neutral.inverse};
-              }
-            `
+                & > [data-component='with-interaction'] {
+                  background-color: ${theme.semantic.foreground.neutral.inverse};
+                }
+              `
+        }
       }
-    }
-  `;
+    `;
 
 export const stickyButtonStyle = css`
   position: sticky;

@@ -1,7 +1,7 @@
 import type { ImageBaseProps } from '../image-base';
-import type { CSSProperties, ReactNode } from 'react';
 import type { SkeletonProps } from '../skeleton/types';
 import type { Merge, ResponsiveProps, WithSxProps } from '@montage-ui/engine';
+import type { CSSProperties, ReactNode } from 'react';
 
 type ThumbnailDefaultProps = WithSxProps<{
   /** The ratio of the thumbnail. */

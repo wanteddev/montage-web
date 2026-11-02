@@ -1,5 +1,4 @@
 'use client';
-import { IconCircleInfo } from '@montage-ui/icon';
 import {
   Box,
   FlexBox,
@@ -13,6 +12,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from '@montage-ui/core';
+import { IconCircleInfo } from '@montage-ui/icon';
 
 import CodeBlock from '../code-block';
 

@@ -1,14 +1,14 @@
-import { forwardRef } from 'react';
 import { Box } from '@montage-ui/engine';
+import { forwardRef } from 'react';
 
 import { gridItemStyle } from './style';
 
+import type { GridItemProps } from './types';
 import type {
   PolymorphicComponentInternal,
   PolymorphicPropsInternal,
 } from '@montage-ui/engine';
 import type { ElementType, ForwardedRef } from 'react';
-import type { GridItemProps } from './types';
 
 const GridItem = forwardRef(
   <T extends ElementType = 'div'>(

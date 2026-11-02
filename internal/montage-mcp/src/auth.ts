@@ -1,8 +1,5 @@
 import crypto from 'node:crypto';
 
-import { cert, initializeApp } from 'firebase-admin/app';
-import { getAuth } from 'firebase-admin/auth';
-import { getFirestore } from 'firebase-admin/firestore';
 import {
   AccessDeniedError,
   InvalidGrantError,
@@ -10,6 +7,9 @@ import {
   InvalidTokenError,
   ServerError,
 } from '@modelcontextprotocol/sdk/server/auth/errors.js';
+import { cert, initializeApp } from 'firebase-admin/app';
+import { getAuth } from 'firebase-admin/auth';
+import { getFirestore } from 'firebase-admin/firestore';
 
 import type {
   AuthorizationParams,

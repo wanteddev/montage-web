@@ -1,14 +1,14 @@
 import { css } from '@montage-ui/engine';
 
+import { createResponsiveStyle } from '../../utils/internal/responsive-props';
 import {
   ellipsisTypographyStyle,
   typographyStyle,
 } from '../../utils/typography';
-import { createResponsiveStyle } from '../../utils/internal/responsive-props';
 
+import type { CardProps } from '../card/types';
 import type { ListCardSkeletonProps } from './types';
 import type { Theme } from '@montage-ui/engine';
-import type { CardProps } from '../card/types';
 
 const listCardPlatformStyle = ({ platform }: Pick<CardProps, 'platform'>) => {
   switch (platform) {
@@ -53,46 +53,47 @@ const listCardPlatformStyle = ({ platform }: Pick<CardProps, 'platform'>) => {
 
 export const listCardStyle =
   ({ xs, sm, md, lg, xl, width, platform }: CardProps) =>
-  (theme: Theme) => css`
-    width: ${width ?? '100%'};
-    max-width: 100%;
-    ${listCardPlatformStyle({ platform })}
+  (theme: Theme) =>
+    css`
+      width: ${width ?? '100%'};
+      max-width: 100%;
+      ${listCardPlatformStyle({ platform })}
 
-    &:hover {
-      [data-component='thumbnail'] img {
-        transform: scale(1.025);
-      }
-    }
-
-    // thumbnail
-    [data-component='thumbnail'],
-    [data-component='thumbnail-skeleton'] {
-      aspect-ratio: 3 / 2;
-    }
-    // text
-    [data-component='card-title'] {
-      ${ellipsisTypographyStyle(1)}
-    }
-    [data-component='card-caption'] {
-      ${ellipsisTypographyStyle(1)}
-    }
-
-    ${createResponsiveStyle(
-      { xs, sm, md, lg, xl },
-      theme,
-    )(
-      (params) => css`
-        ${
-          params?.width !== undefined &&
-          css`
-            width: ${params.width};
-          `
+      &:hover {
+        [data-component='thumbnail'] img {
+          transform: scale(1.025);
         }
-        ${listCardPlatformStyle({ platform: params?.platform })}
-        ${params?.sx}
-      `,
-    )}
-  `;
+      }
+
+      // thumbnail
+      [data-component='thumbnail'],
+      [data-component='thumbnail-skeleton'] {
+        aspect-ratio: 3 / 2;
+      }
+      // text
+      [data-component='card-title'] {
+        ${ellipsisTypographyStyle(1)}
+      }
+      [data-component='card-caption'] {
+        ${ellipsisTypographyStyle(1)}
+      }
+
+      ${createResponsiveStyle(
+        { xs, sm, md, lg, xl },
+        theme,
+      )(
+        (params) => css`
+          ${
+            params?.width !== undefined &&
+            css`
+              width: ${params.width};
+            `
+          }
+          ${listCardPlatformStyle({ platform: params?.platform })}
+          ${params?.sx}
+        `,
+      )}
+    `;
 
 export const listCardContentStyle = css`
   flex-shrink: 0;
@@ -159,38 +160,40 @@ export const listCardSkeletonStyle =
     hasLeadingContent,
     hasTrailingContent,
   }: ListCardSkeletonProps) =>
-  (theme: Theme) => css`
-    width: ${width ?? '100%'};
-    max-width: 100%;
+  (theme: Theme) =>
+    css`
+      width: ${width ?? '100%'};
+      max-width: 100%;
 
-    ${listCardSkeletonPlatformStyle({
-      platform,
-      hasLeadingContent,
-      hasTrailingContent,
-    })}
+      ${listCardSkeletonPlatformStyle({
+        platform,
+        hasLeadingContent,
+        hasTrailingContent,
+      })}
 
-    // thumbnail
-    [data-component='thumbnail'], [data-component='thumbnail-skeleton'] {
-      aspect-ratio: 3 / 2;
-    }
+      // thumbnail
+      [data-component='thumbnail'],
+      [data-component='thumbnail-skeleton'] {
+        aspect-ratio: 3 / 2;
+      }
 
-    ${createResponsiveStyle(
-      { xs, sm, md, lg, xl },
-      theme,
-    )(
-      (params) => css`
-        ${
-          params?.width !== undefined &&
-          css`
-            width: ${params.width};
-          `
-        }
-        ${listCardSkeletonPlatformStyle({
-          platform: params?.platform,
-          hasLeadingContent,
-          hasTrailingContent,
-        })}
-        ${params?.sx}
-      `,
-    )}
-  `;
+      ${createResponsiveStyle(
+        { xs, sm, md, lg, xl },
+        theme,
+      )(
+        (params) => css`
+          ${
+            params?.width !== undefined &&
+            css`
+              width: ${params.width};
+            `
+          }
+          ${listCardSkeletonPlatformStyle({
+            platform: params?.platform,
+            hasLeadingContent,
+            hasTrailingContent,
+          })}
+          ${params?.sx}
+        `,
+      )}
+    `;

@@ -1,3 +1,13 @@
+import { Box, type DefaultComponentPropsInternal } from '@montage-ui/engine';
+import {
+  IconCaretDown,
+  IconCaretUp,
+  IconChevronLeftSmall,
+  IconChevronRightSmall,
+} from '@montage-ui/icon';
+import { useComposedRefs } from '@radix-ui/react-compose-refs';
+import { useControllableState } from '@radix-ui/react-use-controllable-state';
+import dayjs from 'dayjs';
 import {
   forwardRef,
   memo,
@@ -6,41 +16,18 @@ import {
   useMemo,
   useState,
 } from 'react';
-import { useControllableState } from '@radix-ui/react-use-controllable-state';
-import dayjs from 'dayjs';
-import {
-  IconCaretDown,
-  IconCaretUp,
-  IconChevronLeftSmall,
-  IconChevronRightSmall,
-} from '@montage-ui/icon';
-import { Box, type DefaultComponentPropsInternal } from '@montage-ui/engine';
 import { useRef } from 'react';
-import { useComposedRefs } from '@radix-ui/react-compose-refs';
 
+import { extendDayjs } from '../../utils/internal/date';
 import { FlexBox } from '../flex-box';
-import { TextButton } from '../text-button';
-import { IconButton } from '../icon-button';
 import { Grid } from '../grid';
 import { GridItem } from '../grid-item';
-import { WithInteraction } from '../with-interaction';
+import { IconButton } from '../icon-button';
 import { ScrollArea } from '../scroll-area';
+import { TextButton } from '../text-button';
 import { Typography } from '../typography';
-import { extendDayjs } from '../../utils/internal/date';
+import { WithInteraction } from '../with-interaction';
 
-import {
-  dateCalendarHeaderLabelButtonStyle,
-  dateCalendarHeaderLabelStyle,
-  dateCalendarHeaderNavigationStyle,
-  dateCalendarHeaderStyle,
-  dateCalendarStyle,
-  dateCalendarWrapperStyle,
-  dateYearMonthWrapperStyle,
-  dayItemButtonStyle,
-  stickyDateCalendarStyle,
-  weekdayCellStyle,
-} from './style';
-import { useDefaultSelectedDate } from './hooks';
 import { ACCESSIBLE_MAX_DATE, ACCESSIBLE_MIN_DATE } from './constants';
 import {
   DateCalendarContextProvider,
@@ -55,9 +42,20 @@ import {
   isDisabledDate,
   isValidDate,
 } from './helpers';
+import { useDefaultSelectedDate } from './hooks';
+import {
+  dateCalendarHeaderLabelButtonStyle,
+  dateCalendarHeaderLabelStyle,
+  dateCalendarHeaderNavigationStyle,
+  dateCalendarHeaderStyle,
+  dateCalendarStyle,
+  dateCalendarWrapperStyle,
+  dateYearMonthWrapperStyle,
+  dayItemButtonStyle,
+  stickyDateCalendarStyle,
+  weekdayCellStyle,
+} from './style';
 
-import type { Dayjs } from 'dayjs';
-import type { KeyboardEvent, ReactNode } from 'react';
 import type {
   DateCalendarProps,
   DateItemProps,
@@ -66,6 +64,8 @@ import type {
   ViewType,
   YearCalendarProps,
 } from './types';
+import type { Dayjs } from 'dayjs';
+import type { KeyboardEvent, ReactNode } from 'react';
 
 extendDayjs();
 
@@ -348,7 +348,7 @@ const DateCalendar = forwardRef<
             </FlexBox>
 
             <FlexBox sx={{ paddingBottom: 14 }} flexDirection="column">
-              {/* eslint-disable-next-line @typescript-eslint/no-unnecessary-condition */}
+              {/* oxlint-disable-next-line @typescript-eslint/no-unnecessary-condition */}
               {calendarComponent[view ?? 'day']}
             </FlexBox>
           </ScrollArea>
@@ -395,6 +395,7 @@ const YearCalendar = forwardRef<
 
   const [focusedIdx, setFocusedIdx] = useState(yearRange.length > 0 ? 0 : -1);
 
+  // oxlint-disable-next-line react-hooks/exhaustive-deps
   useEffect(
     () => {
       const selectedDateIdx = isValidDate(value)
@@ -427,7 +428,7 @@ const YearCalendar = forwardRef<
 
       setFocusedIdx(fallbackDateIdx);
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // oxlint-disable-next-line react-hooks/exhaustive-deps
     yearRange.map((v) => v),
   );
 
@@ -644,6 +645,7 @@ const MonthCalendar = memo(
       monthRange.findIndex((v) => !v.disabled),
     );
 
+    // oxlint-disable-next-line react-hooks/exhaustive-deps
     useEffect(
       () => {
         const selectedDateIdx = isValidDate(value)
@@ -684,7 +686,7 @@ const MonthCalendar = memo(
 
         setFocusedIdx(fallbackDateIdx);
       },
-      // eslint-disable-next-line react-hooks/exhaustive-deps
+      // oxlint-disable-next-line react-hooks/exhaustive-deps
       monthRange.map((v) => v.value),
     );
 
@@ -919,6 +921,7 @@ const DayCalendar = memo(
     );
 
     // first focus
+    // oxlint-disable-next-line react-hooks/exhaustive-deps
     useEffect(
       () => {
         const selectedDateIdx = isValidDate(value)
@@ -971,7 +974,7 @@ const DayCalendar = memo(
 
         setFocusedIdx(fallbackDateIdx);
       },
-      // eslint-disable-next-line react-hooks/exhaustive-deps
+      // oxlint-disable-next-line react-hooks/exhaustive-deps
       dayRange.map((v) => v.value.format('YYYY MM DD')),
     );
 

@@ -1,11 +1,11 @@
 import figma from 'figma';
 
+import { mergeImports } from './imports';
 import {
   readListCell,
   renderDescriptionProp,
   renderElementProp,
 } from './list-cell';
-import { mergeImports } from './imports';
 
 import type { ListCellSlotNames } from './list-cell';
 

@@ -1,5 +1,3 @@
-import { cleanup } from '@testing-library/react';
-import { userEvent } from 'vitest/browser';
 import {
   Autocomplete,
   AutocompleteField,
@@ -12,6 +10,8 @@ import {
   ModalHeading,
   Portal,
 } from '@montage-ui/core';
+import { cleanup } from '@testing-library/react';
+import { userEvent } from 'vitest/browser';
 
 import {
   byTestId,

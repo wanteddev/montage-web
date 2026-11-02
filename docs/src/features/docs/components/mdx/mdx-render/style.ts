@@ -6,7 +6,10 @@ export const mdxRootStyle = (theme: Theme) => css`
   color: ${theme.semantic.foreground.neutral.secondary};
   ${typographyStyle('body2-reading', 'medium')}
 
-  & > :not(:is([data-role="demo"])):not(:is([data-role="hierarchy"])):not(:is([data-role="variants"])) {
+  &
+    > :not(:is([data-role='demo'])):not(:is([data-role='hierarchy'])):not(
+      :is([data-role='variants'])
+    ) {
     overflow-wrap: anywhere;
     word-break: keep-all;
 

@@ -1,14 +1,23 @@
 import { Box } from '@montage-ui/engine';
-import { forwardRef, useId, useMemo } from 'react';
-import { useControllableState } from '@radix-ui/react-use-controllable-state';
 import { composeEventHandlers } from '@radix-ui/primitive';
 import { Slot } from '@radix-ui/react-slot';
+import { useControllableState } from '@radix-ui/react-use-controllable-state';
+import { forwardRef, useId, useMemo } from 'react';
 
-import { FlexBox } from '../flex-box';
-import { Typography } from '../typography';
-import { PortalOrFragment } from '../portal-or-fragment';
 import { AnimationPresence } from '../animation-presence';
+import { FlexBox } from '../flex-box';
+import { PortalOrFragment } from '../portal-or-fragment';
+import { Typography } from '../typography';
 
+import {
+  TOAST_CONTAINER_NAME,
+  TOAST_CONTENT_NAME,
+  TOAST_ICON_NAME,
+  TOAST_NAME,
+  toastIconComponent,
+} from './constants';
+import { ToastProvider, useToastContext } from './contexts';
+import { useToastAnimation } from './hooks';
 import {
   firstOverlayStyle,
   messageStyle,
@@ -17,28 +26,19 @@ import {
   toastStyle,
   wrapperStyle,
 } from './style';
-import { useToastAnimation } from './hooks';
-import { ToastProvider, useToastContext } from './contexts';
-import {
-  TOAST_CONTAINER_NAME,
-  TOAST_CONTENT_NAME,
-  TOAST_ICON_NAME,
-  TOAST_NAME,
-  toastIconComponent,
-} from './constants';
 
-import type { ElementType, ForwardedRef } from 'react';
-import type {
-  DefaultComponentPropsInternal,
-  PolymorphicComponentInternal,
-  PolymorphicPropsInternal,
-} from '@montage-ui/engine';
 import type {
   ToastContainerProps,
   ToastContentProps,
   ToastIconProps,
   ToastProps,
 } from './types';
+import type {
+  DefaultComponentPropsInternal,
+  PolymorphicComponentInternal,
+  PolymorphicPropsInternal,
+} from '@montage-ui/engine';
+import type { ElementType, ForwardedRef } from 'react';
 
 const Toast = forwardRef(
   <T extends ElementType = 'div'>(
@@ -116,7 +116,7 @@ const Toast = forwardRef(
           disablePortal={disablePortal}
           container={
             container ??
-            // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+            // oxlint-disable-next-line @typescript-eslint/no-unnecessary-condition
             globalThis?.document?.querySelector(
               '#montage-region-manager-bottom',
             )

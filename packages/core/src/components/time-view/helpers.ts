@@ -4,9 +4,9 @@ import { dayjsTimezone } from '../date-calendar/helpers';
 
 import { TIME_UNIT_STEP } from './constants';
 
-import type { RefObject } from 'react';
-import type { HourType, TimeViewType } from './types';
 import type { DateType } from '../date-picker';
+import type { HourType, TimeViewType } from './types';
+import type { RefObject } from 'react';
 
 export type GetTimeUnitsResult = ReturnType<typeof getHours>;
 

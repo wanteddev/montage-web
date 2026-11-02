@@ -5,9 +5,9 @@
 import figma from 'figma';
 
 import { inlineInstances } from '../../helpers/imports';
-import { finalizeTemplate } from '../modal/collect-imports';
 import { MENU_ITEM_SLOT_NAMES } from '../../helpers/list-cell';
 import { coreImport, renderListCellItem } from '../../helpers/menu-item';
+import { finalizeTemplate } from '../modal/collect-imports';
 
 const { example, usedNames } = renderListCellItem(
   figma.selectedInstance,

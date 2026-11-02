@@ -9,25 +9,25 @@ import {
   Typography,
 } from '@montage-ui/core';
 
-import HeadingLink from '../heading-link';
+import VariantGrid from '../../foundations/typography/variant-grid';
+import Anchor from '../anchor';
 import CodeBlock from '../code-block';
-import Pre from '../pre';
 import Demo from '../demo';
+import HeadingLink from '../heading-link';
+import Pre from '../pre';
 import PropsTable from '../props-table';
-import SectionAnatomy from '../section/anatomy';
-import { SectionLayout } from '../section/layout';
-import SectionFigureGroup from '../section/figure-group';
-import SectionFigure from '../section/figure';
-import SectionStates from '../section/states';
-import SectionCustomize from '../section/customize';
-import { SectionHierarchy, SectionHierarchyItem } from '../section/hierarchy';
-import SectionVariants from '../section/variants';
 import {
   SectionAccessibility,
   SectionAccessibilityTable,
 } from '../section/accessibility';
-import Anchor from '../anchor';
-import VariantGrid from '../../foundations/typography/variant-grid';
+import SectionAnatomy from '../section/anatomy';
+import SectionCustomize from '../section/customize';
+import SectionFigure from '../section/figure';
+import SectionFigureGroup from '../section/figure-group';
+import { SectionHierarchy, SectionHierarchyItem } from '../section/hierarchy';
+import { SectionLayout } from '../section/layout';
+import SectionStates from '../section/states';
+import SectionVariants from '../section/variants';
 
 import type { ReactNode } from 'react';
 

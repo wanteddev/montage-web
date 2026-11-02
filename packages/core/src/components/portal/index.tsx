@@ -1,8 +1,8 @@
-import { forwardRef } from 'react';
 import { Portal as RadixPortal } from '@radix-ui/react-portal';
+import { forwardRef } from 'react';
 
-import type { DefaultComponentPropsInternal } from '@montage-ui/engine';
 import type { PortalProps } from './types';
+import type { DefaultComponentPropsInternal } from '@montage-ui/engine';
 
 const Portal = forwardRef<
   HTMLDivElement,
@@ -10,7 +10,7 @@ const Portal = forwardRef<
 >(
   (
     {
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+      // oxlint-disable-next-line @typescript-eslint/no-unnecessary-condition
       container = globalThis?.document?.body,
       children,
       ...props

@@ -1,7 +1,7 @@
 import { Box } from '@montage-ui/engine';
-import { forwardRef, useEffect, useRef } from 'react';
-import { usePrevious } from '@radix-ui/react-use-previous';
 import { useComposedRefs } from '@radix-ui/react-compose-refs';
+import { usePrevious } from '@radix-ui/react-use-previous';
+import { forwardRef, useEffect, useRef } from 'react';
 
 import type {
   VirtualCheckboxInputProps,

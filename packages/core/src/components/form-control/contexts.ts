@@ -4,8 +4,8 @@ import createLooseContext from '../../hooks/internal/use-loose-context';
 
 import { FORM_CONTROL_NAME } from './constants';
 
-import type { ResponsiveProps } from '@montage-ui/engine';
 import type { FormControlProps } from './types';
+import type { ResponsiveProps } from '@montage-ui/engine';
 
 export type FormControlContextType = {
   id: string;

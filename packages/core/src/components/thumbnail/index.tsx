@@ -1,16 +1,16 @@
-import { forwardRef, useEffect, useRef, useState } from 'react';
-import { IconImage } from '@montage-ui/icon';
 import { Box, type DefaultComponentPropsInternal } from '@montage-ui/engine';
+import { IconImage } from '@montage-ui/icon';
+import { forwardRef, useEffect, useRef, useState } from 'react';
 
 import { FlexBox } from '../flex-box';
-import { Skeleton } from '../skeleton';
 import { ImageBase } from '../image-base';
+import { Skeleton } from '../skeleton';
 
-import { thumbnailStyle } from './style';
 import { THUMBNAIL_NAME, THUMBNAIL_SKELETON_NAME } from './constants';
+import { thumbnailStyle } from './style';
 
-import type { ForwardedRef } from 'react';
 import type { ThumbnailProps, ThumbnailSkeletonProps } from './types';
+import type { ForwardedRef } from 'react';
 
 const Thumbnail = forwardRef<
   HTMLImageElement,
@@ -46,7 +46,7 @@ const Thumbnail = forwardRef<
     useEffect(() => {
       if (prevSrc.current !== props.src) {
         prevSrc.current = props.src;
-        // eslint-disable-next-line react-hooks/set-state-in-effect
+        // oxlint-disable-next-line react-hooks/set-state-in-effect
         setImageLoadingStatus('idle');
       }
     }, [props.src]);

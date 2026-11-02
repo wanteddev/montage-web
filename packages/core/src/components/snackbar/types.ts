@@ -1,10 +1,10 @@
+import type { RegionSnackbarItem } from '../../stores/region-store';
+import type { FlexBoxProps } from '../flex-box/types';
 import type { IconButtonProps } from '../icon-button';
 import type { PortalOrFragmentProps } from '../portal-or-fragment/types';
-import type { BreakPoint, Merge, WithSxProps } from '@montage-ui/engine';
 import type { TextButtonProps } from '../text-button/types';
 import type { TypographyProps } from '../typography/types';
-import type { FlexBoxProps } from '../flex-box/types';
-import type { RegionSnackbarItem } from '../../stores/region-store';
+import type { BreakPoint, Merge, WithSxProps } from '@montage-ui/engine';
 import type { ReactNode } from 'react';
 
 export type SnackbarProps = Pick<

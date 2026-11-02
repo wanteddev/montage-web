@@ -8,7 +8,7 @@ const RegionConfig = memo((props: RegionConfigProps) => {
   const config = useRegionStore((state) => state.config);
   const setConfig = useRegionStore((state) => state.setConfig);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+  // oxlint-disable-next-line react-hooks/exhaustive-deps
   const memoizedProps = useMemo(() => props, [JSON.stringify(props)]);
   const [prevConfig] = useState(config);
 
@@ -18,7 +18,7 @@ const RegionConfig = memo((props: RegionConfigProps) => {
 
       return () => setConfig(prevConfig);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // oxlint-disable-next-line react-hooks/exhaustive-deps
   }, [memoizedProps, setConfig]);
 
   return null;

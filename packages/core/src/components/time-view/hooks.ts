@@ -1,5 +1,5 @@
-import { useMemo } from 'react';
 import dayjs from 'dayjs';
+import { useMemo } from 'react';
 
 import {
   dayjsTimezone,
@@ -10,8 +10,8 @@ import { toFormat } from '../date-picker/helpers';
 
 import { getHours, getMinutes, getSeconds, isDisabledTime } from './helpers';
 
-import type { HourType, TimeViewType } from './types';
 import type { DateType } from '../date-picker';
+import type { HourType, TimeViewType } from './types';
 
 type Props = {
   view: TimeViewType;

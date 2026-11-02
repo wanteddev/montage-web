@@ -3,12 +3,12 @@ import { css } from '@montage-ui/engine';
 import { ellipsisTypographyStyle, typographyStyle } from '../../utils';
 import { createResponsiveStyle } from '../../utils/internal/responsive-props';
 
-import type { Theme } from '@montage-ui/engine';
 import type {
   ListCellContentProps,
   ListCellExtraContentProps,
   ListCellProps,
 } from './types';
+import type { Theme } from '@montage-ui/engine';
 
 export const listStyle = css`
   list-style: none;
@@ -29,88 +29,89 @@ export const listCellStyle =
     lg,
     xl,
   }: ListCellProps) =>
-  (theme: Theme) => css`
-    width: 100%;
-    padding: var(--list-cell-vertical-padding)
-      var(--list-cell-horizontal-padding);
-    color: ${
-      selected
-        ? theme.semantic.foreground.brand.primary
-        : theme.semantic.foreground.neutral.primary
-    };
+  (theme: Theme) =>
+    css`
+      width: 100%;
+      padding: var(--list-cell-vertical-padding)
+        var(--list-cell-horizontal-padding);
+      color: ${
+        selected
+          ? theme.semantic.foreground.brand.primary
+          : theme.semantic.foreground.neutral.primary
+      };
 
-    ${
-      !disabled &&
-      !disableInteraction &&
-      css`
-        cursor: pointer;
-      `
-    }
-
-    ${listCellPaddingStyle({ verticalPadding }, theme)}
-    ${listCellVariantStyle({ variant }, theme)}
-
-    & > [data-component='with-interaction'] {
-      border-radius: inherit;
-      display: var(--list-cell-interaction-display, block);
-    }
-
-    ${
-      selected &&
-      css`
-        [data-role='list-text-wrapper'] {
-          color: ${theme.semantic.foreground.brand.primary};
-        }
-      `
-    }
-
-    &[aria-disabled='true'] {
-      cursor: initial;
-      pointer-events: none;
-      color: ${theme.semantic.foreground.disable.primary};
-
-      [data-role='list-text-description'],
-      [data-role='list-text-wrapper'] {
-        color: ${theme.semantic.foreground.disable.primary};
+      ${
+        !disabled &&
+        !disableInteraction &&
+        css`
+          cursor: pointer;
+        `
       }
-    }
 
-    ${
-      !disabled &&
-      !disableInteraction &&
-      css`
-        @media (pointer: fine) {
-          &:hover {
+      ${listCellPaddingStyle({ verticalPadding }, theme)}
+      ${listCellVariantStyle({ variant }, theme)}
+
+      & > [data-component='with-interaction'] {
+        border-radius: inherit;
+        display: var(--list-cell-interaction-display, block);
+      }
+
+      ${
+        selected &&
+        css`
+          [data-role='list-text-wrapper'] {
+            color: ${theme.semantic.foreground.brand.primary};
+          }
+        `
+      }
+
+      &[aria-disabled='true'] {
+        cursor: initial;
+        pointer-events: none;
+        color: ${theme.semantic.foreground.disable.primary};
+
+        [data-role='list-text-description'],
+        [data-role='list-text-wrapper'] {
+          color: ${theme.semantic.foreground.disable.primary};
+        }
+      }
+
+      ${
+        !disabled &&
+        !disableInteraction &&
+        css`
+          @media (pointer: fine) {
+            &:hover {
+              [data-role='list-cell-divider'] {
+                opacity: var(--list-cell-active-divider-opacity, 0);
+              }
+            }
+          }
+
+          &:active {
             [data-role='list-cell-divider'] {
               opacity: var(--list-cell-active-divider-opacity, 0);
             }
           }
-        }
+        `
+      }
 
-        &:active {
-          [data-role='list-cell-divider'] {
-            opacity: var(--list-cell-active-divider-opacity, 0);
-          }
-        }
-      `
-    }
+      ${createResponsiveStyle(
+        { xs, sm, md, lg, xl },
+        theme,
+      )(
+        (params) => css`
+          ${listCellPaddingStyle(
+            {
+              verticalPadding: params?.verticalPadding,
+            },
+            theme,
+          )}
 
-    ${createResponsiveStyle(
-      { xs, sm, md, lg, xl },
-      theme,
-    )(
-      (params) => css`
-        ${listCellPaddingStyle(
-          {
-            verticalPadding: params?.verticalPadding,
-          },
-          theme,
-        )}
-
-        ${params?.sx}
-      `,
-    )}
-  `;
+          ${params?.sx}
+        `,
+      )}
+    `;
 
 export const listCellLeadingContentAreaStyle = (theme: Theme) => css`
   min-height: ${theme.dimension[24]};
@@ -137,23 +138,24 @@ export const listCellTrailingContentAreaStyle = (theme: Theme) => css`
 `;
 
 export const listTextContentWrapperStyle =
-  (ellipsis?: boolean) => (theme: Theme) => css`
-    min-height: ${theme.dimension[24]};
-    align-items: center;
-    display: flex;
-    flex: 1;
-    position: relative;
-    text-align: inherit;
-    padding: 1px ${theme.spacing[0]};
-    gap: ${theme.spacing[4]};
-
-    [data-role='list-text-content'] {
-      display: block;
+  (ellipsis?: boolean) => (theme: Theme) =>
+    css`
+      min-height: ${theme.dimension[24]};
+      align-items: center;
+      display: flex;
+      flex: 1;
+      position: relative;
       text-align: inherit;
-      max-width: 100%;
-      ${listTextEllipsisStyle(ellipsis)}
-    }
-  `;
+      padding: 1px ${theme.spacing[0]};
+      gap: ${theme.spacing[4]};
+
+      [data-role='list-text-content'] {
+        display: block;
+        text-align: inherit;
+        max-width: 100%;
+        ${listTextEllipsisStyle(ellipsis)}
+      }
+    `;
 
 export const listTextEllipsisStyle = (ellipsis?: boolean) =>
   ellipsis
@@ -259,18 +261,19 @@ export const listCellDividerStyle = css`
 
 export const listCellContentStyle =
   ({ variant }: ListCellContentProps) =>
-  (theme: Theme) => css`
-    flex-shrink: 0;
-    position: relative;
-    min-height: ${theme.dimension[24]};
-    align-items: center;
+  (theme: Theme) =>
+    css`
+      flex-shrink: 0;
+      position: relative;
+      min-height: ${theme.dimension[24]};
+      align-items: center;
 
-    [data-component='with-interaction'] {
-      z-index: 1;
-    }
+      [data-component='with-interaction'] {
+        z-index: 1;
+      }
 
-    ${listCellContentVariantStyle({ variant }, theme)}
-  `;
+      ${listCellContentVariantStyle({ variant }, theme)}
+    `;
 
 const listCellContentVariantStyle = (
   { variant }: Pick<ListCellContentProps, 'variant'>,
@@ -377,12 +380,13 @@ export const listCellLabelTrailingStyle = (theme: Theme) => css`
 
 export const listCellExtraContentStyle =
   ({ variant }: ListCellExtraContentProps) =>
-  (theme: Theme) => css`
-    align-items: center;
-    justify-content: center;
+  (theme: Theme) =>
+    css`
+      align-items: center;
+      justify-content: center;
 
-    ${listCellExtraContentVariantStyle({ variant }, theme)}
-  `;
+      ${listCellExtraContentVariantStyle({ variant }, theme)}
+    `;
 
 const listCellExtraContentVariantStyle = (
   { variant }: ListCellExtraContentProps,

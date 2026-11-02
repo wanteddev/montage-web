@@ -16,8 +16,6 @@
     ".tsdown/**/*.ts",
     "vitest.config.ts",
     ".vitest",
-    "eslint.config.mjs",
-    "prettier.config.mjs",
     ".lintstagedrc.mjs",
     ".size-limit.mjs"
   ]

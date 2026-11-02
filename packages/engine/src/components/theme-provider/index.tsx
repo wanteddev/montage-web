@@ -1,5 +1,5 @@
-import { Fragment, useMemo } from 'react';
 import { theme } from '@montage-ui/theme';
+import { Fragment, useMemo } from 'react';
 
 import ThemeContext from '../../context';
 

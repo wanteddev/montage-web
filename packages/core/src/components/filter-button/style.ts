@@ -1,48 +1,49 @@
 import { css } from '@montage-ui/engine';
 
-import { typographyStyle } from '../../utils/typography';
 import { createResponsiveStyle } from '../../utils/internal/responsive-props';
+import { typographyStyle } from '../../utils/typography';
 
 import type { FilterButtonProps } from './types';
 import type { Theme } from '@montage-ui/engine';
 
 export const filterButtonStyle =
   ({ xs, sm, md, lg, xl, ...props }: FilterButtonProps) =>
-  (theme: Theme) => css`
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    vertical-align: middle;
-    box-sizing: border-box;
-    line-height: initial;
-    white-space: nowrap;
-    height: fit-content;
-    cursor: pointer;
-    width: fit-content;
-    flex-shrink: 0;
-
-    & > svg {
+  (theme: Theme) =>
+    css`
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      vertical-align: middle;
+      box-sizing: border-box;
+      line-height: initial;
+      white-space: nowrap;
+      height: fit-content;
+      cursor: pointer;
+      width: fit-content;
       flex-shrink: 0;
-    }
 
-    &:disabled {
-      pointer-events: none;
-      cursor: initial;
-    }
+      & > svg {
+        flex-shrink: 0;
+      }
 
-    ${filterButtonVariantStyle(props, theme)}
-    ${filterButtonSizeStyle(props, theme)}
+      &:disabled {
+        pointer-events: none;
+        cursor: initial;
+      }
 
-  ${createResponsiveStyle(
-      { xs, sm, md, lg, xl },
-      theme,
-    )(
-      (params) => css`
-        ${filterButtonSizeStyle(params, theme)}
-        ${params?.sx}
-      `,
-    )}
-  `;
+      ${filterButtonVariantStyle(props, theme)}
+      ${filterButtonSizeStyle(props, theme)}
+
+      ${createResponsiveStyle(
+        { xs, sm, md, lg, xl },
+        theme,
+      )(
+        (params) => css`
+          ${filterButtonSizeStyle(params, theme)}
+          ${params?.sx}
+        `,
+      )}
+    `;
 
 const filterButtonSizeStyle = (
   { size }: FilterButtonProps = {},

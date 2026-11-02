@@ -1,6 +1,3 @@
-import type { FlexBoxProps } from '../flex-box/types';
-import type { Merge, WithSxProps } from '@montage-ui/engine';
-import type { ReactNode } from 'react';
 import type {
   CardBodyProps,
   CardCaptionProps,
@@ -14,6 +11,9 @@ import type {
   CardTitleProps,
   CardTitleSkeletonProps,
 } from '../card/types';
+import type { FlexBoxProps } from '../flex-box/types';
+import type { Merge, WithSxProps } from '@montage-ui/engine';
+import type { ReactNode } from 'react';
 
 type ListCardDefaultProps = WithSxProps<{
   /**

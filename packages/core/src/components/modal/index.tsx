@@ -1,3 +1,8 @@
+import { Box } from '@montage-ui/engine';
+import { IconChevronLeft, IconClose } from '@montage-ui/icon';
+import { composeEventHandlers } from '@radix-ui/primitive';
+import { useComposedRefs } from '@radix-ui/react-compose-refs';
+import { Slot } from '@radix-ui/react-slot';
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
 import {
   forwardRef,
@@ -7,28 +12,32 @@ import {
   useRef,
   useState,
 } from 'react';
-import { useComposedRefs } from '@radix-ui/react-compose-refs';
-import { Slot } from '@radix-ui/react-slot';
-import { Box } from '@montage-ui/engine';
-import { IconChevronLeft, IconClose } from '@montage-ui/icon';
-import { composeEventHandlers } from '@radix-ui/primitive';
 
-import { hideOthers } from '../../utils';
-import { RemoveScroll } from '../remove-scroll';
-import { DismissableLayer } from '../dismissable-layer';
-import { FocusScope } from '../focus-scope';
-import { FlexBox } from '../flex-box';
-import { ScrollArea } from '../scroll-area';
-import { Typography } from '../typography';
-import { PortalOrFragment } from '../portal-or-fragment';
-import useResizeObserver from '../../hooks/internal/use-resize-observer';
 import { useSize } from '../../hooks';
-import { useAnimationPresence } from '../animation-presence';
-import { IconButton } from '../icon-button';
-import { TextButtonProvider } from '../text-button/contexts';
-import { TextButton } from '../text-button';
+import useResizeObserver from '../../hooks/internal/use-resize-observer';
 import { SlotDefaultsProvider } from '../../hooks/internal/use-slot-defaults';
+import { hideOthers } from '../../utils';
+import { useAnimationPresence } from '../animation-presence';
+import { DismissableLayer } from '../dismissable-layer';
+import { FlexBox } from '../flex-box';
+import { FocusScope } from '../focus-scope';
+import { IconButton } from '../icon-button';
+import { PortalOrFragment } from '../portal-or-fragment';
+import { RemoveScroll } from '../remove-scroll';
+import { ScrollArea } from '../scroll-area';
+import { TextButton } from '../text-button';
+import { TextButtonProvider } from '../text-button/contexts';
+import { Typography } from '../typography';
 
+import {
+  BOTTOM_SHEET_PEEK_PADDING,
+  MODAL_CONTAINER_NAME,
+  MODAL_DIMMER_NAME,
+  MODAL_NAME,
+  MODAL_NAVIGATION_BUTTON_NAME,
+  MODAL_NAVIGATION_NAME,
+  MODAL_TRIGGER_NAME,
+} from './constants';
 import {
   ModalDimmerProvider,
   ModalNavigationProvider,
@@ -39,15 +48,7 @@ import {
   useModalNavigationContext,
   useModalScrollContainerContext,
 } from './contexts';
-import {
-  BOTTOM_SHEET_PEEK_PADDING,
-  MODAL_CONTAINER_NAME,
-  MODAL_DIMMER_NAME,
-  MODAL_NAME,
-  MODAL_NAVIGATION_BUTTON_NAME,
-  MODAL_NAVIGATION_NAME,
-  MODAL_TRIGGER_NAME,
-} from './constants';
+import { useDraggable } from './hooks';
 import {
   modalContainerStyle,
   modalContainerWrapperStyle,
@@ -64,15 +65,8 @@ import {
   modalNavigationTitleStyle,
   modalNavigationWrapperStyle,
 } from './style';
-import { useDraggable } from './hooks';
 
 import type { PointerDownOutsideEvent } from '../dismissable-layer/types';
-import type {
-  DefaultComponentPropsInternal,
-  PolymorphicComponentInternal,
-  PolymorphicPropsInternal,
-} from '@montage-ui/engine';
-import type { ElementType, ForwardedRef, RefObject } from 'react';
 import type {
   ModalContainerProps,
   ModalContentItemProps,
@@ -87,6 +81,12 @@ import type {
   ModalSummaryProps,
   ModalTriggerProps,
 } from './types';
+import type {
+  DefaultComponentPropsInternal,
+  PolymorphicComponentInternal,
+  PolymorphicPropsInternal,
+} from '@montage-ui/engine';
+import type { ElementType, ForwardedRef, RefObject } from 'react';
 
 const Modal = ({
   children,
@@ -210,7 +210,7 @@ const ModalContainer = forwardRef(
     // whatever snap was active when the user dismissed the sheet.
     useEffect(() => {
       if (!isPresent) setSnap(defaultSnap);
-      // eslint-disable-next-line react-hooks/exhaustive-deps
+      // oxlint-disable-next-line react-hooks/exhaustive-deps
     }, [isPresent]);
 
     const composedRefs = useComposedRefs<HTMLDivElement>(
@@ -255,7 +255,7 @@ const ModalContainer = forwardRef(
         setSnap(defaultSnap);
         onOpenChange(false);
       }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
+      // oxlint-disable-next-line react-hooks/exhaustive-deps
     }, [resolvedVariant, open, snap, onOpenChange]);
 
     const modalNavigationHeight =
@@ -304,7 +304,7 @@ const ModalContainer = forwardRef(
 
         return undo;
       }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
+      // oxlint-disable-next-line react-hooks/exhaustive-deps
     }, [
       isBottomSheetWithHandle,
       isUndimmed,

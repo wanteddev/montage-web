@@ -1,6 +1,6 @@
 'use client';
-import { MDXRemote } from 'next-mdx-remote';
 import { FlexBox } from '@montage-ui/core';
+import { MDXRemote } from 'next-mdx-remote';
 
 import { MDX_COMPONENTS } from './constants';
 import { mdxRootStyle } from './style';

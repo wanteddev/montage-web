@@ -1,45 +1,46 @@
 import { css, getColorByToken } from '@montage-ui/engine';
 
 import { addOpacity } from '../../utils/color';
-import { typographyStyle } from '../../utils/typography';
 import { createResponsiveStyle } from '../../utils/internal/responsive-props';
+import { typographyStyle } from '../../utils/typography';
 
-import type { Theme } from '@montage-ui/engine';
 import type { ContentBadgeProps } from './types';
+import type { Theme } from '@montage-ui/engine';
 
 export const contentBadgeStyle =
   ({ xs, sm, md, lg, xl, ...props }: ContentBadgeProps) =>
-  (theme: Theme) => css`
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: fit-content;
-    height: fit-content;
-    flex-shrink: 0;
-
-    svg {
+  (theme: Theme) =>
+    css`
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: fit-content;
+      height: fit-content;
       flex-shrink: 0;
-    }
 
-    [data-role='content-badge-text'] {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
+      svg {
+        flex-shrink: 0;
+      }
 
-    ${contentBadgeColorVariant(props, theme)}
-    ${getSizeStyle(props)}
+      [data-role='content-badge-text'] {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
 
-  ${createResponsiveStyle(
-      { xs, sm, md, lg, xl },
-      theme,
-    )(
-      (params) => css`
-        ${getSizeStyle(params || {})}
-        ${params?.sx}
-      `,
-    )}
-  `;
+      ${contentBadgeColorVariant(props, theme)}
+      ${getSizeStyle(props)}
+
+      ${createResponsiveStyle(
+        { xs, sm, md, lg, xl },
+        theme,
+      )(
+        (params) => css`
+          ${getSizeStyle(params || {})}
+          ${params?.sx}
+        `,
+      )}
+    `;
 
 const getSizeStyle = ({ size }: ContentBadgeProps) => {
   switch (size) {

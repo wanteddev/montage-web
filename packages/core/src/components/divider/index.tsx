@@ -1,10 +1,10 @@
-import { forwardRef } from 'react';
 import { Box } from '@montage-ui/engine';
+import { forwardRef } from 'react';
 
 import { dividerStyle } from './style';
 
-import type { DefaultComponentPropsInternal } from '@montage-ui/engine';
 import type { DividerProps } from './types';
+import type { DefaultComponentPropsInternal } from '@montage-ui/engine';
 
 const Divider = forwardRef<
   HTMLHRElement,

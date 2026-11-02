@@ -69,36 +69,37 @@ export const accordionSummaryContentStyle =
     expanded: boolean;
     disableAnimation: boolean;
   }) =>
-  (theme: Theme) => css`
-    min-width: ${theme.dimension[20]};
-    font-size: ${theme.dimension[20]};
-    min-height: ${theme.dimension[24]};
-    align-items: center;
-    justify-content: center;
-    z-index: 1;
+  (theme: Theme) =>
+    css`
+      min-width: ${theme.dimension[20]};
+      font-size: ${theme.dimension[20]};
+      min-height: ${theme.dimension[24]};
+      align-items: center;
+      justify-content: center;
+      z-index: 1;
 
-    ${
-      rotate &&
-      css`
-        will-change: transform;
-        transform: rotate(0deg);
+      ${
+        rotate &&
+        css`
+          will-change: transform;
+          transform: rotate(0deg);
 
-        ${
-          !disableAnimation &&
-          css`
-            transition: transform 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
-          `
-        }
+          ${
+            !disableAnimation &&
+            css`
+              transition: transform 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+            `
+          }
 
-        ${
-          expanded &&
-          css`
-            transform: rotate(180deg);
-          `
-        }
-      `
-    }
-  `;
+          ${
+            expanded &&
+            css`
+              transform: rotate(180deg);
+            `
+          }
+        `
+      }
+    `;
 
 const mountKeyframes = keyframes`
   from {

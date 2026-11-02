@@ -1,6 +1,6 @@
-import { forwardRef } from 'react';
-import { Slot } from '@radix-ui/react-slot';
 import { useComposedRefs } from '@radix-ui/react-compose-refs';
+import { Slot } from '@radix-ui/react-slot';
+import { forwardRef } from 'react';
 
 import { useAnimationPresence } from './hooks';
 

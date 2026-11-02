@@ -1,8 +1,8 @@
 import { createContext } from '@radix-ui/react-context';
 
-import type { RefObject } from 'react';
 import type { DateType } from '../date-picker';
 import type { DateRangeType } from '../date-range-calendar/types';
+import type { RefObject } from 'react';
 
 type PickerActionAreaContextValue = {
   timezone?: string;

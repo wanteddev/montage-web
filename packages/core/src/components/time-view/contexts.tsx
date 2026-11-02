@@ -2,9 +2,9 @@ import { createContext } from '@radix-ui/react-context';
 
 import { TIME_VIEW_NAME } from './constants';
 
+import type { DateType } from '../date-picker';
 import type { HourType } from './types';
 import type { Dayjs } from 'dayjs';
-import type { DateType } from '../date-picker';
 
 export type TimeViewContextType = {
   value: DateType;

@@ -1,16 +1,16 @@
-import { forwardRef, useId } from 'react';
 import { Box } from '@montage-ui/engine';
+import { forwardRef, useId } from 'react';
 
 import { WithInteraction } from '../with-interaction';
 
 import { chipStyle } from './style';
 
+import type { ChipProps } from './types';
 import type {
   PolymorphicComponentInternal,
   PolymorphicPropsInternal,
 } from '@montage-ui/engine';
 import type { ElementType, ForwardedRef } from 'react';
-import type { ChipProps } from './types';
 
 const Chip = forwardRef(
   <T extends ElementType = 'button'>(

@@ -1,10 +1,10 @@
+import { Box } from '@montage-ui/engine';
 import * as ScrollAreaPrimitive from '@radix-ui/react-scroll-area';
 import { forwardRef } from 'react';
-import { Box } from '@montage-ui/engine';
 
-import { WithInteraction } from '../with-interaction';
-import { FlexBox } from '../flex-box';
 import { useThemeContext } from '../../theme-provider/contexts';
+import { FlexBox } from '../flex-box';
+import { WithInteraction } from '../with-interaction';
 
 import {
   scrollAreaStyle,
@@ -13,8 +13,8 @@ import {
   viewportStyle,
 } from './style';
 
-import type { DefaultComponentPropsInternal } from '@montage-ui/engine';
 import type { ScrollAreaProps, ScrollBarProps } from './types';
+import type { DefaultComponentPropsInternal } from '@montage-ui/engine';
 import type { ComponentRef, ReactNode } from 'react';
 
 const ScrollArea = forwardRef<

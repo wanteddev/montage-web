@@ -7,42 +7,43 @@ import type { Theme } from '@montage-ui/engine';
 
 export const avatarGroupStyle =
   ({ size, xs, sm, md, lg, xl }: AvatarGroupProps) =>
-  (theme: Theme) => css`
-    width: fit-content;
+  (theme: Theme) =>
+    css`
+      width: fit-content;
 
-    & > * {
-      position: relative;
-    }
-
-    ${avatarGroupSizeStyle(size, theme)}
-
-    [data-component='avatar'] {
-      flex-shrink: 0;
-      position: relative;
-
-      &::after {
-        content: '';
-        width: 100%;
-        height: 100%;
-        left: 0px;
-        position: absolute;
-        top: 0px;
-        border: 1.5px solid ${theme.semantic.background.neutral.primary};
-        margin: -1.5px;
-        box-sizing: content-box;
+      & > * {
+        position: relative;
       }
-    }
 
-    ${createResponsiveStyle(
-      { xs, sm, md, lg, xl },
-      theme,
-    )(
-      (params) => css`
-        ${avatarGroupSizeStyle(params?.size, theme)}
-        ${params?.sx}
-      `,
-    )}
-  `;
+      ${avatarGroupSizeStyle(size, theme)}
+
+      [data-component='avatar'] {
+        flex-shrink: 0;
+        position: relative;
+
+        &::after {
+          content: '';
+          width: 100%;
+          height: 100%;
+          left: 0px;
+          position: absolute;
+          top: 0px;
+          border: 1.5px solid ${theme.semantic.background.neutral.primary};
+          margin: -1.5px;
+          box-sizing: content-box;
+        }
+      }
+
+      ${createResponsiveStyle(
+        { xs, sm, md, lg, xl },
+        theme,
+      )(
+        (params) => css`
+          ${avatarGroupSizeStyle(params?.size, theme)}
+          ${params?.sx}
+        `,
+      )}
+    `;
 
 const avatarGroupSizeStyle = (size: AvatarGroupProps['size'], theme: Theme) => {
   switch (size) {

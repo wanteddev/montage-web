@@ -23,8 +23,6 @@
     }
   },
   "scripts": {
-    "lint": "eslint",
-    "lint:fix": "eslint --fix",
     "build": "tsc --noEmit && tsdown",
     "watch": "tsdown --watch"
   },

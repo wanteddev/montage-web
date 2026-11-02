@@ -1,8 +1,8 @@
-import type { SlotProps } from '@radix-ui/react-slot';
-import type { PopperContentProps } from '../popper/types';
 import type { FlexBoxProps } from '../flex-box/types';
 import type { ListCellProps } from '../list/types';
+import type { PopperContentProps } from '../popper/types';
 import type { Merge, WithSxProps } from '@montage-ui/engine';
+import type { SlotProps } from '@radix-ui/react-slot';
 import type { PropsWithChildren, ReactNode, RefObject } from 'react';
 
 export type AutocompleteProps = WithSxProps<{

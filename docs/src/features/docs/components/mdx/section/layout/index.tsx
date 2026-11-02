@@ -86,7 +86,7 @@ const SectionDescription = memo(({ content, sx }: SectionDescriptionProps) => {
 
   const renderContent = useMemo(
     () => (isString ? renderParsedContent(content) : null),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // oxlint-disable-next-line react-hooks/exhaustive-deps
     [],
   );
 

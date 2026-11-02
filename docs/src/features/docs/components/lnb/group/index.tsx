@@ -7,9 +7,9 @@ import {
 } from '@/features/docs/helpers/mdx.client';
 import { isFrontmatter } from '@/features/docs/helpers/pages';
 
-import { wrapperStyle } from './style';
-import LnbGroupItem from './item';
 import { getIsActive, getIsActiveGroup } from './helpers';
+import LnbGroupItem from './item';
+import { wrapperStyle } from './style';
 
 import type { Frontmatter, GroupedPages } from '@/features/docs/types';
 

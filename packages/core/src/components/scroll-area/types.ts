@@ -1,6 +1,6 @@
 import type { Merge, WithSxProps } from '@montage-ui/engine';
-import type { ComponentRef, ReactNode, Ref } from 'react';
 import type * as ScrollAreaPrimitive from '@radix-ui/react-scroll-area';
+import type { ComponentRef, ReactNode, Ref } from 'react';
 
 export type ScrollAreaProps = WithSxProps<
   Merge<

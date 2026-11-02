@@ -24,9 +24,7 @@
   },
   "scripts": {
     "build": "tsc --noEmit && tsdown",
-    "watch": "tsdown --watch",
-    "lint": "eslint",
-    "lint:fix": "eslint --fix"
+    "watch": "tsdown --watch"
   },
   "license": "MIT",
   "homepage": "https://montage.wanted.co.kr",

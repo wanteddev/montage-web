@@ -1,7 +1,7 @@
 import createLooseContext from '../../hooks/internal/use-loose-context';
 
-import type { ThemeColorsToken } from '@montage-ui/engine';
 import type { TextButtonColor } from './types';
+import type { ThemeColorsToken } from '@montage-ui/engine';
 
 type TextButtonContextValue = {
   [key in TextButtonColor]?: ThemeColorsToken;

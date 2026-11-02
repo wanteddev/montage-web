@@ -1,10 +1,10 @@
-import type { ReactNode } from 'react';
 import type {
   Merge,
   ResponsiveProps,
   ThemeColorsToken,
   WithSxProps,
 } from '@montage-ui/engine';
+import type { ReactNode } from 'react';
 
 type PushBadgeDefaultProps = WithSxProps<{
   /** The variant of the push badge. */

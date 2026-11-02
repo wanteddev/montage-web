@@ -1,4 +1,3 @@
-import { cleanup } from '@testing-library/react';
 import {
   Button,
   Modal,
@@ -11,6 +10,7 @@ import {
   OptionGroup,
   Select,
 } from '@montage-ui/core';
+import { cleanup } from '@testing-library/react';
 
 import {
   byTestId,

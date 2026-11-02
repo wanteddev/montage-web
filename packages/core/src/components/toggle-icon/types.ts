@@ -1,10 +1,10 @@
-import type { CSSProperties, ReactNode } from 'react';
 import type {
   Merge,
   ResponsiveProps,
   ThemeColorsToken,
   WithSxProps,
 } from '@montage-ui/engine';
+import type { CSSProperties, ReactNode } from 'react';
 
 type ToggleIconDefaultProps = WithSxProps<{
   /** Whether the toggle icon is active. */

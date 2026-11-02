@@ -5,6 +5,7 @@ const useThrottle = <T extends (...args: Array<any>) => any>(
   interval = 500,
 ) => {
   const timeoutRef = useRef(0);
+  // oxlint-disable-next-line react-hooks/purity
   const lastUpdated = useRef<number | null>(Date.now());
 
   const throttle = (...args: Parameters<T>) => {

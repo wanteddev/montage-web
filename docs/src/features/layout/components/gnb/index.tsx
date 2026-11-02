@@ -16,6 +16,9 @@ import Logo from '@/assets/logo';
 import { useLnbContext } from '@/features/docs/components/lnb/contexts';
 import useRouteScroll from '@/features/docs/hooks/use-route-scroll';
 
+import { GNB_NAVIGATION_LINKS } from './constants';
+import { useSearch } from './hooks';
+import { DocSearchModal } from './search-modal';
 import {
   gnbActionsStyle,
   gnbContainerStyle,
@@ -24,9 +27,6 @@ import {
   gnbNavigationLinkWrapperStyle,
   gnbWrapperStyle,
 } from './style';
-import { useSearch } from './hooks';
-import { DocSearchModal } from './search-modal';
-import { GNB_NAVIGATION_LINKS } from './constants';
 
 const Gnb = () => {
   const { setTheme, theme: currentTheme } = useThemeControl();

@@ -1,8 +1,8 @@
 'use client';
-import { useParams } from 'next/navigation';
-import { useMemo } from 'react';
 import { Box } from '@montage-ui/core';
 import Image from 'next/image';
+import { useParams } from 'next/navigation';
+import { useMemo } from 'react';
 
 import { getImageUrl } from '@/helpers/image';
 
@@ -11,8 +11,8 @@ import { getFrontmatterImage } from '../../helpers/mdx.client';
 
 import { thumbnailStyle } from './style';
 
-import type { SxProp } from '@montage-ui/core';
 import type { SlugParams } from '../lnb/types';
+import type { SxProp } from '@montage-ui/core';
 
 type Props = {
   src?: string;
@@ -26,7 +26,7 @@ const DocsThumbnail = ({ src, alt, sx }: Props) => {
 
   const frontmatter = useMemo(() => {
     return allFrontmatter.find((v) => v.slug.toString() === slug.toString());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // oxlint-disable-next-line react-hooks/exhaustive-deps
   }, [slug.toString(), allFrontmatter]);
 
   const image = useMemo(() => {

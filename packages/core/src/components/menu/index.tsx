@@ -1,12 +1,20 @@
-import { forwardRef, useRef } from 'react';
-import { useControllableState } from '@radix-ui/react-use-controllable-state';
+import { composeEventHandlers } from '@radix-ui/primitive';
 import {
   RovingFocusGroup,
   RovingFocusGroupItem,
 } from '@radix-ui/react-roving-focus';
-import { composeEventHandlers } from '@radix-ui/primitive';
 import { Slot } from '@radix-ui/react-slot';
+import { useControllableState } from '@radix-ui/react-use-controllable-state';
+import { forwardRef, useRef } from 'react';
 
+import { createScope } from '../../hooks/internal/use-scope-context';
+import { SlotDefaultsProvider } from '../../hooks/internal/use-slot-defaults';
+import {
+  isElementDisabled,
+  scrollIntoViewIfNeeded,
+} from '../../utils/internal/element';
+import { Checkbox } from '../checkbox';
+import { FlexBox } from '../flex-box';
 import {
   List,
   ListCell,
@@ -14,19 +22,11 @@ import {
   ListCellExtraContent,
   ListCellLabelTrailing,
 } from '../list';
-import { ScrollArea } from '../scroll-area';
-import { Radio } from '../radio';
-import { Checkbox } from '../checkbox';
 import { Popover, PopoverContent, PopoverTrigger } from '../popover';
-import { FlexBox } from '../flex-box';
-import { Typography } from '../typography';
 import { usePopoverContext } from '../popover/contexts';
-import { createScope } from '../../hooks/internal/use-scope-context';
-import { SlotDefaultsProvider } from '../../hooks/internal/use-slot-defaults';
-import {
-  isElementDisabled,
-  scrollIntoViewIfNeeded,
-} from '../../utils/internal/element';
+import { Radio } from '../radio';
+import { ScrollArea } from '../scroll-area';
+import { Typography } from '../typography';
 
 import {
   MENU_ACTION_AREA_CONTENT_NAME,
@@ -44,6 +44,7 @@ import {
   MENU_NAME,
   MENU_TRIGGER_NAME,
 } from './constants';
+import { MenuItemProvider, MenuProvider, useMenuContext } from './contexts';
 import {
   menuActionAreaContentStyle,
   menuActionAreaStyle,
@@ -54,7 +55,6 @@ import {
   menuPopoverContentStyle,
   menuScrollAreaStyle,
 } from './style';
-import { MenuItemProvider, MenuProvider, useMenuContext } from './contexts';
 
 import type {
   ListCellContentProps,

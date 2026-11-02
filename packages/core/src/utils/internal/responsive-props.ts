@@ -21,16 +21,17 @@ type ResponsiveBreakpointValue<T> = Merge<T, { sx?: CSSInterpolation }>;
 const order: Array<keyof BreakPoint> = ['xs', 'sm', 'md', 'lg', 'xl'];
 
 export const createEmptyResponsiveStyle =
-  (responsive: ResponsiveProps<any>) => (theme: Theme) => css`
-    ${createResponsiveStyle(
-      responsive,
-      theme,
-    )(
-      (params) => css`
-        ${params?.sx}
-      `,
-    )}
-  `;
+  (responsive: ResponsiveProps<any>) => (theme: Theme) =>
+    css`
+      ${createResponsiveStyle(
+        responsive,
+        theme,
+      )(
+        (params) => css`
+          ${params?.sx}
+        `,
+      )}
+    `;
 
 export const createResponsiveStyle =
   <T extends ResponsiveProps<any>>(responsive: T, theme: Theme) =>
@@ -319,7 +320,8 @@ export const mergeResponsiveProps = <T extends object, K extends keyof T>(
 export const resolveInheritedResponsive = <T extends object, K extends keyof T>(
   own: { base: T[K] | undefined; responsive: ResponsiveProps<T> },
   inherited:
-    { base?: T[K]; responsive?: ResponsiveProps<Pick<T, K>> } | undefined,
+    | { base?: T[K]; responsive?: ResponsiveProps<Pick<T, K>> }
+    | undefined,
   key: K,
 ): { base: T[K] | undefined; responsive: ResponsiveProps<T> } => {
   if (own.base !== undefined || !inherited) return own;

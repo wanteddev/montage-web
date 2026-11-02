@@ -1,11 +1,11 @@
 import { css, keyframes } from '@montage-ui/engine';
 
+import { ellipsisTypographyStyle, typographyStyle } from '../../utils';
+import { toCssValue } from '../../utils/internal/css';
 import {
   createResponsiveStyle,
   getPreviousValue,
 } from '../../utils/internal/responsive-props';
-import { ellipsisTypographyStyle, typographyStyle } from '../../utils';
-import { toCssValue } from '../../utils/internal/css';
 
 import {
   BOTTOM_SHEET_SETTLE_DURATION_MS,
@@ -13,12 +13,12 @@ import {
   BOTTOM_SHEET_SHADOW,
 } from './constants';
 
-import type { Theme } from '@montage-ui/engine';
 import type {
   ModalContainerProps,
   ModalContentProps,
   ModalNavigationProps,
 } from './types';
+import type { Theme } from '@montage-ui/engine';
 
 export const modalDimmerStyle = (theme: Theme) => css`
   position: fixed;
@@ -59,49 +59,50 @@ export const modalDimmerStyle = (theme: Theme) => css`
 
 export const modalContainerWrapperStyle =
   ({ variant, xs, sm, md, lg, xl }: ModalContainerProps) =>
-  (theme: Theme) => css`
-    position: fixed;
-    display: flex;
-    z-index: ${theme.zIndex.modal};
-    width: 100vw;
-    height: 100dvh;
-    left: 0px;
-    top: 0px;
+  (theme: Theme) =>
+    css`
+      position: fixed;
+      display: flex;
+      z-index: ${theme.zIndex.modal};
+      width: 100vw;
+      height: 100dvh;
+      left: 0px;
+      top: 0px;
 
-    /*
+      /*
      * \`data-status='close'\`: with \`forceMount\` the full-viewport wrapper stays
      * mounted after close and would otherwise swallow every click on the page.
      */
-    &[data-snap='peek'],
-    &[data-largest-undimmed-snap='half'][data-snap='half'],
-    &[data-status='close'] {
-      pointer-events: none;
-    }
+      &[data-snap='peek'],
+      &[data-largest-undimmed-snap='half'][data-snap='half'],
+      &[data-status='close'] {
+        pointer-events: none;
+      }
 
-    [data-role='modal-container-scroll-area']:has(
-      [data-component='modal-navigation']
-        [data-role='modal-navigation-floating-background']
-    ) {
-      background: inherit;
-      will-change: backdrop-filter;
-    }
+      [data-role='modal-container-scroll-area']:has(
+        [data-component='modal-navigation']
+          [data-role='modal-navigation-floating-background']
+      ) {
+        background: inherit;
+        will-change: backdrop-filter;
+      }
 
-    ${modalContainerWrapperVariant(variant)}
+      ${modalContainerWrapperVariant(variant)}
 
-    ${createResponsiveStyle(
-      { xs, sm, md, lg, xl },
-      theme,
-    )(
-      (params) => css`
-        ${
-          Boolean(params?.variant) &&
-          modalContainerWrapperVariant(params!.variant)
-        }
+      ${createResponsiveStyle(
+        { xs, sm, md, lg, xl },
+        theme,
+      )(
+        (params) => css`
+          ${
+            Boolean(params?.variant) &&
+            modalContainerWrapperVariant(params!.variant)
+          }
 
-        ${params?.sx}
-      `,
-    )}
-  `;
+          ${params?.sx}
+        `,
+      )}
+    `;
 
 const modalContainerWrapperVariant = (
   variant: ModalContainerProps['variant'],
@@ -163,82 +164,83 @@ const modalBottomMountKeyframes = keyframes`
 
 export const modalContainerStyle =
   ({ resize, variant, size, xs, sm, md, lg, xl }: ModalContainerProps) =>
-  (theme: Theme) => css`
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    outline: none;
-    background-color: ${theme.semantic.surface.elevated.primary};
+  (theme: Theme) =>
+    css`
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      outline: none;
+      background-color: ${theme.semantic.surface.elevated.primary};
 
-    [data-component='modal-navigation'] {
-      z-index: 5;
-      position: sticky;
-      top: var(--modal-grabber-height-guard, 0px);
-      left: 0px;
-    }
+      [data-component='modal-navigation'] {
+        z-index: 5;
+        position: sticky;
+        top: var(--modal-grabber-height-guard, 0px);
+        left: 0px;
+      }
 
-    [data-component='action-area'] {
-      position: sticky;
-      z-index: 5;
-      bottom: 0;
-      left: 0;
-    }
+      [data-component='action-area'] {
+        position: sticky;
+        z-index: 5;
+        bottom: 0;
+        left: 0;
+      }
 
-    ${modalContainerSize(size, resize)}
-    ${modalContainerVariant(variant)}
-    ${modalContainerBottomResize(variant, resize)}
+      ${modalContainerSize(size, resize)}
+      ${modalContainerVariant(variant)}
+      ${modalContainerBottomResize(variant, resize)}
 
-    ${createResponsiveStyle(
-      { xs, sm, md, lg, xl },
-      theme,
-    )(
-      (params, breakpoint) => css`
-        ${
-          (params?.resize || params?.size || params?.variant) &&
-          css`
-            ${modalContainerSize(
-              getPreviousValue(
-                { xs, sm, md, lg, xl },
-                'size',
-                size,
-                breakpoint!,
-              ),
-              getPreviousValue(
-                { xs, sm, md, lg, xl },
-                'resize',
-                resize,
-                breakpoint!,
-              ),
-            )}
-            ${modalContainerVariant(
-              getPreviousValue(
-                { xs, sm, md, lg, xl },
-                'variant',
-                variant,
-                breakpoint!,
-              ),
-            )}
-          ${modalContainerBottomResize(
-              getPreviousValue(
-                { xs, sm, md, lg, xl },
-                'variant',
-                variant,
-                breakpoint!,
-              ),
-              getPreviousValue(
-                { xs, sm, md, lg, xl },
-                'resize',
-                resize,
-                breakpoint!,
-              ),
-            )}
-          `
-        }
+      ${createResponsiveStyle(
+        { xs, sm, md, lg, xl },
+        theme,
+      )(
+        (params, breakpoint) => css`
+          ${
+            (params?.resize || params?.size || params?.variant) &&
+            css`
+              ${modalContainerSize(
+                getPreviousValue(
+                  { xs, sm, md, lg, xl },
+                  'size',
+                  size,
+                  breakpoint!,
+                ),
+                getPreviousValue(
+                  { xs, sm, md, lg, xl },
+                  'resize',
+                  resize,
+                  breakpoint!,
+                ),
+              )}
+              ${modalContainerVariant(
+                getPreviousValue(
+                  { xs, sm, md, lg, xl },
+                  'variant',
+                  variant,
+                  breakpoint!,
+                ),
+              )}
+              ${modalContainerBottomResize(
+                getPreviousValue(
+                  { xs, sm, md, lg, xl },
+                  'variant',
+                  variant,
+                  breakpoint!,
+                ),
+                getPreviousValue(
+                  { xs, sm, md, lg, xl },
+                  'resize',
+                  resize,
+                  breakpoint!,
+                ),
+              )}
+            `
+          }
 
-        ${params?.sx}
-      `,
-    )};
-  `;
+          ${params?.sx}
+        `,
+      )};
+    `;
 
 const modalContainerSize = (
   size: ModalContainerProps['size'],
@@ -541,24 +543,25 @@ const modalContainerBottomResize = (
 
 export const modalNavigationStyle =
   ({ background, variant, xs, sm, md, lg, xl }: ModalNavigationProps) =>
-  (theme: Theme) => css`
-    width: 100%;
-    align-items: center;
-    position: relative;
-    background-color: transparent;
+  (theme: Theme) =>
+    css`
+      width: 100%;
+      align-items: center;
+      position: relative;
+      background-color: transparent;
 
-    ${modalNavigationBackgroundStyle({ variant, background }, theme)}
-    ${modalNavigationVariant(variant)}
+      ${modalNavigationBackgroundStyle({ variant, background }, theme)}
+      ${modalNavigationVariant(variant)}
 
-    ${createResponsiveStyle(
-      { xs, sm, md, lg, xl },
-      theme,
-    )(
-      (params) => css`
-        ${params?.sx}
-      `,
-    )}
-  `;
+      ${createResponsiveStyle(
+        { xs, sm, md, lg, xl },
+        theme,
+      )(
+        (params) => css`
+          ${params?.sx}
+        `,
+      )}
+    `;
 
 const modalNavigationBackgroundStyle = (
   { variant, background }: Pick<ModalNavigationProps, 'variant' | 'background'>,
@@ -892,32 +895,33 @@ export const modalContentStyle =
     lg,
     xl,
   }: ModalContentProps) =>
-  (theme: Theme) => css`
-    width: 100%;
-    ${modalContentMarginStyle({ gap, verticalPadding, horizontalPadding })}
+  (theme: Theme) =>
+    css`
+      width: 100%;
+      ${modalContentMarginStyle({ gap, verticalPadding, horizontalPadding })}
 
-    ${
-      verticalPadding === undefined &&
-      css`
-        padding-top: var(--modal-content-default-padding-top, 0px);
-        padding-bottom: var(--modal-content-default-padding-bottom, 0px);
-      `
-    }
+      ${
+        verticalPadding === undefined &&
+        css`
+          padding-top: var(--modal-content-default-padding-top, 0px);
+          padding-bottom: var(--modal-content-default-padding-bottom, 0px);
+        `
+      }
 
-    ${createResponsiveStyle(
-      { xs, sm, md, lg, xl },
-      theme,
-    )(
-      (params) => css`
-        ${modalContentMarginStyle({
-          gap: params?.gap,
-          verticalPadding: params?.verticalPadding,
-          horizontalPadding: params?.horizontalPadding,
-        })}
-        ${params?.sx}
-      `,
-    )}
-  `;
+      ${createResponsiveStyle(
+        { xs, sm, md, lg, xl },
+        theme,
+      )(
+        (params) => css`
+          ${modalContentMarginStyle({
+            gap: params?.gap,
+            verticalPadding: params?.verticalPadding,
+            horizontalPadding: params?.horizontalPadding,
+          })}
+          ${params?.sx}
+        `,
+      )}
+    `;
 
 const modalContentMarginStyle = ({
   gap,
@@ -971,7 +975,7 @@ const modalContentMarginStyle = ({
     ${getVerticalPaddingStyle()}
     ${getHorizontalPaddingStyle()}
 
-   ${
+    ${
       gap !== undefined &&
       css`
         gap: ${toCssValue(gap)};

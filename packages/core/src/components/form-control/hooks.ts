@@ -16,8 +16,8 @@ import type {
   SlotDefaults,
   SlotDefaultsMap,
 } from '../../hooks/internal/use-slot-defaults';
-import type { ResponsiveProps } from '@montage-ui/engine';
 import type { FormControlProps } from './types';
+import type { ResponsiveProps } from '@montage-ui/engine';
 
 type FormFieldSize = NonNullable<FormControlProps['size']>;
 

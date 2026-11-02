@@ -10,8 +10,8 @@ import {
 
 import { DATE_PICKER_FORMATS } from './constants';
 
-import type { DatePickerFormat } from './types';
 import type { DateType } from '../date-calendar/types';
+import type { DatePickerFormat } from './types';
 
 const TEXT_FORMATS: Array<DatePickerFormat> = ['MMM', 'MMMM', 'a', 'A'];
 const MAX_TIMESTAMP = 8640000000000000;
@@ -37,7 +37,8 @@ export type DateFormatNumericSection = {
 };
 
 export type DateFormatSection =
-  DateFormatTextSection | DateFormatNumericSection;
+  | DateFormatTextSection
+  | DateFormatNumericSection;
 
 const chunksFormat = (fmt: string) => {
   let current = null,

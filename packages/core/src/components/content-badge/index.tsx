@@ -1,12 +1,12 @@
-import { forwardRef } from 'react';
 import { Box } from '@montage-ui/engine';
+import { forwardRef } from 'react';
 
 import { useInheritedSize } from '../../hooks/internal/use-slot-defaults';
 
 import { contentBadgeStyle } from './style';
 
-import type { DefaultComponentPropsInternal } from '@montage-ui/engine';
 import type { ContentBadgeProps } from './types';
+import type { DefaultComponentPropsInternal } from '@montage-ui/engine';
 
 const ContentBadge = forwardRef<
   HTMLSpanElement,

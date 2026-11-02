@@ -1,4 +1,13 @@
 import {
+  IconChevronDownThickSmall,
+  IconChevronUpThickSmall,
+} from '@montage-ui/icon';
+import { composeEventHandlers } from '@radix-ui/primitive';
+import { useComposedRefs } from '@radix-ui/react-compose-refs';
+import { useCallbackRef } from '@radix-ui/react-use-callback-ref';
+import { useControllableState } from '@radix-ui/react-use-controllable-state';
+import { useSize } from '@radix-ui/react-use-size';
+import {
   forwardRef,
   useCallback,
   useEffect,
@@ -6,33 +15,24 @@ import {
   useRef,
   useState,
 } from 'react';
-import {
-  IconChevronDownThickSmall,
-  IconChevronUpThickSmall,
-} from '@montage-ui/icon';
-import { useControllableState } from '@radix-ui/react-use-controllable-state';
-import { useCallbackRef } from '@radix-ui/react-use-callback-ref';
-import { useComposedRefs } from '@radix-ui/react-compose-refs';
-import { composeEventHandlers } from '@radix-ui/primitive';
-import { useSize } from '@radix-ui/react-use-size';
 
-import { Menu, MenuContent, MenuList, MenuTrigger } from '../menu';
-import { FlexBox } from '../flex-box';
-import { Typography } from '../typography';
-import { SelectContent } from '../select';
-import { convertChildrenToData } from '../select/helpers';
-import { selectIconStyle, selectStyle, selectTextStyle } from '../select/style';
 import useResizeObserver from '../../hooks/internal/use-resize-observer';
-import { VirtualValueInput } from '../virtual-input';
-import { SelectProvider } from '../select/context';
+import { FlexBox } from '../flex-box';
 import { FormFieldLayoutProvider } from '../form-control/contexts';
 import { useFormFieldSize } from '../form-control/hooks';
+import { Menu, MenuContent, MenuList, MenuTrigger } from '../menu';
+import { SelectContent } from '../select';
+import { SelectProvider } from '../select/context';
+import { convertChildrenToData } from '../select/helpers';
+import { selectIconStyle, selectStyle, selectTextStyle } from '../select/style';
+import { Typography } from '../typography';
+import { VirtualValueInput } from '../virtual-input';
 
 import { customSelectMultipleRenderWrapperStyle } from './style';
 
+import type { SelectMultipleProps } from './types';
 import type { DefaultComponentPropsInternal } from '@montage-ui/engine';
 import type { UIEventHandler } from 'react';
-import type { SelectMultipleProps } from './types';
 
 const SelectMultiple = forwardRef<
   HTMLDivElement,
@@ -195,7 +195,7 @@ const SelectMultiple = forwardRef<
         {isFormControl && (
           <VirtualValueInput
             name={props.name}
-            // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+            // oxlint-disable-next-line @typescript-eslint/no-unnecessary-condition
             value={Array.isArray(value) ? value.join(',') : (value ?? '')}
             aria-invalid={status === 'negative'}
             disabled={disabled}

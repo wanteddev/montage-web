@@ -1,9 +1,9 @@
+import { MONTAGE_SOURCES } from '../../constants';
 import {
   findImportDeclaration,
   getImportedName,
   toSourcePreservingJsx,
 } from '../../helpers';
-import { MONTAGE_SOURCES } from '../../constants';
 
 import type { API, FileInfo, Identifier, Options } from 'jscodeshift';
 

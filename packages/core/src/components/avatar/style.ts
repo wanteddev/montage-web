@@ -7,58 +7,59 @@ import type { Theme } from '@montage-ui/engine';
 
 export const avatarWrapperStyle =
   ({ size, variant, xs, sm, md, lg, xl }: AvatarProps) =>
-  (theme: Theme) => css`
-    background-color: ${theme.semantic.background.neutral.primary};
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    flex-shrink: 0;
+  (theme: Theme) =>
+    css`
+      background-color: ${theme.semantic.background.neutral.primary};
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      flex-shrink: 0;
 
-    &::after {
-      box-shadow: inset 0 0 0 1px ${theme.semantic.line.neutral.tertiary};
-      content: '';
-      width: 100%;
-      height: 100%;
-      border-radius: inherit;
-      color: inherit;
-      font-size: inherit;
-      position: absolute;
-      inset: 0;
-    }
-
-    ${avatarSizeStyle({ size, variant }, theme)}
-
-    img {
-      width: 100%;
-      height: 100%;
-      border-radius: inherit;
-      background: inherit;
-      color: inherit;
-      font-size: inherit;
-      text-align: center;
-
-      ${
-        variant === 'person'
-          ? css`
-              object-fit: cover;
-            `
-          : css`
-              object-fit: contain;
-            `
+      &::after {
+        box-shadow: inset 0 0 0 1px ${theme.semantic.line.neutral.tertiary};
+        content: '';
+        width: 100%;
+        height: 100%;
+        border-radius: inherit;
+        color: inherit;
+        font-size: inherit;
+        position: absolute;
+        inset: 0;
       }
-    }
 
-    ${createResponsiveStyle(
-      { xs, sm, md, lg, xl },
-      theme,
-    )(
-      (params) => css`
-        ${avatarSizeStyle({ size: params?.size, variant }, theme)}
-        ${params?.sx}
-      `,
-    )}
-  `;
+      ${avatarSizeStyle({ size, variant }, theme)}
+
+      img {
+        width: 100%;
+        height: 100%;
+        border-radius: inherit;
+        background: inherit;
+        color: inherit;
+        font-size: inherit;
+        text-align: center;
+
+        ${
+          variant === 'person'
+            ? css`
+                object-fit: cover;
+              `
+            : css`
+                object-fit: contain;
+              `
+        }
+      }
+
+      ${createResponsiveStyle(
+        { xs, sm, md, lg, xl },
+        theme,
+      )(
+        (params) => css`
+          ${avatarSizeStyle({ size: params?.size, variant }, theme)}
+          ${params?.sx}
+        `,
+      )}
+    `;
 
 export const fallbackWrapperStyle = css`
   width: 100%;

@@ -10,7 +10,7 @@ export const focus = (
   element?: FocusableTarget | null,
   { select = false } = {},
 ) => {
-  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+  // oxlint-disable-next-line @typescript-eslint/no-unnecessary-condition
   if (element && element.focus) {
     const previouslyFocusedElement = document.activeElement;
     element.focus({ preventScroll: true });
@@ -114,7 +114,7 @@ const findVisible = (elements: Array<HTMLElement>, container: HTMLElement) => {
 
 const isHidden = (node: HTMLElement, { upTo }: { upTo?: HTMLElement }) => {
   if (getComputedStyle(node).visibility === 'hidden') return true;
-  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+  // oxlint-disable-next-line @typescript-eslint/no-unnecessary-condition
   while (node) {
     if (upTo !== undefined && node === upTo) return false;
     if (getComputedStyle(node).display === 'none') return true;

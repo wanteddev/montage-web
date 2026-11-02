@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import {
   ActionArea,
   Modal,
@@ -12,10 +11,12 @@ import {
 } from '@montage-ui/core';
 import { FlexBox } from '@montage-ui/core';
 import { IconArrowTurnDownLeft, IconChevronLeft } from '@montage-ui/icon';
+import { useEffect } from 'react';
 
 import AlgoliaLogo from '@/assets/algolia-logo';
 
 import { useDocSearch } from './hooks';
+import SearchResults from './results';
 import {
   actionAreaStyle,
   compactContentStyle,
@@ -25,7 +26,6 @@ import {
   modalNavigationStyle,
   modalWrapperStyle,
 } from './styles';
-import SearchResults from './results';
 
 import type {
   CSSProperties,

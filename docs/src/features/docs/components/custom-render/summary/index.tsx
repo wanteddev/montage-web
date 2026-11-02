@@ -1,7 +1,7 @@
 import { FlexBox } from '@montage-ui/core';
 
-import DocsTitle from '../../title';
 import DocsThumbnail from '../../thumbnail';
+import DocsTitle from '../../title';
 
 import type { PropsWithChildren } from 'react';
 

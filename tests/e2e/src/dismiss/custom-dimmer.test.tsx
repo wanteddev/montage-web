@@ -1,4 +1,3 @@
-import { cleanup } from '@testing-library/react';
 import {
   Alert,
   AlertActionArea,
@@ -20,6 +19,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@montage-ui/core';
+import { cleanup } from '@testing-library/react';
 
 import {
   byTestId,

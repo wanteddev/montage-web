@@ -3,8 +3,8 @@ import { cleanup, fireEvent, render, screen } from '@testing-library/react';
 import { Avatar } from '../avatar';
 import { Button } from '../button';
 import { Checkbox } from '../checkbox';
-import { IconButton } from '../icon-button';
 import { ContentBadge } from '../content-badge';
+import { IconButton } from '../icon-button';
 import { TextButton } from '../text-button';
 
 import {

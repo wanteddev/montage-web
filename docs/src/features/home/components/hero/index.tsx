@@ -3,10 +3,11 @@ import { Box, Typography } from '@montage-ui/core';
 import { FlexBox } from '@montage-ui/core';
 import Link from 'next/link';
 
-import { breakWordStyle } from '@/styles/text';
 import FadeInOut from '@/components/fade-in-out';
 import { getImageUrl } from '@/helpers/image';
+import { breakWordStyle } from '@/styles/text';
 
+import { IMAGES, RENDER_REPEAT, REVERSE_IMAGES } from './constants';
 import {
   contentWrapperStyle,
   descriptionStyle,
@@ -18,7 +19,6 @@ import {
   titleStyle,
   wrapperStyle,
 } from './style';
-import { IMAGES, RENDER_REPEAT, REVERSE_IMAGES } from './constants';
 
 const Hero = () => {
   return (

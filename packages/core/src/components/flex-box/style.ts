@@ -1,27 +1,28 @@
 import { css } from '@montage-ui/engine';
 
-import { createResponsiveStyle } from '../../utils/internal/responsive-props';
 import { toCssValue } from '../../utils/internal/css';
+import { createResponsiveStyle } from '../../utils/internal/responsive-props';
 
-import type { Theme } from '@montage-ui/engine';
 import type { FlexBoxDefaultProps, FlexBoxProps } from './types';
+import type { Theme } from '@montage-ui/engine';
 
 export const flexBoxStyle =
   ({ xs, sm, md, lg, xl, ...props }: FlexBoxProps) =>
-  (theme: Theme) => css`
-    display: flex;
-    ${flexibleStyle(props)}
+  (theme: Theme) =>
+    css`
+      display: flex;
+      ${flexibleStyle(props)}
 
-    ${createResponsiveStyle(
-      { xs, sm, md, lg, xl },
-      theme,
-    )(
-      (params) => css`
-        ${flexibleStyle(params)}
-        ${params?.sx}
-      `,
-    )}
-  `;
+      ${createResponsiveStyle(
+        { xs, sm, md, lg, xl },
+        theme,
+      )(
+        (params) => css`
+          ${flexibleStyle(params)}
+          ${params?.sx}
+        `,
+      )}
+    `;
 
 const flexibleStyle = ({
   flexDirection,
@@ -51,7 +52,7 @@ const flexibleStyle = ({
       row-gap: ${toCssValue(rowGap)};
     `
   }
-    ${
+  ${
     columnGap !== undefined &&
     css`
       column-gap: ${toCssValue(columnGap)};
@@ -69,49 +70,49 @@ const flexibleStyle = ({
       flex-wrap: ${flexWrap};
     `
   }
-	${
+  ${
     justifyContent !== undefined &&
     css`
       justify-content: ${justifyContent};
     `
   }
-	${
+  ${
     alignItems !== undefined &&
     css`
       align-items: ${alignItems};
     `
   }
-	${
+  ${
     alignContent !== undefined &&
     css`
       align-content: ${alignContent};
     `
   }
-	${
+  ${
     order !== undefined &&
     css`
       order: ${order};
     `
   }
-	${
+  ${
     flex !== undefined &&
     css`
       flex: ${flex};
     `
   }
-	${
+  ${
     flexGrow !== undefined &&
     css`
       flex-grow: ${flexGrow};
     `
   }
-	${
+  ${
     flexShrink !== undefined &&
     css`
       flex-shrink: ${flexShrink};
     `
   }
-	${
+  ${
     alignSelf !== undefined &&
     css`
       align-self: ${alignSelf};

@@ -1,4 +1,10 @@
 import {
+  RovingFocusGroup,
+  RovingFocusGroupItem,
+} from '@radix-ui/react-roving-focus';
+import { useControllableState } from '@radix-ui/react-use-controllable-state';
+import dayjs from 'dayjs';
+import {
   forwardRef,
   memo,
   useCallback,
@@ -7,24 +13,18 @@ import {
   useMemo,
   useRef,
 } from 'react';
-import dayjs from 'dayjs';
-import {
-  RovingFocusGroup,
-  RovingFocusGroupItem,
-} from '@radix-ui/react-roving-focus';
-import { useControllableState } from '@radix-ui/react-use-controllable-state';
 
-import { FlexBox } from '../flex-box';
-import { ScrollArea } from '../scroll-area';
-import { List, ListCell } from '../list';
-import { useDefaultSelectedDate } from '../date-calendar/hooks';
+import { extendDayjs } from '../../utils/internal/date';
+import { scrollIntoViewIfNeeded } from '../../utils/internal/element';
 import {
   dateTypeToDateObject,
   dayjsTimezone,
   isValidDate,
 } from '../date-calendar/helpers';
-import { extendDayjs } from '../../utils/internal/date';
-import { scrollIntoViewIfNeeded } from '../../utils/internal/element';
+import { useDefaultSelectedDate } from '../date-calendar/hooks';
+import { FlexBox } from '../flex-box';
+import { List, ListCell } from '../list';
+import { ScrollArea } from '../scroll-area';
 
 import {
   // ACCESSIBLE_MAX_TIME,
@@ -33,25 +33,25 @@ import {
   TIME_LIST_NAME,
   TIME_VIEW_NAME,
 } from './constants';
+import { TimeViewContextProvider, useTimeViewContext } from './contexts';
+import { scrollToTime } from './helpers';
+import { useTimeList } from './hooks';
 import {
   timeItemStyle,
   timeListScrollAreaStyle,
   timeListStyle,
   timeViewStyle,
 } from './style';
-import { useTimeList } from './hooks';
-import { TimeViewContextProvider, useTimeViewContext } from './contexts';
-import { scrollToTime } from './helpers';
 
-import type * as ScrollAreaPrimitive from '@radix-ui/react-scroll-area';
-import type { DefaultComponentPropsInternal } from '@montage-ui/engine';
-import type { ComponentRef, KeyboardEvent } from 'react';
 import type {
   HourType,
   TimeItemProps,
   TimeListProps,
   TimeViewProps,
 } from './types';
+import type { DefaultComponentPropsInternal } from '@montage-ui/engine';
+import type * as ScrollAreaPrimitive from '@radix-ui/react-scroll-area';
+import type { ComponentRef, KeyboardEvent } from 'react';
 
 extendDayjs();
 
@@ -164,7 +164,7 @@ const TimeList = memo(
         if (currentTimeValue) {
           scrollToTime(view, currentTimeValue, scrollViewportRef);
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+        // oxlint-disable-next-line react-hooks/exhaustive-deps
       }, [currentTimeValue]);
 
       return (

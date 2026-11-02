@@ -1,5 +1,3 @@
-import { cleanup } from '@testing-library/react';
-import { userEvent } from 'vitest/browser';
 import {
   Button,
   Modal,
@@ -9,6 +7,8 @@ import {
   ModalHeading,
   ModalTrigger,
 } from '@montage-ui/core';
+import { cleanup } from '@testing-library/react';
+import { userEvent } from 'vitest/browser';
 
 import {
   ariaHiddenOthersCount,

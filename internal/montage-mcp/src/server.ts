@@ -1,10 +1,11 @@
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
-import TurndownService from 'turndown';
 import * as cheerio from 'cheerio';
+import TurndownService from 'turndown';
 import * as z from 'zod';
 
 import { version } from '../package.json';
 
+import { DOCS_COLOR_USAGE_URL, DOCS_SELECTOR } from './constants';
 import {
   getComponentUrl,
   getDocsBaseUrl,
@@ -15,7 +16,6 @@ import {
   listTokens,
   listUtilityFunctions,
 } from './helpers';
-import { DOCS_COLOR_USAGE_URL, DOCS_SELECTOR } from './constants';
 import { type Platform, trackEvent } from './track';
 
 export type TrackContext = {

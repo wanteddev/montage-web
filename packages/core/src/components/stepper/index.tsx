@@ -1,25 +1,25 @@
-import { forwardRef, useCallback, useMemo } from 'react';
 import { IconCheckThick, IconChevronRightTightSmall } from '@montage-ui/icon';
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
+import { forwardRef, useCallback, useMemo } from 'react';
 
-import { Typography } from '../typography';
-import { FlexBox } from '../flex-box';
 import { findComponentInChildren } from '../../utils/internal/children';
+import { FlexBox } from '../flex-box';
+import { Typography } from '../typography';
 
+import { STEPPER_ITEM_NAME, STEPPER_NAME } from './constants';
+import { StepperProvider, useStepperContext } from './contexts';
 import {
   stepperChevronStyle,
   stepperCircleStyle,
   stepperLabelStyle,
   stepperWrapperStyle,
 } from './style';
-import { STEPPER_ITEM_NAME, STEPPER_NAME } from './constants';
-import { StepperProvider, useStepperContext } from './contexts';
 
+import type { StepperItemProps, StepperProps } from './types';
 import type {
   DefaultComponentPropsInternal,
   ThemeColorsToken,
 } from '@montage-ui/engine';
-import type { StepperItemProps, StepperProps } from './types';
 
 const Stepper = forwardRef<
   HTMLOListElement,

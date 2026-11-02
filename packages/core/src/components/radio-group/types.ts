@@ -1,9 +1,9 @@
-import type { RadioProps } from '../radio/types';
-import type { ComponentPropsWithoutRef, ReactNode } from 'react';
-import type { RovingFocusGroupProps } from '@radix-ui/react-roving-focus';
-import type { Merge, WithSxProps } from '@montage-ui/engine';
-import type { RadioGroupContextType } from './contexts';
 import type { Radio } from '../radio';
+import type { RadioProps } from '../radio/types';
+import type { RadioGroupContextType } from './contexts';
+import type { Merge, WithSxProps } from '@montage-ui/engine';
+import type { RovingFocusGroupProps } from '@radix-ui/react-roving-focus';
+import type { ComponentPropsWithoutRef, ReactNode } from 'react';
 
 export type RadioGroupProps = WithSxProps<{
   /** The name of the radio group. */

@@ -1,11 +1,10 @@
-import { forwardRef } from 'react';
 import {
   type PolymorphicComponentInternal,
   type PolymorphicPropsInternal,
 } from '@montage-ui/engine';
 import { composeEventHandlers } from '@radix-ui/primitive';
+import { forwardRef } from 'react';
 
-import { FlexBox } from '../flex-box';
 import {
   CardBody,
   CardCaption,
@@ -18,6 +17,7 @@ import {
   CardTitle,
   CardTitleSkeleton,
 } from '../card';
+import { FlexBox } from '../flex-box';
 
 import {
   LIST_CARD_BODY_NAME,
@@ -40,7 +40,6 @@ import {
   listCardStyle,
 } from './style';
 
-import type { DefaultComponentPropsInternal } from '@montage-ui/engine';
 import type {
   ListCardBodyProps,
   ListCardCaptionProps,
@@ -56,6 +55,7 @@ import type {
   ListCardTitleProps,
   ListCardTitleSkeletonProps,
 } from './types';
+import type { DefaultComponentPropsInternal } from '@montage-ui/engine';
 import type { ForwardedRef } from 'react';
 import type { ElementType } from 'react';
 

@@ -7,8 +7,8 @@
  * @vitest-environment-options { "url": "https://help.wanted.co.kr/" }
  */
 import { act, render, within } from '@testing-library/react';
-import { renderToString } from 'react-dom/server';
 import { type Root, hydrateRoot } from 'react-dom/client';
+import { renderToString } from 'react-dom/server';
 
 import ThemeProvider from '../..';
 

@@ -1,12 +1,12 @@
-import { createStore as create } from 'zustand/vanilla';
 import { createContext, useContext } from 'react';
 import { useStore } from 'zustand';
+import { createStore as create } from 'zustand/vanilla';
 
 import { generateId } from './helpers';
 
 import type { SxProp } from '@montage-ui/engine';
-import type { StoreApi } from 'zustand';
 import type { ReactNode } from 'react';
+import type { StoreApi } from 'zustand';
 
 export type AlertReturnType = 'cancel' | 'confirm';
 

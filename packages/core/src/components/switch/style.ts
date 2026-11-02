@@ -8,102 +8,103 @@ import type { Theme } from '@montage-ui/engine';
 
 export const switchStyle =
   ({ size, checked, disabled, xs, sm, md, lg, xl }: SwitchProps) =>
-  (theme: Theme) => css`
-    display: flex;
-    background-color: ${theme.semantic.surface.neutral.strong};
-    border: none;
-    box-shadow: none;
-    justify-content: center;
-    flex-direction: column;
-    cursor: pointer;
-    height: fit-content;
-    flex-shrink: 0;
-    padding: var(--switch-padding, 4px);
-    width: var(--switch-width, 52px);
-    transition: background-color 200ms cubic-bezier(0.4, 0, 0.2, 1);
-
-    & > [data-component='with-interaction'] {
-      transition:
-        opacity 200ms cubic-bezier(0.4, 0, 0.2, 1),
-        background-color 200ms cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    &:active > [data-component='with-interaction'] {
-      ${hoverInteractionStyle(theme, 'normal')}
-    }
-
-    span {
-      z-index: 1;
-      border-radius: 1000px;
+  (theme: Theme) =>
+    css`
+      display: flex;
+      background-color: ${theme.semantic.surface.neutral.strong};
+      border: none;
+      box-shadow: none;
+      justify-content: center;
+      flex-direction: column;
+      cursor: pointer;
+      height: fit-content;
       flex-shrink: 0;
-      position: relative;
-      background-color: ${theme.semantic.static.white};
-      transition:
-        margin-left 200ms cubic-bezier(0.4, 0, 0.2, 1),
-        width 200ms cubic-bezier(0.4, 0, 0.2, 1);
-      display: block;
-      transform-origin: 100%;
-      width: var(--switch-thumb-size, 24px);
-      height: var(--switch-thumb-size, 24px);
-      margin-left: 0px;
-    }
+      padding: var(--switch-padding, 4px);
+      width: var(--switch-width, 52px);
+      transition: background-color 200ms cubic-bezier(0.4, 0, 0.2, 1);
 
-    ${switchSizeStyle({ size })}
-
-    &:hover:active {
-      span {
-        width: calc(
-          var(--switch-thumb-size, 24px) + var(--switch-padding, 4px)
-        );
+      & > [data-component='with-interaction'] {
+        transition:
+          opacity 200ms cubic-bezier(0.4, 0, 0.2, 1),
+          background-color 200ms cubic-bezier(0.4, 0, 0.2, 1);
       }
-    }
 
-    ${
-      checked &&
-      css`
-        background-color: ${theme.semantic.surface.brand.primary};
+      &:active > [data-component='with-interaction'] {
+        ${hoverInteractionStyle(theme, 'normal')}
+      }
 
+      span {
+        z-index: 1;
+        border-radius: 1000px;
+        flex-shrink: 0;
+        position: relative;
+        background-color: ${theme.semantic.static.white};
+        transition:
+          margin-left 200ms cubic-bezier(0.4, 0, 0.2, 1),
+          width 200ms cubic-bezier(0.4, 0, 0.2, 1);
+        display: block;
+        transform-origin: 100%;
+        width: var(--switch-thumb-size, 24px);
+        height: var(--switch-thumb-size, 24px);
+        margin-left: 0px;
+      }
+
+      ${switchSizeStyle({ size })}
+
+      &:hover:active {
         span {
-          margin-left: calc(
-            var(--switch-width, 52px) - var(--switch-thumb-size, 24px) -
-              (var(--switch-padding, 4px) * 2)
+          width: calc(
+            var(--switch-thumb-size, 24px) + var(--switch-padding, 4px)
           );
         }
+      }
 
-        &:hover:active {
+      ${
+        checked &&
+        css`
+          background-color: ${theme.semantic.surface.brand.primary};
+
           span {
-            width: calc(
-              var(--switch-thumb-size, 24px) + var(--switch-padding, 4px)
-            );
             margin-left: calc(
               var(--switch-width, 52px) - var(--switch-thumb-size, 24px) -
-                (var(--switch-padding, 4px) * 3)
+                (var(--switch-padding, 4px) * 2)
             );
           }
-        }
-      `
-    }
 
-    ${
-      disabled &&
-      css`
-        opacity: ${theme.opacity[43]};
-        cursor: initial;
-      `
-    }
+          &:hover:active {
+            span {
+              width: calc(
+                var(--switch-thumb-size, 24px) + var(--switch-padding, 4px)
+              );
+              margin-left: calc(
+                var(--switch-width, 52px) - var(--switch-thumb-size, 24px) -
+                  (var(--switch-padding, 4px) * 3)
+              );
+            }
+          }
+        `
+      }
+
+      ${
+        disabled &&
+        css`
+          opacity: ${theme.opacity[43]};
+          cursor: initial;
+        `
+      }
 
       ${createResponsiveStyle(
-      { xs, sm, md, lg, xl },
-      theme,
-    )(
-      (params) => css`
-        ${switchSizeStyle({
-          size: params?.size,
-        })}
-        ${params?.sx}
-      `,
-    )}
-  `;
+        { xs, sm, md, lg, xl },
+        theme,
+      )(
+        (params) => css`
+          ${switchSizeStyle({
+            size: params?.size,
+          })}
+          ${params?.sx}
+        `,
+      )}
+    `;
 
 const switchSizeStyle = ({ size }: Pick<SwitchProps, 'size'>) => {
   switch (size) {

@@ -1,11 +1,11 @@
+import { Box } from '@montage-ui/engine';
+import { IconClose } from '@montage-ui/icon';
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
 import { forwardRef, useCallback, useId } from 'react';
-import { IconClose } from '@montage-ui/icon';
-import { Box } from '@montage-ui/engine';
 
-import { Typography } from '../typography';
 import { FlexBox } from '../flex-box';
 import { IconButton } from '../icon-button';
+import { Typography } from '../typography';
 
 import { sectionMessageIconComponent } from './constants';
 import {

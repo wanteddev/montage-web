@@ -1,17 +1,17 @@
-import { refractor } from 'refractor/core';
-import copy from 'copy-to-clipboard';
-import js from 'refractor/javascript';
-import jsx from 'refractor/jsx';
-import ts from 'refractor/typescript';
-import tsx from 'refractor/tsx';
-import bash from 'refractor/bash';
-import css from 'refractor/css';
-import diff from 'refractor/diff';
-import kotlin from 'refractor/kotlin';
-import swift from 'refractor/swift';
-import { toHtml } from 'hast-util-to-html';
 import { Box, IconButton, useToast } from '@montage-ui/core';
 import { IconCopy } from '@montage-ui/icon';
+import copy from 'copy-to-clipboard';
+import { toHtml } from 'hast-util-to-html';
+import bash from 'refractor/bash';
+import { refractor } from 'refractor/core';
+import css from 'refractor/css';
+import diff from 'refractor/diff';
+import js from 'refractor/javascript';
+import jsx from 'refractor/jsx';
+import kotlin from 'refractor/kotlin';
+import swift from 'refractor/swift';
+import tsx from 'refractor/tsx';
+import ts from 'refractor/typescript';
 
 import { codeBlockStyle, copyButtonStyle, inlineCodeStyle } from './style';
 

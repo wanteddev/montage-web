@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { ThemeContextProvider } from '../contexts';
 
+import { COLOR_SCHEME_QUERY, THEME_ATTRIBUTE } from './constants';
 import {
   clearHostOnlyThemeCookie,
   deleteThemeCookieAt,
@@ -16,7 +17,6 @@ import {
   resolveThemeCookieOptions,
   setThemeCookie,
 } from './helpers';
-import { COLOR_SCHEME_QUERY, THEME_ATTRIBUTE } from './constants';
 import ThemeScript from './theme-script';
 
 import type {

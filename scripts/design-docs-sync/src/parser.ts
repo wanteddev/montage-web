@@ -1,6 +1,8 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
+import { getPages } from './api';
+import { FIGMA_ESCAPE_LINE_BREAK } from './constants';
 import {
   cleanString,
   getCharacters,
@@ -11,8 +13,6 @@ import {
   getImageRatio,
   toKebabCase,
 } from './helpers';
-import { getPages } from './api';
-import { FIGMA_ESCAPE_LINE_BREAK } from './constants';
 
 import type { FigmaNode, Page } from './types';
 import type { InstanceNode, TextNode } from '@figma/rest-api-spec';

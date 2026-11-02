@@ -16,59 +16,61 @@ export const paginationDotsWrapperStyle =
     lg,
     xl,
   }: Omit<PaginationDotsProps, 'totalPages'>) =>
-  (theme: Theme) => css`
-    list-style: none;
-    margin: 0px;
-    padding: 0px;
-    width: fit-content;
-    position: relative;
+  (theme: Theme) =>
+    css`
+      list-style: none;
+      margin: 0px;
+      padding: 0px;
+      width: fit-content;
+      position: relative;
 
-    &::before {
-      z-index: 0;
-      content: '';
-      position: absolute;
-      width: calc(100% + 16px);
-      height: calc(100% + 16px);
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%);
-    }
+      &::before {
+        z-index: 0;
+        content: '';
+        position: absolute;
+        width: calc(100% + 16px);
+        height: calc(100% + 16px);
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+      }
 
-    [data-role='pagination-dot-button'] {
-      z-index: 1;
-    }
-
-    ${paginationDotsWrapperSizeStyle({ size })}
-    ${paginationDotsWrapperColorStyle({ color }, theme)}
-
-    &:hover, &:has(*:focus-visible) {
       [data-role='pagination-dot-button'] {
-        width: var(--pagination-dot-size, 10px);
-        height: var(--pagination-dot-size, 10px);
-        margin-left: var(--pagination-dot-size, 10px);
+        z-index: 1;
+      }
 
-        &::after {
-          --pagination-dot-border-color: ${
-            theme.semantic.line.neutral.secondary
-          };
-        }
+      ${paginationDotsWrapperSizeStyle({ size })}
+      ${paginationDotsWrapperColorStyle({ color }, theme)}
 
-        &:first-of-type {
-          margin-left: 0px;
+      &:hover,
+      &:has(*:focus-visible) {
+        [data-role='pagination-dot-button'] {
+          width: var(--pagination-dot-size, 10px);
+          height: var(--pagination-dot-size, 10px);
+          margin-left: var(--pagination-dot-size, 10px);
+
+          &::after {
+            --pagination-dot-border-color: ${
+              theme.semantic.line.neutral.secondary
+            };
+          }
+
+          &:first-of-type {
+            margin-left: 0px;
+          }
         }
       }
-    }
 
-    ${createResponsiveStyle(
-      { xs, sm, md, lg, xl },
-      theme,
-    )(
-      (params) => css`
-        ${paginationDotsWrapperSizeStyle({ size: params?.size })}
-        ${params?.sx}
-      `,
-    )}
-  `;
+      ${createResponsiveStyle(
+        { xs, sm, md, lg, xl },
+        theme,
+      )(
+        (params) => css`
+          ${paginationDotsWrapperSizeStyle({ size: params?.size })}
+          ${params?.sx}
+        `,
+      )}
+    `;
 
 const paginationDotsWrapperColorStyle = (
   { color }: Omit<PaginationDotsProps, 'totalPages'>,

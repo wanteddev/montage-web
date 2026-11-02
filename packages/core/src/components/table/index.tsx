@@ -1,12 +1,14 @@
-import { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 import { Box } from '@montage-ui/engine';
 import { useComposedRefs } from '@radix-ui/react-compose-refs';
+import { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 
+import useResizeObserver from '../../hooks/internal/use-resize-observer';
 import { FlexBox } from '../flex-box';
 import { ScrollArea } from '../scroll-area';
-import useResizeObserver from '../../hooks/internal/use-resize-observer';
 import { Typography } from '../typography';
 
+import { TABLE_HEAD_NAME } from './constants';
+import { TableProvider, useTableContext } from './contexts';
 import {
   paginationWrapperStyle,
   scrollAreaStyle,
@@ -18,10 +20,7 @@ import {
   tableRowStyle,
   tableStyle,
 } from './style';
-import { TableProvider, useTableContext } from './contexts';
-import { TABLE_HEAD_NAME } from './constants';
 
-import type { DefaultComponentPropsInternal } from '@montage-ui/engine';
 import type {
   TableBodyProps,
   TableCellProps,
@@ -31,6 +30,7 @@ import type {
   TableProps,
   TableRowProps,
 } from './types';
+import type { DefaultComponentPropsInternal } from '@montage-ui/engine';
 
 const Table = forwardRef<
   HTMLTableElement,

@@ -1,21 +1,21 @@
-import { forwardRef, useId, useMemo } from 'react';
 import { Box } from '@montage-ui/engine';
 import { composeEventHandlers } from '@radix-ui/primitive';
+import { forwardRef, useId, useMemo } from 'react';
 
-import { WithInteraction } from '../with-interaction';
-import { Loading } from '../loading';
 import { useInheritedSize } from '../../hooks/internal/use-slot-defaults';
+import { Loading } from '../loading';
+import { WithInteraction } from '../with-interaction';
 
-import { textButtonStyle } from './style';
 import { useTextButtonContext } from './contexts';
+import { textButtonStyle } from './style';
 
+import type { TextButtonProps } from './types';
 import type {
   PolymorphicComponentInternal,
   PolymorphicPropsInternal,
   ThemeColorsToken,
 } from '@montage-ui/engine';
 import type { ElementType, ForwardedRef, SyntheticEvent } from 'react';
-import type { TextButtonProps } from './types';
 
 const TextButton = forwardRef(
   <T extends ElementType = 'button'>(

@@ -1,12 +1,12 @@
-import { forwardRef, useMemo } from 'react';
 import {
   type DefaultComponentPropsInternal,
   type PolymorphicComponentInternal,
   type PolymorphicPropsInternal,
 } from '@montage-ui/engine';
+import { forwardRef, useMemo } from 'react';
 
-import { FlexBox } from '../flex-box';
 import { Button } from '../button';
+import { FlexBox } from '../flex-box';
 
 import {
   FALLBACK_VIEW_ACTION_AREA_BUTTON_NAME,
@@ -16,15 +16,14 @@ import {
   FALLBACK_VIEW_NAME,
   FALLBACK_VIEW_TEXT_NAME,
 } from './constants';
+import { FallbackViewProvider, useFallbackViewContext } from './contexts';
+import { getFallbackViewButtonSize } from './helpers';
 import {
   fallbackViewContentStyle,
   fallbackViewImageStyle,
   fallbackViewStyle,
 } from './style';
-import { FallbackViewProvider, useFallbackViewContext } from './contexts';
-import { getFallbackViewButtonSize } from './helpers';
 
-import type { ElementType, ForwardedRef } from 'react';
 import type {
   FallbackViewActionAreaButtonProps,
   FallbackViewActionAreaProps,
@@ -33,6 +32,7 @@ import type {
   FallbackViewProps,
   FallbackViewTextProps,
 } from './types';
+import type { ElementType, ForwardedRef } from 'react';
 
 const FallbackView = forwardRef(
   <T extends ElementType = 'div'>(

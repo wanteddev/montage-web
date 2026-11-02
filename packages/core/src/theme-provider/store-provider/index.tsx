@@ -4,12 +4,12 @@ import { type StoreApi } from 'zustand';
 import { AlertContext, createAlertStore } from '../../stores/alert-store';
 import { RegionContext, createRegionStore } from '../../stores/region-store';
 
-import RegionArea from './region';
 import AlertArea from './alert';
+import RegionArea from './region';
 
-import type { PropsWithChildren } from 'react';
 import type { AlertStore } from '../../stores/alert-store';
 import type { RegionStore } from '../../stores/region-store';
+import type { PropsWithChildren } from 'react';
 
 const StoreProvider = ({ children }: PropsWithChildren) => {
   const regionStoreRef = useRef<StoreApi<RegionStore> | undefined>(undefined);

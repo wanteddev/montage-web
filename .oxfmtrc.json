@@ -1,0 +1,34 @@
+{
+  "$schema": "./node_modules/oxfmt/configuration_schema.json",
+  "semi": true,
+  "tabWidth": 2,
+  "printWidth": 80,
+  "singleQuote": true,
+  "trailingComma": "all",
+  "bracketSpacing": true,
+  "sortPackageJson": false,
+  "ignorePatterns": [
+    "pnpm-lock.yaml",
+    "docs/data/**/*.mdx",
+    "docs/data/**/*.md",
+    "figma/icons/icons.figma.batch.json",
+    ".nx",
+    "**/dist",
+    "docs/public/**",
+    "docs/.next",
+    "docs/out"
+  ],
+  "sortImports": {
+    "groups": [
+      "builtin",
+      "external",
+      "internal",
+      "parent",
+      "sibling",
+      "index",
+      "type",
+      "unknown"
+    ],
+    "newlinesBetween": true
+  }
+}

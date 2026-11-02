@@ -1,11 +1,11 @@
+import { Box } from '@montage-ui/engine';
 import { Slot } from '@radix-ui/react-slot';
 import { forwardRef, useId } from 'react';
-import { Box } from '@montage-ui/engine';
 
+import { splitResponsiveBreakpoints } from '../../utils/internal/responsive-props';
 import { FlexBox } from '../flex-box';
 import { Label } from '../label';
 import { Typography } from '../typography';
-import { splitResponsiveBreakpoints } from '../../utils/internal/responsive-props';
 
 import {
   FORM_CONTROL_FIELD_NAME,
@@ -32,12 +32,6 @@ import {
 } from './style';
 
 import type {
-  DefaultComponentPropsInternal,
-  PolymorphicComponentInternal,
-  PolymorphicPropsInternal,
-} from '@montage-ui/engine';
-import type { ElementType, ForwardedRef } from 'react';
-import type {
   FormControlFieldProps,
   FormControlGroupProps,
   FormControlLabelProps,
@@ -47,6 +41,12 @@ import type {
   FormControlPositiveMessageProps,
   FormControlProps,
 } from './types';
+import type {
+  DefaultComponentPropsInternal,
+  PolymorphicComponentInternal,
+  PolymorphicPropsInternal,
+} from '@montage-ui/engine';
+import type { ElementType, ForwardedRef } from 'react';
 
 const FormControlGroup = forwardRef(
   <T extends ElementType = 'div'>(

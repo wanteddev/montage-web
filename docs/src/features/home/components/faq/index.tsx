@@ -9,11 +9,11 @@ import {
 } from '@montage-ui/core';
 import { IconMinusThick, IconPlusThick } from '@montage-ui/icon';
 
-import { breakWordStyle } from '@/styles/text';
 import FadeInOut from '@/components/fade-in-out';
+import { breakWordStyle } from '@/styles/text';
 
-import SectionWrapper from '../section/wrapper';
 import SectionTitle from '../section/title';
+import SectionWrapper from '../section/wrapper';
 
 import { FAQ_ITEMS } from './constants';
 import {

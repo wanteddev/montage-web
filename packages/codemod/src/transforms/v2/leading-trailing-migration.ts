@@ -1,5 +1,5 @@
-import { findImportDeclaration, getLocalName } from '../../helpers';
 import { MONTAGE_SOURCES } from '../../constants';
+import { findImportDeclaration, getLocalName } from '../../helpers';
 
 import type { API, FileInfo, JSXAttribute, Options } from 'jscodeshift';
 
@@ -159,7 +159,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
       });
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+  // oxlint-disable-next-line @typescript-eslint/no-unnecessary-condition
   return hasChanges ? root.toSource(options) : file.source;
 };
 

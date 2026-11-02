@@ -6,57 +6,58 @@ import {
   getPreviousValue,
 } from '../../utils/internal/responsive-props';
 
-import type { Theme } from '@montage-ui/engine';
 import type { SectionHeaderProps } from './types';
+import type { Theme } from '@montage-ui/engine';
 
 export const sectionHeaderStyle =
   ({ size, platform, color, xs, sm, md, lg, xl }: SectionHeaderProps) =>
-  (theme: Theme) => css`
-    width: 100%;
+  (theme: Theme) =>
+    css`
+      width: 100%;
 
-    [data-role='section-header-content'],
-    [data-role='section-header-content-heading'] {
-      font: inherit;
-      color: inherit;
-    }
+      [data-role='section-header-content'],
+      [data-role='section-header-content-heading'] {
+        font: inherit;
+        color: inherit;
+      }
 
-    [data-role='section-header-content-heading'] {
-      word-break: keep-all;
-      overflow-wrap: anywhere;
-    }
+      [data-role='section-header-content-heading'] {
+        word-break: keep-all;
+        overflow-wrap: anywhere;
+      }
 
-    ${sectionHeaderSizeStyle({ size, color, platform }, theme)}
+      ${sectionHeaderSizeStyle({ size, color, platform }, theme)}
 
-    ${createResponsiveStyle(
-      { xs, sm, md, lg, xl },
-      theme,
-    )(
-      (params, breakpoint) => css`
-        ${
-          (Boolean(params?.size) || Boolean(params?.platform)) &&
-          sectionHeaderSizeStyle(
-            {
-              size: getPreviousValue(
-                { xs, sm, md, lg, xl },
-                'size',
-                size,
-                breakpoint!,
-              ),
-              color,
-              platform: getPreviousValue(
-                { xs, sm, md, lg, xl },
-                'platform',
-                platform,
-                breakpoint!,
-              ),
-            },
-            theme,
-          )
-        }
-        ${params?.sx}
-      `,
-    )}
-  `;
+      ${createResponsiveStyle(
+        { xs, sm, md, lg, xl },
+        theme,
+      )(
+        (params, breakpoint) => css`
+          ${
+            (Boolean(params?.size) || Boolean(params?.platform)) &&
+            sectionHeaderSizeStyle(
+              {
+                size: getPreviousValue(
+                  { xs, sm, md, lg, xl },
+                  'size',
+                  size,
+                  breakpoint!,
+                ),
+                color,
+                platform: getPreviousValue(
+                  { xs, sm, md, lg, xl },
+                  'platform',
+                  platform,
+                  breakpoint!,
+                ),
+              },
+              theme,
+            )
+          }
+          ${params?.sx}
+        `,
+      )}
+    `;
 
 const sectionHeaderSizeStyle = (
   { size, color, platform }: SectionHeaderProps,

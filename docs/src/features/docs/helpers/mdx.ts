@@ -1,10 +1,10 @@
 import { existsSync, globSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 
+import matter from 'gray-matter';
+import { serialize } from 'next-mdx-remote/serialize';
 import rehypeSlug from 'rehype-slug';
 import remarkGfm from 'remark-gfm';
-import { serialize } from 'next-mdx-remote/serialize';
-import matter from 'gray-matter';
 
 import { remarkPropsTable, remarkStyle, remarkTable } from './remark';
 

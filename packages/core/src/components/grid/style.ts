@@ -2,28 +2,29 @@ import { css } from '@montage-ui/engine';
 
 import { createResponsiveStyle } from '../../utils/internal/responsive-props';
 
-import type { Theme } from '@montage-ui/engine';
 import type { GridProps } from './types';
+import type { Theme } from '@montage-ui/engine';
 
 export const gridStyle =
   ({ xs, sm, md, lg, xl, ...props }: GridProps) =>
-  (theme: Theme) => css`
-    display: flex;
-    flex-wrap: wrap;
-    width: 100%;
+  (theme: Theme) =>
+    css`
+      display: flex;
+      flex-wrap: wrap;
+      width: 100%;
 
-    ${gridContainerStyle(props, theme)}
+      ${gridContainerStyle(props, theme)}
 
-    ${createResponsiveStyle(
-      { xs, sm, md, lg, xl },
-      theme,
-    )(
-      (params) => css`
-        ${gridContainerStyle(params, theme)}
-        ${params?.sx}
-      `,
-    )}
-  `;
+      ${createResponsiveStyle(
+        { xs, sm, md, lg, xl },
+        theme,
+      )(
+        (params) => css`
+          ${gridContainerStyle(params, theme)}
+          ${params?.sx}
+        `,
+      )}
+    `;
 
 const gridContainerStyle = (
   {

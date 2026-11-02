@@ -1,10 +1,10 @@
-import { forwardRef, useMemo } from 'react';
 import { Box } from '@montage-ui/engine';
 import { composeEventHandlers } from '@radix-ui/primitive';
+import { forwardRef, useMemo } from 'react';
 
 import { FlexBox } from '../flex-box';
-import { Thumbnail, ThumbnailSkeleton } from '../thumbnail';
 import { Skeleton } from '../skeleton';
+import { Thumbnail, ThumbnailSkeleton } from '../thumbnail';
 import { Typography } from '../typography';
 
 import {
@@ -37,11 +37,6 @@ import {
 } from './style';
 
 import type {
-  DefaultComponentPropsInternal,
-  PolymorphicPropsInternal,
-} from '@montage-ui/engine';
-import type { PolymorphicComponentInternal } from '@montage-ui/engine';
-import type {
   CardBodyProps,
   CardCaptionProps,
   CardCaptionSkeletonProps,
@@ -54,6 +49,11 @@ import type {
   CardTitleProps,
   CardTitleSkeletonProps,
 } from './types';
+import type {
+  DefaultComponentPropsInternal,
+  PolymorphicPropsInternal,
+} from '@montage-ui/engine';
+import type { PolymorphicComponentInternal } from '@montage-ui/engine';
 import type { ElementType, ForwardedRef } from 'react';
 
 const Card = forwardRef(

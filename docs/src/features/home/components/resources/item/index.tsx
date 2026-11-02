@@ -1,6 +1,6 @@
 import { Box, Divider, FlexBox, Typography } from '@montage-ui/core';
-import Link from 'next/link';
 import { IconArrowUpRight } from '@montage-ui/icon';
+import Link from 'next/link';
 import { useCallback, useEffect, useRef } from 'react';
 
 import {

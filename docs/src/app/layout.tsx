@@ -1,10 +1,10 @@
 import { GoogleAnalytics } from '@next/third-parties/google';
 
-import Gnb from '@/features/layout/components/gnb';
+import LnbMobile from '@/features/docs/components/lnb/mobile';
 import { MDXProvider } from '@/features/docs/contexts';
 import { getAllFrontmatter } from '@/features/docs/helpers/mdx';
-import LnbMobile from '@/features/docs/components/lnb/mobile';
 import { parseGroupedPages } from '@/features/docs/helpers/pages';
+import Gnb from '@/features/layout/components/gnb';
 import { createMetadata } from '@/helpers/metadata';
 
 import Providers from './providers';

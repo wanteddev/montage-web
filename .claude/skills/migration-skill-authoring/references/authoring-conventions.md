@@ -151,7 +151,7 @@ that shipped once:
   node --check wrapped.mjs
   ```
 
-- `npx prettier --check` on every touched `.md`/`.json` (the repo hook formats on write,
+- `npx oxfmt --check` on every touched `.md`/`.json` (the repo hook formats on write,
   but verify).
 - Trigger test: `claude --plugin-dir .claude-plugin/montage-migration` and ask with each
   trigger phrase.
@@ -160,6 +160,6 @@ that shipped once:
   a reviewer that reads the stale copy reports false defects with full confidence. The
   validation Workflow defends against this — findings carry the `wc -l` of every file they
   cite and verifiers refute on mismatch — but only for the paths it was given.
-- ESLint: `.claude-plugin` and `.claude` are in `eslint.config.mjs` `globalIgnores` — new
+- oxlint: `.claude-plugin` and `.claude` are in `.oxlintrc.json` `ignorePatterns` — new
   script files there are not linted; keep it that way rather than adding tsconfig
   coverage.

@@ -14,8 +14,8 @@ import {
 } from '../date-picker/helpers';
 
 import type { DateType } from '../date-calendar/types';
-import type { DateRangeType } from '../date-range-calendar/types';
 import type { DateFormatSection } from '../date-picker/helpers';
+import type { DateRangeType } from '../date-range-calendar/types';
 import type {
   ClipboardEvent,
   Dispatch,
@@ -116,7 +116,7 @@ export const useDateRangeField = ({
     setEndInputValue(newEnd);
     setStartSections(getDateformatSections(newStart || format, format, locale));
     setEndSections(getDateformatSections(newEnd || format, format, locale));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // oxlint-disable-next-line react-hooks/exhaustive-deps
   }, [value[0], value[1], format, locale, timezone]);
 
   // --- Helpers ---

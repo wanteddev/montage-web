@@ -1,6 +1,6 @@
 'use client';
-import { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import { createContext, useContext } from 'react';
 
 import type { Dispatch, PropsWithChildren, SetStateAction } from 'react';
@@ -22,7 +22,7 @@ export const LnbProvider = ({ children }: PropsWithChildren) => {
       document.activeElement.blur();
     }
 
-    // eslint-disable-next-line react-hooks/set-state-in-effect
+    // oxlint-disable-next-line react-hooks/set-state-in-effect
     setOpen(false);
   }, [pathname]);
 

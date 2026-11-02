@@ -1,5 +1,5 @@
-import type { CSSProperties } from 'react';
 import type { TextAreaProps } from './types';
+import type { CSSProperties } from 'react';
 
 // Height before the client measures the textarea (SSR / first paint). The
 // textarea has no vertical padding, so `minRows` lines of the size's

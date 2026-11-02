@@ -1,3 +1,9 @@
+import { Box } from '@montage-ui/engine';
+import { composeEventHandlers } from '@radix-ui/primitive';
+import { useComposedRefs } from '@radix-ui/react-compose-refs';
+import * as RovingFocusGroup from '@radix-ui/react-roving-focus';
+import { useControllableState } from '@radix-ui/react-use-controllable-state';
+import { usePrevious } from '@radix-ui/react-use-previous';
 import {
   forwardRef,
   useCallback,
@@ -7,20 +13,27 @@ import {
   useRef,
   useState,
 } from 'react';
-import { useComposedRefs } from '@radix-ui/react-compose-refs';
-import * as RovingFocusGroup from '@radix-ui/react-roving-focus';
-import { useControllableState } from '@radix-ui/react-use-controllable-state';
-import { composeEventHandlers } from '@radix-ui/primitive';
-import { Box } from '@montage-ui/engine';
-import { usePrevious } from '@radix-ui/react-use-previous';
 
-import { FlexBox } from '../flex-box';
-import { ScrollArea } from '../scroll-area';
 import useResizeObserver from '../../hooks/internal/use-resize-observer';
 import { SlotDefaultsProvider } from '../../hooks/internal/use-slot-defaults';
-import { mapResponsiveProps } from '../../utils/internal/responsive-props';
 import { calculateAnimationStyle } from '../../utils/internal/animation';
+import { mapResponsiveProps } from '../../utils/internal/responsive-props';
+import { FlexBox } from '../flex-box';
+import { ScrollArea } from '../scroll-area';
 
+import {
+  TAB_ICON_BUTTON_SIZE,
+  TAB_LIST_ITEM_NAME,
+  TAB_LIST_NAME,
+  TAB_NAME,
+  TAB_PANEL_NAME,
+} from './constants';
+import {
+  TabListProvider,
+  TabProvider,
+  useTabContext,
+  useTabListContext,
+} from './contexts';
 import {
   motionDividerStyle,
   scrollWrapperStyle,
@@ -30,20 +43,13 @@ import {
   tabListStyle,
   tabListWrapperStyle,
 } from './style';
-import {
-  TabListProvider,
-  TabProvider,
-  useTabContext,
-  useTabListContext,
-} from './contexts';
-import {
-  TAB_ICON_BUTTON_SIZE,
-  TAB_LIST_ITEM_NAME,
-  TAB_LIST_NAME,
-  TAB_NAME,
-  TAB_PANEL_NAME,
-} from './constants';
 
+import type {
+  TabListItemProps,
+  TabListProps,
+  TabPanelProps,
+  TabProps,
+} from './types';
 import type {
   DefaultComponentPropsInternal,
   PolymorphicComponentInternal,
@@ -56,12 +62,6 @@ import type {
   ForwardedRef,
   UIEventHandler,
 } from 'react';
-import type {
-  TabListItemProps,
-  TabListProps,
-  TabPanelProps,
-  TabProps,
-} from './types';
 
 const ARROW_KEYS = ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'];
 
@@ -313,13 +313,13 @@ const TabListItem = forwardRef<any, TabListItemProps>(
     const { handleResize } = useTabListContext(TAB_LIST_ITEM_NAME);
     const isDisabled = disabled;
 
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+    // oxlint-disable-next-line @typescript-eslint/no-unnecessary-condition
     const isActive = context.value?.toString() === value?.toString();
 
     const isArrowKeyPressedRef = useRef(false);
 
     const controls = context.panels.find(
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+      // oxlint-disable-next-line @typescript-eslint/no-unnecessary-condition
       (v) => v?.toString() === value?.toString(),
     );
 
@@ -372,7 +372,7 @@ const TabListItem = forwardRef<any, TabListItemProps>(
       if (!context.disableScrollMoveOnChange) {
         scrollMove();
       }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
+      // oxlint-disable-next-line react-hooks/exhaustive-deps
     }, [context.value, value, context.disableScrollMoveOnChange]);
 
     return (
@@ -447,14 +447,14 @@ const TabPanel = forwardRef<
   const [firstRendered, setFirstRendered] = useState(false);
 
   const deferredValue = useDeferredValue(value);
-  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+  // oxlint-disable-next-line @typescript-eslint/no-unnecessary-condition
   const isActive = context.value?.toString() === value?.toString();
 
   useEffect(() => {
     if (!firstRendered && isActive) {
       setFirstRendered(true);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // oxlint-disable-next-line react-hooks/exhaustive-deps
   }, [isActive]);
 
   useEffect(() => {
@@ -466,7 +466,7 @@ const TabPanel = forwardRef<
     return () => {
       context.onPanelsChange((prev) => [...prev.filter((v) => v !== value)]);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // oxlint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);
 
   if (!isActive) {

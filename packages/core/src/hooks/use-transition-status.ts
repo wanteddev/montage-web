@@ -23,7 +23,7 @@ const useTransitionStatus = ({
 
   useEffect(() => {
     if (!open) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
+      // oxlint-disable-next-line react-hooks/set-state-in-effect
       setStatus('close');
       return;
     }

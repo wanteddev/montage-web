@@ -1,3 +1,5 @@
+import createEmotionServer from '@emotion/server/create-instance';
+import { CacheProvider, createCache } from '@montage-ui/engine';
 /*
  * Portions of this file are based on code from @mui/material-nextjs.
  * MIT Licensed, Copyright (c) 2014 Call-Em-All.
@@ -5,13 +7,11 @@
  * https://github.com/mui/material-ui/tree/master/packages/mui-material-nextjs/src/v13-pagesRouter
  */
 import * as React from 'react';
-import { CacheProvider, createCache } from '@montage-ui/engine';
-import createEmotionServer from '@emotion/server/create-instance';
 
+import type { EmotionCache } from '@montage-ui/engine';
+import type { AppType } from 'next/app';
 import type Document from 'next/document';
 import type { DocumentContext, DocumentInitialProps } from 'next/document';
-import type { AppType } from 'next/app';
-import type { EmotionCache } from '@montage-ui/engine';
 
 const createEmotionCache = () => {
   let insertionPoint;
@@ -102,6 +102,7 @@ export async function documentGetInitialProps(
   return createGetInitialProps(document, [
     {
       enhanceApp: (App: any) =>
+        // oxlint-disable-next-line react/function-component-definition
         function EnhanceApp(props) {
           return <App emotionCache={cache} {...props} />;
         },

@@ -1,5 +1,5 @@
-import { forwardRef } from 'react';
 import { Box } from '@montage-ui/engine';
+import { forwardRef } from 'react';
 
 import { Typography } from '../typography';
 

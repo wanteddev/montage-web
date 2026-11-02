@@ -5,13 +5,13 @@
 import figma from 'figma';
 
 import { inlineInstances } from '../../helpers/imports';
-import { finalizeTemplate } from '../modal/collect-imports';
 import {
   AUTOCOMPLETE_OPTION_SLOT_NAMES,
   renderElementProp,
   renderPreset,
 } from '../../helpers/list-cell';
 import { coreImport } from '../../helpers/menu-item';
+import { finalizeTemplate } from '../modal/collect-imports';
 
 const label = figma.selectedInstance.findText('‘작성영역’ 사용하기');
 

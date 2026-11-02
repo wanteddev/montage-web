@@ -4,8 +4,8 @@ import { Box, Divider, Thumbnail } from '@montage-ui/core';
 import { Heading2 } from '@/features/docs/components/mdx/section/layout';
 import { getImageUrl } from '@/helpers/image';
 
-import VariantGrid from './variant-grid';
 import { linkStyle } from './style';
+import VariantGrid from './variant-grid';
 
 const FoundationsTypography = () => {
   return (

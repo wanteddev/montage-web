@@ -3,11 +3,11 @@ import { FlexBox } from '@montage-ui/core';
 
 import FadeInOut from '@/components/fade-in-out';
 
-import SectionWrapper from '../section/wrapper';
 import SectionTitle from '../section/title';
+import SectionWrapper from '../section/wrapper';
 
-import ResourcesItem from './item';
 import { RESOURCE_ITEMS } from './constants';
+import ResourcesItem from './item';
 
 const Resources = () => {
   return (

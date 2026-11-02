@@ -1,10 +1,10 @@
+import type { PopperContentProps } from './types';
 import type {
   Alignment,
   Middleware,
   Placement,
   Side,
 } from '@floating-ui/react';
-import type { PopperContentProps } from './types';
 
 export const getCollisionPaddingX = (
   collisionPadding: PopperContentProps['collisionPadding'],

@@ -9,9 +9,9 @@ import {
   MenuTrigger,
   TextButton,
 } from '@montage-ui/core';
+import { IconCaretDown } from '@montage-ui/icon';
 import Link from 'next/link';
 import { useCallback } from 'react';
-import { IconCaretDown } from '@montage-ui/icon';
 
 import useRouteScroll from '@/features/docs/hooks/use-route-scroll';
 

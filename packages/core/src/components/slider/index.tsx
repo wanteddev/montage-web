@@ -1,3 +1,6 @@
+import { Box, type DefaultComponentPropsInternal } from '@montage-ui/engine';
+import { composeEventHandlers } from '@radix-ui/primitive';
+import { useControllableState } from '@radix-ui/react-use-controllable-state';
 import {
   forwardRef,
   useCallback,
@@ -6,9 +9,6 @@ import {
   useRef,
   useState,
 } from 'react';
-import { useControllableState } from '@radix-ui/react-use-controllable-state';
-import { Box, type DefaultComponentPropsInternal } from '@montage-ui/engine';
-import { composeEventHandlers } from '@radix-ui/primitive';
 
 import { FlexBox } from '../flex-box';
 import { Typography } from '../typography';
@@ -28,13 +28,13 @@ import {
   sliderThumbStyle,
 } from './style';
 
-import type { PointerEvent, ReactNode } from 'react';
 import type {
   SliderLabelProps,
   SliderProps,
   SliderThumbProps,
   SliderTitleProps,
 } from './types';
+import type { PointerEvent, ReactNode } from 'react';
 
 const PAGE_KEYS = ['PageUp', 'PageDown'];
 const ARROW_KEYS = ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'];
@@ -63,7 +63,7 @@ const Slider = forwardRef<
       onPointerMove,
       onPointerCancel,
       onKeyDown,
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      // oxlint-disable-next-line @typescript-eslint/no-unused-vars
       onChange: _,
       ...props
     },

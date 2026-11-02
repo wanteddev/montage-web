@@ -1,7 +1,7 @@
 'use client';
 import { FlexBox, Thumbnail, Typography } from '@montage-ui/core';
-import Link from 'next/link';
 import { IconArrowRightThick } from '@montage-ui/icon';
+import Link from 'next/link';
 import { useCallback } from 'react';
 
 import useRouteScroll from '@/features/docs/hooks/use-route-scroll';

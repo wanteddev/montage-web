@@ -1,8 +1,8 @@
 import { css } from '@montage-ui/engine';
 
-import { typographyStyle } from '../../utils/typography';
-import { createResponsiveStyle } from '../../utils/internal/responsive-props';
 import { toCssValue } from '../../utils/internal/css';
+import { createResponsiveStyle } from '../../utils/internal/responsive-props';
+import { typographyStyle } from '../../utils/typography';
 
 import type { TextFieldProps } from './types';
 import type { Theme } from '@montage-ui/engine';
@@ -29,193 +29,194 @@ export const textFieldWrapperStyle =
     lg,
     xl,
   }: TextFieldWrapperStyleProps) =>
-  (theme: Theme) => css`
-    display: flex;
-    align-items: center;
-    border: none;
-    background-color: ${theme.semantic.effect.transparent.primary};
-    backdrop-filter: blur(32px);
-    width: ${toCssValue(width)};
-    height: ${toCssValue(height)};
-    cursor: text;
-    box-shadow: inset 0 0 0 1px ${theme.semantic.line.neutral.secondary};
-    transition: box-shadow ease 0.2s;
-
-    ${textFieldSizeStyle({ size }, theme)}
-
-    [data-role='text-field-positive'] {
+  (theme: Theme) =>
+    css`
       display: flex;
-    }
-
-    [data-role='text-field-reset'] {
-      display: none;
-    }
-
-    [data-role='text-field-wrapper'] {
-      padding: ${theme.spacing[0]} ${theme.spacing[4]};
       align-items: center;
-      width: 100%;
-      height: 100%;
-    }
+      border: none;
+      background-color: ${theme.semantic.effect.transparent.primary};
+      backdrop-filter: blur(32px);
+      width: ${toCssValue(width)};
+      height: ${toCssValue(height)};
+      cursor: text;
+      box-shadow: inset 0 0 0 1px ${theme.semantic.line.neutral.secondary};
+      transition: box-shadow ease 0.2s;
 
-    ${
-      EXCLUDE_TYPE.includes(type || '') &&
-      css`
-        [data-role='text-field-positive'] {
-          display: none !important;
-        }
+      ${textFieldSizeStyle({ size }, theme)}
 
-        [data-role='text-field-reset'] {
-          display: none !important;
-        }
-      `
-    }
+      [data-role='text-field-positive'] {
+        display: flex;
+      }
 
-    ${
-      status === 'negative' &&
-      css`
-        box-shadow: inset 0 0 0 1px ${theme.semantic.line.negative.primary};
-      `
-    }
+      [data-role='text-field-reset'] {
+        display: none;
+      }
 
-    ${
-      disabled
-        ? css`
-            background-color: ${theme.semantic.surface.neutral.tertiary};
-            backdrop-filter: none;
-            box-shadow: inset 0 0 0 1px ${theme.semantic.line.neutral.tertiary};
-            cursor: default;
-          `
-        : css`
-            &:where(:has(input:focus)),
-            &:where(
-              :has(input[data-role='date-picker-field'][aria-expanded='true'])
-            ),
-            &:where(
-              :has(input[data-role='time-picker-field'][aria-expanded='true'])
-            ),
-            &:where(
-              :has(
-                input[data-role='date-range-picker-field'][aria-expanded='true']
-              )
-            ) {
-              ${
-                status === 'negative'
-                  ? css`
-                      box-shadow:
-                        inset 0 0 0 1px ${theme.semantic.line.negative.strong},
-                        0 0 0 4px ${theme.semantic.line.negative.focus};
-                    `
-                  : css`
-                      box-shadow:
-                        inset 0 0 0 1px ${theme.semantic.line.brand.strong},
-                        0 0 0 4px ${theme.semantic.line.brand.focus};
-                    `
-              }
+      [data-role='text-field-wrapper'] {
+        padding: ${theme.spacing[0]} ${theme.spacing[4]};
+        align-items: center;
+        width: 100%;
+        height: 100%;
+      }
 
-              [data-role='text-field-positive'] {
-                display: none;
-              }
+      ${
+        EXCLUDE_TYPE.includes(type || '') &&
+        css`
+          [data-role='text-field-positive'] {
+            display: none !important;
+          }
 
-              [data-role='text-field-reset'] {
-                display: ${readOnly ? 'none' : 'flex'};
-              }
+          [data-role='text-field-reset'] {
+            display: none !important;
+          }
+        `
+      }
 
-              &:where(:has(input:placeholder-shown)) {
-                [data-role='text-field-reset'] {
+      ${
+        status === 'negative' &&
+        css`
+          box-shadow: inset 0 0 0 1px ${theme.semantic.line.negative.primary};
+        `
+      }
+
+      ${
+        disabled
+          ? css`
+              background-color: ${theme.semantic.surface.neutral.tertiary};
+              backdrop-filter: none;
+              box-shadow: inset 0 0 0 1px
+                ${theme.semantic.line.neutral.tertiary};
+              cursor: default;
+            `
+          : css`
+              &:where(:has(input:focus)),
+              &:where(
+                :has(input[data-role='date-picker-field'][aria-expanded='true'])
+              ),
+              &:where(
+                :has(input[data-role='time-picker-field'][aria-expanded='true'])
+              ),
+              &:where(
+                :has(
+                  input[data-role='date-range-picker-field'][aria-expanded='true']
+                )
+              ) {
+                ${
+                  status === 'negative'
+                    ? css`
+                        box-shadow:
+                          inset 0 0 0 1px ${theme.semantic.line.negative.strong},
+                          0 0 0 4px ${theme.semantic.line.negative.focus};
+                      `
+                    : css`
+                        box-shadow:
+                          inset 0 0 0 1px ${theme.semantic.line.brand.strong},
+                          0 0 0 4px ${theme.semantic.line.brand.focus};
+                      `
+                }
+
+                [data-role='text-field-positive'] {
                   display: none;
                 }
-                [data-role='text-field-positive'] {
-                  display: flex;
+
+                [data-role='text-field-reset'] {
+                  display: ${readOnly ? 'none' : 'flex'};
+                }
+
+                &:where(:has(input:placeholder-shown)) {
+                  [data-role='text-field-reset'] {
+                    display: none;
+                  }
+                  [data-role='text-field-positive'] {
+                    display: flex;
+                  }
                 }
               }
-            }
-          `
-    }
-
-        
-    input:disabled {
-      color: ${theme.semantic.foreground.neutral.primary};
-    }
-
-    input:disabled::placeholder {
-      color: ${theme.semantic.foreground.disable.primary};
-    }
-
-    &:where(:has(input[data-role='date-picker-field'])),
-    &:where(:has(input[data-role='time-picker-field'])),
-    &:where(:has(input[data-role='date-range-picker-field'])) {
-      [data-role='text-field-reset'],
-      [data-role='text-field-positive'] {
-        display: none;
+            `
       }
-    }
 
-    [data-role='text-field-leading-content'],
-    [data-role='text-field-trailing-content'],
-    [data-role='text-field-wrapper'] {
-      font: inherit;
-    }
+      input:disabled {
+        color: ${theme.semantic.foreground.neutral.primary};
+      }
 
-    [data-role='text-field-leading-content'],
-    [data-role='text-field-trailing-content'] {
-      flex-shrink: 0;
-    }
+      input:disabled::placeholder {
+        color: ${theme.semantic.foreground.disable.primary};
+      }
 
-    input {
-      width: 100%;
-      background-color: transparent;
-      caret-color: ${theme.semantic.foreground.brand.primary};
-      outline: none;
-      border: none;
-      box-shadow: none;
-      font: inherit;
-      color: ${theme.semantic.foreground.neutral.primary};
+      &:where(:has(input[data-role='date-picker-field'])),
+      &:where(:has(input[data-role='time-picker-field'])),
+      &:where(:has(input[data-role='date-range-picker-field'])) {
+        [data-role='text-field-reset'],
+        [data-role='text-field-positive'] {
+          display: none;
+        }
+      }
 
-      &::placeholder {
+      [data-role='text-field-leading-content'],
+      [data-role='text-field-trailing-content'],
+      [data-role='text-field-wrapper'] {
         font: inherit;
-        color: ${theme.semantic.foreground.neutral.tertiary};
       }
 
-      [type='number'] {
-        -moz-appearance: textfield;
+      [data-role='text-field-leading-content'],
+      [data-role='text-field-trailing-content'] {
+        flex-shrink: 0;
       }
-      &::-webkit-inner-spin-button,
-      &::-webkit-search-cancel-button {
-        appearance: none;
-      }
-      &::-webkit-search-decoration,
-      &::-webkit-search-cancel-button,
-      &::-webkit-search-results-button,
-      &::-webkit-search-results-decoration {
-        display: none;
-      }
-    }
 
-    ${createResponsiveStyle(
-      { xs, sm, md, lg, xl },
-      theme,
-    )(
-      (params) => css`
-        ${
-          params?.width !== undefined &&
-          css`
-            width: ${toCssValue(params.width)};
-          `
+      input {
+        width: 100%;
+        background-color: transparent;
+        caret-color: ${theme.semantic.foreground.brand.primary};
+        outline: none;
+        border: none;
+        box-shadow: none;
+        font: inherit;
+        color: ${theme.semantic.foreground.neutral.primary};
+
+        &::placeholder {
+          font: inherit;
+          color: ${theme.semantic.foreground.neutral.tertiary};
         }
 
-        ${
-          params?.height !== undefined &&
-          css`
-            height: ${toCssValue(params.height)};
-          `
+        [type='number'] {
+          -moz-appearance: textfield;
         }
+        &::-webkit-inner-spin-button,
+        &::-webkit-search-cancel-button {
+          appearance: none;
+        }
+        &::-webkit-search-decoration,
+        &::-webkit-search-cancel-button,
+        &::-webkit-search-results-button,
+        &::-webkit-search-results-decoration {
+          display: none;
+        }
+      }
 
-        ${textFieldSizeStyle({ size: params?.size }, theme)}
-        ${params?.sx}
-      `,
-    )}
-  `;
+      ${createResponsiveStyle(
+        { xs, sm, md, lg, xl },
+        theme,
+      )(
+        (params) => css`
+          ${
+            params?.width !== undefined &&
+            css`
+              width: ${toCssValue(params.width)};
+            `
+          }
+
+          ${
+            params?.height !== undefined &&
+            css`
+              height: ${toCssValue(params.height)};
+            `
+          }
+
+          ${textFieldSizeStyle({ size: params?.size }, theme)}
+          ${params?.sx}
+        `,
+      )}
+    `;
 
 const textFieldSizeStyle = ({ size }: TextFieldProps, theme: Theme) => {
   switch (size) {

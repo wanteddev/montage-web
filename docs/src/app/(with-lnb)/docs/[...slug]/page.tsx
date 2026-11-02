@@ -1,5 +1,7 @@
 import { notFound } from 'next/navigation';
 
+import MDXRender from '@/features/docs/components/mdx/mdx-render';
+import { HeadingProvider } from '@/features/docs/contexts';
 import {
   getAllFrontmatter,
   getFrontmatterBySlug,
@@ -11,12 +13,10 @@ import {
   getFrontmatterOgImage,
   getFrontmatterTitle,
 } from '@/features/docs/helpers/mdx.client';
-import MDXRender from '@/features/docs/components/mdx/mdx-render';
-import { HeadingProvider } from '@/features/docs/contexts';
 import { createMetadata } from '@/helpers/metadata';
 
-import type { MDXRemoteSerializeResult } from 'next-mdx-remote';
 import type { Metadata } from 'next';
+import type { MDXRemoteSerializeResult } from 'next-mdx-remote';
 
 type Props = PageProps<'/docs/[...slug]'>;
 

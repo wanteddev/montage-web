@@ -1,12 +1,12 @@
-import type { TypographyProps } from '../typography';
+import type { FlexBoxProps } from '../flex-box/types';
 import type { SkeletonProps } from '../skeleton/types';
-import type { CSSProperties, ReactNode } from 'react';
-import type { Merge, ResponsiveProps, WithSxProps } from '@montage-ui/engine';
 import type {
   ThumbnailProps,
   ThumbnailSkeletonProps,
 } from '../thumbnail/types';
-import type { FlexBoxProps } from '../flex-box/types';
+import type { TypographyProps } from '../typography';
+import type { Merge, ResponsiveProps, WithSxProps } from '@montage-ui/engine';
+import type { CSSProperties, ReactNode } from 'react';
 
 export type CardDefaultProps = WithSxProps<{
   platform?: 'desktop' | 'mobile';

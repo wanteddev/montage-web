@@ -1,17 +1,17 @@
-import { forwardRef, useEffect, useRef, useState } from 'react';
-import { composeEventHandlers } from '@radix-ui/primitive';
-import { useControllableState } from '@radix-ui/react-use-controllable-state';
-import { useComposedRefs } from '@radix-ui/react-compose-refs';
 import { Box } from '@montage-ui/engine';
+import { composeEventHandlers } from '@radix-ui/primitive';
+import { useComposedRefs } from '@radix-ui/react-compose-refs';
+import { useControllableState } from '@radix-ui/react-use-controllable-state';
+import { forwardRef, useEffect, useRef, useState } from 'react';
 
-import { WithInteraction } from '../with-interaction';
-import { VirtualCheckboxInput } from '../virtual-input';
 import { hapticFeedback } from '../../utils/internal/haptic';
+import { VirtualCheckboxInput } from '../virtual-input';
+import { WithInteraction } from '../with-interaction';
 
 import { switchStyle } from './style';
 
-import type { DefaultComponentPropsInternal } from '@montage-ui/engine';
 import type { SwitchProps } from './types';
+import type { DefaultComponentPropsInternal } from '@montage-ui/engine';
 
 const Switch = forwardRef<
   HTMLButtonElement,

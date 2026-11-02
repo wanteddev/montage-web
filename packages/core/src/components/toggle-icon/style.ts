@@ -1,41 +1,42 @@
 import { css, getColorByToken } from '@montage-ui/engine';
 
-import { createResponsiveStyle } from '../../utils/internal/responsive-props';
 import { toCssValue } from '../../utils/internal/css';
+import { createResponsiveStyle } from '../../utils/internal/responsive-props';
 
-import type { Theme } from '@montage-ui/engine';
 import type { ToggleIconProps } from './types';
+import type { Theme } from '@montage-ui/engine';
 
 export const toggleIconStyle =
   ({ xs, sm, md, lg, xl, activeColor, active, size }: ToggleIconProps) =>
-  (theme: Theme) => css`
-    ${toggleIconSizeStyle(size)}
+  (theme: Theme) =>
+    css`
+      ${toggleIconSizeStyle(size)}
 
-    background-color: transparent;
-    border-radius: 9999px;
-    border: none;
-    box-shadow: none;
-    color: ${
-      active
-        ? getColorByToken(theme, activeColor!)
-        : theme.semantic.foreground.neutral.quaternary
-    };
+      background-color: transparent;
+      border-radius: 9999px;
+      border: none;
+      box-shadow: none;
+      color: ${
+        active
+          ? getColorByToken(theme, activeColor!)
+          : theme.semantic.foreground.neutral.quaternary
+      };
 
-    &:disabled,
-    &[aria-disabled='true'] {
-      color: ${theme.semantic.foreground.disable.primary};
-    }
+      &:disabled,
+      &[aria-disabled='true'] {
+        color: ${theme.semantic.foreground.disable.primary};
+      }
 
-    ${createResponsiveStyle(
-      { xs, sm, md, lg, xl },
-      theme,
-    )(
-      (params) => css`
-        ${toggleIconSizeStyle(params?.size)}
-        ${params?.sx}
-      `,
-    )}
-  `;
+      ${createResponsiveStyle(
+        { xs, sm, md, lg, xl },
+        theme,
+      )(
+        (params) => css`
+          ${toggleIconSizeStyle(params?.size)}
+          ${params?.sx}
+        `,
+      )}
+    `;
 
 const toggleIconSizeStyle = (size: ToggleIconProps['size']) =>
   size !== undefined

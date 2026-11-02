@@ -1,6 +1,6 @@
 import { darkOriginTheme, lightOriginTheme, theme } from '@montage-ui/theme';
-import { load } from 'cheerio';
 import { camelCase, kebabCase } from 'change-case';
+import { load } from 'cheerio';
 import semver from 'semver';
 
 import componentApi from '../../../../docs/generated/api.json';

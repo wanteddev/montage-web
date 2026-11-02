@@ -1,11 +1,11 @@
 import { elementType, getLiteralPropValue, getProp } from 'jsx-ast-utils';
 
-import { WdsImportParser } from '../../helpers/ast';
 import { isHidden, isPresentationRole } from '../../helpers/accessibility';
+import { WdsImportParser } from '../../helpers/ast';
 
+import type { Rule } from 'eslint';
 import type { Node } from 'estree';
 import type { JSXOpeningElement } from 'estree-jsx';
-import type { Rule } from 'eslint';
 
 const TARGET_COMPONENTS = ['Avatar', 'Thumbnail', 'CardThumbnail', 'Box'];
 

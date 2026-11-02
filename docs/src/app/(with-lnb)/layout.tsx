@@ -1,8 +1,8 @@
 'use client';
 import { FlexBox } from '@montage-ui/core';
 
-import Sidebar from '@/features/docs/components/sidebar';
 import Lnb from '@/features/docs/components/lnb';
+import Sidebar from '@/features/docs/components/sidebar';
 import Footer from '@/features/layout/components/footer';
 
 import type { PropsWithChildren } from 'react';

@@ -105,54 +105,55 @@ export const glassEffectStyle = css`
 `;
 
 export const glassBackgroundEffectStyle =
-  (lightText: string, darkText: string) => (theme: Theme) => css`
-    position: absolute;
-    aspect-ratio: 1 / 1;
-    width: min(40%, 100px);
-    border-radius: 50%;
-    inset: 0;
-    z-index: 1;
-    pointer-events: none;
-    background-image: url(${lightText});
-    background-repeat: no-repeat;
-    background-size: 452px;
-    visibility: hidden;
+  (lightText: string, darkText: string) => (theme: Theme) =>
+    css`
+      position: absolute;
+      aspect-ratio: 1 / 1;
+      width: min(40%, 100px);
+      border-radius: 50%;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      background-image: url(${lightText});
+      background-repeat: no-repeat;
+      background-size: 452px;
+      visibility: hidden;
 
-    html[data-theme='dark'] & {
-      background-image: url(${darkText});
-    }
-
-    @media (pointer: fine) {
-      &[data-visible='true'] {
-        visibility: visible;
+      html[data-theme='dark'] & {
+        background-image: url(${darkText});
       }
-    }
 
-    ${respondTo(theme.breakpoint.xl)} {
-      background-size: 340px;
-    }
+      @media (pointer: fine) {
+        &[data-visible='true'] {
+          visibility: visible;
+        }
+      }
 
-    ${respondTo(theme.breakpoint.lg)} {
-      background-size: calc(
-        (
-            100vw - var(--layout-padding-inline) *
-              2 - var(--carousel-item-gap) * 2
-          ) /
-          3
-      );
-      background-size: calc(
-        (
-            100dvw - var(--layout-padding-inline) *
-              2 - var(--carousel-item-gap) * 2
-          ) /
-          3
-      );
-    }
+      ${respondTo(theme.breakpoint.xl)} {
+        background-size: 340px;
+      }
 
-    ${respondTo(theme.breakpoint.md)} {
-      background-size: var(--carousel-item-width);
-    }
-  `;
+      ${respondTo(theme.breakpoint.lg)} {
+        background-size: calc(
+          (
+              100vw - var(--layout-padding-inline) * 2 -
+                var(--carousel-item-gap) * 2
+            ) /
+            3
+        );
+        background-size: calc(
+          (
+              100dvw - var(--layout-padding-inline) * 2 -
+                var(--carousel-item-gap) * 2
+            ) /
+            3
+        );
+      }
+
+      ${respondTo(theme.breakpoint.md)} {
+        background-size: var(--carousel-item-width);
+      }
+    `;
 
 export const glassShadowEffectStyle = (theme: Theme) => css`
   position: absolute;

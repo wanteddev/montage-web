@@ -1,14 +1,14 @@
-import * as React from 'react';
 import * as Montage from '@montage-ui/core';
 import { FlexBox } from '@montage-ui/core';
+import * as React from 'react';
 import { useMemo } from 'react';
 
+import { useRunner } from '../../demo/react-runner';
 import { Heading2, SectionDescription } from '../layout';
 import { sectionLayoutStyle } from '../style';
-import { useRunner } from '../../demo/react-runner';
 
-import { sectionHierarchyItemStyle } from './style';
 import { makeSectionHierarchyCode } from './helpers';
+import { sectionHierarchyItemStyle } from './style';
 
 import type { PropsWithChildren } from 'react';
 
@@ -54,7 +54,7 @@ const SectionHierarchyItem = ({
 
   const code = useMemo(() => {
     return makeSectionHierarchyCode(components, render);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // oxlint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const { element } = useRunner({

@@ -1,10 +1,10 @@
+import { MONTAGE_SOURCES } from '../../constants';
 import {
   deepConvertPropertyValue,
   findImportDeclaration,
   getImportedName,
   getLocalName,
 } from '../../helpers';
-import { MONTAGE_SOURCES } from '../../constants';
 
 import type {
   API,

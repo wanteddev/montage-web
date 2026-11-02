@@ -1,11 +1,11 @@
-import { forwardRef } from 'react';
 import { Box } from '@montage-ui/engine';
+import { forwardRef } from 'react';
 
 import { progressIndicatorStyle } from './style';
 
+import type { ProgressIndicatorProps } from './types';
 import type { DefaultComponentPropsInternal } from '@montage-ui/engine';
 import type { CSSProperties } from 'react';
-import type { ProgressIndicatorProps } from './types';
 
 const ProgressIndicator = forwardRef<
   HTMLDivElement,

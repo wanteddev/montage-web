@@ -6,8 +6,8 @@ import { Heading2 } from '@/features/docs/components/mdx/section/layout';
 
 import { Palette, PaletteItem } from '../palette';
 
-import { paletteTitleStyle } from './style';
 import { isBasicColor } from './helpers';
+import { paletteTitleStyle } from './style';
 
 const FoundationsColorsAtomic = () => {
   const theme = useTheme();

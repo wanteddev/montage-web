@@ -1,9 +1,9 @@
 import { Box, FlexBox, Typography } from '@montage-ui/core';
 import { Fragment } from 'react';
 
-import { sectionLayoutStyle } from '../style';
-import { Heading2 } from '../layout';
 import { inlineCodeStyle } from '../../code-block/style';
+import { Heading2 } from '../layout';
+import { sectionLayoutStyle } from '../style';
 
 import { customizeOptionStyle, customizeStyle } from './style';
 
