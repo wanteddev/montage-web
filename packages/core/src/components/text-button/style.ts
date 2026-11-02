@@ -135,6 +135,7 @@ const textButtonSizeStyle = ({ size }: TextButtonProps, theme: Theme) => {
         }
 
         & > svg {
+          flex-shrink: 0;
           font-size: ${theme.dimension[18]};
         }
         & > span {
@@ -159,6 +160,7 @@ const textButtonSizeStyle = ({ size }: TextButtonProps, theme: Theme) => {
         }
 
         & > svg {
+          flex-shrink: 0;
           font-size: ${theme.dimension[16]};
         }
         & > span {

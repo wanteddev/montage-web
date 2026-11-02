@@ -21,6 +21,10 @@ export const filterButtonStyle =
     width: fit-content;
     flex-shrink: 0;
 
+    & > svg {
+      flex-shrink: 0;
+    }
+
     &:disabled {
       pointer-events: none;
       cursor: initial;

@@ -10,6 +10,7 @@ export const radioStyle =
   ({ size, checked, tight, disabled, xs, sm, md, lg, xl }: RadioProps) =>
   (theme: Theme) => css`
     display: flex;
+    flex-shrink: 0;
     padding: 2px;
     align-items: center;
     justify-content: center;

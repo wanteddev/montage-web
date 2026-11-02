@@ -32,6 +32,7 @@ export const iconButtonStyle =
     align-items: center;
     justify-content: center;
     position: relative;
+    flex-shrink: 0;
 
     &:disabled,
     &[aria-disabled='true'] {
