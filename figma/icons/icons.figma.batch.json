@@ -1185,6 +1185,20 @@
         ]
       },
       {
+        "url": "<FIGMA_ICONS_BASE>?node-id=54336-75783",
+        "component": "IconFlask",
+        "variants": [
+          {
+            "name": "flask",
+            "component": "IconFlask"
+          },
+          {
+            "name": "flaskFill",
+            "component": "IconFlaskFill"
+          }
+        ]
+      },
+      {
         "url": "<FIGMA_ICONS_BASE>?node-id=45092-81093",
         "component": "IconFlip",
         "variants": [

@@ -1,40 +1,25 @@
 import { Box } from '@montage-ui/engine';
-import { forwardRef } from 'react';
+    import { forwardRef } from 'react';
 
-import type { SxProp } from '@montage-ui/engine';
-import type { ComponentPropsWithoutRef } from 'react';
+    import type { SxProp } from '@montage-ui/engine';
+    import type { ComponentPropsWithoutRef } from 'react';
 
-type Props = ComponentPropsWithoutRef<'svg'> & {
-  sx?: SxProp;
-};
+    type Props = ComponentPropsWithoutRef<'svg'> & {
+      sx?: SxProp;
+    };
 
-/**
+    /**
  * 왼쪽으로 큰 상태 변화를 표현합니다.
  * 키워드: Thick, 왼쪽 꺾쇠, 굵은, 얇은, 작은, 큰, Double Chevron, Left, Small
  * 속성: Outlined
  */
-const IconChevronDoubleLeftThickSmall = forwardRef<SVGSVGElement, Props>(
-  (props, ref) => {
-    return (
-      <Box
-        as="svg"
-        viewBox="0 0 24 24"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        width="1em"
-        height="1em"
-        ref={ref}
-        {...props}
-      >
-        <path
-          fillRule="evenodd"
-          clipRule="evenodd"
-          d="M19.9199 6.41748C20.4275 5.9098 20.4275 5.08668 19.9199 4.579C19.4122 4.07132 18.5891 4.07132 18.0814 4.579L11.5814 11.079C11.0737 11.5867 11.0737 12.4098 11.5814 12.9175L18.0814 19.4175C18.5891 19.9252 19.4122 19.9252 19.9199 19.4175C20.4275 18.9098 20.4275 18.0867 19.9199 17.579L14.3391 11.9982L19.9199 6.41748ZM11.9194 6.41768C12.4271 5.90999 12.4271 5.08688 11.9194 4.5792C11.4118 4.07152 10.5886 4.07152 10.081 4.5792L3.58096 11.0792C3.07327 11.5869 3.07327 12.41 3.58096 12.9177L10.081 19.4177C10.5886 19.9254 11.4118 19.9254 11.9194 19.4177C12.4271 18.91 12.4271 18.0869 11.9194 17.5792L6.33867 11.9984L11.9194 6.41768Z"
-          fill="currentColor"
-        />
-      </Box>
-    );
-  },
-);
+    const IconChevronDoubleLeftThickSmall = forwardRef<SVGSVGElement, Props>((props, ref) => {
+      return (
+        <Box as="svg"   viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" ref={ref} {...props}>
+<path d="M19.9199 6.41748C20.4275 5.9098 20.4275 5.08668 19.9199 4.579C19.4122 4.07132 18.5891 4.07132 18.0814 4.579L11.5814 11.079C11.0737 11.5867 11.0737 12.4098 11.5814 12.9175L18.0814 19.4175C18.5891 19.9252 19.4122 19.9252 19.9199 19.4175C20.4275 18.9098 20.4275 18.0867 19.9199 17.579L14.3391 11.9982L19.9199 6.41748ZM11.9194 6.41768C12.4271 5.90999 12.4271 5.08688 11.9194 4.5792C11.4118 4.07152 10.5886 4.07152 10.081 4.5792L3.58096 11.0792C3.07327 11.5869 3.07327 12.41 3.58096 12.9177L10.081 19.4177C10.5886 19.9254 11.4118 19.9254 11.9194 19.4177C12.4271 18.91 12.4271 18.0869 11.9194 17.5792L6.33867 11.9984L11.9194 6.41768Z" fillRule="evenodd" clipRule="evenodd" fill="currentColor"/>
+</Box>
 
-export default IconChevronDoubleLeftThickSmall;
+      )
+    });
+
+    export default IconChevronDoubleLeftThickSmall;
