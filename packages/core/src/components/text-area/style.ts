@@ -1,8 +1,8 @@
 import { css } from '@montage-ui/engine';
 
 import { typographyStyle } from '../../utils';
-import { createResponsiveStyle } from '../../utils/internal/responsive-props';
 import { toCssValue } from '../../utils/internal/css';
+import { createResponsiveStyle } from '../../utils/internal/responsive-props';
 
 import type { TextAreaProps } from './types';
 import type { Theme } from '@montage-ui/engine';
@@ -19,82 +19,84 @@ export const textAreaWrapperStyle =
     lg,
     xl,
   }: TextAreaProps) =>
-  (theme: Theme) => css`
-    border: none;
-    transition: box-shadow ease 0.2s;
-    box-shadow: inset 0 0 0 1px ${theme.semantic.line.neutral.secondary};
-    background-color: ${theme.semantic.effect.transparent.primary};
-    backdrop-filter: blur(32px);
-    padding: 12px;
-    width: ${toCssValue(width)};
+  (theme: Theme) =>
+    css`
+      border: none;
+      transition: box-shadow ease 0.2s;
+      box-shadow: inset 0 0 0 1px ${theme.semantic.line.neutral.secondary};
+      background-color: ${theme.semantic.effect.transparent.primary};
+      backdrop-filter: blur(32px);
+      padding: 12px;
+      width: ${toCssValue(width)};
 
-    ${textAreaWrapperSizeStyle({ size }, theme)}
+      ${textAreaWrapperSizeStyle({ size }, theme)}
 
-    ${
-      status === 'negative' &&
-      css`
-        box-shadow: inset 0 0 0 1px ${theme.semantic.line.negative.primary};
-      `
-    }
+      ${
+        status === 'negative' &&
+        css`
+          box-shadow: inset 0 0 0 1px ${theme.semantic.line.negative.primary};
+        `
+      }
 
-    ${
-      disabled
-        ? css`
-            background-color: ${theme.semantic.surface.neutral.tertiary};
-            backdrop-filter: none;
-            box-shadow: inset 0 0 0 1px ${theme.semantic.line.neutral.tertiary};
-            cursor: default;
-          `
-        : css`
-            cursor: text;
+      ${
+        disabled
+          ? css`
+              background-color: ${theme.semantic.surface.neutral.tertiary};
+              backdrop-filter: none;
+              box-shadow: inset 0 0 0 1px
+                ${theme.semantic.line.neutral.tertiary};
+              cursor: default;
+            `
+          : css`
+              cursor: text;
 
-            &:where(:has(textarea:focus)) {
-              ${
-                status === 'negative'
-                  ? css`
-                      box-shadow:
-                        inset 0 0 0 1px ${theme.semantic.line.negative.strong},
-                        0 0 0 4px ${theme.semantic.line.negative.focus};
-                    `
-                  : css`
-                      box-shadow:
-                        inset 0 0 0 1px ${theme.semantic.line.brand.strong},
-                        0 0 0 4px ${theme.semantic.line.brand.focus};
-                    `
+              &:where(:has(textarea:focus)) {
+                ${
+                  status === 'negative'
+                    ? css`
+                        box-shadow:
+                          inset 0 0 0 1px ${theme.semantic.line.negative.strong},
+                          0 0 0 4px ${theme.semantic.line.negative.focus};
+                      `
+                    : css`
+                        box-shadow:
+                          inset 0 0 0 1px ${theme.semantic.line.brand.strong},
+                          0 0 0 4px ${theme.semantic.line.brand.focus};
+                      `
+                }
               }
-            }
-          `
-    }
+            `
+      }
 
-    button {
-      flex-shrink: 0;
-      transition:
-        background-color 0.3s ease,
-        color 0.3s ease;
-    }
+      button {
+        flex-shrink: 0;
+        transition:
+          background-color 0.3s ease,
+          color 0.3s ease;
+      }
 
-    [data-radix-scroll-area-viewport] {
-      height: var(--text-area-scroll-height);
-    }
+      [data-radix-scroll-area-viewport] {
+        height: var(--text-area-scroll-height);
+      }
 
-    ${createResponsiveStyle(
-      { xs, sm, md, lg, xl },
-      theme,
-    )(
-      (params) => css`
-        ${
-          params?.width !== undefined &&
-          css`
-            width: ${toCssValue(params.width)};
-          `
-        }
+      ${createResponsiveStyle(
+        { xs, sm, md, lg, xl },
+        theme,
+      )(
+        (params) => css`
+          ${
+            params?.width !== undefined &&
+            css`
+              width: ${toCssValue(params.width)};
+            `
+          }
 
-        ${textAreaWrapperSizeStyle({ size: params?.size }, theme)}
+          ${textAreaWrapperSizeStyle({ size: params?.size }, theme)}
 
-        ${params?.sx}
-      `,
-    )}
-  `;
+          ${params?.sx}
+        `,
+      )}
+    `;
 
 export const textAreaWrapperSizeStyle = (
   { size }: TextAreaProps,
@@ -144,60 +146,61 @@ export const textAreaWrapperSizeStyle = (
 
 export const textAreaStyle =
   ({ size, xs, sm, md, lg, xl }: TextAreaProps) =>
-  (theme: Theme) => css`
-    height: var(--text-area-height);
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    padding: ${theme.spacing[0]} ${theme.spacing[4]};
-    flex-shrink: 2;
-    background-color: transparent;
-    caret-color: ${theme.semantic.foreground.brand.primary};
-    outline: none;
-    border: none;
-    resize: none;
-    color: ${theme.semantic.foreground.neutral.primary};
-
-    &::-webkit-scrollbar {
-      display: none;
-    }
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-
-    &::placeholder {
-      color: ${theme.semantic.foreground.neutral.tertiary};
-    }
-
-    &:disabled {
-      color: ${theme.semantic.foreground.neutral.primary};
-    }
-
-    &:disabled::placeholder {
-      color: ${theme.semantic.foreground.disable.primary};
-    }
-
-    &:focus {
+  (theme: Theme) =>
+    css`
+      height: var(--text-area-height);
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      padding: ${theme.spacing[0]} ${theme.spacing[4]};
+      flex-shrink: 2;
+      background-color: transparent;
+      caret-color: ${theme.semantic.foreground.brand.primary};
       outline: none;
-    }
+      border: none;
+      resize: none;
+      color: ${theme.semantic.foreground.neutral.primary};
 
-    ${textAreaSizeStyle({ size })}
+      &::-webkit-scrollbar {
+        display: none;
+      }
+      -ms-overflow-style: none;
+      scrollbar-width: none;
 
-    ${createResponsiveStyle(
-      { xs, sm, md, lg, xl },
-      theme,
-    )(
-      (params) => css`
-        ${
-          Boolean(params?.width) &&
-          css`
-            width: ${params!.width};
-          `
-        }
+      &::placeholder {
+        color: ${theme.semantic.foreground.neutral.tertiary};
+      }
 
-        ${textAreaSizeStyle({ size: params?.size })}
-      `,
-    )}
-  `;
+      &:disabled {
+        color: ${theme.semantic.foreground.neutral.primary};
+      }
+
+      &:disabled::placeholder {
+        color: ${theme.semantic.foreground.disable.primary};
+      }
+
+      &:focus {
+        outline: none;
+      }
+
+      ${textAreaSizeStyle({ size })}
+
+      ${createResponsiveStyle(
+        { xs, sm, md, lg, xl },
+        theme,
+      )(
+        (params) => css`
+          ${
+            Boolean(params?.width) &&
+            css`
+              width: ${params!.width};
+            `
+          }
+
+          ${textAreaSizeStyle({ size: params?.size })}
+        `,
+      )}
+    `;
 
 export const textAreaSizeStyle = ({ size }: TextAreaProps) => {
   switch (size) {
@@ -205,7 +208,8 @@ export const textAreaSizeStyle = ({ size }: TextAreaProps) => {
       return css`
         ${typographyStyle('body2-reading', 'regular')}
 
-        &::placeholder, & ~ textarea {
+        &::placeholder,
+        & ~ textarea {
           ${typographyStyle('body2-reading', 'regular')}
         }
       `;
@@ -213,7 +217,8 @@ export const textAreaSizeStyle = ({ size }: TextAreaProps) => {
       return css`
         ${typographyStyle('label1-reading', 'regular')}
 
-        &::placeholder, & ~ textarea {
+        &::placeholder,
+        & ~ textarea {
           ${typographyStyle('label1-reading', 'regular')}
         }
       `;

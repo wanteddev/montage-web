@@ -1,6 +1,6 @@
-import DocsCollection from '@/features/docs/components/docs-collection';
 import CustomRenderProvider from '@/features/docs/components/custom-render/provider';
 import CustomRenderSummary from '@/features/docs/components/custom-render/summary';
+import DocsCollection from '@/features/docs/components/docs-collection';
 import { createMetadata } from '@/helpers/metadata';
 
 import type { Metadata } from 'next';

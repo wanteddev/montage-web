@@ -1,8 +1,8 @@
 import { ContentBadge, FlexBox } from '@montage-ui/core';
 import { IconGlobe } from '@montage-ui/icon';
 
-import { sectionLayoutStyle } from '../style';
 import { Heading2, SectionDescription, SectionThumbnail } from '../layout';
+import { sectionLayoutStyle } from '../style';
 
 type SectionStatesProps = {
   description?: string;

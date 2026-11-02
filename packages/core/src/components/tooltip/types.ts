@@ -1,8 +1,8 @@
-import type { Merge, ResponsiveProps, WithSxProps } from '@montage-ui/engine';
-import type { SlotProps } from '@radix-ui/react-slot';
-import type { DismissableLayerProps } from '@radix-ui/react-dismissable-layer';
-import type { PropsWithChildren, ReactNode } from 'react';
 import type { PopperContentProps } from '../popper/types';
+import type { Merge, ResponsiveProps, WithSxProps } from '@montage-ui/engine';
+import type { DismissableLayerProps } from '@radix-ui/react-dismissable-layer';
+import type { SlotProps } from '@radix-ui/react-slot';
+import type { PropsWithChildren, ReactNode } from 'react';
 
 export type TooltipGroupProps = PropsWithChildren<{
   /** The skip delay duration of the tooltip group. */

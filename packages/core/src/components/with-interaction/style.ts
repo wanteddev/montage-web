@@ -8,96 +8,98 @@ type VariantType = 'normal' | 'light' | 'strong';
 
 export const interactionStyle =
   ({ color, width, height }: WithInteractionProps) =>
-  (theme: Theme) => css`
-    overflow: hidden;
-    position: absolute;
-    z-index: 0;
-    box-sizing: content-box;
-    border-radius: inherit;
-    opacity: ${theme.opacity[0]};
-    background-color: ${getColorByToken(theme, color!)};
-    transition:
-      opacity 0.15s ease,
-      transform 0.15s ease;
-    transform-origin: center;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
+  (theme: Theme) =>
+    css`
+      overflow: hidden;
+      position: absolute;
+      z-index: 0;
+      box-sizing: content-box;
+      border-radius: inherit;
+      opacity: ${theme.opacity[0]};
+      background-color: ${getColorByToken(theme, color!)};
+      transition:
+        opacity 0.15s ease,
+        transform 0.15s ease;
+      transform-origin: center;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
 
-    ${
-      width !== undefined &&
-      css`
-        width: ${toCssValue(width)};
-      `
-    }
-    ${
-      height !== undefined &&
-      css`
-        height: ${toCssValue(height)};
-      `
-    }
-  `;
+      ${
+        width !== undefined &&
+        css`
+          width: ${toCssValue(width)};
+        `
+      }
+      ${
+        height !== undefined &&
+        css`
+          height: ${toCssValue(height)};
+        `
+      }
+    `;
 
 export const getWrapperStyle =
   ({ disabled, variant, scale }: WithInteractionProps) =>
-  (theme: Theme) => css`
-    position: relative;
-    -webkit-tap-highlight-color: transparent;
+  (theme: Theme) =>
+    css`
+      position: relative;
+      -webkit-tap-highlight-color: transparent;
 
-    &:focus-visible {
-      outline-style: solid;
-      outline-width: 2px;
-    }
+      &:focus-visible {
+        outline-style: solid;
+        outline-width: 2px;
+      }
 
-    ${
-      !disabled &&
-      css`
-        &:hover > [data-component='with-interaction'] {
-          ${hoverInteractionStyle(theme, variant)}
-        }
-
-        @media not (pointer: fine) {
+      ${
+        !disabled &&
+        css`
           &:hover > [data-component='with-interaction'] {
+            ${hoverInteractionStyle(theme, variant)}
+          }
+
+          @media not (pointer: fine) {
+            &:hover > [data-component='with-interaction'] {
+              opacity: ${theme.opacity[0]};
+            }
+          }
+
+          &:focus-visible > [data-component='with-interaction'] {
             opacity: ${theme.opacity[0]};
           }
-        }
+          &:active > [data-component='with-interaction'] {
+            ${activeInteractionStyle(theme, variant)}
+          }
 
-        &:focus-visible > [data-component='with-interaction'] {
-          opacity: ${theme.opacity[0]};
-        }
-        &:active > [data-component='with-interaction'] {
-          ${activeInteractionStyle(theme, variant)}
-        }
-
-        ${
-          scale &&
-          css`
-            & > [data-component='with-interaction'] {
-              transform: translate(-50%, -50%) scale(0.95);
-            }
-
-            &:hover > [data-component='with-interaction'] {
-              transform: translate(-50%, -50%) scale(1);
-            }
-
-            @media not (pointer: fine) {
-              &:hover > [data-component='with-interaction'] {
+          ${
+            scale &&
+            css`
+              & > [data-component='with-interaction'] {
                 transform: translate(-50%, -50%) scale(0.95);
               }
-            }
 
-            &:active > [data-component='with-interaction'] {
-              transform: translate(-50%, -50%) scale(1);
-            }
+              &:hover > [data-component='with-interaction'] {
+                transform: translate(-50%, -50%) scale(1);
+              }
 
-            &:focus-visible > [data-component='with-interaction'] {
-              transform: translate(-50%, -50%) scale(0.95);
-            }
-          `
-        }
-      `
-    }
-  `;
+              @media not (pointer: fine) {
+                &:hover > [data-component='with-interaction'] {
+                  transform: translate(-50%, -50%) scale(0.95);
+                }
+              }
+
+              &:active > [data-component='with-interaction'] {
+                transform: translate(-50%, -50%) scale(1);
+              }
+
+              &:focus-visible > [data-component='with-interaction'] {
+                transform: translate(-50%, -50%) scale(0.95);
+              }
+            `
+          }
+        `
+      }
+    `;
 
 export const hoverInteractionStyle = (
   theme: Theme,

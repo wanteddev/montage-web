@@ -1,11 +1,11 @@
-import { forwardRef } from 'react';
 import { Slot } from '@radix-ui/react-slot';
+import { forwardRef } from 'react';
 
-import { Portal } from '../portal';
 import { SlotDefaultsBoundary } from '../../hooks/internal/use-slot-defaults';
+import { Portal } from '../portal';
 
-import type { ForwardedRef } from 'react';
 import type { PortalOrFragmentProps } from './types';
+import type { ForwardedRef } from 'react';
 
 const PortalOrFragment = forwardRef<HTMLElement, PortalOrFragmentProps>(
   ({ disablePortal, container, children, ...props }, ref) => {

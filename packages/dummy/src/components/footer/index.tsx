@@ -1,3 +1,4 @@
+import { LogoWanted } from '@montage-ui/brand';
 import {
   Box,
   Divider,
@@ -6,8 +7,6 @@ import {
   Typography,
   containerStyle,
 } from '@montage-ui/core';
-import { forwardRef, useState } from 'react';
-import { LogoWanted } from '@montage-ui/brand';
 import {
   IconLogoApple,
   IconLogoFacebook,
@@ -16,6 +15,7 @@ import {
   IconLogoNaverBlog,
   IconLogoYoutube,
 } from '@montage-ui/icon';
+import { forwardRef, useState } from 'react';
 
 import {
   askLinkWrapperStyle,

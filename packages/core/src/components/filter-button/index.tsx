@@ -1,18 +1,18 @@
-import { forwardRef, useId } from 'react';
 import { Box } from '@montage-ui/engine';
 import { IconCaretDown, IconCaretUp } from '@montage-ui/icon';
+import { forwardRef, useId } from 'react';
 
-import { WithInteraction } from '../with-interaction';
 import { FlexBox } from '../flex-box';
+import { WithInteraction } from '../with-interaction';
 
 import { filterButtonStyle } from './style';
 
+import type { FilterButtonProps } from './types';
 import type {
   PolymorphicComponentInternal,
   PolymorphicPropsInternal,
 } from '@montage-ui/engine';
 import type { ElementType, ForwardedRef } from 'react';
-import type { FilterButtonProps } from './types';
 
 const FilterButton = forwardRef(
   <T extends ElementType = 'button'>(

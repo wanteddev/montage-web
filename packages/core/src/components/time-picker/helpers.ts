@@ -1,5 +1,5 @@
-import type { TimeViewType } from '../time-view/types';
 import type { DateFormatSection } from '../date-picker/helpers';
+import type { TimeViewType } from '../time-view/types';
 
 export const sectionsToViews = (sections: Array<DateFormatSection>) => {
   const views: Array<TimeViewType> = [];

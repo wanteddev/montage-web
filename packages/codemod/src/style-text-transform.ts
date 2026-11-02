@@ -1,5 +1,5 @@
-import path from 'path';
 import fs from 'fs';
+import path from 'path';
 
 const STYLE_EXTENSIONS = ['.css', '.scss', '.sass', '.less'];
 const IGNORED_DIRECTORIES = new Set(['node_modules', '.next', 'dist']);

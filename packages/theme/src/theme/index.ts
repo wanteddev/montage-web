@@ -1,15 +1,15 @@
 import { addHexOpacity } from '../utils';
 
+import atomic from './atomic';
 import breakpoint from './breakpoint';
 import dimension from './dimension';
 import opacity from './opacity';
 import primitive from './primitive';
 import radius from './radius';
+import * as semantic from './semantic';
 import spacing from './spacing';
 import typography from './typography';
 import zIndex from './z-index';
-import atomic from './atomic';
-import * as semantic from './semantic';
 
 /**
  * Theme without css variable

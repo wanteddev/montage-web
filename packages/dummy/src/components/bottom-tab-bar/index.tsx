@@ -1,11 +1,11 @@
 import { BottomNavigation, BottomNavigationItem, Box } from '@montage-ui/core';
-import { forwardRef } from 'react';
 import {
   IconNavigationCareer,
   IconNavigationMypage,
   IconNavigationRecruit,
   IconNavigationSocial,
 } from '@montage-ui/icon';
+import { forwardRef } from 'react';
 
 import {
   bottomNavigationItemStyle,

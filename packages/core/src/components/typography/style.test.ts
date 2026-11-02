@@ -1,5 +1,5 @@
-import { describe, expect, it } from 'vitest';
 import { lightOriginTheme } from '@montage-ui/engine';
+import { describe, expect, it } from 'vitest';
 
 import { getWeightMap, variantMap } from './style';
 

@@ -1,12 +1,14 @@
-import { forwardRef, useCallback, useMemo } from 'react';
+import { Box } from '@montage-ui/engine';
 import { IconCheckThick } from '@montage-ui/icon';
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
-import { Box } from '@montage-ui/engine';
+import { forwardRef, useCallback, useMemo } from 'react';
 
-import { Typography } from '../typography';
-import { FlexBox } from '../flex-box';
 import { findComponentInChildren } from '../../utils/internal/children';
+import { FlexBox } from '../flex-box';
+import { Typography } from '../typography';
 
+import { PROGRESS_TRACKER_ITEM_NAME, PROGRESS_TRACKER_NAME } from './constants';
+import { ProgressTrackerProvider, useProgressTrackerContext } from './contexts';
 import {
   progressCircleStyle,
   progressTrackerItemContentStyle,
@@ -17,15 +19,13 @@ import {
   progressTrackerItemVerticalStyle,
   progressTrackerWrapperStyle,
 } from './style';
-import { PROGRESS_TRACKER_ITEM_NAME, PROGRESS_TRACKER_NAME } from './constants';
-import { ProgressTrackerProvider, useProgressTrackerContext } from './contexts';
 
-import type { DefaultComponentPropsInternal } from '@montage-ui/engine';
 import type {
   ProgressTrackerItemProps,
   ProgressTrackerLabelContentProps,
   ProgressTrackerProps,
 } from './types';
+import type { DefaultComponentPropsInternal } from '@montage-ui/engine';
 
 const ProgressTracker = forwardRef<
   HTMLOListElement,

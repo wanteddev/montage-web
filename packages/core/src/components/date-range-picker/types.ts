@@ -1,8 +1,14 @@
 import type {
+  DateRangeCalendar,
+  DateRangeCalendarProps,
+} from '../date-range-calendar';
+import type { FocusScope } from '../focus-scope';
+import type { PopperContent } from '../popper';
+import type { TextField } from '../text-field';
+import type {
   TextFieldProps,
   TextFieldResponsiveProps,
 } from '../text-field/types';
-import type { TextField } from '../text-field';
 import type {
   BreakPoint,
   DefaultComponentPropsInternal,
@@ -17,12 +23,6 @@ import type {
   ReactNode,
   Ref,
 } from 'react';
-import type { PopperContent } from '../popper';
-import type { FocusScope } from '../focus-scope';
-import type {
-  DateRangeCalendar,
-  DateRangeCalendarProps,
-} from '../date-range-calendar';
 
 type DateRangePickerResponsiveProps = ResponsiveProps<
   NonNullable<TextFieldResponsiveProps[keyof BreakPoint]> &

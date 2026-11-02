@@ -1,7 +1,7 @@
 'use client';
 import { Divider } from '@montage-ui/core';
-import { useMemo } from 'react';
 import { sentenceCase } from 'change-case';
+import { useMemo } from 'react';
 
 import { Heading2 } from '../../../mdx/section/layout';
 import RouteTab from '../../../route-tab';

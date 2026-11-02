@@ -1,4 +1,3 @@
-import { StrictMode, useEffect, useRef, useState } from 'react';
 import {
   act,
   cleanup,
@@ -6,11 +5,12 @@ import {
   render,
   screen,
 } from '@testing-library/react';
+import { StrictMode, useEffect, useRef, useState } from 'react';
 
 import { FocusScope } from '.';
 
-import type { ReactNode } from 'react';
 import type { FocusScopeProps } from './types';
+import type { ReactNode } from 'react';
 
 // Unmount restore runs in a setTimeout(0).
 const flush = () =>

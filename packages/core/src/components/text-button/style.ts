@@ -1,10 +1,10 @@
 import { css, getColorByToken } from '@montage-ui/engine';
 
-import { typographyStyle } from '../../utils/typography';
 import { createResponsiveStyle } from '../../utils/internal/responsive-props';
+import { typographyStyle } from '../../utils/typography';
 
-import type { Theme, ThemeColorsToken } from '@montage-ui/engine';
 import type { TextButtonProps } from './types';
+import type { Theme, ThemeColorsToken } from '@montage-ui/engine';
 
 type TextButtonStyleProps = TextButtonProps & {
   overrideColor?: ThemeColorsToken;
@@ -12,60 +12,61 @@ type TextButtonStyleProps = TextButtonProps & {
 
 export const textButtonStyle =
   ({ loading, xs, sm, md, lg, xl, ...props }: TextButtonStyleProps) =>
-  (theme: Theme) => css`
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    vertical-align: middle;
-    box-sizing: border-box;
-    line-height: initial;
-    white-space: nowrap;
-    height: fit-content;
-    width: fit-content;
-    cursor: pointer;
+  (theme: Theme) =>
+    css`
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      vertical-align: middle;
+      box-sizing: border-box;
+      line-height: initial;
+      white-space: nowrap;
+      height: fit-content;
+      width: fit-content;
+      cursor: pointer;
 
-    [data-role='text-button-loading'] {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      circle {
-        stroke: currentColor;
-      }
-    }
-
-    ${
-      loading &&
-      css`
-        cursor: wait;
-        &
-          > *:not([data-role='text-button-loading']):not(
-            [data-component='with-interaction']
-          ) {
-          visibility: hidden;
+      [data-role='text-button-loading'] {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        circle {
+          stroke: currentColor;
         }
-      `
-    }
+      }
 
-    &:disabled,
-    &[aria-disabled='true'] {
-      pointer-events: none;
-      cursor: initial;
-    }
+      ${
+        loading &&
+        css`
+          cursor: wait;
+          &
+            > *:not([data-role='text-button-loading']):not(
+              [data-component='with-interaction']
+            ) {
+            visibility: hidden;
+          }
+        `
+      }
 
-    ${getColorTheme(props, theme)}
-    ${textButtonSizeStyle(props, theme)}
+      &:disabled,
+      &[aria-disabled='true'] {
+        pointer-events: none;
+        cursor: initial;
+      }
 
-  ${createResponsiveStyle(
-      { xs, sm, md, lg, xl },
-      theme,
-    )(
-      (params = {}) => css`
-        ${textButtonSizeStyle(params, theme)}
-        ${params.sx}
-      `,
-    )}
-  `;
+      ${getColorTheme(props, theme)}
+      ${textButtonSizeStyle(props, theme)}
+
+      ${createResponsiveStyle(
+        { xs, sm, md, lg, xl },
+        theme,
+      )(
+        (params = {}) => css`
+          ${textButtonSizeStyle(params, theme)}
+          ${params.sx}
+        `,
+      )}
+    `;
 
 const getColorTheme = (
   { color, overrideColor }: TextButtonStyleProps,

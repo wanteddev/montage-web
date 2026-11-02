@@ -1,7 +1,7 @@
 import { FlexBox, PaginationDots, Thumbnail } from '@montage-ui/core';
+import AutoPlayPlugin from 'embla-carousel-autoplay';
 import useEmblaCarousel from 'embla-carousel-react';
 import { WheelGesturesPlugin } from 'embla-carousel-wheel-gestures';
-import AutoPlayPlugin from 'embla-carousel-autoplay';
 import { useEffect, useState } from 'react';
 
 import { getImageUrl } from '@/helpers/image';

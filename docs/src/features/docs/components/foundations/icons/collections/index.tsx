@@ -10,8 +10,8 @@ import {
   WithInteraction,
 } from '@montage-ui/core';
 import * as Icons from '@montage-ui/icon';
-import { useCallback } from 'react';
 import { camelCase } from 'change-case';
+import { useCallback } from 'react';
 
 import { breakWordStyle } from '@/styles/text';
 

@@ -1,23 +1,23 @@
-import { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
-import { useComposedRefs } from '@radix-ui/react-compose-refs';
 import { Box } from '@montage-ui/engine';
 import { composeEventHandlers } from '@radix-ui/primitive';
+import { useComposedRefs } from '@radix-ui/react-compose-refs';
+import { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 
-import { FlexBox } from '../flex-box';
-import { ScrollArea } from '../scroll-area';
 import useResizeObserver from '../../hooks/internal/use-resize-observer';
+import {
+  SlotDefaultsProvider,
+  mergeSlotDefaults,
+} from '../../hooks/internal/use-slot-defaults';
+import { FlexBox } from '../flex-box';
 import { FormFieldLayoutProvider } from '../form-control/contexts';
 import {
   useFormFieldSize,
   useFormFieldSlotDefaults,
 } from '../form-control/hooks';
-import {
-  SlotDefaultsProvider,
-  mergeSlotDefaults,
-} from '../../hooks/internal/use-slot-defaults';
+import { ScrollArea } from '../scroll-area';
 
-import { getTextAreaDefaultHeight } from './helpers';
 import { TEXT_AREA_SLOT_DEFAULTS, TEXT_AREA_SLOT_SIZE } from './constants';
+import { getTextAreaDefaultHeight } from './helpers';
 import {
   textAreaBottomAreaStyle,
   textAreaContentStyle,
@@ -25,8 +25,8 @@ import {
   textAreaWrapperStyle,
 } from './style';
 
-import type { DefaultComponentPropsInternal } from '@montage-ui/engine';
 import type { TextAreaContentProps, TextAreaProps } from './types';
+import type { DefaultComponentPropsInternal } from '@montage-ui/engine';
 
 const TextArea = forwardRef<
   HTMLTextAreaElement,

@@ -8,20 +8,20 @@ import {
 import { IconCopy } from '@montage-ui/icon';
 import { capitalCase } from 'change-case';
 
-import { breakWordStyle } from '@/styles/text';
 import TokenPopover from '@/features/docs/components/custom-render/token-popover';
+import { breakWordStyle } from '@/styles/text';
 
+import { hexToRgbaSlash } from './helpers';
+import { useCopyToClipboard, useElementPosition, useHexColor } from './hooks';
 import {
   paletteColorStyle,
   paletteInfoTableStyle,
   paletteWrapperStyle,
   tokenItemStyle,
 } from './style';
-import { hexToRgbaSlash } from './helpers';
-import { useCopyToClipboard, useElementPosition, useHexColor } from './hooks';
 
-import type { CSSProperties, PropsWithChildren } from 'react';
 import type { SxProp } from '@montage-ui/core';
+import type { CSSProperties, PropsWithChildren } from 'react';
 
 type PaletteProps = PropsWithChildren<{
   sx?: SxProp;

@@ -6,8 +6,8 @@ import {
   getPreviousValue,
 } from '../../utils/internal/responsive-props';
 
-import type { Theme } from '@montage-ui/engine';
 import type { TabListProps } from './types';
+import type { Theme } from '@montage-ui/engine';
 
 export const tabListStyle =
   ({
@@ -25,89 +25,90 @@ export const tabListStyle =
     isScrollableLeft: boolean;
     isScrollableRight: boolean;
   }) =>
-  (theme: Theme) => css`
-    width: 100%;
-    list-style: none;
-    position: relative;
-    padding: 0;
-    margin: 0;
-    gap: 20px;
-
-    [data-radix-scroll-area-viewport] {
-      position: relative;
-    }
-    [data-radix-scroll-area-content] {
-      overflow: hidden;
-    }
-
-    ${tabPaddingStyle({
-      horizontalPadding,
-      resize,
-      isScrollableLeft,
-      isScrollableRight,
-    })}
-    ${tabSizeStyle({ size, resize })}
-
-    [data-role="tab-list-wrapper"] {
-      gap: calc(var(--tab-padding-x) * 2);
-    }
-
-    &::after {
-      position: absolute;
-      background-color: ${theme.semantic.line.neutral.tertiary};
-      content: '';
-      left: 0px;
-      bottom: 0px;
-      height: 1px;
+  (theme: Theme) =>
+    css`
       width: 100%;
-    }
+      list-style: none;
+      position: relative;
+      padding: 0;
+      margin: 0;
+      gap: 20px;
 
-    ${createResponsiveStyle(
-      { xs, sm, md, lg, xl },
-      theme,
-    )(
-      (params, breakpoint) => css`
-        ${
-          (Boolean(params?.resize) ||
-            Boolean(params?.size) ||
-            params?.horizontalPadding !== undefined) &&
-          css`
-            ${tabPaddingStyle({
-              horizontalPadding: getPreviousValue(
-                { xs, sm, md, lg, xl },
-                'horizontalPadding',
-                horizontalPadding,
-                breakpoint!,
-              ),
-              resize: getPreviousValue(
-                { xs, sm, md, lg, xl },
-                'resize',
-                resize,
-                breakpoint!,
-              )!,
-              isScrollableLeft,
-              isScrollableRight,
-            })}
-            ${tabSizeStyle({
-              size: getPreviousValue(
-                { xs, sm, md, lg, xl },
-                'size',
-                size,
-                breakpoint!,
-              ),
-              resize: getPreviousValue(
-                { xs, sm, md, lg, xl },
-                'resize',
-                resize,
-                breakpoint!,
-              ),
-            })}
-          `
-        }
-        ${params?.sx}
-      `,
-    )}
-  `;
+      [data-radix-scroll-area-viewport] {
+        position: relative;
+      }
+      [data-radix-scroll-area-content] {
+        overflow: hidden;
+      }
+
+      ${tabPaddingStyle({
+        horizontalPadding,
+        resize,
+        isScrollableLeft,
+        isScrollableRight,
+      })}
+      ${tabSizeStyle({ size, resize })}
+
+      [data-role='tab-list-wrapper'] {
+        gap: calc(var(--tab-padding-x) * 2);
+      }
+
+      &::after {
+        position: absolute;
+        background-color: ${theme.semantic.line.neutral.tertiary};
+        content: '';
+        left: 0px;
+        bottom: 0px;
+        height: 1px;
+        width: 100%;
+      }
+
+      ${createResponsiveStyle(
+        { xs, sm, md, lg, xl },
+        theme,
+      )(
+        (params, breakpoint) => css`
+          ${
+            (Boolean(params?.resize) ||
+              Boolean(params?.size) ||
+              params?.horizontalPadding !== undefined) &&
+            css`
+              ${tabPaddingStyle({
+                horizontalPadding: getPreviousValue(
+                  { xs, sm, md, lg, xl },
+                  'horizontalPadding',
+                  horizontalPadding,
+                  breakpoint!,
+                ),
+                resize: getPreviousValue(
+                  { xs, sm, md, lg, xl },
+                  'resize',
+                  resize,
+                  breakpoint!,
+                )!,
+                isScrollableLeft,
+                isScrollableRight,
+              })}
+              ${tabSizeStyle({
+                size: getPreviousValue(
+                  { xs, sm, md, lg, xl },
+                  'size',
+                  size,
+                  breakpoint!,
+                ),
+                resize: getPreviousValue(
+                  { xs, sm, md, lg, xl },
+                  'resize',
+                  resize,
+                  breakpoint!,
+                ),
+              })}
+            `
+          }
+          ${params?.sx}
+        `,
+      )}
+    `;
 
 const tabPaddingStyle = ({
   horizontalPadding,
@@ -312,90 +313,91 @@ export const motionDividerStyle = css`
 
 export const tabListItemStyle =
   ({ disabled }: { disabled?: boolean }) =>
-  (theme: Theme) => css`
-    padding: var(--tab-padding-y) 0px;
-    scroll-margin-inline: 25px;
-    flex: var(--tab-list-item-flex, initial);
-    overflow: var(--tab-list-item-overflow, initial);
-    position: relative;
-    cursor: pointer;
-
-    [data-role='tab-list-item-text-wrapper'] {
+  (theme: Theme) =>
+    css`
+      padding: var(--tab-padding-y) 0px;
+      scroll-margin-inline: 25px;
+      flex: var(--tab-list-item-flex, initial);
+      overflow: var(--tab-list-item-overflow, initial);
       position: relative;
-      margin: 0;
-      height: fit-content;
-      padding: 0;
-    }
+      cursor: pointer;
 
-    [data-role='tab-list-item-text'] {
-      white-space: nowrap;
-      transition: color 0.2s ease;
-      display: var(--tab-list-item-text-display, block);
-      text-align: var(--tab-list-item-text-align, initial);
-    }
+      [data-role='tab-list-item-text-wrapper'] {
+        position: relative;
+        margin: 0;
+        height: fit-content;
+        padding: 0;
+      }
 
-    [data-role='tab-list-item-divider'] {
-      position: absolute;
-      left: 0;
-      transition: background-color 0.2s ease;
-      bottom: calc(var(--tab-padding-y) * -1);
-      max-height: 0px;
-      height: 2px;
-      width: 100%;
-      background-color: transparent;
-      will-change: auto;
-      margin: 0;
-      padding: 0;
-      border: none;
-      outline: none;
-    }
+      [data-role='tab-list-item-text'] {
+        white-space: nowrap;
+        transition: color 0.2s ease;
+        display: var(--tab-list-item-text-display, block);
+        text-align: var(--tab-list-item-text-align, initial);
+      }
 
-    ${
-      disabled
-        ? css`
-            cursor: initial;
-            [data-role='tab-list-item-text'] {
-              color: ${theme.semantic.foreground.disable.primary};
-            }
+      [data-role='tab-list-item-divider'] {
+        position: absolute;
+        left: 0;
+        transition: background-color 0.2s ease;
+        bottom: calc(var(--tab-padding-y) * -1);
+        max-height: 0px;
+        height: 2px;
+        width: 100%;
+        background-color: transparent;
+        will-change: auto;
+        margin: 0;
+        padding: 0;
+        border: none;
+        outline: none;
+      }
 
-            &[data-ssr-motion='true'] {
-              [data-role='tab-list-item-divider'] {
-                max-height: 2px;
-                background-color: var(--tab-list-disabled-divider-color);
-              }
-            }
-          `
-        : css`
-            &[aria-selected='false']:hover [data-role='tab-list-item-text'] {
-              color: ${theme.semantic.foreground.neutral.tertiary};
-            }
-
-            &[aria-selected='false'] [data-role='tab-list-item-text'] {
-              color: ${theme.semantic.foreground.neutral.quaternary};
-              &:hover {
-                color: ${theme.semantic.foreground.neutral.tertiary};
-              }
-            }
-
-            &[aria-selected='true'] {
+      ${
+        disabled
+          ? css`
+              cursor: initial;
               [data-role='tab-list-item-text'] {
-                color: ${theme.semantic.foreground.neutral.strong};
+                color: ${theme.semantic.foreground.disable.primary};
               }
 
               &[data-ssr-motion='true'] {
                 [data-role='tab-list-item-divider'] {
                   max-height: 2px;
-                  background-color: var(--tab-list-active-divider-color);
+                  background-color: var(--tab-list-disabled-divider-color);
                 }
               }
-            }
-          `
-    }
+            `
+          : css`
+              &[aria-selected='false']:hover [data-role='tab-list-item-text'] {
+                color: ${theme.semantic.foreground.neutral.tertiary};
+              }
 
-    &:focus-visible {
-      outline-offset: -1px;
-    }
-  `;
+              &[aria-selected='false'] [data-role='tab-list-item-text'] {
+                color: ${theme.semantic.foreground.neutral.quaternary};
+                &:hover {
+                  color: ${theme.semantic.foreground.neutral.tertiary};
+                }
+              }
+
+              &[aria-selected='true'] {
+                [data-role='tab-list-item-text'] {
+                  color: ${theme.semantic.foreground.neutral.strong};
+                }
+
+                &[data-ssr-motion='true'] {
+                  [data-role='tab-list-item-divider'] {
+                    max-height: 2px;
+                    background-color: var(--tab-list-active-divider-color);
+                  }
+                }
+              }
+            `
+      }
+
+      &:focus-visible {
+        outline-offset: -1px;
+      }
+    `;
 
 export const tabListItemInteractionStyle = css`
   position: absolute;

@@ -1,28 +1,28 @@
-import { forwardRef, useCallback, useMemo } from 'react';
-import { useControllableState } from '@radix-ui/react-use-controllable-state';
 import { Box } from '@montage-ui/engine';
+import { useControllableState } from '@radix-ui/react-use-controllable-state';
+import { forwardRef, useCallback, useMemo } from 'react';
 
 import { findComponentInChildren } from '../../utils/internal/children';
 
 import {
-  progressListStyle,
-  progressListWrapperStyle,
-  progressStepWrapperStyle,
-} from './style';
+  PROGRESS_STEP_INDICATOR_ITEM_NAME,
+  PROGRESS_STEP_INDICATOR_NAME,
+} from './constants';
 import {
   ProgressStepIndicatorProvider,
   useProgressStepIndicatorContext,
 } from './contexts';
 import {
-  PROGRESS_STEP_INDICATOR_ITEM_NAME,
-  PROGRESS_STEP_INDICATOR_NAME,
-} from './constants';
+  progressListStyle,
+  progressListWrapperStyle,
+  progressStepWrapperStyle,
+} from './style';
 
-import type { DefaultComponentPropsInternal } from '@montage-ui/engine';
 import type {
   ProgressStepIndicatorItemProps,
   ProgressStepIndicatorProps,
 } from './types';
+import type { DefaultComponentPropsInternal } from '@montage-ui/engine';
 
 /**
  * @deprecated

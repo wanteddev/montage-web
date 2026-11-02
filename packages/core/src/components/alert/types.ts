@@ -1,15 +1,15 @@
+import type { FlexBoxProps } from '../flex-box/types';
 import type { FocusScopeProps } from '../focus-scope';
-import type { ReactNode } from 'react';
+import type { PortalProps } from '../portal/types';
+import type { TextButtonProps } from '../text-button/types';
+import type { TypographyProps } from '../typography/types';
 import type {
   DefaultComponentProps,
   Merge,
   WithSxProps,
 } from '@montage-ui/engine';
 import type { SlotProps } from '@radix-ui/react-slot';
-import type { PortalProps } from '../portal/types';
-import type { TypographyProps } from '../typography/types';
-import type { FlexBoxProps } from '../flex-box/types';
-import type { TextButtonProps } from '../text-button/types';
+import type { ReactNode } from 'react';
 
 export type AlertProps = {
   /** Whether the alert is open. */

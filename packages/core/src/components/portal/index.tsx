@@ -1,8 +1,8 @@
-import { forwardRef } from 'react';
 import { Portal as RadixPortal } from '@radix-ui/react-portal';
+import { forwardRef } from 'react';
 
-import type { DefaultComponentPropsInternal } from '@montage-ui/engine';
 import type { PortalProps } from './types';
+import type { DefaultComponentPropsInternal } from '@montage-ui/engine';
 
 const Portal = forwardRef<
   HTMLDivElement,

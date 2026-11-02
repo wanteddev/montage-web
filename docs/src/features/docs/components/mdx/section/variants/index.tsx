@@ -15,16 +15,21 @@ import {
   Typography,
   useTheme,
 } from '@montage-ui/core';
-import * as React from 'react';
 import * as Montage from '@montage-ui/core';
 import * as MontageIcon from '@montage-ui/icon';
-import { memo, useEffect, useMemo, useState } from 'react';
 import { IconTune } from '@montage-ui/icon';
+import * as React from 'react';
+import { memo, useEffect, useMemo, useState } from 'react';
 
+import { useRunner } from '../../demo/react-runner';
 import { Heading2 } from '../layout';
 import { sectionLayoutStyle } from '../style';
-import { useRunner } from '../../demo/react-runner';
 
+import {
+  getVariantRenderValues,
+  getVariantValueWithDisabled,
+  makeSectionVariantDemoCode,
+} from './helpers';
 import Carousel from './internal/carousel';
 import {
   sectionVariantsControlMobileStyle,
@@ -34,11 +39,6 @@ import {
   sectionVariantsItemRadioStyle,
   sectionVariantsStyle,
 } from './style';
-import {
-  getVariantRenderValues,
-  getVariantValueWithDisabled,
-  makeSectionVariantDemoCode,
-} from './helpers';
 
 import type { SectionSelectedVariants } from './types';
 import type { PropsWithChildren } from 'react';

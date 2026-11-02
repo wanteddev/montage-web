@@ -1,6 +1,6 @@
-import { axe } from 'vitest-axe';
-import { cleanup, render } from '@testing-library/react';
 import { theme } from '@montage-ui/engine';
+import { cleanup, render } from '@testing-library/react';
+import { axe } from 'vitest-axe';
 
 import { NORMAL_PRESETS } from './constants';
 import { nearestRadiusToken, overflowBoxForIcon } from './helpers';

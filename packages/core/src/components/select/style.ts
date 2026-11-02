@@ -1,12 +1,12 @@
 import { css } from '@montage-ui/engine';
 
 import { typographyStyle } from '../../utils';
-import { createResponsiveStyle } from '../../utils/internal/responsive-props';
 import { toCssValue } from '../../utils/internal/css';
+import { createResponsiveStyle } from '../../utils/internal/responsive-props';
 
+import type { SelectMultipleProps } from '../select-multiple/types';
 import type { SelectRenderChipProps } from './types';
 import type { Theme } from '@montage-ui/engine';
-import type { SelectMultipleProps } from '../select-multiple/types';
 
 export const selectStyle =
   ({
@@ -21,118 +21,120 @@ export const selectStyle =
     lg,
     xl,
   }: SelectMultipleProps) =>
-  (theme: Theme) => css`
-    display: flex;
-    border: none;
-    background-color: ${theme.semantic.effect.transparent.primary};
-    backdrop-filter: blur(32px);
-    width: ${toCssValue(width)};
-    height: ${toCssValue(height)};
-    box-shadow: inset 0 0 0 1px ${theme.semantic.line.neutral.secondary};
-    transition: box-shadow ease 0.2s;
-    align-items: center;
-    cursor: pointer;
+  (theme: Theme) =>
+    css`
+      display: flex;
+      border: none;
+      background-color: ${theme.semantic.effect.transparent.primary};
+      backdrop-filter: blur(32px);
+      width: ${toCssValue(width)};
+      height: ${toCssValue(height)};
+      box-shadow: inset 0 0 0 1px ${theme.semantic.line.neutral.secondary};
+      transition: box-shadow ease 0.2s;
+      align-items: center;
+      cursor: pointer;
 
-    ${selectSizeStyle({ size }, theme)}
+      ${selectSizeStyle({ size }, theme)}
 
-    [data-role='select-wrapper'], [data-role='select-multiple-wrapper'] {
-      padding: ${theme.spacing[0]} ${theme.spacing[4]};
-      width: 100%;
-      height: 100%;
+      [data-role='select-wrapper'],
+      [data-role='select-multiple-wrapper'] {
+        padding: ${theme.spacing[0]} ${theme.spacing[4]};
+        width: 100%;
+        height: 100%;
 
-      &:has([data-component='chip']) {
-        [data-component='select-content'][data-variant='icon'],
-        [data-component='select-content'][data-variant='icon-button'] {
-          margin-right: ${theme.spacing[4]};
+        &:has([data-component='chip']) {
+          [data-component='select-content'][data-variant='icon'],
+          [data-component='select-content'][data-variant='icon-button'] {
+            margin-right: ${theme.spacing[4]};
+          }
         }
       }
-    }
 
-    &:focus,
-    &:focus-visible {
-      outline: none;
-    }
+      &:focus,
+      &:focus-visible {
+        outline: none;
+      }
 
-    [data-role='select-placeholder'],
-    [data-role='select-multiple-placeholder'] {
-      color: ${theme.semantic.foreground.neutral.tertiary};
-    }
+      [data-role='select-placeholder'],
+      [data-role='select-multiple-placeholder'] {
+        color: ${theme.semantic.foreground.neutral.tertiary};
+      }
 
-    [data-role='select-values'],
-    [data-role='select-multiple-values'] {
-      color: ${theme.semantic.foreground.neutral.primary};
-    }
+      [data-role='select-values'],
+      [data-role='select-multiple-values'] {
+        color: ${theme.semantic.foreground.neutral.primary};
+      }
 
-    ${
-      status === 'negative' &&
-      css`
-        box-shadow: inset 0 0 0 1px ${theme.semantic.line.negative.primary};
-      `
-    }
+      ${
+        status === 'negative' &&
+        css`
+          box-shadow: inset 0 0 0 1px ${theme.semantic.line.negative.primary};
+        `
+      }
 
-    ${
-      disabled
-        ? css`
-            background-color: ${theme.semantic.surface.neutral.tertiary};
-            backdrop-filter: none;
-            box-shadow: inset 0 0 0 1px ${theme.semantic.line.neutral.tertiary};
-            cursor: default;
+      ${
+        disabled
+          ? css`
+              background-color: ${theme.semantic.surface.neutral.tertiary};
+              backdrop-filter: none;
+              box-shadow: inset 0 0 0 1px
+                ${theme.semantic.line.neutral.tertiary};
+              cursor: default;
 
-            [data-role='select-placeholder'],
-            [data-role='select-multiple-placeholder'] {
-              color: ${theme.semantic.foreground.disable.primary};
-            }
-
-            [data-role='select-values'],
-            [data-role='select-multiple-values'] {
-              color: ${theme.semantic.foreground.neutral.primary};
-            }
-          `
-        : css`
-            &:focus,
-            &[aria-expanded='true'] {
-              ${
-                status === 'negative'
-                  ? css`
-                      box-shadow:
-                        inset 0 0 0 1px ${theme.semantic.line.negative.strong},
-                        0 0 0 4px ${theme.semantic.line.negative.focus};
-                    `
-                  : css`
-                      box-shadow:
-                        inset 0 0 0 1px ${theme.semantic.line.brand.strong},
-                        0 0 0 4px ${theme.semantic.line.brand.focus};
-                    `
+              [data-role='select-placeholder'],
+              [data-role='select-multiple-placeholder'] {
+                color: ${theme.semantic.foreground.disable.primary};
               }
-            }
-          `
-    }
 
+              [data-role='select-values'],
+              [data-role='select-multiple-values'] {
+                color: ${theme.semantic.foreground.neutral.primary};
+              }
+            `
+          : css`
+              &:focus,
+              &[aria-expanded='true'] {
+                ${
+                  status === 'negative'
+                    ? css`
+                        box-shadow:
+                          inset 0 0 0 1px ${theme.semantic.line.negative.strong},
+                          0 0 0 4px ${theme.semantic.line.negative.focus};
+                      `
+                    : css`
+                        box-shadow:
+                          inset 0 0 0 1px ${theme.semantic.line.brand.strong},
+                          0 0 0 4px ${theme.semantic.line.brand.focus};
+                      `
+                }
+              }
+            `
+      }
 
-    ${createResponsiveStyle(
-      { xs, sm, md, lg, xl },
-      theme,
-    )(
-      (params) => css`
-        ${
-          params?.width !== undefined &&
-          css`
-            width: ${toCssValue(params.width)};
-          `
-        }
+      ${createResponsiveStyle(
+        { xs, sm, md, lg, xl },
+        theme,
+      )(
+        (params) => css`
+          ${
+            params?.width !== undefined &&
+            css`
+              width: ${toCssValue(params.width)};
+            `
+          }
 
-        ${
-          params?.height !== undefined &&
-          css`
-            height: ${toCssValue(params.height)};
-          `
-        }
+          ${
+            params?.height !== undefined &&
+            css`
+              height: ${toCssValue(params.height)};
+            `
+          }
 
-        ${selectSizeStyle({ size: params?.size }, theme)}
-        ${params?.sx}
-      `,
-    )}
-  `;
+          ${selectSizeStyle({ size: params?.size }, theme)}
+          ${params?.sx}
+        `,
+      )}
+    `;
 
 const selectSizeStyle = ({ size }: SelectMultipleProps, theme: Theme) => {
   switch (size) {
@@ -217,17 +219,18 @@ export const selectContentStyle = css`
 
 export const selectIconStyle =
   ({ disabled }: SelectMultipleProps) =>
-  (theme: Theme) => css`
-    ${
-      disabled
-        ? css`
-            color: ${theme.semantic.foreground.disable.primary};
-          `
-        : css`
-            color: ${theme.semantic.foreground.neutral.tertiary};
-          `
-    }
-  `;
+  (theme: Theme) =>
+    css`
+      ${
+        disabled
+          ? css`
+              color: ${theme.semantic.foreground.disable.primary};
+            `
+          : css`
+              color: ${theme.semantic.foreground.neutral.tertiary};
+            `
+      }
+    `;
 
 export const selectTextStyle = css`
   user-select: none;
@@ -238,30 +241,31 @@ export const selectTextStyle = css`
 
 export const selectRenderChipStyle =
   ({ status }: SelectRenderChipProps) =>
-  (theme: Theme) => css`
-    ${
-      status === 'negative' &&
-      css`
-        box-shadow: inset 0 0 0 1px ${theme.semantic.line.negative.primary};
-        color: ${theme.semantic.foreground.negative.primary};
+  (theme: Theme) =>
+    css`
+      ${
+        status === 'negative' &&
+        css`
+          box-shadow: inset 0 0 0 1px ${theme.semantic.line.negative.primary};
+          color: ${theme.semantic.foreground.negative.primary};
+
+          svg {
+            color: ${theme.semantic.foreground.negative.primary};
+          }
+
+          & > [data-component='with-interaction'] {
+            background-color: ${theme.semantic.foreground.negative.primary};
+          }
+        `
+      }
+
+      &:disabled,
+      &[aria-disabled='true'] {
+        box-shadow: inset 0 0 0 1px ${theme.semantic.line.neutral.secondary};
+        color: ${theme.semantic.foreground.neutral.primary};
 
         svg {
-          color: ${theme.semantic.foreground.negative.primary};
+          color: ${theme.semantic.foreground.disable.primary};
         }
-
-        & > [data-component='with-interaction'] {
-          background-color: ${theme.semantic.foreground.negative.primary};
-        }
-      `
-    }
-
-    &:disabled,
-    &[aria-disabled='true'] {
-      box-shadow: inset 0 0 0 1px ${theme.semantic.line.neutral.secondary};
-      color: ${theme.semantic.foreground.neutral.primary};
-
-      svg {
-        color: ${theme.semantic.foreground.disable.primary};
       }
-    }
-  `;
+    `;

@@ -5,7 +5,6 @@
 import figma from 'figma';
 
 import { inlineInstances } from '../../helpers/imports';
-import { finalizeTemplate } from '../modal/collect-imports';
 import {
   AUTOCOMPLETE_OPTION_SLOT_NAMES,
   readListCell,
@@ -13,6 +12,7 @@ import {
   renderElementProp,
 } from '../../helpers/list-cell';
 import { coreImport, renderListCellItem } from '../../helpers/menu-item';
+import { finalizeTemplate } from '../modal/collect-imports';
 
 // Most variants nest the List Cell as a layer named `Cell`; the Checkbox
 // variant names it `Cell/Cell`, which the shared item renderer does not find.

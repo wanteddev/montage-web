@@ -8,23 +8,24 @@ import type { Theme } from '@montage-ui/engine';
 
 export const segmentedControlStyle =
   ({ size, iconOnly, xs, sm, md, lg, xl }: SegmentedControlProps) =>
-  (theme: Theme) => css`
-    position: relative;
-    width: ${iconOnly ? 'fit-content' : '100%'};
-    background-color: ${theme.semantic.surface.neutral.secondary};
+  (theme: Theme) =>
+    css`
+      position: relative;
+      width: ${iconOnly ? 'fit-content' : '100%'};
+      background-color: ${theme.semantic.surface.neutral.secondary};
 
-    ${segmentedControlSizeStyle({ size }, theme)}
+      ${segmentedControlSizeStyle({ size }, theme)}
 
-    ${createResponsiveStyle(
-      { xs, sm, md, lg, xl },
-      theme,
-    )(
-      (params) => css`
-        ${segmentedControlSizeStyle({ size: params?.size }, theme)}
-        ${params?.sx}
-      `,
-    )}
-  `;
+      ${createResponsiveStyle(
+        { xs, sm, md, lg, xl },
+        theme,
+      )(
+        (params) => css`
+          ${segmentedControlSizeStyle({ size: params?.size }, theme)}
+          ${params?.sx}
+        `,
+      )}
+    `;
 
 const segmentedControlSizeStyle = (
   { size }: SegmentedControlProps,
@@ -88,65 +89,66 @@ export const segmentedControlItemStyle =
     lg,
     xl,
   }: SegmentedControlItemStyleProps) =>
-  (theme: Theme) => css`
-    position: relative;
-    height: 100%;
-    cursor: pointer;
-    box-shadow: none;
-    min-width: 0;
+  (theme: Theme) =>
+    css`
+      position: relative;
+      height: 100%;
+      cursor: pointer;
+      box-shadow: none;
+      min-width: 0;
 
-    [data-role='segmented-control-item-text'] {
-      font: inherit;
-      display: block;
-      ${ellipsisTypographyStyle(1)}
-      word-break: keep-all;
-      overflow-wrap: anywhere;
-    }
-
-    & > :not([data-role='segmented-control-item-text']) {
-      flex-shrink: 0;
-    }
-
-    ${
-      disabled &&
-      css`
-        cursor: initial;
-      `
-    }
-
-    color: ${theme.semantic.foreground.neutral.tertiary};
-    background-color: transparent;
-    box-shadow: none;
-    transition: color 0.2s;
-
-    &[data-active='true'] {
-      color: ${theme.semantic.foreground.neutral.primary};
-
-      &[data-ssr-motion='true'] {
-        & > * {
-          z-index: 1;
-        }
-
-        position: relative;
-        box-shadow: ${theme.semantic.elevation.shadow.normal.xsmall};
-        background-color: ${theme.semantic.surface.elevated.primary};
+      [data-role='segmented-control-item-text'] {
+        font: inherit;
+        display: block;
+        ${ellipsisTypographyStyle(1)}
+        word-break: keep-all;
+        overflow-wrap: anywhere;
       }
-    }
 
-    ${segmentedControlItemSizeStyle({ size, iconOnly }, theme)}
+      & > :not([data-role='segmented-control-item-text']) {
+        flex-shrink: 0;
+      }
 
-    ${createResponsiveStyle(
-      { xs, sm, md, lg, xl },
-      theme,
-    )(
-      (params) => css`
-        ${segmentedControlItemSizeStyle(
-          { size: params?.size, iconOnly },
-          theme,
-        )}
-      `,
-    )}
-  `;
+      ${
+        disabled &&
+        css`
+          cursor: initial;
+        `
+      }
+
+      color: ${theme.semantic.foreground.neutral.tertiary};
+      background-color: transparent;
+      box-shadow: none;
+      transition: color 0.2s;
+
+      &[data-active='true'] {
+        color: ${theme.semantic.foreground.neutral.primary};
+
+        &[data-ssr-motion='true'] {
+          & > * {
+            z-index: 1;
+          }
+
+          position: relative;
+          box-shadow: ${theme.semantic.elevation.shadow.normal.xsmall};
+          background-color: ${theme.semantic.surface.elevated.primary};
+        }
+      }
+
+      ${segmentedControlItemSizeStyle({ size, iconOnly }, theme)}
+
+      ${createResponsiveStyle(
+        { xs, sm, md, lg, xl },
+        theme,
+      )(
+        (params) => css`
+          ${segmentedControlItemSizeStyle(
+            { size: params?.size, iconOnly },
+            theme,
+          )}
+        `,
+      )}
+    `;
 
 const segmentedControlItemSizeStyle = (
   { size, iconOnly }: SegmentedControlItemStyleProps,

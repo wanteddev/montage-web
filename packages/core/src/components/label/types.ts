@@ -1,5 +1,5 @@
-import type { Merge } from '@montage-ui/engine';
 import type { TypographyProps } from '../typography/types';
+import type { Merge } from '@montage-ui/engine';
 
 export type LabelProps = Merge<
   {

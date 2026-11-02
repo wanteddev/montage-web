@@ -7,27 +7,28 @@ import type { Theme } from '@montage-ui/engine';
 
 export const loadingStyle =
   ({ size, xl, lg, md, sm, xs }: LoadingProps) =>
-  (theme: Theme) => css`
-    width: ${size};
-    height: ${size};
-    margin: 0 auto;
+  (theme: Theme) =>
+    css`
+      width: ${size};
+      height: ${size};
+      margin: 0 auto;
 
-    ${createResponsiveStyle(
-      { xl, lg, md, sm, xs },
-      theme,
-    )(
-      (params) => css`
-        ${
-          params?.size !== undefined &&
-          css`
-            width: ${params.size};
-            height: ${params.size};
-          `
-        }
-        ${params?.sx}
-      `,
-    )}
-  `;
+      ${createResponsiveStyle(
+        { xl, lg, md, sm, xs },
+        theme,
+      )(
+        (params) => css`
+          ${
+            params?.size !== undefined &&
+            css`
+              width: ${params.size};
+              height: ${params.size};
+            `
+          }
+          ${params?.sx}
+        `,
+      )}
+    `;
 
 export const loadingCircularAnimatedSvgStyle = (theme: Theme) => css`
   @keyframes array {

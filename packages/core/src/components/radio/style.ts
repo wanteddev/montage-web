@@ -8,107 +8,108 @@ import type { Theme } from '@montage-ui/engine';
 
 export const radioStyle =
   ({ size, checked, tight, disabled, xs, sm, md, lg, xl }: RadioProps) =>
-  (theme: Theme) => css`
-    display: flex;
-    padding: 2px;
-    align-items: center;
-    justify-content: center;
-    background-color: transparent;
-    color: ${theme.semantic.static.white};
-    border: none;
-    box-shadow: none;
-    cursor: pointer;
-    border-radius: 9999px;
-
-    & ~ label {
-      color: ${theme.semantic.foreground.neutral.primary};
-      cursor: pointer;
-    }
-
-    span {
-      background-color: ${theme.semantic.background.neutral.primary};
-      box-shadow: inset 0 0 0 1.5px ${theme.semantic.line.neutral.primary};
-      border-radius: inherit;
+  (theme: Theme) =>
+    css`
       display: flex;
+      padding: 2px;
       align-items: center;
       justify-content: center;
-      color: transparent;
+      background-color: transparent;
+      color: ${theme.semantic.static.white};
+      border: none;
+      box-shadow: none;
+      cursor: pointer;
+      border-radius: 9999px;
 
-      // safari
-      @supports (-webkit-backdrop-filter: none) {
-        box-shadow: inset 0 0 0 1px ${theme.semantic.line.neutral.primary};
-
-        @media only screen and (-webkit-device-pixel-ratio: 2),
-          only screen and (-moz-device-pixel-ratio: 2),
-          only screen and (device-pixel-ratio: 2) {
-          box-shadow: inset 0 0 0 1.5px ${theme.semantic.line.neutral.primary};
-        }
-
-        @media only screen and (-webkit-device-pixel-ratio: 3),
-          only screen and (-moz-device-pixel-ratio: 3),
-          only screen and (device-pixel-ratio: 3) {
-          box-shadow: inset 0 0 0 1.33333333px
-            ${theme.semantic.line.neutral.primary};
-          transform: translate(0);
-        }
+      & ~ label {
+        color: ${theme.semantic.foreground.neutral.primary};
+        cursor: pointer;
       }
-    }
-
-    & svg {
-      pointer-events: none;
-    }
-
-    &:focus-visible {
-      outline: none;
 
       span {
-        outline-style: solid;
-        outline-width: 2px;
-        outline-offset: 2px;
-        outline-color: Highlight;
-        outline-color: -webkit-focus-ring-color;
+        background-color: ${theme.semantic.background.neutral.primary};
+        box-shadow: inset 0 0 0 1.5px ${theme.semantic.line.neutral.primary};
+        border-radius: inherit;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: transparent;
+
+        // safari
+        @supports (-webkit-backdrop-filter: none) {
+          box-shadow: inset 0 0 0 1px ${theme.semantic.line.neutral.primary};
+
+          @media only screen and (-webkit-device-pixel-ratio: 2),
+            only screen and (-moz-device-pixel-ratio: 2),
+            only screen and (device-pixel-ratio: 2) {
+            box-shadow: inset 0 0 0 1.5px ${theme.semantic.line.neutral.primary};
+          }
+
+          @media only screen and (-webkit-device-pixel-ratio: 3),
+            only screen and (-moz-device-pixel-ratio: 3),
+            only screen and (device-pixel-ratio: 3) {
+            box-shadow: inset 0 0 0 1.33333333px
+              ${theme.semantic.line.neutral.primary};
+            transform: translate(0);
+          }
+        }
       }
-    }
 
-    ${radioSizeStyle({ size, tight })}
+      & svg {
+        pointer-events: none;
+      }
 
-    ${
-      checked &&
-      css`
+      &:focus-visible {
+        outline: none;
+
         span {
-          box-shadow: none;
-          background-color: ${theme.semantic.surface.brand.primary};
-          color: ${theme.semantic.static.white};
+          outline-style: solid;
+          outline-width: 2px;
+          outline-offset: 2px;
+          outline-color: Highlight;
+          outline-color: -webkit-focus-ring-color;
         }
-      `
-    }
+      }
 
-  ${
-      disabled &&
-      css`
-        opacity: ${theme.opacity[43]};
+      ${radioSizeStyle({ size, tight })}
 
-        & ~ label,
-        & {
-          cursor: initial;
-        }
+      ${
+        checked &&
+        css`
+          span {
+            box-shadow: none;
+            background-color: ${theme.semantic.surface.brand.primary};
+            color: ${theme.semantic.static.white};
+          }
+        `
+      }
 
-        & ~ label {
-          color: ${theme.semantic.foreground.disable.primary};
-        }
-      `
-    }
+      ${
+        disabled &&
+        css`
+          opacity: ${theme.opacity[43]};
+
+          & ~ label,
+          & {
+            cursor: initial;
+          }
+
+          & ~ label {
+            color: ${theme.semantic.foreground.disable.primary};
+          }
+        `
+      }
 
       ${createResponsiveStyle(
-      { xs, sm, md, lg, xl },
-      theme,
-    )(
-      (params) => css`
-        ${radioSizeStyle({ size: params?.size, tight })}
-        ${params?.sx}
-      `,
-    )}
-  `;
+        { xs, sm, md, lg, xl },
+        theme,
+      )(
+        (params) => css`
+          ${radioSizeStyle({ size: params?.size, tight })}
+          ${params?.sx}
+        `,
+      )}
+    `;
 
 const radioSizeStyle = ({
   size,

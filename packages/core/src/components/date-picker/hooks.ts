@@ -20,6 +20,7 @@ import {
 
 import type { DateType } from '../date-calendar/types';
 import type { DateFormatSection } from './helpers';
+import type { DatePickerProps } from './types';
 import type {
   ClipboardEvent,
   Dispatch,
@@ -28,7 +29,6 @@ import type {
   MouseEvent,
   SetStateAction,
 } from 'react';
-import type { DatePickerProps } from './types';
 
 type UseDateFieldParams = Pick<
   DatePickerProps,

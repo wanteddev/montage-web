@@ -25,52 +25,53 @@ import type { Theme } from '@montage-ui/engine';
 
 export const iconButtonStyle =
   ({ xs, sm, md, lg, xl, ...props }: IconButtonProps) =>
-  (theme: Theme) => css`
-    border-radius: ${theme.radius.full};
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
+  (theme: Theme) =>
+    css`
+      border-radius: ${theme.radius.full};
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
 
-    &:disabled,
-    &[aria-disabled='true'] {
-      pointer-events: none;
-      cursor: not-allowed;
-    }
+      &:disabled,
+      &[aria-disabled='true'] {
+        pointer-events: none;
+        cursor: not-allowed;
+      }
 
-    & > [data-component='with-interaction'] {
-      width: auto;
-      aspect-ratio: 1 / 1;
-    }
+      & > [data-component='with-interaction'] {
+        width: auto;
+        aspect-ratio: 1 / 1;
+      }
 
-    ${iconButtonSizeStyle(
-      {
-        size: props.size,
-        variant: props.variant,
-        interactionOverflow: props.interactionOverflow,
-      },
-      theme,
-    )}
-    ${iconButtonColorStyle(props, theme)}
+      ${iconButtonSizeStyle(
+        {
+          size: props.size,
+          variant: props.variant,
+          interactionOverflow: props.interactionOverflow,
+        },
+        theme,
+      )}
+      ${iconButtonColorStyle(props, theme)}
 
-  ${createResponsiveStyle(
-      { xs, sm, md, lg, xl },
-      theme,
-    )(
-      (params = {}) => css`
-        ${iconButtonSizeStyle(
-          {
-            size: params.size,
-            variant: props.variant,
-            interactionOverflow: props.interactionOverflow,
-          },
-          theme,
-        )}
-        ${params.sx}
-      `,
-    )}
-  `;
+      ${createResponsiveStyle(
+        { xs, sm, md, lg, xl },
+        theme,
+      )(
+        (params = {}) => css`
+          ${iconButtonSizeStyle(
+            {
+              size: params.size,
+              variant: props.variant,
+              interactionOverflow: props.interactionOverflow,
+            },
+            theme,
+          )}
+          ${params.sx}
+        `,
+      )}
+    `;
 
 // Exposes the gap between the box edge and the icon edge as
 // `--push-badge-additional-inset` on the adjacent PushBadge sibling so it can align to
@@ -266,7 +267,8 @@ const iconButtonColorStyle = (
           `
         }
 
-        &:disabled, &[aria-disabled='true'] {
+        &:disabled,
+        &[aria-disabled='true'] {
           background-color: transparent;
           color: ${theme.semantic.foreground.disable.primary};
           box-shadow: none;
@@ -402,7 +404,8 @@ const iconButtonColorStyle = (
           `
         }
 
-        &:disabled, &[aria-disabled='true'] {
+        &:disabled,
+        &[aria-disabled='true'] {
           color: ${theme.semantic.foreground.disable.primary};
           background-color: transparent;
           box-shadow: inset 0 0 0 1px ${theme.semantic.line.neutral.secondary};
@@ -420,7 +423,8 @@ const iconButtonColorStyle = (
           `
         }
 
-        &:disabled, &[aria-disabled='true'] {
+        &:disabled,
+        &[aria-disabled='true'] {
           color: ${theme.semantic.foreground.disable.primary};
           background-color: ${theme.semantic.surface.neutral.secondary};
           backdrop-filter: blur(32px);

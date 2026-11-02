@@ -1,5 +1,4 @@
 import { Box, FlexBox, IconButton, Typography } from '@montage-ui/core';
-import { useMemo } from 'react';
 import {
   IconArrowRight,
   IconClose,
@@ -7,6 +6,7 @@ import {
   IconHistory,
   IconUtilityFill,
 } from '@montage-ui/icon';
+import { useMemo } from 'react';
 
 import IconTextShape from '@/assets/icon-text-shape';
 
@@ -14,8 +14,8 @@ import { isPageLevel, parseStringFromHit } from '../../helpers';
 
 import SearchOptionHit from './hit';
 
-import type { ListCell } from '@montage-ui/core';
 import type { DocSearchHit, InternalDocSearchHit } from '../../types';
+import type { ListCell } from '@montage-ui/core';
 import type { ComponentPropsWithoutRef } from 'react';
 
 type Props = {

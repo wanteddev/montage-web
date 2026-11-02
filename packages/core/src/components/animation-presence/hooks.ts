@@ -1,5 +1,5 @@
-import { useLayoutEffect, useReducer, useState } from 'react';
 import { useCallbackRef } from '@radix-ui/react-use-callback-ref';
+import { useLayoutEffect, useReducer, useState } from 'react';
 
 import type { AnimationOptions } from './types';
 

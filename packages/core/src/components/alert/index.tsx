@@ -1,27 +1,20 @@
-import { forwardRef, useEffect, useId, useRef } from 'react';
-import { Slot } from '@radix-ui/react-slot';
 import { Box, getColorByToken } from '@montage-ui/engine';
-import { useControllableState } from '@radix-ui/react-use-controllable-state';
-import { composeRefs, useComposedRefs } from '@radix-ui/react-compose-refs';
 import { composeEventHandlers } from '@radix-ui/primitive';
+import { composeRefs, useComposedRefs } from '@radix-ui/react-compose-refs';
+import { Slot } from '@radix-ui/react-slot';
+import { useControllableState } from '@radix-ui/react-use-controllable-state';
+import { forwardRef, useEffect, useId, useRef } from 'react';
 
 import { hideOthers } from '../../utils/aria-hidden';
-import { RemoveScroll } from '../remove-scroll';
-import { Typography } from '../typography';
+import { useAnimationPresence } from '../animation-presence';
 import { DismissableLayer } from '../dismissable-layer';
 import { FlexBox } from '../flex-box';
-import { TextButton } from '../text-button';
 import { FocusScope } from '../focus-scope';
 import { PortalOrFragment } from '../portal-or-fragment';
-import { useAnimationPresence } from '../animation-presence';
+import { RemoveScroll } from '../remove-scroll';
+import { TextButton } from '../text-button';
+import { Typography } from '../typography';
 
-import {
-  alertActionStyle,
-  alertContainerStyle,
-  alertContentStyle,
-  alertDimmerStyle,
-  alertWrapperStyle,
-} from './style';
 import {
   ALERT_ACTION_AREA_BUTTON_NAME,
   ALERT_ACTION_AREA_NAME,
@@ -39,6 +32,13 @@ import {
   useAlertContainerContext,
   useAlertContext,
 } from './contexts';
+import {
+  alertActionStyle,
+  alertContainerStyle,
+  alertContentStyle,
+  alertDimmerStyle,
+  alertWrapperStyle,
+} from './style';
 
 import type {
   AlertActionAreaButtonProps,
@@ -51,12 +51,12 @@ import type {
   AlertProps,
   AlertTriggerProps,
 } from './types';
-import type { ElementType, ForwardedRef } from 'react';
 import type {
   DefaultComponentPropsInternal,
   PolymorphicComponentInternal,
   PolymorphicPropsInternal,
 } from '@montage-ui/engine';
+import type { ElementType, ForwardedRef } from 'react';
 
 const Alert = ({
   open: openProp,

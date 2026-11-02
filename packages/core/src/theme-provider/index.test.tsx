@@ -2,7 +2,7 @@ import { fireEvent, render, screen } from '@testing-library/react';
 
 import useThemeControl from '../hooks/use-theme-control';
 
-import { buildThemeScript } from './cookie-theme-provider/theme-script/helpers';
+import { useThemeContext } from './contexts';
 import {
   clearHostOnlyThemeCookie,
   deleteThemeCookieAt,
@@ -14,7 +14,7 @@ import {
   safeCookieKey,
   serializeThemeCookie,
 } from './cookie-theme-provider/helpers';
-import { useThemeContext } from './contexts';
+import { buildThemeScript } from './cookie-theme-provider/theme-script/helpers';
 
 import ThemeProvider from '.';
 

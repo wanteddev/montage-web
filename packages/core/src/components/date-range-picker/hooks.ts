@@ -14,8 +14,8 @@ import {
 } from '../date-picker/helpers';
 
 import type { DateType } from '../date-calendar/types';
-import type { DateRangeType } from '../date-range-calendar/types';
 import type { DateFormatSection } from '../date-picker/helpers';
+import type { DateRangeType } from '../date-range-calendar/types';
 import type {
   ClipboardEvent,
   Dispatch,

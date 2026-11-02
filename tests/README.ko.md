@@ -32,8 +32,8 @@ describe('주어진 상황', () => {
 또한, 디자인시스템 컴포넌트의 경우 접근성 테스트를 하는 것이 좋습니다.
 
 ```tsx
-import { axe } from 'vitest-axe';
 import { cleanup, render, screen } from '@testing-library/react';
+import { axe } from 'vitest-axe';
 
 describe('...', () => {
   it('should pass accessibility tests', async () => {
@@ -87,8 +87,8 @@ pnpm exec playwright install chromium
 스낵바, 토스트가 동작합니다).
 
 ```tsx
-import { cleanup } from '@testing-library/react';
 import { Button, Modal, ModalContainer, ModalTrigger } from '@montage-ui/core';
+import { cleanup } from '@testing-library/react';
 
 import {
   byTestId,

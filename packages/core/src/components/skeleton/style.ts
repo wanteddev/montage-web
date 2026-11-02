@@ -1,8 +1,8 @@
 import { css, getColorByToken, keyframes } from '@montage-ui/engine';
 import objectPath from 'object-path';
 
-import { createResponsiveStyle } from '../../utils/internal/responsive-props';
 import { toCssValue } from '../../utils/internal/css';
+import { createResponsiveStyle } from '../../utils/internal/responsive-props';
 
 import type { SkeletonProps } from './types';
 import type { Theme } from '@montage-ui/engine';
@@ -56,7 +56,7 @@ export const skeletonStyle =
       ${skeletonVariantStyle(props, theme)}
       ${skeletonSizeStyle(props)}
 
-    ${createResponsiveStyle(
+      ${createResponsiveStyle(
         { xs, sm, md, lg, xl },
         theme,
       )(

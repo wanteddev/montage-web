@@ -2,8 +2,8 @@ import { css } from '@montage-ui/engine';
 
 import { createResponsiveStyle } from '../../utils/internal/responsive-props';
 
-import type { Theme } from '@montage-ui/engine';
 import type { ProgressStepIndicatorProps } from './types';
+import type { Theme } from '@montage-ui/engine';
 
 export const progressStepWrapperStyle =
   ({
@@ -15,24 +15,25 @@ export const progressStepWrapperStyle =
     lg,
     xl,
   }: Partial<ProgressStepIndicatorProps>) =>
-  (theme: Theme) => css`
-    width: 100%;
-    position: relative;
+  (theme: Theme) =>
+    css`
+      width: 100%;
+      position: relative;
 
-    ${progressSizeStyle(size)}
-    ${progressDividerStyle(divider)}
+      ${progressSizeStyle(size)}
+      ${progressDividerStyle(divider)}
 
-    ${createResponsiveStyle(
-      { xs, sm, md, lg, xl },
-      theme,
-    )(
-      (params) => css`
-        ${progressSizeStyle(params?.size)}
-        ${progressDividerStyle(params?.divider)}
-        ${params?.sx}
-      `,
-    )}
-  `;
+      ${createResponsiveStyle(
+        { xs, sm, md, lg, xl },
+        theme,
+      )(
+        (params) => css`
+          ${progressSizeStyle(params?.size)}
+          ${progressDividerStyle(params?.divider)}
+          ${params?.sx}
+        `,
+      )}
+    `;
 
 export const progressListWrapperStyle = css`
   display: flex;

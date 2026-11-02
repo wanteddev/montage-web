@@ -3,14 +3,14 @@ import { Box, FlexBox, Loading, ScrollArea } from '@montage-ui/core';
 
 import DelayMount from '@/components/delay-mount';
 
+import Editor from './editor';
+import { useDemoControls, useReactDemoRunner } from './hooks';
 import {
   demoStyle,
   demoWrapperStyle,
   editorFallbackStyle,
   editorWrapperStyle,
 } from './style';
-import Editor from './editor';
-import { useDemoControls, useReactDemoRunner } from './hooks';
 import Toolbar from './toolbar';
 
 type Props = {

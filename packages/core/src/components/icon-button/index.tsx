@@ -1,19 +1,19 @@
-import { forwardRef, useMemo } from 'react';
 import { Box, useTheme } from '@montage-ui/engine';
+import { forwardRef, useMemo } from 'react';
 
-import { WithInteraction } from '../with-interaction';
 import { useSlotDefaults } from '../../hooks/internal/use-slot-defaults';
 import { resolveInheritedResponsive } from '../../utils/internal/responsive-props';
+import { WithInteraction } from '../with-interaction';
 
-import { backgroundBlendStyle, iconButtonStyle } from './style';
 import { maxDimensionToken } from './helpers';
+import { backgroundBlendStyle, iconButtonStyle } from './style';
 
+import type { IconButtonProps } from './types';
 import type {
   PolymorphicComponentInternal,
   PolymorphicPropsInternal,
 } from '@montage-ui/engine';
 import type { ElementType, ForwardedRef } from 'react';
-import type { IconButtonProps } from './types';
 
 const IconButton = forwardRef(
   <T extends ElementType = 'button'>(

@@ -1,4 +1,3 @@
-import { forwardRef } from 'react';
 import {
   cleanup,
   fireEvent,
@@ -6,6 +5,7 @@ import {
   screen,
   waitFor,
 } from '@testing-library/react';
+import { forwardRef } from 'react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { axe } from 'vitest-axe';
 

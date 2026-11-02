@@ -1,5 +1,5 @@
-import type { WithSxProps } from '@montage-ui/engine';
 import type { DateType } from '../date-picker';
+import type { WithSxProps } from '@montage-ui/engine';
 
 export type TimeViewType = 'meridiem' | 'hour' | 'minute' | 'second';
 

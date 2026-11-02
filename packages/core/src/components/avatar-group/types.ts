@@ -1,5 +1,5 @@
-import type { ReactNode } from 'react';
 import type { Merge, ResponsiveProps, WithSxProps } from '@montage-ui/engine';
+import type { ReactNode } from 'react';
 
 type AvatarGroupDefaultProps = WithSxProps<{
   /**

@@ -1,9 +1,9 @@
 'use client';
-import { Fragment, useCallback } from 'react';
-import { sentenceCase } from 'change-case';
 import { FlexBox, Typography } from '@montage-ui/core';
-import Link from 'next/link';
 import { IconArrowRightThick } from '@montage-ui/icon';
+import { sentenceCase } from 'change-case';
+import Link from 'next/link';
+import { Fragment, useCallback } from 'react';
 
 import useRouteScroll from '@/features/docs/hooks/use-route-scroll';
 

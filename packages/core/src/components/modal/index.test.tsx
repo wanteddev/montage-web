@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import {
   act,
   cleanup,
@@ -6,10 +5,11 @@ import {
   render,
   screen,
 } from '@testing-library/react';
+import { useState } from 'react';
 import { axe } from 'vitest-axe';
 
-import { Button } from '../button';
 import { ActionArea, ActionAreaButton } from '../action-area';
+import { Button } from '../button';
 import { DatePicker } from '../date-picker';
 
 import {

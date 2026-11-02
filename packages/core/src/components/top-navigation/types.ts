@@ -1,7 +1,7 @@
 import type { IconButtonProps } from '../icon-button/types';
+import type { TextButtonProps } from '../text-button/types';
 import type { Merge, ResponsiveProps, WithSxProps } from '@montage-ui/engine';
 import type { ReactNode } from 'react';
-import type { TextButtonProps } from '../text-button/types';
 
 export type TopNavigationProps = WithSxProps<
   Merge<

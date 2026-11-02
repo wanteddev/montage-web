@@ -105,13 +105,13 @@ npx -y @montage-ui/codemod@<codemodVersion> <transform> <target>
   add that directory to the target list AT PREFLIGHT, before step 1 runs, so steps 2–4
   cover it (again: one invocation per directory). Discover them by BOTH the variable and the
   DOM-identifier surface — `-e "--wds-" -e "--semantic-" -e "wds-component" -e "wds-ignore-"
--e "wds-region-manager"` — because step ④ rewrites `wds-component` / `wds-ignore-*` /
+  -e "wds-region-manager"` — because step ④ rewrites `wds-component` / `wds-ignore-*` /
   `wds-region-manager` in stylesheets too, so a directory whose only Montage references are
   DOM-identifier selectors (`[wds-component="card"]`, `#wds-region-manager`) is otherwise
   never discovered and step ④ silently never runs on it. **Exclude build output from that
   discovery, twice** — `--exclude-dir=node_modules --exclude-dir=.next --exclude-dir=dist
---exclude-dir=build --exclude-dir=out --exclude-dir=coverage
---exclude-dir=storybook-static` on the grep itself, plus
+  --exclude-dir=build --exclude-dir=out --exclude-dir=coverage
+  --exclude-dir=storybook-static` on the grep itself, plus
   `| grep -vE '(^|\./|/)(node_modules|\.next|dist|build|out|coverage|storybook-static)/'` as
   the backstop. The `(^|\./|/)` leading alternation is required, not cosmetic: whether the
   discovery grep prefixes paths with `./` depends on which grep is on PATH (Claude Code

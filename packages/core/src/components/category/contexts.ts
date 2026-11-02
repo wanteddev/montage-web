@@ -2,8 +2,8 @@ import { createContext } from '@radix-ui/react-context';
 
 import { CATEGORY_LIST_NAME, CATEGORY_NAME } from './constants';
 
-import type { BreakPoint } from '@montage-ui/engine';
 import type { CategoryListProps } from './types';
+import type { BreakPoint } from '@montage-ui/engine';
 import type { Dispatch, SetStateAction } from 'react';
 
 export type CategoryContextType = {

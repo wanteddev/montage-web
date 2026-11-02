@@ -6,20 +6,21 @@ import type { PopoverContentProps } from './types';
 import type { Theme } from '@montage-ui/engine';
 
 export const popoverStyle =
-  (variant: PopoverContentProps['variant']) => (theme: Theme) => css`
-    background-color: ${addOpacity(
-      theme.semantic.surface.elevated.primary,
-      theme.opacity[88],
-    )};
-    border-radius: 16px;
-    outline-style: none;
-    box-shadow: ${theme.semantic.elevation.shadow.spread.small};
-    backdrop-filter: blur(32px);
-    min-width: 140px;
-    max-height: var(--popper-available-height, 100vh);
+  (variant: PopoverContentProps['variant']) => (theme: Theme) =>
+    css`
+      background-color: ${addOpacity(
+        theme.semantic.surface.elevated.primary,
+        theme.opacity[88],
+      )};
+      border-radius: 16px;
+      outline-style: none;
+      box-shadow: ${theme.semantic.elevation.shadow.spread.small};
+      backdrop-filter: blur(32px);
+      min-width: 140px;
+      max-height: var(--popper-available-height, 100vh);
 
-    ${popoverVariantStyle(variant)}
-  `;
+      ${popoverVariantStyle(variant)}
+    `;
 
 const popoverVariantStyle = (variant: PopoverContentProps['variant']) => {
   switch (variant) {

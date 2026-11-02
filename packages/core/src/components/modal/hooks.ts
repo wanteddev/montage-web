@@ -1,6 +1,6 @@
+import { useTheme } from '@montage-ui/engine';
 import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { flushSync } from 'react-dom';
-import { useTheme } from '@montage-ui/engine';
 
 import { useMedia } from '../../hooks/internal/use-media';
 import { getPreviousValue } from '../../utils/internal/responsive-props';
@@ -28,10 +28,10 @@ import {
   runSpring,
 } from './helpers';
 
-import type { RefObject } from 'react';
-import type { BreakPoint } from '@montage-ui/engine';
 import type { SpringHandle } from './helpers';
 import type { ModalBottomSheetSnap, ModalContainerProps } from './types';
+import type { BreakPoint } from '@montage-ui/engine';
+import type { RefObject } from 'react';
 
 type ResponsiveSlice = Pick<
   ModalContainerProps,

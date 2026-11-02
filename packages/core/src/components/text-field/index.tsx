@@ -1,40 +1,40 @@
-import { useComposedRefs } from '@radix-ui/react-compose-refs';
 import {
   Box,
   type DefaultComponentPropsInternal,
   getColorByToken,
 } from '@montage-ui/engine';
 import { IconCircleCheckFill, IconCircleCloseFill } from '@montage-ui/icon';
+import { useComposedRefs } from '@radix-ui/react-compose-refs';
 import { forwardRef, useEffect, useRef } from 'react';
 
-import { FlexBox } from '../flex-box';
-import { IconButton } from '../icon-button';
+import { SlotDefaultsProvider } from '../../hooks/internal/use-slot-defaults';
 import { Button } from '../button';
+import { FlexBox } from '../flex-box';
 import { FormFieldLayoutProvider } from '../form-control/contexts';
 import {
   useFormFieldSize,
   useFormFieldSlotDefaults,
 } from '../form-control/hooks';
-import { SlotDefaultsProvider } from '../../hooks/internal/use-slot-defaults';
+import { IconButton } from '../icon-button';
 
+import { TEXT_FIELD_SLOT_SIZE } from './constants';
 import {
   positiveIconWrapperStyle,
   textFieldButtonStyle,
   textFieldContentStyle,
   textFieldWrapperStyle,
 } from './style';
-import { TEXT_FIELD_SLOT_SIZE } from './constants';
 
-import type {
-  PolymorphicComponentInternal,
-  PolymorphicPropsInternal,
-} from '@montage-ui/engine';
-import type { ElementType, ForwardedRef } from 'react';
 import type {
   TextFieldButtonProps,
   TextFieldContentProps,
   TextFieldProps,
 } from './types';
+import type {
+  PolymorphicComponentInternal,
+  PolymorphicPropsInternal,
+} from '@montage-ui/engine';
+import type { ElementType, ForwardedRef } from 'react';
 
 const TextField = forwardRef<
   HTMLInputElement,

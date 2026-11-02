@@ -5,13 +5,13 @@ import createLooseContext from '../../hooks/internal/use-loose-context';
 import { TOOLTIP_GROUP_NAME, TOOLTIP_NAME } from './constants';
 
 import type { PointerDownOutsideEvent } from '../dismissable-layer/types';
+import type { TooltipProps } from './types';
 import type {
   FocusEventHandler,
   MouseEventHandler,
   MutableRefObject,
   RefObject,
 } from 'react';
-import type { TooltipProps } from './types';
 
 type TooltipContextValue = {
   mode: Exclude<TooltipProps['mode'], undefined>;

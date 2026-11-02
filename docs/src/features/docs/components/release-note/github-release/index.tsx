@@ -1,12 +1,12 @@
-import { useQueries } from '@tanstack/react-query';
 import { ContentBadge, FlexBox, Loading, Typography } from '@montage-ui/core';
-import Link from 'next/link';
 import { IconCircleExclamationFill } from '@montage-ui/icon';
+import { useQueries } from '@tanstack/react-query';
+import Link from 'next/link';
 import semver from 'semver';
 
+import { GITHUB_RELEASES_INFO } from './constants';
 import { getGithubReleaseQueryOptions } from './helpers';
 import { releaseBadgeStyle, releaseStyle } from './style';
-import { GITHUB_RELEASES_INFO } from './constants';
 
 const GithubRelease = () => {
   const results = useQueries({

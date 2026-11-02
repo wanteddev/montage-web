@@ -1,4 +1,3 @@
-import { cleanup } from '@testing-library/react';
 import {
   Button,
   Modal,
@@ -9,6 +8,7 @@ import {
   ModalTrigger,
   useSnackbar,
 } from '@montage-ui/core';
+import { cleanup } from '@testing-library/react';
 
 import {
   byTestId,

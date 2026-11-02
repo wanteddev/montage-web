@@ -1,5 +1,5 @@
-import { forwardRef, useEffect, useRef } from 'react';
 import { useComposedRefs } from '@radix-ui/react-compose-refs';
+import { forwardRef, useEffect, useRef } from 'react';
 
 import { loadImage } from './helpers';
 

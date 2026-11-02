@@ -1,17 +1,17 @@
 import crypto from 'node:crypto';
 
-import { StreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/streamableHttp.js';
-import { mcpAuthRouter } from '@modelcontextprotocol/sdk/server/auth/router.js';
 import { requireBearerAuth } from '@modelcontextprotocol/sdk/server/auth/middleware/bearerAuth.js';
+import { mcpAuthRouter } from '@modelcontextprotocol/sdk/server/auth/router.js';
+import { StreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/streamableHttp.js';
 import express from 'express';
 
-import { getServer } from './server';
 import {
   createOAuthProvider,
   firestore,
   getServerUrl,
   handleGoogleCallback,
 } from './auth';
+import { getServer } from './server';
 
 import type { TrackEvent } from './track';
 

@@ -1,19 +1,19 @@
-import { forwardRef, useEffect, useRef, useState } from 'react';
+import { Box } from '@montage-ui/engine';
 import { composeEventHandlers } from '@radix-ui/primitive';
 import { useComposedRefs } from '@radix-ui/react-compose-refs';
 import * as RovingFocusGroup from '@radix-ui/react-roving-focus';
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
-import { Box } from '@montage-ui/engine';
+import { forwardRef, useEffect, useRef, useState } from 'react';
 
-import { Radio } from '../radio';
 import { createEmptyResponsiveStyle } from '../../utils/internal/responsive-props';
+import { Radio } from '../radio';
 
 import { RADIO_GROUP_NAME, RADIO_ITEM_NAME } from './constants';
 import { RadioGroupProvider, useRadioGroupContext } from './contexts';
 
+import type { RadioGroupItemProps, RadioGroupProps } from './types';
 import type { DefaultComponentPropsInternal } from '@montage-ui/engine';
 import type { ComponentRef } from 'react';
-import type { RadioGroupItemProps, RadioGroupProps } from './types';
 
 const ARROW_KEYS = ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'];
 

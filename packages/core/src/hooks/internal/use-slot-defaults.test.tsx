@@ -3,19 +3,19 @@ import { cleanup, render, renderHook, screen } from '@testing-library/react';
 import { Avatar } from '../../components/avatar';
 import { Button } from '../../components/button';
 import { ContentBadge } from '../../components/content-badge';
+import { FormFieldLayoutProvider } from '../../components/form-control/contexts';
+import { useFormFieldSlotDefaults } from '../../components/form-control/hooks';
 import { IconButton } from '../../components/icon-button';
 import {
   SegmentedControl,
   SegmentedControlItem,
 } from '../../components/segmented-control';
 import { TextButton } from '../../components/text-button';
-import { FormFieldLayoutProvider } from '../../components/form-control/contexts';
-import { useFormFieldSlotDefaults } from '../../components/form-control/hooks';
 
 import { SlotDefaultsProvider, useInheritedSize } from './use-slot-defaults';
 
-import type { ReactElement, ReactNode } from 'react';
 import type { SlotDefaults } from './use-slot-defaults';
+import type { ReactElement, ReactNode } from 'react';
 
 type BadgeSize = { size?: 'xsmall' | 'small' | 'medium' };
 

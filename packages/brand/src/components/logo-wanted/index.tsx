@@ -3,8 +3,8 @@ import { forwardRef, useId } from 'react';
 
 import { LOGO_SYMBOL_GRADIENT } from '../../constants/gradient';
 
-import type { DefaultComponentPropsInternal } from '@montage-ui/engine';
 import type { LogoWantedProps } from './types';
+import type { DefaultComponentPropsInternal } from '@montage-ui/engine';
 
 /**
  * @description Wanted brand logo rendered as the "[x] wanted" wordmark

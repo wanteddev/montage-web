@@ -1,12 +1,12 @@
 import { Divider, FlexBox } from '@montage-ui/core';
-import { useMemo } from 'react';
-import { useParams } from 'next/navigation';
 import { sentenceCase } from 'change-case';
+import { useParams } from 'next/navigation';
+import { useMemo } from 'react';
 
 import { useMDXContext } from '../../contexts';
 import RouteTab from '../route-tab';
-import DocsTitle from '../title';
 import DocsThumbnail from '../thumbnail';
+import DocsTitle from '../title';
 
 import type { SlugParams } from '../lnb/types';
 

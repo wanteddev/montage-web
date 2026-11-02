@@ -1,3 +1,11 @@
+import { Box } from '@montage-ui/engine';
+import { composeEventHandlers } from '@radix-ui/primitive';
+import { createCollection } from '@radix-ui/react-collection';
+import { useComposedRefs } from '@radix-ui/react-compose-refs';
+import { Slot } from '@radix-ui/react-slot';
+import { useCallbackRef } from '@radix-ui/react-use-callback-ref';
+import { useControllableState } from '@radix-ui/react-use-controllable-state';
+import { useSize } from '@radix-ui/react-use-size';
 import {
   forwardRef,
   useCallback,
@@ -6,17 +14,12 @@ import {
   useRef,
   useState,
 } from 'react';
-import { createCollection } from '@radix-ui/react-collection';
-import { useComposedRefs } from '@radix-ui/react-compose-refs';
-import { useControllableState } from '@radix-ui/react-use-controllable-state';
-import { Slot } from '@radix-ui/react-slot';
-import { useSize } from '@radix-ui/react-use-size';
-import { composeEventHandlers } from '@radix-ui/primitive';
 import { flushSync } from 'react-dom';
-import { useCallbackRef } from '@radix-ui/react-use-callback-ref';
-import { Box } from '@montage-ui/engine';
 
-import { Popper, PopperAnchor, PopperContent } from '../popper';
+import useEnhancedEffect from '../../hooks/internal/use-enhanced-effect';
+import { AnimationPresence } from '../animation-presence';
+import { DismissableLayer } from '../dismissable-layer';
+import { FlexBox } from '../flex-box';
 import {
   List,
   ListCell,
@@ -24,12 +27,9 @@ import {
   ListCellExtraContent,
   ListCellLabelTrailing,
 } from '../list';
+import { Popper, PopperAnchor, PopperContent } from '../popper';
 import { ScrollArea } from '../scroll-area';
-import { FlexBox } from '../flex-box';
 import { Typography } from '../typography';
-import { AnimationPresence } from '../animation-presence';
-import { DismissableLayer } from '../dismissable-layer';
-import useEnhancedEffect from '../../hooks/internal/use-enhanced-effect';
 
 import {
   AUTOCOMPLETE_FIELD_NAME,
@@ -43,6 +43,7 @@ import {
   AUTOCOMPLETE_SCOPE,
 } from './constants';
 import { AutocompleteProvider, useAutocompleteContext } from './contexts';
+import { focusSelectedOption, setAttributeSelection } from './helpers';
 import {
   autocompleteGroupTitleStyle,
   autocompleteListContentStyle,
@@ -50,13 +51,20 @@ import {
   autocompleteOptionStyle,
   autocompleteScrollAreaStyle,
 } from './style';
-import { focusSelectedOption, setAttributeSelection } from './helpers';
 
 import type {
   ListCellContentProps,
   ListCellExtraContentProps,
   ListCellLabelTrailingProps,
 } from '../list';
+import type {
+  AutocompleteCollectionItem,
+  AutocompleteFieldProps,
+  AutocompleteGroupProps,
+  AutocompleteListProps,
+  AutocompleteOptionProps,
+  AutocompleteProps,
+} from './types';
 import type {
   DefaultComponentProps,
   DefaultComponentPropsInternal,
@@ -70,14 +78,6 @@ import type {
   KeyboardEvent,
   MouseEvent,
 } from 'react';
-import type {
-  AutocompleteCollectionItem,
-  AutocompleteFieldProps,
-  AutocompleteGroupProps,
-  AutocompleteListProps,
-  AutocompleteOptionProps,
-  AutocompleteProps,
-} from './types';
 
 const [Collection, useCollection] = createCollection<
   HTMLButtonElement,

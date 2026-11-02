@@ -1,27 +1,27 @@
-import { forwardRef, useId, useMemo } from 'react';
 import {
   IconChevronLeftTightSmall,
   IconChevronRightTightSmall,
 } from '@montage-ui/icon';
 import { composeEventHandlers } from '@radix-ui/primitive';
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
+import { forwardRef, useId, useMemo } from 'react';
 
+import { FilterButton } from '../filter-button';
 import { FlexBox } from '../flex-box';
 import { IconButton } from '../icon-button';
-import { Typography } from '../typography';
-import { TextButton } from '../text-button';
-import { Menu, MenuContent, MenuItem, MenuList, MenuTrigger } from '../menu';
-import { FilterButton } from '../filter-button';
 import { Label } from '../label';
+import { Menu, MenuContent, MenuItem, MenuList, MenuTrigger } from '../menu';
+import { TextButton } from '../text-button';
 import { TextField } from '../text-field';
+import { Typography } from '../typography';
 
-import { getPaginationItems } from './helpers';
-import { PaginationProvider, usePaginationContext } from './contexts';
 import {
   PAGINATION_FIELD_NAME,
   PAGINATION_NAME,
   PAGINATION_SELECT_NAME,
 } from './constants';
+import { PaginationProvider, usePaginationContext } from './contexts';
+import { getPaginationItems } from './helpers';
 import {
   pageButtonStyle,
   paginationContentStyle,

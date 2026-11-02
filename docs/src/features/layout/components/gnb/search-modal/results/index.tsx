@@ -1,15 +1,15 @@
 import { FlexBox, List, Typography } from '@montage-ui/core';
 
-import SearchOption from './option';
 import SearchResultEmpty from './empty';
+import SearchOption from './option';
 
-import type { HTMLAttributes } from 'react';
-import type { AutocompletePropGetters } from '@algolia/autocomplete-core';
 import type {
   DocSearchHit,
   DocSearchState,
   InternalDocSearchHit,
 } from '../types';
+import type { AutocompletePropGetters } from '@algolia/autocomplete-core';
+import type { HTMLAttributes } from 'react';
 
 type Props = {
   state: DocSearchState<InternalDocSearchHit>;

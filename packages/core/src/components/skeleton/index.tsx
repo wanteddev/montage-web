@@ -1,14 +1,14 @@
-import { forwardRef } from 'react';
 import { Box } from '@montage-ui/engine';
+import { forwardRef } from 'react';
 
 import { skeletonStyle } from './style';
 
+import type { SkeletonProps } from './types';
 import type {
   PolymorphicComponentInternal,
   PolymorphicPropsInternal,
 } from '@montage-ui/engine';
 import type { ElementType, ForwardedRef } from 'react';
-import type { SkeletonProps } from './types';
 
 const Skeleton = forwardRef(
   <T extends ElementType = 'div'>(

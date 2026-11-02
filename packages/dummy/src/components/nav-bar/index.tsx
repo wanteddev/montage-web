@@ -1,3 +1,4 @@
+import { LogoWanted } from '@montage-ui/brand';
 import {
   Box,
   Button,
@@ -6,10 +7,10 @@ import {
   Typography,
   containerStyle,
 } from '@montage-ui/core';
-import { forwardRef } from 'react';
-import { LogoWanted } from '@montage-ui/brand';
 import { IconListCategory, IconMenu, IconSearch } from '@montage-ui/icon';
+import { forwardRef } from 'react';
 
+import { useIsNavSticky } from './hooks';
 import {
   asideWrapperStyle,
   dashboardButtonWrapperStyle,
@@ -27,7 +28,6 @@ import {
   signUpDesktopStyle,
   signUpMobileStyle,
 } from './style';
-import { useIsNavSticky } from './hooks';
 
 import type { DefaultComponentProps } from '@montage-ui/engine';
 

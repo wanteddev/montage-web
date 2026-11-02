@@ -1,17 +1,17 @@
-import { forwardRef, useEffect, useMemo, useRef } from 'react';
+import { Box } from '@montage-ui/engine';
 import {
   RovingFocusGroup,
   RovingFocusGroupItem,
 } from '@radix-ui/react-roving-focus';
-import { Box } from '@montage-ui/engine';
+import { forwardRef, useEffect, useMemo, useRef } from 'react';
 
 import { FlexBox } from '../flex-box';
 
 import { getPaginationDotScale, getPaginationDotsVisibleArea } from './helpers';
 import { paginationDotsStyle, paginationDotsWrapperStyle } from './style';
 
-import type { DefaultComponentPropsInternal } from '@montage-ui/engine';
 import type { PaginationDotsProps } from './types';
+import type { DefaultComponentPropsInternal } from '@montage-ui/engine';
 
 const ARROW_KEYS = ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'];
 

@@ -1,13 +1,13 @@
-import { forwardRef } from 'react';
 import { Box } from '@montage-ui/engine';
+import { forwardRef } from 'react';
 
 import { flexBoxStyle } from './style';
 
+import type { FlexBoxProps } from './types';
 import type {
   PolymorphicComponentInternal,
   PolymorphicPropsInternal,
 } from '@montage-ui/engine';
-import type { FlexBoxProps } from './types';
 import type { ElementType, ForwardedRef } from 'react';
 
 const FlexBox = forwardRef(

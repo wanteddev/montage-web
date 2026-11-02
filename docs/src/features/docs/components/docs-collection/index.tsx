@@ -1,5 +1,4 @@
 'use client';
-import { useCallback, useMemo } from 'react';
 import {
   Card,
   CardBody,
@@ -11,13 +10,14 @@ import {
 } from '@montage-ui/core';
 import { capitalCase } from 'change-case';
 import Link from 'next/link';
+import { useCallback, useMemo } from 'react';
 
 import { useMDXContext } from '@/features/docs/contexts';
 import { getImageUrl } from '@/helpers/image';
 
 import { PLATFORM_PATTERN } from '../../constants';
-import { Heading2 } from '../mdx/section/layout';
 import useRouteScroll from '../../hooks/use-route-scroll';
+import { Heading2 } from '../mdx/section/layout';
 
 import type { Frontmatter } from '@/features/docs/types';
 

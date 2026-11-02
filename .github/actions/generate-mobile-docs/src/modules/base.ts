@@ -1,8 +1,8 @@
-import path from 'node:path';
 import fs from 'node:fs';
+import path from 'node:path';
 
-import { globSync } from 'glob';
 import * as exec from '@actions/exec';
+import { globSync } from 'glob';
 
 import { normalizeFrontmatter } from '../helpers';
 

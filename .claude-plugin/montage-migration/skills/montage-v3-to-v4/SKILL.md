@@ -596,7 +596,7 @@ re-resolve on resume and break the same-build guarantee. The workflow returns pe
     `--no-verify` and does not touch the hook config. Settle the policy with the user, then
     re-run with `commitNoVerify: true` (or with the hooks disabled for the phase).
   - **State-file verification failed on a scan-only re-run** (`aborted:
-"state-file-verification"`, all 9 steps already completed): read `stateCheckError` — the
+    "state-file-verification"`, all 9 steps already completed): read `stateCheckError` — the
     script produces seven distinct causes with different remediations, so never assume which.
     (a) The verification agent returned nothing — re-run. (b) State file missing — reconcile
     with the user, never recreate silently. (b′) The verification agent omitted a locked field
@@ -774,7 +774,7 @@ both together when an M-section changes):
   occurrence. Hand-assembled `render` Chips → `SelectRenderChip` is a visual change
   (solid → outlined), so confirm each one — and KEEPING a hand-built `solid` Chip is a
   visual change too: v3 wrapped `render`'s output in `ChipProvider
-solid="semantic.label.alternative"`, which v4 dropped, so its text turns darker; per hit,
+  solid="semantic.label.alternative"`, which v4 dropped, so its text turns darker; per hit,
   restore the color on the Chip or accept it. A `select(-multiple)?-(placeholder|values|wrapper)`
   selector needs its path rechecked against the v4 tree (the placeholder/values wrapper is
   gone and `leadingContent` moved into the inner row). Whether any field adopts
@@ -879,7 +879,7 @@ solid="semantic.label.alternative"`, which v4 dropped, so its text turns darker;
   the v3 pixels. (A slot hit whose variant the slot does not size is handled as standalone or QA
   only — see M18.) A **[decision]** scan over every `<IconButton` hit.
 - **M19 (TopNavigation / ModalNavigation):** `ModalClose` → `<ModalNavigationButton
-variant="close-button">` (a text-label `ModalClose` becomes `text-button` with a hand-wired
+  variant="close-button">` (a text-label `ModalClose` becomes `text-button` with a hand-wired
   close), `TopNavigationButton` / `ModalNavigationButton` `variant="icon"` / `"text"` →
   `"icon-button"` / `"text-button"`, and `ModalNavigation` `variant="display"` → `"emphasized"`
   are mechanical **[zero]** rewrites (`TopNavigation` keeps `display`). The modal navigation's

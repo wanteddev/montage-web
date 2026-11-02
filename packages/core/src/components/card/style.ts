@@ -5,13 +5,12 @@ import {
   gradient,
   typographyStyle,
 } from '../../utils';
-import { createResponsiveStyle } from '../../utils/internal/responsive-props';
 import { toCssValue } from '../../utils/internal/css';
+import { createResponsiveStyle } from '../../utils/internal/responsive-props';
 import { getWeightMap } from '../typography/style';
 
-import type { TypographyProps } from '../typography/types';
 import type { ThumbnailSkeletonProps } from '../thumbnail/types';
-import type { Theme } from '@montage-ui/engine';
+import type { TypographyProps } from '../typography/types';
 import type {
   CardProps,
   CardRowProps,
@@ -19,6 +18,7 @@ import type {
   CardTitleProps,
   CardTitleSkeletonProps,
 } from './types';
+import type { Theme } from '@montage-ui/engine';
 
 const cardPlatformStyle = ({ platform }: Pick<CardProps, 'platform'>) => {
   switch (platform) {
@@ -107,41 +107,42 @@ const cardPlatformStyle = ({ platform }: Pick<CardProps, 'platform'>) => {
 
 export const cardStyle =
   ({ xs, sm, md, lg, xl, width, platform }: CardProps) =>
-  (theme: Theme) => css`
-    --card-thumbnail-overlay-z-index: 1;
-    --card-thumbnail-content-z-index: 2;
+  (theme: Theme) =>
+    css`
+      --card-thumbnail-overlay-z-index: 1;
+      --card-thumbnail-content-z-index: 2;
 
-    width: ${toCssValue(width) ?? '100%'};
-    ${cardPlatformStyle({ platform })}
+      width: ${toCssValue(width) ?? '100%'};
+      ${cardPlatformStyle({ platform })}
 
-    &:hover {
-      [data-component='thumbnail'] img {
-        transform: scale(1.025);
-      }
-    }
-
-    // thumbnail
-    [data-component='thumbnail'],
-    [data-component='thumbnail-skeleton'] {
-      width: 100%;
-    }
-
-    ${createResponsiveStyle(
-      { xs, sm, md, lg, xl },
-      theme,
-    )(
-      (params) => css`
-        ${
-          params?.width !== undefined &&
-          css`
-            width: ${toCssValue(params.width)};
-          `
+      &:hover {
+        [data-component='thumbnail'] img {
+          transform: scale(1.025);
         }
-        ${cardPlatformStyle({ platform: params?.platform })}
-        ${params?.sx}
-      `,
-    )}
-  `;
+      }
+
+      // thumbnail
+      [data-component='thumbnail'],
+      [data-component='thumbnail-skeleton'] {
+        width: 100%;
+      }
+
+      ${createResponsiveStyle(
+        { xs, sm, md, lg, xl },
+        theme,
+      )(
+        (params) => css`
+          ${
+            params?.width !== undefined &&
+            css`
+              width: ${toCssValue(params.width)};
+            `
+          }
+          ${cardPlatformStyle({ platform: params?.platform })}
+          ${params?.sx}
+        `,
+      )}
+    `;
 
 const cardThumbnailRatioStyle = ({
   ratio,
@@ -170,44 +171,46 @@ export const cardThumbnailStyle =
     lg,
     xl,
   }: Omit<CardThumbnailProps, 'src' | 'width' | 'alt'>) =>
-  (theme: Theme) => css`
-    position: relative;
+  (theme: Theme) =>
+    css`
+      position: relative;
 
-    [data-component='thumbnail'] {
-      overflow: hidden;
+      [data-component='thumbnail'] {
+        overflow: hidden;
 
-      img {
-        transition: transform 0.2s ease;
+        img {
+          transition: transform 0.2s ease;
+        }
       }
-    }
 
-    ${cardThumbnailRatioStyle({ ratio })}
-    ${createResponsiveStyle(
-      { xs, sm, md, lg, xl },
-      theme,
-    )(
-      (params) => css`
-        ${cardThumbnailRatioStyle({ ratio: params?.ratio })}
-        ${params?.sx}
-      `,
-    )}
-  `;
+      ${cardThumbnailRatioStyle({ ratio })}
+      ${createResponsiveStyle(
+        { xs, sm, md, lg, xl },
+        theme,
+      )(
+        (params) => css`
+          ${cardThumbnailRatioStyle({ ratio: params?.ratio })}
+          ${params?.sx}
+        `,
+      )}
+    `;
 
 export const cardThumbnailSkeletonStyle =
   ({ ratio, xs, sm, md, lg, xl }: ThumbnailSkeletonProps) =>
-  (theme: Theme) => css`
-    width: 100%;
-    ${cardThumbnailRatioStyle({ ratio })}
-    ${createResponsiveStyle(
-      { xs, sm, md, lg, xl },
-      theme,
-    )(
-      (params) => css`
-        ${cardThumbnailRatioStyle({ ratio: params?.ratio })}
-        ${params?.sx}
-      `,
-    )}
-  `;
+  (theme: Theme) =>
+    css`
+      width: 100%;
+      ${cardThumbnailRatioStyle({ ratio })}
+      ${createResponsiveStyle(
+        { xs, sm, md, lg, xl },
+        theme,
+      )(
+        (params) => css`
+          ${cardThumbnailRatioStyle({ ratio: params?.ratio })}
+          ${params?.sx}
+        `,
+      )}
+    `;
 
 export const cardThumbnailContentWrapperStyle = (theme: Theme) => css`
   position: absolute;
@@ -244,18 +247,19 @@ export const cardThumbnailContentToggleIconStyle = (theme: Theme) => css`
   }
 `;
 
-export const cardTitleStyle = (props: CardTitleProps) => (theme: Theme) => css`
-  ${ellipsisTypographyStyle(2)}
-  word-break: keep-all;
-  overflow-wrap: anywhere;
+export const cardTitleStyle = (props: CardTitleProps) => (theme: Theme) =>
+  css`
+    ${ellipsisTypographyStyle(2)}
+    word-break: keep-all;
+    overflow-wrap: anywhere;
 
-  &[data-component='card-title'] {
-    ${cardTypographyStyle(props, 'bold')(theme)}
-  }
-`;
+    &[data-component='card-title'] {
+      ${cardTypographyStyle(props, 'bold')(theme)}
+    }
+  `;
 
-export const cardCaptionStyle =
-  (props: TypographyProps) => (theme: Theme) => css`
+export const cardCaptionStyle = (props: TypographyProps) => (theme: Theme) =>
+  css`
     ${ellipsisTypographyStyle()}
     word-break: keep-all;
     overflow-wrap: anywhere;
@@ -298,7 +302,7 @@ export const cardTypographyStyle =
         `
       }
 
-    ${createResponsiveStyle(
+      ${createResponsiveStyle(
         { xs, sm, md, lg, xl },
         theme,
       )(
@@ -397,39 +401,41 @@ const cardSkeletonPlatformStyle = ({
 
 export const cardSkeletonStyle =
   ({ xs, sm, md, lg, xl, width, platform }: CardProps) =>
-  (theme: Theme) => css`
-    width: ${width ?? '100%'};
-    ${cardSkeletonPlatformStyle({ platform })}
+  (theme: Theme) =>
+    css`
+      width: ${width ?? '100%'};
+      ${cardSkeletonPlatformStyle({ platform })}
 
-    // thumbnail
-    [data-component='thumbnail'],
-    [data-component='thumbnail-skeleton'] {
-      width: 100%;
-    }
+      // thumbnail
+      [data-component='thumbnail'],
+      [data-component='thumbnail-skeleton'] {
+        width: 100%;
+      }
 
-    ${createResponsiveStyle(
-      { xs, sm, md, lg, xl },
-      theme,
-    )(
-      (params) => css`
-        ${
-          params?.width !== undefined &&
-          css`
-            width: ${params.width};
-          `
-        }
-        ${cardSkeletonPlatformStyle({ platform: params?.platform })}
-        ${params?.sx}
-      `,
-    )}
-  `;
+      ${createResponsiveStyle(
+        { xs, sm, md, lg, xl },
+        theme,
+      )(
+        (params) => css`
+          ${
+            params?.width !== undefined &&
+            css`
+              width: ${params.width};
+            `
+          }
+          ${cardSkeletonPlatformStyle({ platform: params?.platform })}
+          ${params?.sx}
+        `,
+      )}
+    `;
 
 export const cardTitleSkeletonStyle =
-  (props: CardTitleSkeletonProps) => (theme: Theme) => css`
-    &[data-component='card-title-skeleton'] {
-      ${cardSkeletonWidthStyle(props)(theme)}
-    }
-  `;
+  (props: CardTitleSkeletonProps) => (theme: Theme) =>
+    css`
+      &[data-component='card-title-skeleton'] {
+        ${cardSkeletonWidthStyle(props)(theme)}
+      }
+    `;
 
 const cardSkeletonWidthStyle =
   ({ width, height, xs, sm, md, lg, xl }: CardTitleSkeletonProps) =>
@@ -448,7 +454,7 @@ const cardSkeletonWidthStyle =
         `
       }
 
-    ${createResponsiveStyle(
+      ${createResponsiveStyle(
         { xs, sm, md, lg, xl },
         theme,
       )(

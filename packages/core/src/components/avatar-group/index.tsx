@@ -6,17 +6,17 @@ import {
   isValidElement,
 } from 'react';
 
-import { FlexBox } from '../flex-box';
-import { Typography } from '../typography';
-import { TextButtonProvider } from '../text-button/contexts';
-import { typographyStyle } from '../../utils';
 import { SlotDefaultsProvider } from '../../hooks/internal/use-slot-defaults';
+import { typographyStyle } from '../../utils';
+import { FlexBox } from '../flex-box';
+import { TextButtonProvider } from '../text-button/contexts';
+import { Typography } from '../typography';
 
-import { avatarGroupStyle } from './style';
 import { AVATAR_GROUP_CONTENT_SLOT_DEFAULTS } from './constants';
+import { avatarGroupStyle } from './style';
 
-import type { DefaultComponentPropsInternal } from '@montage-ui/engine';
 import type { AvatarGroupContentProps, AvatarGroupProps } from './types';
+import type { DefaultComponentPropsInternal } from '@montage-ui/engine';
 import type { ReactNode } from 'react';
 
 const MAX_AVATAR_COUNT = 5;

@@ -1,4 +1,3 @@
-import { cleanup } from '@testing-library/react';
 import {
   Modal,
   ModalContainer,
@@ -6,6 +5,7 @@ import {
   ModalContentItem,
   ModalHeading,
 } from '@montage-ui/core';
+import { cleanup } from '@testing-library/react';
 
 import { renderWithProvider } from '../helpers';
 

@@ -1,5 +1,5 @@
-import { axe } from 'vitest-axe';
 import { cleanup, render, screen } from '@testing-library/react';
+import { axe } from 'vitest-axe';
 
 import Loading from '.';
 

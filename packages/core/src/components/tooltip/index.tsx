@@ -1,23 +1,18 @@
-import { forwardRef, useCallback, useEffect, useId, useRef } from 'react';
-import { Slot } from '@radix-ui/react-slot';
-import { composeEventHandlers } from '@radix-ui/primitive';
-import { useComposedRefs } from '@radix-ui/react-compose-refs';
 import { Box, useTheme } from '@montage-ui/engine';
 import { IconClose } from '@montage-ui/icon';
+import { composeEventHandlers } from '@radix-ui/primitive';
+import { useComposedRefs } from '@radix-ui/react-compose-refs';
+import { Slot } from '@radix-ui/react-slot';
+import { forwardRef, useCallback, useEffect, useId, useRef } from 'react';
 
+import { createScope } from '../../hooks/internal/use-scope-context';
+import { AnimationPresence } from '../animation-presence';
 import { DismissableLayer } from '../dismissable-layer';
-import { Popper, PopperAnchor, PopperArrow, PopperContent } from '../popper';
 import { FlexBox } from '../flex-box';
 import { IconButton } from '../icon-button';
-import { createScope } from '../../hooks/internal/use-scope-context';
 import { NoSsr } from '../no-ssr';
-import { AnimationPresence } from '../animation-presence';
+import { Popper, PopperAnchor, PopperArrow, PopperContent } from '../popper';
 
-import {
-  TooltipGroupProvider,
-  TooltipProvider,
-  useTooltipContext,
-} from './contexts';
 import {
   TOOLTIP_CONTENT_NAME,
   TOOLTIP_CONTENT_WRAPPER_NAME,
@@ -26,18 +21,18 @@ import {
   TOOLTIP_TRIGGER_NAME,
 } from './constants';
 import {
+  TooltipGroupProvider,
+  TooltipProvider,
+  useTooltipContext,
+} from './contexts';
+import { closeButtonResponsiveSize, closeButtonSize } from './helpers';
+import { useTooltip } from './hooks';
+import {
   tooltipContentShortcutStyle,
   tooltipContentStyle,
   tooltipWrapperStyle,
 } from './style';
-import { useTooltip } from './hooks';
-import { closeButtonResponsiveSize, closeButtonSize } from './helpers';
 
-import type {
-  DefaultComponentPropsInternal,
-  PolymorphicComponentInternal,
-  PolymorphicPropsInternal,
-} from '@montage-ui/engine';
 import type {
   TooltipContentProps,
   TooltipContentWrapperProps,
@@ -45,6 +40,11 @@ import type {
   TooltipProps,
   TooltipTriggerProps,
 } from './types';
+import type {
+  DefaultComponentPropsInternal,
+  PolymorphicComponentInternal,
+  PolymorphicPropsInternal,
+} from '@montage-ui/engine';
 import type { ElementType, ForwardedRef } from 'react';
 
 const useTooltipScope = createScope('Popper');

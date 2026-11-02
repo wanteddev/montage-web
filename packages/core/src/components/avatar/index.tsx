@@ -1,13 +1,13 @@
-import { forwardRef, useEffect, useId, useMemo, useRef, useState } from 'react';
+import { Box } from '@montage-ui/engine';
 import {
   IconCompanyFill,
   IconGraduationFill,
   IconPersonFill,
 } from '@montage-ui/icon';
-import { Box } from '@montage-ui/engine';
+import { forwardRef, useEffect, useId, useMemo, useRef, useState } from 'react';
 
-import { ImageBase } from '../image-base';
 import { useInheritedSize } from '../../hooks/internal/use-slot-defaults';
+import { ImageBase } from '../image-base';
 
 import {
   avatarWrapperStyle,
@@ -16,8 +16,8 @@ import {
   fallbackWrapperStyle,
 } from './style';
 
-import type { DefaultComponentPropsInternal } from '@montage-ui/engine';
 import type { AvatarProps } from './types';
+import type { DefaultComponentPropsInternal } from '@montage-ui/engine';
 
 /**
  * Fallback icon occupies 2/3 of the avatar, centered.

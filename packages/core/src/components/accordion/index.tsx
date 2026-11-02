@@ -1,12 +1,15 @@
 import { Box } from '@montage-ui/engine';
-import { forwardRef, useEffect, useId, useRef, useState } from 'react';
-import { useControllableState } from '@radix-ui/react-use-controllable-state';
 import { IconChevronDownSmall } from '@montage-ui/icon';
 import { composeEventHandlers } from '@radix-ui/primitive';
 import { useComposedRefs } from '@radix-ui/react-compose-refs';
+import { useControllableState } from '@radix-ui/react-use-controllable-state';
 import { usePrevious } from '@radix-ui/react-use-previous';
 import { useSize } from '@radix-ui/react-use-size';
+import { forwardRef, useEffect, useId, useRef, useState } from 'react';
 
+import { AnimationPresence } from '../animation-presence';
+import { Divider } from '../divider';
+import { FlexBox } from '../flex-box';
 import {
   ListCell,
   ListCellContent,
@@ -14,9 +17,6 @@ import {
   ListCellLabelTrailing,
 } from '../list';
 import { Typography } from '../typography';
-import { Divider } from '../divider';
-import { FlexBox } from '../flex-box';
-import { AnimationPresence } from '../animation-presence';
 
 import {
   ACCORDION_CONTENT_NAME,
@@ -45,12 +45,6 @@ import type {
   ListCellLabelTrailingProps,
 } from '../list';
 import type {
-  CSSProperties,
-  ComponentRef,
-  ElementType,
-  ForwardedRef,
-} from 'react';
-import type {
   AccordionContentProps,
   AccordionDescriptionProps,
   AccordionDetailsProps,
@@ -63,6 +57,12 @@ import type {
   PolymorphicComponentInternal,
   PolymorphicPropsInternal,
 } from '@montage-ui/engine';
+import type {
+  CSSProperties,
+  ComponentRef,
+  ElementType,
+  ForwardedRef,
+} from 'react';
 
 const Accordion = forwardRef<
   HTMLDivElement,

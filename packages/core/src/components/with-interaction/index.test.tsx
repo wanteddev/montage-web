@@ -1,6 +1,6 @@
-import { axe } from 'vitest-axe';
-import { cleanup, render, screen } from '@testing-library/react';
 import { Box, theme } from '@montage-ui/engine';
+import { cleanup, render, screen } from '@testing-library/react';
+import { axe } from 'vitest-axe';
 
 import ThemeProvider from '../../theme-provider';
 

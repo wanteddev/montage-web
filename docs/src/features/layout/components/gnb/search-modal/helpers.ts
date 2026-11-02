@@ -1,12 +1,12 @@
-import { getFrontmatterTitle } from '@/features/docs/helpers/mdx.client';
 import { PLATFORM_PATTERN } from '@/features/docs/constants';
+import { getFrontmatterTitle } from '@/features/docs/helpers/mdx.client';
 
-import type { Frontmatter } from '@/features/docs/types';
 import type {
   DocSearchHit,
   DocSearchState,
   InternalDocSearchHit,
 } from './types';
+import type { Frontmatter } from '@/features/docs/types';
 
 const createStorage = <Item>(key: string) => {
   if (typeof window === 'undefined') {

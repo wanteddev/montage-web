@@ -1,14 +1,14 @@
 import path from 'path';
 
+import execa from 'execa';
 import inquirer from 'inquirer';
 import meow from 'meow';
-import execa from 'execa';
 
 import { MIGRATION_TRANSFORMS } from './constants';
+import { runStyleTextTransform } from './style-text-transform';
 import { renameWdsVariablesInString } from './transforms/v4/css-variable-map';
 import { renameWdsDomIdentifiersInString } from './transforms/v4/dom-identifier-map';
 import { renameSemanticTokensInString } from './transforms/v4/semantic-token-map';
-import { runStyleTextTransform } from './style-text-transform';
 
 /**
  * Transforms that also need to rewrite stylesheets, which jscodeshift cannot

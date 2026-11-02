@@ -2,27 +2,28 @@ import { css } from '@montage-ui/engine';
 
 import { createResponsiveStyle } from '../../utils/internal/responsive-props';
 
-import type { Theme } from '@montage-ui/engine';
 import type { GridItemProps } from './types';
+import type { Theme } from '@montage-ui/engine';
 
 export const gridItemStyle =
   ({ xs, sm, md, lg, xl, ...props }: GridItemProps) =>
-  (theme: Theme) => css`
-    padding-top: calc(var(--grid-column-spacing));
-    padding-left: calc(var(--grid-row-spacing));
+  (theme: Theme) =>
+    css`
+      padding-top: calc(var(--grid-column-spacing));
+      padding-left: calc(var(--grid-row-spacing));
 
-    ${gridItemAlignStyle(props)}
+      ${gridItemAlignStyle(props)}
 
-    ${createResponsiveStyle(
-      { xs, sm, md, lg, xl },
-      theme,
-    )(
-      (params) => css`
-        ${gridItemAlignStyle(params)}
-        ${params?.sx}
-      `,
-    )}
-  `;
+      ${createResponsiveStyle(
+        { xs, sm, md, lg, xl },
+        theme,
+      )(
+        (params) => css`
+          ${gridItemAlignStyle(params)}
+          ${params?.sx}
+        `,
+      )}
+    `;
 
 const gridItemAlignStyle = ({
   offset,

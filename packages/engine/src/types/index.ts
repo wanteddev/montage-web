@@ -1,3 +1,6 @@
+import type { Interpolation } from '@emotion/react';
+import type { CSSInterpolation } from '@emotion/serialize';
+import type { BreakPoint, Theme } from '@montage-ui/theme';
 import type {
   ComponentPropsWithoutRef,
   ComponentRef,
@@ -5,9 +8,6 @@ import type {
   JSX,
   Ref,
 } from 'react';
-import type { Interpolation } from '@emotion/react';
-import type { CSSInterpolation } from '@emotion/serialize';
-import type { BreakPoint, Theme } from '@montage-ui/theme';
 
 export {
   type ThemeToken,

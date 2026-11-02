@@ -1,11 +1,12 @@
 import { Box, FlexBox, Thumbnail, Typography } from '@montage-ui/core';
+import { IconArrowUpRight } from '@montage-ui/icon';
 import Link from 'next/link';
 import { useId } from 'react';
-import { IconArrowUpRight } from '@montage-ui/icon';
 
-import { breakWordStyle } from '@/styles/text';
 import { getImageUrl } from '@/helpers/image';
+import { breakWordStyle } from '@/styles/text';
 
+import { useCursor } from './hooks';
 import {
   carouselItemStyle,
   glassBackgroundEffectStyle,
@@ -16,7 +17,6 @@ import {
   thumbnailWrapperStyle,
   titleStyle,
 } from './style';
-import { useCursor } from './hooks';
 
 type Props = {
   title: string;

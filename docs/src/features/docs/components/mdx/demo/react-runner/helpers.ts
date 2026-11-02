@@ -1,8 +1,8 @@
 import React, { createElement, isValidElement } from 'react';
 import { transform as _transform } from 'sucrase';
 
-import type { ReactElement } from 'react';
 import type { RunnerOptions, Scope } from './types';
+import type { ReactElement } from 'react';
 
 const evalCode = (code: string, scope: Scope) => {
   // oxlint-disable-next-line @typescript-eslint/no-unused-vars

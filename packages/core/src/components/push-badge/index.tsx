@@ -1,13 +1,13 @@
-import { forwardRef } from 'react';
 import { Box } from '@montage-ui/engine';
+import { forwardRef } from 'react';
 
 import { FlexBox } from '../flex-box';
 
 import { pushBadgeStyle, pushBadgeWrapperStyle } from './style';
 
+import type { PushBadgeProps } from './types';
 import type { DefaultComponentPropsInternal } from '@montage-ui/engine';
 import type { ReactNode } from 'react';
-import type { PushBadgeProps } from './types';
 
 const PushBadge = forwardRef<
   HTMLDivElement,

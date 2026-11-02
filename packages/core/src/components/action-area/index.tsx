@@ -1,21 +1,21 @@
 import { forwardRef } from 'react';
 
-import { FlexBox } from '../flex-box';
 import { Button } from '../button';
-import { TextButton } from '../text-button';
+import { FlexBox } from '../flex-box';
 import { useModalScrollContainerContext } from '../modal/contexts';
+import { TextButton } from '../text-button';
 
 import { ACTION_AREA_BUTTON_NAME, ACTION_AREA_NAME } from './constants';
 import { ActionAreaProvider, useActionAreaContext } from './contexts';
 import { actionAreaStyle, actionButtonCancel, captionStyle } from './style';
 
 import type { ActionAreaButtonProps, ActionAreaProps } from './types';
-import type { ElementType, ForwardedRef, ReactNode } from 'react';
 import type {
   DefaultComponentPropsInternal,
   PolymorphicComponentInternal,
   PolymorphicPropsInternal,
 } from '@montage-ui/engine';
+import type { ElementType, ForwardedRef, ReactNode } from 'react';
 
 const ActionArea = forwardRef<
   HTMLDivElement,

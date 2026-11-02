@@ -1,3 +1,4 @@
+import type { FlexBoxProps } from '../flex-box/types';
 import type { Typography } from '../typography';
 import type { TypographyProps } from '../typography/types';
 import type {
@@ -7,7 +8,6 @@ import type {
   WithSxProps,
 } from '@montage-ui/engine';
 import type { ComponentProps, ReactNode } from 'react';
-import type { FlexBoxProps } from '../flex-box/types';
 
 export type ListProps = FlexBoxProps;
 

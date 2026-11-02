@@ -1,9 +1,9 @@
-import type { CSSProperties, ReactNode } from 'react';
-import type { Merge, ResponsiveProps, WithSxProps } from '@montage-ui/engine';
 import type { FlexBoxDefaultProps } from '../flex-box/types';
 import type { LabelProps } from '../label';
-import type { SlotProps } from '@radix-ui/react-slot';
 import type { TypographyProps } from '../typography/types';
+import type { Merge, ResponsiveProps, WithSxProps } from '@montage-ui/engine';
+import type { SlotProps } from '@radix-ui/react-slot';
+import type { CSSProperties, ReactNode } from 'react';
 
 type FlexBoxResponsiveProps = Omit<FlexBoxDefaultProps, 'children' | 'sx'>;
 

@@ -1,19 +1,18 @@
 import { Box } from '@montage-ui/engine';
-import { forwardRef, useId, useMemo } from 'react';
-import { useControllableState } from '@radix-ui/react-use-controllable-state';
-import { composeEventHandlers } from '@radix-ui/primitive';
 import { IconClose } from '@montage-ui/icon';
+import { composeEventHandlers } from '@radix-ui/primitive';
+import { useControllableState } from '@radix-ui/react-use-controllable-state';
+import { forwardRef, useId, useMemo } from 'react';
 
-import { FlexBox } from '../flex-box';
-import { Typography } from '../typography';
-import { useToastAnimation } from '../toast/hooks';
 import { ellipsisTypographyStyle } from '../../utils';
-import { TextButton } from '../text-button';
-import { PortalOrFragment } from '../portal-or-fragment';
 import { AnimationPresence } from '../animation-presence';
+import { FlexBox } from '../flex-box';
 import { IconButton } from '../icon-button';
+import { PortalOrFragment } from '../portal-or-fragment';
+import { TextButton } from '../text-button';
+import { useToastAnimation } from '../toast/hooks';
+import { Typography } from '../typography';
 
-import { SnackbarProvider, useSnackbarContext } from './contexts';
 import {
   SNACKBAR_ACTION_NAME,
   SNACKBAR_CLOSE_BUTTON_NAME,
@@ -23,6 +22,7 @@ import {
   SNACKBAR_HEADING_NAME,
   SNACKBAR_NAME,
 } from './constants';
+import { SnackbarProvider, useSnackbarContext } from './contexts';
 import {
   firstOverlayStyle,
   fullWidthFlexBoxStyle,
@@ -35,12 +35,6 @@ import {
   wrapperStyle,
 } from './style';
 
-import type { ElementType, ForwardedRef } from 'react';
-import type {
-  DefaultComponentPropsInternal,
-  PolymorphicComponentInternal,
-  PolymorphicPropsInternal,
-} from '@montage-ui/engine';
 import type {
   SnackbarActionProps,
   SnackbarCloseButtonProps,
@@ -50,6 +44,12 @@ import type {
   SnackbarHeadingProps,
   SnackbarProps,
 } from './types';
+import type {
+  DefaultComponentPropsInternal,
+  PolymorphicComponentInternal,
+  PolymorphicPropsInternal,
+} from '@montage-ui/engine';
+import type { ElementType, ForwardedRef } from 'react';
 
 const Snackbar = forwardRef(
   <T extends ElementType = 'div'>(

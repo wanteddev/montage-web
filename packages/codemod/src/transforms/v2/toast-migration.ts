@@ -1,9 +1,9 @@
+import { MONTAGE_SOURCES } from '../../constants';
 import {
   deepConvertPropertyValue,
   findImportDeclaration,
   getLocalName,
 } from '../../helpers';
-import { MONTAGE_SOURCES } from '../../constants';
 
 import type { API, CallExpression, FileInfo, Options } from 'jscodeshift';
 

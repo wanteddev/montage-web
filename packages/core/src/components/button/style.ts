@@ -1,70 +1,71 @@
 import { css } from '@montage-ui/engine';
 
-import { typographyStyle } from '../../utils/typography';
 import { createResponsiveStyle } from '../../utils/internal/responsive-props';
+import { typographyStyle } from '../../utils/typography';
 
 import type { ButtonProps } from './types';
 import type { Theme } from '@montage-ui/engine';
 
 export const buttonStyle =
   ({ loading, xs, sm, md, lg, xl, ...props }: ButtonProps) =>
-  (theme: Theme) => css`
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    vertical-align: middle;
-    box-sizing: border-box;
-    line-height: initial;
-    white-space: nowrap;
-    height: fit-content;
-    position: relative;
-    cursor: pointer;
+  (theme: Theme) =>
+    css`
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      vertical-align: middle;
+      box-sizing: border-box;
+      line-height: initial;
+      white-space: nowrap;
+      height: fit-content;
+      position: relative;
+      cursor: pointer;
 
-    [data-role='button-loading'] {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      circle {
-        stroke: currentColor;
-      }
-    }
-
-    ${
-      loading &&
-      css`
-        cursor: wait;
-        &
-          > *:not([data-role='button-loading']):not(
-            [data-component='with-interaction']
-          ) {
-          visibility: hidden;
+      [data-role='button-loading'] {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        circle {
+          stroke: currentColor;
         }
-      `
-    }
+      }
 
-    &:disabled,
-    &[aria-disabled='true'] {
-      pointer-events: none;
-      cursor: initial;
-    }
+      ${
+        loading &&
+        css`
+          cursor: wait;
+          &
+            > *:not([data-role='button-loading']):not(
+              [data-component='with-interaction']
+            ) {
+            visibility: hidden;
+          }
+        `
+      }
 
-    ${buttonColorStyle(props, theme)}
-    ${buttonSizeStyle(props, theme)}
-    ${props.fullWidth ? 'width: 100%;' : 'width: fit-content;'}
+      &:disabled,
+      &[aria-disabled='true'] {
+        pointer-events: none;
+        cursor: initial;
+      }
 
-    ${createResponsiveStyle(
-      { xs, sm, md, lg, xl },
-      theme,
-    )(
-      (params) => css`
-        ${buttonSizeStyle({ ...params, color: props.color }, theme)}
-        ${params?.fullWidth && 'width: 100%;'}
-        ${params?.fullWidth === false && 'width: fit-content;'}
-        ${params?.sx}
-      `,
-    )}
-  `;
+      ${buttonColorStyle(props, theme)}
+      ${buttonSizeStyle(props, theme)}
+      ${props.fullWidth ? 'width: 100%;' : 'width: fit-content;'}
+
+      ${createResponsiveStyle(
+        { xs, sm, md, lg, xl },
+        theme,
+      )(
+        (params) => css`
+          ${buttonSizeStyle({ ...params, color: props.color }, theme)}
+          ${params?.fullWidth && 'width: 100%;'}
+          ${params?.fullWidth === false && 'width: fit-content;'}
+          ${params?.sx}
+        `,
+      )}
+    `;
 
 const buttonSizeStyle = (
   { size, iconOnly }: ButtonProps = {},

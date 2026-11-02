@@ -2,16 +2,16 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 import { downloadImage, getImages, getNodes } from './api';
-import { parseComponentFrontmatter, parseComponentSections } from './parser';
+import { FIGMA_ESCAPE_LINE_BREAK } from './constants';
 import {
   getComponentDirectory,
   getComponentImageDirectory,
   getImageNames,
 } from './helpers';
-import { FIGMA_ESCAPE_LINE_BREAK } from './constants';
+import { parseComponentFrontmatter, parseComponentSections } from './parser';
 
-import type { FrameNode } from '@figma/rest-api-spec';
 import type { FigmaNode, Page } from './types';
+import type { FrameNode } from '@figma/rest-api-spec';
 
 export const processPage = async (page: Page, fileKey: string) => {
   console.log(`Processing page ${page.name}`);

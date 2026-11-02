@@ -1,5 +1,5 @@
-import { forwardRef } from 'react';
 import { Box, css, getColorByToken } from '@montage-ui/engine';
+import { forwardRef } from 'react';
 
 import {
   createResponsiveStyle,
@@ -10,12 +10,12 @@ import {
   typographyStyle,
 } from '../../utils/typography';
 
-import type { ElementType, ForwardedRef } from 'react';
+import type { TypographyProps } from './types';
 import type {
   PolymorphicComponentInternal,
   PolymorphicPropsInternal,
 } from '@montage-ui/engine';
-import type { TypographyProps } from './types';
+import type { ElementType, ForwardedRef } from 'react';
 
 const Typography = forwardRef(
   <T extends ElementType = 'span'>(
@@ -96,7 +96,7 @@ const Typography = forwardRef(
                     text-align: ${params?.align};
                   `
                 }
-                
+
                 ${params?.sx}
               `,
             )};

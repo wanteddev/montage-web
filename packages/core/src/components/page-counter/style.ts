@@ -16,107 +16,108 @@ export const pageCounterStyle =
     lg,
     xl,
   }: Omit<PageCounterProps, 'totalPages'>) =>
-  (theme: Theme) => css`
-    list-style: none;
-    margin: 0px;
-    border-radius: 1000px;
-    width: fit-content;
-    position: relative;
-
-    [data-role='page-counter-text'],
-    [data-role='page-counter-divider'] {
+  (theme: Theme) =>
+    css`
+      list-style: none;
+      margin: 0px;
+      border-radius: 1000px;
+      width: fit-content;
       position: relative;
-    }
 
-    &::before {
-      position: absolute;
-      content: '';
-      border-radius: inherit;
+      [data-role='page-counter-text'],
+      [data-role='page-counter-divider'] {
+        position: relative;
+      }
+
+      &::before {
+        position: absolute;
+        content: '';
+        border-radius: inherit;
+        ${
+          alternative
+            ? css`
+                background-color: ${addOpacity(
+                  theme.atomic.coolNeutral[30],
+                  theme.opacity[61],
+                )};
+              `
+            : css`
+                will-change: backdrop-filter;
+                backdrop-filter: blur(32px) saturate(150%) brightness(150%);
+                background-color: ${addOpacity(
+                  theme.semantic.static.white,
+                  theme.opacity[35],
+                )};
+
+                @supports (-webkit-backdrop-filter: none) {
+                  clip-path: inset(0 round 1000px);
+                  overflow: auto;
+                  border-radius: 0;
+                }
+              `
+        }
+        width: 100%;
+        height: 100%;
+        top: 0px;
+        left: 0px;
+      }
+
       ${
         alternative
           ? css`
-              background-color: ${addOpacity(
-                theme.atomic.coolNeutral[30],
-                theme.opacity[61],
-              )};
+              [data-role='page-counter-text'] {
+                color: ${addOpacity(
+                  theme.semantic.static.white,
+                  theme.opacity[88],
+                )};
+
+                &:first-of-type {
+                  text-shadow: 0px 0px 6px
+                    ${addOpacity(theme.semantic.static.black, theme.opacity[8])};
+                }
+              }
+
+              [data-role='page-counter-divider'] {
+                color: ${addOpacity(
+                  theme.semantic.static.white,
+                  theme.opacity[52],
+                )};
+              }
             `
           : css`
-              will-change: backdrop-filter;
-              backdrop-filter: blur(32px) saturate(150%) brightness(150%);
-              background-color: ${addOpacity(
-                theme.semantic.static.white,
-                theme.opacity[35],
-              )};
+              [data-role='page-counter-text'] {
+                color: ${addOpacity(
+                  theme.semantic.static.white,
+                  theme.opacity[88],
+                )};
 
-              @supports (-webkit-backdrop-filter: none) {
-                clip-path: inset(0 round 1000px);
-                overflow: auto;
-                border-radius: 0;
+                &:first-of-type {
+                  text-shadow: 0px 0px 6px
+                    ${addOpacity(theme.semantic.static.black, theme.opacity[8])};
+                }
+              }
+
+              [data-role='page-counter-divider'] {
+                color: ${addOpacity(
+                  theme.semantic.static.white,
+                  theme.opacity[61],
+                )};
               }
             `
       }
-      width: 100%;
-      height: 100%;
-      top: 0px;
-      left: 0px;
-    }
 
-    ${
-      alternative
-        ? css`
-            [data-role='page-counter-text'] {
-              color: ${addOpacity(
-                theme.semantic.static.white,
-                theme.opacity[88],
-              )};
+      ${paginationCounterSizeStyle({ size })}
 
-              &:first-of-type {
-                text-shadow: 0px 0px 6px
-                  ${addOpacity(theme.semantic.static.black, theme.opacity[8])};
-              }
-            }
-
-            [data-role='page-counter-divider'] {
-              color: ${addOpacity(
-                theme.semantic.static.white,
-                theme.opacity[52],
-              )};
-            }
-          `
-        : css`
-            [data-role='page-counter-text'] {
-              color: ${addOpacity(
-                theme.semantic.static.white,
-                theme.opacity[88],
-              )};
-
-              &:first-of-type {
-                text-shadow: 0px 0px 6px
-                  ${addOpacity(theme.semantic.static.black, theme.opacity[8])};
-              }
-            }
-
-            [data-role='page-counter-divider'] {
-              color: ${addOpacity(
-                theme.semantic.static.white,
-                theme.opacity[61],
-              )};
-            }
-          `
-    }
-
-    ${paginationCounterSizeStyle({ size })}
-
-    ${createResponsiveStyle(
-      { xs, sm, md, lg, xl },
-      theme,
-    )(
-      (params) => css`
-        ${paginationCounterSizeStyle({ size: params?.size })}
-        ${params?.sx}
-      `,
-    )}
-  `;
+      ${createResponsiveStyle(
+        { xs, sm, md, lg, xl },
+        theme,
+      )(
+        (params) => css`
+          ${paginationCounterSizeStyle({ size: params?.size })}
+          ${params?.sx}
+        `,
+      )}
+    `;
 
 const paginationCounterSizeStyle = ({
   size,

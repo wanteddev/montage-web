@@ -1,5 +1,5 @@
-import { cleanup } from '@testing-library/react';
 import { Button, DatePicker, TimePicker } from '@montage-ui/core';
+import { cleanup } from '@testing-library/react';
 
 import {
   bodyPointerEvents,

@@ -26,30 +26,31 @@ const unmountKeyframes = keyframes`
 
 export const tooltipWrapperStyle =
   ({ size, xs, sm, md, lg, xl }: TooltipContentProps) =>
-  (theme: Theme) => css`
-    backdrop-filter: blur(32px);
-    max-width: min(280px, var(--popper-available-width, 100vw));
+  (theme: Theme) =>
+    css`
+      backdrop-filter: blur(32px);
+      max-width: min(280px, var(--popper-available-width, 100vw));
 
-    &[data-status='open'] {
-      animation: ${mountKeyframes} 200ms ease-in-out;
-    }
+      &[data-status='open'] {
+        animation: ${mountKeyframes} 200ms ease-in-out;
+      }
 
-    &[data-status='close'] {
-      animation: ${unmountKeyframes} 200ms ease-in-out;
-    }
+      &[data-status='close'] {
+        animation: ${unmountKeyframes} 200ms ease-in-out;
+      }
 
-    ${tooltipWrapperSizeStyle({ size })}
+      ${tooltipWrapperSizeStyle({ size })}
 
-    ${createResponsiveStyle(
-      { xs, sm, md, lg, xl },
-      theme,
-    )(
-      (params) => css`
-        ${tooltipWrapperSizeStyle({ size: params?.size })}
-        ${params?.sx}
-      `,
-    )}
-  `;
+      ${createResponsiveStyle(
+        { xs, sm, md, lg, xl },
+        theme,
+      )(
+        (params) => css`
+          ${tooltipWrapperSizeStyle({ size: params?.size })}
+          ${params?.sx}
+        `,
+      )}
+    `;
 
 export const tooltipWrapperSizeStyle = ({
   size,

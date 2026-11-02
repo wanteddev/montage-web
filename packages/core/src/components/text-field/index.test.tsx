@@ -7,15 +7,15 @@ import {
 } from '@testing-library/react';
 import { axe } from 'vitest-axe';
 
+import { useInheritedSize } from '../../hooks/internal/use-slot-defaults';
+import { ContentBadge } from '../content-badge';
 import {
   FormControl,
   FormControlField,
   FormControlLabel,
   FormControlMessage,
 } from '../form-control';
-import { ContentBadge } from '../content-badge';
 import { IconButton } from '../icon-button';
-import { useInheritedSize } from '../../hooks/internal/use-slot-defaults';
 
 import { TextField, TextFieldContent } from '.';
 

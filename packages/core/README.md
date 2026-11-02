@@ -35,9 +35,9 @@ You need to load the Pretendard font.
 ### React
 
 ```tsx
+import { ThemeProvider } from '@montage-ui/core';
 // App.tsx
 import { createRoot } from 'react-dom/client';
-import { ThemeProvider } from '@montage-ui/core';
 
 import App from './App';
 
@@ -59,9 +59,9 @@ If you use it with scss, styled-components, etc.
 Use [Pretend option](https://emotion.sh/docs/@emotion/cache#prepend) allows you to determine whether to prepend style tags to DOM nodes.
 
 ```tsx
+import { ThemeProvider, CacheProvider, createCache } from '@montage-ui/core';
 // App.tsx
 import { createRoot } from 'react-dom/client';
-import { ThemeProvider, CacheProvider, createCache } from '@montage-ui/core';
 
 import App from './App';
 
@@ -91,9 +91,9 @@ pnpm i @montage-ui/nextjs
 ```tsx
 // app/layout.tsx
 'use client';
-import { Head } from '@wanted-frontend/config';
 import { ThemeProvider } from '@montage-ui/core';
 import { AppRouterCacheProvider } from '@montage-ui/nextjs';
+import { Head } from '@wanted-frontend/config';
 
 import type { PropsWithChildren } from 'react';
 
@@ -122,9 +122,9 @@ Use [Pretend option](https://emotion.sh/docs/@emotion/cache#prepend) allows you 
 ```tsx
 // app/layout.tsx
 'use client';
-import { Head } from '@wanted-frontend/config';
 import { ThemeProvider } from '@montage-ui/core';
 import { AppRouterCacheProvider } from '@montage-ui/nextjs';
+import { Head } from '@wanted-frontend/config';
 import { ThemeProvider as StyledComponentsProvider } from 'styled-components';
 
 import type { PropsWithChildren } from 'react';
@@ -162,8 +162,8 @@ pnpm i @montage-ui/nextjs
 import { ThemeProvider } from '@montage-ui/core';
 import { AppCacheProvider } from '@montage-ui/nextjs';
 
-import type { AppProps } from 'next/app';
 import type { EmotionCacheProviderProps } from '@montage-ui/nextjs';
+import type { AppProps } from 'next/app';
 
 import '@montage-ui/core/global.css';
 
@@ -309,8 +309,8 @@ import { ThemeProvider } from '@montage-ui/core';
 import { AppCacheProvider } from '@montage-ui/nextjs';
 import { ThemeProvider as StyledComponentsProvider } from 'styled-components';
 
-import type { AppProps } from 'next/app';
 import type { EmotionCacheProviderProps } from '@montage-ui/nextjs';
+import type { AppProps } from 'next/app';
 
 import '@montage-ui/core/global.css';
 

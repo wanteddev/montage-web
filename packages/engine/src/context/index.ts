@@ -1,5 +1,5 @@
-import { createContext } from 'react';
 import { type Theme, theme } from '@montage-ui/theme';
+import { createContext } from 'react';
 
 const ThemeContext = createContext<Theme>(theme.light);
 

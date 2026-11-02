@@ -1,12 +1,12 @@
 'use client';
 import { FlexBox, ScrollArea } from '@montage-ui/core';
-import { useEffect, useRef } from 'react';
 import { usePathname } from 'next/navigation';
+import { useEffect, useRef } from 'react';
 
 import { useMDXContext } from '../../contexts';
 
-import { lnbWrapperStyle } from './style';
 import LnbGroup from './group';
+import { lnbWrapperStyle } from './style';
 
 const Lnb = () => {
   const pathname = usePathname();

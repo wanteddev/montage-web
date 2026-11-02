@@ -1,14 +1,14 @@
-import { useComposedRefs } from '@radix-ui/react-compose-refs';
 import { Box, type DefaultComponentPropsInternal } from '@montage-ui/engine';
 import { IconCircleCloseFill, IconSearch } from '@montage-ui/icon';
+import { useComposedRefs } from '@radix-ui/react-compose-refs';
 import { forwardRef, useEffect, useRef } from 'react';
 
-import { FlexBox } from '../flex-box';
-import { IconButton } from '../icon-button';
+import { useSlotDefaults } from '../../hooks/internal/use-slot-defaults';
 import { mapResponsiveProps } from '../../utils/internal/responsive-props';
+import { FlexBox } from '../flex-box';
 import { FORM_FIELD_ICON_BUTTON_SIZE } from '../form-control/constants';
 import { useFormFieldSize } from '../form-control/hooks';
-import { useSlotDefaults } from '../../hooks/internal/use-slot-defaults';
+import { IconButton } from '../icon-button';
 
 import { searchFieldContentStyle, searchFieldWrapperStyle } from './style';
 

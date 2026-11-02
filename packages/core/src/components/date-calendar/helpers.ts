@@ -2,9 +2,9 @@ import dayjs from 'dayjs';
 
 import { focusIntoView } from '../../utils/internal/element';
 
+import type { DateType, ViewType } from './types';
 import type { Dayjs } from 'dayjs';
 import type { RefObject } from 'react';
-import type { DateType, ViewType } from './types';
 
 type DefaultDateHelperParams = {
   max: DateType;

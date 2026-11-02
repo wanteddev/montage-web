@@ -1,5 +1,5 @@
-import type { Merge, ResponsiveProps, WithSxProps } from '@montage-ui/engine';
 import type { FlexBoxProps } from '../flex-box/types';
+import type { Merge, ResponsiveProps, WithSxProps } from '@montage-ui/engine';
 
 export type LoadingDefaultProps = WithSxProps<{
   variant?: 'wanted' | 'circular';

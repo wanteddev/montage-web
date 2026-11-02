@@ -1,12 +1,12 @@
-import type { ListCellProps, ListProps } from '../list/types';
 import type { FlexBoxProps } from '../flex-box/types';
-import type { ReactNode } from 'react';
+import type { ListCellProps, ListProps } from '../list/types';
 import type {
   PopoverContentProps,
   PopoverProps,
   PopoverTriggerProps,
 } from '../popover/types';
 import type { Merge, WithSxProps } from '@montage-ui/engine';
+import type { ReactNode } from 'react';
 
 export type MenuDefaultProps = {
   /**

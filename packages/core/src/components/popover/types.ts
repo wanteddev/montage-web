@@ -1,9 +1,9 @@
-import type { DismissableLayerProps } from '@radix-ui/react-dismissable-layer';
-import type { WithSxProps } from '@montage-ui/engine';
-import type { SlotProps } from '@radix-ui/react-slot';
 import type { FocusScopeProps } from '../focus-scope/types';
-import type { ReactNode } from 'react';
 import type { PopperContentProps } from '../popper/types';
+import type { WithSxProps } from '@montage-ui/engine';
+import type { DismissableLayerProps } from '@radix-ui/react-dismissable-layer';
+import type { SlotProps } from '@radix-ui/react-slot';
+import type { ReactNode } from 'react';
 
 export type PopoverProps = {
   /** Whether the popover is open. */

@@ -1,29 +1,29 @@
-import { forwardRef, useEffect, useId, useState } from 'react';
-import { useControllableState } from '@radix-ui/react-use-controllable-state';
 import { composeEventHandlers } from '@radix-ui/primitive';
+import { useControllableState } from '@radix-ui/react-use-controllable-state';
+import { forwardRef, useEffect, useId, useState } from 'react';
 
-import { Typography } from '../typography';
-import { FlexBox } from '../flex-box';
-import { WithInteraction } from '../with-interaction';
 import { hapticFeedback } from '../../utils/internal/haptic';
+import { FlexBox } from '../flex-box';
+import { Typography } from '../typography';
+import { WithInteraction } from '../with-interaction';
 
-import {
-  BottomNavigationProvider,
-  useBottomNavigationContext,
-} from './contexts';
 import {
   BOTTOM_NAVIGATION_ITEM_NAME,
   BOTTOM_NAVIGATION_NAME,
 } from './constants';
+import {
+  BottomNavigationProvider,
+  useBottomNavigationContext,
+} from './contexts';
 import { bottomNavigationItemStyle, bottomNavigationStyle } from './style';
 
+import type { BottomNavigationItemProps, BottomNavigationProps } from './types';
 import type {
   DefaultComponentPropsInternal,
   PolymorphicComponentInternal,
   PolymorphicPropsInternal,
 } from '@montage-ui/engine';
 import type { ElementType, ForwardedRef } from 'react';
-import type { BottomNavigationItemProps, BottomNavigationProps } from './types';
 
 const BottomNavigation = forwardRef(
   (

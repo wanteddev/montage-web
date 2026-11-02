@@ -1,11 +1,11 @@
 import { Box, FlexBox, Typography, WithInteraction } from '@montage-ui/core';
+import Link from 'next/link';
 import {
   type HTMLAttributes,
   type PropsWithChildren,
   type ReactNode,
   useCallback,
 } from 'react';
-import Link from 'next/link';
 
 import useRouteScroll from '@/features/docs/hooks/use-route-scroll';
 

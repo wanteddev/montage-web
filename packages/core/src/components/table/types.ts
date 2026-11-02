@@ -1,5 +1,5 @@
-import type { WithSxProps } from '@montage-ui/engine';
 import type { TypographyProps } from '../typography/types';
+import type { WithSxProps } from '@montage-ui/engine';
 import type { ReactNode, Ref } from 'react';
 
 export type TableProps = WithSxProps<{

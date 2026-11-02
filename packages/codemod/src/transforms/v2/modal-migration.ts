@@ -1,5 +1,5 @@
-import { findImportDeclaration, getLocalName } from '../../helpers';
 import { MONTAGE_SOURCES } from '../../constants';
+import { findImportDeclaration, getLocalName } from '../../helpers';
 
 import type { API, FileInfo, Options, Property } from 'jscodeshift';
 

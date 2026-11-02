@@ -10,8 +10,8 @@ import { default as orange } from './orange';
 import { default as pink } from './pink';
 import { default as purple } from './purple';
 import { default as red } from './red';
-import { default as violet } from './violet';
 import { default as redOrange } from './redOrange';
+import { default as violet } from './violet';
 
 export default {
   blue,

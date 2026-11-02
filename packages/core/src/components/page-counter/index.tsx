@@ -1,12 +1,12 @@
-import { forwardRef } from 'react';
 import { Box } from '@montage-ui/engine';
+import { forwardRef } from 'react';
 
 import { FlexBox } from '../flex-box';
 
 import { backgroundBlendStyle, pageCounterStyle } from './style';
 
-import type { DefaultComponentPropsInternal } from '@montage-ui/engine';
 import type { PageCounterProps } from './types';
+import type { DefaultComponentPropsInternal } from '@montage-ui/engine';
 
 const PageCounter = forwardRef<
   HTMLDivElement,

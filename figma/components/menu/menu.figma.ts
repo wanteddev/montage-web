@@ -5,9 +5,9 @@
 import figma from 'figma';
 
 import { inlineInstances } from '../../helpers/imports';
-import { finalizeTemplate } from '../modal/collect-imports';
 import { joinTemplates } from '../../helpers/list-cell';
 import { coreImport } from '../../helpers/menu-item';
+import { finalizeTemplate } from '../modal/collect-imports';
 
 // Every row in the menu is a `Cell` layer; designers swap some rows to the
 // group title resource. Rows are walked in order and items following a title

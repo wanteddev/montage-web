@@ -1,6 +1,6 @@
-import type { PropsWithChildren, ReactNode } from 'react';
-import type { DefaultComponentProps, WithSxProps } from '@montage-ui/engine';
 import type { SideObject, useFloating } from '@floating-ui/react';
+import type { DefaultComponentProps, WithSxProps } from '@montage-ui/engine';
+import type { PropsWithChildren, ReactNode } from 'react';
 
 export type PopperProps = PropsWithChildren;
 

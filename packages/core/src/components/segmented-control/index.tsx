@@ -1,3 +1,9 @@
+import { Box } from '@montage-ui/engine';
+import { composeEventHandlers } from '@radix-ui/primitive';
+import { useComposedRefs } from '@radix-ui/react-compose-refs';
+import * as RovingFocusGroup from '@radix-ui/react-roving-focus';
+import { useControllableState } from '@radix-ui/react-use-controllable-state';
+import { usePrevious } from '@radix-ui/react-use-previous';
 import {
   forwardRef,
   useCallback,
@@ -6,33 +12,28 @@ import {
   useRef,
   useState,
 } from 'react';
-import { useComposedRefs } from '@radix-ui/react-compose-refs';
-import * as RovingFocusGroup from '@radix-ui/react-roving-focus';
-import { useControllableState } from '@radix-ui/react-use-controllable-state';
-import { composeEventHandlers } from '@radix-ui/primitive';
-import { Box } from '@montage-ui/engine';
-import { usePrevious } from '@radix-ui/react-use-previous';
 
-import { FlexBox } from '../flex-box';
 import useResizeObserver from '../../hooks/internal/use-resize-observer';
-import { calculateAnimationStyle } from '../../utils/internal/animation';
-import { VirtualCheckboxInput } from '../virtual-input';
 import { useInheritedSize } from '../../hooks/internal/use-slot-defaults';
+import { calculateAnimationStyle } from '../../utils/internal/animation';
+import { FlexBox } from '../flex-box';
+import { VirtualCheckboxInput } from '../virtual-input';
 
 import {
-  motionThumbStyle,
-  segmentedControlItemStyle,
-  segmentedControlStyle,
-} from './style';
+  SEGMENTED_CONTROL_ITEM_NAME,
+  SEGMENTED_CONTROL_NAME,
+} from './constants';
 import {
   SegmentedControlProvider,
   useSegmentedControlContext,
 } from './contexts';
 import {
-  SEGMENTED_CONTROL_ITEM_NAME,
-  SEGMENTED_CONTROL_NAME,
-} from './constants';
+  motionThumbStyle,
+  segmentedControlItemStyle,
+  segmentedControlStyle,
+} from './style';
 
+import type { SegmentedControlItemProps, SegmentedControlProps } from './types';
 import type {
   DefaultComponentPropsInternal,
   PolymorphicComponentInternal,
@@ -44,7 +45,6 @@ import type {
   ElementType,
   ForwardedRef,
 } from 'react';
-import type { SegmentedControlItemProps, SegmentedControlProps } from './types';
 
 const ARROW_KEYS = ['ArrowLeft', 'ArrowRight'];
 

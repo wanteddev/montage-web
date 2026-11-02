@@ -6,16 +6,16 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from '@montage-ui/core';
+import { IconArrowRightThick, IconArrowUpRightThick } from '@montage-ui/icon';
 import Link from 'next/link';
 import { useCallback, useMemo, useRef, useState } from 'react';
-import { IconArrowRightThick, IconArrowUpRightThick } from '@montage-ui/icon';
 
 import useRouteScroll from '@/features/docs/hooks/use-route-scroll';
 
 import { lnbItemStyle } from './style';
 
-import type { PropsWithChildren, ReactNode } from 'react';
 import type { SxProp } from '@montage-ui/core';
+import type { PropsWithChildren, ReactNode } from 'react';
 
 type Props = PropsWithChildren<{
   href?: string;

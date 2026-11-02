@@ -1,5 +1,3 @@
-import { useState } from 'react';
-import { cleanup } from '@testing-library/react';
 import {
   Button,
   Modal,
@@ -9,6 +7,8 @@ import {
   ModalHeading,
   ModalTrigger,
 } from '@montage-ui/core';
+import { cleanup } from '@testing-library/react';
+import { useState } from 'react';
 
 import {
   byTestId,

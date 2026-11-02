@@ -1,15 +1,15 @@
-import { forwardRef } from 'react';
 import { Box } from '@montage-ui/engine';
+import { forwardRef } from 'react';
 
 import { WithInteraction } from '../with-interaction';
 
 import { avatarButtonStyle } from './style';
 
+import type { AvatarButtonProps } from './types';
 import type {
   PolymorphicComponentInternal,
   PolymorphicPropsInternal,
 } from '@montage-ui/engine';
-import type { AvatarButtonProps } from './types';
 import type { ElementType, ForwardedRef } from 'react';
 
 const AvatarButton = forwardRef(

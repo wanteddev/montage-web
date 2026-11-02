@@ -3,8 +3,8 @@ import { css, getColorByToken } from '@montage-ui/engine';
 import { typographyStyle } from '../../utils';
 import { createResponsiveStyle } from '../../utils/internal/responsive-props';
 
-import type { Theme } from '@montage-ui/engine';
 import type { PushBadgeProps } from './types';
+import type { Theme } from '@montage-ui/engine';
 
 type PushBadgeWrapperStyleProps = PushBadgeProps & {
   shouldFixedWidth: boolean;
@@ -23,57 +23,58 @@ export const pushBadgeWrapperStyle =
     lg,
     xl,
   }: PushBadgeWrapperStyleProps) =>
-  (theme: Theme) => css`
-    width: fit-content;
-    height: fit-content;
-    display: inline-flex;
-    vertical-align: middle;
-    position: relative;
-    border-radius: inherit;
+  (theme: Theme) =>
+    css`
+      width: fit-content;
+      height: fit-content;
+      display: inline-flex;
+      vertical-align: middle;
+      position: relative;
+      border-radius: inherit;
 
-    --push-badge-offset-x: ${offsetX ?? '0px'};
-    --push-badge-offset-y: ${offsetY ?? '0px'};
+      --push-badge-offset-x: ${offsetX ?? '0px'};
+      --push-badge-offset-y: ${offsetY ?? '0px'};
 
-    --push-badge-background-color: ${theme.semantic.surface.brand.primary};
-    --push-badge-text-color: ${theme.semantic.static.white};
+      --push-badge-background-color: ${theme.semantic.surface.brand.primary};
+      --push-badge-text-color: ${theme.semantic.static.white};
 
-    & > [data-component='push-badge'] {
-      ${pushBadgeSizeStyle({ variant, size, shouldFixedWidth }, theme)}
-    }
+      & > [data-component='push-badge'] {
+        ${pushBadgeSizeStyle({ variant, size, shouldFixedWidth }, theme)}
+      }
 
-    ${createResponsiveStyle(
-      { xs, sm, md, lg, xl },
-      theme,
-    )(
-      (params) => css`
-        ${
-          params?.size &&
-          css`
-            & > [data-component='push-badge'] {
-              ${pushBadgeSizeStyle(
-                { variant, size: params.size, shouldFixedWidth },
-                theme,
-              )}
-            }
-          `
-        }
-
-        ${
-          params?.offsetX !== undefined &&
-          css`
-            --push-badge-offset-x: ${params.offsetX};
-          `
-        }
+      ${createResponsiveStyle(
+        { xs, sm, md, lg, xl },
+        theme,
+      )(
+        (params) => css`
           ${
-          params?.offsetY !== undefined &&
-          css`
-            --push-badge-offset-y: ${params.offsetY};
-          `
-        }
-        ${params?.sx}
-      `,
-    )}
-  `;
+            params?.size &&
+            css`
+              & > [data-component='push-badge'] {
+                ${pushBadgeSizeStyle(
+                  { variant, size: params.size, shouldFixedWidth },
+                  theme,
+                )}
+              }
+            `
+          }
+
+          ${
+            params?.offsetX !== undefined &&
+            css`
+              --push-badge-offset-x: ${params.offsetX};
+            `
+          }
+          ${
+            params?.offsetY !== undefined &&
+            css`
+              --push-badge-offset-y: ${params.offsetY};
+            `
+          }
+          ${params?.sx}
+        `,
+      )}
+    `;
 
 const pushBadgeSizeStyle = (
   { size, variant, shouldFixedWidth }: PushBadgeWrapperStyleProps,
@@ -172,28 +173,29 @@ export const pushBadgeStyle =
     outlineBorder,
     outlineBorderColor,
   }: PushBadgeProps) =>
-  (theme: Theme) => css`
-    z-index: 1;
-    position: absolute;
-    box-sizing: border-box;
-    transition: transform 0.2s ease;
-    transform-origin: 0% 0%;
+  (theme: Theme) =>
+    css`
+      z-index: 1;
+      position: absolute;
+      box-sizing: border-box;
+      transition: transform 0.2s ease;
+      transform-origin: 0% 0%;
 
-    ${
-      outlineBorder &&
-      css`
-        outline: var(--push-badge-outline-border-width) solid
-          ${getColorByToken(
-            theme,
-            outlineBorderColor ?? 'semantic.background.neutral.primary',
-          )};
-        outline-offset: 0px;
-      `
-    }
+      ${
+        outlineBorder &&
+        css`
+          outline: var(--push-badge-outline-border-width) solid
+            ${getColorByToken(
+              theme,
+              outlineBorderColor ?? 'semantic.background.neutral.primary',
+            )};
+          outline-offset: 0px;
+        `
+      }
 
-    ${pushBadgePositionStyle({ invisible, position })}
-    ${pushBadgeVariantStyle({ variant }, theme)}
-  `;
+      ${pushBadgePositionStyle({ invisible, position })}
+      ${pushBadgeVariantStyle({ variant }, theme)}
+    `;
 
 // Adjacent sibling can expose `--push-badge-additional-inset` to pull the badge
 // inward by that amount (e.g. IconButton normal variant aligning badge to the

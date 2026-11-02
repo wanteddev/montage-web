@@ -4,8 +4,8 @@ import { Component } from 'react';
 
 import { generateElement } from './helpers';
 
-import type { ReactElement } from 'react';
 import type { RunnerOptions, Scope } from './types';
+import type { ReactElement } from 'react';
 
 type Params = RunnerOptions & {
   disableCache?: boolean;

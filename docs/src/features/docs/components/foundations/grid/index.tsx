@@ -5,8 +5,8 @@ import { getImageUrl } from '@/helpers/image';
 
 import { Heading2, Heading3 } from '../../mdx/section/layout';
 
-import BreakpointGrid from './breakpoint-grid';
 import ArtboardSizeGrid from './artboard-size-grid';
+import BreakpointGrid from './breakpoint-grid';
 
 const FoundationsGrid = () => {
   return (

@@ -1,18 +1,18 @@
-import { forwardRef, useEffect, useRef, useState } from 'react';
+import { Box } from '@montage-ui/engine';
 import { IconCheckThick, IconLineHorizontalThick } from '@montage-ui/icon';
 import { composeEventHandlers } from '@radix-ui/primitive';
-import { useControllableState } from '@radix-ui/react-use-controllable-state';
 import { useComposedRefs } from '@radix-ui/react-compose-refs';
-import { Box } from '@montage-ui/engine';
+import { useControllableState } from '@radix-ui/react-use-controllable-state';
+import { forwardRef, useEffect, useRef, useState } from 'react';
 
-import { WithInteraction } from '../with-interaction';
 import { VirtualCheckboxInput } from '../virtual-input';
+import { WithInteraction } from '../with-interaction';
 
-import { checkboxStyle } from './style';
 import { useCheckboxContext } from './contexts';
+import { checkboxStyle } from './style';
 
-import type { DefaultComponentPropsInternal } from '@montage-ui/engine';
 import type { CheckboxProps } from './types';
+import type { DefaultComponentPropsInternal } from '@montage-ui/engine';
 
 const Checkbox = forwardRef<
   HTMLButtonElement,

@@ -1,6 +1,6 @@
 import type { ChipProps } from '../chip/types';
-import type { ReactNode } from 'react';
 import type { Merge, ResponsiveProps, WithSxProps } from '@montage-ui/engine';
+import type { ReactNode } from 'react';
 
 export type CategoryProps = {
   /** The default value of the category. */

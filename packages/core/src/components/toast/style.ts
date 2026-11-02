@@ -33,33 +33,34 @@ const unmountKeyframes = keyframes`
 
 export const wrapperStyle =
   ({ disableAnimation }: Pick<ToastProps, 'disableAnimation'>) =>
-  (theme: Theme) => css`
-    backdrop-filter: blur(32px);
-    will-change: backdrop-filter;
-    border-radius: 12px;
-    margin-top: var(--toast-animation-margin-top);
-    max-width: 100%;
+  (theme: Theme) =>
+    css`
+      backdrop-filter: blur(32px);
+      will-change: backdrop-filter;
+      border-radius: 12px;
+      margin-top: var(--toast-animation-margin-top);
+      max-width: 100%;
 
-    ${respondMore(theme.breakpoint.sm)} {
-      min-width: 356px;
-      max-width: 420px;
-    }
-    ${respondTo(theme.breakpoint.sm)} {
-      width: 100%;
-    }
+      ${respondMore(theme.breakpoint.sm)} {
+        min-width: 356px;
+        max-width: 420px;
+      }
+      ${respondTo(theme.breakpoint.sm)} {
+        width: 100%;
+      }
 
-    ${
-      !disableAnimation &&
-      css`
-        &[data-status='open'] {
-          animation: ${mountKeyframes} 0.2s ease;
-        }
-        &[data-status='close'] {
-          animation: ${unmountKeyframes} 0.2s ease;
-        }
-      `
-    }
-  `;
+      ${
+        !disableAnimation &&
+        css`
+          &[data-status='open'] {
+            animation: ${mountKeyframes} 0.2s ease;
+          }
+          &[data-status='close'] {
+            animation: ${unmountKeyframes} 0.2s ease;
+          }
+        `
+      }
+    `;
 
 export const toastStyle = css`
   border-radius: inherit;

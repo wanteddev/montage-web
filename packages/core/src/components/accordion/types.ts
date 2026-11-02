@@ -1,6 +1,6 @@
+import type { ListCellContentProps, ListCellProps } from '../list/types';
 import type { TypographyProps } from '../typography';
 import type { Merge, SxProp, WithSxProps } from '@montage-ui/engine';
-import type { ListCellContentProps, ListCellProps } from '../list/types';
 import type { ReactNode } from 'react';
 
 export type AccordionProps = WithSxProps<{

@@ -1,5 +1,5 @@
-import type { Theme } from '@montage-ui/engine';
 import type { IconButtonVariant } from './types';
+import type { Theme } from '@montage-ui/engine';
 
 // WCAG 2.2 SC 2.5.8 Target Size (Minimum): interactive targets must be ≥ 24×24 CSS px.
 export const MIN_INTERACTION_SIZE_PX = 24;

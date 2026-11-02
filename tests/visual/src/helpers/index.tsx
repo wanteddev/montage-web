@@ -1,5 +1,5 @@
-import { render } from '@testing-library/react';
 import { ThemeProvider } from '@montage-ui/core';
+import { render } from '@testing-library/react';
 
 export const renderWithProvider = (component: React.ReactNode) => {
   return render(component, {

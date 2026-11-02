@@ -5,8 +5,8 @@ import {
   IconTriangleExclamationFill,
 } from '@montage-ui/icon';
 
-import type { ReactNode } from 'react';
 import type { SectionMessageProps } from './types';
+import type { ReactNode } from 'react';
 
 export const sectionMessageIconComponent: {
   [key in Exclude<SectionMessageProps['variant'], undefined>]: ReactNode;

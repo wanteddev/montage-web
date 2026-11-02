@@ -1,10 +1,10 @@
-import type { CSSProperties } from 'react';
 import type {
   Merge,
   ResponsiveProps,
   ThemeColorsToken,
   WithSxProps,
 } from '@montage-ui/engine';
+import type { CSSProperties } from 'react';
 
 export type DividerDefaultProps = WithSxProps<{
   /** Whether the divider is vertical. */

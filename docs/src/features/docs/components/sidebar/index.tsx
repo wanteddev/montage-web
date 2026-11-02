@@ -1,4 +1,6 @@
 'use client';
+import { FlexBox, ScrollArea, Typography } from '@montage-ui/core';
+import { usePathname } from 'next/navigation';
 import {
   startTransition,
   useCallback,
@@ -7,13 +9,11 @@ import {
   useMemo,
   useState,
 } from 'react';
-import { FlexBox, ScrollArea, Typography } from '@montage-ui/core';
-import { usePathname } from 'next/navigation';
 
 import useThrottle from '@/hooks/use-throttle';
 
-import { sidebarContentStyle, sidebarStyle } from './style';
 import { getHeadingLevel } from './helpers';
+import { sidebarContentStyle, sidebarStyle } from './style';
 
 const Sidebar = () => {
   const descriptionId = useId();

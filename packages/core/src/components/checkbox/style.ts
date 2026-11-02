@@ -1,10 +1,10 @@
 import { css } from '@montage-ui/engine';
 
-import { typographyStyle } from '../../utils/typography';
 import {
   createResponsiveStyle,
   getPreviousValue,
 } from '../../utils/internal/responsive-props';
+import { typographyStyle } from '../../utils/typography';
 
 import type { CheckboxProps } from './types';
 import type { Theme } from '@montage-ui/engine';
@@ -23,144 +23,146 @@ export const checkboxStyle =
     lg,
     xl,
   }: CheckboxProps) =>
-  (theme: Theme) => css`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: transparent;
-    color: ${theme.semantic.static.white};
-    border: none;
-    box-shadow: none;
-    cursor: pointer;
-    border-radius: 5px;
-
-    & ~ label {
-      color: ${theme.semantic.foreground.neutral.primary};
-      cursor: pointer;
-    }
-
-    & > [data-component='with-interaction'] {
-      border-radius: 9999px;
-    }
-
-    [data-role='checkbox-icon-wrapper'] {
-      position: relative;
+  (theme: Theme) =>
+    css`
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 100%;
-      height: 100%;
-      background-color: ${theme.semantic.background.neutral.primary};
-      border-radius: inherit;
-      box-shadow: inset 0 0 0 1.5px ${theme.semantic.line.neutral.primary};
+      background-color: transparent;
+      color: ${theme.semantic.static.white};
+      border: none;
+      box-shadow: none;
+      cursor: pointer;
+      border-radius: 5px;
 
-      // safari
-      @supports (-webkit-backdrop-filter: none) {
-        box-shadow: inset 0 0 0 1px ${theme.semantic.line.neutral.primary};
-
-        @media only screen and (-webkit-device-pixel-ratio: 2),
-          only screen and (-moz-device-pixel-ratio: 2),
-          only screen and (device-pixel-ratio: 2) {
-          box-shadow: inset 0 0 0 1.5px ${theme.semantic.line.neutral.primary};
-        }
-
-        @media only screen and (-webkit-device-pixel-ratio: 3),
-          only screen and (-moz-device-pixel-ratio: 3),
-          only screen and (device-pixel-ratio: 3) {
-          box-shadow: inset 0 0 0 1.33333333px
-            ${theme.semantic.line.neutral.primary};
-          transform: translate(0);
-        }
+      & ~ label {
+        color: ${theme.semantic.foreground.neutral.primary};
+        cursor: pointer;
       }
 
-      transition:
-        background-color 0.2s ease,
-        box-shadow 0.2s ease;
-    }
-
-    &:focus-visible {
-      outline: none;
+      & > [data-component='with-interaction'] {
+        border-radius: 9999px;
+      }
 
       [data-role='checkbox-icon-wrapper'] {
-        outline-style: solid;
-        outline-width: 2px;
-        outline-offset: 2px;
-        outline-color: Highlight;
-        outline-color: -webkit-focus-ring-color;
-      }
-    }
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+        background-color: ${theme.semantic.background.neutral.primary};
+        border-radius: inherit;
+        box-shadow: inset 0 0 0 1.5px ${theme.semantic.line.neutral.primary};
 
-    & svg {
-      opacity: 0;
-      transition:
-        opacity 0.15s ease,
-        transform 0.2s ease;
-      pointer-events: none;
-      transform: scale(0.75);
-    }
+        // safari
+        @supports (-webkit-backdrop-filter: none) {
+          box-shadow: inset 0 0 0 1px ${theme.semantic.line.neutral.primary};
 
-    ${checkboxSizeStyle({ size, bold, tight })}
+          @media only screen and (-webkit-device-pixel-ratio: 2),
+            only screen and (-moz-device-pixel-ratio: 2),
+            only screen and (device-pixel-ratio: 2) {
+            box-shadow: inset 0 0 0 1.5px ${theme.semantic.line.neutral.primary};
+          }
 
-    ${
-      (checked || indeterminate) &&
-      css`
-        [data-role='checkbox-icon-wrapper'] {
-          box-shadow: inset 0 0 0 1.5px ${theme.semantic.surface.brand.primary};
-          background-color: ${theme.semantic.surface.brand.primary};
-
-          svg {
-            opacity: 1;
-            transform: scale(1);
+          @media only screen and (-webkit-device-pixel-ratio: 3),
+            only screen and (-moz-device-pixel-ratio: 3),
+            only screen and (device-pixel-ratio: 3) {
+            box-shadow: inset 0 0 0 1.33333333px
+              ${theme.semantic.line.neutral.primary};
+            transform: translate(0);
           }
         }
-      `
-    }
 
-  ${
-      disabled &&
-      css`
-        opacity: ${theme.opacity[43]};
+        transition:
+          background-color 0.2s ease,
+          box-shadow 0.2s ease;
+      }
 
-        & ~ label,
-        & {
-          cursor: initial;
+      &:focus-visible {
+        outline: none;
+
+        [data-role='checkbox-icon-wrapper'] {
+          outline-style: solid;
+          outline-width: 2px;
+          outline-offset: 2px;
+          outline-color: Highlight;
+          outline-color: -webkit-focus-ring-color;
         }
+      }
 
-        & ~ label {
-          color: ${theme.semantic.foreground.disable.primary};
-        }
-      `
-    }
+      & svg {
+        opacity: 0;
+        transition:
+          opacity 0.15s ease,
+          transform 0.2s ease;
+        pointer-events: none;
+        transform: scale(0.75);
+      }
+
+      ${checkboxSizeStyle({ size, bold, tight })}
+
+      ${
+        (checked || indeterminate) &&
+        css`
+          [data-role='checkbox-icon-wrapper'] {
+            box-shadow: inset 0 0 0 1.5px
+              ${theme.semantic.surface.brand.primary};
+            background-color: ${theme.semantic.surface.brand.primary};
+
+            svg {
+              opacity: 1;
+              transform: scale(1);
+            }
+          }
+        `
+      }
+
+      ${
+        disabled &&
+        css`
+          opacity: ${theme.opacity[43]};
+
+          & ~ label,
+          & {
+            cursor: initial;
+          }
+
+          & ~ label {
+            color: ${theme.semantic.foreground.disable.primary};
+          }
+        `
+      }
 
       ${createResponsiveStyle(
-      { xs, sm, md, lg, xl },
-      theme,
-    )(
-      (params, breakpoint) => css`
-        ${
-          (params?.size !== undefined || params?.bold !== undefined) &&
-          css`
-            ${checkboxSizeStyle({
-              size: getPreviousValue(
-                { xs, sm, md, lg, xl },
-                'size',
-                params.size,
-                breakpoint!,
-              ),
-              bold: getPreviousValue(
-                { xs, sm, md, lg, xl },
-                'bold',
-                params.bold,
-                breakpoint!,
-              ),
-              tight,
-            })}
-          `
-        }
-        ${params?.sx}
-      `,
-    )}
-  `;
+        { xs, sm, md, lg, xl },
+        theme,
+      )(
+        (params, breakpoint) => css`
+          ${
+            (params?.size !== undefined || params?.bold !== undefined) &&
+            css`
+              ${checkboxSizeStyle({
+                size: getPreviousValue(
+                  { xs, sm, md, lg, xl },
+                  'size',
+                  params.size,
+                  breakpoint!,
+                ),
+                bold: getPreviousValue(
+                  { xs, sm, md, lg, xl },
+                  'bold',
+                  params.bold,
+                  breakpoint!,
+                ),
+                tight,
+              })}
+            `
+          }
+          ${params?.sx}
+        `,
+      )}
+    `;
 
 const checkboxSizeStyle = ({
   size,

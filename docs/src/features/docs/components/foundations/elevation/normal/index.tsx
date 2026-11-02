@@ -4,11 +4,11 @@ import { Box, Thumbnail, Typography } from '@montage-ui/core';
 import { getImageUrl } from '@/helpers/image';
 
 import { Heading2 } from '../../../mdx/section/layout';
-import TokenExample from '../token-example';
 import { tokenContentStyle } from '../spread/style';
+import TokenExample from '../token-example';
 
-import StyleGrid from './style-grid';
 import { NORMAL_TOKENS } from './constants';
+import StyleGrid from './style-grid';
 
 const FoundationsElevationNormal = () => {
   return (

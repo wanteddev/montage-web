@@ -2,8 +2,8 @@ import { Node } from 'ts-morph';
 
 import { Resolver } from './resolver';
 
-import type { BindingElement, ParameterDeclaration, Type } from 'ts-morph';
 import type { Prop } from './types';
+import type { BindingElement, ParameterDeclaration, Type } from 'ts-morph';
 
 /**
  * React 컴포넌트의 Props 정보를 추출하는 클래스

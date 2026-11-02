@@ -12,10 +12,11 @@ export const sectionFigureStyle = css`
 `;
 
 export const sectionFigureVariantStyle =
-  (variant: 'positive' | 'negative') => (theme: Theme) => css`
-    color: ${
-      variant === 'positive'
-        ? theme.semantic.foreground.positive.primary
-        : theme.semantic.foreground.negative.primary
-    };
-  `;
+  (variant: 'positive' | 'negative') => (theme: Theme) =>
+    css`
+      color: ${
+        variant === 'positive'
+          ? theme.semantic.foreground.positive.primary
+          : theme.semantic.foreground.negative.primary
+      };
+    `;

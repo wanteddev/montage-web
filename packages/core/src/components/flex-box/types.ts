@@ -1,5 +1,5 @@
-import type { CSSProperties, ReactNode } from 'react';
 import type { Merge, ResponsiveProps, WithSxProps } from '@montage-ui/engine';
+import type { CSSProperties, ReactNode } from 'react';
 
 export type FlexBoxDefaultProps = WithSxProps<{
   flexDirection?: CSSProperties['flexDirection'];

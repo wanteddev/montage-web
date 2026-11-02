@@ -1,27 +1,27 @@
-import { forwardRef } from 'react';
 import { Box, type DefaultComponentPropsInternal } from '@montage-ui/engine';
+import { forwardRef } from 'react';
 
+import { SlotDefaultsProvider } from '../../hooks/internal/use-slot-defaults';
 import { FlexBox } from '../flex-box';
 import { WithInteraction } from '../with-interaction';
-import { SlotDefaultsProvider } from '../../hooks/internal/use-slot-defaults';
 
+import { SECTION_HEADER_SLOT_DEFAULTS } from './constants';
 import {
   sectionHeaderNavigationButtonStyle,
   sectionHeaderNavigationStyle,
   sectionHeaderStyle,
 } from './style';
-import { SECTION_HEADER_SLOT_DEFAULTS } from './constants';
 
-import type { ElementType, ForwardedRef } from 'react';
-import type {
-  PolymorphicComponentInternal,
-  PolymorphicPropsInternal,
-} from '@montage-ui/engine';
 import type {
   SectionHeaderNavigationButtonProps,
   SectionHeaderNavigationProps,
   SectionHeaderProps,
 } from './types';
+import type {
+  PolymorphicComponentInternal,
+  PolymorphicPropsInternal,
+} from '@montage-ui/engine';
+import type { ElementType, ForwardedRef } from 'react';
 
 const SectionHeader = forwardRef<
   HTMLDivElement,

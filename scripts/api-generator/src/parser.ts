@@ -2,6 +2,7 @@ import { Node, Project } from 'ts-morph';
 
 import { Extractor } from './extractor';
 
+import type { ComponentInfo } from './types';
 import type {
   ArrowFunction,
   AsExpression,
@@ -12,7 +13,6 @@ import type {
   SourceFile,
   VariableDeclaration,
 } from 'ts-morph';
-import type { ComponentInfo } from './types';
 
 export type { Prop as PropInfo, ComponentInfo } from './types';
 
@@ -359,7 +359,7 @@ export class Parser {
 
         const isDefaultExport = exportName === 'default';
         const name = isDefaultExport
-          ? this.getDefaultExportName(declaration) ?? 'default'
+          ? (this.getDefaultExportName(declaration) ?? 'default')
           : exportName;
 
         items.push({ node: declaration, name, filePath });

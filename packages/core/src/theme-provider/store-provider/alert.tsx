@@ -1,7 +1,6 @@
-import { useCallback } from 'react';
 import { Slot, Slottable } from '@radix-ui/react-slot';
+import { useCallback } from 'react';
 
-import { useAlertStore } from '../../stores/alert-store';
 import {
   Alert,
   AlertActionArea,
@@ -10,9 +9,10 @@ import {
   AlertDescription,
   AlertHeading,
 } from '../../components/alert';
+import { useAlertStore } from '../../stores/alert-store';
 
-import type { MouseEvent } from 'react';
 import type { AlertItem } from '../../stores/alert-store';
+import type { MouseEvent } from 'react';
 
 const AlertArea = () => {
   const items = useAlertStore((state) => state.items);

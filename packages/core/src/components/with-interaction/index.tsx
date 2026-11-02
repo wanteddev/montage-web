@@ -1,12 +1,12 @@
-import { Children, cloneElement, forwardRef, isValidElement } from 'react';
 import { Box } from '@montage-ui/engine';
-import { Slot } from '@radix-ui/react-slot';
 import { composeRefs } from '@radix-ui/react-compose-refs';
+import { Slot } from '@radix-ui/react-slot';
+import { Children, cloneElement, forwardRef, isValidElement } from 'react';
 
 import { getWrapperStyle, interactionStyle } from './style';
 
-import type { DefaultComponentPropsInternal } from '@montage-ui/engine';
 import type { WithInteractionProps } from './types';
+import type { DefaultComponentPropsInternal } from '@montage-ui/engine';
 
 const WithInteraction = forwardRef<
   HTMLDivElement,
