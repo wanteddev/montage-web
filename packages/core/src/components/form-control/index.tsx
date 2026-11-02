@@ -242,7 +242,7 @@ const FormControlMessage = forwardRef(
   ) => {
     const { messageId } = useFormControl(FORM_CONTROL_MESSAGE_NAME);
 
-    if (!children) {
+    if (!children && !accessory) {
       return null;
     }
 
@@ -282,7 +282,7 @@ const FormControlNegativeMessage = forwardRef(
       FORM_CONTROL_NEGATIVE_MESSAGE_NAME,
     );
 
-    if (!children) {
+    if (!children && !accessory) {
       return null;
     }
 
@@ -324,7 +324,7 @@ const FormControlPositiveMessage = forwardRef(
       FORM_CONTROL_POSITIVE_MESSAGE_NAME,
     );
 
-    if (!children) {
+    if (!children && !accessory) {
       return null;
     }
 
