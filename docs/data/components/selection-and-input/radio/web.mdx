@@ -130,7 +130,7 @@ Form과 관련된 컴포넌트와 함께 사용할 수 있습니다.
 
 const Demo = () => {
   return (
-    <FlexBox flexDirection="column" gap="8px">
+    <FlexBox flexDirection="column" gap="8px" sx={{ width: '25ch' }}>
       <FormControl>
         <FormControlLabel required>성별</FormControlLabel>
 
@@ -180,7 +180,7 @@ const Demo = () => {
   const [value, setValue] = useState('');
 
   return (
-    <FlexBox alignItems="center" flexDirection="column" gap="12px">
+    <FlexBox alignItems="center" flexDirection="column" gap="12px" sx={{ width: '25ch' }}>
       <FormControl>
         <FormControlLabel required>Uncontrolled</FormControlLabel>
 
@@ -270,6 +270,7 @@ const Demo = () => {
       flexDirection="column"
       gap="20px"
       onSubmit={form.handleSubmit((v) => alert(JSON.stringify(v)))}
+      sx={{ width: '25ch' }}
     >
       <Controller
         control={form.control}
@@ -319,7 +320,7 @@ const Demo = () => {
         )}
       />
 
-      <Button type="submit">제출</Button>
+      <Button fullWidth type="submit">제출</Button>
     </FlexBox>
   )
 }
