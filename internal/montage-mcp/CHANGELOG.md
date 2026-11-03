@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.2.0](https://github.com/wanteddev/montage-web/compare/v4.1.5...v4.2.0) (2026-11-03)
+
+### Bug Fixes
+
+- **mcp:** oauth 승인 전 동의 화면 추가 및 Google 계정 검증 강화 ([#709](https://github.com/wanteddev/montage-web/issues/709)) ([ee7dc78](https://github.com/wanteddev/montage-web/commit/ee7dc7814b84abb7dc3fe05dc38629e6583acdaa))
+
 ## [4.1.5](https://github.com/wanteddev/montage-web/compare/v4.1.4...v4.1.5) (2026-10-27)
 
 **Note:** Version bump only for package @wanteddev/montage-mcp

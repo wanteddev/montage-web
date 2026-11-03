@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.2.0](https://github.com/wanteddev/montage-web/compare/v4.1.5...v4.2.0) (2026-11-03)
+
+### Bug Fixes
+
+- **core:** 고정 크기 요소가 flex 컨테이너에서 줄어들지 않도록 flex-shrink 지정 ([#700](https://github.com/wanteddev/montage-web/issues/700)) ([29eca39](https://github.com/wanteddev/montage-web/commit/29eca3954a14e6dd0e9d365c853972c62ab72564))
+- **mcp:** oauth 승인 전 동의 화면 추가 및 Google 계정 검증 강화 ([#709](https://github.com/wanteddev/montage-web/issues/709)) ([ee7dc78](https://github.com/wanteddev/montage-web/commit/ee7dc7814b84abb7dc3fe05dc38629e6583acdaa))
+
+### Features
+
+- **core,icon:** icon figma sync and new code connect publish ([#708](https://github.com/wanteddev/montage-web/issues/708)) ([4560bdf](https://github.com/wanteddev/montage-web/commit/4560bdfa71f2acdabc3bacba90d19aef7c7d850a))
+- **core:** form control message를 accessory만 있어도 렌더링 ([#707](https://github.com/wanteddev/montage-web/issues/707)) ([c658a93](https://github.com/wanteddev/montage-web/commit/c658a939ed174f0a28caac7b34f95f952e579f66))
+
 ## [4.1.5](https://github.com/wanteddev/montage-web/compare/v4.1.4...v4.1.5) (2026-10-27)
 
 ### Bug Fixes

@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.2.0](https://github.com/wanteddev/montage-web/compare/v4.1.5...v4.2.0) (2026-11-03)
+
+### Bug Fixes
+
+- **core:** 고정 크기 요소가 flex 컨테이너에서 줄어들지 않도록 flex-shrink 지정 ([#700](https://github.com/wanteddev/montage-web/issues/700)) ([29eca39](https://github.com/wanteddev/montage-web/commit/29eca3954a14e6dd0e9d365c853972c62ab72564))
+
+### Features
+
+- **core:** form control message를 accessory만 있어도 렌더링 ([#707](https://github.com/wanteddev/montage-web/issues/707)) ([c658a93](https://github.com/wanteddev/montage-web/commit/c658a939ed174f0a28caac7b34f95f952e579f66))
+
 ## [4.1.5](https://github.com/wanteddev/montage-web/compare/v4.1.4...v4.1.5) (2026-10-27)
 
 ### Bug Fixes

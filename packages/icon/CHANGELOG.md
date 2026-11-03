@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.2.0](https://github.com/wanteddev/montage-web/compare/v4.1.5...v4.2.0) (2026-11-03)
+
+### Features
+
+- **core,icon:** icon figma sync and new code connect publish ([#708](https://github.com/wanteddev/montage-web/issues/708)) ([4560bdf](https://github.com/wanteddev/montage-web/commit/4560bdfa71f2acdabc3bacba90d19aef7c7d850a))
+
 ## [4.1.5](https://github.com/wanteddev/montage-web/compare/v4.1.4...v4.1.5) (2026-10-27)
 
 **Note:** Version bump only for package @montage-ui/icon
