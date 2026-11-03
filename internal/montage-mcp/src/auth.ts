@@ -7,9 +7,12 @@ import {
   InvalidTokenError,
   ServerError,
 } from '@modelcontextprotocol/sdk/server/auth/errors.js';
+import { redirectUriMatches } from '@modelcontextprotocol/sdk/server/auth/handlers/authorize.js';
 import { cert, initializeApp } from 'firebase-admin/app';
 import { getAuth } from 'firebase-admin/auth';
 import { getFirestore } from 'firebase-admin/firestore';
+
+import { renderConsentPage } from './consent-page';
 
 import type {
   AuthorizationParams,
@@ -27,6 +30,26 @@ const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET ?? '';
 const FIREBASE_API_KEY = process.env.FIREBASE_API_KEY ?? '';
 const ALLOWED_DOMAIN = 'wantedlab.com';
 const FETCH_TIMEOUT_MS = 10_000;
+
+// The id_token comes straight from Google's token endpoint over TLS, so its
+// signature does not need to be re-verified (OIDC Core 3.1.3.7).
+const assertAllowedGoogleAccount = (idToken: string) => {
+  let claims: { hd?: string; email_verified?: boolean };
+
+  try {
+    claims = JSON.parse(
+      Buffer.from(idToken.split('.')[1] ?? '', 'base64url').toString(),
+    );
+  } catch {
+    throw new ServerError('Malformed Google ID token');
+  }
+
+  if (claims.hd !== ALLOWED_DOMAIN || claims.email_verified !== true) {
+    throw new AccessDeniedError(
+      `Access restricted to @${ALLOWED_DOMAIN} accounts`,
+    );
+  }
+};
 
 const firebaseApp = initializeApp(
   {
@@ -113,8 +136,66 @@ const clientRegistrationStore = {
   },
 };
 
+const pendingConsents = new TtlMap<
+  string,
+  { auth: PendingAuth; browserTokenHash: string }
+>();
 const pendingAuths = new TtlMap<string, PendingAuth>();
 const authCodes = new TtlMap<string, StoredAuthCode>();
+
+const sha256 = (input: string) =>
+  crypto.createHash('sha256').update(input).digest();
+
+const consentCookie = (requestId: string) => {
+  const secure = getServerUrl().startsWith('https://');
+
+  return {
+    // __Host- requires Secure, so local http development falls back to a plain name
+    name: `${secure ? '__Host-' : ''}mcp-consent-${requestId}`,
+    options: {
+      httpOnly: true,
+      secure,
+      sameSite: 'lax',
+      path: '/',
+      maxAge: TTL.PENDING_AUTH,
+    },
+  } as const;
+};
+
+const readCookie = (req: Request, name: string) =>
+  req.headers.cookie
+    ?.split(';')
+    .map((pair) => pair.trim().split('='))
+    .find(([key]) => key === name)?.[1];
+
+const isSameOriginRequest = (req: Request) => {
+  const origin = req.get('origin');
+
+  if (origin) return origin === new URL(getServerUrl()).origin;
+
+  return req.get('sec-fetch-site') === 'same-origin';
+};
+
+const redirectToGoogle = (pending: PendingAuth, res: Response) => {
+  const state = crypto.randomUUID();
+
+  const googleAuthUrl = new URL('https://accounts.google.com/o/oauth2/v2/auth');
+  googleAuthUrl.searchParams.set('client_id', GOOGLE_CLIENT_ID);
+  googleAuthUrl.searchParams.set(
+    'redirect_uri',
+    `${getServerUrl()}/oauth/google/callback`,
+  );
+  googleAuthUrl.searchParams.set('response_type', 'code');
+  googleAuthUrl.searchParams.set('scope', 'openid email profile');
+  googleAuthUrl.searchParams.set('hd', ALLOWED_DOMAIN);
+  googleAuthUrl.searchParams.set('state', state);
+  googleAuthUrl.searchParams.set('access_type', 'offline');
+  googleAuthUrl.searchParams.set('prompt', 'consent');
+
+  pendingAuths.set(state, pending, TTL.PENDING_AUTH);
+
+  res.redirect(googleAuthUrl.toString());
+};
 
 interface StoredRefreshToken {
   clientId: string;
@@ -164,41 +245,53 @@ export const createOAuthProvider = (): OAuthServerProvider => ({
     params: AuthorizationParams,
     res: Response,
   ) {
-    if (!client.redirect_uris.includes(params.redirectUri)) {
+    if (
+      !client.redirect_uris.some((uri) =>
+        redirectUriMatches(params.redirectUri, String(uri)),
+      )
+    ) {
       throw new InvalidRequestError(
         'Redirect URI not registered for this client',
       );
     }
 
-    const state = crypto.randomUUID();
+    // Registration is open and Google's own consent screen never shows where
+    // the code goes, so the user approves each client here first (confused
+    // deputy mitigation). The cookie binds the approval to this browser.
+    const requestId = crypto.randomUUID();
+    const browserToken = crypto.randomBytes(32).toString('base64url');
+    const cookie = consentCookie(requestId);
 
-    const googleAuthUrl = new URL(
-      'https://accounts.google.com/o/oauth2/v2/auth',
-    );
-    googleAuthUrl.searchParams.set('client_id', GOOGLE_CLIENT_ID);
-    googleAuthUrl.searchParams.set(
-      'redirect_uri',
-      `${getServerUrl()}/oauth/google/callback`,
-    );
-    googleAuthUrl.searchParams.set('response_type', 'code');
-    googleAuthUrl.searchParams.set('scope', 'openid email profile');
-    googleAuthUrl.searchParams.set('hd', ALLOWED_DOMAIN);
-    googleAuthUrl.searchParams.set('state', state);
-    googleAuthUrl.searchParams.set('access_type', 'offline');
-    googleAuthUrl.searchParams.set('prompt', 'consent');
-
-    pendingAuths.set(
-      state,
+    pendingConsents.set(
+      requestId,
       {
-        clientId: client.client_id,
-        redirectUri: params.redirectUri,
-        originalState: params.state,
-        codeChallenge: params.codeChallenge,
+        auth: {
+          clientId: client.client_id,
+          redirectUri: params.redirectUri,
+          originalState: params.state,
+          codeChallenge: params.codeChallenge,
+        },
+        browserTokenHash: sha256(browserToken).toString('base64url'),
       },
       TTL.PENDING_AUTH,
     );
 
-    res.redirect(googleAuthUrl.toString());
+    res
+      .cookie(cookie.name, browserToken, cookie.options)
+      .set({
+        'Cache-Control': 'no-store',
+        'Content-Security-Policy':
+          "default-src 'none'; style-src 'unsafe-inline'; frame-ancestors 'none'; base-uri 'none'",
+        'X-Frame-Options': 'DENY',
+      })
+      .type('html')
+      .send(
+        renderConsentPage({
+          requestId,
+          clientName: client.client_name,
+          redirectUri: params.redirectUri,
+        }),
+      );
   },
 
   async challengeForAuthorizationCode(
@@ -248,6 +341,8 @@ export const createOAuthProvider = (): OAuthServerProvider => ({
       expires_in: number;
       refresh_token?: string;
     };
+
+    assertAllowedGoogleAccount(googleTokens.id_token);
 
     // Exchange Google ID token for Firebase ID token via REST API
     const firebaseResponse = await fetch(
@@ -355,6 +450,8 @@ export const createOAuthProvider = (): OAuthServerProvider => ({
       refresh_token?: string;
     };
 
+    assertAllowedGoogleAccount(googleTokens.id_token);
+
     // Google may rotate refresh tokens
     if (googleTokens.refresh_token) {
       await refreshTokenStore.set(refreshToken, {
@@ -414,7 +511,13 @@ export const createOAuthProvider = (): OAuthServerProvider => ({
       throw new InvalidTokenError('Invalid or expired token');
     });
 
-    if (!decoded.email?.endsWith(`@${ALLOWED_DOMAIN}`)) {
+    // Only Google sign-in proves domain ownership; other Firebase providers
+    // could let anyone create an unverified @wantedlab.com account.
+    if (
+      decoded.firebase.sign_in_provider !== 'google.com' ||
+      decoded.email_verified !== true ||
+      !decoded.email?.endsWith(`@${ALLOWED_DOMAIN}`)
+    ) {
       throw new InvalidTokenError(
         `Access restricted to @${ALLOWED_DOMAIN} accounts`,
       );
@@ -429,6 +532,57 @@ export const createOAuthProvider = (): OAuthServerProvider => ({
     };
   },
 });
+
+export const handleConsent = (req: Request, res: Response) => {
+  if (!isSameOriginRequest(req)) {
+    res.status(403).json({ error: 'Cross-origin consent is not allowed' });
+    return;
+  }
+
+  const body = (req.body ?? {}) as { request_id?: unknown; action?: unknown };
+  const requestId =
+    typeof body.request_id === 'string' ? body.request_id : undefined;
+  const pending = requestId ? pendingConsents.get(requestId) : undefined;
+
+  if (!requestId || !pending) {
+    res.status(400).json({ error: 'Invalid or expired consent request' });
+    return;
+  }
+
+  pendingConsents.delete(requestId);
+
+  const cookie = consentCookie(requestId);
+  const browserToken = readCookie(req, cookie.name);
+
+  res.clearCookie(cookie.name, { ...cookie.options, maxAge: undefined });
+
+  if (
+    !browserToken ||
+    !crypto.timingSafeEqual(
+      sha256(browserToken),
+      Buffer.from(pending.browserTokenHash, 'base64url'),
+    )
+  ) {
+    res.status(403).json({ error: 'Consent request was not started here' });
+    return;
+  }
+
+  const { auth } = pending;
+
+  if (body.action !== 'approve') {
+    const redirectUrl = new URL(auth.redirectUri);
+    redirectUrl.searchParams.set('error', 'access_denied');
+
+    if (auth.originalState) {
+      redirectUrl.searchParams.set('state', auth.originalState);
+    }
+
+    res.redirect(redirectUrl.toString());
+    return;
+  }
+
+  redirectToGoogle(auth, res);
+};
 
 export const handleGoogleCallback = async (req: Request, res: Response) => {
   const { code, state, error } = req.query;
