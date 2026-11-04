@@ -15,6 +15,7 @@ import { useCallback } from 'react';
 import Logo from '@/assets/logo';
 import { useLnbContext } from '@/features/docs/components/lnb/contexts';
 import useRouteScroll from '@/features/docs/hooks/use-route-scroll';
+import { SKIP_TARGET_ID } from '@/features/layout/constants';
 
 import { GNB_NAVIGATION_LINKS } from './constants';
 import { useSearch } from './hooks';
@@ -62,6 +63,8 @@ const Gnb = () => {
         suppressHydrationWarning
         alignContent="center"
         as="header"
+        id={SKIP_TARGET_ID.topNavigation}
+        tabIndex={-1}
         sx={gnbWrapperStyle}
       >
         <FlexBox

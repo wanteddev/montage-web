@@ -3,6 +3,8 @@ import { FlexBox, ScrollArea } from '@montage-ui/core';
 import { usePathname } from 'next/navigation';
 import { useEffect, useRef } from 'react';
 
+import { SKIP_TARGET_ID } from '@/features/layout/constants';
+
 import { useMDXContext } from '../../contexts';
 
 import LnbGroup from './group';
@@ -50,6 +52,8 @@ const Lnb = () => {
     <ScrollArea sx={lnbWrapperStyle} viewportRef={viewportRef} size="small">
       <FlexBox
         as="aside"
+        id={SKIP_TARGET_ID.leftNavigation}
+        tabIndex={-1}
         aria-label={`Pages of ${groupKey}`}
         data-algolia-lnb-group
         sx={{ width: '100%' }}

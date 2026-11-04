@@ -4,6 +4,7 @@ import { FlexBox } from '@montage-ui/core';
 import Lnb from '@/features/docs/components/lnb';
 import Sidebar from '@/features/docs/components/sidebar';
 import Footer from '@/features/layout/components/footer';
+import { SKIP_TARGET_ID } from '@/features/layout/constants';
 
 import type { PropsWithChildren } from 'react';
 
@@ -24,6 +25,8 @@ const WithLnbLayout = ({ children }: PropsWithChildren) => {
 
       <FlexBox
         as="main"
+        id={SKIP_TARGET_ID.mainContent}
+        tabIndex={-1}
         gap="20px"
         sx={{ width: '100%' }}
         sm={{ justifyContent: 'center' }}
