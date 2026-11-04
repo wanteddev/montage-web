@@ -5,6 +5,7 @@ import { MDXProvider } from '@/features/docs/contexts';
 import { getAllFrontmatter } from '@/features/docs/helpers/mdx';
 import { parseGroupedPages } from '@/features/docs/helpers/pages';
 import Gnb from '@/features/layout/components/gnb';
+import SkipLink from '@/features/layout/components/skip-link';
 import { createMetadata } from '@/helpers/metadata';
 
 import Providers from './providers';
@@ -160,6 +161,8 @@ const RootLayout = async ({ children }: LayoutProps<'/'>) => {
           groupedPages={groupedPages}
         >
           <Providers>
+            <SkipLink />
+
             <LnbMobile />
 
             <Gnb />

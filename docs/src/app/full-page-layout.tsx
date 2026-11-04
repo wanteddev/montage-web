@@ -1,10 +1,15 @@
 import { FlexBox } from '@montage-ui/core';
 
+import { SKIP_TARGET_ID } from '@/features/layout/constants';
+
 import type { PropsWithChildren } from 'react';
 
 const FullPageLayout = ({ children }: PropsWithChildren) => {
   return (
     <FlexBox
+      as="main"
+      id={SKIP_TARGET_ID.mainContent}
+      tabIndex={-1}
       flexDirection="column"
       alignItems="center"
       justifyContent="center"

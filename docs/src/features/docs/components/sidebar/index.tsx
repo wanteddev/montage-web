@@ -10,6 +10,7 @@ import {
   useState,
 } from 'react';
 
+import { SKIP_TARGET_ID } from '@/features/layout/constants';
 import useThrottle from '@/hooks/use-throttle';
 
 import { getHeadingLevel } from './helpers';
@@ -104,7 +105,11 @@ const Sidebar = () => {
 
   return (
     <FlexBox data-algolia-exclude sx={sidebarStyle} flexShrink={0}>
-      <aside aria-label="Table of Contents">
+      <aside
+        id={SKIP_TARGET_ID.onThisPage}
+        tabIndex={-1}
+        aria-label="Table of Contents"
+      >
         <ScrollArea>
           <FlexBox as="nav" aria-labelledby={descriptionId}>
             <FlexBox flexDirection="column" gap="4px">

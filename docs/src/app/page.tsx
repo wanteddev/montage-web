@@ -6,6 +6,7 @@ import Hero from '@/features/home/components/hero';
 import HomeLayout from '@/features/home/components/layout';
 import Resources from '@/features/home/components/resources';
 import Footer from '@/features/layout/components/footer';
+import { SKIP_TARGET_ID } from '@/features/layout/constants';
 import { createMetadata } from '@/helpers/metadata';
 
 import type { Metadata } from 'next';
@@ -22,6 +23,8 @@ const RootPage = () => {
   return (
     <FlexBox
       as="main"
+      id={SKIP_TARGET_ID.mainContent}
+      tabIndex={-1}
       flexDirection="column"
       alignItems="center"
       sx={{ width: '100%' }}
