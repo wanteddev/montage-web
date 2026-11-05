@@ -45,6 +45,7 @@ import {
   MENU_TRIGGER_NAME,
 } from './constants';
 import { MenuItemProvider, MenuProvider, useMenuContext } from './contexts';
+import { getFocusableItems } from './helpers';
 import {
   menuActionAreaContentStyle,
   menuActionAreaStyle,
@@ -61,6 +62,7 @@ import type {
   ListCellExtraContentProps,
   ListCellLabelTrailingProps,
 } from '../list';
+import type { MenuOpenReason } from './contexts';
 import type {
   MenuActionAreaContentProps,
   MenuActionAreaProps,
@@ -84,6 +86,9 @@ import type { ElementType, ForwardedRef, ReactNode } from 'react';
 const useMenuScope = createScope('Popover');
 
 const ARROW_KEYS = ['ArrowUp', 'ArrowDown'];
+/** Keys that move focus from the popup onto its first or last item. */
+const FIRST_ITEM_KEYS = ['ArrowDown', 'Home', 'PageUp'];
+const LAST_ITEM_KEYS = ['ArrowUp', 'End', 'PageDown'];
 
 const Menu = ({
   defaultValue,
@@ -99,9 +104,16 @@ const Menu = ({
   });
 
   const scopes = useMenuScope('Menu');
+  // Opened programmatically (e.g. `defaultOpen`) counts as a pointer open,
+  // so no item is focused until the user starts navigating.
+  const openReasonRef = useRef<MenuOpenReason>('click');
 
   return (
-    <MenuProvider value={value} onValueChange={setValue}>
+    <MenuProvider
+      value={value}
+      onValueChange={setValue}
+      openReasonRef={openReasonRef}
+    >
       <Popover {...scopes} {...props}>
         {children}
       </Popover>
@@ -117,12 +129,20 @@ const MenuTrigger = forwardRef<HTMLElement, MenuTriggerProps>((props, ref) => {
     MENU_TRIGGER_NAME,
     scopes.__scopePopover,
   );
+  const { openReasonRef } = useMenuContext(MENU_TRIGGER_NAME);
 
   return (
     <PopoverTrigger
       {...props}
       {...scopes}
       ref={ref}
+      // Runs before PopoverTrigger opens. Enter / Space on a button, or a
+      // trigger calling `click()` for them, dispatches a click with no detail.
+      onClick={composeEventHandlers(props.onClick, (e) => {
+        if (!open) {
+          openReasonRef.current = e.detail === 0 ? 'keyboard' : 'click';
+        }
+      })}
       onKeyDown={composeEventHandlers(props.onKeyDown, (e) => {
         if (
           open ||
@@ -133,6 +153,7 @@ const MenuTrigger = forwardRef<HTMLElement, MenuTriggerProps>((props, ref) => {
         }
 
         e.preventDefault();
+        openReasonRef.current = 'keyboard';
         onOpenChange(true);
       })}
     />
@@ -157,6 +178,7 @@ const MenuContent = forwardRef(
     ref: ForwardedRef<T>,
   ) => {
     const scopes = useMenuScope('Menu');
+    const { openReasonRef } = useMenuContext(MENU_CONTENT_NAME);
     const viewportRef = useRef<HTMLDivElement | null>(null);
 
     return (
@@ -179,15 +201,27 @@ const MenuContent = forwardRef(
           // while the popover is closed, and Radix only attaches the listener
           // to the node present at mount. FocusScope's mount event fires on
           // every open, right before the active item receives focus.
-          onMountAutoFocus={composeEventHandlers(onMountAutoFocus, () => {
-            const firstSelectedItem =
-              viewportRef.current?.querySelector<HTMLElement>(
-                '[data-menu-selected="true"]',
-              );
+          onMountAutoFocus={composeEventHandlers(onMountAutoFocus, (e) => {
+            const viewport = viewportRef.current;
+            const firstSelectedItem = viewport?.querySelector<HTMLElement>(
+              '[data-menu-selected="true"]',
+            );
 
-            if (viewportRef.current && firstSelectedItem) {
-              scrollIntoViewIfNeeded(viewportRef.current, firstSelectedItem);
+            if (viewport && firstSelectedItem) {
+              scrollIntoViewIfNeeded(viewport, firstSelectedItem);
             }
+
+            // Otherwise the popup gets focus and its roving group moves it to
+            // the selected item, or to the first item.
+            if (firstSelectedItem || openReasonRef.current === 'keyboard') {
+              return;
+            }
+
+            // Opened by pointer with nothing selected: focus the popup without
+            // landing on an item, so the first arrow key press reaches the
+            // first item instead of skipping it.
+            e.preventDefault();
+            viewport?.focus({ preventScroll: true });
           })}
           {...props}
           {...scopes}
@@ -198,6 +232,27 @@ const MenuContent = forwardRef(
             sx={menuScrollAreaStyle}
             size="small"
             viewportRef={viewportRef}
+            viewportProps={{
+              tabIndex: -1,
+              sx: { outline: 'none' },
+              onKeyDown: (e) => {
+                // Only while the popup itself holds focus; items handle their
+                // own navigation.
+                if (e.target !== e.currentTarget) return;
+
+                const items = getFocusableItems(e.currentTarget);
+                const item = FIRST_ITEM_KEYS.includes(e.key)
+                  ? items[0]
+                  : LAST_ITEM_KEYS.includes(e.key)
+                    ? items.at(-1)
+                    : undefined;
+
+                if (!item) return;
+
+                e.preventDefault();
+                item.focus();
+              },
+            }}
           >
             {children}
           </ScrollArea>

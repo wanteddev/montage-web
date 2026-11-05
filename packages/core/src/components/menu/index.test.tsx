@@ -1,10 +1,23 @@
-import { cleanup, render, screen } from '@testing-library/react';
+import {
+  cleanup,
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+} from '@testing-library/react';
 
 import { Button } from '../button';
 import { IconButton } from '../icon-button';
 import { TextButton } from '../text-button';
 
-import { MenuActionAreaContent } from '.';
+import {
+  Menu,
+  MenuActionAreaContent,
+  MenuContent,
+  MenuItem,
+  MenuList,
+  MenuTrigger,
+} from '.';
 
 import type { ReactElement } from 'react';
 
@@ -70,5 +83,86 @@ describe('when given icon button inside menu action area content', () => {
     expect(window.getComputedStyle(screen.getByLabelText('Send')).width).toBe(
       'var(--dimension-32)',
     );
+  });
+});
+
+const FocusExample = ({ value }: { value?: string }) => (
+  <Menu defaultValue={value}>
+    <MenuTrigger>
+      <button type="button">Open</button>
+    </MenuTrigger>
+    <MenuContent>
+      <MenuList>
+        <MenuItem value="first">First</MenuItem>
+        <MenuItem value="second">Second</MenuItem>
+        <MenuItem value="third">Third</MenuItem>
+      </MenuList>
+    </MenuContent>
+  </Menu>
+);
+
+const getItem = (name: string) => screen.getByRole('menuitemradio', { name });
+const getViewport = () =>
+  getItem('First').closest<HTMLElement>('[data-radix-scroll-area-viewport]')!;
+
+describe('when the menu opens', () => {
+  afterEach(() => {
+    cleanup();
+  });
+
+  it('should focus no item when opened by pointer with nothing selected', async () => {
+    render(<FocusExample />);
+
+    fireEvent.click(screen.getByRole('button', { name: 'Open' }), {
+      detail: 1,
+    });
+
+    await waitFor(() => expect(getViewport()).toHaveFocus());
+
+    fireEvent.keyDown(getViewport(), { key: 'ArrowDown' });
+    expect(getItem('First')).toHaveFocus();
+  });
+
+  it('should move to the last item on ArrowUp from the popup', async () => {
+    render(<FocusExample />);
+
+    fireEvent.click(screen.getByRole('button', { name: 'Open' }), {
+      detail: 1,
+    });
+    await waitFor(() => expect(getViewport()).toHaveFocus());
+
+    fireEvent.keyDown(getViewport(), { key: 'ArrowUp' });
+    expect(getItem('Third')).toHaveFocus();
+  });
+
+  it('should focus the first item when opened by keyboard', async () => {
+    render(<FocusExample />);
+
+    // Enter / Space on a button dispatches a click without detail.
+    fireEvent.click(screen.getByRole('button', { name: 'Open' }), {
+      detail: 0,
+    });
+
+    await waitFor(() => expect(getItem('First')).toHaveFocus());
+  });
+
+  it('should focus the first item when opened by ArrowDown', async () => {
+    render(<FocusExample />);
+
+    fireEvent.keyDown(screen.getByRole('button', { name: 'Open' }), {
+      key: 'ArrowDown',
+    });
+
+    await waitFor(() => expect(getItem('First')).toHaveFocus());
+  });
+
+  it('should focus the selected item when opened by pointer', async () => {
+    render(<FocusExample value="second" />);
+
+    fireEvent.click(screen.getByRole('button', { name: 'Open' }), {
+      detail: 1,
+    });
+
+    await waitFor(() => expect(getItem('Second')).toHaveFocus());
   });
 });
