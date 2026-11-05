@@ -323,25 +323,50 @@ describe.each([undefined, 'full'] as const)(
       const dimmer = document.querySelector<HTMLElement>(
         '[data-role="modal-dimmer"]',
       );
-      await expect.poll(() => dimmer?.style.opacity).not.toBe('');
+      if (!dimmer) throw new Error('no dimmer');
+      await expect.poll(() => dimmer.style.opacity).not.toBe('');
+
+      const dragInlineStyles = () => {
+        const dialog = openDialog() as HTMLElement;
+        return {
+          dimmerOpacity: dimmer.style.opacity,
+          translate: dialog.style.getPropertyValue('--modal-translate'),
+          maxHeight: dialog.style.getPropertyValue('--modal-max-height'),
+        };
+      };
+      const NO_DRAG_STYLES = {
+        dimmerOpacity: '',
+        translate: '',
+        maxHeight: '',
+      };
 
       await page.viewport(DESKTOP, 720);
       await expect.poll(sheetState).toEqual(DIMMED_MODAL);
+      expect(dragInlineStyles()).toEqual(NO_DRAG_STYLES);
 
-      const dialog = openDialog() as HTMLElement;
-      expect(dimmer?.style.opacity).toBe('');
-      expect(dialog.style.getPropertyValue('--modal-translate')).toBe('');
-      expect(dialog.style.getPropertyValue('--modal-max-height')).toBe('');
-
-      // Releasing afterwards must not resurrect the drag.
+      // The drag must have ended, not just paused: back on mobile (dragging
+      // re-enabled) the same pointer keeps moving, and nothing may follow it.
+      await page.viewport(MOBILE, 720);
+      await expect
+        .poll(() => openDialog()?.getAttribute('aria-modal'))
+        .toBe(largestUndimmedSnap === 'full' ? 'false' : 'true');
+      window.dispatchEvent(
+        new MouseEvent('mousemove', {
+          bubbles: true,
+          clientX: x,
+          clientY: y + 200,
+        }),
+      );
       window.dispatchEvent(
         new MouseEvent('mouseup', {
           bubbles: true,
           clientX: x,
-          clientY: y + 100,
+          clientY: y + 200,
         }),
       );
-      await expect.poll(sheetState).toEqual(DIMMED_MODAL);
+      await new Promise((resolve) => requestAnimationFrame(resolve));
+      expect(dragInlineStyles()).toEqual(NO_DRAG_STYLES);
+      expect(openDialog()).toHaveAttribute('data-snap', 'half');
     });
   },
 );
