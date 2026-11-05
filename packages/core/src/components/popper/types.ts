@@ -34,7 +34,6 @@ export type PopperContentProps = {
    * Lets the content move to the perpendicular axis when neither side of the
    * preferred axis fits, e.g. a `right-start` content falls back to the bottom
    * (`end`) or the top (`start`) on a narrow viewport.
-   * @default 'none'
    */
   fallbackAxisSide?: 'none' | 'start' | 'end';
   /**

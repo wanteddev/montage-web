@@ -110,13 +110,11 @@ export type MenuSubTriggerDefaultProps = WithSxProps<{
   /**
    * Whether hovering the trigger opens the submenu.
    * Touch and pen always open it on click.
-   * @default true
    */
   openOnHover?: boolean;
   /**
    * The delay in milliseconds from the pointer entering the trigger until
    * the submenu opens.
-   * @default 100
    */
   enterDelay?: number;
   /**
@@ -135,12 +133,10 @@ export type MenuSubContentProps = Merge<
     /**
      * Where the submenu moves when neither side of the trigger fits, e.g. on
      * a narrow viewport. `'end'` places it below the trigger.
-     * @default 'end'
      */
     fallbackAxisSide?: MenuContentProps['fallbackAxisSide'];
     /**
      * The offset from the trigger once the submenu moves below or above it.
-     * @default 4
      */
     fallbackAxisOffset?: MenuContentProps['fallbackAxisOffset'];
   },

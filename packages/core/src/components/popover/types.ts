@@ -40,7 +40,6 @@ export type PopoverContentProps = WithSxProps<
     /**
      * Lets the content move to the perpendicular axis when neither side of the
      * preferred axis fits.
-     * @default 'none'
      */
     fallbackAxisSide?: PopperContentProps['fallbackAxisSide'];
     /**
