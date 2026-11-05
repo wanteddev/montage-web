@@ -201,28 +201,41 @@ const MenuContent = forwardRef(
           // while the popover is closed, and Radix only attaches the listener
           // to the node present at mount. FocusScope's mount event fires on
           // every open, right before the active item receives focus.
-          onMountAutoFocus={composeEventHandlers(onMountAutoFocus, (e) => {
-            const viewport = viewportRef.current;
-            const firstSelectedItem = viewport?.querySelector<HTMLElement>(
-              '[data-menu-selected="true"]',
-            );
+          onMountAutoFocus={composeEventHandlers(
+            onMountAutoFocus,
+            (e) => {
+              // The reason belongs to this open only. A later open that skips
+              // the trigger (controlled `open`) must not reuse it.
+              const openReason = openReasonRef.current;
+              openReasonRef.current = 'click';
 
-            if (viewport && firstSelectedItem) {
-              scrollIntoViewIfNeeded(viewport, firstSelectedItem);
-            }
+              if (e.defaultPrevented) return;
 
-            // Otherwise the popup gets focus and its roving group moves it to
-            // the selected item, or to the first item.
-            if (firstSelectedItem || openReasonRef.current === 'keyboard') {
-              return;
-            }
+              const viewport = viewportRef.current;
+              const firstSelectedItem = viewport?.querySelector<HTMLElement>(
+                '[data-menu-selected="true"]',
+              );
 
-            // Opened by pointer with nothing selected: focus the popup without
-            // landing on an item, so the first arrow key press reaches the
-            // first item instead of skipping it.
-            e.preventDefault();
-            viewport?.focus({ preventScroll: true });
-          })}
+              if (viewport && firstSelectedItem) {
+                scrollIntoViewIfNeeded(viewport, firstSelectedItem);
+              }
+
+              // Otherwise the popup gets focus and its roving group moves it to
+              // the selected item, or to the first item.
+              if (firstSelectedItem || openReason === 'keyboard') {
+                return;
+              }
+
+              // Opened by pointer with nothing selected: focus the popup without
+              // landing on an item, so the first arrow key press reaches the
+              // first item instead of skipping it.
+              e.preventDefault();
+              viewport?.focus({ preventScroll: true });
+            },
+            // Runs even when the consumer prevented the autofocus, so the
+            // reason is still reset.
+            { checkForDefaultPrevented: false },
+          )}
           {...props}
           {...scopes}
           sx={[menuPopoverContentStyle, sx]}

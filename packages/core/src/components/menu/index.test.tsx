@@ -5,6 +5,7 @@ import {
   screen,
   waitFor,
 } from '@testing-library/react';
+import { axe } from 'vitest-axe';
 
 import { Button } from '../button';
 import { IconButton } from '../icon-button';
@@ -86,8 +87,22 @@ describe('when given icon button inside menu action area content', () => {
   });
 });
 
-const FocusExample = ({ value }: { value?: string }) => (
-  <Menu defaultValue={value}>
+// jsdom has no Web Animations API; AnimationPresence reads it on exit.
+Object.defineProperty(window.Element.prototype, 'getAnimations', {
+  value: () => [],
+  writable: true,
+});
+
+const FocusExample = ({
+  value,
+  open,
+  onOpenChange,
+}: {
+  value?: string;
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
+}) => (
+  <Menu defaultValue={value} open={open} onOpenChange={onOpenChange}>
     <MenuTrigger>
       <button type="button">Open</button>
     </MenuTrigger>
@@ -164,5 +179,37 @@ describe('when the menu opens', () => {
     });
 
     await waitFor(() => expect(getItem('Second')).toHaveFocus());
+  });
+
+  it('should have no accessibility violations when open', async () => {
+    render(<FocusExample />);
+
+    fireEvent.click(screen.getByRole('button', { name: 'Open' }), {
+      detail: 1,
+    });
+    await waitFor(() => expect(getViewport()).toHaveFocus());
+
+    // The popup is portaled to the body.
+    expect(await axe(document.body)).toHaveNoViolations();
+  });
+
+  it('should not reuse a keyboard open when reopened through `open`', async () => {
+    const { rerender } = render(<FocusExample open={false} />);
+
+    // Opened by keyboard, then closed.
+    fireEvent.click(screen.getByRole('button', { name: 'Open' }), {
+      detail: 0,
+    });
+    rerender(<FocusExample open />);
+    await waitFor(() => expect(getItem('First')).toHaveFocus());
+    rerender(<FocusExample open={false} />);
+    await waitFor(() =>
+      expect(screen.queryByRole('menuitemradio')).not.toBeInTheDocument(),
+    );
+
+    // Reopened from outside, without the trigger.
+    rerender(<FocusExample open />);
+
+    await waitFor(() => expect(getViewport()).toHaveFocus());
   });
 });
