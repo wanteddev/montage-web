@@ -1,6 +1,6 @@
-import type { darkTheme, lightTheme } from '../theme';
+import type { lightTheme } from '../theme';
 
-export type Theme = typeof lightTheme | typeof darkTheme;
+export type Theme = typeof lightTheme;
 
 export type BreakPoint = Theme['breakpoint'];
 

@@ -23,7 +23,7 @@ export const lightOriginTheme = {
         navigation: `
           background-color: ${addHexOpacity(semantic.light.surface.elevated.primary, opacity[88])};
           backdrop-filter: blur(32px);
-      `,
+      ` as const,
       },
     },
   },
@@ -49,7 +49,7 @@ export const darkOriginTheme = {
         navigation: `
           background-color: ${addHexOpacity(semantic.dark.surface.elevated.primary, opacity[88])};
           backdrop-filter: blur(32px);
-      `,
+      ` as const,
       },
     },
   },
@@ -63,65 +63,69 @@ export const darkOriginTheme = {
   zIndex,
 };
 
+/** Object key → css variable segment (`0.5` → `0_5`). */
+type CssVarSegment<K extends string> = K extends `${infer Head}.${infer Tail}`
+  ? `${Head}_${CssVarSegment<Tail>}`
+  : K;
+
+/**
+ * Maps every leaf of a token object to its css variable reference,
+ * e.g. `CssVarTokens<{ blue: { 50: '#0066FF' } }, 'atomic'>`
+ * → `{ blue: { 50: 'var(--atomic-blue-50)' } }`.
+ */
+export type CssVarTokens<T, Prefix extends string> = T extends object
+  ? {
+      [K in keyof T]: K extends string | number
+        ? CssVarTokens<T[K], `${Prefix}-${CssVarSegment<`${K}`>}`>
+        : never;
+    }
+  : `var(--${Prefix})`;
+
 const toCssVarSegment = (key: string) => key.replace(/\./g, '_');
 
-const addVarPrefix = (obj: any, prefix: string, convertAll = false) => {
-  const newObj: any = {};
+const toCssVars = <T extends object, Prefix extends string>(
+  obj: T,
+  prefix: Prefix,
+): CssVarTokens<T, Prefix> => {
+  const result: Record<string, unknown> = {};
 
-  for (const key in obj) {
-    const originPrefix = `${prefix}-${toCssVarSegment(key)}`;
+  for (const [key, value] of Object.entries(obj)) {
+    const name = `${prefix}-${toCssVarSegment(key)}`;
 
-    if (typeof obj[key] === 'object') {
-      newObj[key] = addVarPrefix(obj[key], originPrefix, convertAll as true);
-    } else if (
-      convertAll ||
-      (typeof obj[key] === 'string' &&
-        (obj[key].startsWith('#') || prefix.includes('shadow')))
-    ) {
-      newObj[key] = `var(--${originPrefix})`;
-    } else {
-      newObj[key] = obj[key];
-    }
+    result[key] =
+      typeof value === 'object' && value !== null
+        ? toCssVars(value, name)
+        : `var(--${name})`;
   }
-  return newObj;
+
+  return result as CssVarTokens<T, Prefix>;
 };
 
-const primitiveVar = addVarPrefix(
-  primitive,
-  'primitive',
-  true,
-) as typeof primitive;
-const opacityVar = addVarPrefix(opacity, 'opacity', true) as typeof opacity;
-const spacingVar = addVarPrefix(spacing, 'spacing', true) as typeof spacing;
-const radiusVar = addVarPrefix(radius, 'radius', true) as typeof radius;
-const dimensionVar = addVarPrefix(
-  dimension,
-  'dimension',
-  true,
-) as typeof dimension;
-const zIndexVar = addVarPrefix(zIndex, 'zIndex', true) as typeof zIndex;
+const atomicVar = toCssVars(atomic, 'atomic');
+const primitiveVar = toCssVars(primitive, 'primitive');
+const opacityVar = toCssVars(opacity, 'opacity');
+const spacingVar = toCssVars(spacing, 'spacing');
+const radiusVar = toCssVars(radius, 'radius');
+const dimensionVar = toCssVars(dimension, 'dimension');
+const zIndexVar = toCssVars(zIndex, 'zIndex');
 
 /**
  * Typography tokens as css variable references. Exported on its own because
  * typography is theme invariant, so consumers can read it without a theme.
  */
-export const typographyVar = addVarPrefix(
-  typography,
-  'typography',
-  true,
-) as typeof typography;
+export const typographyVar = toCssVars(typography, 'typography');
 
 export const lightTheme = {
   ...lightOriginTheme,
-  atomic: addVarPrefix(atomic, 'atomic') as typeof atomic,
+  atomic: atomicVar,
   semantic: {
-    ...(addVarPrefix(semantic.light, 'semantic') as typeof semantic.light),
+    ...toCssVars(semantic.light, 'semantic'),
     platform: {
       ios: {
         navigation: `
           background-color: rgba(var(--semantic-surface-elevated-primary-rgb), 0.88);
           backdrop-filter: blur(32px);
-        `,
+        ` as const,
       },
     },
   },
@@ -137,15 +141,15 @@ export const lightTheme = {
 
 export const darkTheme = {
   ...darkOriginTheme,
-  atomic: addVarPrefix(atomic, 'atomic') as typeof atomic,
+  atomic: atomicVar,
   semantic: {
-    ...(addVarPrefix(semantic.dark, 'semantic') as typeof semantic.dark),
+    ...toCssVars(semantic.dark, 'semantic'),
     platform: {
       ios: {
         navigation: `
           background-color: rgba(var(--semantic-surface-elevated-primary-rgb), 0.88);
           backdrop-filter: blur(32px);
-        `,
+        ` as const,
       },
     },
   },
@@ -157,7 +161,7 @@ export const darkTheme = {
   dimension: dimensionVar,
   typography: typographyVar,
   zIndex: zIndexVar,
-};
+} satisfies typeof lightTheme;
 
 export const theme = {
   light: lightTheme,

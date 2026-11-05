@@ -1,9 +1,12 @@
 import objectPath from 'object-path';
 
+import type { darkOriginTheme, lightOriginTheme } from '../theme';
 import type { Theme, ThemeColorsToken } from '../types';
 
-export const getColorByToken = (theme: Theme, token: ThemeColorsToken) =>
-  objectPath.get(theme, token) as string;
+export const getColorByToken = (
+  theme: Theme | typeof lightOriginTheme | typeof darkOriginTheme,
+  token: ThemeColorsToken,
+) => objectPath.get(theme, token) as string;
 
 export const addHexOpacity = (hex: string, value: number) =>
   hex.substring(0, 7) +
