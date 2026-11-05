@@ -277,3 +277,71 @@ describe('largestUndimmedSnap="full" across breakpoints', () => {
     await expect.poll(sheetState).toEqual(UNDIMMED);
   });
 });
+
+// A breakpoint flip can land in the middle of a drag. Dragging writes inline
+// overrides (dimmer opacity, translate, max-height); once the sheet turns into
+// a popup the drag handlers bail out, so the flip itself must clear them —
+// otherwise the popup keeps a stale (for `full`: invisible) dimmer and offset.
+describe.each([undefined, 'full'] as const)(
+  'largestUndimmedSnap=%s: flipping to a popup mid-drag',
+  (largestUndimmedSnap) => {
+    afterEach(async () => {
+      await page.viewport(DESKTOP, 720);
+    });
+
+    it('drops the drag inline styles so the popup is a regular dimmed modal', async () => {
+      await page.viewport(MOBILE, 720);
+      renderWithProvider(
+        <BackgroundWithSheet
+          variant="bottom"
+          resize="flexible"
+          handle
+          largestUndimmedSnap={largestUndimmedSnap}
+          md={{ variant: 'popup' }}
+        />,
+      );
+
+      await expect.poll(openDialog).not.toBeNull();
+      const grabber = document.querySelector(
+        '[data-role="modal-container-grabber"]',
+      );
+      if (!grabber) throw new Error('no grabber');
+      const { left, top, width, height } = grabber.getBoundingClientRect();
+      const x = left + width / 2;
+      const y = top + height / 2;
+
+      grabber.dispatchEvent(
+        new MouseEvent('mousedown', { bubbles: true, clientX: x, clientY: y }),
+      );
+      window.dispatchEvent(
+        new MouseEvent('mousemove', {
+          bubbles: true,
+          clientX: x,
+          clientY: y + 100,
+        }),
+      );
+      const dimmer = document.querySelector<HTMLElement>(
+        '[data-role="modal-dimmer"]',
+      );
+      await expect.poll(() => dimmer?.style.opacity).not.toBe('');
+
+      await page.viewport(DESKTOP, 720);
+      await expect.poll(sheetState).toEqual(DIMMED_MODAL);
+
+      const dialog = openDialog() as HTMLElement;
+      expect(dimmer?.style.opacity).toBe('');
+      expect(dialog.style.getPropertyValue('--modal-translate')).toBe('');
+      expect(dialog.style.getPropertyValue('--modal-max-height')).toBe('');
+
+      // Releasing afterwards must not resurrect the drag.
+      window.dispatchEvent(
+        new MouseEvent('mouseup', {
+          bubbles: true,
+          clientX: x,
+          clientY: y + 100,
+        }),
+      );
+      await expect.poll(sheetState).toEqual(DIMMED_MODAL);
+    });
+  },
+);

@@ -593,6 +593,26 @@ export const useDraggable = ({
     applyDragStyles,
   });
 
+  // A responsive flip that disables dragging (e.g. `md={{ variant: 'popup' }}`)
+  // can land mid-drag or mid-spring. Both handlers bail on `!isEnabled`, so
+  // without this the drag never ends and its inline overrides (dimmer opacity,
+  // `--modal-translate`, `--modal-max-height`, shadow) stick to the now-modal
+  // layout — e.g. an invisible dimmer under `largestUndimmedSnap='full'`.
+  const wasEnabled = useRef(isEnabled);
+  useEffect(() => {
+    const disabled = wasEnabled.current && !isEnabled;
+    wasEnabled.current = isEnabled;
+    if (!disabled) return;
+
+    isDragging.current = false;
+    cancelSpring();
+    const container = context.containerRef.current;
+    if (container) {
+      applySnap(container, dimmerRef.current, 'full', { peekHeight: 0 });
+    }
+    // oxlint-disable-next-line react-hooks/exhaustive-deps
+  }, [isEnabled]);
+
   useSnapLifecycle({
     containerRef: context.containerRef,
     dimmerRef,
