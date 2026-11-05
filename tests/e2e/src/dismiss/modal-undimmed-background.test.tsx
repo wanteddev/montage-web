@@ -345,3 +345,52 @@ describe.each([undefined, 'full'] as const)(
     });
   },
 );
+
+// The flip cleanup above must re-apply the committed snap rather than reset
+// to `full`: a sheet resting at `peek` that turns into a handle-less `hug`
+// sheet keeps `data-snap="peek"`, so it must also keep its peek offset.
+describe('flipping a peeked flexible sheet to a handle-less hug sheet', () => {
+  afterEach(async () => {
+    await page.viewport(DESKTOP, 720);
+  });
+
+  it('keeps the sheet at its peek position', async () => {
+    await page.viewport(MOBILE, 720);
+    renderWithProvider(
+      <Modal defaultOpen>
+        <ModalContainer
+          variant="bottom"
+          resize="flexible"
+          handle
+          peekHeight={80}
+          snap="peek"
+          md={{ resize: 'hug', handle: false }}
+        >
+          <ModalContent>
+            <ModalContentItem>
+              <ModalHeading>Sheet</ModalHeading>
+            </ModalContentItem>
+          </ModalContent>
+        </ModalContainer>
+      </Modal>,
+    );
+
+    const peekOffset = () => {
+      const dialog = openDialog() as HTMLElement | null;
+      return {
+        snap: dialog?.dataset.snap,
+        translate: dialog?.style.getPropertyValue('--modal-translate'),
+      };
+    };
+    const PEEKED = { snap: 'peek', translate: 'calc(100% - 80px)' };
+
+    await expect.poll(peekOffset).toEqual(PEEKED);
+    await page.viewport(DESKTOP, 720);
+    await expect
+      .poll(() =>
+        openDialog()?.querySelector('[data-role="modal-container-grabber"]'),
+      )
+      .toBeNull();
+    expect(peekOffset()).toEqual(PEEKED);
+  });
+});

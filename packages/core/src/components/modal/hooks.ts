@@ -598,6 +598,9 @@ export const useDraggable = ({
   // without this the drag never ends and its inline overrides (dimmer opacity,
   // `--modal-translate`, `--modal-max-height`, shadow) stick to the now-modal
   // layout — e.g. an invisible dimmer under `largestUndimmedSnap='full'`.
+  // Re-apply the committed snap (not a blanket reset) so the visuals stay in
+  // sync with `data-snap`: a sheet resting at `peek` keeps its peek offset, and
+  // an interrupted drag/spring returns to the snap it started from.
   const wasEnabled = useRef(isEnabled);
   useEffect(() => {
     const disabled = wasEnabled.current && !isEnabled;
@@ -608,7 +611,9 @@ export const useDraggable = ({
     cancelSpring();
     const container = context.containerRef.current;
     if (container) {
-      applySnap(container, dimmerRef.current, 'full', { peekHeight: 0 });
+      applySnap(container, dimmerRef.current, snapRef.current, {
+        peekHeight: peekHeight.current,
+      });
     }
     // oxlint-disable-next-line react-hooks/exhaustive-deps
   }, [isEnabled]);
