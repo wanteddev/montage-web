@@ -206,6 +206,80 @@ describe('when given flexible bottom sheet', () => {
     expect(screen.getByRole('dialog')).toHaveAttribute('data-snap', 'full');
   });
 
+  it('keeps the sheet non-modal at full when largestUndimmedSnap is full', () => {
+    render(
+      <Modal>
+        <ModalTrigger>
+          <Button data-testid="trigger">Open</Button>
+        </ModalTrigger>
+        <ModalContainer
+          variant="bottom"
+          resize="flexible"
+          handle
+          defaultSnap="full"
+          largestUndimmedSnap="full"
+        >
+          <ModalContent>
+            <ModalContentItem>
+              <ModalHeading>Heading</ModalHeading>
+            </ModalContentItem>
+          </ModalContent>
+        </ModalContainer>
+      </Modal>,
+    );
+
+    fireEvent.click(screen.getByTestId('trigger'));
+    const dialog = screen.getByRole('dialog');
+    expect(dialog).toHaveAttribute('data-snap', 'full');
+    expect(dialog).toHaveAttribute('data-largest-undimmed-snap', 'full');
+    expect(dialog).toHaveAttribute('aria-modal', 'false');
+  });
+
+  it('keeps a non-flexible handle sheet non-modal when largestUndimmedSnap is full', () => {
+    render(
+      <Modal>
+        <ModalTrigger>
+          <Button data-testid="trigger">Open</Button>
+        </ModalTrigger>
+        <ModalContainer variant="bottom" handle largestUndimmedSnap="full">
+          <ModalContent>
+            <ModalContentItem>
+              <ModalHeading>Heading</ModalHeading>
+            </ModalContentItem>
+          </ModalContent>
+        </ModalContainer>
+      </Modal>,
+    );
+
+    fireEvent.click(screen.getByTestId('trigger'));
+    const dialog = screen.getByRole('dialog');
+    expect(dialog).toHaveAttribute('data-snap', 'full');
+    expect(dialog).toHaveAttribute('data-largest-undimmed-snap', 'full');
+    expect(dialog).toHaveAttribute('aria-modal', 'false');
+  });
+
+  it('falls back to peek for largestUndimmedSnap=full outside draggable bottom sheets', () => {
+    render(
+      <Modal>
+        <ModalTrigger>
+          <Button data-testid="trigger">Open</Button>
+        </ModalTrigger>
+        <ModalContainer variant="popup" largestUndimmedSnap="full">
+          <ModalContent>
+            <ModalContentItem>
+              <ModalHeading>Heading</ModalHeading>
+            </ModalContentItem>
+          </ModalContent>
+        </ModalContainer>
+      </Modal>,
+    );
+
+    fireEvent.click(screen.getByTestId('trigger'));
+    const dialog = screen.getByRole('dialog');
+    expect(dialog).toHaveAttribute('data-largest-undimmed-snap', 'peek');
+    expect(dialog).toHaveAttribute('aria-modal', 'true');
+  });
+
   it('collapses to peek on dimmer click when peekHeight is set', async () => {
     render(
       <Modal>

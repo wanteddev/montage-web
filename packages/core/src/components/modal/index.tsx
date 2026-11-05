@@ -174,7 +174,7 @@ const ModalContainer = forwardRef(
       snap: snapProp,
       defaultSnap = 'half',
       onSnapChange,
-      largestUndimmedSnap = 'peek',
+      largestUndimmedSnap: givenLargestUndimmedSnap = 'peek',
       dimmer = <ModalDimmer />,
       ...props
     }: PolymorphicPropsInternal<ModalContainerProps, T>,
@@ -226,6 +226,7 @@ const ModalContainer = forwardRef(
     const {
       resolvedVariant,
       isBottomSheetWithHandle,
+      largestUndimmedSnap,
       collapseToPeekOrClose,
       ...dragProps
     } = useDraggable({
@@ -242,7 +243,7 @@ const ModalContainer = forwardRef(
       dimmerRef,
       snap,
       enableHalfSnapScroll,
-      largestUndimmedSnap,
+      largestUndimmedSnap: givenLargestUndimmedSnap,
       setSnap,
     });
 
@@ -279,7 +280,9 @@ const ModalContainer = forwardRef(
     // focus-outside dismiss — is suppressed in lockstep so the modal does not
     // try to be the only-thing-on-screen while it visually isn't.
     const isUndimmed =
-      isPeek || (snap === 'half' && largestUndimmedSnap === 'half');
+      isPeek ||
+      largestUndimmedSnap === 'full' ||
+      (snap === 'half' && largestUndimmedSnap === 'half');
     const isVisible = !isUndimmed;
 
     // Single "modal barrier" predicate: the overlay owns the screen (blocks

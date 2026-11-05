@@ -33,7 +33,7 @@ type ModalDimmerContextValue = {
   collapseToPeekOrClose: () => void;
   disableOutsideClickClose?: boolean;
   snap: ModalBottomSheetSnap;
-  largestUndimmedSnap: 'peek' | 'half';
+  largestUndimmedSnap: 'peek' | 'half' | 'full';
 };
 
 export const [ModalDimmerProvider, useModalDimmerContext] =

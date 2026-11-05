@@ -564,6 +564,22 @@ describe('computeDimmerOpacity', () => {
     ).toBe(0);
   });
 
+  it('largestUndimmedSnap=full: stays 0 at every height, flexible or not', () => {
+    for (const isFlexible of [true, false]) {
+      for (const height of [80, 300, 450, 600]) {
+        expect(
+          computeDimmerOpacity({
+            height,
+            maxHeight: 600,
+            peekHeight: 80,
+            isFlexible,
+            largestUndimmedSnap: 'full',
+          }),
+        ).toBe(0);
+      }
+    }
+  });
+
   // largestUndimmedSnap only meaningful with flexible — the non-flexible
   // formula ignores the option and keeps the full↔peek linear fade.
   it('non-flexible: largestUndimmedSnap=half is ignored', () => {
@@ -654,6 +670,25 @@ describe('computeDimmerOpacityDuringDrag', () => {
         largestUndimmedSnap: 'half',
       }),
     ).toBeCloseTo(0.5, 2);
+  });
+
+  it('largestUndimmedSnap=full: dimmer stays at 0 from any start snap', () => {
+    for (const isFlexible of [true, false]) {
+      for (const startedSnap of ['peek', 'half', 'full'] as const) {
+        expect(
+          computeDimmerOpacityDuringDrag({
+            startedSnap,
+            visualHeight: 450,
+            startedMaxHeight: 600,
+            fullMaxHeight: 600,
+            peekHeight: 80,
+            isFlexible,
+            diffY: -150,
+            largestUndimmedSnap: 'full',
+          }),
+        ).toBe(0);
+      }
+    }
   });
 });
 

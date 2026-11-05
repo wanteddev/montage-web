@@ -394,7 +394,7 @@ export const useDraggable = ({
   handle: givenHandle,
   defaultSnap: givenDefaultSnap,
   enableHalfSnapScroll,
-  largestUndimmedSnap = 'peek',
+  largestUndimmedSnap: givenLargestUndimmedSnap = 'peek',
   xs,
   sm,
   md,
@@ -415,6 +415,15 @@ export const useDraggable = ({
       lg,
       xl,
     });
+
+  // `full` undims every snap, so it must only reach draggable bottom sheets.
+  // A popup / handle-less sheet (including responsive flips into one) falls
+  // back to `peek` — a no-op there since it never reaches the peek snap —
+  // so it keeps its dimmer AND its modality in lockstep.
+  const largestUndimmedSnap =
+    givenLargestUndimmedSnap === 'full' && !isEnabled
+      ? 'peek'
+      : givenLargestUndimmedSnap;
 
   const context = useModalContext(MODAL_NAME);
 
@@ -558,10 +567,12 @@ export const useDraggable = ({
 
     // Shadow visually separates the sheet from the background whenever the
     // dimmer can't do it — i.e. any snap that's undimmed. `hasPeek()` covers
-    // the default `peek`-undimmed case; the second condition covers
-    // `largestUndimmedSnap='half'` even when there's no peek configured.
+    // the default `peek`-undimmed case; the others cover `largestUndimmedSnap`
+    // `'full'` / `'half'` (flexible only) even when there's no peek configured.
     const canShowShadow =
-      hasPeek() || (isFlexible && largestUndimmedSnap === 'half');
+      hasPeek() ||
+      largestUndimmedSnap === 'full' ||
+      (isFlexible && largestUndimmedSnap === 'half');
     if (opacity <= BOTTOM_SHEET_SHADOW_OPACITY_THRESHOLD && canShowShadow) {
       container.style.setProperty('box-shadow', BOTTOM_SHEET_SHADOW);
     } else {
@@ -1174,6 +1185,7 @@ export const useDraggable = ({
   return {
     resolvedVariant: variant ?? givenVariant ?? 'popup',
     isBottomSheetWithHandle: isEnabled,
+    largestUndimmedSnap,
     collapseToPeekOrClose,
     onMouseDown,
     onTouchStart: onMouseDown,
