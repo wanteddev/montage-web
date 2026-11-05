@@ -1,10 +1,9 @@
 import objectPath from 'object-path';
 
-import type { darkOriginTheme, lightOriginTheme } from '../theme';
-import type { Theme, ThemeColorsToken } from '../types';
+import type { OriginTheme, Theme, ThemeColorsToken } from '../types';
 
 export const getColorByToken = (
-  theme: Theme | typeof lightOriginTheme | typeof darkOriginTheme,
+  theme: Theme | OriginTheme,
   token: ThemeColorsToken,
 ) => objectPath.get(theme, token) as string;
 

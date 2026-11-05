@@ -115,19 +115,21 @@ const zIndexVar = toCssVars(zIndex, 'zIndex');
  */
 export const typographyVar = toCssVars(typography, 'typography');
 
+const platformVar = {
+  ios: {
+    navigation: `
+      background-color: rgba(var(--semantic-surface-elevated-primary-rgb), 0.88);
+      backdrop-filter: blur(32px);
+    ` as const,
+  },
+};
+
 export const lightTheme = {
   ...lightOriginTheme,
   atomic: atomicVar,
   semantic: {
     ...toCssVars(semantic.light, 'semantic'),
-    platform: {
-      ios: {
-        navigation: `
-          background-color: rgba(var(--semantic-surface-elevated-primary-rgb), 0.88);
-          backdrop-filter: blur(32px);
-        ` as const,
-      },
-    },
+    platform: platformVar,
   },
   primitive: primitiveVar,
   opacity: opacityVar,
@@ -144,14 +146,7 @@ export const darkTheme = {
   atomic: atomicVar,
   semantic: {
     ...toCssVars(semantic.dark, 'semantic'),
-    platform: {
-      ios: {
-        navigation: `
-          background-color: rgba(var(--semantic-surface-elevated-primary-rgb), 0.88);
-          backdrop-filter: blur(32px);
-        ` as const,
-      },
-    },
+    platform: platformVar,
   },
   primitive: primitiveVar,
   opacity: opacityVar,

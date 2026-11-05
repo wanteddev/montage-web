@@ -36,6 +36,7 @@ export {
 } from '@montage-ui/engine';
 export type {
   Theme,
+  OriginTheme,
   ThemeColorsToken,
   ThemeOpacityToken,
   ThemePrimitiveToken,

@@ -1,6 +1,10 @@
-import type { lightTheme } from '../theme';
+import type { darkOriginTheme, lightOriginTheme, lightTheme } from '../theme';
 
+/** Runtime theme: every token is a css variable reference (`var(--...)`). */
 export type Theme = typeof lightTheme;
+
+/** Raw-value theme: tokens hold actual values (hex, px, numbers). */
+export type OriginTheme = typeof lightOriginTheme | typeof darkOriginTheme;
 
 export type BreakPoint = Theme['breakpoint'];
 
