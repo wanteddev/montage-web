@@ -142,7 +142,7 @@ describe.each([
   });
 });
 
-describe.each(['full'] as const)(
+describe.each(['half', 'full'] as const)(
   'largestUndimmedSnap="%s" on a popup',
   (largestUndimmedSnap) => {
     it('falls back to peek — the popup stays dimmed and modal', async () => {
@@ -236,6 +236,27 @@ describe('largestUndimmedSnap="full" across breakpoints', () => {
     await expect.poll(sheetState).toEqual(UNDIMMED);
     await page.viewport(MOBILE, 720);
     await expect.poll(sheetState).toEqual(DIMMED_MODAL);
+  });
+
+  // Same fallback for `half`: before, a popup at the half snap kept a visible
+  // dimmer while dropping modality (aria-modal=false, body not blocked).
+  it('half: flexible bottom sheet on mobile ↔ popup on desktop', async () => {
+    await page.viewport(MOBILE, 720);
+    renderWithProvider(
+      <BackgroundWithSheet
+        variant="bottom"
+        resize="flexible"
+        largestUndimmedSnap="half"
+        md={{ variant: 'popup' }}
+      />,
+    );
+
+    const UNDIMMED_AT_HALF = { ...UNDIMMED, largestUndimmedSnap: 'half' };
+    await expect.poll(sheetState).toEqual(UNDIMMED_AT_HALF);
+    await page.viewport(DESKTOP, 720);
+    await expect.poll(sheetState).toEqual(DIMMED_MODAL);
+    await page.viewport(MOBILE, 720);
+    await expect.poll(sheetState).toEqual(UNDIMMED_AT_HALF);
   });
 
   it('flexible on mobile ↔ handle-less hug on desktop', async () => {

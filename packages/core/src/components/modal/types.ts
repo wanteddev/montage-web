@@ -66,9 +66,10 @@ type ModalContainerDefaultProps = WithSxProps<{
    * pointer events through.
    * - `'peek'` (default): only `peek` undimmed.
    * - `'half'`: `peek` + `half` undimmed (`resize='flexible'` only).
-   * - `'full'`: every snap undimmed — the sheet never becomes modal. Draggable
-   *   bottom sheets only (`handle` or `resize='flexible'`); elsewhere (popup,
-   *   handle-less sheets) it falls back to `'peek'`.
+   * - `'full'`: every snap undimmed — the sheet never becomes modal.
+   *
+   * Draggable bottom sheets only (`handle` or `resize='flexible'`); elsewhere
+   * (popup, handle-less sheets) it falls back to `'peek'`.
    */
   largestUndimmedSnap?: 'peek' | 'half' | 'full';
   /**

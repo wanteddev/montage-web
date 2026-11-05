@@ -416,12 +416,12 @@ export const useDraggable = ({
       xl,
     });
 
-  // `full` undims every snap, so it must only reach draggable bottom sheets.
+  // Undimmed snaps beyond `peek` only make sense on draggable bottom sheets.
   // A popup / handle-less sheet (including responsive flips into one) falls
   // back to `peek` — a no-op there since it never reaches the peek snap —
   // so it keeps its dimmer AND its modality in lockstep.
   const largestUndimmedSnap =
-    givenLargestUndimmedSnap === 'full' && !isEnabled
+    givenLargestUndimmedSnap !== 'peek' && !isEnabled
       ? 'peek'
       : givenLargestUndimmedSnap;
 
