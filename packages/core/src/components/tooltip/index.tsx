@@ -196,6 +196,8 @@ const TooltipContent = forwardRef(
       referenceHidden = false,
       referenceHiddenOffsets,
       collisionPadding,
+      fallbackAxisSide,
+      fallbackAxisOffset,
       setContext,
       forceMount = false,
       shortcut,
@@ -260,6 +262,8 @@ const TooltipContent = forwardRef(
             referenceHidden={referenceHidden}
             referenceHiddenOffsets={referenceHiddenOffsets}
             collisionPadding={collisionPadding}
+            fallbackAxisSide={fallbackAxisSide}
+            fallbackAxisOffset={fallbackAxisOffset}
             setContext={setContext}
             wrapperProps={{
               // Prevent mouseover events during the disappearing animation

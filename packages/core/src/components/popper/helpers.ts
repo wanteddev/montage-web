@@ -41,6 +41,11 @@ export const getSideAlignFromPlacement = (placement: Placement) => {
   return [placedSide as Side, placedAlign as Alignment | 'center'] as const;
 };
 
+export const getSideAxis = (placement: Placement) =>
+  ['top', 'bottom'].includes(getSideAlignFromPlacement(placement)[0])
+    ? 'y'
+    : 'x';
+
 export const transformOrigin = (options: {
   arrowWidth: number;
   arrowHeight: number;

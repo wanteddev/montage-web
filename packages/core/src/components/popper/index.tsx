@@ -35,6 +35,7 @@ import {
   getCollisionPaddingX,
   getPlacementMapper,
   getSideAlignFromPlacement,
+  getSideAxis,
   roundByDPR,
   transformOrigin,
 } from './helpers';
@@ -175,6 +176,8 @@ const PopperContent = forwardRef<
       referenceHidden = false,
       referenceHiddenOffsets,
       collisionPadding = 20,
+      fallbackAxisSide = 'none',
+      fallbackAxisOffset = givenOffset,
       setContext,
       container,
       disablePortal,
@@ -214,14 +217,23 @@ const PopperContent = forwardRef<
         reference: context.anchor,
       },
       middleware: [
-        offset({ mainAxis: givenOffset + arrowHeight, alignmentAxis: 0 }),
+        offset(({ placement }) => ({
+          mainAxis:
+            (getSideAxis(placement) === getSideAxis(floatingPlacement)
+              ? givenOffset
+              : fallbackAxisOffset) + arrowHeight,
+          alignmentAxis: 0,
+        })),
         shift({
           mainAxis: true,
           crossAxis: false,
           limiter: limitShift(),
           padding: collisionPadding,
         }),
-        flip({ padding: collisionPadding }),
+        flip({
+          padding: collisionPadding,
+          fallbackAxisSideDirection: fallbackAxisSide,
+        }),
         size({
           padding: collisionPadding,
           apply: ({ elements, availableHeight }) => {

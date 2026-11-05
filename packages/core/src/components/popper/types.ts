@@ -30,6 +30,18 @@ export type PopperContentProps = {
    * The content is shifted to stay within the boundary inset by this value.
    */
   collisionPadding?: number | Partial<SideObject>;
+  /**
+   * Lets the content move to the perpendicular axis when neither side of the
+   * preferred axis fits, e.g. a `right-start` content falls back to the bottom
+   * (`end`) or the top (`start`) on a narrow viewport.
+   * @default 'none'
+   */
+  fallbackAxisSide?: 'none' | 'start' | 'end';
+  /**
+   * The offset used once the content falls back to the perpendicular axis.
+   * Defaults to `offset`.
+   */
+  fallbackAxisOffset?: number;
   /** The props of the wrapper. */
   wrapperProps?: DefaultComponentProps<{}, 'div'>;
   /** The floating ui context can be obtained through a callback. */
