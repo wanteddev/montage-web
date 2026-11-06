@@ -30,6 +30,7 @@ const UndimmedSheet = () => (
   <Modal defaultOpen>
     <ModalContainer
       variant="bottom"
+      resize="flexible"
       handle
       peekHeight={80}
       snap="half"
@@ -372,15 +373,82 @@ describe.each([undefined, 'full'] as const)(
   },
 );
 
-// The flip cleanup above must re-apply the committed snap rather than reset
-// to `full`: a sheet resting at `peek` that turns into a handle-less `hug`
-// sheet keeps `data-snap="peek"`, so it must also keep its peek offset.
-describe('flipping a peeked flexible sheet to a handle-less hug sheet', () => {
+// `peek` only exists on draggable sheets. A sheet resting at `peek` that loses
+// its handle at a breakpoint resolves to `full` and becomes a regular dimmed
+// modal — and stays consistent even if a controlled owner ignores the change.
+describe('flipping a peeked sheet to a handle-less hug sheet', () => {
   afterEach(async () => {
     await page.viewport(DESKTOP, 720);
   });
 
-  it('keeps the sheet at its peek position', async () => {
+  const PeekedSheet = ({
+    onSnapChange,
+    controlled,
+  }: {
+    onSnapChange: (snap: string) => void;
+    controlled: boolean;
+  }) => {
+    const [snap, setSnap] = useState<'peek' | 'half' | 'full'>('peek');
+    return (
+      <Modal defaultOpen>
+        <ModalContainer
+          variant="bottom"
+          resize="flexible"
+          handle
+          peekHeight={80}
+          snap={snap}
+          onSnapChange={(next) => {
+            onSnapChange(next);
+            if (controlled) setSnap(next);
+          }}
+          md={{ resize: 'hug', handle: false }}
+        >
+          <ModalContent>
+            <ModalContentItem>
+              <ModalHeading>Sheet</ModalHeading>
+            </ModalContentItem>
+          </ModalContent>
+        </ModalContainer>
+      </Modal>
+    );
+  };
+
+  it.each([
+    { name: 'owner follows onSnapChange', controlled: true },
+    { name: 'owner ignores onSnapChange', controlled: false },
+  ])('$name: resolves to full as a regular modal', async ({ controlled }) => {
+    const onSnapChange = vi.fn();
+    await page.viewport(MOBILE, 720);
+    renderWithProvider(
+      <PeekedSheet onSnapChange={onSnapChange} controlled={controlled} />,
+    );
+
+    await expect
+      .poll(() => openDialog()?.getAttribute('data-snap'))
+      .toBe('peek');
+
+    await page.viewport(DESKTOP, 720);
+
+    await expect
+      .poll(() => openDialog()?.getAttribute('data-snap'))
+      .toBe('full');
+    await expect.poll(sheetState).toEqual(DIMMED_MODAL);
+    expect(onSnapChange).toHaveBeenCalledWith('full');
+    expect(
+      (openDialog() as HTMLElement).style.getPropertyValue('--modal-translate'),
+    ).toBe('');
+  });
+});
+
+// A flexible sheet that becomes a hug sheet at a breakpoint and comes back
+// keeps the snap the user left it at (it used to reset to `defaultSnap`).
+describe('flexible → hug → flexible round trip', () => {
+  afterEach(async () => {
+    await page.viewport(DESKTOP, 720);
+  });
+
+  it('keeps the full snap instead of resetting to defaultSnap', async () => {
+    const onSnapChange = vi.fn();
     await page.viewport(MOBILE, 720);
     renderWithProvider(
       <Modal defaultOpen>
@@ -388,9 +456,9 @@ describe('flipping a peeked flexible sheet to a handle-less hug sheet', () => {
           variant="bottom"
           resize="flexible"
           handle
-          peekHeight={80}
-          snap="peek"
-          md={{ resize: 'hug', handle: false }}
+          defaultSnap="full"
+          onSnapChange={onSnapChange}
+          md={{ resize: 'hug' }}
         >
           <ModalContent>
             <ModalContentItem>
@@ -401,23 +469,129 @@ describe('flipping a peeked flexible sheet to a handle-less hug sheet', () => {
       </Modal>,
     );
 
-    const peekOffset = () => {
-      const dialog = openDialog() as HTMLElement | null;
-      return {
-        snap: dialog?.dataset.snap,
-        translate: dialog?.style.getPropertyValue('--modal-translate'),
-      };
-    };
-    const PEEKED = { snap: 'peek', translate: 'calc(100% - 80px)' };
-
-    await expect.poll(peekOffset).toEqual(PEEKED);
+    await expect
+      .poll(() => openDialog()?.getAttribute('data-snap'))
+      .toBe('full');
     await page.viewport(DESKTOP, 720);
     await expect
+      .poll(() => openDialog()?.getAttribute('data-snap'))
+      .toBe('full');
+    await page.viewport(MOBILE, 720);
+    await new Promise((resolve) => setTimeout(resolve, 300));
+
+    expect(openDialog()).toHaveAttribute('data-snap', 'full');
+    expect(onSnapChange).not.toHaveBeenCalledWith('half');
+  });
+});
+
+// A controlled `snap="peek"` sheet opened from a trigger mounts already at
+// peek; the peek offset must be applied even though `snap` never changes.
+describe('opening a sheet that is already at peek', () => {
+  it('applies the peek offset on open', async () => {
+    const Harness = () => {
+      const [open, setOpen] = useState(false);
+      return (
+        <>
+          <button
+            type="button"
+            data-testid="open-peeked"
+            onClick={() => setOpen(true)}
+          >
+            open
+          </button>
+          <Modal open={open} onOpenChange={setOpen}>
+            <ModalContainer variant="bottom" handle peekHeight={80} snap="peek">
+              <ModalContent>
+                <ModalContentItem>
+                  <ModalHeading>Sheet</ModalHeading>
+                </ModalContentItem>
+              </ModalContent>
+            </ModalContainer>
+          </Modal>
+        </>
+      );
+    };
+    renderWithProvider(<Harness />);
+
+    await click(byTestId('open-peeked'));
+
+    await expect
       .poll(() =>
-        openDialog()?.querySelector('[data-role="modal-container-grabber"]'),
+        (openDialog() as HTMLElement | null)?.style.getPropertyValue(
+          '--modal-translate',
+        ),
       )
-      .toBeNull();
-    expect(peekOffset()).toEqual(PEEKED);
+      .toBe('calc(100% - 80px)');
+    expect(openDialog()).toHaveAttribute('data-snap', 'peek');
+  });
+});
+
+// A `forceMount` sheet closed at peek keeps `peek` as its stored snap. Opening
+// it again where it renders as a popup must not trip the "bottom sheet at peek
+// flipped to popup" close path — that only applies to an actual layout flip.
+describe('reopening a forceMount sheet closed at peek, as a popup', () => {
+  afterEach(async () => {
+    await page.viewport(DESKTOP, 720);
+  });
+
+  it('stays open', async () => {
+    const Harness = () => {
+      const [open, setOpen] = useState(true);
+      return (
+        <>
+          <button
+            type="button"
+            data-testid="reopen"
+            onClick={() => setOpen(true)}
+          >
+            open
+          </button>
+          <button
+            type="button"
+            data-testid="close"
+            onClick={() => setOpen(false)}
+          >
+            close
+          </button>
+          <Modal open={open} onOpenChange={setOpen}>
+            <ModalContainer
+              variant="bottom"
+              resize="flexible"
+              handle
+              peekHeight={80}
+              forceMount
+              md={{ variant: 'popup' }}
+            >
+              <ModalContent>
+                <ModalContentItem>
+                  <ModalHeading>Sheet</ModalHeading>
+                </ModalContentItem>
+              </ModalContent>
+            </ModalContainer>
+          </Modal>
+        </>
+      );
+    };
+    await page.viewport(MOBILE, 720);
+    renderWithProvider(<Harness />);
+
+    await expect.poll(openDialog).not.toBeNull();
+    // Collapse to peek through the dimmer, then close from outside the sheet.
+    const dimmer = document.querySelector('[data-role="modal-dimmer"]');
+    if (!dimmer) throw new Error('no dimmer');
+    await clickCorner(dimmer);
+    await expect
+      .poll(() => openDialog()?.getAttribute('data-snap'))
+      .toBe('peek');
+    (byTestId('close') as HTMLElement).click();
+    await expect.poll(openDialog).toBeNull();
+
+    await page.viewport(DESKTOP, 720);
+    (byTestId('reopen') as HTMLElement).click();
+
+    await expect.poll(sheetState).toEqual(DIMMED_MODAL);
+    await new Promise((resolve) => setTimeout(resolve, 300));
+    expect(openDialog()).not.toBeNull();
   });
 });
 

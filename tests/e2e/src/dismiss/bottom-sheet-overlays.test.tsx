@@ -107,6 +107,7 @@ describe('undimmed bottom sheet with a Select', () => {
         <Modal defaultOpen>
           <ModalContainer
             variant="bottom"
+            resize="flexible"
             handle
             peekHeight={80}
             snap="half"

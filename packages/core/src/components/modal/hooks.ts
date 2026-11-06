@@ -22,6 +22,7 @@ import {
   isTouchEvent,
   isTouchInsideTextSelection,
   readVisualHeight,
+  resolveBottomSheetSnap,
   resolveFlexibleReleaseSnap,
   resolveNonFlexibleReleaseSnap,
   rubberBand,
@@ -301,16 +302,24 @@ export const useSnapLifecycle = ({
   const wasOpenRef = useRef(false);
 
   // When the modal opens, seed snap from defaultSnap (flexible) or 'full'.
+  // Only on the open transition: a responsive flip while open is handled by
+  // `resolveBottomSheetSnap`, so it must not reseed (that used to throw a
+  // flexible sheet back to `defaultSnap` after a flexible → hug → flexible
+  // round trip). A sheet that opens as a popup and later turns into a bottom
+  // sheet is still seeded on that first bottom layout.
+  const seededRef = useRef(false);
   useEffect(() => {
-    if (!isBottom) return;
-
     if (!isOpen) {
       if (wasOpenRef.current) wasDismissedRef.current = true;
       wasOpenRef.current = false;
+      seededRef.current = false;
       return;
     }
 
     wasOpenRef.current = true;
+
+    if (!isBottom || seededRef.current) return;
+    seededRef.current = true;
 
     // A drag-dismiss closes without `applySnap`, leaving the dragged
     // `--modal-max-height` inline. Cleared here rather than on close so the
@@ -340,6 +349,10 @@ export const useSnapLifecycle = ({
   // styles that `applySnap` is trying to clear. When the spring completes
   // naturally it nulls its handle first, so the cancel here is a no-op on
   // that path.
+  //
+  // Also re-runs on open: a sheet that mounts already at `peek` (controlled
+  // `snap`) has no snap change to react to, and would otherwise render at its
+  // natural height while reporting `data-snap="peek"`.
   useEffect(() => {
     const container = containerRef.current;
     if (!container || !isBottom || isDraggingRef.current) return;
@@ -350,7 +363,7 @@ export const useSnapLifecycle = ({
       peekHeight: peekHeightRef.current,
     });
     // oxlint-disable-next-line react-hooks/exhaustive-deps
-  }, [snap, isBottom]);
+  }, [snap, isBottom, isOpen]);
 
   // Reset inline height when the modal closes so it returns to its CSS default
   // on next open.
@@ -401,7 +414,7 @@ export const useDraggable = ({
   lg,
   xl,
   dimmerRef,
-  snap,
+  snap: requestedSnap,
   setSnap,
 }: UseDraggableProps) => {
   const { variant, isBottom, isFlexible, isEnabled } =
@@ -425,7 +438,27 @@ export const useDraggable = ({
       ? 'peek'
       : givenLargestUndimmedSnap;
 
+  // The snap the sheet actually shows — the requested one, mapped onto what
+  // the resolved layout supports (see `resolveBottomSheetSnap`). Everything
+  // below, and `ModalContainer`'s rendering, reads this value.
+  const snap = resolveBottomSheetSnap(requestedSnap, {
+    isBottom,
+    isEnabled,
+    isFlexible,
+    hasPeek: (givenPeekHeight ?? 0) > 0,
+    defaultSnap: givenDefaultSnap,
+  });
+
   const context = useModalContext(MODAL_NAME);
+
+  // Report a remapped snap back through `onSnapChange` while open, so state
+  // owners can follow along. A controlled owner that ignores it still sees
+  // consistent visuals because rendering uses the resolved `snap`. Closed
+  // sheets stay quiet; the open-time seed resolves them.
+  useEffect(() => {
+    if (context.open && snap !== requestedSnap) setSnap(snap);
+    // oxlint-disable-next-line react-hooks/exhaustive-deps
+  }, [context.open, snap, requestedSnap]);
 
   const isDragging = useRef(false);
   const startedY = useRef(0);
@@ -1214,6 +1247,7 @@ export const useDraggable = ({
   return {
     resolvedVariant: variant ?? givenVariant ?? 'popup',
     isBottomSheetWithHandle: isEnabled,
+    snap,
     largestUndimmedSnap,
     collapseToPeekOrClose,
     onMouseDown,
