@@ -682,3 +682,70 @@ describe('dropping peekHeight, then the handle, mid-drag at peek', () => {
     expect(dialog.style.getPropertyValue('transition')).toBe('');
   });
 });
+
+// A drag-dismiss leaves the dragged position inline on purpose, so the exit
+// animation starts where the finger let go instead of jumping back to the
+// snap height first.
+describe('drag-dismissing a sheet', () => {
+  it.each([
+    { name: 'hug', resize: 'hug' as const },
+    { name: 'flexible', resize: 'flexible' as const },
+  ])(
+    '$name: keeps the dragged position through the exit',
+    async ({ resize }) => {
+      renderWithProvider(
+        <Modal defaultOpen>
+          <ModalContainer
+            variant="bottom"
+            resize={resize}
+            handle
+            defaultSnap="full"
+          >
+            <ModalContent>
+              <ModalContentItem>
+                <ModalHeading>Sheet</ModalHeading>
+              </ModalContentItem>
+            </ModalContent>
+          </ModalContainer>
+        </Modal>,
+      );
+
+      await expect.poll(openDialog).not.toBeNull();
+      const grabber = document.querySelector(
+        '[data-role="modal-container-grabber"]',
+      );
+      if (!grabber) throw new Error('no grabber');
+      const { left, top, width, height } = grabber.getBoundingClientRect();
+      const x = left + width / 2;
+      const y = top + height / 2;
+      grabber.dispatchEvent(
+        new MouseEvent('mousedown', { bubbles: true, clientX: x, clientY: y }),
+      );
+      for (let i = 1; i <= 6; i++) {
+        window.dispatchEvent(
+          new MouseEvent('mousemove', {
+            bubbles: true,
+            clientX: x,
+            clientY: y + i * 100,
+          }),
+        );
+        await new Promise((resolve) => setTimeout(resolve, 16));
+      }
+      window.dispatchEvent(
+        new MouseEvent('mouseup', {
+          bubbles: true,
+          clientX: x,
+          clientY: y + 600,
+        }),
+      );
+
+      const dialog = document.querySelector<HTMLElement>('[role="dialog"]');
+      if (!dialog) throw new Error('no dialog');
+      await expect.poll(() => dialog.dataset.status).toBe('close');
+      const draggedInline =
+        dialog.style.getPropertyValue('--modal-translate') ||
+        dialog.style.getPropertyValue('--modal-max-height');
+      expect(draggedInline).not.toBe('');
+    },
+  );
+});

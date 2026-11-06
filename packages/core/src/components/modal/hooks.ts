@@ -352,10 +352,12 @@ export const useSnapLifecycle = ({
   //
   // Also re-runs on open: a sheet that mounts already at `peek` (controlled
   // `snap`) has no snap change to react to, and would otherwise render at its
-  // natural height while reporting `data-snap="peek"`.
+  // natural height while reporting `data-snap="peek"`. Skipped while closed:
+  // a drag-dismiss deliberately leaves the dragged height inline so the exit
+  // animation starts where the finger let go, and the next open re-applies.
   useEffect(() => {
     const container = containerRef.current;
-    if (!container || !isBottom || isDraggingRef.current) return;
+    if (!container || !isBottom || !isOpen || isDraggingRef.current) return;
     if (snap === 'peek' && !hasPeek()) return;
 
     cancelSpring();
