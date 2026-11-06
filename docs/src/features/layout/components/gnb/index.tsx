@@ -63,7 +63,7 @@ const Gnb = () => {
         suppressHydrationWarning
         alignContent="center"
         as="header"
-        id={SKIP_TARGET_ID.topNavigation}
+        id={SKIP_TARGET_ID.mainMenu}
         tabIndex={-1}
         sx={gnbWrapperStyle}
       >
