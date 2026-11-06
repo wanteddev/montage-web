@@ -612,10 +612,11 @@ export const useDraggable = ({
     cancelSpring();
 
     const container = context.containerRef.current;
-    // Same guard as `useSnapLifecycle`: `peek` without a peek height has no
-    // offset to apply (it would push the sheet fully off-screen).
-    if (!container || (snap === 'peek' && !hasPeek())) return;
-    applySnap(container, dimmerRef.current, snap, {
+    if (!container) return;
+    // `peek` without a peek height has no offset to apply (it would push the
+    // sheet fully off-screen), so only strip the drag overrides in that case.
+    const target = snap === 'peek' && !hasPeek() ? 'full' : snap;
+    applySnap(container, dimmerRef.current, target, {
       peekHeight: peekHeight.current,
     });
     // oxlint-disable-next-line react-hooks/exhaustive-deps

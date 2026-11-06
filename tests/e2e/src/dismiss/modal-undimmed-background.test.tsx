@@ -13,6 +13,7 @@ import {
   bodyPointerEvents,
   byTestId,
   click,
+  clickCorner,
   renderWithProvider,
 } from '../helpers';
 
@@ -417,5 +418,93 @@ describe('flipping a peeked flexible sheet to a handle-less hug sheet', () => {
       )
       .toBeNull();
     expect(peekOffset()).toEqual(PEEKED);
+  });
+});
+
+// While the user drags a peeked sheet, the parent drops `peekHeight`, and then
+// a breakpoint flip turns dragging off (`md={{ handle: false }}`). There is no
+// peek offset left to apply, but the drag's inline overrides must still be
+// cleared.
+describe('dropping peekHeight, then the handle, mid-drag at peek', () => {
+  afterEach(async () => {
+    await page.viewport(DESKTOP, 720);
+  });
+
+  it('still clears the drag inline styles', async () => {
+    const Harness = () => {
+      const [peekHeight, setPeekHeight] = useState<number | undefined>(80);
+      return (
+        <>
+          <button
+            type="button"
+            data-testid="drop-peek"
+            onClick={() => setPeekHeight(undefined)}
+          >
+            drop peek
+          </button>
+          <Modal defaultOpen>
+            <ModalContainer
+              variant="bottom"
+              handle
+              peekHeight={peekHeight}
+              md={{ handle: false }}
+            >
+              <ModalContent>
+                <ModalContentItem>
+                  <ModalHeading>Sheet</ModalHeading>
+                </ModalContentItem>
+              </ModalContent>
+            </ModalContainer>
+          </Modal>
+        </>
+      );
+    };
+
+    await page.viewport(MOBILE, 720);
+    renderWithProvider(<Harness />);
+
+    await expect.poll(openDialog).not.toBeNull();
+    const dimmer = document.querySelector<HTMLElement>(
+      '[data-role="modal-dimmer"]',
+    );
+    if (!dimmer) throw new Error('no dimmer');
+    await clickCorner(dimmer);
+    await expect
+      .poll(() => openDialog()?.getAttribute('data-snap'))
+      .toBe('peek');
+
+    const grabber = document.querySelector(
+      '[data-role="modal-container-grabber"]',
+    );
+    if (!grabber) throw new Error('no grabber');
+    const { left, top, width, height } = grabber.getBoundingClientRect();
+    const x = left + width / 2;
+    const y = top + height / 2;
+    grabber.dispatchEvent(
+      new MouseEvent('mousedown', { bubbles: true, clientX: x, clientY: y }),
+    );
+    window.dispatchEvent(
+      new MouseEvent('mousemove', {
+        bubbles: true,
+        clientX: x,
+        clientY: y - 150,
+      }),
+    );
+    await expect.poll(() => dimmer.style.opacity).not.toBe('');
+
+    // A plain click event only (no mousedown/up), so the drag stays live.
+    (byTestId('drop-peek') as HTMLElement).click();
+    await new Promise((resolve) => setTimeout(resolve, 100));
+    await page.viewport(DESKTOP, 720);
+
+    await expect
+      .poll(() =>
+        openDialog()?.querySelector('[data-role="modal-container-grabber"]'),
+      )
+      .toBeNull();
+    await expect.poll(() => dimmer.style.opacity).toBe('');
+    const dialog = openDialog() as HTMLElement;
+    expect(dialog.style.getPropertyValue('--modal-max-height')).toBe('');
+    expect(dialog.style.getPropertyValue('transition')).toBe('');
   });
 });
