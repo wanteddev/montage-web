@@ -394,7 +394,7 @@ export const useDraggable = ({
   handle: givenHandle,
   defaultSnap: givenDefaultSnap,
   enableHalfSnapScroll,
-  largestUndimmedSnap = 'peek',
+  largestUndimmedSnap: givenLargestUndimmedSnap = 'peek',
   xs,
   sm,
   md,
@@ -415,6 +415,15 @@ export const useDraggable = ({
       lg,
       xl,
     });
+
+  // Undimmed snaps beyond `peek` only make sense on draggable bottom sheets.
+  // A popup / handle-less sheet (including responsive flips into one) falls
+  // back to `peek` — a no-op there since it never reaches the peek snap —
+  // so it keeps its dimmer AND its modality in lockstep.
+  const largestUndimmedSnap =
+    givenLargestUndimmedSnap !== 'peek' && !isEnabled
+      ? 'peek'
+      : givenLargestUndimmedSnap;
 
   const context = useModalContext(MODAL_NAME);
 
@@ -558,10 +567,12 @@ export const useDraggable = ({
 
     // Shadow visually separates the sheet from the background whenever the
     // dimmer can't do it — i.e. any snap that's undimmed. `hasPeek()` covers
-    // the default `peek`-undimmed case; the second condition covers
-    // `largestUndimmedSnap='half'` even when there's no peek configured.
+    // the default `peek`-undimmed case; the others cover `largestUndimmedSnap`
+    // `'full'` / `'half'` (flexible only) even when there's no peek configured.
     const canShowShadow =
-      hasPeek() || (isFlexible && largestUndimmedSnap === 'half');
+      hasPeek() ||
+      largestUndimmedSnap === 'full' ||
+      (isFlexible && largestUndimmedSnap === 'half');
     if (opacity <= BOTTOM_SHEET_SHADOW_OPACITY_THRESHOLD && canShowShadow) {
       container.style.setProperty('box-shadow', BOTTOM_SHEET_SHADOW);
     } else {
@@ -581,6 +592,35 @@ export const useDraggable = ({
     isOpen: context.open,
     applyDragStyles,
   });
+
+  // A responsive flip that disables dragging (e.g. `md={{ variant: 'popup' }}`)
+  // can land mid-drag or mid-spring. Both handlers bail on `!isEnabled`, so
+  // without this the drag never ends and its inline overrides (dimmer opacity,
+  // `--modal-translate`, `--modal-max-height`, shadow) stick to the now-modal
+  // layout — e.g. an invisible dimmer under `largestUndimmedSnap='full'`.
+  // Re-apply the committed snap (not a blanket reset) so the visuals stay in
+  // sync with `data-snap`: a sheet resting at `peek` keeps its peek offset, and
+  // an interrupted drag/spring returns to the snap it started from. Reads the
+  // `snap` prop, not `snapRef`, which only syncs in a later effect.
+  const wasEnabled = useRef(isEnabled);
+  useEffect(() => {
+    const disabled = wasEnabled.current && !isEnabled;
+    wasEnabled.current = isEnabled;
+    if (!disabled) return;
+
+    isDragging.current = false;
+    cancelSpring();
+
+    const container = context.containerRef.current;
+    if (!container) return;
+    // `peek` without a peek height has no offset to apply (it would push the
+    // sheet fully off-screen), so only strip the drag overrides in that case.
+    const target = snap === 'peek' && !hasPeek() ? 'full' : snap;
+    applySnap(container, dimmerRef.current, target, {
+      peekHeight: peekHeight.current,
+    });
+    // oxlint-disable-next-line react-hooks/exhaustive-deps
+  }, [isEnabled]);
 
   useSnapLifecycle({
     containerRef: context.containerRef,
@@ -1174,6 +1214,7 @@ export const useDraggable = ({
   return {
     resolvedVariant: variant ?? givenVariant ?? 'popup',
     isBottomSheetWithHandle: isEnabled,
+    largestUndimmedSnap,
     collapseToPeekOrClose,
     onMouseDown,
     onTouchStart: onMouseDown,

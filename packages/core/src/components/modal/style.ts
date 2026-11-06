@@ -49,9 +49,11 @@ export const modalDimmerStyle = (theme: Theme) => css`
    * iOS \`largestUndimmedDetentIdentifier\`-style override. When the largest
    * undimmed snap is \`half\`, the dimmer must also be transparent and
    * non-blocking at \`half\` so pointer events fall through to the content
-   * behind the sheet. Only \`full\` keeps a visible dimmer.
+   * behind the sheet. Only \`full\` keeps a visible dimmer — unless the
+   * largest undimmed snap is \`full\` itself, which hides it at every snap.
    */
-  &[data-largest-undimmed-snap='half'][data-snap='half'] {
+  &[data-largest-undimmed-snap='half'][data-snap='half'],
+  &[data-largest-undimmed-snap='full'] {
     pointer-events: none;
     opacity: 0;
   }
@@ -75,6 +77,7 @@ export const modalContainerWrapperStyle =
      */
       &[data-snap='peek'],
       &[data-largest-undimmed-snap='half'][data-snap='half'],
+      &[data-largest-undimmed-snap='full'],
       &[data-status='close'] {
         pointer-events: none;
       }
@@ -477,7 +480,8 @@ const modalContainerVariant = (variant: ModalContainerProps['variant']) => {
         }
 
         &[data-status='open'][data-snap='peek'],
-        &[data-status='open'][data-largest-undimmed-snap='half'][data-snap='half'] {
+        &[data-status='open'][data-largest-undimmed-snap='half'][data-snap='half'],
+        &[data-status='open'][data-largest-undimmed-snap='full'] {
           box-shadow: ${BOTTOM_SHEET_SHADOW};
           transition:
             transform ${BOTTOM_SHEET_SETTLE_TRANSITION},

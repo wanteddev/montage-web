@@ -157,6 +157,9 @@ export const applySnap = (
  * When `largestUndimmedSnap='half'` (flexible only), the dimmer treats
  * `halfHeight` itself as opacity 0 and fades only between `halfHeight` and
  * `maxHeight` — the entire `half↔peek` region stays undimmed.
+ *
+ * When `largestUndimmedSnap='full'`, every snap is undimmed so the dimmer
+ * stays at 0 regardless of height (flexible or not).
  */
 export const computeDimmerOpacity = ({
   height,
@@ -169,8 +172,10 @@ export const computeDimmerOpacity = ({
   maxHeight: number;
   peekHeight: number;
   isFlexible: boolean;
-  largestUndimmedSnap?: 'peek' | 'half';
+  largestUndimmedSnap?: 'peek' | 'half' | 'full';
 }): number => {
+  if (largestUndimmedSnap === 'full') return 0;
+
   const floor = peekHeight > 0 ? peekHeight : 0;
 
   if (isFlexible) {
@@ -556,6 +561,7 @@ export const computeDragStyle = ({
  * When `largestUndimmedSnap='half'` (flexible only), the peek-start fade band
  * shifts upward — the dimmer stays at 0 until the sheet grows past `halfHeight`
  * and only fades in between `halfHeight` and `fullMaxHeight`.
+ * With `'full'` the dimmer stays at 0 for the whole drag.
  */
 export const computeDimmerOpacityDuringDrag = ({
   startedSnap,
@@ -574,8 +580,10 @@ export const computeDimmerOpacityDuringDrag = ({
   peekHeight: number;
   isFlexible: boolean;
   diffY: number;
-  largestUndimmedSnap?: 'peek' | 'half';
+  largestUndimmedSnap?: 'peek' | 'half' | 'full';
 }): number => {
+  if (largestUndimmedSnap === 'full') return 0;
+
   if (startedSnap === 'peek') {
     const undimmedAtHalf = isFlexible && largestUndimmedSnap === 'half';
     if (undimmedAtHalf) {

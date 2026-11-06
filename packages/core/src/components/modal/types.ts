@@ -66,8 +66,11 @@ type ModalContainerDefaultProps = WithSxProps<{
    * pointer events through.
    * - `'peek'` (default): only `peek` undimmed.
    * - `'half'`: `peek` + `half` undimmed (`resize='flexible'` only).
+   * - `'full'`: every snap undimmed — the sheet never becomes modal.
+   *
+   * Draggable bottom sheets only (`handle` or `resize='flexible'`).
    */
-  largestUndimmedSnap?: 'peek' | 'half';
+  largestUndimmedSnap?: 'peek' | 'half' | 'full';
   /**
    * At `half` with scrollable body: `true` defers to native scroll until
    * the scroll boundary, then transfers to sheet collapse (iOS Maps feel).
