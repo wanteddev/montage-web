@@ -88,6 +88,44 @@ export const isMouseDownOnPeek = (
   return clientY >= top && clientY <= top + peekHeight;
 };
 
+/**
+ * Map a requested snap onto one the resolved layout can actually show. Single
+ * source of truth for snap validity — rendering (`data-snap`, modality) and
+ * the drag machinery all read the resolved value, so a responsive flip (or a
+ * controlled `snap` the layout can't honour) never leaves the visuals and the
+ * modal state disagreeing.
+ *
+ * - `peek`: needs a draggable bottom sheet with a peek height; otherwise the
+ *   sheet would be stuck in a strip it can't be pulled out of.
+ * - `half`: needs a flexible sheet (the only layout with a half snap).
+ * - Fallback: `defaultSnap` on flexible sheets, `full` everywhere else.
+ * - Non-bottom layouts (popup / full variant) keep the requested snap, except
+ *   `peek`, which has no meaning there.
+ */
+export const resolveBottomSheetSnap = (
+  snap: ModalBottomSheetSnap,
+  {
+    isBottom,
+    isEnabled,
+    isFlexible,
+    hasPeek,
+    defaultSnap,
+  }: {
+    isBottom: boolean;
+    isEnabled: boolean;
+    isFlexible: boolean;
+    hasPeek: boolean;
+    defaultSnap?: ModalBottomSheetSnap;
+  },
+): ModalBottomSheetSnap => {
+  const fallback = isFlexible && defaultSnap === 'half' ? 'half' : 'full';
+
+  if (!isBottom) return snap === 'peek' ? 'full' : snap;
+  if (snap === 'peek') return isEnabled && hasPeek ? 'peek' : fallback;
+  if (snap === 'half' && !isFlexible) return 'full';
+  return snap;
+};
+
 type ApplySnapOptions = {
   peekHeight: number;
 };

@@ -185,7 +185,7 @@ const ModalContainer = forwardRef(
 
     const dimmerRef = useRef<HTMLDivElement>(null);
 
-    const [snap = defaultSnap, setSnap] = useControllableState({
+    const [requestedSnap = defaultSnap, setSnap] = useControllableState({
       prop: snapProp,
       defaultProp: defaultSnap,
       onChange: onSnapChange,
@@ -226,6 +226,7 @@ const ModalContainer = forwardRef(
     const {
       resolvedVariant,
       isBottomSheetWithHandle,
+      snap,
       largestUndimmedSnap,
       collapseToPeekOrClose,
       ...dragProps
@@ -241,7 +242,7 @@ const ModalContainer = forwardRef(
       lg,
       xl,
       dimmerRef,
-      snap,
+      snap: requestedSnap,
       enableHalfSnapScroll,
       largestUndimmedSnap: givenLargestUndimmedSnap,
       setSnap,
@@ -250,9 +251,19 @@ const ModalContainer = forwardRef(
     // Edge case: when a responsive `variant` flips away from `bottom` (e.g.
     // `variant="bottom" sm={{ variant: 'popup' }}`) while the sheet is in
     // `peek`, peek is no longer a valid state for the new variant — reset
-    // snap to `full` and close.
+    // snap and close. Keyed on the flip itself (the resolved snap is no longer
+    // `peek` once the layout changes), so reopening a popup whose stored snap
+    // is still a leftover `peek` (`forceMount`) doesn't close it again.
+    const prevLayoutRef = useRef({ variant: resolvedVariant, snap });
     useEffect(() => {
-      if (resolvedVariant !== 'bottom' && open && snap === 'peek') {
+      const prev = prevLayoutRef.current;
+      prevLayoutRef.current = { variant: resolvedVariant, snap };
+      if (
+        open &&
+        prev.variant === 'bottom' &&
+        resolvedVariant !== 'bottom' &&
+        prev.snap === 'peek'
+      ) {
         setSnap(defaultSnap);
         onOpenChange(false);
       }

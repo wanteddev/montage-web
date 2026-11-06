@@ -6,6 +6,7 @@ import {
   computeDimmerOpacityDuringDrag,
   computeDragStyle,
   isMouseDownOnPeek,
+  resolveBottomSheetSnap,
   resolveDragMode,
   resolveFlexibleReleaseSnap,
   resolveNonFlexibleReleaseSnap,
@@ -736,5 +737,56 @@ describe('isMouseDownOnPeek', () => {
   it('returns false outside the peek band', () => {
     expect(isMouseDownOnPeek(makeEvent(490, 500), 80, 'peek')).toBe(false);
     expect(isMouseDownOnPeek(makeEvent(600, 500), 80, 'peek')).toBe(false);
+  });
+});
+
+describe('resolveBottomSheetSnap', () => {
+  const flexible = {
+    isBottom: true,
+    isEnabled: true,
+    isFlexible: true,
+    hasPeek: true,
+    defaultSnap: 'half' as const,
+  };
+  const handleOnly = { ...flexible, isFlexible: false };
+  const handleless = { ...handleOnly, isEnabled: false };
+  const popup = { ...handleless, isBottom: false };
+
+  it('keeps every snap a flexible sheet with a peek height supports', () => {
+    for (const snap of ['peek', 'half', 'full'] as const) {
+      expect(resolveBottomSheetSnap(snap, flexible)).toBe(snap);
+    }
+  });
+
+  it('maps peek without a peek height to the flexible defaultSnap', () => {
+    expect(
+      resolveBottomSheetSnap('peek', { ...flexible, hasPeek: false }),
+    ).toBe('half');
+    expect(
+      resolveBottomSheetSnap('peek', {
+        ...flexible,
+        hasPeek: false,
+        defaultSnap: 'full',
+      }),
+    ).toBe('full');
+  });
+
+  it('maps half to full outside flexible sheets', () => {
+    expect(resolveBottomSheetSnap('half', handleOnly)).toBe('full');
+    expect(resolveBottomSheetSnap('half', handleless)).toBe('full');
+  });
+
+  it('maps peek to full once dragging is disabled', () => {
+    expect(resolveBottomSheetSnap('peek', handleless)).toBe('full');
+  });
+
+  it('keeps peek on a handle sheet with a peek height', () => {
+    expect(resolveBottomSheetSnap('peek', handleOnly)).toBe('peek');
+  });
+
+  it('leaves popup snaps alone except peek', () => {
+    expect(resolveBottomSheetSnap('half', popup)).toBe('half');
+    expect(resolveBottomSheetSnap('full', popup)).toBe('full');
+    expect(resolveBottomSheetSnap('peek', popup)).toBe('full');
   });
 });
