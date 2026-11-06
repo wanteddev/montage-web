@@ -1,5 +1,7 @@
 import { css } from '@montage-ui/engine';
 
+import { hoverInteractionStyle } from '../with-interaction/style';
+
 import type { MenuActionAreaContentProps } from './types';
 import type { Theme } from '@montage-ui/engine';
 
@@ -54,6 +56,23 @@ export const menuItemStyle = css`
     > [data-component='with-interaction'] {
       opacity: 0.06;
     }
+  }
+`;
+
+/** Keeps the hover state on the trigger while its submenu is open. */
+export const menuSubTriggerStyle = (theme: Theme) => css`
+  &[data-status='open'] > [data-component='with-interaction'] {
+    ${hoverInteractionStyle(theme, 'light')}
+  }
+`;
+
+export const menuSubTriggerChevronStyle = (theme: Theme) => css`
+  flex-shrink: 0;
+  font-size: ${theme.dimension[16]};
+  color: ${theme.semantic.foreground.neutral.quaternary};
+
+  &[data-parent-disabled='true'] {
+    color: ${theme.semantic.foreground.disable.primary};
   }
 `;
 

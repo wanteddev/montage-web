@@ -1,11 +1,13 @@
+import { IconChevronRightTightSmall } from '@montage-ui/icon';
 import { composeEventHandlers } from '@radix-ui/primitive';
+import { useComposedRefs } from '@radix-ui/react-compose-refs';
 import {
   RovingFocusGroup,
   RovingFocusGroupItem,
 } from '@radix-ui/react-roving-focus';
 import { Slot } from '@radix-ui/react-slot';
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
-import { forwardRef, useRef } from 'react';
+import { forwardRef, useRef, useState } from 'react';
 
 import { createScope } from '../../hooks/internal/use-scope-context';
 import { SlotDefaultsProvider } from '../../hooks/internal/use-slot-defaults';
@@ -24,6 +26,7 @@ import {
 } from '../list';
 import { Popover, PopoverContent, PopoverTrigger } from '../popover';
 import { usePopoverContext } from '../popover/contexts';
+import { PopperAnchor } from '../popper';
 import { Radio } from '../radio';
 import { ScrollArea } from '../scroll-area';
 import { Typography } from '../typography';
@@ -42,10 +45,24 @@ import {
   MENU_ITEM_RADIO_NAME,
   MENU_LIST_NAME,
   MENU_NAME,
+  MENU_SUB_CONTENT_NAME,
+  MENU_SUB_NAME,
+  MENU_SUB_TRIGGER_NAME,
   MENU_TRIGGER_NAME,
+  SUBMENU_CLOSE_KEYS,
+  SUBMENU_OPEN_KEYS,
 } from './constants';
-import { MenuItemProvider, MenuProvider, useMenuContext } from './contexts';
-import { getFocusableItems } from './helpers';
+import {
+  MenuContentProvider,
+  MenuItemProvider,
+  MenuProvider,
+  MenuSubProvider,
+  useMenuContentContext,
+  useMenuContext,
+  useMenuSubContext,
+} from './contexts';
+import { getFocusableItems, isEditableTarget } from './helpers';
+import { useSubmenuHover } from './hooks';
 import {
   menuActionAreaContentStyle,
   menuActionAreaStyle,
@@ -55,6 +72,8 @@ import {
   menuListStyle,
   menuPopoverContentStyle,
   menuScrollAreaStyle,
+  menuSubTriggerChevronStyle,
+  menuSubTriggerStyle,
 } from './style';
 
 import type {
@@ -74,6 +93,9 @@ import type {
   MenuItemRadioProps,
   MenuListProps,
   MenuProps,
+  MenuSubContentProps,
+  MenuSubProps,
+  MenuSubTriggerProps,
   MenuTriggerProps,
 } from './types';
 import type {
@@ -84,6 +106,9 @@ import type {
 import type { ElementType, ForwardedRef, ReactNode } from 'react';
 
 const useMenuScope = createScope('Popover');
+// Mirrors how Popover derives its Popper scope, so a sub trigger can anchor
+// the submenu without going through PopoverTrigger's dialog semantics.
+const usePopperScope = createScope('Popper');
 
 const ARROW_KEYS = ['ArrowUp', 'ArrowDown'];
 /** Keys that move focus from the popup onto its first or last item. */
@@ -139,9 +164,8 @@ const MenuTrigger = forwardRef<HTMLElement, MenuTriggerProps>((props, ref) => {
       // Runs before PopoverTrigger opens. Enter / Space on a button, or a
       // trigger calling `click()` for them, dispatches a click with no detail.
       onClick={composeEventHandlers(props.onClick, (e) => {
-        if (!open) {
+        if (!open)
           openReasonRef.current = e.detail === 0 ? 'keyboard' : 'click';
-        }
       })}
       onKeyDown={composeEventHandlers(props.onKeyDown, (e) => {
         if (
@@ -180,6 +204,11 @@ const MenuContent = forwardRef(
     const scopes = useMenuScope('Menu');
     const { openReasonRef } = useMenuContext(MENU_CONTENT_NAME);
     const viewportRef = useRef<HTMLDivElement | null>(null);
+    const [content, setContent] = useState<HTMLElement | null>(null);
+    const composedRef = useComposedRefs(
+      ref as ForwardedRef<HTMLElement>,
+      setContent,
+    );
 
     return (
       <RovingFocusGroup
@@ -189,7 +218,7 @@ const MenuContent = forwardRef(
         preventScrollOnEntryFocus
       >
         <PopoverContent
-          ref={ref}
+          ref={composedRef}
           position={position}
           offset={offset}
           container={container}
@@ -220,20 +249,18 @@ const MenuContent = forwardRef(
                 scrollIntoViewIfNeeded(viewport, firstSelectedItem);
               }
 
-              // Otherwise the popup gets focus and its roving group moves it to
-              // the selected item, or to the first item.
-              if (firstSelectedItem || openReason === 'keyboard') {
-                return;
-              }
+              // Otherwise the popup gets focus and its roving group moves it
+              // to the selected item, or to the first item.
+              if (firstSelectedItem || openReason === 'keyboard') return;
 
-              // Opened by pointer with nothing selected: focus the popup without
-              // landing on an item, so the first arrow key press reaches the
-              // first item instead of skipping it.
+              // Opened by pointer with nothing selected: focus the popup
+              // without landing on an item, so the first arrow key press
+              // reaches the first item instead of skipping it.
               e.preventDefault();
               viewport?.focus({ preventScroll: true });
             },
-            // Runs even when the consumer prevented the autofocus, so the
-            // reason is still reset.
+            // Runs even when the autofocus was prevented (by the consumer, or
+            // by a submenu opened by pointer), so the reason is still reset.
             { checkForDefaultPrevented: false },
           )}
           {...props}
@@ -267,7 +294,9 @@ const MenuContent = forwardRef(
               },
             }}
           >
-            {children}
+            <MenuContentProvider content={content}>
+              {children}
+            </MenuContentProvider>
           </ScrollArea>
         </PopoverContent>
       </RovingFocusGroup>
@@ -491,6 +520,250 @@ const MenuItemCheckbox = forwardRef<any, MenuItemRadioProps>(
 
 MenuItemCheckbox.displayName = MENU_ITEM_RADIO_NAME;
 
+const MenuSub = ({
+  open: openProp,
+  defaultOpen,
+  onOpenChange,
+  children,
+}: MenuSubProps) => {
+  const [open, setOpen] = useControllableState({
+    prop: openProp,
+    defaultProp: defaultOpen ?? false,
+    onChange: onOpenChange,
+  });
+  const openReasonRef = useRef<MenuOpenReason>('hover');
+  const [trigger, setTrigger] = useState<HTMLElement | null>(null);
+  const [content, setContent] = useState<HTMLElement | null>(null);
+
+  const scopes = useMenuScope('Menu');
+  const menu = useMenuContext(MENU_SUB_NAME);
+
+  return (
+    <MenuSubProvider
+      open={open}
+      onOpenChange={(nextOpen, reason) => {
+        if (nextOpen && reason) openReasonRef.current = reason;
+        setOpen(nextOpen);
+      }}
+      trigger={trigger}
+      onTriggerChange={setTrigger}
+      content={content}
+      onContentChange={setContent}
+    >
+      {/* Re-provided with the root menu's value, so submenu items select into
+          it, but with this submenu's own open reason. The Popover shares the
+          root menu's scope, so it shadows the parent's for everything below. */}
+      <MenuProvider
+        value={menu.value}
+        onValueChange={menu.onValueChange}
+        openReasonRef={openReasonRef}
+      >
+        <Popover {...scopes} open={open} onOpenChange={setOpen}>
+          {children}
+        </Popover>
+      </MenuProvider>
+    </MenuSubProvider>
+  );
+};
+
+MenuSub.displayName = MENU_SUB_NAME;
+
+const MenuSubTrigger = forwardRef<
+  HTMLLIElement,
+  DefaultComponentPropsInternal<MenuSubTriggerProps, 'li'>
+>(
+  (
+    {
+      openOnHover = true,
+      enterDelay = 100,
+      disabled,
+      trailingContent,
+      onClick,
+      onKeyDown,
+      onPointerMove,
+      onPointerLeave,
+      sx,
+      ...props
+    },
+    ref,
+  ) => {
+    const scopes = useMenuScope('Menu');
+    const popperScopes = usePopperScope(scopes.__scopePopover);
+    const { triggerId, contentId } = usePopoverContext(
+      MENU_SUB_TRIGGER_NAME,
+      scopes.__scopePopover,
+    );
+    const { content: parentContent } = useMenuContentContext(
+      MENU_SUB_TRIGGER_NAME,
+    );
+    const sub = useMenuSubContext(MENU_SUB_TRIGGER_NAME);
+    const composedRef = useComposedRefs(ref, sub.onTriggerChange);
+
+    const hover = useSubmenuHover({
+      open: sub.open,
+      onOpenChange: (nextOpen) => sub.onOpenChange(nextOpen, 'hover'),
+      trigger: sub.trigger,
+      content: sub.content,
+      parentContent,
+      enabled: openOnHover && !disabled,
+      enterDelay,
+    });
+
+    return (
+      <RovingFocusGroupItem
+        asChild
+        focusable={!disabled}
+        onKeyDown={composeEventHandlers(onKeyDown, (e) => {
+          if (disabled || !SUBMENU_OPEN_KEYS.includes(e.key)) return;
+
+          e.preventDefault();
+
+          if (sub.open) {
+            // Opened by hover: focus stayed here, so hand it to the submenu.
+            // Focusing the popup lets its roving group pick the entry item.
+            sub.content?.focus();
+            return;
+          }
+
+          sub.onOpenChange(true, 'keyboard');
+        })}
+      >
+        <PopperAnchor {...popperScopes}>
+          <ListCell
+            ref={composedRef}
+            id={triggerId}
+            role="menuitem"
+            aria-haspopup="menu"
+            aria-expanded={sub.open}
+            aria-controls={sub.open ? contentId : undefined}
+            aria-current={undefined}
+            data-status={sub.open ? 'open' : 'close'}
+            disabled={disabled}
+            trailingContent={
+              trailingContent ?? (
+                <IconChevronRightTightSmall
+                  aria-hidden
+                  data-role="menu-sub-trigger-chevron"
+                  data-parent-disabled={disabled}
+                  sx={menuSubTriggerChevronStyle}
+                />
+              )
+            }
+            {...props}
+            sx={[menuItemStyle, menuSubTriggerStyle, sx]}
+            onClick={composeEventHandlers(onClick, (e) => {
+              e.preventDefault();
+
+              if (disabled || sub.open) return;
+
+              sub.onOpenChange(true, 'click');
+            })}
+            onPointerMove={composeEventHandlers(
+              onPointerMove,
+              hover.onPointerMove,
+            )}
+            onPointerLeave={composeEventHandlers(
+              onPointerLeave,
+              hover.onPointerLeave,
+            )}
+          />
+        </PopperAnchor>
+      </RovingFocusGroupItem>
+    );
+  },
+);
+
+MenuSubTrigger.displayName = MENU_SUB_TRIGGER_NAME;
+
+const MenuSubContent = forwardRef<
+  HTMLDivElement,
+  DefaultComponentPropsInternal<MenuSubContentProps, 'div'>
+>(
+  (
+    {
+      position = 'right-start',
+      offset = 28,
+      fallbackAxisSide = 'end',
+      fallbackAxisOffset = 8,
+      onMountAutoFocus,
+      onUnmountAutoFocus,
+      onKeyDown,
+      onFocusOutside,
+      onPointerDownOutside,
+      ...props
+    },
+    ref,
+  ) => {
+    const scopes = useMenuScope('Menu');
+    const { triggerId } = usePopoverContext(
+      MENU_SUB_CONTENT_NAME,
+      scopes.__scopePopover,
+    );
+    const sub = useMenuSubContext(MENU_SUB_CONTENT_NAME);
+    const { openReasonRef } = useMenuContext(MENU_SUB_CONTENT_NAME);
+    const composedRef = useComposedRefs(ref, sub.onContentChange);
+
+    const isTriggerEvent = (e: Event) =>
+      Boolean(sub.trigger?.contains(e.target as Node));
+
+    return (
+      <MenuContent
+        ref={composedRef}
+        position={position}
+        offset={offset}
+        fallbackAxisSide={fallbackAxisSide}
+        fallbackAxisOffset={fallbackAxisOffset}
+        aria-labelledby={triggerId}
+        // The parent menu must stay interactive so the pointer can move back
+        // to it, and focus may return to it without dismissing this submenu.
+        trapped={false}
+        disableOutsidePointerEvents={false}
+        {...props}
+        onMountAutoFocus={composeEventHandlers(onMountAutoFocus, (e) => {
+          // Only a keyboard open moves focus in. Otherwise focus stays on
+          // the trigger, as the pointer may still be traveling to it.
+          if (openReasonRef.current !== 'keyboard') e.preventDefault();
+        })}
+        onUnmountAutoFocus={composeEventHandlers(onUnmountAutoFocus, (e) => {
+          // Focus left with the popup (e.g. Escape from inside it). Return
+          // it to the trigger instead of wherever it was when this submenu
+          // opened, which for a hover open is not the trigger.
+          const activeElement = document.activeElement;
+          if (activeElement && activeElement !== document.body) return;
+
+          e.preventDefault();
+          sub.trigger?.focus();
+        })}
+        onKeyDown={composeEventHandlers(onKeyDown, (e) => {
+          // Keys from a nested submenu bubble through the React tree; let
+          // that submenu handle its own close.
+          if (!e.currentTarget.contains(e.target as Node)) return;
+          if (!SUBMENU_CLOSE_KEYS.includes(e.key)) return;
+          // ArrowLeft moves the caret in a field inside the submenu.
+          if (isEditableTarget(e.target)) return;
+
+          e.preventDefault();
+          sub.trigger?.focus();
+          sub.onOpenChange(false);
+        })}
+        // Focusing or pressing the trigger keeps the submenu: the trigger
+        // owns the open state, and re-opening would flicker the popup.
+        onFocusOutside={composeEventHandlers(onFocusOutside, (e) => {
+          if (isTriggerEvent(e)) e.preventDefault();
+        })}
+        onPointerDownOutside={composeEventHandlers(
+          onPointerDownOutside,
+          (e) => {
+            if (isTriggerEvent(e)) e.preventDefault();
+          },
+        )}
+      />
+    );
+  },
+);
+
+MenuSubContent.displayName = MENU_SUB_CONTENT_NAME;
+
 const MenuItemContent = forwardRef<
   HTMLDivElement,
   DefaultComponentPropsInternal<ListCellContentProps, 'div'>
@@ -615,6 +888,9 @@ export {
   MenuList,
   MenuGroup,
   MenuItem,
+  MenuSub,
+  MenuSubTrigger,
+  MenuSubContent,
   MenuItemContent,
   MenuItemLabelTrailing,
   MenuItemExtraContent,
@@ -629,6 +905,9 @@ export type {
   MenuListProps,
   MenuGroupProps,
   MenuItemProps,
+  MenuSubProps,
+  MenuSubTriggerProps,
+  MenuSubContentProps,
   ListCellContentProps as MenuItemContentProps,
   ListCellLabelTrailingProps as MenuItemLabelTrailingProps,
   ListCellExtraContentProps as MenuItemExtraContentProps,

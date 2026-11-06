@@ -62,6 +62,16 @@ type TooltipDefaultProps = WithSxProps<{
    * The content is shifted to stay within the boundary inset by this value.
    */
   collisionPadding?: PopperContentProps['collisionPadding'];
+  /**
+   * Lets the content move to the perpendicular axis when neither side of the
+   * preferred axis fits.
+   */
+  fallbackAxisSide?: PopperContentProps['fallbackAxisSide'];
+  /**
+   * The offset used once the content falls back to the perpendicular axis.
+   * Defaults to `offset`.
+   */
+  fallbackAxisOffset?: PopperContentProps['fallbackAxisOffset'];
   /** The floating ui context can be obtained through a callback. */
   setContext?: PopperContentProps['setContext'];
   /** Whether to force mount the tooltip. */

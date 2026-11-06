@@ -13,6 +13,15 @@ export const MENU_ITEM_CONTENT_NAME = 'MenuItemContent';
 export const MENU_ITEM_LABEL_TRAILING_NAME = 'MenuItemLabelTrailing';
 export const MENU_ITEM_EXTRA_CONTENT_NAME = 'MenuItemExtraContent';
 
+export const MENU_SUB_NAME = 'MenuSub';
+export const MENU_SUB_TRIGGER_NAME = 'MenuSubTrigger';
+export const MENU_SUB_CONTENT_NAME = 'MenuSubContent';
+
+/** Keys on a submenu trigger that open the submenu and move focus into it. */
+export const SUBMENU_OPEN_KEYS = ['Enter', ' ', 'ArrowRight'];
+/** Keys inside a submenu that close it and return focus to its trigger. */
+export const SUBMENU_CLOSE_KEYS = ['ArrowLeft'];
+
 export const MENU_ITEM_RADIO_NAME = 'MenuItemRadio';
 export const MENU_ITEM_CHECKBOX_NAME = 'MenuItemCheckbox';
 

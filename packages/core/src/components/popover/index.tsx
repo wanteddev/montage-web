@@ -123,6 +123,8 @@ const PopoverContent = forwardRef(
       referenceHidden = false,
       referenceHiddenOffsets,
       collisionPadding,
+      fallbackAxisSide,
+      fallbackAxisOffset,
       setContext,
       wrapperProps,
       forceMount = false,
@@ -163,6 +165,8 @@ const PopoverContent = forwardRef(
           referenceHidden={referenceHidden}
           referenceHiddenOffsets={referenceHiddenOffsets}
           collisionPadding={collisionPadding}
+          fallbackAxisSide={fallbackAxisSide}
+          fallbackAxisOffset={fallbackAxisOffset}
           setContext={setContext}
           wrapperProps={wrapperProps}
         >

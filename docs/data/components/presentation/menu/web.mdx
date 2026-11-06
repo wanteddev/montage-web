@@ -619,6 +619,69 @@ export default Demo;`}
 />
 
 
+## Submenu
+
+`MenuSub`, `MenuSubTrigger`, `MenuSubContent`로 하위 메뉴를 구성합니다. 하위 메뉴의 항목은 상위 `Menu`의 `value`를 공유합니다.
+
+- hover 시 `enterDelay`(기본 100ms) 후에 열리며, `openOnHover={false}`로 끌 수 있습니다.
+- 좌우 공간이 부족하면 트리거 아래에 표시됩니다.
+
+<Demo code={`import { Button, Menu, MenuTrigger, MenuContent, MenuItem, MenuList, MenuSub, MenuSubTrigger, MenuSubContent } from '@montage-ui/core';
+
+const Demo = () => {
+  return (
+    <Menu>
+      <MenuTrigger>
+        <Button>Click me</Button>
+      </MenuTrigger>
+
+      <MenuContent>
+        <MenuList>
+          <MenuItem value="item1">
+            Item 1
+          </MenuItem>
+          <MenuSub>
+            <MenuSubTrigger>
+              Item 2
+            </MenuSubTrigger>
+            <MenuSubContent>
+              <MenuList>
+                <MenuItem value="item2-1">
+                  Item 2-1
+                </MenuItem>
+                <MenuItem value="item2-2">
+                  Item 2-2
+                </MenuItem>
+                <MenuSub>
+                  <MenuSubTrigger>
+                    Item 2-3
+                  </MenuSubTrigger>
+                  <MenuSubContent>
+                    <MenuList>
+                      <MenuItem value="item2-3-1">
+                        Item 2-3-1
+                      </MenuItem>
+                      <MenuItem value="item2-3-2">
+                        Item 2-3-2
+                      </MenuItem>
+                    </MenuList>
+                  </MenuSubContent>
+                </MenuSub>
+              </MenuList>
+            </MenuSubContent>
+          </MenuSub>
+          <MenuItem value="item3">
+            Item 3
+          </MenuItem>
+        </MenuList>
+      </MenuContent>
+    </Menu>
+  )
+}
+
+export default Demo;`}
+/>
+
 ## API
 
 
@@ -641,6 +704,20 @@ export default Demo;`}
 ### MenuItem
 
 <PropsTable component="MenuItem" />
+
+### MenuSub
+
+<PropsTable component="MenuSub" />
+
+### MenuSubTrigger
+
+`MenuItem`의 props 중 `value`, `variant`를 제외하고 사용합니다.
+
+<PropsTable component="MenuSubTrigger" />
+
+### MenuSubContent
+
+<PropsTable component="MenuSubContent" />
 
 ### MenuItemContent
 
