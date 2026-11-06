@@ -749,3 +749,68 @@ describe('drag-dismissing a sheet', () => {
     },
   );
 });
+
+// `peekHeight` / `largestUndimmedSnap` follow the breakpoint like `variant`.
+describe('responsive peekHeight and largestUndimmedSnap', () => {
+  afterEach(async () => {
+    await page.viewport(DESKTOP, 720);
+  });
+
+  it('largestUndimmedSnap: undimmed on mobile, regular modal on desktop', async () => {
+    await page.viewport(MOBILE, 720);
+    renderWithProvider(
+      <BackgroundWithSheet
+        variant="bottom"
+        resize="flexible"
+        handle
+        defaultSnap="full"
+        largestUndimmedSnap="full"
+        md={{ largestUndimmedSnap: 'peek' }}
+      />,
+    );
+
+    await expect.poll(sheetState).toEqual(UNDIMMED);
+    await page.viewport(DESKTOP, 720);
+    await expect.poll(sheetState).toEqual(DIMMED_MODAL);
+    await page.viewport(MOBILE, 720);
+    await expect.poll(sheetState).toEqual(UNDIMMED);
+  });
+
+  it('peekHeight: a peeked sheet whose peek is turned off resolves to full', async () => {
+    await page.viewport(MOBILE, 720);
+    renderWithProvider(
+      <Modal defaultOpen>
+        <ModalContainer
+          variant="bottom"
+          handle
+          peekHeight={80}
+          md={{ peekHeight: 0 }}
+        >
+          <ModalContent>
+            <ModalContentItem>
+              <ModalHeading>Sheet</ModalHeading>
+            </ModalContentItem>
+          </ModalContent>
+        </ModalContainer>
+      </Modal>,
+    );
+
+    await expect.poll(openDialog).not.toBeNull();
+    const dimmer = document.querySelector('[data-role="modal-dimmer"]');
+    if (!dimmer) throw new Error('no dimmer');
+    await clickCorner(dimmer);
+    await expect
+      .poll(() => openDialog()?.getAttribute('data-snap'))
+      .toBe('peek');
+
+    await page.viewport(DESKTOP, 720);
+
+    await expect
+      .poll(() => openDialog()?.getAttribute('data-snap'))
+      .toBe('full');
+    await expect.poll(sheetState).toEqual(DIMMED_MODAL);
+    expect(
+      (openDialog() as HTMLElement).style.getPropertyValue('--modal-translate'),
+    ).toBe('');
+  });
+});

@@ -109,7 +109,16 @@ type ModalContainerDefaultProps = WithSxProps<{
 }>;
 
 type ModalContainerResponsiveProps = ResponsiveProps<
-  Pick<ModalContainerDefaultProps, 'size' | 'variant' | 'handle' | 'resize'>
+  Pick<
+    ModalContainerDefaultProps,
+    | 'size'
+    | 'variant'
+    | 'handle'
+    | 'resize'
+    | 'peekHeight'
+    | 'largestUndimmedSnap'
+    | 'enableHalfSnapScroll'
+  >
 >;
 
 export type ModalContainerProps = Merge<

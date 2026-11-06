@@ -262,6 +262,8 @@ Bottom sheet의 상단에 핸들을 표시하여 드래그로 숨기고 열 수 
 
 이 때 숨겨지는 영역의 높이는 `peekHeight` 값을 사용합니다.
 
+`variant` 처럼 breakpoint 별로도 지정할 수 있습니다. (예: `md={{ peekHeight: 0 }}`) peek 상태에서 breakpoint 가 바뀌어 peek 을 쓸 수 없게 되면 시트는 펼쳐진 상태로 바뀝니다.
+
 <Demo code={`import {
   FlexBox,
   Button,
@@ -460,6 +462,8 @@ iOS의 `largestUndimmedDetentIdentifier` 와 같은 역할을 합니다.
 
 `largestUndimmedSnap` 은 드래그 가능한 바텀시트(`handle` 또는 `resize="flexible"`)에서만 유효합니다.
 
+breakpoint 별로도 지정할 수 있습니다. (예: `largestUndimmedSnap="full" md={{ largestUndimmedSnap: 'peek' }}`)
+
 지도 위에 시트를 띄우고 half 상태에서도 지도를 조작 가능하게 하는 등의 UX 에 사용합니다.
 
 <Demo code={`import { useState } from 'react';
@@ -527,6 +531,8 @@ export default Demo;`}
 - `true`: half 상태에서 스크롤 가능한 콘텐츠가 있으면 본문 스크롤이 먼저 동작합니다.
 
 `full` 스냅에서는 이 옵션과 무관하게 항상 본문 스크롤이 우선으로 동작합니다.
+
+breakpoint 별로도 지정할 수 있습니다. (예: `md={{ enableHalfSnapScroll: true }}`)
 
 <Demo code={`import { useState } from 'react';
 import {

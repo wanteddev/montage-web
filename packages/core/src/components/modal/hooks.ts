@@ -36,12 +36,24 @@ import type { RefObject } from 'react';
 
 type ResponsiveSlice = Pick<
   ModalContainerProps,
-  'variant' | 'resize' | 'handle' | 'xs' | 'sm' | 'md' | 'lg' | 'xl'
+  | 'variant'
+  | 'resize'
+  | 'handle'
+  | 'peekHeight'
+  | 'largestUndimmedSnap'
+  | 'enableHalfSnapScroll'
+  | 'xs'
+  | 'sm'
+  | 'md'
+  | 'lg'
+  | 'xl'
 >;
 
 /**
- * Resolve `variant` / `handle` / `resize` against the current breakpoint, then
- * derive the booleans the rest of the drag machinery branches on:
+ * Resolve the responsive bottom-sheet props (`variant` / `handle` / `resize` /
+ * `peekHeight` / `largestUndimmedSnap` / `enableHalfSnapScroll`) against the
+ * current breakpoint, then derive the booleans the rest of the drag machinery
+ * branches on:
  *
  *  - `isBottom`   — sheet is in its bottom-anchored layout
  *  - `isFlexible` — bottom + `resize='flexible'`; enables half snap & height-mode drags
@@ -51,6 +63,9 @@ export const useResponsiveBottomSheetProps = ({
   variant: givenVariant,
   handle: givenHandle,
   resize: givenResize,
+  peekHeight: givenPeekHeight,
+  largestUndimmedSnap: givenLargestUndimmedSnap,
+  enableHalfSnapScroll: givenEnableHalfSnapScroll,
   xs,
   sm,
   md,
@@ -88,13 +103,62 @@ export const useResponsiveBottomSheetProps = ({
     givenResize,
   );
 
+  const peekHeight = useMedia(
+    breakpoint.map((v) => `(min-width: ${theme.breakpoint[v]})`),
+    breakpoint.map((v) =>
+      getPreviousValue(
+        { xs, sm, md, lg, xl },
+        'peekHeight',
+        givenPeekHeight,
+        v,
+      ),
+    ),
+    givenPeekHeight,
+  );
+
+  const largestUndimmedSnap = useMedia(
+    breakpoint.map((v) => `(min-width: ${theme.breakpoint[v]})`),
+    breakpoint.map((v) =>
+      getPreviousValue(
+        { xs, sm, md, lg, xl },
+        'largestUndimmedSnap',
+        givenLargestUndimmedSnap,
+        v,
+      ),
+    ),
+    givenLargestUndimmedSnap,
+  );
+
+  const enableHalfSnapScroll = useMedia(
+    breakpoint.map((v) => `(min-width: ${theme.breakpoint[v]})`),
+    breakpoint.map((v) =>
+      getPreviousValue(
+        { xs, sm, md, lg, xl },
+        'enableHalfSnapScroll',
+        givenEnableHalfSnapScroll,
+        v,
+      ),
+    ),
+    givenEnableHalfSnapScroll,
+  );
+
   const isBottom = variant === 'bottom';
   const isFlexible = isBottom && resize === 'flexible';
   // Dragging is enabled when there's a grabber handle OR when the sheet is flexible
   // (so half/full snap transitions can happen via gesture).
   const isEnabled = isBottom && (Boolean(handle) || isFlexible);
 
-  return { variant, handle, resize, isBottom, isFlexible, isEnabled };
+  return {
+    variant,
+    handle,
+    resize,
+    peekHeight,
+    largestUndimmedSnap,
+    enableHalfSnapScroll,
+    isBottom,
+    isFlexible,
+    isEnabled,
+  };
 };
 
 type UseSpringSettleProps = {
@@ -408,8 +472,8 @@ export const useDraggable = ({
   peekHeight: givenPeekHeight,
   handle: givenHandle,
   defaultSnap: givenDefaultSnap,
-  enableHalfSnapScroll,
-  largestUndimmedSnap: givenLargestUndimmedSnap = 'peek',
+  enableHalfSnapScroll: givenEnableHalfSnapScroll,
+  largestUndimmedSnap: givenLargestUndimmedSnap,
   xs,
   sm,
   md,
@@ -419,26 +483,36 @@ export const useDraggable = ({
   snap: requestedSnap,
   setSnap,
 }: UseDraggableProps) => {
-  const { variant, isBottom, isFlexible, isEnabled } =
-    useResponsiveBottomSheetProps({
-      variant: givenVariant,
-      handle: givenHandle,
-      resize: givenResize,
-      xs,
-      sm,
-      md,
-      lg,
-      xl,
-    });
+  const {
+    variant,
+    isBottom,
+    isFlexible,
+    isEnabled,
+    peekHeight: resolvedPeekHeight,
+    largestUndimmedSnap: resolvedLargestUndimmedSnap = 'peek',
+    enableHalfSnapScroll = false,
+  } = useResponsiveBottomSheetProps({
+    variant: givenVariant,
+    handle: givenHandle,
+    resize: givenResize,
+    peekHeight: givenPeekHeight,
+    largestUndimmedSnap: givenLargestUndimmedSnap,
+    enableHalfSnapScroll: givenEnableHalfSnapScroll,
+    xs,
+    sm,
+    md,
+    lg,
+    xl,
+  });
 
   // Undimmed snaps beyond `peek` only make sense on draggable bottom sheets.
   // A popup / handle-less sheet (including responsive flips into one) falls
   // back to `peek` — a no-op there since it never reaches the peek snap —
   // so it keeps its dimmer AND its modality in lockstep.
   const largestUndimmedSnap =
-    givenLargestUndimmedSnap !== 'peek' && !isEnabled
+    resolvedLargestUndimmedSnap !== 'peek' && !isEnabled
       ? 'peek'
-      : givenLargestUndimmedSnap;
+      : resolvedLargestUndimmedSnap;
 
   // The snap the sheet actually shows — the requested one, mapped onto what
   // the resolved layout supports (see `resolveBottomSheetSnap`). Everything
@@ -447,7 +521,7 @@ export const useDraggable = ({
     isBottom,
     isEnabled,
     isFlexible,
-    hasPeek: (givenPeekHeight ?? 0) > 0,
+    hasPeek: (resolvedPeekHeight ?? 0) > 0,
     defaultSnap: givenDefaultSnap,
   });
 
@@ -526,11 +600,11 @@ export const useDraggable = ({
   const peakDiffYDown = useRef(0);
   const peakDiffYUp = useRef(0);
 
-  const peekHeight = useRef(givenPeekHeight ?? 0);
+  const peekHeight = useRef(resolvedPeekHeight ?? 0);
 
   useEffect(() => {
-    peekHeight.current = givenPeekHeight ?? 0;
-  }, [givenPeekHeight]);
+    peekHeight.current = resolvedPeekHeight ?? 0;
+  }, [resolvedPeekHeight]);
 
   const hasPeek = useCallback(() => peekHeight.current > 0, []);
 
