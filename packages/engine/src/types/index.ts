@@ -13,6 +13,7 @@ export {
   type ThemeToken,
   type BreakPoint,
   type Theme,
+  type OriginTheme,
   type ThemeColorsToken,
   type ThemeShadowToken,
   type ThemeOpacityToken,

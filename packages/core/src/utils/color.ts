@@ -50,7 +50,7 @@ export const gradient = (
   `;
 };
 
-export const addOpacity = (color: string, value: number) =>
+export const addOpacity = (color: string, value: number | string) =>
   `rgba(${
     color.startsWith('var(') ? color.replace(')', '-rgb)') : hexToRgb(color)
   }, ${value})`;
