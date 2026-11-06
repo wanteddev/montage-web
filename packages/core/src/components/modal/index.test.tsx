@@ -804,3 +804,46 @@ describe('when the modal closes', () => {
     expect(opener).toHaveFocus();
   });
 });
+
+describe('when a forceMount modal is closed', () => {
+  afterEach(() => {
+    cleanup();
+  });
+
+  it('should not keep the rest of the page hidden from assistive tech', async () => {
+    const ForceMountedModal = () => {
+      const [open, setOpen] = useState(true);
+      return (
+        <>
+          <Button data-testid="sibling" onClick={() => setOpen(true)}>
+            Open
+          </Button>
+          <Modal open={open} onOpenChange={setOpen}>
+            <ModalContainer forceMount>
+              <ModalContent>
+                <ModalContentItem>
+                  <ModalHeading>Heading</ModalHeading>
+                </ModalContentItem>
+              </ModalContent>
+            </ModalContainer>
+          </Modal>
+        </>
+      );
+    };
+
+    render(<ForceMountedModal />);
+    await tick();
+    expect(
+      screen.getByTestId('sibling').closest('[aria-hidden="true"]'),
+    ).not.toBeNull();
+
+    fireEvent.keyDown(document.activeElement ?? document.body, {
+      key: 'Escape',
+    });
+    await tick();
+
+    expect(
+      screen.getByTestId('sibling').closest('[aria-hidden="true"]'),
+    ).toBeNull();
+  });
+});

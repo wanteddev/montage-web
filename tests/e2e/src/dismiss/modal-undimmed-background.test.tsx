@@ -749,3 +749,259 @@ describe('drag-dismissing a sheet', () => {
     },
   );
 });
+
+// `peekHeight` / `largestUndimmedSnap` follow the breakpoint like `variant`.
+describe('responsive peekHeight and largestUndimmedSnap', () => {
+  afterEach(async () => {
+    await page.viewport(DESKTOP, 720);
+  });
+
+  it('largestUndimmedSnap: undimmed on mobile, regular modal on desktop', async () => {
+    await page.viewport(MOBILE, 720);
+    renderWithProvider(
+      <BackgroundWithSheet
+        variant="bottom"
+        resize="flexible"
+        handle
+        defaultSnap="full"
+        largestUndimmedSnap="full"
+        md={{ largestUndimmedSnap: 'peek' }}
+      />,
+    );
+
+    await expect.poll(sheetState).toEqual(UNDIMMED);
+    await page.viewport(DESKTOP, 720);
+    await expect.poll(sheetState).toEqual(DIMMED_MODAL);
+    await page.viewport(MOBILE, 720);
+    await expect.poll(sheetState).toEqual(UNDIMMED);
+  });
+
+  it('peekHeight: a peeked sheet whose peek is turned off resolves to full', async () => {
+    await page.viewport(MOBILE, 720);
+    renderWithProvider(
+      <Modal defaultOpen>
+        <ModalContainer
+          variant="bottom"
+          handle
+          peekHeight={80}
+          md={{ peekHeight: 0 }}
+        >
+          <ModalContent>
+            <ModalContentItem>
+              <ModalHeading>Sheet</ModalHeading>
+            </ModalContentItem>
+          </ModalContent>
+        </ModalContainer>
+      </Modal>,
+    );
+
+    await expect.poll(openDialog).not.toBeNull();
+    const dimmer = document.querySelector('[data-role="modal-dimmer"]');
+    if (!dimmer) throw new Error('no dimmer');
+    await clickCorner(dimmer);
+    await expect
+      .poll(() => openDialog()?.getAttribute('data-snap'))
+      .toBe('peek');
+
+    await page.viewport(DESKTOP, 720);
+
+    await expect
+      .poll(() => openDialog()?.getAttribute('data-snap'))
+      .toBe('full');
+    await expect.poll(sheetState).toEqual(DIMMED_MODAL);
+    expect(
+      (openDialog() as HTMLElement).style.getPropertyValue('--modal-translate'),
+    ).toBe('');
+  });
+});
+
+// The responsive props must still follow a parent updating them while the
+// sheet is mounted (no breakpoint change involved), as they did before they
+// became responsive.
+describe('updating peekHeight / largestUndimmedSnap from the parent', () => {
+  it('peekHeight removed: a dimmer click closes instead of collapsing to peek', async () => {
+    const Harness = () => {
+      const [peekHeight, setPeekHeight] = useState<number | undefined>(80);
+      return (
+        <>
+          <button
+            type="button"
+            data-testid="drop-peek"
+            onClick={() => setPeekHeight(undefined)}
+          >
+            drop peek
+          </button>
+          <Modal defaultOpen>
+            <ModalContainer variant="bottom" handle peekHeight={peekHeight}>
+              <ModalContent>
+                <ModalContentItem>
+                  <ModalHeading>Sheet</ModalHeading>
+                </ModalContentItem>
+              </ModalContent>
+            </ModalContainer>
+          </Modal>
+        </>
+      );
+    };
+    renderWithProvider(<Harness />);
+
+    await expect.poll(openDialog).not.toBeNull();
+    (byTestId('drop-peek') as HTMLElement).click();
+    await new Promise((resolve) => setTimeout(resolve, 100));
+
+    const dimmer = document.querySelector('[data-role="modal-dimmer"]');
+    if (!dimmer) throw new Error('no dimmer');
+    await clickCorner(dimmer);
+
+    await expect
+      .poll(() => document.querySelector('[role="dialog"][data-status="open"]'))
+      .toBeNull();
+  });
+
+  it('largestUndimmedSnap switched to full: undimmed right away', async () => {
+    const Harness = () => {
+      const [undimmed, setUndimmed] = useState(false);
+      return (
+        <>
+          <button
+            type="button"
+            data-testid="undim"
+            onClick={() => setUndimmed(true)}
+          >
+            undim
+          </button>
+          <Modal defaultOpen>
+            <ModalContainer
+              variant="bottom"
+              resize="flexible"
+              handle
+              defaultSnap="full"
+              largestUndimmedSnap={undimmed ? 'full' : 'peek'}
+            >
+              <ModalContent>
+                <ModalContentItem>
+                  <ModalHeading>Sheet</ModalHeading>
+                </ModalContentItem>
+              </ModalContent>
+            </ModalContainer>
+          </Modal>
+        </>
+      );
+    };
+    renderWithProvider(<Harness />);
+
+    await expect
+      .poll(() => openDialog()?.getAttribute('data-largest-undimmed-snap'))
+      .toBe('peek');
+    (byTestId('undim') as HTMLElement).click();
+
+    await expect
+      .poll(() => openDialog()?.getAttribute('data-largest-undimmed-snap'))
+      .toBe('full');
+    expect(openDialog()).toHaveAttribute('aria-modal', 'false');
+  });
+});
+
+// Responsive values that change while the sheet is open must take effect
+// right away, not only after the next snap change / listener re-bind.
+describe('responsive values changing while open', () => {
+  afterEach(async () => {
+    await page.viewport(DESKTOP, 720);
+  });
+
+  it('peekHeight: a sheet resting at peek moves to the new peek height', async () => {
+    await page.viewport(MOBILE, 720);
+    renderWithProvider(
+      <Modal defaultOpen>
+        <ModalContainer
+          variant="bottom"
+          handle
+          peekHeight={80}
+          md={{ peekHeight: 120 }}
+        >
+          <ModalContent>
+            <ModalContentItem>
+              <ModalHeading>Sheet</ModalHeading>
+            </ModalContentItem>
+          </ModalContent>
+        </ModalContainer>
+      </Modal>,
+    );
+
+    await expect.poll(openDialog).not.toBeNull();
+    const dimmer = document.querySelector('[data-role="modal-dimmer"]');
+    if (!dimmer) throw new Error('no dimmer');
+    await clickCorner(dimmer);
+    const translate = () =>
+      (openDialog() as HTMLElement | null)?.style.getPropertyValue(
+        '--modal-translate',
+      );
+    await expect.poll(translate).toBe('calc(100% - 80px)');
+
+    await page.viewport(DESKTOP, 720);
+
+    await expect.poll(translate).toBe('calc(100% - 120px)');
+    expect(openDialog()).toHaveAttribute('data-snap', 'peek');
+  });
+
+  it('enableHalfSnapScroll: half-snap viewport swipes follow the new value', async () => {
+    await page.viewport(MOBILE, 720);
+    renderWithProvider(
+      <Modal defaultOpen>
+        <ModalContainer
+          variant="bottom"
+          resize="flexible"
+          handle
+          defaultSnap="half"
+          md={{ enableHalfSnapScroll: true }}
+        >
+          <ModalContent>
+            <ModalContentItem>
+              <ModalHeading>Sheet</ModalHeading>
+              {Array.from({ length: 60 }, (_, i) => (
+                <p key={i}>line {i}</p>
+              ))}
+            </ModalContentItem>
+          </ModalContent>
+        </ModalContainer>
+      </Modal>,
+    );
+    await expect
+      .poll(() => openDialog()?.getAttribute('data-snap'))
+      .toBe('half');
+    await page.viewport(DESKTOP, 720);
+    await new Promise((resolve) => setTimeout(resolve, 300));
+
+    const viewport = openDialog()?.querySelector<HTMLElement>(
+      '[data-radix-scroll-area-viewport]',
+    );
+    if (!viewport) throw new Error('no viewport');
+    const { left, top, width, height } = viewport.getBoundingClientRect();
+    const x = left + width / 2;
+    const y = top + height / 2;
+    const touch = (clientY: number) =>
+      new Touch({ identifier: 1, target: viewport, clientX: x, clientY });
+    const fire = (type: string, clientY: number) =>
+      viewport.dispatchEvent(
+        new TouchEvent(type, {
+          bubbles: true,
+          cancelable: true,
+          touches: type === 'touchend' ? [] : [touch(clientY)],
+          changedTouches: [touch(clientY)],
+        }),
+      );
+
+    // ↑ swipe at half with scrollable content: with the flag on, native
+    // scroll keeps it until the boundary — the sheet must not be dragged.
+    fire('touchstart', y);
+    for (let i = 1; i <= 5; i++) fire('touchmove', y - i * 12);
+    await new Promise((resolve) => requestAnimationFrame(resolve));
+
+    expect(
+      (openDialog() as HTMLElement).style.getPropertyValue(
+        '--modal-max-height',
+      ),
+    ).toBe('');
+    fire('touchend', y - 60);
+  });
+});

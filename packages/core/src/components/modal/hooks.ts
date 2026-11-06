@@ -36,12 +36,24 @@ import type { RefObject } from 'react';
 
 type ResponsiveSlice = Pick<
   ModalContainerProps,
-  'variant' | 'resize' | 'handle' | 'xs' | 'sm' | 'md' | 'lg' | 'xl'
+  | 'variant'
+  | 'resize'
+  | 'handle'
+  | 'peekHeight'
+  | 'largestUndimmedSnap'
+  | 'enableHalfSnapScroll'
+  | 'xs'
+  | 'sm'
+  | 'md'
+  | 'lg'
+  | 'xl'
 >;
 
 /**
- * Resolve `variant` / `handle` / `resize` against the current breakpoint, then
- * derive the booleans the rest of the drag machinery branches on:
+ * Resolve the responsive bottom-sheet props (`variant` / `handle` / `resize` /
+ * `peekHeight` / `largestUndimmedSnap` / `enableHalfSnapScroll`) against the
+ * current breakpoint, then derive the booleans the rest of the drag machinery
+ * branches on:
  *
  *  - `isBottom`   — sheet is in its bottom-anchored layout
  *  - `isFlexible` — bottom + `resize='flexible'`; enables half snap & height-mode drags
@@ -51,6 +63,9 @@ export const useResponsiveBottomSheetProps = ({
   variant: givenVariant,
   handle: givenHandle,
   resize: givenResize,
+  peekHeight: givenPeekHeight,
+  largestUndimmedSnap: givenLargestUndimmedSnap,
+  enableHalfSnapScroll: givenEnableHalfSnapScroll,
   xs,
   sm,
   md,
@@ -88,13 +103,52 @@ export const useResponsiveBottomSheetProps = ({
     givenResize,
   );
 
+  // `peekHeight` / `largestUndimmedSnap` / `enableHalfSnapScroll` are read
+  // from the current props on every render, keyed by the active breakpoint.
+  // (`useMedia` only re-resolves its values on a media change, so routing these
+  // through it would ignore a parent updating them while mounted.)
+  const activeBreakpoint = useMedia<keyof BreakPoint | undefined>(
+    breakpoint.map((v) => `(min-width: ${theme.breakpoint[v]})`),
+    breakpoint,
+    undefined,
+  );
+  const resolveResponsive = <
+    K extends 'peekHeight' | 'largestUndimmedSnap' | 'enableHalfSnapScroll',
+  >(
+    key: K,
+    given: ModalContainerProps[K],
+  ): ModalContainerProps[K] =>
+    activeBreakpoint
+      ? getPreviousValue({ xs, sm, md, lg, xl }, key, given, activeBreakpoint)
+      : given;
+
+  const peekHeight = resolveResponsive('peekHeight', givenPeekHeight);
+  const largestUndimmedSnap = resolveResponsive(
+    'largestUndimmedSnap',
+    givenLargestUndimmedSnap,
+  );
+  const enableHalfSnapScroll = resolveResponsive(
+    'enableHalfSnapScroll',
+    givenEnableHalfSnapScroll,
+  );
+
   const isBottom = variant === 'bottom';
   const isFlexible = isBottom && resize === 'flexible';
   // Dragging is enabled when there's a grabber handle OR when the sheet is flexible
   // (so half/full snap transitions can happen via gesture).
   const isEnabled = isBottom && (Boolean(handle) || isFlexible);
 
-  return { variant, handle, resize, isBottom, isFlexible, isEnabled };
+  return {
+    variant,
+    handle,
+    resize,
+    peekHeight,
+    largestUndimmedSnap,
+    enableHalfSnapScroll,
+    isBottom,
+    isFlexible,
+    isEnabled,
+  };
 };
 
 type UseSpringSettleProps = {
@@ -254,6 +308,8 @@ type UseSnapLifecycleProps = {
   snapRef: RefObject<ModalBottomSheetSnap>;
   defaultSnap: ModalBottomSheetSnap | undefined;
   peekHeightRef: RefObject<number>;
+  /** Resolved peek height — re-applies the peek offset when it changes. */
+  peekHeight: number;
   hasPeek: () => boolean;
   isDraggingRef: RefObject<boolean>;
   cancelSpring: () => void;
@@ -282,6 +338,7 @@ export const useSnapLifecycle = ({
   snapRef,
   defaultSnap,
   peekHeightRef,
+  peekHeight,
   hasPeek,
   isDraggingRef,
   cancelSpring,
@@ -355,6 +412,8 @@ export const useSnapLifecycle = ({
   // natural height while reporting `data-snap="peek"`. Skipped while closed:
   // a drag-dismiss deliberately leaves the dragged height inline so the exit
   // animation starts where the finger let go, and the next open re-applies.
+  // Also re-runs when the resolved peek height changes (e.g. a breakpoint
+  // with its own `peekHeight`) so a sheet resting at `peek` moves with it.
   useEffect(() => {
     const container = containerRef.current;
     if (!container || !isBottom || !isOpen || isDraggingRef.current) return;
@@ -365,7 +424,7 @@ export const useSnapLifecycle = ({
       peekHeight: peekHeightRef.current,
     });
     // oxlint-disable-next-line react-hooks/exhaustive-deps
-  }, [snap, isBottom, isOpen]);
+  }, [snap, isBottom, isOpen, peekHeight]);
 
   // Reset inline height when the modal closes so it returns to its CSS default
   // on next open.
@@ -408,8 +467,8 @@ export const useDraggable = ({
   peekHeight: givenPeekHeight,
   handle: givenHandle,
   defaultSnap: givenDefaultSnap,
-  enableHalfSnapScroll,
-  largestUndimmedSnap: givenLargestUndimmedSnap = 'peek',
+  enableHalfSnapScroll: givenEnableHalfSnapScroll,
+  largestUndimmedSnap: givenLargestUndimmedSnap,
   xs,
   sm,
   md,
@@ -419,26 +478,36 @@ export const useDraggable = ({
   snap: requestedSnap,
   setSnap,
 }: UseDraggableProps) => {
-  const { variant, isBottom, isFlexible, isEnabled } =
-    useResponsiveBottomSheetProps({
-      variant: givenVariant,
-      handle: givenHandle,
-      resize: givenResize,
-      xs,
-      sm,
-      md,
-      lg,
-      xl,
-    });
+  const {
+    variant,
+    isBottom,
+    isFlexible,
+    isEnabled,
+    peekHeight: resolvedPeekHeight,
+    largestUndimmedSnap: resolvedLargestUndimmedSnap = 'peek',
+    enableHalfSnapScroll = false,
+  } = useResponsiveBottomSheetProps({
+    variant: givenVariant,
+    handle: givenHandle,
+    resize: givenResize,
+    peekHeight: givenPeekHeight,
+    largestUndimmedSnap: givenLargestUndimmedSnap,
+    enableHalfSnapScroll: givenEnableHalfSnapScroll,
+    xs,
+    sm,
+    md,
+    lg,
+    xl,
+  });
 
   // Undimmed snaps beyond `peek` only make sense on draggable bottom sheets.
   // A popup / handle-less sheet (including responsive flips into one) falls
   // back to `peek` — a no-op there since it never reaches the peek snap —
   // so it keeps its dimmer AND its modality in lockstep.
   const largestUndimmedSnap =
-    givenLargestUndimmedSnap !== 'peek' && !isEnabled
+    resolvedLargestUndimmedSnap !== 'peek' && !isEnabled
       ? 'peek'
-      : givenLargestUndimmedSnap;
+      : resolvedLargestUndimmedSnap;
 
   // The snap the sheet actually shows — the requested one, mapped onto what
   // the resolved layout supports (see `resolveBottomSheetSnap`). Everything
@@ -447,7 +516,7 @@ export const useDraggable = ({
     isBottom,
     isEnabled,
     isFlexible,
-    hasPeek: (givenPeekHeight ?? 0) > 0,
+    hasPeek: (resolvedPeekHeight ?? 0) > 0,
     defaultSnap: givenDefaultSnap,
   });
 
@@ -526,13 +595,21 @@ export const useDraggable = ({
   const peakDiffYDown = useRef(0);
   const peakDiffYUp = useRef(0);
 
-  const peekHeight = useRef(givenPeekHeight ?? 0);
+  const peekHeight = useRef(resolvedPeekHeight ?? 0);
 
   useEffect(() => {
-    peekHeight.current = givenPeekHeight ?? 0;
-  }, [givenPeekHeight]);
+    peekHeight.current = resolvedPeekHeight ?? 0;
+  }, [resolvedPeekHeight]);
 
   const hasPeek = useCallback(() => peekHeight.current > 0, []);
+
+  // Read by the viewport touch listeners, which are bound once per
+  // container / layout — a ref keeps a responsive (or updated) value live
+  // without re-binding them.
+  const enableHalfSnapScrollRef = useRef(enableHalfSnapScroll);
+  useEffect(() => {
+    enableHalfSnapScrollRef.current = enableHalfSnapScroll;
+  }, [enableHalfSnapScroll]);
 
   // Bottom-sheet snap kept in a ref so listeners always read the latest value
   // without re-binding.
@@ -665,6 +742,7 @@ export const useDraggable = ({
     snapRef,
     defaultSnap: givenDefaultSnap,
     peekHeightRef: peekHeight,
+    peekHeight: resolvedPeekHeight ?? 0,
     hasPeek,
     isDraggingRef: isDragging,
     cancelSpring,
@@ -731,7 +809,8 @@ export const useDraggable = ({
     //     handle it on release.
     const useLiveBoundary =
       startedAtScrollable.current &&
-      (current === 'full' || (current === 'half' && enableHalfSnapScroll));
+      (current === 'full' ||
+        (current === 'half' && enableHalfSnapScrollRef.current));
 
     // ↑ swipe — expand sheet. Only meaningful for flexible non-full states.
     // When the live-boundary path is active (scrollable body with the flag

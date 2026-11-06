@@ -301,10 +301,15 @@ const ModalContainer = forwardRef(
     // `disableOutsideClickClose` is orthogonal and only affects dismissal.
     const isModal = open && isVisible;
 
+    // `forceMount` keeps a closed modal present; it must not keep hiding the
+    // page from assistive tech while closed. Non-forceMount modals keep the
+    // siblings hidden through the exit animation, as before.
+    const hidesOthers = isPresent && (open || !forceMount);
+
     useEffect(() => {
       const content = containerRef.current;
 
-      if (content && isPresent && !disableAriaHiddenOthers) {
+      if (content && hidesOthers && !disableAriaHiddenOthers) {
         const undo = hideOthers(content);
 
         // Undimmed snaps leave the rest of the page visible AND interactive —
@@ -322,7 +327,7 @@ const ModalContainer = forwardRef(
     }, [
       isBottomSheetWithHandle,
       isUndimmed,
-      isPresent,
+      hidesOthers,
       disableAriaHiddenOthers,
     ]);
 
