@@ -814,3 +814,90 @@ describe('responsive peekHeight and largestUndimmedSnap', () => {
     ).toBe('');
   });
 });
+
+// The responsive props must still follow a parent updating them while the
+// sheet is mounted (no breakpoint change involved), as they did before they
+// became responsive.
+describe('updating peekHeight / largestUndimmedSnap from the parent', () => {
+  it('peekHeight removed: a dimmer click closes instead of collapsing to peek', async () => {
+    const Harness = () => {
+      const [peekHeight, setPeekHeight] = useState<number | undefined>(80);
+      return (
+        <>
+          <button
+            type="button"
+            data-testid="drop-peek"
+            onClick={() => setPeekHeight(undefined)}
+          >
+            drop peek
+          </button>
+          <Modal defaultOpen>
+            <ModalContainer variant="bottom" handle peekHeight={peekHeight}>
+              <ModalContent>
+                <ModalContentItem>
+                  <ModalHeading>Sheet</ModalHeading>
+                </ModalContentItem>
+              </ModalContent>
+            </ModalContainer>
+          </Modal>
+        </>
+      );
+    };
+    renderWithProvider(<Harness />);
+
+    await expect.poll(openDialog).not.toBeNull();
+    (byTestId('drop-peek') as HTMLElement).click();
+    await new Promise((resolve) => setTimeout(resolve, 100));
+
+    const dimmer = document.querySelector('[data-role="modal-dimmer"]');
+    if (!dimmer) throw new Error('no dimmer');
+    await clickCorner(dimmer);
+
+    await expect
+      .poll(() => document.querySelector('[role="dialog"][data-status="open"]'))
+      .toBeNull();
+  });
+
+  it('largestUndimmedSnap switched to full: undimmed right away', async () => {
+    const Harness = () => {
+      const [undimmed, setUndimmed] = useState(false);
+      return (
+        <>
+          <button
+            type="button"
+            data-testid="undim"
+            onClick={() => setUndimmed(true)}
+          >
+            undim
+          </button>
+          <Modal defaultOpen>
+            <ModalContainer
+              variant="bottom"
+              resize="flexible"
+              handle
+              defaultSnap="full"
+              largestUndimmedSnap={undimmed ? 'full' : 'peek'}
+            >
+              <ModalContent>
+                <ModalContentItem>
+                  <ModalHeading>Sheet</ModalHeading>
+                </ModalContentItem>
+              </ModalContent>
+            </ModalContainer>
+          </Modal>
+        </>
+      );
+    };
+    renderWithProvider(<Harness />);
+
+    await expect
+      .poll(() => openDialog()?.getAttribute('data-largest-undimmed-snap'))
+      .toBe('peek');
+    (byTestId('undim') as HTMLElement).click();
+
+    await expect
+      .poll(() => openDialog()?.getAttribute('data-largest-undimmed-snap'))
+      .toBe('full');
+    expect(openDialog()).toHaveAttribute('aria-modal', 'false');
+  });
+});

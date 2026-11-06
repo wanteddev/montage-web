@@ -103,42 +103,32 @@ export const useResponsiveBottomSheetProps = ({
     givenResize,
   );
 
-  const peekHeight = useMedia(
+  // `peekHeight` / `largestUndimmedSnap` / `enableHalfSnapScroll` are read
+  // from the current props on every render, keyed by the active breakpoint.
+  // (`useMedia` only re-resolves its values on a media change, so routing these
+  // through it would ignore a parent updating them while mounted.)
+  const activeBreakpoint = useMedia<keyof BreakPoint | undefined>(
     breakpoint.map((v) => `(min-width: ${theme.breakpoint[v]})`),
-    breakpoint.map((v) =>
-      getPreviousValue(
-        { xs, sm, md, lg, xl },
-        'peekHeight',
-        givenPeekHeight,
-        v,
-      ),
-    ),
-    givenPeekHeight,
+    breakpoint,
+    undefined,
   );
+  const resolveResponsive = <
+    K extends 'peekHeight' | 'largestUndimmedSnap' | 'enableHalfSnapScroll',
+  >(
+    key: K,
+    given: ModalContainerProps[K],
+  ): ModalContainerProps[K] =>
+    activeBreakpoint
+      ? getPreviousValue({ xs, sm, md, lg, xl }, key, given, activeBreakpoint)
+      : given;
 
-  const largestUndimmedSnap = useMedia(
-    breakpoint.map((v) => `(min-width: ${theme.breakpoint[v]})`),
-    breakpoint.map((v) =>
-      getPreviousValue(
-        { xs, sm, md, lg, xl },
-        'largestUndimmedSnap',
-        givenLargestUndimmedSnap,
-        v,
-      ),
-    ),
+  const peekHeight = resolveResponsive('peekHeight', givenPeekHeight);
+  const largestUndimmedSnap = resolveResponsive(
+    'largestUndimmedSnap',
     givenLargestUndimmedSnap,
   );
-
-  const enableHalfSnapScroll = useMedia(
-    breakpoint.map((v) => `(min-width: ${theme.breakpoint[v]})`),
-    breakpoint.map((v) =>
-      getPreviousValue(
-        { xs, sm, md, lg, xl },
-        'enableHalfSnapScroll',
-        givenEnableHalfSnapScroll,
-        v,
-      ),
-    ),
+  const enableHalfSnapScroll = resolveResponsive(
+    'enableHalfSnapScroll',
     givenEnableHalfSnapScroll,
   );
 
