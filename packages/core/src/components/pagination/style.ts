@@ -33,7 +33,7 @@ export const pageButtonStyle = (theme: Theme) => css`
 
   // TextButton Interaction
   [data-component='with-interaction'] {
-    width: calc(100% + 10px);
+    width: calc(100% + 12px);
   }
 
   &:not([aria-disabled='true']) {
