@@ -20,19 +20,20 @@ You don't run any of this yourself — it's all in the workflow. But knowing the
 
 1. Pulls the icon set from the Figma file (uses `FIGMA_TOKEN` secret).
 2. Runs `scripts/figma-icon.mjs` to regenerate `packages/icon`.
-3. Creates a branch named `feature/code-connect/<run_id>`, commits, pushes.
-4. Opens a PR with that branch as the **head** and the **branch you dispatched from** as the **base**.
+3. Creates a branch named `feature/code-connect/<JIRA-ID>` (or `feature/code-connect/<run_id>` when no Jira ID is given), commits, pushes.
+4. Opens a PR with that branch as the **head** and the **branch you dispatched from** as the **base**. When a Jira ID is given, the PR body includes a link to the issue.
 5. If `publish=true`, also publishes Code Connect mappings to Figma (so designers see the codebase ↔ Figma binding).
 
 The PR title is auto-set to `feat(core,icon): icon figma sync and new code connect publish`.
 
 ## Workflow inputs
 
-| Input     | Type   | Default  | Meaning                                                              |
-| --------- | ------ | -------- | -------------------------------------------------------------------- |
-| `publish` | choice | `'true'` | Whether to push Code Connect mappings up to Figma after the PR opens |
+| Input           | Type   | Default  | Meaning                                                                             |
+| --------------- | ------ | -------- | ----------------------------------------------------------------------------------- |
+| `publish`       | choice | `'true'` | Whether to push Code Connect mappings up to Figma after the PR step                 |
+| `jira_issue_id` | string | `''`     | Jira issue ID (e.g. `WRP-123`). Used as the branch suffix and linked in the PR body |
 
-That's the only input. **If the user doesn't mention publishing, default to `true`** — that's the documented behavior. Only set `publish=false` if the user explicitly asks to skip the Code Connect publish step ("publish 빼고", "publish 하지마", "code connect는 다음에" etc).
+**If the user doesn't mention publishing, default to `true`** — that's the documented behavior. Only set `publish=false` if the user explicitly asks to skip the Code Connect publish step ("publish 빼고", "publish 하지마", "code connect는 다음에" etc).
 
 ## Workflow
 
@@ -42,7 +43,7 @@ That's the only input. **If the user doesn't mention publishing, default to `tru
 
 The exception is when icon work is bundled with other in-progress changes — e.g. dispatching from a major version branch like `feature/4.0.0` if breaking icon renames are part of the next major. This is rare; assume `main` unless told.
 
-Confirm with the user before dispatching: **"`main` 기준으로 아이콘 싱크 PR 만들면 될까요? (대부분 main에서 실행합니다. 다른 브랜치 필요하면 알려주세요)"**
+Confirm with the user before dispatching, asking for the Jira issue ID in the same question unless they already gave one: **"`main` 기준으로 아이콘 싱크 PR 만들면 될까요? 연결할 Jira 이슈 ID도 있으면 알려주세요. (대부분 main에서 실행합니다. 다른 브랜치 필요하면 알려주세요)"**
 
 The branch must exist on the remote — verify with:
 
@@ -58,17 +59,30 @@ If the user explicitly opted out (`publish=false`), use that. Otherwise default 
 
 If you're unsure (e.g. user said "먼저 코드 변화만 보고 싶어"), ask once: **"Figma에 Code Connect 매핑도 publish 할까요? (기본값: 예)"**
 
-### 3. Dispatch the workflow
+### 3. Jira issue ID (optional)
+
+If the user gave a Jira issue ID (e.g. `WRP-123`), pass it as `jira_issue_id` (asked in step 1). No ID is fine; the branch then falls back to the run ID.
+
+The ID is upper-cased and must match `^[A-Z][A-Z0-9]+-[0-9]+$`, otherwise the workflow fails. Re-running with the same ID is safe:
+
+- Icons are always generated on the dispatch branch (latest script and base). If `feature/code-connect/<JIRA-ID>` already exists, only the files the sync changed are copied onto that branch and pushed as a new commit; other commits on the branch are kept.
+- If an open PR already exists for that branch, no new PR is created; the existing one gets the new commit.
+- If the sync produces no changes, nothing is pushed and no PR is created.
+- A branch left behind by a PR closed without merging is reused too (merged branches are auto-deleted). If the user wants a clean start, delete that branch first.
+- Don't dispatch from `feature/code-connect/<JIRA-ID>` itself; the workflow fails because head and base would be the same.
+
+### 4. Dispatch the workflow
 
 ```bash
 gh workflow run figma-icon-sync-code-connect.yml \
   --ref <dispatch-branch> \
-  -f publish=true
+  -f publish=true \
+  -f jira_issue_id=<JIRA-ID>   # omit when there is none
 ```
 
 That's it. The workflow is responsible for the branch creation, commit, push, and PR. Don't try to do any of it yourself.
 
-### 4. Surface progress
+### 5. Surface progress
 
 Print the latest run URL so the user can watch:
 
@@ -82,7 +96,7 @@ Tell the user:
 
 - The workflow is running.
 - The PR will be opened **against `<dispatch-branch>`** when it finishes (~few minutes).
-- If `publish=true`, Code Connect will be pushed to Figma after the PR is created.
+- If `publish=true`, Code Connect will be pushed to Figma after the PR step. Publish runs from the dispatch branch, so it still runs even when the sync produced no changes.
 - They can watch progress at the run URL.
 
 Don't poll for completion unless the user asks — the workflow takes minutes, and the user can refresh the run page themselves.
@@ -98,13 +112,13 @@ The workflow titles the PR `feat(core,icon): icon figma sync and new code connec
 
 ## Edge cases
 
-| Situation                                                 | Behavior                                                                                                                 |
-| --------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
-| User on a non-`main` branch with uncommitted changes      | Doesn't matter — the workflow runs on the remote, not the local working tree. No need to commit/stash first.             |
-| User asks "main이 아니라 내 브랜치 기준으로"              | Use the user's current branch as `--ref`. Verify it's pushed to origin first.                                            |
-| User says "publish 하지 마" / "Figma에 안 올려도 돼"      | Pass `-f publish=false`. Mention that Code Connect bindings won't be reflected in Figma until a future publish.          |
-| Workflow run fails to register / `gh workflow run` errors | Surface the error and stop — common cause is the branch not being pushed to origin yet, or the user lacking permissions. |
-| Recent run already in progress                            | Mention it and ask if they want to wait or dispatch another. Multiple concurrent runs will produce duplicate PRs.        |
+| Situation                                                 | Behavior                                                                                                                                                                                                             |
+| --------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| User on a non-`main` branch with uncommitted changes      | Doesn't matter — the workflow runs on the remote, not the local working tree. No need to commit/stash first.                                                                                                         |
+| User asks "main이 아니라 내 브랜치 기준으로"              | Use the user's current branch as `--ref`. Verify it's pushed to origin first.                                                                                                                                        |
+| User says "publish 하지 마" / "Figma에 안 올려도 돼"      | Pass `-f publish=false`. Mention that Code Connect bindings won't be reflected in Figma until a future publish.                                                                                                      |
+| Workflow run fails to register / `gh workflow run` errors | Surface the error and stop — common cause is the branch not being pushed to origin yet, or the user lacking permissions.                                                                                             |
+| Recent run already in progress                            | Mention it and ask if they want to wait or dispatch another. Without a Jira ID, concurrent runs produce duplicate PRs. With the same Jira ID, runs are queued and the later one adds a commit to the same branch/PR. |
 
 ## Why these defaults
 
