@@ -39,6 +39,12 @@ export const [MenuItemProvider, useMenuItemContext] =
 type MenuContentContextType = {
   /** The popup element. Sub triggers inside it close their submenu when it is hovered elsewhere. */
   content: HTMLElement | null;
+  /**
+   * Set while the popup is moving focus into itself on open. A submenu that
+   * opened together with it ignores that focus instead of treating it as the
+   * user leaving the submenu.
+   */
+  mountFocusingRef: RefObject<boolean>;
 };
 
 export const [MenuContentProvider, useMenuContentContext] =
@@ -47,6 +53,11 @@ export const [MenuContentProvider, useMenuContentContext] =
 type MenuSubContextType = {
   open: boolean;
   onOpenChange: (open: boolean, reason?: MenuOpenReason) => void;
+  /**
+   * How the open submenu was opened, or last kept open by a press. Unlike the
+   * menu's `openReasonRef`, it is not reset on mount; it is reset on close.
+   */
+  openedByRef: RefObject<MenuOpenReason>;
   trigger: HTMLElement | null;
   onTriggerChange: (trigger: HTMLElement | null) => void;
   content: HTMLElement | null;

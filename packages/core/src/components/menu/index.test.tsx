@@ -32,7 +32,7 @@ import {
   MenuTrigger,
 } from '.';
 
-import type { ReactElement } from 'react';
+import type { ReactElement, PointerEvent as ReactPointerEvent } from 'react';
 
 // Emotion class names are derived from the generated styles, so equal class
 // names mean the slot default renders exactly like an explicit `size`.
@@ -233,7 +233,7 @@ describe('when the menu opens', () => {
  */
 const firePointer = (
   element: Element,
-  type: 'pointermove' | 'pointerout',
+  type: 'pointerdown' | 'pointermove' | 'pointerout',
   {
     pointerType = 'mouse',
     clientX = 0,
@@ -275,19 +275,41 @@ const mockRect = (element: Element, rect: Partial<DOMRect>) => {
 const SubmenuExample = ({
   onValueChange,
   disabled,
+  openOnHover,
+  defaultValue,
+  subOpen,
+  subDefaultOpen,
+  onSubOpenChange,
+  onTriggerPointerDown,
 }: {
   onValueChange?: (value?: string | Array<string>) => void;
   disabled?: boolean;
+  openOnHover?: boolean;
+  defaultValue?: string;
+  subOpen?: boolean;
+  subDefaultOpen?: boolean;
+  onSubOpenChange?: (open: boolean) => void;
+  onTriggerPointerDown?: (event: ReactPointerEvent) => void;
 }) => (
-  <Menu defaultOpen onValueChange={onValueChange}>
+  <Menu defaultOpen defaultValue={defaultValue} onValueChange={onValueChange}>
     <MenuTrigger>
       <button type="button">Open</button>
     </MenuTrigger>
     <MenuContent>
       <MenuList>
         <MenuItem value="copy">Copy</MenuItem>
-        <MenuSub>
-          <MenuSubTrigger disabled={disabled}>Share</MenuSubTrigger>
+        <MenuSub
+          open={subOpen}
+          defaultOpen={subDefaultOpen}
+          onOpenChange={onSubOpenChange}
+        >
+          <MenuSubTrigger
+            disabled={disabled}
+            openOnHover={openOnHover}
+            onPointerDown={onTriggerPointerDown}
+          >
+            Share
+          </MenuSubTrigger>
           <MenuSubContent>
             <MenuList>
               <MenuItem value="email">Email</MenuItem>
@@ -395,6 +417,52 @@ describe('when given a submenu', () => {
     fireEvent.keyDown(trigger, { key: 'ArrowRight' });
 
     expect(trigger).toHaveAttribute('aria-expanded', 'false');
+  });
+
+  it('should stay open with defaultOpen while the parent popup takes focus', async () => {
+    render(<SubmenuExample subDefaultOpen />);
+
+    const trigger = getSubTrigger();
+    // The parent, opened with nothing selected, focuses its own popup.
+    await waitFor(() =>
+      expect(
+        trigger.closest<HTMLElement>('[data-radix-scroll-area-viewport]'),
+      ).toHaveFocus(),
+    );
+
+    expect(trigger).toHaveAttribute('aria-expanded', 'true');
+    expect(querySubItem()).toBeInTheDocument();
+  });
+
+  it('should stay open with defaultOpen while the parent focuses its selected item', async () => {
+    render(<SubmenuExample subDefaultOpen defaultValue="copy" />);
+
+    await waitFor(() =>
+      expect(screen.getByRole('menuitemradio', { name: 'Copy' })).toHaveFocus(),
+    );
+
+    expect(getSubTrigger()).toHaveAttribute('aria-expanded', 'true');
+  });
+
+  it('should close only a defaultOpen submenu on Escape', async () => {
+    render(<SubmenuExample subDefaultOpen />);
+    await waitFor(() => expect(querySubItem()).toBeInTheDocument());
+
+    fireEvent.keyDown(document.activeElement!, { key: 'Escape' });
+
+    expect(getSubTrigger()).toHaveAttribute('aria-expanded', 'false');
+    expect(
+      screen.getByRole('menuitemradio', { name: 'Copy' }),
+    ).toBeInTheDocument();
+  });
+
+  it('should close a defaultOpen submenu when the parent is pressed', async () => {
+    render(<SubmenuExample subDefaultOpen />);
+    await waitFor(() => expect(querySubItem()).toBeInTheDocument());
+
+    fireEvent.pointerDown(screen.getByRole('menuitemradio', { name: 'Copy' }));
+
+    expect(getSubTrigger()).toHaveAttribute('aria-expanded', 'false');
   });
 
   it('should open on mouse hover after the enter delay, but not on touch', () => {
@@ -1488,17 +1556,192 @@ describe('when combining a submenu with other components', () => {
       );
     });
 
-    it('should not dismiss the submenu when its trigger is pressed', async () => {
-      render(<SubmenuExample />);
+    describe('pressing the trigger of an open submenu', () => {
+      /** A pointer press, or a screen reader activation without a pointer. */
+      const press = (trigger: Element, pointerType?: string) => {
+        if (!pointerType) {
+          fireEvent.click(trigger, { detail: 0 });
+          return;
+        }
 
-      const trigger = getSubTrigger();
-      fireEvent.click(trigger);
-      await act(() => new Promise((resolve) => setTimeout(resolve, 0)));
+        firePointer(trigger, 'pointerdown', { pointerType });
+        fireEvent.click(trigger, { detail: 1 });
+      };
 
-      fireEvent.pointerDown(trigger);
-      fireEvent.click(trigger);
+      it('should keep it open with a mouse, as hover owns the mouse', () => {
+        render(<SubmenuExample />);
 
-      expect(trigger).toHaveAttribute('aria-expanded', 'true');
+        const trigger = getSubTrigger();
+        press(trigger, 'mouse');
+        press(trigger, 'mouse');
+
+        expect(trigger).toHaveAttribute('aria-expanded', 'true');
+      });
+
+      it.each(['touch', 'pen'])('should toggle it with %s', (pointerType) => {
+        render(<SubmenuExample />);
+
+        const trigger = getSubTrigger();
+        press(trigger, pointerType);
+        expect(trigger).toHaveAttribute('aria-expanded', 'true');
+
+        press(trigger, pointerType);
+        expect(trigger).toHaveAttribute('aria-expanded', 'false');
+        // Only the submenu closes.
+        expect(
+          screen.getByRole('menuitemradio', { name: 'Copy' }),
+        ).toBeInTheDocument();
+
+        press(trigger, pointerType);
+        expect(trigger).toHaveAttribute('aria-expanded', 'true');
+      });
+
+      it('should keep a hover-opened submenu on the first press and close it on the next', () => {
+        vi.useFakeTimers();
+        render(<SubmenuExample />);
+
+        const trigger = getSubTrigger();
+        firePointer(trigger, 'pointermove');
+        act(() => vi.advanceTimersByTime(100));
+        expect(trigger).toHaveAttribute('aria-expanded', 'true');
+
+        press(trigger, 'touch');
+        expect(trigger).toHaveAttribute('aria-expanded', 'true');
+
+        press(trigger, 'touch');
+        expect(trigger).toHaveAttribute('aria-expanded', 'false');
+      });
+
+      it('should close one opened through the open prop on the first tap', () => {
+        const onSubOpenChange = vi.fn();
+        const { rerender } = render(
+          <SubmenuExample subOpen={false} onSubOpenChange={onSubOpenChange} />,
+        );
+        rerender(<SubmenuExample subOpen onSubOpenChange={onSubOpenChange} />);
+
+        const trigger = getSubTrigger();
+        expect(trigger).toHaveAttribute('aria-expanded', 'true');
+
+        press(trigger, 'touch');
+        expect(onSubOpenChange).toHaveBeenLastCalledWith(false);
+      });
+
+      it('should forget a hover open once closed, even when closed with Escape', () => {
+        vi.useFakeTimers();
+        const onSubOpenChange = vi.fn();
+        const { rerender } = render(
+          <SubmenuExample subOpen={false} onSubOpenChange={onSubOpenChange} />,
+        );
+        const setSubOpen = (open: boolean) =>
+          rerender(
+            <SubmenuExample subOpen={open} onSubOpenChange={onSubOpenChange} />,
+          );
+
+        const trigger = getSubTrigger();
+        firePointer(trigger, 'pointermove');
+        act(() => vi.advanceTimersByTime(100));
+        expect(onSubOpenChange).toHaveBeenLastCalledWith(true);
+        setSubOpen(true);
+
+        // Escape closes through the popover, not through the trigger.
+        fireEvent.keyDown(querySubItem()!, { key: 'Escape' });
+        expect(onSubOpenChange).toHaveBeenLastCalledWith(false);
+        setSubOpen(false);
+
+        // Reopened by the consumer instead of by hover.
+        setSubOpen(true);
+        onSubOpenChange.mockClear();
+
+        press(trigger, 'touch');
+        expect(onSubOpenChange).toHaveBeenCalledWith(false);
+      });
+
+      it('should not let a pending hover open overwrite a press open', () => {
+        vi.useFakeTimers();
+        render(<SubmenuExample />);
+
+        const trigger = getSubTrigger();
+        // The mouse enters, and the trigger is pressed before the hover delay.
+        firePointer(trigger, 'pointermove');
+        press(trigger, 'mouse');
+        act(() => vi.advanceTimersByTime(100));
+        expect(trigger).toHaveAttribute('aria-expanded', 'true');
+
+        press(trigger, 'touch');
+        expect(trigger).toHaveAttribute('aria-expanded', 'false');
+      });
+
+      it('should ignore a mouse press that never became a click', () => {
+        render(<SubmenuExample />);
+
+        const trigger = getSubTrigger();
+        press(trigger);
+        // Pressed, then dragged off before release: no click on the trigger.
+        firePointer(trigger, 'pointerdown');
+
+        press(trigger);
+        expect(trigger).toHaveAttribute('aria-expanded', 'false');
+      });
+
+      it('should still treat a press as a mouse press when the consumer prevents pointerdown', () => {
+        render(
+          <SubmenuExample onTriggerPointerDown={(e) => e.preventDefault()} />,
+        );
+
+        const trigger = getSubTrigger();
+        press(trigger, 'mouse');
+        press(trigger, 'mouse');
+
+        expect(trigger).toHaveAttribute('aria-expanded', 'true');
+      });
+
+      it('should forget the pointer type of a canceled press', () => {
+        render(<SubmenuExample />);
+
+        const trigger = getSubTrigger();
+        press(trigger, 'touch');
+
+        firePointer(trigger, 'pointerdown');
+        fireEvent.pointerCancel(trigger);
+        fireEvent.click(trigger, { detail: 1 });
+
+        expect(trigger).toHaveAttribute('aria-expanded', 'false');
+      });
+
+      it('should toggle it with a mouse when hover opening is off', () => {
+        render(<SubmenuExample openOnHover={false} />);
+
+        const trigger = getSubTrigger();
+        press(trigger, 'mouse');
+        expect(trigger).toHaveAttribute('aria-expanded', 'true');
+
+        press(trigger, 'mouse');
+        expect(trigger).toHaveAttribute('aria-expanded', 'false');
+      });
+
+      it('should toggle it with a screen reader activation', () => {
+        render(<SubmenuExample />);
+
+        const trigger = getSubTrigger();
+        press(trigger);
+        expect(trigger).toHaveAttribute('aria-expanded', 'true');
+
+        press(trigger);
+        expect(trigger).toHaveAttribute('aria-expanded', 'false');
+      });
+
+      it('should keep moving focus into it with Enter', async () => {
+        render(<SubmenuExample />);
+
+        const trigger = getSubTrigger();
+        press(trigger, 'touch');
+        act(() => trigger.focus());
+
+        fireEvent.keyDown(trigger, { key: 'Enter' });
+
+        await waitFor(() => expect(querySubItem()).toHaveFocus());
+        expect(trigger).toHaveAttribute('aria-expanded', 'true');
+      });
     });
 
     it('should close a hover-opened submenu when keyboard focus moves on in the parent', async () => {
