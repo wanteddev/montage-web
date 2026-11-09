@@ -10,11 +10,20 @@ on:
         options:
           - 'true'
           - 'false'
+      jira_issue_id:
+        description: 'Jira 이슈 ID (예: WRP-123). 입력하면 브랜치 이름과 PR 본문에 사용'
+        type: string
+        required: false
+        default: ''
 
 env:
   FIGMA_TOKEN: ${{ secrets.FIGMA_TOKEN }}
 
 permissions: {}
+
+concurrency:
+  group: figma-icon-sync-${{ inputs.jira_issue_id || github.run_id }}
+  cancel-in-progress: false
 
 jobs:
   sync:
@@ -44,16 +53,6 @@ jobs:
         with:
           token: ${{ steps.app-token.outputs.token }}
 
-      - name: Restore cached Primes
-        id: cache-primes-restore
-        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
-        with:
-          path: output
-          key: ${{ needs.sync.outputs.figma-output-cache-key }}
-
-      - uses: ./.github/actions/pnpm-install
-      - run: node scripts/figma-icon.mjs
-
       - name: Get GitHub App user info
         id: app-user
         env:
@@ -72,13 +71,86 @@ jobs:
       - run: git config user.name "${{ steps.app-user.outputs.name }}"
       - run: git config user.email "${{ steps.app-user.outputs.email }}"
 
-      - name: Create Branch And Commit
+      - name: Resolve Branch Name
+        id: branch-name
+        env:
+          JIRA_ISSUE_ID: ${{ inputs.jira_issue_id }}
+          RUN_ID: ${{ github.run_id }}
         run: |
-          git branch feature/code-connect/${{ github.run_id }}
-          git checkout feature/code-connect/${{ github.run_id }}
-          git add .
+          set -euo pipefail
+          JIRA_ISSUE_ID="${JIRA_ISSUE_ID//[[:space:]]/}"
+          JIRA_ISSUE_ID="${JIRA_ISSUE_ID^^}"
+          if [ -n "${JIRA_ISSUE_ID}" ]; then
+            if ! [[ "${JIRA_ISSUE_ID}" =~ ^[A-Z][A-Z0-9]+-[0-9]+$ ]]; then
+              echo "Invalid Jira issue ID: ${JIRA_ISSUE_ID} (expected format like WRP-123)" >&2
+              exit 1
+            fi
+            BRANCH="feature/code-connect/${JIRA_ISSUE_ID}"
+          else
+            BRANCH="feature/code-connect/${RUN_ID}"
+          fi
+          if [ "${BRANCH}" = "${GITHUB_REF_NAME}" ]; then
+            echo "Dispatch ref and sync branch are the same (${BRANCH}). Dispatch from the base branch instead." >&2
+            exit 1
+          fi
+          echo "name=${BRANCH}" >> "$GITHUB_OUTPUT"
+          echo "jira=${JIRA_ISSUE_ID}" >> "$GITHUB_OUTPUT"
+
+      - name: Restore cached Primes
+        id: cache-primes-restore
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: output
+          key: ${{ needs.sync.outputs.figma-output-cache-key }}
+
+      - uses: ./.github/actions/pnpm-install
+      - run: node scripts/figma-icon.mjs
+
+      - name: Apply Changes To Branch
+        env:
+          BRANCH: ${{ steps.branch-name.outputs.name }}
+        run: |
+          set -euo pipefail
+          if ! git ls-remote --exit-code --heads origin "${BRANCH}" >/dev/null; then
+            git checkout -b "${BRANCH}"
+            exit 0
+          fi
+
+          echo "Branch ${BRANCH} already exists. Applying synced files on top of it."
+          git add -A
+          if git diff --cached --quiet; then
+            echo "No changes from sync."
+            exit 0
+          fi
+          git commit --quiet --no-verify -m "tmp: icon sync result"
+          SYNCED=$(git rev-parse HEAD)
+          git diff --name-only --no-renames --diff-filter=d HEAD~1 HEAD > "${RUNNER_TEMP}/changed.txt"
+          git diff --name-only --no-renames --diff-filter=D HEAD~1 HEAD > "${RUNNER_TEMP}/deleted.txt"
+
+          git fetch --depth=1 origin "${BRANCH}"
+          git checkout -B "${BRANCH}" FETCH_HEAD
+          if [ -s "${RUNNER_TEMP}/changed.txt" ]; then
+            git checkout "${SYNCED}" --pathspec-from-file="${RUNNER_TEMP}/changed.txt"
+          fi
+          if [ -s "${RUNNER_TEMP}/deleted.txt" ]; then
+            git rm -q --ignore-unmatch --pathspec-from-file="${RUNNER_TEMP}/deleted.txt"
+          fi
+
+      - name: Commit And Push
+        id: commit
+        env:
+          BRANCH: ${{ steps.branch-name.outputs.name }}
+        run: |
+          set -euo pipefail
+          git add -A
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
           git commit -m "feat(icon): add icons synced from figma" --no-verify
-          git push origin feature/code-connect/${{ github.run_id }}
+          git push origin "${BRANCH}"
+          echo "changed=true" >> "$GITHUB_OUTPUT"
 
       - name: Extract branch name
         shell: bash
@@ -86,11 +158,27 @@ jobs:
         id: extract_branch
 
       - name: Create New PR
+        if: ${{ steps.commit.outputs.changed == 'true' }}
         run: |
-          gh pr create -B ${{ steps.extract_branch.outputs.branch }} -H feature/code-connect/${{ github.run_id }} --title "feat(core,icon): icon figma sync and new code connect publish" --body "add icons synced from figma"
+          set -euo pipefail
+          EXISTING_PR=$(gh pr list --head "${HEAD_BRANCH}" --base "${BASE_BRANCH}" --state open --json url --jq '.[0].url // empty')
+          if [ -n "${EXISTING_PR}" ]; then
+            echo "PR already exists, pushed new commit to it: ${EXISTING_PR}"
+            exit 0
+          fi
+          BODY="add icons synced from figma"
+          if [ -n "${JIRA_ISSUE_ID}" ]; then
+            BODY="${BODY}
+
+          Jira: [${JIRA_ISSUE_ID}](https://wantedlab.atlassian.net/browse/${JIRA_ISSUE_ID})"
+          fi
+          gh pr create -B "${BASE_BRANCH}" -H "${HEAD_BRANCH}" --title "feat(core,icon): icon figma sync and new code connect publish" --body "${BODY}"
         env:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
           GH_REPO: ${{ github.repository }}
+          JIRA_ISSUE_ID: ${{ steps.branch-name.outputs.jira }}
+          BASE_BRANCH: ${{ steps.extract_branch.outputs.branch }}
+          HEAD_BRANCH: ${{ steps.branch-name.outputs.name }}
 
   publish:
     needs: create-pull-request
