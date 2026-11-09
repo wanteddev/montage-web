@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.3.0](https://github.com/wanteddev/montage-web/compare/v4.2.0...v4.3.0) (2026-11-09)
+
+### Features
+
+- **theme:** theme 토큰 타입을 실제 css 변수 값과 일치하도록 변경 ([#716](https://github.com/wanteddev/montage-web/issues/716)) ([675d062](https://github.com/wanteddev/montage-web/commit/675d062c849582d25445a7a7716630a66873469c))
+
 # [4.2.0](https://github.com/wanteddev/montage-web/compare/v4.1.5...v4.2.0) (2026-11-03)
 
 **Note:** Version bump only for package @montage-ui/theme

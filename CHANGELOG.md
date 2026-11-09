@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.3.0](https://github.com/wanteddev/montage-web/compare/v4.2.0...v4.3.0) (2026-11-09)
+
+### Bug Fixes
+
+- **core:** submenu 트리거 토글과 defaultOpen 동작 수정 ([#728](https://github.com/wanteddev/montage-web/issues/728)) ([118d8e7](https://github.com/wanteddev/montage-web/commit/118d8e794947223a1794f55170eec27f87a8797a))
+- **core:** 바텀시트 snap을 레이아웃에 맞는 값으로 정리 ([#719](https://github.com/wanteddev/montage-web/issues/719)) ([50adea1](https://github.com/wanteddev/montage-web/commit/50adea16c2ed9419014654fa575e9035b19fa3e5))
+- **core:** 포인터로 연 menu에서 첫 화살표 키가 두 번째 항목으로 가는 문제 수정 ([#713](https://github.com/wanteddev/montage-web/issues/713)) ([a9976a2](https://github.com/wanteddev/montage-web/commit/a9976a2f08c7897a59bd260fc4904ebd7183e649))
+
+### Features
+
+- **core:** menu에 submenu 지원 추가 ([#714](https://github.com/wanteddev/montage-web/issues/714)) ([b12cd4b](https://github.com/wanteddev/montage-web/commit/b12cd4bf4a3000f5899d1f16efa67892dd802f9c))
+- **core:** pagination page 버튼 interaction 좌우 여백을 6px로 변경 ([#715](https://github.com/wanteddev/montage-web/issues/715)) ([ff79fce](https://github.com/wanteddev/montage-web/commit/ff79fce2d2749a379ad626db8c44070b66f1da97))
+- **core:** 바텀시트 largestUndimmedSnap에 full 추가 ([#718](https://github.com/wanteddev/montage-web/issues/718)) ([4f12e3a](https://github.com/wanteddev/montage-web/commit/4f12e3a98ae24248d35b82c702fdd9b3faa98af4))
+- **core:** 바텀시트 snap props responsive 지원 및 forceMount aria-hidden 수정 ([#721](https://github.com/wanteddev/montage-web/issues/721)) ([fbc0247](https://github.com/wanteddev/montage-web/commit/fbc0247f01097336ff1bf7a1af481a5a664675fb))
+- **core:** 콘텐츠 뱃지 accent 배경을 surface.accent 토큰으로 정리하고 accentBackgroundColor 추가 ([#725](https://github.com/wanteddev/montage-web/issues/725)) ([111b514](https://github.com/wanteddev/montage-web/commit/111b514e6ab9e663df11ed3caa7aefe88c2a9c15))
+- **theme:** theme 토큰 타입을 실제 css 변수 값과 일치하도록 변경 ([#716](https://github.com/wanteddev/montage-web/issues/716)) ([675d062](https://github.com/wanteddev/montage-web/commit/675d062c849582d25445a7a7716630a66873469c))
+
 # [4.2.0](https://github.com/wanteddev/montage-web/compare/v4.1.5...v4.2.0) (2026-11-03)
 
 ### Bug Fixes
