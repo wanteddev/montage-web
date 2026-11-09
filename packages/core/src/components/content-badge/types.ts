@@ -19,6 +19,12 @@ export type ContentBadgeDefaultProps = WithSxProps<{
   color?: 'neutral' | 'accent';
   /** The color of the content badge when `color=accent`. */
   accentColor?: ThemeColorsToken;
+  /**
+   * The background color of the content badge when `color=accent` and `variant=solid`.
+   * If omitted, `semantic.surface.accent.{color}` is used when `accentColor` is `semantic.foreground.accent.{color}`,
+   * otherwise `accentColor` with 8% opacity.
+   */
+  accentBackgroundColor?: ThemeColorsToken;
   /** The color of the content badge when `color=neutral`. */
   neutralColor?: ThemeColorsToken;
   /** The content of the content badge. */
