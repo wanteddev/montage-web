@@ -204,6 +204,7 @@ const MenuContent = forwardRef(
     const scopes = useMenuScope('Menu');
     const { openReasonRef } = useMenuContext(MENU_CONTENT_NAME);
     const viewportRef = useRef<HTMLDivElement | null>(null);
+    const mountFocusingRef = useRef(false);
     const [content, setContent] = useState<HTMLElement | null>(null);
     const composedRef = useComposedRefs(
       ref as ForwardedRef<HTMLElement>,
@@ -239,6 +240,13 @@ const MenuContent = forwardRef(
               openReasonRef.current = 'click';
 
               if (e.defaultPrevented) return;
+
+              // Covers the focus that follows this event, including the roving
+              // group handing it to an item.
+              mountFocusingRef.current = true;
+              setTimeout(() => {
+                mountFocusingRef.current = false;
+              });
 
               const viewport = viewportRef.current;
               const firstSelectedItem = viewport?.querySelector<HTMLElement>(
@@ -294,7 +302,10 @@ const MenuContent = forwardRef(
               },
             }}
           >
-            <MenuContentProvider content={content}>
+            <MenuContentProvider
+              content={content}
+              mountFocusingRef={mountFocusingRef}
+            >
               {children}
             </MenuContentProvider>
           </ScrollArea>
@@ -544,12 +555,24 @@ const MenuSub = ({
     if (!open) openedByRef.current = 'click';
   }, [open]);
 
+  // Layers register in effects, children first. A submenu open on mount
+  // (`defaultOpen`) would register below its parent, so Escape and outside
+  // presses would reach the parent first. Opening a commit later keeps the
+  // submenu on top.
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    // The extra render is the point: it opens after the parent's layer exists.
+    // oxlint-disable-next-line react-hooks/set-state-in-effect
+    setMounted(true);
+  }, []);
+  const shownOpen = open && mounted;
+
   const scopes = useMenuScope('Menu');
   const menu = useMenuContext(MENU_SUB_NAME);
 
   return (
     <MenuSubProvider
-      open={open}
+      open={shownOpen}
       onOpenChange={(nextOpen, reason) => {
         if (nextOpen && reason) {
           openReasonRef.current = reason;
@@ -571,7 +594,7 @@ const MenuSub = ({
         onValueChange={menu.onValueChange}
         openReasonRef={openReasonRef}
       >
-        <Popover {...scopes} open={open} onOpenChange={setOpen}>
+        <Popover {...scopes} open={shownOpen} onOpenChange={setOpen}>
           {children}
         </Popover>
       </MenuProvider>
@@ -756,8 +779,15 @@ const MenuSubContent = forwardRef<
     const { openReasonRef } = useMenuContext(MENU_SUB_CONTENT_NAME);
     const composedRef = useComposedRefs(ref, sub.onContentChange);
 
+    const parent = useMenuContentContext(MENU_SUB_CONTENT_NAME);
+
     const isTriggerEvent = (e: Event) =>
       Boolean(sub.trigger?.contains(e.target as Node));
+    // A submenu opened together with its parent (`defaultOpen`) sees the
+    // parent's own open focus land outside it. That is not the user leaving.
+    const isParentMountFocus = (e: Event) =>
+      parent.mountFocusingRef.current &&
+      Boolean(parent.content?.contains(e.target as Node));
 
     return (
       <MenuContent
@@ -802,7 +832,7 @@ const MenuSubContent = forwardRef<
         // Focusing or pressing the trigger keeps the submenu: the trigger
         // owns the open state, and re-opening would flicker the popup.
         onFocusOutside={composeEventHandlers(onFocusOutside, (e) => {
-          if (isTriggerEvent(e)) e.preventDefault();
+          if (isTriggerEvent(e) || isParentMountFocus(e)) e.preventDefault();
         })}
         onPointerDownOutside={composeEventHandlers(
           onPointerDownOutside,

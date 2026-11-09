@@ -276,25 +276,33 @@ const SubmenuExample = ({
   onValueChange,
   disabled,
   openOnHover,
+  defaultValue,
   subOpen,
+  subDefaultOpen,
   onSubOpenChange,
   onTriggerPointerDown,
 }: {
   onValueChange?: (value?: string | Array<string>) => void;
   disabled?: boolean;
   openOnHover?: boolean;
+  defaultValue?: string;
   subOpen?: boolean;
+  subDefaultOpen?: boolean;
   onSubOpenChange?: (open: boolean) => void;
   onTriggerPointerDown?: (event: ReactPointerEvent) => void;
 }) => (
-  <Menu defaultOpen onValueChange={onValueChange}>
+  <Menu defaultOpen defaultValue={defaultValue} onValueChange={onValueChange}>
     <MenuTrigger>
       <button type="button">Open</button>
     </MenuTrigger>
     <MenuContent>
       <MenuList>
         <MenuItem value="copy">Copy</MenuItem>
-        <MenuSub open={subOpen} onOpenChange={onSubOpenChange}>
+        <MenuSub
+          open={subOpen}
+          defaultOpen={subDefaultOpen}
+          onOpenChange={onSubOpenChange}
+        >
           <MenuSubTrigger
             disabled={disabled}
             openOnHover={openOnHover}
@@ -409,6 +417,52 @@ describe('when given a submenu', () => {
     fireEvent.keyDown(trigger, { key: 'ArrowRight' });
 
     expect(trigger).toHaveAttribute('aria-expanded', 'false');
+  });
+
+  it('should stay open with defaultOpen while the parent popup takes focus', async () => {
+    render(<SubmenuExample subDefaultOpen />);
+
+    const trigger = getSubTrigger();
+    // The parent, opened with nothing selected, focuses its own popup.
+    await waitFor(() =>
+      expect(
+        trigger.closest<HTMLElement>('[data-radix-scroll-area-viewport]'),
+      ).toHaveFocus(),
+    );
+
+    expect(trigger).toHaveAttribute('aria-expanded', 'true');
+    expect(querySubItem()).toBeInTheDocument();
+  });
+
+  it('should stay open with defaultOpen while the parent focuses its selected item', async () => {
+    render(<SubmenuExample subDefaultOpen defaultValue="copy" />);
+
+    await waitFor(() =>
+      expect(screen.getByRole('menuitemradio', { name: 'Copy' })).toHaveFocus(),
+    );
+
+    expect(getSubTrigger()).toHaveAttribute('aria-expanded', 'true');
+  });
+
+  it('should close only a defaultOpen submenu on Escape', async () => {
+    render(<SubmenuExample subDefaultOpen />);
+    await waitFor(() => expect(querySubItem()).toBeInTheDocument());
+
+    fireEvent.keyDown(document.activeElement!, { key: 'Escape' });
+
+    expect(getSubTrigger()).toHaveAttribute('aria-expanded', 'false');
+    expect(
+      screen.getByRole('menuitemradio', { name: 'Copy' }),
+    ).toBeInTheDocument();
+  });
+
+  it('should close a defaultOpen submenu when the parent is pressed', async () => {
+    render(<SubmenuExample subDefaultOpen />);
+    await waitFor(() => expect(querySubItem()).toBeInTheDocument());
+
+    fireEvent.pointerDown(screen.getByRole('menuitemradio', { name: 'Copy' }));
+
+    expect(getSubTrigger()).toHaveAttribute('aria-expanded', 'false');
   });
 
   it('should open on mouse hover after the enter delay, but not on touch', () => {
