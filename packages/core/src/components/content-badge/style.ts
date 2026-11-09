@@ -5,7 +5,7 @@ import { createResponsiveStyle } from '../../utils/internal/responsive-props';
 import { typographyStyle } from '../../utils/typography';
 
 import type { ContentBadgeProps } from './types';
-import type { Theme } from '@montage-ui/engine';
+import type { Theme, ThemeColorsToken } from '@montage-ui/engine';
 
 export const contentBadgeStyle =
   ({ xs, sm, md, lg, xl, ...props }: ContentBadgeProps) =>
@@ -81,11 +81,17 @@ const getSizeStyle = ({ size }: ContentBadgeProps) => {
 };
 
 const contentBadgeColorVariant = (
-  { variant, color, accentColor, neutralColor }: ContentBadgeProps,
+  {
+    variant,
+    color,
+    accentColor,
+    accentBackgroundColor,
+    neutralColor,
+  }: ContentBadgeProps,
   theme: Theme,
 ) => {
   const { font, background, border } = contentBadgeColorStyle(
-    { color, accentColor, neutralColor },
+    { color, accentColor, accentBackgroundColor, neutralColor },
     theme,
   );
 
@@ -108,8 +114,34 @@ const contentBadgeColorVariant = (
   }
 };
 
+type SurfaceAccentKey = keyof Theme['semantic']['surface']['accent'];
+
+const getAccentBackground = (
+  theme: Theme,
+  accentColor: ThemeColorsToken,
+  accentBackgroundColor?: ThemeColorsToken,
+) => {
+  if (accentBackgroundColor) {
+    return getColorByToken(theme, accentBackgroundColor);
+  }
+
+  const accentKey = accentColor.match(
+    /^semantic\.foreground\.accent\.(\w+)$/,
+  )?.[1] as SurfaceAccentKey | undefined;
+
+  return (
+    (accentKey && theme.semantic.surface.accent[accentKey]) ??
+    addOpacity(getColorByToken(theme, accentColor), theme.opacity[8])
+  );
+};
+
 const contentBadgeColorStyle = (
-  { color, accentColor, neutralColor }: ContentBadgeProps,
+  {
+    color,
+    accentColor,
+    accentBackgroundColor,
+    neutralColor,
+  }: ContentBadgeProps,
   theme: Theme,
 ) => {
   if (color === 'neutral') {
@@ -122,10 +154,7 @@ const contentBadgeColorStyle = (
 
   return {
     font: getColorByToken(theme, accentColor!),
-    background: addOpacity(
-      getColorByToken(theme, accentColor!),
-      theme.opacity[8],
-    ),
+    background: getAccentBackground(theme, accentColor!, accentBackgroundColor),
     border: addOpacity(getColorByToken(theme, accentColor!), theme.opacity[43]),
   };
 };

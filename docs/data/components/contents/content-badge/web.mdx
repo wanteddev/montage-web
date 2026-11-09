@@ -108,7 +108,9 @@ export default Demo;`}
 강하게 강조되어야하거나 사용자의 주목을 끌어야하는 중요한 상태를 나타낼 때 사용합니다.
 
 `accentColor` 로 뱃지 색상을 커스텀할 수 있습니다.
-- 텍스트 색상과 배경 색상이 같이 변경됩니다.
+- 텍스트, 테두리, 배경 색상이 같이 변경됩니다.
+- `accentColor`가 `semantic.foreground.accent.{색}` 토큰이면 배경은 `semantic.surface.accent.{색}`이 적용되고, 그 외 토큰이면 `accentColor`에 8% 투명도를 적용한 색이 배경이 됩니다.
+- 배경을 따로 지정하려면 `accentBackgroundColor`를 사용합니다. (`variant="solid"`에만 적용)
 
 <Demo code={`import { ContentBadge, FlexBox } from '@montage-ui/core';
 
