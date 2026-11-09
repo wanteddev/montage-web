@@ -5,4 +5,5 @@ export const cellContentStyle = css`
   width: max-content;
   max-width: 320px;
   min-width: 100%;
+  overflow-wrap: break-word;
 `;
