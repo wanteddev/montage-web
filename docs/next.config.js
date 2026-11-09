@@ -23,8 +23,8 @@ const buildId = previewHash ?? commitHash;
 
 const paths = isPreview
   ? {
-      basePath: isDev ? `/${buildId}` : undefined,
-      assetPrefix: `${host}/${buildId}`,
+      basePath: isDev ? `/preview/${buildId}` : undefined,
+      assetPrefix: `${host}/preview/${buildId}`,
       publicBasePath: host,
     }
   : isVersioned
