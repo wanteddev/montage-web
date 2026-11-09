@@ -11,6 +11,7 @@ import {
 
 import VariantGrid from '../../foundations/typography/variant-grid';
 import Anchor from '../anchor';
+import CellContent from '../cell-content';
 import CodeBlock from '../code-block';
 import Demo from '../demo';
 import HeadingLink from '../heading-link';
@@ -134,20 +135,27 @@ export const MDX_COMPONENTS: { [key: string]: (props: any) => ReactNode } = {
       sx={(theme) => ({
         marginBottom: 40,
         '--table-border-color': theme.semantic.line.neutral.tertiaryOpaque,
+        'th, td': { overflowWrap: 'normal' },
       })}
     />
   ),
   tr: TableRow,
-  td: (props) => (
+  td: ({ children, ...props }) => (
     <TableCell
       {...props}
       variant="label1"
       sx={(theme) => ({
         color: theme.semantic.foreground.neutral.secondary,
       })}
-    />
+    >
+      <CellContent>{children}</CellContent>
+    </TableCell>
   ),
-  th: TableHeadCell,
+  th: ({ children, ...props }) => (
+    <TableHeadCell {...props}>
+      <CellContent>{children}</CellContent>
+    </TableHeadCell>
+  ),
   tbody: TableBody,
   tfoot: TableFoot,
   thead: TableHead,

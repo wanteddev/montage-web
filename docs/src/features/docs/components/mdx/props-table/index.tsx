@@ -14,6 +14,7 @@ import {
 } from '@montage-ui/core';
 import { IconCircleInfo } from '@montage-ui/icon';
 
+import CellContent from '../cell-content';
 import CodeBlock from '../code-block';
 
 import { defaultValueStyle } from './style';
@@ -36,14 +37,9 @@ const PropsTable = ({ component, fallback }: Props) => {
       sx={(theme) => ({
         marginBottom: 40,
         '--table-border-color': theme.semantic.line.neutral.secondary,
+        'th, td': { overflowWrap: 'normal' },
       })}
     >
-      <colgroup>
-        <col width="auto" />
-        <col width="auto" />
-        <col width="180px" />
-      </colgroup>
-
       <TableHead>
         <TableRow>
           <TableHeadCell>Name</TableHeadCell>
@@ -86,7 +82,9 @@ const PropsTable = ({ component, fallback }: Props) => {
                 </FlexBox>
               </TableCell>
               <TableCell>
-                <code data-role="property-type">{type}</code>
+                <CellContent>
+                  <code data-role="property-type">{type}</code>
+                </CellContent>
                 <Box
                   aria-hidden
                   sx={{ width: 0, height: 0, overflow: 'hidden' }}
@@ -94,7 +92,12 @@ const PropsTable = ({ component, fallback }: Props) => {
                   {description}
                 </Box>
               </TableCell>
-              <TableCell>
+              <TableCell
+                sx={{
+                  wordBreak: 'keep-all',
+                  overflowWrap: 'initial',
+                }}
+              >
                 <Box sx={defaultValueStyle}>
                   <CodeBlock>{defaultValue?.toString() ?? '-'}</CodeBlock>
                 </Box>
