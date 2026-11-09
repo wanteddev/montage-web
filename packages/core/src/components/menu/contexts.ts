@@ -47,6 +47,11 @@ export const [MenuContentProvider, useMenuContentContext] =
 type MenuSubContextType = {
   open: boolean;
   onOpenChange: (open: boolean, reason?: MenuOpenReason) => void;
+  /**
+   * How the open submenu was opened, or last kept open by a press. Unlike the
+   * menu's `openReasonRef`, it is not reset on mount; it is reset on close.
+   */
+  openedByRef: RefObject<MenuOpenReason>;
   trigger: HTMLElement | null;
   onTriggerChange: (trigger: HTMLElement | null) => void;
   content: HTMLElement | null;

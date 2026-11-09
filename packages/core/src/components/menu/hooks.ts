@@ -70,8 +70,11 @@ export const useSubmenuHover = ({
   );
 
   useEffect(() => {
-    if (!open) clearGraceArea();
-  }, [open, clearGraceArea]);
+    // Once open by any means, a pending hover open must not fire and
+    // overwrite how it was opened.
+    if (open) clearOpenTimer();
+    else clearGraceArea();
+  }, [open, clearOpenTimer, clearGraceArea]);
 
   const isOverParentElsewhere = useCallback(
     (target: Node | null) =>

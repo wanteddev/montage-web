@@ -7,7 +7,7 @@ import {
 } from '@radix-ui/react-roving-focus';
 import { Slot } from '@radix-ui/react-slot';
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
-import { forwardRef, useRef, useState } from 'react';
+import { forwardRef, useEffect, useRef, useState } from 'react';
 
 import { createScope } from '../../hooks/internal/use-scope-context';
 import { SlotDefaultsProvider } from '../../hooks/internal/use-slot-defaults';
@@ -532,8 +532,17 @@ const MenuSub = ({
     onChange: onOpenChange,
   });
   const openReasonRef = useRef<MenuOpenReason>('hover');
+  // Starts as `click` so a submenu opened through `open`/`defaultOpen` closes
+  // on the first press, like one opened by a press.
+  const openedByRef = useRef<MenuOpenReason>('click');
   const [trigger, setTrigger] = useState<HTMLElement | null>(null);
   const [content, setContent] = useState<HTMLElement | null>(null);
+
+  // Closing also happens through the Popover (Escape, outside press), which
+  // bypasses `onOpenChange` below, so reset on the state instead.
+  useEffect(() => {
+    if (!open) openedByRef.current = 'click';
+  }, [open]);
 
   const scopes = useMenuScope('Menu');
   const menu = useMenuContext(MENU_SUB_NAME);
@@ -542,9 +551,13 @@ const MenuSub = ({
     <MenuSubProvider
       open={open}
       onOpenChange={(nextOpen, reason) => {
-        if (nextOpen && reason) openReasonRef.current = reason;
+        if (nextOpen && reason) {
+          openReasonRef.current = reason;
+          openedByRef.current = reason;
+        }
         setOpen(nextOpen);
       }}
+      openedByRef={openedByRef}
       trigger={trigger}
       onTriggerChange={setTrigger}
       content={content}
@@ -580,6 +593,8 @@ const MenuSubTrigger = forwardRef<
       trailingContent,
       onClick,
       onKeyDown,
+      onPointerDown,
+      onPointerCancel,
       onPointerMove,
       onPointerLeave,
       sx,
@@ -588,6 +603,7 @@ const MenuSubTrigger = forwardRef<
     ref,
   ) => {
     const scopes = useMenuScope('Menu');
+    const pointerTypeRef = useRef<string>(undefined);
     const popperScopes = usePopperScope(scopes.__scopePopover);
     const { triggerId, contentId } = usePopoverContext(
       MENU_SUB_TRIGGER_NAME,
@@ -651,12 +667,49 @@ const MenuSubTrigger = forwardRef<
             }
             {...props}
             sx={[menuItemStyle, menuSubTriggerStyle, sx]}
+            onPointerDown={composeEventHandlers(
+              onPointerDown,
+              (e) => {
+                pointerTypeRef.current = e.pointerType;
+              },
+              // Recorded even when the consumer prevents the press.
+              { checkForDefaultPrevented: false },
+            )}
+            onPointerCancel={composeEventHandlers(onPointerCancel, () => {
+              pointerTypeRef.current = undefined;
+            })}
             onClick={composeEventHandlers(onClick, (e) => {
               e.preventDefault();
 
-              if (disabled || sub.open) return;
+              // An `li` gets no click from Enter or Space, so a click with no
+              // pointer press behind it (`detail` 0) is an assistive technology
+              // or programmatic activation. Checking `detail` also ignores a
+              // type left over from a press that never became a click.
+              const pointerType =
+                e.detail === 0 ? undefined : pointerTypeRef.current;
+              pointerTypeRef.current = undefined;
 
-              sub.onOpenChange(true, 'click');
+              if (disabled) return;
+
+              if (!sub.open) {
+                sub.onOpenChange(true, 'click');
+                return;
+              }
+
+              if (openOnHover) {
+                // Hover owns the mouse: a press only ever opens.
+                if (pointerType === 'mouse') return;
+                // The first press after a hover open keeps it, the next closes.
+                if (sub.openedByRef.current === 'hover') {
+                  sub.onOpenChange(true, 'click');
+                  return;
+                }
+              }
+
+              // Otherwise a press toggles it closed (touch, pen, assistive
+              // technology, or a mouse when hover opening is off). On touch it
+              // is the only way to close the submenu but not the whole menu.
+              sub.onOpenChange(false);
             })}
             onPointerMove={composeEventHandlers(
               onPointerMove,
