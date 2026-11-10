@@ -57,9 +57,17 @@ const scrollViewport = () => {
   return element;
 };
 
-/** How many px of the sheet are on screen (translate-aware). */
-const visibleHeight = () =>
-  window.innerHeight - sheet().getBoundingClientRect().top;
+/**
+ * How many px of the sheet are showing (translate-aware), measured from the
+ * bottom of its wrapper — the edge the sheet is anchored to.
+ */
+const visibleHeight = () => {
+  const wrapper = sheet().parentElement;
+  if (!wrapper) throw new Error('no wrapper');
+  return (
+    wrapper.getBoundingClientRect().bottom - sheet().getBoundingClientRect().top
+  );
+};
 
 const dragHeight = () => sheet().style.getPropertyValue('--modal-drag-height');
 
@@ -390,6 +398,24 @@ describe.each(HEIGHT_CONFIGS)(
       expect(await settle(FULL, recorder)).toEqual(at('full'));
     });
 
+    // With zero distance left to travel the release velocity used to go in
+    // uncapped, throwing the sheet far past the snap before it came back.
+    it('releasing exactly on full while still moving does not throw the sheet past it', async () => {
+      await flexible({ defaultSnap: 'half' });
+      let tallest = 0;
+
+      const pointer = grab();
+      await pointer.moveToHeight(FULL, 3);
+      pointer.release();
+      for (let i = 0; i < 120 && dragHeight() !== ''; i++) {
+        tallest = Math.max(tallest, visibleHeight());
+        await nextFrame();
+      }
+
+      expect(tallest).toBeLessThanOrEqual(FULL + 2);
+      expect(await settle(FULL)).toEqual(at('full'));
+    });
+
     it('re-grabbing mid-settle picks the sheet up and still lands correctly', async () => {
       await flexible({ defaultSnap: 'half' });
       const recorder = record();
@@ -530,6 +556,104 @@ describe('flexible sheet with --modal-max-height: 400px', () => {
 
     expect(outcomes).toEqual([landed('full', 400), landed('half', 200)]);
     expect(sheet().style.getPropertyValue('--modal-max-height')).toBe('400px');
+  });
+});
+
+/* ------------------------------------------------------------------ */
+/* flexible — wrapper that ends above the viewport bottom              */
+/* ------------------------------------------------------------------ */
+
+// A persistent sheet between a top bar and a bottom navigation bar: the
+// wrapper covers only the space between them and the sheet may fill it.
+describe('flexible sheet in a wrapper inset from the viewport', () => {
+  const TOP_BAR = 64;
+  const BOTTOM_NAV = 56;
+  const AREA = `calc(100dvh - ${TOP_BAR}px - ${BOTTOM_NAV}px)`;
+  const FULL = VIEWPORT_HEIGHT - TOP_BAR - BOTTOM_NAV;
+  const HALF = FULL / 2;
+
+  const InsetSheet = () => {
+    const [snap, setSnap] = useState<Snap>('half');
+    return (
+      <Modal open onOpenChange={() => {}}>
+        <ModalContainer
+          variant="bottom"
+          resize="flexible"
+          handle
+          peekHeight={PEEK}
+          snap={snap}
+          onSnapChange={setSnap}
+          largestUndimmedSnap="full"
+          enableHalfSnapScroll
+          disablePortal
+          wrapperProps={{ sx: { top: `${TOP_BAR}px`, height: AREA } }}
+          sx={{ '--modal-max-height': AREA }}
+        >
+          <ModalContent>
+            <ModalContentItem>
+              <ModalHeading>Sheet</ModalHeading>
+              <Lines count={30} />
+            </ModalContentItem>
+          </ModalContent>
+        </ModalContainer>
+      </Modal>
+    );
+  };
+
+  const mountInset = async () => {
+    renderWithProvider(<InsetSheet />);
+    await expect.poll(() => sheet().dataset.status).toBe('open');
+    await animationsDone();
+    await nextFrame();
+  };
+
+  it('sits above the bottom edge of its wrapper, not of the viewport', async () => {
+    await mountInset();
+    expect(await settle(FULL)).toEqual(landed('half', HALF));
+    expect(
+      Math.round(window.innerHeight - sheet().getBoundingClientRect().bottom),
+    ).toBe(BOTTOM_NAV);
+  });
+
+  it('the sheet follows the pointer 1:1 from the first move', async () => {
+    await mountInset();
+    const before = visibleHeight();
+
+    const pointer = grab();
+    await pointer.moveBy(-4, 1);
+    await nextFrame();
+    const moved = visibleHeight() - before;
+    await pointer.hold();
+    pointer.release();
+
+    expect(Math.round(moved)).toBe(4);
+    expect(await settle(FULL)).toEqual(landed('half', HALF));
+  });
+
+  it('slow drags land on each snap in turn', async () => {
+    await mountInset();
+    const heights = { full: FULL, half: HALF, peek: PEEK };
+    const route = ['full', 'half', 'peek', 'full', 'peek', 'half'] as const;
+    const outcomes: Array<Outcome> = [];
+    for (const snap of route) {
+      const recorder = record();
+      const pointer = grab();
+      await pointer.moveToHeight(heights[snap] + (snap === 'full' ? -10 : 10));
+      await pointer.hold();
+      pointer.release();
+      outcomes.push(await settle(FULL, recorder));
+    }
+    expect(outcomes).toEqual(route.map((snap) => landed(snap, heights[snap])));
+  });
+
+  it('pulling far past the top rubber-bands and settles at full', async () => {
+    await mountInset();
+    const recorder = record();
+    const pointer = grab();
+    await pointer.moveBy(-(FULL + 400), 10);
+    await pointer.hold();
+    pointer.release();
+    expect(await settle(FULL, recorder)).toEqual(landed('full', FULL));
   });
 });
 

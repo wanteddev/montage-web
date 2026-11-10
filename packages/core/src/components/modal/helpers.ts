@@ -237,11 +237,19 @@ export const computeDimmerOpacity = ({
  * Measure the sheet's current visual height — i.e. how tall it actually
  * appears to the user. `getBoundingClientRect().height` is unaffected by
  * `translateY`, so we infer the visible portion from the sheet's `top`
- * relative to the viewport.
+ * relative to the edge it is anchored to.
+ *
+ * That edge is the bottom of the wrapper, not of the viewport: a consumer can
+ * end the wrapper above the viewport bottom (e.g. over a bottom navigation
+ * bar), and measuring from the viewport would then count that gap as part of
+ * the sheet.
  */
 export const readVisualHeight = (container: HTMLDivElement): number => {
   const rect = container.getBoundingClientRect();
-  return Math.max(0, window.innerHeight - rect.top);
+  const bottom =
+    container.parentElement?.getBoundingClientRect().bottom ??
+    window.innerHeight;
+  return Math.max(0, bottom - rect.top);
 };
 
 /**
@@ -751,7 +759,10 @@ export const runSpring = ({
   const targetDirection = Math.sign(initialDisplacement);
   const velocityDirection = Math.sign(velocity);
   let initialVelocity = velocity;
-  if (targetDirection !== 0 && velocityDirection !== 0) {
+  if (velocityDirection !== 0) {
+    // Also covers a release exactly on the target (`targetDirection === 0`):
+    // there is no distance left to travel, so any velocity would only throw
+    // the sheet past the snap. Skipping that case left the velocity uncapped.
     if (targetDirection !== velocityDirection) {
       initialVelocity = 0;
     } else {
