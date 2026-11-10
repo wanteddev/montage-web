@@ -18,7 +18,7 @@ ContentBadge(text: "New")
 // 아웃라인 스타일 뱃지
 ContentBadge(variant: .outlined, text: "Updated")
     .size(.medium)
-    .colorStyle(.accent(SwiftUI.Color.blue))
+    .colorStyle(.accent(.semantic(.foregroundAccentCyan), background: .semantic(.surfaceAccentCyanOpaque)))
     .leadingIcon(.check)
 ```
 
@@ -133,7 +133,7 @@ ContentBadge를 초기화합니다.
 
   ```swift
   ContentBadge(text: "이벤트")
-      .colorStyle(.accent(SwiftUI.Color.red))
+      .colorStyle(.accent(.semantic(.foregroundAccentPink), background: .semantic(.surfaceAccentPinkOpaque)))
   ```
 
 #### Enumeration Cases
@@ -149,8 +149,16 @@ ContentBadge를 초기화합니다.
 
   | Parameter | Description |
   | --- | --- |
-  | `contentColor` | 콘텐츠 색상 |
+  | `contentColor` | 콘텐츠 색상, 테두리 색상에도 사용 |
   | `background` | 배경 색상, 생략하면 기본값으로 `nil` 적용 (contentColor의 투명도를 조절하여 사용) |
+
+- **Discussion**
+
+  `.solid`는 배경을 `background`(생략하면 `contentColor`)의 8% 투명도로, `.outlined`는 배경 없이 테두리만 `contentColor`의 43% 투명도로 그립니다. `contentColor`에 `foregroundAccent{색}`, `background`에 `surfaceAccent{색}Opaque`를 넘기면 `.solid` 배경은 `surfaceAccent{색}`, `.outlined` 테두리는 `lineAccent{색}` 토큰과 같아집니다.
+
+  ```swift
+  .accent(.semantic(.foregroundAccentCyan), background: .semantic(.surfaceAccentCyanOpaque))
+  ```
 
 </details>
 <details>
