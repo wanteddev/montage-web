@@ -324,6 +324,43 @@ TopNavigation을 초기화합니다.
 </details>
 <details>
 
+<summary>``func toolbar(Resource.Toolbar) -> TopNavigation``</summary>
+
+
+내비게이션 바 아래에 붙는 툴바 영역을 설정합니다.
+
+- **Parameters**
+
+  | Parameter | Description |
+  | --- | --- |
+  | `toolbar` | 툴바에 표시할 프리셋 |
+
+- **Return Value**
+
+  수정된 인스턴스를 반환합니다.
+- **Discussion**
+
+  스크롤해도 내비게이션 바와 함께 상단에 고정돼야 하는 탭·필터를 넣습니다. 툴바는 내비게이션 바와 배경을 함께 쓰므로, 스크롤하면 흐림 배경이 두 영역에 끊김 없이 이어집니다. 툴바 하단에는 구분선이 그려집니다.
+
+  ```swift
+  TopNavigation()
+      .title("제목")
+      .toolbar(.tab(selectedIndex: $index, items: ["추천", "최신", "인기"]))
+  
+  TopNavigation()
+      .title("제목")
+      .toolbar(.slot {
+          ForEach(filters) { FilterButton(text: $0.name) }
+      })
+  ```
+
+  > **Note**
+  >
+  > variant가 `.floating`이면 툴바를 그리지 않습니다.
+
+</details>
+<details>
+
 <summary>``func trailingContents((() -> any View)...) -> TopNavigation``</summary>
 
 
@@ -457,6 +494,108 @@ TopNavigation의 좌/우에 표시될 요소들의 Namespace입니다.
   | `text` | 버튼에 표시할 텍스트 |
   | `action` | 텍스트 버튼 클릭시 동작할 액션 |
 
+</details>
+
+</details>
+<details>
+
+<summary>``enum Toolbar``</summary>
+
+
+내비게이션 바 아래 툴바 영역에 표시할 요소입니다.
+- **Overview**
+
+  탭, 세그먼트 컨트롤, 카테고리 프리셋과 자유롭게 구성하는 슬롯을 지원합니다. 프리셋은 크기와 여백이 정해져 있고, 슬롯은 아이템을 간격 8로 가로 배치하며 폭을 넘으면 가로로 스크롤합니다.
+
+  ```swift
+  TopNavigation()
+      .toolbar(.segmentedControl(selectedIndex: $index, labels: ["진행 중", "완료"]))
+  
+  TopNavigation()
+      .toolbar(.slot {
+          ForEach(filters) { FilterButton(text: $0.name) }
+      })
+  ```
+
+##### Enumeration Cases
+
+<details>
+
+<summary>``case category(selectedIndex: Binding<Int>, items: [String], onSelect: ((Int) -> Void)?)``</summary>
+
+
+카테고리
+
+- **Parameters**
+
+  | Parameter | Description |
+  | --- | --- |
+  | `selectedIndex` | 선택된 항목의 인덱스 바인딩 |
+  | `items` | 항목 텍스트 배열 |
+  | `onSelect` | 항목 선택 시 호출될 클로저, 생략하면 기본값으로 `nil` 적용 |
+
+</details>
+<details>
+
+<summary>``case segmentedControl(selectedIndex: Binding<Int>, labels: [String], onSelect: ((Int) -> Void)?)``</summary>
+
+
+세그먼트 컨트롤
+
+- **Parameters**
+
+  | Parameter | Description |
+  | --- | --- |
+  | `selectedIndex` | 선택된 항목의 인덱스 바인딩 |
+  | `labels` | 항목 텍스트 배열 |
+  | `onSelect` | 항목 선택 시 호출될 클로저, 생략하면 기본값으로 `nil` 적용 |
+
+</details>
+<details>
+
+<summary>``case slotView(() -> AnyView)``</summary>
+
+
+프리셋에 없는 구성을 직접 그릴 때 씁니다. [slot(_:)](/documentation/montage/topnavigation/resource/toolbar/slot(_:).md)으로 만듭니다.
+</details>
+<details>
+
+<summary>``case tab(selectedIndex: Binding<Int>, items: [String], onSelect: ((Int) -> Void)?)``</summary>
+
+
+탭
+
+- **Parameters**
+
+  | Parameter | Description |
+  | --- | --- |
+  | `selectedIndex` | 선택된 탭의 인덱스 바인딩 |
+  | `items` | 탭 항목 텍스트 배열 |
+  | `onSelect` | 탭 선택 시 호출될 클로저, 생략하면 기본값으로 `nil` 적용 |
+
+</details>
+
+##### Type Methods
+
+<details>
+
+<summary>``static func slot<V>(() -> V) -> Toolbar``</summary>
+
+
+프리셋에 없는 구성을 직접 그립니다.
+
+- **Parameters**
+
+  | Parameter | Description |
+  | --- | --- |
+  | `content` | 툴바에 놓을 콘텐츠 |
+
+- **Return Value**
+
+  해당 콘텐츠를 그리는 [TopNavigation.Resource.Toolbar](/documentation/montage/topnavigation/resource/toolbar.md)
+- **Discussion**
+
+  아이템을 간격 8로 가로 배치하고 상하 8, 좌우 20 여백을 둡니다. 폭을 넘으면 가로로 스크롤합니다.
 </details>
 
 </details>
