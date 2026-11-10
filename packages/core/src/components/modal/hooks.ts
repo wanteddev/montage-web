@@ -894,10 +894,13 @@ export const useDraggable = ({
     //
     // - flexible: half/peek CSS pins the element height to `default × 0.5`,
     //   so `startedMaxHeight` would under-cap the spring's `to` and projection
-    //   candidates. Derive the would-be full height from viewport + safe-area
-    //   directly — same formula as the CSS `--modal-default-max-height`
-    //   calc, but computed in JS so we don't depend on data-snap cascade or
-    //   in-flight height transitions reporting interpolated values.
+    //   candidates. Resolve the would-be full height from the container's CSS
+    //   `max-height` instead — it carries any consumer override and, unlike
+    //   `height`, doesn't depend on data-snap cascade or in-flight height
+    //   transitions reporting interpolated values.
+    //   A re-grab mid-settle still has the previous drag's inline
+    //   `--modal-max-height` feeding `max-height`, so keep the value resolved
+    //   by that drag rather than reading the override back.
     // - non-flexible (hug/fixed/fill): the element has no per-snap height rule
     //   — peek just translates the full-height element down. `startedMaxHeight`
     //   is already the natural full height, so reuse it. Using the viewport
@@ -905,9 +908,13 @@ export const useDraggable = ({
     //   target heights the sheet's CSS doesn't actually reach (e.g., a `hug`
     //   sheet with 600px content would target 1719px → visible jump on
     //   settle).
-    startedFullMaxHeight.current = isFlexible
-      ? computeFullMaxHeight()
-      : startedMaxHeight.current;
+    const hasDragOverride =
+      container.style.getPropertyValue('--modal-max-height') !== '';
+    if (!isFlexible) {
+      startedFullMaxHeight.current = startedMaxHeight.current;
+    } else if (!hasDragOverride || startedFullMaxHeight.current <= 0) {
+      startedFullMaxHeight.current = computeFullMaxHeight(container);
+    }
 
     container.style.setProperty('transition', 'none');
     container.style.setProperty(
