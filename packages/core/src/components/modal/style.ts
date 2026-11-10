@@ -434,13 +434,22 @@ const modalContainerVariant = (variant: ModalContainerProps['variant']) => {
         --modal-default-max-height: calc(
           100% - env(safe-area-inset-top, 0px) - 40px
         );
+        /*
+         * Full-snap height. \`--modal-max-height\` is the consumer override;
+         * \`--modal-drag-height\` is the in-flight height the drag handlers set
+         * inline, kept separate so a drag never reads or clears the override.
+         */
+        --modal-full-height: var(
+          --modal-max-height,
+          var(--modal-default-max-height)
+        );
         --modal-content-default-padding-top: var(
           --modal-content-margin-y,
           24px
         );
         --modal-content-default-padding-bottom: 0px;
         padding: 0px 0px env(safe-area-inset-bottom, 0px) 0px;
-        max-height: var(--modal-max-height, var(--modal-default-max-height));
+        max-height: var(--modal-drag-height, var(--modal-full-height));
         border-radius: 32px 32px 0px 0px;
         max-width: 480px;
         width: 100%;
@@ -500,7 +509,7 @@ const modalContainerBottomResize = (
   switch (resize) {
     case 'fill':
       return css`
-        height: var(--modal-max-height, var(--modal-default-max-height));
+        height: var(--modal-drag-height, var(--modal-full-height));
       `;
     case 'flexible':
       /**
@@ -517,21 +526,21 @@ const modalContainerBottomResize = (
        * changes the `BOTTOM_SHEET_SETTLE_TRANSITION` curve takes over.
        */
       return css`
-        height: var(--modal-max-height, auto);
+        height: var(--modal-drag-height, auto);
         transition:
           transform ${BOTTOM_SHEET_SETTLE_TRANSITION},
           height ${BOTTOM_SHEET_SETTLE_TRANSITION},
           box-shadow ${BOTTOM_SHEET_SETTLE_TRANSITION};
 
         &[data-snap='full'] {
-          height: var(--modal-max-height, var(--modal-default-max-height));
+          height: var(--modal-drag-height, var(--modal-full-height));
         }
 
         &[data-snap='half'],
         &[data-snap='peek'] {
           height: var(
-            --modal-max-height,
-            calc(var(--modal-default-max-height) * 0.5)
+            --modal-drag-height,
+            calc(var(--modal-full-height) * 0.5)
           );
         }
       `;
@@ -540,7 +549,7 @@ const modalContainerBottomResize = (
     case 'hug':
     default:
       return css`
-        height: var(--modal-max-height, auto);
+        height: var(--modal-drag-height, auto);
       `;
   }
 };

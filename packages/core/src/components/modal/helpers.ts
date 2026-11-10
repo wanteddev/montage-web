@@ -164,7 +164,7 @@ export const applySnap = (
   // order would let the CSS transition catch the handoff frame and animate
   // the drag→CSS jump even when the values are visually identical.
   container.style.removeProperty('box-shadow');
-  container.style.removeProperty('--modal-max-height');
+  container.style.removeProperty('--modal-drag-height');
 
   dimmer?.style.removeProperty('opacity');
 
@@ -237,11 +237,23 @@ export const computeDimmerOpacity = ({
  * Measure the sheet's current visual height — i.e. how tall it actually
  * appears to the user. `getBoundingClientRect().height` is unaffected by
  * `translateY`, so we infer the visible portion from the sheet's `top`
- * relative to the viewport.
+ * relative to the edge it is anchored to.
+ *
+ * That edge is the bottom of the wrapper's content box, not of the viewport:
+ * a consumer can end the wrapper above the viewport bottom (e.g. over a
+ * bottom navigation bar) or pad it, and measuring from the viewport would
+ * then count that gap as part of the sheet.
  */
 export const readVisualHeight = (container: HTMLDivElement): number => {
   const rect = container.getBoundingClientRect();
-  return Math.max(0, window.innerHeight - rect.top);
+  const wrapper = container.parentElement;
+  if (!wrapper) return Math.max(0, window.innerHeight - rect.top);
+
+  const style = getComputedStyle(wrapper);
+  const inset =
+    (parseFloat(style.paddingBottom) || 0) +
+    (parseFloat(style.borderBottomWidth) || 0);
+  return Math.max(0, wrapper.getBoundingClientRect().bottom - inset - rect.top);
 };
 
 /**
@@ -268,24 +280,14 @@ export const rubberBand = (
 };
 
 /**
- * Resolve the sheet's **snap-independent** full max-height — i.e. what the
- * sheet's height would be at `data-snap='full'` regardless of the current snap.
- *
- * Mirrors the CSS `--modal-default-max-height` calc directly:
- *   `100% (≈ viewport) - safe-area-inset-top - 40px`
- *
- * Computing this in JS instead of probing the DOM avoids the cascade /
- * height-transition interpolation problems that made a probe based on
- * `getComputedStyle().height` return the half-state height at half snap.
- *
- * Safe-area inset is read once per call via a hidden probe element since
- * `env()` is only available inside CSS. Cheap enough for a drag-start hook
- * (one layout pass on a detached-then-attached zero-size node).
+ * Viewport-derived fallback for the full max-height — mirrors the default
+ * `--modal-default-max-height` calc (`100% - safe-area-inset-top - 40px`).
+ * Only used when the CSS value can't be resolved (no layout, `max-height: none`).
  *
  * Keep the `- 40px` term in sync with `BOTTOM_SHEET_TOP_INSET_PX` and the
  * matching `style.ts` calc.
  */
-export const computeFullMaxHeight = (): number => {
+const computeDefaultFullMaxHeight = (): number => {
   const probe = document.createElement('div');
   probe.style.cssText =
     'position:fixed;top:0;left:0;visibility:hidden;pointer-events:none;padding-top:env(safe-area-inset-top,0px);';
@@ -296,6 +298,47 @@ export const computeFullMaxHeight = (): number => {
     0,
     window.innerHeight - safeAreaTop - BOTTOM_SHEET_TOP_INSET_PX,
   );
+};
+
+/**
+ * Resolve the sheet's **snap-independent** full max-height — i.e. what the
+ * sheet's height would be at `data-snap='full'` regardless of the current snap.
+ *
+ * The value comes from the container's own CSS `max-height`, so a consumer
+ * override (`--modal-max-height`, or `max-height` itself) is what the
+ * snap math runs on. `max-height` has no per-snap rule and no transition, so
+ * unlike `height` it reads the same at every snap and mid-settle.
+ *
+ * Its computed value keeps percentages unresolved (`calc(100% - 40px)`), so a
+ * hidden probe takes it as `height` and lets layout resolve it to px. The
+ * probe sits in a frame that reproduces the wrapper's content box, which is
+ * what the container's own percentages resolve against.
+ *
+ * Must not be called while the drag's inline `--modal-drag-height` override is
+ * applied — that override feeds `max-height` and would be read back instead.
+ */
+export const computeFullMaxHeight = (container: HTMLElement): number => {
+  const parent = container.parentElement;
+  const maxHeight = getComputedStyle(container).maxHeight;
+  if (!parent || !maxHeight || maxHeight === 'none') {
+    return computeDefaultFullMaxHeight();
+  }
+
+  const parentStyle = getComputedStyle(parent);
+  const frame = document.createElement('div');
+  frame.style.cssText =
+    'position:absolute;inset:0;visibility:hidden;pointer-events:none;box-sizing:border-box;';
+  frame.style.paddingTop = parentStyle.paddingTop;
+  frame.style.paddingBottom = parentStyle.paddingBottom;
+  const probe = document.createElement('div');
+  probe.style.cssText = 'width:0;box-sizing:border-box;';
+  probe.style.height = maxHeight;
+  frame.appendChild(probe);
+  parent.appendChild(frame);
+  const resolved = probe.getBoundingClientRect().height;
+  frame.remove();
+
+  return resolved > 0 ? resolved : computeDefaultFullMaxHeight();
 };
 
 /**
@@ -520,9 +563,9 @@ export const resolveNonFlexibleReleaseSnap = ({
  * Compute the inline style values needed to render the in-flight drag.
  *
  * Returns one of:
- * - `mode='height'`: set `--modal-max-height` to `height`, clear translate.
+ * - `mode='height'`: set `--modal-drag-height` to `height`, clear translate.
  * - `mode='translate'`: set `--modal-translate` to `translate` (and
- *   optionally fix `--modal-max-height` so the sheet doesn't reflow as it
+ *   optionally fix `--modal-drag-height` so the sheet doesn't reflow as it
  *   slides). `peek` start derives translate from the live `visualHeight` so
  *   re-grabs mid-settle pick up at the actual current visible position.
  */
@@ -727,7 +770,10 @@ export const runSpring = ({
   const targetDirection = Math.sign(initialDisplacement);
   const velocityDirection = Math.sign(velocity);
   let initialVelocity = velocity;
-  if (targetDirection !== 0 && velocityDirection !== 0) {
+  if (velocityDirection !== 0) {
+    // Also covers a release exactly on the target (`targetDirection === 0`):
+    // there is no distance left to travel, so any velocity would only throw
+    // the sheet past the snap. Skipping that case left the velocity uncapped.
     if (targetDirection !== velocityDirection) {
       initialVelocity = 0;
     } else {
