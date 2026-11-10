@@ -379,10 +379,10 @@ export const useSnapLifecycle = ({
     seededRef.current = true;
 
     // A drag-dismiss closes without `applySnap`, leaving the dragged
-    // `--modal-max-height` inline. Cleared here rather than on close so the
+    // `--modal-drag-height` inline. Cleared here rather than on close so the
     // exit transition keeps the dragged height; only matters with
     // `forceMount`, where the container survives between opens.
-    containerRef.current?.style.removeProperty('--modal-max-height');
+    containerRef.current?.style.removeProperty('--modal-drag-height');
 
     const isLeftoverPeek = wasDismissedRef.current;
     wasDismissedRef.current = false;
@@ -534,7 +534,7 @@ export const useDraggable = ({
   const isDragging = useRef(false);
   const startedY = useRef(0);
   const startedVisualHeight = useRef(0);
-  // Resolved px value of `--modal-max-height`, captured once at drag start
+  // Resolved px value of `--modal-drag-height`, captured once at drag start
   // so per-frame height calculations don't trigger reflows from getComputedStyle.
   const startedMaxHeight = useRef(0);
   // Snap-INDEPENDENT full max-height — what max-height would be in
@@ -641,7 +641,7 @@ export const useDraggable = ({
     if (dragStyle.mode === 'translate') {
       if (dragStyle.fixedHeight) {
         container.style.setProperty(
-          '--modal-max-height',
+          '--modal-drag-height',
           `${dragStyle.fixedHeight}px`,
         );
       }
@@ -649,7 +649,7 @@ export const useDraggable = ({
     } else {
       container.style.removeProperty('--modal-translate');
       container.style.setProperty(
-        '--modal-max-height',
+        '--modal-drag-height',
         `${dragStyle.height}px`,
       );
     }
@@ -661,7 +661,7 @@ export const useDraggable = ({
     // straight into the CSS variable so the lifted height rule can grow the
     // element past its natural size, matching the flexible feel.
     if (!isFlexible && visualHeight > fullMax) {
-      container.style.setProperty('--modal-max-height', `${visualHeight}px`);
+      container.style.setProperty('--modal-drag-height', `${visualHeight}px`);
     }
 
     const opacity = computeDimmerOpacityDuringDrag({
@@ -708,7 +708,7 @@ export const useDraggable = ({
   // A responsive flip that disables dragging (e.g. `md={{ variant: 'popup' }}`)
   // can land mid-drag or mid-spring. Both handlers bail on `!isEnabled`, so
   // without this the drag never ends and its inline overrides (dimmer opacity,
-  // `--modal-translate`, `--modal-max-height`, shadow) stick to the now-modal
+  // `--modal-translate`, `--modal-drag-height`, shadow) stick to the now-modal
   // layout — e.g. an invisible dimmer under `largestUndimmedSnap='full'`.
   // Re-apply the committed snap (not a blanket reset) so the visuals stay in
   // sync with `data-snap`: a sheet resting at `peek` keeps its peek offset, and
@@ -899,7 +899,7 @@ export const useDraggable = ({
     //   `height`, doesn't depend on data-snap cascade or in-flight height
     //   transitions reporting interpolated values.
     //   A re-grab mid-settle still has the previous drag's inline
-    //   `--modal-max-height` feeding `max-height`, so keep the value resolved
+    //   `--modal-drag-height` feeding `max-height`, so keep the value resolved
     //   by that drag rather than reading the override back.
     // - non-flexible (hug/fixed/fill): the element has no per-snap height rule
     //   — peek just translates the full-height element down. `startedMaxHeight`
@@ -909,7 +909,7 @@ export const useDraggable = ({
     //   sheet with 600px content would target 1719px → visible jump on
     //   settle).
     const hasDragOverride =
-      container.style.getPropertyValue('--modal-max-height') !== '';
+      container.style.getPropertyValue('--modal-drag-height') !== '';
     if (!isFlexible) {
       startedFullMaxHeight.current = startedMaxHeight.current;
     } else if (!hasDragOverride || startedFullMaxHeight.current <= 0) {
@@ -918,7 +918,7 @@ export const useDraggable = ({
 
     container.style.setProperty('transition', 'none');
     container.style.setProperty(
-      '--modal-max-height',
+      '--modal-drag-height',
       `${startedMaxHeight.current}px`,
     );
     dimmerRef.current?.style.setProperty('transition', 'none');
@@ -1202,7 +1202,7 @@ export const useDraggable = ({
       let visualHeight = Math.max(0, startedVisualHeight.current - diffY);
 
       // Top-edge rubber-band — applied universally. `applyDragStyles` will
-      // push the rubber-banded `visualHeight` into `--modal-max-height`
+      // push the rubber-banded `visualHeight` into `--modal-drag-height`
       // (and for non-flexible variants override the translate-mode
       // `fixedHeight`) so the lifted CSS `height` rule grows the element
       // past its natural full size.

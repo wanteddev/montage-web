@@ -164,7 +164,7 @@ export const applySnap = (
   // order would let the CSS transition catch the handoff frame and animate
   // the drag→CSS jump even when the values are visually identical.
   container.style.removeProperty('box-shadow');
-  container.style.removeProperty('--modal-max-height');
+  container.style.removeProperty('--modal-drag-height');
 
   dimmer?.style.removeProperty('opacity');
 
@@ -293,7 +293,7 @@ const computeDefaultFullMaxHeight = (): number => {
  * sheet's height would be at `data-snap='full'` regardless of the current snap.
  *
  * The value comes from the container's own CSS `max-height`, so a consumer
- * override (`--modal-default-max-height`, or `max-height` itself) is what the
+ * override (`--modal-max-height`, or `max-height` itself) is what the
  * snap math runs on. `max-height` has no per-snap rule and no transition, so
  * unlike `height` it reads the same at every snap and mid-settle.
  *
@@ -301,7 +301,7 @@ const computeDefaultFullMaxHeight = (): number => {
  * hidden sibling probe takes it as `height` and lets layout resolve it to px
  * against the same containing block.
  *
- * Must not be called while the drag's inline `--modal-max-height` override is
+ * Must not be called while the drag's inline `--modal-drag-height` override is
  * applied — that override feeds `max-height` and would be read back instead.
  */
 export const computeFullMaxHeight = (container: HTMLElement): number => {
@@ -544,9 +544,9 @@ export const resolveNonFlexibleReleaseSnap = ({
  * Compute the inline style values needed to render the in-flight drag.
  *
  * Returns one of:
- * - `mode='height'`: set `--modal-max-height` to `height`, clear translate.
+ * - `mode='height'`: set `--modal-drag-height` to `height`, clear translate.
  * - `mode='translate'`: set `--modal-translate` to `translate` (and
- *   optionally fix `--modal-max-height` so the sheet doesn't reflow as it
+ *   optionally fix `--modal-drag-height` so the sheet doesn't reflow as it
  *   slides). `peek` start derives translate from the live `visualHeight` so
  *   re-grabs mid-settle pick up at the actual current visible position.
  */

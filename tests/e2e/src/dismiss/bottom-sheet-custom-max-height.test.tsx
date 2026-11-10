@@ -34,92 +34,107 @@ const nextFrame = () =>
 // sheet whose max-height was customized in CSS grew past it mid-drag and then
 // jumped back once the settle handed off to CSS.
 describe.each([
-  ['the default max-height', undefined, DEFAULT_MAX_HEIGHT],
+  ['the default max-height', undefined, DEFAULT_MAX_HEIGHT, 340],
+  [
+    'a custom --modal-max-height',
+    { '--modal-max-height': `${CUSTOM_MAX_HEIGHT}px` },
+    CUSTOM_MAX_HEIGHT,
+    200,
+  ],
   [
     'a custom --modal-default-max-height',
     { '--modal-default-max-height': `${CUSTOM_MAX_HEIGHT}px` },
     CUSTOM_MAX_HEIGHT,
+    200,
   ],
+  // `max-height` only caps the sheet; the half snap still derives from the
+  // (default) full height.
   [
     'a custom max-height',
     { maxHeight: `${CUSTOM_MAX_HEIGHT}px` },
     CUSTOM_MAX_HEIGHT,
+    340,
   ],
-] as const)('flexible bottom sheet with %s', (_, sx, fullHeight) => {
-  it('drags and settles within the full height', async () => {
-    renderWithProvider(
-      <Modal defaultOpen>
-        <ModalContainer
-          variant="bottom"
-          resize="flexible"
-          handle
-          defaultSnap="half"
-          sx={sx}
-        >
-          <ModalContent>
-            <ModalContentItem>
-              <ModalHeading>Sheet</ModalHeading>
-            </ModalContentItem>
-          </ModalContent>
-        </ModalContainer>
-      </Modal>,
-    );
+] as const)(
+  'flexible bottom sheet with %s',
+  (_, sx, fullHeight, halfHeight) => {
+    it('rests at half of the full height and drags up to it', async () => {
+      renderWithProvider(
+        <Modal defaultOpen>
+          <ModalContainer
+            variant="bottom"
+            resize="flexible"
+            handle
+            defaultSnap="half"
+            sx={sx}
+          >
+            <ModalContent>
+              <ModalContentItem>
+                <ModalHeading>Sheet</ModalHeading>
+              </ModalContentItem>
+            </ModalContent>
+          </ModalContainer>
+        </Modal>,
+      );
 
-    await expect.poll(() => dialog().dataset.status).toBe('open');
-    // Let the mount keyframe finish so the sheet rests at its half snap.
-    await Promise.all(
-      dialog()
-        .getAnimations()
-        .map((animation) => animation.finished),
-    );
+      await expect.poll(() => dialog().dataset.status).toBe('open');
+      // Let the mount keyframe finish so the sheet rests at its half snap.
+      await Promise.all(
+        dialog()
+          .getAnimations()
+          .map((animation) => animation.finished),
+      );
 
-    const grabber = document.querySelector(
-      '[data-role="modal-container-grabber"]',
-    );
-    if (!grabber) throw new Error('no grabber');
-    const { left, top, width, height } = grabber.getBoundingClientRect();
-    const x = left + width / 2;
-    const y = top + height / 2;
+      expect(Math.round(visibleHeight())).toBe(halfHeight);
 
-    let tallest = 0;
-    const sample = () => {
-      tallest = Math.max(tallest, visibleHeight());
-    };
+      const grabber = document.querySelector(
+        '[data-role="modal-container-grabber"]',
+      );
+      if (!grabber) throw new Error('no grabber');
+      const { left, top, width, height } = grabber.getBoundingClientRect();
+      const x = left + width / 2;
+      const y = top + height / 2;
 
-    grabber.dispatchEvent(
-      new MouseEvent('mousedown', { bubbles: true, clientX: x, clientY: y }),
-    );
-    // Pull well past the full height.
-    for (let i = 1; i <= 8; i++) {
+      let tallest = 0;
+      const sample = () => {
+        tallest = Math.max(tallest, visibleHeight());
+      };
+
+      grabber.dispatchEvent(
+        new MouseEvent('mousedown', { bubbles: true, clientX: x, clientY: y }),
+      );
+      // Pull well past the full height.
+      for (let i = 1; i <= 8; i++) {
+        window.dispatchEvent(
+          new MouseEvent('mousemove', {
+            bubbles: true,
+            clientX: x,
+            clientY: y - i * 80,
+          }),
+        );
+        await nextFrame();
+        sample();
+      }
       window.dispatchEvent(
-        new MouseEvent('mousemove', {
+        new MouseEvent('mouseup', {
           bubbles: true,
           clientX: x,
-          clientY: y - i * 80,
+          clientY: y - 640,
         }),
       );
-      await nextFrame();
-      sample();
-    }
-    window.dispatchEvent(
-      new MouseEvent('mouseup', {
-        bubbles: true,
-        clientX: x,
-        clientY: y - 640,
-      }),
-    );
 
-    await expect
-      .poll(() => {
-        sample();
-        return dialog().dataset.snap;
-      })
-      .toBe('full');
-    await expect
-      .poll(() => dialog().style.getPropertyValue('--modal-max-height'))
-      .toBe('');
+      await expect
+        .poll(() => {
+          sample();
+          return dialog().dataset.snap;
+        })
+        .toBe('full');
+      await expect
+        .poll(() => dialog().style.getPropertyValue('--modal-drag-height'))
+        .toBe('');
 
-    expect(tallest).toBeLessThanOrEqual(fullHeight + RUBBER_BAND_MAX);
-    expect(Math.round(visibleHeight())).toBe(fullHeight);
-  });
-});
+      expect(tallest).toBeLessThanOrEqual(fullHeight + RUBBER_BAND_MAX);
+      expect(Math.round(visibleHeight())).toBe(fullHeight);
+    });
+  },
+);

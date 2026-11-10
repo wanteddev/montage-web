@@ -333,7 +333,7 @@ describe.each([undefined, 'full'] as const)(
         return {
           dimmerOpacity: dimmer.style.opacity,
           translate: dialog.style.getPropertyValue('--modal-translate'),
-          maxHeight: dialog.style.getPropertyValue('--modal-max-height'),
+          maxHeight: dialog.style.getPropertyValue('--modal-drag-height'),
         };
       };
       const NO_DRAG_STYLES = {
@@ -678,7 +678,7 @@ describe('dropping peekHeight, then the handle, mid-drag at peek', () => {
       .toBeNull();
     await expect.poll(() => dimmer.style.opacity).toBe('');
     const dialog = openDialog() as HTMLElement;
-    expect(dialog.style.getPropertyValue('--modal-max-height')).toBe('');
+    expect(dialog.style.getPropertyValue('--modal-drag-height')).toBe('');
     expect(dialog.style.getPropertyValue('transition')).toBe('');
   });
 });
@@ -744,7 +744,7 @@ describe('drag-dismissing a sheet', () => {
       await expect.poll(() => dialog.dataset.status).toBe('close');
       const draggedInline =
         dialog.style.getPropertyValue('--modal-translate') ||
-        dialog.style.getPropertyValue('--modal-max-height');
+        dialog.style.getPropertyValue('--modal-drag-height');
       expect(draggedInline).not.toBe('');
     },
   );
@@ -999,7 +999,7 @@ describe('responsive values changing while open', () => {
 
     expect(
       (openDialog() as HTMLElement).style.getPropertyValue(
-        '--modal-max-height',
+        '--modal-drag-height',
       ),
     ).toBe('');
     fire('touchend', y - 60);
