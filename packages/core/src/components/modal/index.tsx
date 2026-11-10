@@ -175,6 +175,7 @@ const ModalContainer = forwardRef(
       defaultSnap = 'half',
       onSnapChange,
       largestUndimmedSnap: givenLargestUndimmedSnap = 'peek',
+      smallestSnap,
       dimmer = <ModalDimmer />,
       ...props
     }: PolymorphicPropsInternal<ModalContainerProps, T>,
@@ -245,6 +246,7 @@ const ModalContainer = forwardRef(
       snap: requestedSnap,
       enableHalfSnapScroll,
       largestUndimmedSnap: givenLargestUndimmedSnap,
+      smallestSnap,
       setSnap,
     });
 

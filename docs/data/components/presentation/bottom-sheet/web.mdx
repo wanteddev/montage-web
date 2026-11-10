@@ -523,6 +523,75 @@ const Demo = () => {
 export default Demo;`}
 />
 
+### Smallest snap
+
+`smallestSnap` 은 시트가 머물 수 있는 가장 낮은 스냅을 지정합니다. `resize="flexible"` 에서만 유효합니다.
+
+- `'peek'` (기본값): 아래로 드래그하거나 바깥 클릭·ESC 로 접으면 `peekHeight` 가 있을 때 `peek` 으로, 없으면 닫힙니다.
+- `'half'`: `half` 가 최저 스냅이 됩니다. 아래로 드래그하거나 바깥 클릭·ESC 로 접어도 `half` 에 머물고, `peek` 으로 내려가거나 닫히지 않습니다. `peekHeight` 는 무시됩니다.
+
+`'half'` 에서는 시트를 `half` 아래로 끌어도 약간의 저항만 주고 다시 `half` 로 돌아옵니다. 시트를 닫으려면 `onOpenChange` 로 `open` 을 직접 바꿔야 합니다.
+
+breakpoint 별로도 지정할 수 있습니다. (예: `smallestSnap="half" md={{ smallestSnap: 'peek' }}`)
+
+화면에 항상 떠 있어야 하는 상주 시트처럼, 일정 높이 아래로는 접히지 않아야 하는 UX 에 사용합니다.
+
+<Demo code={`import { useState } from 'react';
+import {
+  Button,
+  Modal,
+  ActionArea,
+  ActionAreaButton,
+  ModalTrigger,
+  ModalContainer,
+  ModalContent,
+  ModalContentItem,
+  ModalDescription,
+  ModalHeading,
+  ModalSummary,
+} from '@montage-ui/core';
+
+const Demo = () => {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <Modal open={open} onOpenChange={setOpen}>
+      <ModalTrigger>
+        <Button>Smallest snap = half</Button>
+      </ModalTrigger>
+
+      <ModalContainer
+        variant="bottom"
+        resize="flexible"
+        defaultSnap="full"
+        smallestSnap="half"
+        handle
+      >
+        <ModalContent>
+          <ModalContentItem>
+            <ModalHeading>Half 아래로 접히지 않음</ModalHeading>
+            <ModalSummary>아래로 끌거나 바깥을 눌러도 half 에 머뭅니다.</ModalSummary>
+            <ModalDescription>
+              {Array.from({ length: 30 }).map((_, i) => (
+                <span key={i} style={{ display: 'block' }}>Scrollable line #{i + 1}</span>
+              ))}
+            </ModalDescription>
+          </ModalContentItem>
+        </ModalContent>
+
+        <ActionArea>
+          <ActionAreaButton onClick={() => setOpen(false)} variant="alternative">
+            Close sheet
+          </ActionAreaButton>
+        </ActionArea>
+      </ModalContainer>
+    </Modal>
+  )
+}
+
+export default Demo;`}
+/>
+
 ### Half snap scroll
 
 `enableHalfSnapScroll` 은 half 스냅 + 스크롤 가능한 콘텐츠가 함께 있을 때의 제스처 라우팅 정책을 토글합니다.
