@@ -16,8 +16,7 @@ afterEach(() => cleanup());
 // Default `--modal-default-max-height`: viewport (720) - top inset (40).
 const FULL_HEIGHT = 680;
 const HALF_HEIGHT = 340;
-// The sheet may dip below the floor by at most this much while held past it.
-const RUBBER_BAND_MAX = 40;
+const PEEK_HEIGHT = 72;
 
 const dialog = () => {
   const element = document.querySelector<HTMLElement>('[role="dialog"]');
@@ -38,7 +37,7 @@ const mount = async (props: Partial<ModalContainerProps> = {}) => {
         variant="bottom"
         resize="flexible"
         handle
-        smallestSnap="half"
+        dismissSnap="half"
         {...props}
       >
         <ModalContent>
@@ -70,11 +69,8 @@ const settled = async () => {
   );
 };
 
-/**
- * Drag the grabber down by `distance` in fast steps and release, returning the
- * lowest visible height seen while the pointer was held.
- */
-const flingDown = async (distance: number) => {
+/** Drag the grabber down by `distance` in fast steps and release. */
+const flingDown = async (distance: number, { settle = true } = {}) => {
   const grabber = document.querySelector(
     '[data-role="modal-container-grabber"]',
   );
@@ -84,7 +80,6 @@ const flingDown = async (distance: number) => {
   const y = top + height / 2;
   const steps = 6;
 
-  let lowest = Infinity;
   grabber.dispatchEvent(
     new MouseEvent('mousedown', { bubbles: true, clientX: x, clientY: y }),
   );
@@ -97,7 +92,6 @@ const flingDown = async (distance: number) => {
       }),
     );
     await nextFrame();
-    lowest = Math.min(lowest, visibleHeight());
   }
   window.dispatchEvent(
     new MouseEvent('mouseup', {
@@ -106,37 +100,13 @@ const flingDown = async (distance: number) => {
       clientY: y + distance,
     }),
   );
-  await settled();
-
-  return lowest;
+  if (settle) await settled();
 };
 
-describe("flexible bottom sheet with smallestSnap='half'", () => {
-  it('settles at half when flung down from full, without a peek height', async () => {
-    await mount({ defaultSnap: 'full' });
+describe("flexible bottom sheet with dismissSnap='half'", () => {
+  it('collapses from full to half on Escape and stays there on the next one', async () => {
+    await mount({ defaultSnap: 'full', peekHeight: PEEK_HEIGHT });
     expect(Math.round(visibleHeight())).toBe(FULL_HEIGHT);
-
-    const lowest = await flingDown(600);
-
-    expect(lowest).toBeGreaterThanOrEqual(HALF_HEIGHT - RUBBER_BAND_MAX);
-    expect(dialog().dataset.snap).toBe('half');
-    expect(dialog().dataset.status).toBe('open');
-    expect(Math.round(visibleHeight())).toBe(HALF_HEIGHT);
-  });
-
-  it('stays at half when dragged down from half, ignoring peekHeight', async () => {
-    await mount({ defaultSnap: 'half', peekHeight: 72 });
-
-    const lowest = await flingDown(300);
-
-    expect(lowest).toBeGreaterThanOrEqual(HALF_HEIGHT - RUBBER_BAND_MAX);
-    expect(lowest).toBeLessThan(HALF_HEIGHT);
-    expect(dialog().dataset.snap).toBe('half');
-    expect(Math.round(visibleHeight())).toBe(HALF_HEIGHT);
-  });
-
-  it('collapses to half on Escape and stays there on the next one', async () => {
-    await mount({ defaultSnap: 'full', peekHeight: 72 });
 
     await pressEscape();
     await expect.poll(() => dialog().dataset.snap).toBe('half');
@@ -149,7 +119,7 @@ describe("flexible bottom sheet with smallestSnap='half'", () => {
     expect(dialog().dataset.status).toBe('open');
   });
 
-  it('collapses to half on an outside click', async () => {
+  it('collapses to half on an outside click without a peek height', async () => {
     await mount({ defaultSnap: 'full' });
 
     await clickTopDimmer();
@@ -160,12 +130,24 @@ describe("flexible bottom sheet with smallestSnap='half'", () => {
     expect(Math.round(visibleHeight())).toBe(HALF_HEIGHT);
   });
 
-  it('shows a controlled peek snap as half and reports it', async () => {
-    const onSnapChange = vi.fn();
-    await mount({ snap: 'peek', peekHeight: 72, onSnapChange });
+  it('still drags down to peek and stays there on Escape', async () => {
+    await mount({ defaultSnap: 'half', peekHeight: PEEK_HEIGHT });
 
-    expect(dialog().dataset.snap).toBe('half');
-    expect(onSnapChange).toHaveBeenCalledWith('half');
-    expect(Math.round(visibleHeight())).toBe(HALF_HEIGHT);
+    await flingDown(400);
+    expect(dialog().dataset.snap).toBe('peek');
+    expect(Math.round(visibleHeight())).toBe(PEEK_HEIGHT);
+
+    await pressEscape();
+    await nextFrame();
+    expect(dialog().dataset.snap).toBe('peek');
+    expect(dialog().dataset.status).toBe('open');
+  });
+
+  it('still closes on a downward drag without a peek height', async () => {
+    await mount({ defaultSnap: 'half' });
+
+    await flingDown(400, { settle: false });
+
+    await expect.poll(() => dialog().dataset.status).not.toBe('open');
   });
 });

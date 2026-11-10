@@ -50,47 +50,6 @@ describe('resolveFlexibleReleaseSnap', () => {
     ).toEqual({ type: 'snap', snap: 'peek' });
   });
 
-  describe("smallestSnap='half'", () => {
-    const floored = { ...base, smallestSnap: 'half' as const };
-
-    it('settles at half instead of peek on a downward fling from full', () => {
-      expect(
-        resolveFlexibleReleaseSnap({
-          ...floored,
-          startedSnap: 'full',
-          startedVisualHeight: 600,
-          releasedHeight: 280,
-          velocityY: 2,
-        }),
-      ).toEqual({ type: 'snap', snap: 'half' });
-    });
-
-    it('settles at half instead of closing without a peek height', () => {
-      expect(
-        resolveFlexibleReleaseSnap({
-          ...floored,
-          hasPeek: false,
-          startedSnap: 'half',
-          startedVisualHeight: 300,
-          releasedHeight: 265,
-          velocityY: 2,
-        }),
-      ).toEqual({ type: 'snap', snap: 'half' });
-    });
-
-    it('still reaches full on an upward drag', () => {
-      expect(
-        resolveFlexibleReleaseSnap({
-          ...floored,
-          startedSnap: 'half',
-          startedVisualHeight: 300,
-          releasedHeight: 520,
-          velocityY: 0,
-        }),
-      ).toEqual({ type: 'snap', snap: 'full' });
-    });
-  });
-
   it('settles full → half on slow medium-distance downward drag', () => {
     // released 400, v≈0 → projected 400 → nearest of [80, 300, 600] is 300.
     expect(
@@ -810,19 +769,6 @@ describe('resolveBottomSheetSnap', () => {
         defaultSnap: 'full',
       }),
     ).toBe('full');
-  });
-
-  it("maps peek to half under smallestSnap='half' on flexible sheets only", () => {
-    expect(
-      resolveBottomSheetSnap('peek', {
-        ...flexible,
-        defaultSnap: 'full',
-        smallestSnap: 'half',
-      }),
-    ).toBe('half');
-    expect(
-      resolveBottomSheetSnap('peek', { ...handleOnly, smallestSnap: 'half' }),
-    ).toBe('peek');
   });
 
   it('maps half to full outside flexible sheets', () => {

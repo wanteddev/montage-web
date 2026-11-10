@@ -41,7 +41,7 @@ type ResponsiveSlice = Pick<
   | 'handle'
   | 'peekHeight'
   | 'largestUndimmedSnap'
-  | 'smallestSnap'
+  | 'dismissSnap'
   | 'enableHalfSnapScroll'
   | 'xs'
   | 'sm'
@@ -66,7 +66,7 @@ export const useResponsiveBottomSheetProps = ({
   resize: givenResize,
   peekHeight: givenPeekHeight,
   largestUndimmedSnap: givenLargestUndimmedSnap,
-  smallestSnap: givenSmallestSnap,
+  dismissSnap: givenDismissSnap,
   enableHalfSnapScroll: givenEnableHalfSnapScroll,
   xs,
   sm,
@@ -118,7 +118,7 @@ export const useResponsiveBottomSheetProps = ({
     K extends
       | 'peekHeight'
       | 'largestUndimmedSnap'
-      | 'smallestSnap'
+      | 'dismissSnap'
       | 'enableHalfSnapScroll',
   >(
     key: K,
@@ -140,10 +140,9 @@ export const useResponsiveBottomSheetProps = ({
 
   const isBottom = variant === 'bottom';
   const isFlexible = isBottom && resize === 'flexible';
-  // Only flexible sheets have a `half` snap to use as the floor.
-  const smallestSnap =
-    isFlexible &&
-    resolveResponsive('smallestSnap', givenSmallestSnap) === 'half'
+  // Only flexible sheets have a `half` snap to dismiss to.
+  const dismissSnap =
+    isFlexible && resolveResponsive('dismissSnap', givenDismissSnap) === 'half'
       ? ('half' as const)
       : ('peek' as const);
   // Dragging is enabled when there's a grabber handle OR when the sheet is flexible
@@ -156,7 +155,7 @@ export const useResponsiveBottomSheetProps = ({
     resize,
     peekHeight,
     largestUndimmedSnap,
-    smallestSnap,
+    dismissSnap,
     enableHalfSnapScroll,
     isBottom,
     isFlexible,
@@ -463,7 +462,7 @@ type UseDraggableProps = Pick<
   | 'defaultSnap'
   | 'enableHalfSnapScroll'
   | 'largestUndimmedSnap'
-  | 'smallestSnap'
+  | 'dismissSnap'
   | 'xs'
   | 'sm'
   | 'md'
@@ -483,7 +482,7 @@ export const useDraggable = ({
   defaultSnap: givenDefaultSnap,
   enableHalfSnapScroll: givenEnableHalfSnapScroll,
   largestUndimmedSnap: givenLargestUndimmedSnap,
-  smallestSnap: givenSmallestSnap,
+  dismissSnap: givenDismissSnap,
   xs,
   sm,
   md,
@@ -500,7 +499,7 @@ export const useDraggable = ({
     isEnabled,
     peekHeight: resolvedPeekHeight,
     largestUndimmedSnap: resolvedLargestUndimmedSnap = 'peek',
-    smallestSnap,
+    dismissSnap,
     enableHalfSnapScroll = false,
   } = useResponsiveBottomSheetProps({
     variant: givenVariant,
@@ -508,7 +507,7 @@ export const useDraggable = ({
     resize: givenResize,
     peekHeight: givenPeekHeight,
     largestUndimmedSnap: givenLargestUndimmedSnap,
-    smallestSnap: givenSmallestSnap,
+    dismissSnap: givenDismissSnap,
     enableHalfSnapScroll: givenEnableHalfSnapScroll,
     xs,
     sm,
@@ -535,7 +534,6 @@ export const useDraggable = ({
     isFlexible,
     hasPeek: (resolvedPeekHeight ?? 0) > 0,
     defaultSnap: givenDefaultSnap,
-    smallestSnap,
   });
 
   const context = useModalContext(MODAL_NAME);
@@ -629,22 +627,11 @@ export const useDraggable = ({
     enableHalfSnapScrollRef.current = enableHalfSnapScroll;
   }, [enableHalfSnapScroll]);
 
-  // Same reason: read by the window drag listeners and `collapseToPeekOrClose`.
-  const smallestSnapRef = useRef(smallestSnap);
+  // Read by `collapseToPeekOrClose` without re-creating it.
+  const dismissSnapRef = useRef(dismissSnap);
   useEffect(() => {
-    smallestSnapRef.current = smallestSnap;
-  }, [smallestSnap]);
-
-  // With `smallestSnap='half'` the sheet can't rest below half, so a drag past
-  // that floor gets the same bounded resistance as the top edge instead of
-  // following the finger down to a position it will never settle at.
-  const applyFloorRubberBand = (visualHeight: number): number => {
-    if (smallestSnapRef.current !== 'half') return visualHeight;
-    const floor = startedFullMaxHeight.current * BOTTOM_SHEET_HALF_RATIO;
-    return visualHeight < floor
-      ? floor - rubberBand(floor - visualHeight)
-      : visualHeight;
-  };
+    dismissSnapRef.current = dismissSnap;
+  }, [dismissSnap]);
 
   // Bottom-sheet snap kept in a ref so listeners always read the latest value
   // without re-binding.
@@ -794,8 +781,11 @@ export const useDraggable = ({
       return;
     }
 
-    if (smallestSnapRef.current === 'half') {
-      setSnap('half');
+    if (dismissSnapRef.current === 'half') {
+      // Dismiss stops at `half`: collapse from `full`, stay put at `half` /
+      // `peek`. Going lower (or closing) is left to the drag gesture.
+      const current = settlingTargetSnap.current ?? snapRef.current;
+      if (current === 'full') setSnap('half');
     } else if (hasPeek()) {
       setSnap('peek');
     } else {
@@ -803,7 +793,7 @@ export const useDraggable = ({
       dimmerRef.current?.style.removeProperty('transition');
       context.onOpenChange(false);
     }
-  }, [context, dimmerRef, hasPeek, setSnap]);
+  }, [context, dimmerRef, hasPeek, setSnap, settlingTargetSnap]);
 
   /**
    * Decide whether viewport input should be captured for sheet dragging
@@ -1170,7 +1160,6 @@ export const useDraggable = ({
         halfHeight,
         peekHeight: peekHeight.current,
         hasPeek: hasPeek(),
-        smallestSnap: smallestSnapRef.current,
       });
     }
     return resolveNonFlexibleReleaseSnap({
@@ -1249,7 +1238,6 @@ export const useDraggable = ({
           startedFullMaxHeight.current +
           rubberBand(visualHeight - startedFullMaxHeight.current);
       }
-      visualHeight = applyFloorRubberBand(visualHeight);
 
       applyDragStyles(container, visualHeight, diffY, maxHeight);
     };
@@ -1291,7 +1279,6 @@ export const useDraggable = ({
         releasedHeight =
           fullMaxHeight + rubberBand(releasedHeight - fullMaxHeight);
       }
-      releasedHeight = applyFloorRubberBand(releasedHeight);
 
       // Anti lift-off filter — when the finger leaves the screen at the end
       // of a slow drag, its natural arc registers as a sharp reverse-direction

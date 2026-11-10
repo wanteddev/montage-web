@@ -523,18 +523,18 @@ const Demo = () => {
 export default Demo;`}
 />
 
-### Smallest snap
+### Dismiss snap
 
-`smallestSnap` 은 시트가 머물 수 있는 가장 낮은 스냅을 지정합니다. `resize="flexible"` 에서만 유효합니다.
+`dismissSnap` 은 바깥 클릭이나 ESC 로 시트를 접을 때 내려갈 스냅을 지정합니다. `resize="flexible"` 에서만 유효합니다.
 
-- `'peek'` (기본값): 아래로 드래그하거나 바깥 클릭·ESC 로 접으면 `peekHeight` 가 있을 때 `peek` 으로, 없으면 닫힙니다.
-- `'half'`: `half` 가 최저 스냅이 됩니다. 아래로 드래그하거나 바깥 클릭·ESC 로 접어도 `half` 에 머물고, `peek` 으로 내려가거나 닫히지 않습니다. `peekHeight` 는 무시됩니다.
+- `'peek'` (기본값): `peekHeight` 가 있으면 `peek` 으로 접히고, 없으면 닫힙니다.
+- `'half'`: `full` 에서는 `half` 로 접히고, `half` 나 `peek` 에서는 그 자리에 머뭅니다.
 
-`'half'` 에서는 시트를 `half` 아래로 끌어도 약간의 저항만 주고 다시 `half` 로 돌아옵니다. 시트를 닫으려면 `onOpenChange` 로 `open` 을 직접 바꿔야 합니다.
+드래그 동작은 바뀌지 않습니다. `'half'` 여도 아래로 끌면 `peek` 까지 내려가고, `peekHeight` 가 없으면 닫힙니다.
 
-breakpoint 별로도 지정할 수 있습니다. (예: `smallestSnap="half" md={{ smallestSnap: 'peek' }}`)
+breakpoint 별로도 지정할 수 있습니다. (예: `dismissSnap="half" md={{ dismissSnap: 'peek' }}`)
 
-화면에 항상 떠 있어야 하는 상주 시트처럼, 일정 높이 아래로는 접히지 않아야 하는 UX 에 사용합니다.
+바깥을 눌렀을 때 시트가 완전히 접히지 않고 목록 일부가 계속 보여야 하는 UX 에 사용합니다.
 
 <Demo code={`import { useState } from 'react';
 import {
@@ -557,20 +557,21 @@ const Demo = () => {
   return (
     <Modal open={open} onOpenChange={setOpen}>
       <ModalTrigger>
-        <Button>Smallest snap = half</Button>
+        <Button>Dismiss snap = half</Button>
       </ModalTrigger>
 
       <ModalContainer
         variant="bottom"
         resize="flexible"
         defaultSnap="full"
-        smallestSnap="half"
+        peekHeight={96}
+        dismissSnap="half"
         handle
       >
         <ModalContent>
           <ModalContentItem>
-            <ModalHeading>Half 아래로 접히지 않음</ModalHeading>
-            <ModalSummary>아래로 끌거나 바깥을 눌러도 half 에 머뭅니다.</ModalSummary>
+            <ModalHeading>바깥을 누르면 half 로</ModalHeading>
+            <ModalSummary>바깥 클릭·ESC 는 half 에서 멈추고, 드래그로는 peek 까지 내려갑니다.</ModalSummary>
             <ModalDescription>
               {Array.from({ length: 30 }).map((_, i) => (
                 <span key={i} style={{ display: 'block' }}>Scrollable line #{i + 1}</span>

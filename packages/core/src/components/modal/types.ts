@@ -72,14 +72,14 @@ type ModalContainerDefaultProps = WithSxProps<{
    */
   largestUndimmedSnap?: 'peek' | 'half' | 'full';
   /**
-   * Smallest snap the sheet can rest at (`resize='flexible'` only).
+   * Snap the sheet collapses to on dismiss — outside click or ESC
+   * (`resize='flexible'` only). Dragging is unaffected.
    * - `'peek'` (default): collapses to `peek` when `peekHeight` is set,
    *   otherwise closes.
-   * - `'half'`: `half` is the floor — dragging down, outside click and ESC
-   *   all settle at `half`, and the sheet neither reaches `peek` nor closes
-   *   through those paths. `peekHeight` is ignored.
+   * - `'half'`: collapses from `full` to `half`; at `half` or `peek` the
+   *   sheet stays where it is.
    */
-  smallestSnap?: 'peek' | 'half';
+  dismissSnap?: 'peek' | 'half';
   /**
    * At `half` with scrollable body: `true` defers to native scroll until
    * the scroll boundary, then transfers to sheet collapse (iOS Maps feel).
@@ -126,7 +126,7 @@ type ModalContainerResponsiveProps = ResponsiveProps<
     | 'resize'
     | 'peekHeight'
     | 'largestUndimmedSnap'
-    | 'smallestSnap'
+    | 'dismissSnap'
     | 'enableHalfSnapScroll'
   >
 >;

@@ -98,7 +98,6 @@ export const isMouseDownOnPeek = (
  * - `peek`: needs a draggable bottom sheet with a peek height; otherwise the
  *   sheet would be stuck in a strip it can't be pulled out of.
  * - `half`: needs a flexible sheet (the only layout with a half snap).
- * - `smallestSnap='half'` (flexible): `peek` is below the floor → `half`.
  * - Fallback: `defaultSnap` on flexible sheets, `full` everywhere else.
  * - Non-bottom layouts (popup / full variant) keep the requested snap, except
  *   `peek`, which has no meaning there.
@@ -111,20 +110,17 @@ export const resolveBottomSheetSnap = (
     isFlexible,
     hasPeek,
     defaultSnap,
-    smallestSnap = 'peek',
   }: {
     isBottom: boolean;
     isEnabled: boolean;
     isFlexible: boolean;
     hasPeek: boolean;
     defaultSnap?: ModalBottomSheetSnap;
-    smallestSnap?: 'peek' | 'half';
   },
 ): ModalBottomSheetSnap => {
   const fallback = isFlexible && defaultSnap === 'half' ? 'half' : 'full';
 
   if (!isBottom) return snap === 'peek' ? 'full' : snap;
-  if (snap === 'peek' && isFlexible && smallestSnap === 'half') return 'half';
   if (snap === 'peek') return isEnabled && hasPeek ? 'peek' : fallback;
   if (snap === 'half' && !isFlexible) return 'full';
   return snap;
@@ -452,9 +448,6 @@ const projectReleaseHeight = (releasedHeight: number, velocityY: number) =>
  *
  * Directional guard: `peek` + downward gesture never closes — peek collapses
  * only via explicit dismiss paths.
- *
- * `smallestSnap='half'` drops everything below `half` from the candidates, so
- * a downward release always settles back at `half`.
  */
 export const resolveFlexibleReleaseSnap = ({
   startedSnap,
@@ -465,7 +458,6 @@ export const resolveFlexibleReleaseSnap = ({
   halfHeight,
   peekHeight,
   hasPeek,
-  smallestSnap = 'peek',
 }: {
   startedSnap: ModalBottomSheetSnap;
   startedVisualHeight: number;
@@ -475,7 +467,6 @@ export const resolveFlexibleReleaseSnap = ({
   halfHeight: number;
   peekHeight: number;
   hasPeek: boolean;
-  smallestSnap?: 'peek' | 'half';
 }): ReleaseResolution => {
   const projectedHeight = projectReleaseHeight(releasedHeight, velocityY);
 
@@ -496,9 +487,6 @@ export const resolveFlexibleReleaseSnap = ({
     { result: { type: 'snap', snap: 'half' }, height: halfHeight },
     { result: { type: 'snap', snap: 'full' }, height: startedMaxHeight },
   ];
-  if (smallestSnap === 'half') {
-    return pickNearest(candidates, projectedHeight).result;
-  }
   if (hasPeek) {
     candidates.unshift({
       result: { type: 'snap', snap: 'peek' },
