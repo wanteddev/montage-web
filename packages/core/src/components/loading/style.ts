@@ -1,5 +1,6 @@
 import { css } from '@montage-ui/engine';
 
+import { toCssValue } from '../../utils/internal/css';
 import { createResponsiveStyle } from '../../utils/internal/responsive-props';
 
 import type { LoadingProps } from './types';
@@ -9,8 +10,8 @@ export const loadingStyle =
   ({ size, xl, lg, md, sm, xs }: LoadingProps) =>
   (theme: Theme) =>
     css`
-      width: ${size};
-      height: ${size};
+      width: ${toCssValue(size)};
+      height: ${toCssValue(size)};
       margin: 0 auto;
 
       ${createResponsiveStyle(
@@ -21,8 +22,8 @@ export const loadingStyle =
           ${
             params?.size !== undefined &&
             css`
-              width: ${params.size};
-              height: ${params.size};
+              width: ${toCssValue(params.size)};
+              height: ${toCssValue(params.size)};
             `
           }
           ${params?.sx}

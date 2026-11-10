@@ -1,5 +1,6 @@
 import { css } from '@montage-ui/engine';
 
+import { toCssValue } from '../../utils/internal/css';
 import { createResponsiveStyle } from '../../utils/internal/responsive-props';
 import {
   ellipsisTypographyStyle,
@@ -55,7 +56,7 @@ export const listCardStyle =
   ({ xs, sm, md, lg, xl, width, platform }: CardProps) =>
   (theme: Theme) =>
     css`
-      width: ${width ?? '100%'};
+      width: ${toCssValue(width) ?? '100%'};
       max-width: 100%;
       ${listCardPlatformStyle({ platform })}
 
@@ -86,7 +87,7 @@ export const listCardStyle =
           ${
             params?.width !== undefined &&
             css`
-              width: ${params.width};
+              width: ${toCssValue(params.width)};
             `
           }
           ${listCardPlatformStyle({ platform: params?.platform })}
@@ -162,7 +163,7 @@ export const listCardSkeletonStyle =
   }: ListCardSkeletonProps) =>
   (theme: Theme) =>
     css`
-      width: ${width ?? '100%'};
+      width: ${toCssValue(width) ?? '100%'};
       max-width: 100%;
 
       ${listCardSkeletonPlatformStyle({
@@ -185,7 +186,7 @@ export const listCardSkeletonStyle =
           ${
             params?.width !== undefined &&
             css`
-              width: ${params.width};
+              width: ${toCssValue(params.width)};
             `
           }
           ${listCardSkeletonPlatformStyle({
