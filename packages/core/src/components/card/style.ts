@@ -403,7 +403,7 @@ export const cardSkeletonStyle =
   ({ xs, sm, md, lg, xl, width, platform }: CardProps) =>
   (theme: Theme) =>
     css`
-      width: ${width ?? '100%'};
+      width: ${toCssValue(width) ?? '100%'};
       ${cardSkeletonPlatformStyle({ platform })}
 
       // thumbnail
@@ -420,7 +420,7 @@ export const cardSkeletonStyle =
           ${
             params?.width !== undefined &&
             css`
-              width: ${params.width};
+              width: ${toCssValue(params.width)};
             `
           }
           ${cardSkeletonPlatformStyle({ platform: params?.platform })}
