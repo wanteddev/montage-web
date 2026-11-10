@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.3.1](https://github.com/wanteddev/montage-web/compare/v4.3.0...v4.3.1) (2026-11-10)
+
+### Bug Fixes
+
+- **core:** loading, card skeleton, list card 크기 prop 숫자 값 px 변환 누락 수정 ([#732](https://github.com/wanteddev/montage-web/issues/732)) ([cf13987](https://github.com/wanteddev/montage-web/commit/cf13987d20d9fb1d27a799f5d059f9d879b29459))
+- **core:** 바텀시트 최대 높이를 CSS로 바꿨을 때 스냅 계산이 어긋나는 문제 수정 ([#731](https://github.com/wanteddev/montage-web/issues/731)) ([9e80635](https://github.com/wanteddev/montage-web/commit/9e8063531d694b4f71ff89c2bd0be211dadd0da9))
+
 # [4.3.0](https://github.com/wanteddev/montage-web/compare/v4.2.0...v4.3.0) (2026-11-09)
 
 ### Bug Fixes
