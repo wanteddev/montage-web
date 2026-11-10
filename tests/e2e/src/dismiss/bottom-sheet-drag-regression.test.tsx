@@ -59,14 +59,15 @@ const scrollViewport = () => {
 
 /**
  * How many px of the sheet are showing (translate-aware), measured from the
- * bottom of its wrapper — the edge the sheet is anchored to.
+ * bottom of its wrapper's content box — the edge the sheet is anchored to.
  */
 const visibleHeight = () => {
   const wrapper = sheet().parentElement;
   if (!wrapper) throw new Error('no wrapper');
-  return (
-    wrapper.getBoundingClientRect().bottom - sheet().getBoundingClientRect().top
-  );
+  const anchor =
+    wrapper.getBoundingClientRect().bottom -
+    parseFloat(getComputedStyle(wrapper).paddingBottom);
+  return anchor - sheet().getBoundingClientRect().top;
 };
 
 const dragHeight = () => sheet().style.getPropertyValue('--modal-drag-height');
@@ -653,6 +654,36 @@ describe('flexible sheet in a wrapper inset from the viewport', () => {
     await pointer.moveBy(-(FULL + 400), 10);
     await pointer.hold();
     pointer.release();
+    expect(await settle(FULL, recorder)).toEqual(landed('full', FULL));
+  });
+});
+
+// Padding on the wrapper moves the sheet's anchor without moving the wrapper.
+describe('flexible sheet in a wrapper with bottom padding', () => {
+  const PADDING = 24;
+  const FULL = VIEWPORT_HEIGHT - PADDING - TOP_INSET;
+  const HALF = FULL / 2;
+
+  it('follows the pointer 1:1 and lands on the padded snap heights', async () => {
+    await mount({
+      resize: 'flexible',
+      peekHeight: PEEK,
+      defaultSnap: 'half',
+      wrapperProps: { sx: { paddingBottom: `${PADDING}px` } },
+    });
+    expect(await settle(FULL)).toEqual(landed('half', HALF));
+
+    const before = visibleHeight();
+    const recorder = record();
+    const pointer = grab();
+    await pointer.moveBy(-4, 1);
+    await nextFrame();
+    const moved = visibleHeight() - before;
+    await pointer.moveToHeight(FULL - 10);
+    await pointer.hold();
+    pointer.release();
+
+    expect(Math.round(moved)).toBe(4);
     expect(await settle(FULL, recorder)).toEqual(landed('full', FULL));
   });
 });

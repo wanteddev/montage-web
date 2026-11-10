@@ -239,17 +239,21 @@ export const computeDimmerOpacity = ({
  * `translateY`, so we infer the visible portion from the sheet's `top`
  * relative to the edge it is anchored to.
  *
- * That edge is the bottom of the wrapper, not of the viewport: a consumer can
- * end the wrapper above the viewport bottom (e.g. over a bottom navigation
- * bar), and measuring from the viewport would then count that gap as part of
- * the sheet.
+ * That edge is the bottom of the wrapper's content box, not of the viewport:
+ * a consumer can end the wrapper above the viewport bottom (e.g. over a
+ * bottom navigation bar) or pad it, and measuring from the viewport would
+ * then count that gap as part of the sheet.
  */
 export const readVisualHeight = (container: HTMLDivElement): number => {
   const rect = container.getBoundingClientRect();
-  const bottom =
-    container.parentElement?.getBoundingClientRect().bottom ??
-    window.innerHeight;
-  return Math.max(0, bottom - rect.top);
+  const wrapper = container.parentElement;
+  if (!wrapper) return Math.max(0, window.innerHeight - rect.top);
+
+  const style = getComputedStyle(wrapper);
+  const inset =
+    (parseFloat(style.paddingBottom) || 0) +
+    (parseFloat(style.borderBottomWidth) || 0);
+  return Math.max(0, wrapper.getBoundingClientRect().bottom - inset - rect.top);
 };
 
 /**
@@ -306,8 +310,9 @@ const computeDefaultFullMaxHeight = (): number => {
  * unlike `height` it reads the same at every snap and mid-settle.
  *
  * Its computed value keeps percentages unresolved (`calc(100% - 40px)`), so a
- * hidden sibling probe takes it as `height` and lets layout resolve it to px
- * against the same containing block.
+ * hidden probe takes it as `height` and lets layout resolve it to px. The
+ * probe sits in a frame that reproduces the wrapper's content box, which is
+ * what the container's own percentages resolve against.
  *
  * Must not be called while the drag's inline `--modal-drag-height` override is
  * applied — that override feeds `max-height` and would be read back instead.
@@ -319,13 +324,19 @@ export const computeFullMaxHeight = (container: HTMLElement): number => {
     return computeDefaultFullMaxHeight();
   }
 
+  const parentStyle = getComputedStyle(parent);
+  const frame = document.createElement('div');
+  frame.style.cssText =
+    'position:absolute;inset:0;visibility:hidden;pointer-events:none;box-sizing:border-box;';
+  frame.style.paddingTop = parentStyle.paddingTop;
+  frame.style.paddingBottom = parentStyle.paddingBottom;
   const probe = document.createElement('div');
-  probe.style.cssText =
-    'position:absolute;top:0;left:0;width:0;visibility:hidden;pointer-events:none;box-sizing:border-box;';
+  probe.style.cssText = 'width:0;box-sizing:border-box;';
   probe.style.height = maxHeight;
-  parent.appendChild(probe);
+  frame.appendChild(probe);
+  parent.appendChild(frame);
   const resolved = probe.getBoundingClientRect().height;
-  probe.remove();
+  frame.remove();
 
   return resolved > 0 ? resolved : computeDefaultFullMaxHeight();
 };
