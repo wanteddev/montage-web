@@ -2,7 +2,7 @@ export const RESOURCE_ITEMS = [
   {
     title:
       'Wanted <span class="max-xl:hidden">Design System </span>UI KIT<span class="max-sm:hidden"> for Figma</span>',
-    updatedAt: '<span class="max-sm:hidden">Last Updated. </span>2026.03.09',
+    updatedAt: '<span class="max-sm:hidden">Last Updated. </span>2026.11.13',
     href: 'https://www.figma.com/community/file/1355516515676178246',
     lottie: '/home/resources/1.json',
   },
