@@ -110,15 +110,15 @@ export default Demo;`}
 - `status` (`normal` | `negative`)
 - `disabled`
 
-<Demo code={`import { Box, framedStyle, FlexBox, SegmentedControl, SegmentedControlItem } from '@montage-ui/core';
+각 옵션은 서로 조합하여 사용할 수 있습니다. 예를 들어 `selected`와 `status: 'negative'`를 함께 지정하면 오류 상태의 선택 테두리가 표시됩니다.
+
+<Demo code={`import { Box, framedStyle, FlexBox, Checkbox, Label } from '@montage-ui/core';
 import { useState } from 'react';
 
 const Demo = () => {
-  const [state, setState] = useState('normal');
-
-  const selected = state === 'selected';
-  const disabled = state === 'disabled';
-  const status = state === 'negative' ? 'negative' : 'normal';
+  const [selected, setSelected] = useState(true);
+  const [negative, setNegative] = useState(false);
+  const [disabled, setDisabled] = useState(false);
 
   return (
     <FlexBox flexDirection="column" gap={24} sx={{ width: '100%' }} justifyContent="center">
@@ -128,7 +128,7 @@ const Demo = () => {
           framedStyle({
             size: 'small',
             selected,
-            status,
+            status: negative ? 'negative' : 'normal',
             disabled
           }),
           {
@@ -139,15 +139,20 @@ const Demo = () => {
         <Placeholder />
       </Box>
 
-      <SegmentedControl
-        value={state}
-        onValueChange={setState}
-      >
-        <SegmentedControlItem value="normal">Normal</SegmentedControlItem>
-        <SegmentedControlItem value="selected">Selected</SegmentedControlItem>
-        <SegmentedControlItem value="negative">Negative</SegmentedControlItem>
-        <SegmentedControlItem value="disabled">Disabled</SegmentedControlItem>
-      </SegmentedControl>
+      <FlexBox gap="16px" flexWrap="wrap">
+        <FlexBox gap="8px">
+          <Checkbox id="framed-style-selected" checked={selected} onCheckedChange={setSelected} />
+          <Label htmlFor="framed-style-selected">selected</Label>
+        </FlexBox>
+        <FlexBox gap="8px">
+          <Checkbox id="framed-style-negative" checked={negative} onCheckedChange={setNegative} />
+          <Label htmlFor="framed-style-negative">status: negative</Label>
+        </FlexBox>
+        <FlexBox gap="8px">
+          <Checkbox id="framed-style-disabled" checked={disabled} onCheckedChange={setDisabled} />
+          <Label htmlFor="framed-style-disabled">disabled</Label>
+        </FlexBox>
+      </FlexBox>
     </FlexBox>
   )
 }
@@ -170,13 +175,21 @@ export default Demo;`}
 
 ## Shadow
 
-`shadow` 옵션을 사용하여 시스템 컬러 토큰에 정의된 shadow를 변경할 수 있습니다.
+기본적으로 shadow는 적용되지 않습니다. `shadow` 옵션에 시스템 컬러 토큰에 정의된 shadow를 지정하면 해당 shadow가 적용됩니다.
 
 <Demo code={`import { Box, framedStyle, FlexBox } from '@montage-ui/core';
 
 const Demo = () => {
   return (
     <FlexBox flexWrap="wrap" gap={12} alignItems="center">
+      <Box
+        tabIndex={0}
+        sx={framedStyle({
+          shadow: 'semantic.elevation.shadow.normal.xsmall',
+        })}
+      >
+        <Placeholder />
+      </Box>
       <Box
         tabIndex={0}
         sx={framedStyle({
@@ -235,6 +248,6 @@ export default Demo;`}
 { name: 'status', type: '\"normal\" | \"negative\"', defaultValue: "\"normal\"" },
 { name: 'disabled', type: 'boolean' },
 { name: 'selected', type: 'boolean' },
-{ name: 'shadow', type: 'ThemeShadowToken', defaultValue: 'semantic.elevation.shadow.normal.xsmall' },
+{ name: 'shadow', type: 'ThemeShadowToken' },
 { name: 'size', type: '\"small\" | \"medium\" | \"large\" | \"xlarge\" | undefined', defaultValue: "\"medium\"" },
 ]} />
