@@ -240,9 +240,13 @@ const TimePicker = forwardRef<
                     <IconButton
                       disabled={disabled || readOnly}
                       onClick={(e) => {
-                        // Enter / Space on a button dispatches a click without detail.
-                        openReasonRef.current =
-                          e.detail === 0 ? 'keyboard' : 'pointer';
+                        // Record only opens; a close must not leak its input
+                        // into a later open that skips this button. Enter /
+                        // Space on a button dispatches a click without detail.
+                        if (!open) {
+                          openReasonRef.current =
+                            e.detail === 0 ? 'keyboard' : 'pointer';
+                        }
                         handleInputValueChange();
                         setOpen(!open);
                       }}

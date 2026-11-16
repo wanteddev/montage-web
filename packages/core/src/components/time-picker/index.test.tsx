@@ -315,4 +315,16 @@ describe('when the time picker opens', () => {
       expect(getOption('meridiem', meridiemOf('ko-KR', 14)!)).toHaveFocus(),
     );
   });
+
+  it('should not carry a keyboard close into a later controlled open', async () => {
+    const { rerender } = render(<TimePicker open onOpenChange={() => {}} />);
+    await waitFor(() => expect(getFirstViewport()).toHaveFocus());
+
+    // Closed by keyboard, then reopened by the parent without the button.
+    open(0);
+    rerender(<TimePicker open={false} onOpenChange={() => {}} />);
+    rerender(<TimePicker open onOpenChange={() => {}} />);
+
+    await waitFor(() => expect(getFirstViewport()).toHaveFocus());
+  });
 });

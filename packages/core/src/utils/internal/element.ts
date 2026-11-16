@@ -25,6 +25,7 @@ const SCROLL_AXIS_KEYS = {
     start: 'left',
     end: 'right',
     size: 'width',
+    offsetSize: 'offsetWidth',
     paddingStart: 'scrollPaddingLeft',
     paddingEnd: 'scrollPaddingRight',
     marginStart: 'scrollMarginLeft',
@@ -35,6 +36,7 @@ const SCROLL_AXIS_KEYS = {
     start: 'top',
     end: 'bottom',
     size: 'height',
+    offsetSize: 'offsetHeight',
     paddingStart: 'scrollPaddingTop',
     paddingEnd: 'scrollPaddingBottom',
     marginStart: 'scrollMarginTop',
@@ -70,24 +72,28 @@ export const scrollIntoViewWithin = (
   const viewportStyle = getComputedStyle(viewport);
   const elementStyle = getComputedStyle(element);
 
+  // Rects are in screen pixels, while scroll offsets, `scroll-padding` and
+  // `scroll-margin` are in layout pixels. Under a scaled ancestor (e.g. a
+  // modal's scale-in animation) the two differ, so convert the rects first.
+  const scale =
+    viewport[keys.offsetSize] > 0 && viewportRect[keys.size] > 0
+      ? viewportRect[keys.size] / viewport[keys.offsetSize]
+      : 1;
+  const viewportSize = viewportRect[keys.size] / scale;
+  const elementSize = elementRect[keys.size] / scale;
+
   const viewportStart =
-    viewportRect[keys.start] +
-    resolveScrollLength(
-      viewportStyle[keys.paddingStart],
-      viewportRect[keys.size],
-    );
+    viewportRect[keys.start] / scale +
+    resolveScrollLength(viewportStyle[keys.paddingStart], viewportSize);
   const viewportEnd =
-    viewportRect[keys.end] -
-    resolveScrollLength(
-      viewportStyle[keys.paddingEnd],
-      viewportRect[keys.size],
-    );
+    viewportRect[keys.end] / scale -
+    resolveScrollLength(viewportStyle[keys.paddingEnd], viewportSize);
   const elementStart =
-    elementRect[keys.start] -
-    resolveScrollLength(elementStyle[keys.marginStart], elementRect[keys.size]);
+    elementRect[keys.start] / scale -
+    resolveScrollLength(elementStyle[keys.marginStart], elementSize);
   const elementEnd =
-    elementRect[keys.end] +
-    resolveScrollLength(elementStyle[keys.marginEnd], elementRect[keys.size]);
+    elementRect[keys.end] / scale +
+    resolveScrollLength(elementStyle[keys.marginEnd], elementSize);
 
   if (ifNeeded && elementStart >= viewportStart && elementEnd <= viewportEnd) {
     return;
