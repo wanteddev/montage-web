@@ -1,8 +1,6 @@
 import { css } from '@montage-ui/engine';
 import objectPath from 'object-path';
 
-import { addOpacity } from './color';
-
 import type { Theme, ThemeShadowToken } from '@montage-ui/engine';
 
 export type FramedStyleParams = {
@@ -15,17 +13,16 @@ export type FramedStyleParams = {
 
 export const framedStyle = (params?: FramedStyleParams) => (theme: Theme) => {
   const {
-    shadow = 'semantic.elevation.shadow.normal.xsmall',
+    shadow,
     size = 'medium',
     status = 'normal',
     disabled,
     selected,
   } = params ?? {};
 
-  const givenShadow = objectPath.get(theme, shadow);
-  const boxShadow = givenShadow
-    ? givenShadow
-    : theme.semantic.elevation.shadow.normal.xsmall;
+  const boxShadow: string | undefined = shadow
+    ? objectPath.get(theme, shadow)
+    : undefined;
 
   return css`
     ${getSizeStyle(size)}
@@ -104,43 +101,39 @@ const getShadowStyle = (
     base,
     status,
     selected,
-  }: { base: string } & Pick<FramedStyleParams, 'status' | 'selected'>,
+  }: { base?: string } & Pick<FramedStyleParams, 'status' | 'selected'>,
   theme: Theme,
 ) => {
-  if (status === 'negative') {
-    return css`
-      &::before {
-        box-shadow:
-          ${base},
-          inset 0 0 0 1px
-            ${addOpacity(
-              theme.semantic.foreground.negative.primary,
-              theme.opacity[28],
-            )};
-      }
-    `;
-  }
+  const negative = status === 'negative';
+  const layers: Array<string> = [];
 
   if (selected) {
-    return css`
-      &::before {
-        box-shadow:
-          ${base},
-          inset 0 0 0 2px
-            ${addOpacity(
-              theme.semantic.surface.brand.primary,
-              theme.opacity[43],
-            )},
-          inset 0 0 0 2px ${theme.semantic.background.neutral.primary};
-      }
-    `;
+    const line = negative
+      ? theme.semantic.line.negative
+      : theme.semantic.line.brand;
+
+    layers.push(
+      `inset 0 0 0 1px ${line.strong}`,
+      `inset 0 0 0 1px ${theme.semantic.background.neutral.primary}`,
+      `0 0 0 4px ${line.focus}`,
+    );
+  } else {
+    layers.push(
+      `inset 0 0 0 1px ${
+        negative
+          ? theme.semantic.line.negative.primary
+          : theme.semantic.line.neutral.secondary
+      }`,
+    );
+  }
+
+  if (base) {
+    layers.push(base);
   }
 
   return css`
     &::before {
-      box-shadow:
-        ${base},
-        inset 0 0 0 1px ${theme.semantic.line.neutral.secondary};
+      box-shadow: ${layers.join(', ')};
     }
   `;
 };
