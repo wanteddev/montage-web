@@ -51,8 +51,9 @@ export const framedStyle = (params?: FramedStyleParams) => (theme: Theme) => {
       pointer-events: none;
       border-radius: inherit;
       z-index: 0;
-      transition: opacity 0.15s ease;
-      transition: box-shadow ease 0.2s;
+      transition:
+        opacity 0.15s ease,
+        box-shadow 0.2s ease;
     }
 
     ${
