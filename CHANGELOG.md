@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.3.2](https://github.com/wanteddev/montage-web/compare/v4.3.1...v4.3.2) (2026-11-16)
+
+### Bug Fixes
+
+- **core:** 목록 스크롤에 scroll-margin을 반영하고 time picker 첫 화살표 키 포커스 수정 ([#736](https://github.com/wanteddev/montage-web/issues/736)) ([27df1b1](https://github.com/wanteddev/montage-web/commit/27df1b18b5e1d2a8d9b4ba08390c119f2a759abc))
+
 ## [4.3.1](https://github.com/wanteddev/montage-web/compare/v4.3.0...v4.3.1) (2026-11-10)
 
 ### Bug Fixes
