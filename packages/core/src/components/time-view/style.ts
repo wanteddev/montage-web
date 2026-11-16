@@ -32,6 +32,7 @@ export const timeListScrollAreaStyle = () => css`
 
   [data-radix-scroll-area-viewport] {
     padding: 8px 0;
+    scroll-padding-block: 8px;
   }
   [data-radix-scroll-area-content] {
     height: 100%;

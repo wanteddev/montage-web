@@ -18,41 +18,92 @@ const resolveScrollLength = (value: string, base: number) => {
   return value.trim().endsWith('%') ? (parsed / 100) * base : parsed;
 };
 
-export const scrollIntoViewIfNeeded = (
+type ScrollAxis = 'x' | 'y';
+
+const SCROLL_AXIS_KEYS = {
+  x: {
+    start: 'left',
+    end: 'right',
+    size: 'width',
+    paddingStart: 'scrollPaddingLeft',
+    paddingEnd: 'scrollPaddingRight',
+    marginStart: 'scrollMarginLeft',
+    marginEnd: 'scrollMarginRight',
+    scroll: 'scrollLeft',
+  },
+  y: {
+    start: 'top',
+    end: 'bottom',
+    size: 'height',
+    paddingStart: 'scrollPaddingTop',
+    paddingEnd: 'scrollPaddingBottom',
+    marginStart: 'scrollMarginTop',
+    marginEnd: 'scrollMarginBottom',
+    scroll: 'scrollTop',
+  },
+} as const;
+
+export interface ScrollIntoViewOptions {
+  /** Scroll direction. Defaults to `'y'`. */
+  axis?: ScrollAxis;
+  /** Where the target lands in the scrollport. Defaults to `'center'`. */
+  align?: 'start' | 'center';
+  /** Skip scrolling when the target is already fully visible. Defaults to `false`. */
+  ifNeeded?: boolean;
+}
+
+// Scrolls only `viewport` (never its ancestors) so that `element` is aligned
+// inside it. Same as the native algorithm: the scrollport is shrunk by
+// `scroll-padding` and the target is grown by `scroll-margin` before aligning.
+export const scrollIntoViewWithin = (
   viewport: HTMLElement,
   element: HTMLElement,
+  {
+    axis = 'y',
+    align = 'center',
+    ifNeeded = false,
+  }: ScrollIntoViewOptions = {},
 ) => {
+  const keys = SCROLL_AXIS_KEYS[axis];
   const viewportRect = viewport.getBoundingClientRect();
   const elementRect = element.getBoundingClientRect();
   const viewportStyle = getComputedStyle(viewport);
   const elementStyle = getComputedStyle(element);
 
-  // Same as the native algorithm: the scrollport is shrunk by `scroll-padding`
-  // and the target is grown by `scroll-margin` before comparing edges.
-  const viewportTop =
-    viewportRect.top +
-    resolveScrollLength(viewportStyle.scrollPaddingTop, viewportRect.height);
-  const viewportBottom =
-    viewportRect.bottom -
-    resolveScrollLength(viewportStyle.scrollPaddingBottom, viewportRect.height);
-  const elementTop =
-    elementRect.top -
-    resolveScrollLength(elementStyle.scrollMarginTop, elementRect.height);
-  const elementBottom =
-    elementRect.bottom +
-    resolveScrollLength(elementStyle.scrollMarginBottom, elementRect.height);
+  const viewportStart =
+    viewportRect[keys.start] +
+    resolveScrollLength(
+      viewportStyle[keys.paddingStart],
+      viewportRect[keys.size],
+    );
+  const viewportEnd =
+    viewportRect[keys.end] -
+    resolveScrollLength(
+      viewportStyle[keys.paddingEnd],
+      viewportRect[keys.size],
+    );
+  const elementStart =
+    elementRect[keys.start] -
+    resolveScrollLength(elementStyle[keys.marginStart], elementRect[keys.size]);
+  const elementEnd =
+    elementRect[keys.end] +
+    resolveScrollLength(elementStyle[keys.marginEnd], elementRect[keys.size]);
 
-  const overflowTop = viewportTop - elementTop;
-  const overflowBottom = elementBottom - viewportBottom;
-
-  if (overflowTop <= 0 && overflowBottom <= 0) {
+  if (ifNeeded && elementStart >= viewportStart && elementEnd <= viewportEnd) {
     return;
   }
 
-  // Align the center of the target with the center of the scrollport.
-  viewport.scrollTop +=
-    (elementTop + elementBottom) / 2 - (viewportTop + viewportBottom) / 2;
+  viewport[keys.scroll] +=
+    align === 'start'
+      ? elementStart - viewportStart
+      : (elementStart + elementEnd) / 2 - (viewportStart + viewportEnd) / 2;
 };
+
+// Centers `element` in `viewport` only when it is not fully visible.
+export const scrollIntoViewIfNeeded = (
+  viewport: HTMLElement,
+  element: HTMLElement,
+) => scrollIntoViewWithin(viewport, element, { ifNeeded: true });
 
 // Focuses `element` without letting the browser scroll any ancestor. A bare
 // `focus()` walks every scroll container up to the document, which throws a

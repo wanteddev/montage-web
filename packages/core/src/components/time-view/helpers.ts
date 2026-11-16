@@ -1,5 +1,9 @@
 import dayjs from 'dayjs';
 
+import {
+  isElementDisabled,
+  scrollIntoViewWithin,
+} from '../../utils/internal/element';
 import { dayjsTimezone } from '../date-calendar/helpers';
 
 import { TIME_UNIT_STEP } from './constants';
@@ -65,14 +69,13 @@ export const scrollToTime = (
   value: string,
   containerRef: RefObject<HTMLDivElement | null>,
 ) => {
-  const scrollItem = containerRef.current?.querySelector(
+  const container = containerRef.current;
+  const scrollItem = container?.querySelector<HTMLElement>(
     `[data-${view}='${value}']`,
   );
 
-  if (scrollItem) {
-    containerRef.current?.scrollTo({
-      top: (scrollItem as HTMLElement).offsetTop - 8,
-    });
+  if (container && scrollItem) {
+    scrollIntoViewWithin(container, scrollItem, { align: 'start' });
   }
 };
 
@@ -167,4 +170,38 @@ export const findClosestEnableTime = ({
   }
 
   return value;
+};
+
+// Enabled options of the time list that contains `element`.
+export const getFocusableTimeItems = (element: HTMLElement) =>
+  Array.from(
+    element
+      .closest('[data-role="time-list-scroll-area"]')
+      ?.querySelectorAll<HTMLElement>('[role="option"]') ?? [],
+  ).filter((item) => !isElementDisabled(item));
+
+// Moves focus to the previous / next time list. Focusing a list hands focus to
+// its selected item (or first item) through the roving focus group.
+export const focusAdjacentTimeList = (
+  element: HTMLElement,
+  key: 'ArrowLeft' | 'ArrowRight',
+) => {
+  const timeViewElement = element.closest('[data-component="time-view"]');
+  const currentTimeListScrollArea = element.closest(
+    '[data-role="time-list-scroll-area"]',
+  );
+
+  if (!timeViewElement || !currentTimeListScrollArea) return;
+
+  const scrollAreaList = Array.from(
+    timeViewElement.querySelectorAll<HTMLElement>(
+      '[data-role="time-list-scroll-area"]',
+    ),
+  );
+  const currentIndex = scrollAreaList.indexOf(
+    currentTimeListScrollArea as HTMLElement,
+  );
+  const moveIndex = key === 'ArrowLeft' ? currentIndex - 1 : currentIndex + 1;
+
+  scrollAreaList[moveIndex]?.focus();
 };
