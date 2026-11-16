@@ -4,6 +4,7 @@ import {
   render,
   screen,
   waitFor,
+  within,
 } from '@testing-library/react';
 import { forwardRef } from 'react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
@@ -17,11 +18,6 @@ import {
 } from '../form-control';
 
 import { TimePicker } from '.';
-
-Object.defineProperty(window.Element.prototype, 'scrollTo', {
-  value: vi.fn(),
-  writable: true,
-});
 
 /**
  * 로케일의 오전/오후 표기는 런타임 ICU 버전에 따라 달라진다.
@@ -241,5 +237,94 @@ describe('when given a custom input to TimePicker', () => {
     render(<TimePicker input={CustomInput as never} xs={{ width: '100px' }} />);
 
     expect(receiveXs).toHaveBeenLastCalledWith({ width: '100px' });
+  });
+});
+
+describe('when the time picker opens', () => {
+  afterEach(() => {
+    cleanup();
+  });
+
+  const open = (detail: number) =>
+    fireEvent.click(
+      screen.getByRole('button', { name: 'Toggle time picker' }),
+      {
+        detail,
+      },
+    );
+
+  const getOption = (view: string, name: string) =>
+    within(screen.getByRole('listbox', { name: `Select ${view}` })).getByRole(
+      'option',
+      { name },
+    );
+
+  const getFirstViewport = () =>
+    screen
+      .getByRole('dialog')
+      .querySelector<HTMLElement>('[data-radix-scroll-area-viewport]')!;
+
+  it('should focus no item when opened by pointer with no value', async () => {
+    render(<TimePicker />);
+
+    open(1);
+
+    await waitFor(() => expect(getFirstViewport()).toHaveFocus());
+
+    fireEvent.keyDown(getFirstViewport(), { key: 'ArrowDown' });
+    expect(getOption('meridiem', meridiemOf('ko-KR', 0)!)).toHaveFocus();
+  });
+
+  it('should move to the last item on ArrowUp from the list', async () => {
+    render(<TimePicker />);
+
+    open(1);
+    await waitFor(() => expect(getFirstViewport()).toHaveFocus());
+
+    fireEvent.keyDown(getFirstViewport(), { key: 'ArrowUp' });
+    expect(getOption('meridiem', meridiemOf('ko-KR', 12)!)).toHaveFocus();
+  });
+
+  it('should move to the next list on ArrowRight from the list', async () => {
+    render(<TimePicker />);
+
+    open(1);
+    await waitFor(() => expect(getFirstViewport()).toHaveFocus());
+
+    fireEvent.keyDown(getFirstViewport(), { key: 'ArrowRight' });
+    await waitFor(() => expect(getOption('hour', '12')).toHaveFocus());
+  });
+
+  it('should focus the first item when opened by keyboard', async () => {
+    render(<TimePicker />);
+
+    // Enter / Space on a button dispatches a click without detail.
+    open(0);
+
+    await waitFor(() =>
+      expect(getOption('meridiem', meridiemOf('ko-KR', 0)!)).toHaveFocus(),
+    );
+  });
+
+  it('should focus the selected item when opened by pointer with a value', async () => {
+    render(<TimePicker defaultValue={new Date('2025-01-01T14:30:00')} />);
+
+    open(1);
+
+    await waitFor(() =>
+      expect(getOption('meridiem', meridiemOf('ko-KR', 14)!)).toHaveFocus(),
+    );
+  });
+
+  it('should not carry a keyboard close into a later controlled open', async () => {
+    const { rerender } = render(<TimePicker open onOpenChange={() => {}} />);
+    await waitFor(() => expect(getFirstViewport()).toHaveFocus());
+
+    // Closed by keyboard, then reopened by the parent without the button.
+    open(0);
+    rerender(<TimePicker open={false} onOpenChange={() => {}} />);
+    rerender(<TimePicker open onOpenChange={() => {}} />);
+
+    await waitFor(() => expect(getFirstViewport()).toHaveFocus());
   });
 });

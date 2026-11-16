@@ -17,6 +17,7 @@ import {
 import useResizeObserver from '../../hooks/internal/use-resize-observer';
 import { SlotDefaultsProvider } from '../../hooks/internal/use-slot-defaults';
 import { calculateAnimationStyle } from '../../utils/internal/animation';
+import { scrollIntoViewWithin } from '../../utils/internal/element';
 import { mapResponsiveProps } from '../../utils/internal/responsive-props';
 import { FlexBox } from '../flex-box';
 import { ScrollArea } from '../scroll-area';
@@ -349,17 +350,7 @@ const TabListItem = forwardRef<any, TabListItemProps>(
         return;
       }
 
-      const parentViewportAreaWidth = parent.clientWidth;
-
-      const 기준점 = parentViewportAreaWidth / 2;
-
-      const childOffsetLeft = child.offsetLeft + child.clientWidth;
-
-      if (childOffsetLeft < 기준점) {
-        parent.scrollLeft = 0;
-      } else {
-        parent.scrollLeft = childOffsetLeft - 기준점;
-      }
+      scrollIntoViewWithin(parent, child, { axis: 'x' });
     };
 
     useEffect(() => {

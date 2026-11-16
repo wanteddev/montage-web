@@ -74,6 +74,9 @@ const TimePicker = forwardRef<
   ) => {
     const ref = useRef<HTMLDivElement>(null);
     const composedRefs = useComposedRefs(forwardedRef, ref);
+    // How the latest open was triggered. Opens that skip the toggle button
+    // (controlled `open`, `defaultOpen`) behave like a pointer open.
+    const openReasonRef = useRef<'pointer' | 'keyboard'>('pointer');
 
     const [open, setOpen] = useControllableState({
       prop: originOpen,
@@ -236,7 +239,14 @@ const TimePicker = forwardRef<
                   >
                     <IconButton
                       disabled={disabled || readOnly}
-                      onClick={() => {
+                      onClick={(e) => {
+                        // Record only opens; a close must not leak its input
+                        // into a later open that skips this button. Enter /
+                        // Space on a button dispatches a click without detail.
+                        if (!open) {
+                          openReasonRef.current =
+                            e.detail === 0 ? 'keyboard' : 'pointer';
+                        }
                         handleInputValueChange();
                         setOpen(!open);
                       }}
@@ -264,7 +274,41 @@ const TimePicker = forwardRef<
               loop={loop}
               trapped={trapped}
               trappedContent={trappedContent}
-              onMountAutoFocus={onMountAutoFocus}
+              onMountAutoFocus={composeEventHandlers(
+                onMountAutoFocus,
+                (e) => {
+                  // The reason belongs to this open only.
+                  const openReason = openReasonRef.current;
+                  openReasonRef.current = 'pointer';
+
+                  if (e.defaultPrevented || openReason === 'keyboard') return;
+
+                  const container = e.currentTarget as HTMLElement;
+                  const viewport = container.querySelector<HTMLElement>(
+                    '[data-role="time-list-scroll-area"] [data-radix-scroll-area-viewport]',
+                  );
+
+                  // With a value, the first list hands focus to its selected
+                  // item as before.
+                  if (
+                    !viewport ||
+                    viewport.querySelector(
+                      '[role="option"][aria-selected="true"]',
+                    )
+                  ) {
+                    return;
+                  }
+
+                  // Opened by pointer with nothing selected: focus the list
+                  // without landing on an item, so the first arrow key press
+                  // reaches the first item instead of skipping it.
+                  e.preventDefault();
+                  viewport.focus({ preventScroll: true });
+                },
+                // Runs even when the consumer prevented the autofocus, so the
+                // reason is still reset.
+                { checkForDefaultPrevented: false },
+              )}
               onUnmountAutoFocus={onUnmountAutoFocus}
               disableFocusScope={disableFocusScope}
             >

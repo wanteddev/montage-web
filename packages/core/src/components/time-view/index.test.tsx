@@ -4,12 +4,6 @@ import { axe } from 'vitest-axe';
 
 import { TimeView } from '.';
 
-// Mock scrollTo for test environment
-Object.defineProperty(window.Element.prototype, 'scrollTo', {
-  value: vi.fn(),
-  writable: true,
-});
-
 describe('when given time view component', () => {
   const defaultProps = {
     defaultValue: new Date('2025-01-01T10:00:00'),

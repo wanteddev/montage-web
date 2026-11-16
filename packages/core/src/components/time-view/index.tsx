@@ -15,7 +15,10 @@ import {
 } from 'react';
 
 import { extendDayjs } from '../../utils/internal/date';
-import { scrollIntoViewIfNeeded } from '../../utils/internal/element';
+import {
+  focusIntoView,
+  scrollIntoViewIfNeeded,
+} from '../../utils/internal/element';
 import {
   dateTypeToDateObject,
   dayjsTimezone,
@@ -29,12 +32,18 @@ import { ScrollArea } from '../scroll-area';
 import {
   // ACCESSIBLE_MAX_TIME,
   // ACCESSIBLE_MIN_TIME,
+  FIRST_ITEM_KEYS,
+  LAST_ITEM_KEYS,
   TIME_ITEM_NAME,
   TIME_LIST_NAME,
   TIME_VIEW_NAME,
 } from './constants';
 import { TimeViewContextProvider, useTimeViewContext } from './contexts';
-import { scrollToTime } from './helpers';
+import {
+  focusAdjacentTimeList,
+  getFocusableTimeItems,
+  scrollToTime,
+} from './helpers';
 import { useTimeList } from './hooks';
 import {
   timeItemStyle,
@@ -200,6 +209,34 @@ const TimeList = memo(
         >
           <ScrollArea
             viewportRef={scrollViewportRef}
+            viewportProps={{
+              tabIndex: -1,
+              sx: { outline: 'none' },
+              onKeyDown: (e) => {
+                // Only while the viewport itself holds focus (e.g. a picker
+                // opened by pointer with no value); items handle their own
+                // navigation.
+                if (e.target !== e.currentTarget) return;
+
+                if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+                  e.preventDefault();
+                  focusAdjacentTimeList(e.currentTarget, e.key);
+                  return;
+                }
+
+                const items = getFocusableTimeItems(e.currentTarget);
+                const item = FIRST_ITEM_KEYS.includes(e.key)
+                  ? items[0]
+                  : LAST_ITEM_KEYS.includes(e.key)
+                    ? items.at(-1)
+                    : undefined;
+
+                if (!item) return;
+
+                e.preventDefault();
+                focusIntoView(item);
+              },
+            }}
             size="small"
             zIndex={11}
             sx={timeListScrollAreaStyle}
@@ -342,25 +379,7 @@ const TimeItem = forwardRef<
     const handleKeyDown = useCallback((e: KeyboardEvent<HTMLLIElement>) => {
       if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
 
-      const timeViewElement = e.currentTarget.closest(
-        '[data-component="time-view"]',
-      );
-      const currentTimeListScrollArea = e.currentTarget.closest(
-        '[data-role="time-list-scroll-area"]',
-      );
-
-      if (!timeViewElement || !currentTimeListScrollArea) return;
-
-      const scrollAreaList = Array.from(
-        timeViewElement.querySelectorAll('[data-role="time-list-scroll-area"]'),
-      );
-      const currentIndex = scrollAreaList.indexOf(currentTimeListScrollArea);
-      const moveIndex =
-        e.key === 'ArrowLeft' ? currentIndex - 1 : currentIndex + 1;
-
-      if (moveIndex >= 0 && moveIndex < scrollAreaList.length) {
-        (scrollAreaList[moveIndex] as HTMLElement).focus();
-      }
+      focusAdjacentTimeList(e.currentTarget, e.key);
     }, []);
 
     return (

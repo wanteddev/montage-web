@@ -5,3 +5,7 @@ export const TIME_ITEM_NAME = 'TimeItem';
 // export const ACCESSIBLE_MIN_TIME = new Date(new Date().setHours(0, 0, 0));
 // export const ACCESSIBLE_MAX_TIME = new Date(new Date().setHours(23, 59, 0));
 export const TIME_UNIT_STEP = 5;
+
+// Keys that move focus from a list's viewport (no item focused) into it.
+export const FIRST_ITEM_KEYS = ['ArrowDown', 'Home', 'PageUp'];
+export const LAST_ITEM_KEYS = ['ArrowUp', 'End', 'PageDown'];
