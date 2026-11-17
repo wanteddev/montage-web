@@ -77,7 +77,7 @@ FilterButton(text: "카테고리")
   | Parameter | Description |
   | --- | --- |
   | `active` | 활성화 여부 |
-  | `label` | 활성화 상태일 때 표시할 레이블, 생략하면 기본값으로 `nil` 적용 |
+  | `label` | 활성화 상태일 때 본문 텍스트 뒤에 덧붙여 표시할 레이블, 생략하면 기본값으로 `nil` 적용 |
 
 - **Return Value**
 
