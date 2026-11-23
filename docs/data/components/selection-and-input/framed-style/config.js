@@ -4,8 +4,17 @@
 module.exports = {
   variants: {
     components: ['Box', 'framedStyle'],
-    states: 'const [selected, setSelected] = React.useState(false);',
     variants: [
+      {
+        key: 'Size',
+        defaultValue: 'Medium',
+        options: [
+          { label: 'Small', value: {} },
+          { label: 'Medium', value: {} },
+          { label: 'Large', value: {} },
+          { label: 'Xlarge', value: {} },
+        ],
+      },
       {
         key: 'Status',
         options: [
@@ -13,18 +22,52 @@ module.exports = {
           { label: 'Negative', value: {} },
         ],
       },
+      {
+        key: 'Selected',
+        options: [
+          { label: 'False', value: {} },
+          { label: 'True', value: {} },
+        ],
+      },
+      {
+        key: 'Disabled',
+        options: [
+          { label: 'False', value: {} },
+          { label: 'True', value: {} },
+        ],
+      },
+      {
+        key: 'Shadow',
+        options: [
+          { label: 'None', value: {} },
+          { label: 'Xsmall', value: {} },
+          { label: 'Small', value: {} },
+          { label: 'Medium', value: {} },
+          { label: 'Large', value: {} },
+          { label: 'Xlarge', value: {} },
+        ],
+      },
     ],
     render: (value) => {
       const status = value['Status'] === 'Negative' ? 'negative' : 'normal';
+      const size = value['Size'].toLowerCase();
+      const selected = value['Selected'] === 'True';
+      const disabled = value['Disabled'] === 'True';
+      const shadow =
+        value['Shadow'] === 'None'
+          ? ''
+          : `shadow: 'semantic.elevation.shadow.normal.${value['Shadow'].toLowerCase()}',`;
 
       return `
         <Box
-          tabIndex={0}
-          onClick={() => setSelected(!selected)}
+          tabIndex={${disabled ? -1 : 0}}
           sx={[
             framedStyle({
+              size: '${size}',
               status: '${status}',
-              selected,
+              disabled: ${disabled},
+              selected: ${selected},
+              ${shadow}
             }),
             {
               width: '80%',
