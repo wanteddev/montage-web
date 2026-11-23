@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.4.0](https://github.com/wanteddev/montage-web/compare/v4.3.2...v4.4.0) (2026-11-23)
+
+### Features
+
+- **core:** framed style 그림자 기본값 제거 및 선택/오류 테두리 링 방식으로 변경 ([#737](https://github.com/wanteddev/montage-web/issues/737)) ([266c180](https://github.com/wanteddev/montage-web/commit/266c180708364aed2b7e0d51874787d85c9d3593))
+
 ## [4.3.2](https://github.com/wanteddev/montage-web/compare/v4.3.1...v4.3.2) (2026-11-16)
 
 ### Bug Fixes
