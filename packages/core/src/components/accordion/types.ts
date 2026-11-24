@@ -12,6 +12,11 @@ export type AccordionProps = WithSxProps<{
   disabled?: boolean;
   /** Whether to show the divider. */
   divider?: boolean;
+  /**
+   * Whether to hide the divider while the next sibling accordion's summary is hovered or pressed.
+   * Enable this when accordions are stacked without a gap, so the divider does not touch the next summary's interaction area.
+   */
+  hideDividerOnNextHover?: boolean;
   /** Callback function when the expanded state changes. */
   onChange?: (expanded: boolean) => void;
   /** Whether to disable the expand animation. */
@@ -41,7 +46,7 @@ export type AccordionSummaryProps = Merge<
      */
     extraContent?: ReactNode;
   },
-  Omit<ListCellProps, 'selected' | 'divider'>
+  Omit<ListCellProps, 'selected' | 'divider' | 'hideDividerOnNextHover'>
 >;
 
 export type AccordionSummaryContentProps = Merge<

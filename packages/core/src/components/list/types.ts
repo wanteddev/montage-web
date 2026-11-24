@@ -25,6 +25,11 @@ export type ListCellDefaultProps = WithSxProps<{
   ellipsis?: boolean;
   /** Whether to show the divider. */
   divider?: boolean;
+  /**
+   * Whether to hide the divider while the next sibling cell is hovered or pressed.
+   * Enable this when cells are stacked without a gap, so the divider does not touch the next cell's interaction area.
+   */
+  hideDividerOnNextHover?: boolean;
   /** Whether the cell is selected. */
   selected?: boolean;
   /** Whether to disable the cell. */
