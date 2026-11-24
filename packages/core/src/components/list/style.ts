@@ -16,6 +16,9 @@ export const listStyle = css`
   padding: 0;
 `;
 
+const nextInteractiveListCellSelector =
+  "+ [data-component='list-cell']:not([data-disable-interaction='true'])";
+
 export const listCellStyle =
   ({
     verticalPadding,
@@ -23,6 +26,7 @@ export const listCellStyle =
     selected,
     disabled,
     disableInteraction,
+    hideDividerOnNextHover,
     xs,
     sm,
     md,
@@ -91,6 +95,25 @@ export const listCellStyle =
           &:active {
             [data-role='list-cell-divider'] {
               opacity: var(--list-cell-active-divider-opacity, 0);
+            }
+          }
+        `
+      }
+
+      ${
+        hideDividerOnNextHover &&
+        css`
+          @media (pointer: fine) {
+            &:has(${nextInteractiveListCellSelector}:hover) {
+              [data-role='list-cell-divider'] {
+                opacity: 0;
+              }
+            }
+          }
+
+          &:has(${nextInteractiveListCellSelector}:active) {
+            [data-role='list-cell-divider'] {
+              opacity: 0;
             }
           }
         `

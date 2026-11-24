@@ -2,15 +2,39 @@ import { css, keyframes } from '@montage-ui/engine';
 
 import type { Theme } from '@montage-ui/engine';
 
+const nextInteractiveSummarySelector =
+  "+ * > [data-component='accordion-summary']:not([data-disable-interaction='true'])";
+
 export const accordionStyle = ({
   disabled,
   expanded,
+  hideDividerOnNextHover,
 }: {
   disabled: boolean;
   expanded: boolean;
+  hideDividerOnNextHover: boolean;
 }) => css`
   & > *:not([data-role='accordion-divider']) {
     opacity: ${disabled ? 0.2 : 1};
+  }
+
+  ${
+    hideDividerOnNextHover &&
+    css`
+      @media (pointer: fine) {
+        &:has(${nextInteractiveSummarySelector}:hover) {
+          & > [data-role='accordion-divider'] {
+            opacity: 0;
+          }
+        }
+      }
+
+      &:has(${nextInteractiveSummarySelector}:active) {
+        & > [data-role='accordion-divider'] {
+          opacity: 0;
+        }
+      }
+    `
   }
 
   ${

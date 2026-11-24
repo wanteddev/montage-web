@@ -388,6 +388,59 @@ const Demo = () => {
 export default Demo;`}
 />
 
+## Hide divider on next hover
+
+Accordion이 간격 없이 붙어 있다면 `hideDividerOnNextHover` 속성을 사용하여, 바로 다음 Accordion의 제목 영역에 인터렉션 효과가 발생할 때 인터렉션 영역과 맞닿는 구분선도 함께 숨김처리 할 수 있습니다.
+
+이 동작은 Accordion이 서로 인접한 형제 요소일 때만 적용됩니다.
+
+<Demo code={`import { Accordion, AccordionSummary, AccordionDetails, AccordionDescription, FlexBox } from '@montage-ui/core';
+
+const Demo = () => {
+  return (
+    <FlexBox flexDirection="column" sx={{ width: '100%' }}>
+      <Accordion hideDividerOnNextHover>
+        <AccordionSummary>
+          제목
+        </AccordionSummary>
+        <AccordionDetails>
+          <AccordionDescription>
+            제목에 대한 상세 내용을 입력해주세요.<br />
+            긴 컨텐츠라면 접은 상태를 기본 값으로 사용하세요.
+          </AccordionDescription>
+        </AccordionDetails>
+      </Accordion>
+
+      <Accordion hideDividerOnNextHover>
+        <AccordionSummary>
+          제목
+        </AccordionSummary>
+        <AccordionDetails>
+          <AccordionDescription>
+            제목에 대한 상세 내용을 입력해주세요.<br />
+            긴 컨텐츠라면 접은 상태를 기본 값으로 사용하세요.
+          </AccordionDescription>
+        </AccordionDetails>
+      </Accordion>
+
+      <Accordion hideDividerOnNextHover>
+        <AccordionSummary>
+          제목
+        </AccordionSummary>
+        <AccordionDetails>
+          <AccordionDescription>
+            제목에 대한 상세 내용을 입력해주세요.<br />
+            긴 컨텐츠라면 접은 상태를 기본 값으로 사용하세요.
+          </AccordionDescription>
+        </AccordionDetails>
+      </Accordion>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
 ## Nested accordion  
 
 Accordion을 중첩해서 사용할 수 있습니다.

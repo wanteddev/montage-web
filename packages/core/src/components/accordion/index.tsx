@@ -76,6 +76,7 @@ const Accordion = forwardRef<
       onChange,
       disabled = false,
       divider = true,
+      hideDividerOnNextHover = false,
       sx,
       children,
       ...props
@@ -104,7 +105,10 @@ const Accordion = forwardRef<
           ref={ref}
           as="div"
           {...props}
-          sx={[accordionStyle({ disabled, expanded }), sx]}
+          sx={[
+            accordionStyle({ disabled, expanded, hideDividerOnNextHover }),
+            sx,
+          ]}
         >
           {children}
           {divider && (

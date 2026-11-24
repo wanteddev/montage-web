@@ -91,6 +91,7 @@ const ListCell = forwardRef(
       verticalPadding = 'medium',
       variant = 'inset',
       divider,
+      hideDividerOnNextHover = false,
       ellipsis = false,
       alignItems = 'flex-start',
 
@@ -202,6 +203,7 @@ const ListCell = forwardRef(
                 selected,
                 disabled,
                 disableInteraction,
+                hideDividerOnNextHover,
                 xl,
                 xs,
                 sm,
