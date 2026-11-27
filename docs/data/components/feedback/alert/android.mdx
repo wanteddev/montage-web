@@ -41,3 +41,12 @@ if (showAlert) {
 | onClickCancel | (() -> Unit)? | 취소 버튼 클릭 시 호출되는 콜백입니다. 다이얼로그를 닫지 않으므로 호출부에서 표시 상태를 false 로 바꿔야 합니다. |
 | onDismissRequest | () -> Unit | 외부 클릭·뒤로가기(properties 가 허용할 때)로 닫기가 요청될 때 호출되는 콜백입니다. 다이얼로그가 스스로 닫히지 않으므로 호출부에서 WantedAlert 를 컴포지션에서 제거해야 합니다. |
 | applyPhraseLineBreak | Boolean | true일 경우 message에 어절 단위 줄바꿈(`LineBreak.WordBreak.Phrase`)을 적용합니다. |
+
+## Overload
+`WantedAlert` 버튼의 testTag.
+
+소비자는 E2E(Maestro, `maestro/`)·UiAutomator 다. 버튼(`WantedTextButton`) 글자는 터치 레이어에 가려
+접근성 트리에 노출되지 않아 텍스트로는 찾을 수 없다. `WantedAlert` 가 다이얼로그 윈도우 안에서
+`testTagsAsResourceId` 를 켜 두므로 이 값이 그대로 resource-id 가 된다.
+
+다이얼로그는 한 번에 하나만 뜨므로 모든 `WantedAlert` 가 같은 태그를 쓴다.
