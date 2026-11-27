@@ -41,7 +41,7 @@ WantedFormControl(
 | selectDataList | List<WantedSelectData> | Bottom sheet 에 표시할 선택 가능한 항목 리스트입니다. 비어 있으면 Bottom sheet 를 열지 않습니다. |
 | modifier | Modifier | 레이아웃 및 스타일을 설정합니다. |
 | status | WantedSelectDefaults.Status | 셀렉트 박스의 상태입니다. (Normal, Negative) Negative 면 border 가 red 로 바뀌고 focus 시 red ring 을 표시합니다. |
-| focused | Boolean | 포커스 상태 여부입니다. true 면 primary ring 과 border 를 표시하고 chevron 이 위를 향합니다. |
+| focused | Boolean | 포커스 상태 여부입니다. true 면 바깥 ring 과 강조 border 를 표시하고(status 가 Negative 면 red, 아니면 primary) chevron 이 위를 향합니다. |
 | confirmText | String | Bottom sheet 확인 버튼 텍스트입니다. 비어 있으면 항목 선택 시 즉시 반영됩니다. |
 | selectedData | WantedSelectData? | Bottom sheet 진입 시 체크 표시할 항목입니다. |
 | bottomSheetType | WantedModalContract.ModalType | Bottom sheet 형식입니다. (Flexible, Fixed 등) |
@@ -94,7 +94,7 @@ WantedFormControl(
   | modifier | Modifier | 레이아웃 및 스타일을 설정합니다. |
   | status | WantedSelectDefaults.Status | 셀렉트 박스의 상태입니다. (Normal, Negative) Negative 면 border 가 red 로 바뀌고 focus 시 red ring 을 표시합니다. |
   | errorDataList | List<WantedSelectData> | 오류로 표시할 항목 리스트입니다. 포함된 Chip 이 negative 스타일로 표시됩니다. 컨테이너 상태는 status 가 결정합니다. |
-  | focused | Boolean | 포커스 상태 여부입니다. true 면 primary ring 과 border 를 표시하고 chevron 이 위를 향합니다. |
+  | focused | Boolean | 포커스 상태 여부입니다. true 면 바깥 ring 과 강조 border 를 표시하고(status 가 Negative 면 red, 아니면 primary) chevron 이 위를 향합니다. |
   | confirmText | String | Bottom sheet 확인 버튼 텍스트입니다. 비어 있으면 항목을 토글할 때마다 즉시 반영되고 Bottom sheet 가 열린 상태로 유지됩니다. |
   | overflow | Boolean | 선택 항목이 가로로 넘칠 때 줄바꿈할지 여부입니다. Chip 렌더는 false 면 가로 스크롤, true 면 줄바꿈하고, Text 렌더는 false 면 1줄 말줄임, true 면 여러 줄로 표시합니다. |
   | selectType | WantedSelectDefaults.SelectType | Bottom sheet 항목의 선택 UI 타입입니다. (CheckMark, CheckBox, Radio) |
@@ -140,7 +140,7 @@ WantedFormControl(label = "직무", required = true) {
   | selectValueList | List<String> | Bottom sheet 에 표시할 선택 가능한 항목 리스트입니다. 비어 있으면 Bottom sheet 를 열지 않습니다. |
   | modifier | Modifier | 레이아웃 및 스타일을 설정합니다. |
   | status | WantedSelectDefaults.Status | 셀렉트 박스의 상태입니다. (Normal, Negative) Negative 면 border 가 red 로 바뀌고 focus 시 red ring 을 표시합니다. |
-  | focused | Boolean | 포커스 상태 여부입니다. true 면 primary ring 과 border 를 표시하고 chevron 이 위를 향합니다. |
+  | focused | Boolean | 포커스 상태 여부입니다. true 면 바깥 ring 과 강조 border 를 표시하고(status 가 Negative 면 red, 아니면 primary) chevron 이 위를 향합니다. |
   | confirmText | String | Bottom sheet 확인 버튼 텍스트입니다. 비어 있으면 항목 선택 시 즉시 반영됩니다. |
   | selectedValue | String? | Bottom sheet 진입 시 체크 표시할 항목입니다. |
   | bottomSheetType | WantedModalContract.ModalType | Bottom sheet 형식입니다. (Flexible, Fixed 등) |
@@ -190,7 +190,7 @@ WantedFormControl(label = "기술 스택") {
   | modifier | Modifier | 레이아웃 및 스타일을 설정합니다. |
   | status | WantedSelectDefaults.Status | 셀렉트 박스의 상태입니다. (Normal, Negative) Negative 면 border 가 red 로 바뀌고 focus 시 red ring 을 표시합니다. |
   | errorList | List<String> | 오류로 표시할 항목 리스트입니다. 포함된 Chip 이 negative 스타일로 표시됩니다. 컨테이너 상태는 status 가 결정합니다. |
-  | focused | Boolean | 포커스 상태 여부입니다. true 면 primary ring 과 border 를 표시하고 chevron 이 위를 향합니다. |
+  | focused | Boolean | 포커스 상태 여부입니다. true 면 바깥 ring 과 강조 border 를 표시하고(status 가 Negative 면 red, 아니면 primary) chevron 이 위를 향합니다. |
   | confirmText | String | Bottom sheet 확인 버튼 텍스트입니다. 비어 있으면 항목을 토글할 때마다 즉시 반영되고 Bottom sheet 가 열린 상태로 유지됩니다. |
   | overflow | Boolean | 선택 항목이 가로로 넘칠 때 줄바꿈할지 여부입니다. Chip 렌더는 false 면 가로 스크롤, true 면 줄바꿈하고, Text 렌더는 false 면 1줄 말줄임, true 면 여러 줄로 표시합니다. |
   | selectType | WantedSelectDefaults.SelectType | Bottom sheet 항목의 선택 UI 타입입니다. (CheckMark, CheckBox, Radio) |
@@ -203,6 +203,14 @@ WantedFormControl(label = "기술 스택") {
   | onSelectList | (List<String>) -> Unit | 항목 선택이 반영됐을 때 호출되는 콜백입니다. |
 
 </details>
+<br />
+
+`WantedSelect` 선택 바텀시트 항목의 testTag.
+
+소비자는 E2E(Maestro, `maestro/`)·UiAutomator 다. 항목 셀(`WantedListCell`) 글자는 터치 레이어에 가려
+접근성 트리에 노출되지 않아 텍스트로는 찾을 수 없다(예: 회원가입 국가 시트). 바텀시트 목록이
+`testTagsAsResourceId` 를 켜 두므로 이 값이 그대로 resource-id 가 된다.
+
 
 ## Advanced
 ### WantedSelectData

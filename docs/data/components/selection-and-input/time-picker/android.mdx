@@ -8,7 +8,7 @@ description: 시계 및 입력 형식을 지원하는 시간 선택 Dialog입니
 
 사용자는 Dial(시계)·Input(키보드 입력) 형식으로 전환할 수 있으며, 전환은 호출측이 onClickChangeMode 에서 isEnableClock 값을 뒤집어야 반영됩니다.
 
-확인/취소 버튼을 제공하지만 선택한 시간은 콜백으로 전달되지 않습니다(내부 상태, 초기값은 현재 시각). 선택 값이 필요하면 WantedTimePickerWheel 을 사용합니다.
+확인/취소 버튼을 제공하지만 선택한 시간은 콜백으로 전달되지 않습니다(내부 상태, 초기값은 initialHour·initialMinute, 기본값은 현재 시각). 선택 값이 필요하면 WantedTimePickerWheel 을 사용합니다.
 
 내부적으로 TimePicker 또는 TimeInput을 사용합니다.
 
@@ -40,6 +40,8 @@ if (showPicker) {
 | onDismissRequest | () -> Unit | Dialog 외부 클릭 또는 닫기 시 호출되는 콜백입니다 |
 | cancel | String? | 취소 버튼에 표시할 텍스트입니다. null일 경우 버튼이 표시되지 않습니다 |
 | isEnableClock | Boolean | true이면 시계 기반 TimePicker를 사용하고, false이면 TimeInput을 사용합니다 |
+| initialHour | Int? | 처음 선택돼 있는 시(0~23, 24시간제)입니다. null이면 현재 시각의 시입니다. 처음 표시할 때만 적용되며, 표시 중에 바꿔도 반영되지 않습니다 |
+| initialMinute | Int? | 처음 선택돼 있는 분(0~59)입니다. null이면 현재 시각의 분입니다. 처음 표시할 때만 적용되며, 표시 중에 바꿔도 반영되지 않습니다 |
 | onClickCancel | () -> Unit | 취소 버튼 클릭 시 호출되는 콜백입니다. Dialog 를 닫지 않으므로 호출부에서 표시 상태를 바꿔야 합니다. 기본값은 빈 함수입니다 |
 
 
